@@ -15,14 +15,18 @@
         <div class="space-y-4 border-b border-slate-100 pb-6">
             <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-emerald-600 pl-3">Identitas Sekolah & Aplikasi</h3>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Nama Aplikasi:</label>
-                    <input type="text" name="app_name" value="{{ $settings['app_name'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-emerald-600">
+                    <input type="text" name="app_name" value="{{ $settings['app_name'] ?? 'SmartEdu' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-emerald-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Teks Edisi Header:</label>
+                    <input type="text" name="edition_title" value="{{ $settings['edition_title'] ?? 'SmartEdu' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-emerald-600" placeholder="Misal: SmartEdu">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Nama Sekolah / Yayasan:</label>
-                    <input type="text" name="school_name" value="{{ $settings['school_name'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-emerald-600">
+                    <input type="text" name="school_name" value="{{ $settings['school_name'] ?? 'Sekolah Islam Terpadu Robbani' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-emerald-600">
                 </div>
             </div>
 

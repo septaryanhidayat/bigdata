@@ -23,13 +23,14 @@ class CmsController extends Controller
     {
         $settings = [
             'app_name' => SiteSetting::get('app_name', 'SmartEdu'),
+            'edition_title' => SiteSetting::get('edition_title', 'SmartEdu'),
             'school_name' => SiteSetting::get('school_name', 'Sekolah Islam Terpadu Robbani'),
             'tagline' => SiteSetting::get('tagline', 'Sekolah Islam Terpadu Digital Platform'),
-            'hero_badge' => SiteSetting::get('hero_badge', '✨ PLATFORM MANAGEMENT SEKOLAH ISLAM TERPADU'),
-            'hero_title' => SiteSetting::get('hero_title', 'Ekosistem Digital Sekolah Islam Terpadu #1 & Terlengkap'),
-            'hero_desc' => SiteSetting::get('hero_desc', 'SmartEdu menyajikan 17 Modul Produk Digital Terpadu...'),
-            'bpi_badge' => SiteSetting::get('bpi_badge', '🕌 Bina Pribadi Islami (BPI)'),
-            'bpi_title' => SiteSetting::get('bpi_title', 'Mutaba\'ah Yaumiyah & Al-Mathurat Digital'),
+            'hero_badge' => SiteSetting::get('hero_badge', 'PLATFORM MANAGEMENT SEKOLAH ISLAM TERPADU'),
+            'hero_title' => SiteSetting::get('hero_title', 'Ekosistem Digital Sekolah Islam Terpadu Terpadu & Terlengkap'),
+            'hero_desc' => SiteSetting::get('hero_desc', 'SmartEdu menyajikan 21 modul digital terpadu...'),
+            'bpi_badge' => SiteSetting::get('bpi_badge', 'Bina Pribadi Islami & SafeSchool'),
+            'bpi_title' => SiteSetting::get('bpi_title', 'Mutabaah Yaumiyah, Al-Mathurat & Sistem Anti-Bullying'),
             'bpi_desc' => SiteSetting::get('bpi_desc', 'Fitur khas Sekolah Islam Terpadu Robbani...'),
         ];
 

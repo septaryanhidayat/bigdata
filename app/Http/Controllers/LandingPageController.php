@@ -13,14 +13,15 @@ class LandingPageController extends Controller
     {
         $settings = [
             'app_name' => SiteSetting::get('app_name', 'SmartEdu'),
+            'edition_title' => SiteSetting::get('edition_title', 'SmartEdu'),
             'school_name' => SiteSetting::get('school_name', 'Sekolah Islam Terpadu Robbani'),
-            'tagline' => SiteSetting::get('tagline', 'Sekolah Islam Terpadu Digital Platform'),
-            'hero_badge' => SiteSetting::get('hero_badge', '✨ PLATFORM MANAGEMENT SEKOLAH ISLAM TERPADU'),
-            'hero_title' => SiteSetting::get('hero_title', 'Ekosistem Digital Sekolah Islam Terpadu #1 & Terlengkap'),
-            'hero_desc' => SiteSetting::get('hero_desc', 'SmartEdu menyajikan 17 Modul Produk Digital Terpadu — mengintegrasikan Akademik Adaptif (K13, Merdeka & JSIT), Presensi RFID/QR, Keuangan SPP & COA Akuntansi, POS Kantin Cashless, hingga Mutaba\'ah Yaumiyah BPI & App Mobile Banking Warga Sekolah.'),
-            'bpi_badge' => SiteSetting::get('bpi_badge', '🕌 Bina Pribadi Islami (BPI)'),
-            'bpi_title' => SiteSetting::get('bpi_title', 'Mutaba\'ah Yaumiyah & Al-Mathurat Digital'),
-            'bpi_desc' => SiteSetting::get('bpi_desc', 'Fitur khas Sekolah Islam Terpadu Robbani untuk mencatat amal ibadah harian siswa di rumah (Sholat 5 waktu, Dhuha, Tahajud, Tilawah, Hafalan Ziyadah, & Infaq) dengan validasi PIN Orang Tua.'),
+            'tagline' => SiteSetting::get('tagline', 'Platform Digital Sekolah Islam Terpadu'),
+            'hero_badge' => SiteSetting::get('hero_badge', 'PLATFORM MANAJEMEN SEKOLAH ISLAM TERPADU'),
+            'hero_title' => SiteSetting::get('hero_title', 'Ekosistem Digital Sekolah Islam Terpadu Terpadu & Terlengkap'),
+            'hero_desc' => SiteSetting::get('hero_desc', 'SmartEdu menyajikan 21 modul digital terpadu yang mengintegrasikan akademik adaptif K13, Kurikulum Merdeka, dan JSIT, presensi RFID/QR, keuangan SPP & akuntansi COA, POS kantin cashless, sistem anti-bullying, chatbot AI 24/7, tracer study alumni, hingga mutabaah yaumiyah BPI.'),
+            'bpi_badge' => SiteSetting::get('bpi_badge', 'Bina Pribadi Islami & SafeSchool'),
+            'bpi_title' => SiteSetting::get('bpi_title', 'Mutabaah Yaumiyah, Al-Mathurat & Sistem Anti-Bullying'),
+            'bpi_desc' => SiteSetting::get('bpi_desc', 'Fitur khas Sekolah Islam Terpadu Robbani untuk pembentukan karakter siswa (Sholat 5 waktu, Dhuha, Tahajud, Tilawah, Hafalan Ziyadah, dan Infaq) serta sistem perlindungan siswa SafeSchool dengan Panic Alarm darurat.'),
         ];
 
         $modules = FeatureModule::orderBy('sort_order')->get();
