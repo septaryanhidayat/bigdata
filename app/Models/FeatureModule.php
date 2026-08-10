@@ -16,10 +16,12 @@ class FeatureModule extends Model
         'short_desc',
         'full_desc',
         'highlights',
+        'is_active',
         'sort_order',
     ];
 
     protected $casts = [
         'highlights' => 'array',
+        'is_active' => 'boolean',
     ];
 }

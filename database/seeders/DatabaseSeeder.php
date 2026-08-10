@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CmsSeeder::class);
 
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
+        User::updateOrCreate(
+            ['email' => 'admin@smartedu.test'],
             [
-                'name' => 'Test User',
-                'password' => bcrypt('password'),
+                'name' => 'Administrator SmartEdu',
+                'password' => bcrypt('p4l3mb4ng'),
             ]
         );
     }

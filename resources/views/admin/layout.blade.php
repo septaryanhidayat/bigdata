@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin CMS') - SmartEdu Dashboard</title>
 
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -32,23 +36,35 @@
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-emerald-600 text-white' : 'text-slate-300' }}">
                     <span>📊</span> <span>Dashboard Overview</span>
                 </a>
-                <a href="{{ route('admin.modules.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.modules.*') ? 'bg-emerald-600 text-white' : 'text-slate-300' }}">
-                    <span>🧩</span> <span>Kelola 17 Modul Fitur</span>
+                <a href="{{ route('admin.modules.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.modules.*') ? 'bg-teal-600 text-white' : 'text-slate-300' }}">
+                    <span>🧩</span> <span>Kelola 21 Modul Fitur</span>
                 </a>
-                <a href="{{ route('admin.settings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.settings') ? 'bg-emerald-600 text-white' : 'text-slate-300' }}">
+                <a href="{{ route('admin.settings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.settings') ? 'bg-teal-600 text-white' : 'text-slate-300' }}">
                     <span>⚙️</span> <span>Branding & Header</span>
                 </a>
-                <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.faqs.*') ? 'bg-emerald-600 text-white' : 'text-slate-300' }}">
+                <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors {{ request()->routeIs('admin.faqs.*') ? 'bg-teal-600 text-white' : 'text-slate-300' }}">
                     <span>❓</span> <span>Kelola FAQ</span>
                 </a>
             </nav>
         </div>
 
-        <div class="pt-6 border-t border-slate-800">
-            <a href="{{ route('home') }}" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 text-emerald-400 hover:bg-slate-700 font-bold text-xs flex items-center justify-center gap-2">
+        <div class="pt-6 border-t border-slate-800 space-y-3">
+            <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700 text-xs">
+                <p class="text-[10px] text-slate-400 font-medium">User Login:</p>
+                <p class="font-extrabold text-white truncate">{{ Auth::user()->name ?? 'Administrator' }}</p>
+            </div>
+
+            <a href="{{ route('home') }}" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 text-teal-400 hover:bg-slate-700 font-bold text-xs flex items-center justify-center gap-2">
                 <span>🌐 Lihat Landing Page</span>
                 <span>↗</span>
             </a>
+
+            <form action="{{ route('admin.logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-rose-950/80 text-rose-300 hover:bg-rose-900 border border-rose-800/50 font-bold text-xs flex items-center justify-center gap-2 transition-colors">
+                    <span>🚪 Keluar (Logout)</span>
+                </button>
+            </form>
         </div>
     </aside>
 

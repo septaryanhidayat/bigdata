@@ -1,15 +1,15 @@
 @extends('admin.layout')
 
-@section('title', 'Kelola 17 Modul Fitur')
+@section('title', 'Kelola 21 Modul Fitur')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Manajemen 17 Modul Produk Digital</h1>
-            <p class="text-xs text-slate-600 font-medium mt-1">Tambah, ubah nama, ikon, deskripsi, dan daftar sub-fitur dari modul yang tampil di landing page.</p>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Manajemen 21 Modul Produk Digital</h1>
+            <p class="text-xs text-slate-600 font-medium mt-1">Tambah, ubah nama, ikon, deskripsi, serta atur modul mana yang <strong>Tampil atau Sembunyi</strong> di landing page.</p>
         </div>
-        <a href="{{ route('admin.modules.create') }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow">
+        <a href="{{ route('admin.modules.create') }}" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-xs shadow-sm">
             + Tambah Modul Baru
         </a>
     </div>
@@ -23,7 +23,7 @@
                         <th class="py-3.5 px-4">Urutan</th>
                         <th class="py-3.5 px-4">Ikon & Judul Modul</th>
                         <th class="py-3.5 px-4">Kategori</th>
-                        <th class="py-3.5 px-4">Deskripsi Ringkas</th>
+                        <th class="py-3.5 px-4">Visibilitas Landing Page</th>
                         <th class="py-3.5 px-4 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -45,8 +45,21 @@
                                 {{ $mod->category_name }}
                             </span>
                         </td>
-                        <td class="py-3.5 px-4 max-w-xs">
-                            <p class="text-slate-600 line-clamp-2">{{ $mod->short_desc }}</p>
+                        <td class="py-3.5 px-4">
+                            <form action="{{ route('admin.modules.toggle', $mod->id) }}" method="POST">
+                                @csrf
+                                @if($mod->is_active)
+                                    <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-extrabold text-[10px] hover:bg-emerald-200 transition-colors">
+                                        <span>✓ TAMPIL</span>
+                                        <span class="text-[9px] text-emerald-900 font-semibold">(Sembunyikan)</span>
+                                    </button>
+                                @else
+                                    <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-500 border border-slate-300 font-extrabold text-[10px] hover:bg-slate-200 transition-colors">
+                                        <span>✕ SEMBUNYI</span>
+                                        <span class="text-[9px] text-slate-700 font-semibold">(Tampilkan)</span>
+                                    </button>
+                                @endif
+                            </form>
                         </td>
                         <td class="py-3.5 px-4 text-center">
                             <div class="flex items-center justify-center gap-2">

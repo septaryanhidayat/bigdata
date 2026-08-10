@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('short_desc');
             $table->text('full_desc');
             $table->json('highlights');
+            $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
