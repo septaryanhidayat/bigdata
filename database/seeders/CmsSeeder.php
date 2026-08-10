@@ -31,28 +31,28 @@ class CmsSeeder extends Seeder
         // FAQs
         $faqs = [
             [
-                'question' => 'Apakah SmartEdu mendukung Kurikulum K13 dan Kurikulum Merdeka sekaligus?',
+                'question' => 'Apakah SmartEdu mendukung Kurikulum K13, Kurikulum Merdeka, dan Kekhasan JSIT?',
                 'answer' => 'Ya! SmartEdu mendukung Multi-Kurikulum secara dinamis. Anda dapat mengaktifkan K13, Kurikulum Merdeka (dengan Proyek P5), kekhasan JSIT, maupun kurikulum kustom per tahun akademik.',
                 'sort_order' => 1
             ],
             [
                 'question' => 'Bagaimana cara kerja Absensi RFID & QR Code?',
-                'answer' => 'Siswa & staf melakukan tap kartu RFID di terminal sekolah atau scan QR Code per sesi kelas dari portal guru. Data otomatis tercatat real-time.',
+                'answer' => 'Siswa & staf melakukan tap kartu RFID di terminal sekolah atau scan QR Code per sesi kelas dari portal guru. Data otomatis tercatat real-time dan terintegrasi ke laporan kehadiran.',
                 'sort_order' => 2
             ],
             [
                 'question' => 'Apakah modul Keuangan SPP terintegrasi ke Akuntansi?',
-                'answer' => 'Sangat terintegrasi! Setiap transaksi pembayaran SPP kasir atau penagihan otomatis langsung menghasilkan Jurnal Otomatis, Buku Besar, Neraca, dan Laporan Arus Kas.',
+                'answer' => 'Sangat terintegrasi! Setiap transaksi pembayaran SPP kasir atau penagihan otomatis langsung menghasilkan Jurnal Otomatis, Buku Besar, Neraca, dan Laporan Arus Kas resmi.',
                 'sort_order' => 3
             ],
             [
                 'question' => 'Bagaimana orang tua membatasi saldo belanja kantin anak?',
-                'answer' => 'Orang tua mengatur limit belanja harian anak via Portal Ortu Mobile. Saat anak mengetap kartu di POS Kantin, sistem otomatis memverifikasi limit belanja.',
+                'answer' => 'Orang tua mengatur limit belanja harian anak via Portal Ortu Mobile. Saat anak mengetap kartu di POS Kantin, sistem otomatis memverifikasi limit belanja harian.',
                 'sort_order' => 4
             ],
             [
                 'question' => 'Apakah sistem mendukung Multi-Sekolah untuk Yayasan?',
-                'answer' => 'Ya, SmartEdu memiliki School Context Middleware sehingga Yayasan dapat mengelola banyak unit (TK, SD, SMP, SMA) dalam 1 instalasi terpadu.',
+                'answer' => 'Ya, SmartEdu memiliki School Context Middleware sehingga Yayasan dapat mengelola banyak unit sekolah (TK, SD, SMP, SMA) dalam 1 instalasi terpadu.',
                 'sort_order' => 5
             ]
         ];
@@ -62,7 +62,7 @@ class CmsSeeder extends Seeder
             FaqItem::create($faq);
         }
 
-        // 17 Feature Modules
+        // 17 Feature Modules based on PDF "Fitur-fitur utama setiap modul SMART EDU ROBBANI"
         $modules = [
             [
                 'title' => '1. Master Data & Referensi',
@@ -71,18 +71,19 @@ class CmsSeeder extends Seeder
                 'category_name' => 'Akademik Base',
                 'icon' => '🏛️',
                 'badge_bg' => 'bg-emerald-100 text-emerald-800',
-                'short_desc' => 'Fondasi Big Data Siakad Robbani untuk kelola multi-sekolah, struktur organisasi, siswa, guru & staff.',
-                'full_desc' => 'Modul fondasi seluruh sistem Big Data Siakad Robbani. Mengelola multi-unit sekolah dalam 1 instalasi, profil sekolah lengkap, kurikulum dinamis K13/Merdeka/JSIT, tahun akademik, semester, biodata siswa, guru & karyawan non-guru.',
+                'short_desc' => 'Fondasi data seluruh sistem Big Data Siakad Robbani untuk multi-sekolah, rombel, siswa, guru & karyawan.',
+                'full_desc' => 'Modul fondasi seluruh sistem Big Data Siakad Robbani. Mengelola multi-unit sekolah dalam satu instalasi, profil sekolah lengkap, kurikulum dinamis K13/Merdeka/JSIT, tahun akademik, semester, biodata siswa, guru & karyawan non-guru.',
                 'highlights' => [
                     "Fondasi data seluruh sistem Big Data Siakad Robbani",
-                    "Multi-sekolah: profil sekolah & switch unit aktif yayasan",
-                    "Kurikulum K13, Merdeka, kekhasan JSIT & kurikulum kustom",
-                    "Tahun akademik dengan curriculum_code per periode",
-                    "Semester, tingkat/jenjang, rombel & wali kelas assigned",
-                    "Data siswa: biodata lengkap, orang tua, riwayat rombel, status aktif/lulus",
-                    "Data guru & tenaga pendidik + portal login",
-                    "Data karyawan non-guru (TU, cleaning service, security)",
-                    "Referensi mapel, ruang & struktur organisasi sekolah"
+                    "Multi-sekolah: kelola banyak unit sekolah (yayasan) dalam 1 instalasi & switch sekolah aktif",
+                    "Kurikulum K13, Merdeka, kekhasan JSIT dan kurikulum kustom (komponen penilaian menyesuaikan)",
+                    "Tahun akademik dengan semester, tanggal efektif, dan curriculum_code per periode",
+                    "Tingkat/jenjang dan rombel/kelas dengan kapasitas dan wali kelas assigned",
+                    "Data siswa: CRUD, biodata lengkap, orang tua, riwayat rombel, status aktif/lulus/keluar, import/export",
+                    "Data guru & tenaga pendidik: mapel diampu, jadwal mengajar, akun login portal",
+                    "Data karyawan non-guru: TU, cleaning service, security - untuk absensi & payroll",
+                    "Kelola profil sekolah lengkap: nama, NPSN, alamat, kepala sekolah, logo, dan kontak",
+                    "Referensi mapel, ruang, dan struktur organisasi sekolah"
                 ],
                 'sort_order' => 1
             ],
@@ -93,120 +94,133 @@ class CmsSeeder extends Seeder
                 'category_name' => 'Kurikulum & Rapor',
                 'icon' => '📊',
                 'badge_bg' => 'bg-blue-100 text-blue-800',
-                'short_desc' => 'Manajemen kurikulum terbesar dengan K13, Merdeka, Proyek P5, RPP/Jurnal KBM, & E-Rapor PDF.',
-                'full_desc' => 'Modul akademik terlengkap untuk menangani jadwal pelajaran mingguan bebas konflik, KOSP, RPP, penilaian dinamis per komponen K13 (KI/KD) & Merdeka (TP, formatif, sumatif, P5), rollup nilai otomatis, hingga cetak Rapor PDF resmi.',
+                'short_desc' => 'Modul terlargest - K13, Merdeka, JSIT rapor, jadwal mingguan, RPP/Jurnal KBM, P5 & Cetak Rapor PDF.',
+                'full_desc' => 'Modul akademik terlargest untuk menangani jadwal pelajaran mingguan bebas konflik, KOSP, RPP, penilaian dinamis per komponen K13 (KI/KD) & Merdeka (TP, formatif, sumatif, P5), rollup nilai otomatis, hingga cetak Rapor PDF resmi.',
                 'highlights' => [
-                    "Modul terlargest: K13, Merdeka, JSIT Rapor, jadwal mingguan",
-                    "Dashboard akademik & kalender kegiatan sekolah",
-                    "Jadwal mingguan dengan deteksi konflik ruang/guru otomatis",
-                    "Analisis beban mengajar guru per minggu",
-                    "KOSP (Standar Operasional Sekolah) & RPP pembelajaraan",
-                    "Penilaian K13: KI/KD, bobot, KKM otomatis, predikat",
-                    "Penilaian Merdeka: TP, formatif, sumatif, Proyek P5 & skor proyek",
-                    "Rollup / agregasi nilai -> Rapor UTS & Semester PDF",
-                    "Kenaikan kelas batch & kelulusan batch + sertifikat PDF"
+                    "Modul terlargest: K13, Merdeka, JSIT rapor, dan jadwal pelajaran",
+                    "Dashboard akademik: ringkasan jadwal, penilaian pending, rapor belum cetak & kalender kegiatan sekolah",
+                    "Mata pelajaran per tingkat dengan bobot jam dan guru pengampu",
+                    "Jadwal pelajaran mingguan dengan deteksi konflik ruang/guru otomatis",
+                    "Analisis beban mengajar guru: visualisasi jam mengajar per guru per minggu",
+                    "KOSP (Standar Operasional Sekolah) & Program pembelajaran",
+                    "Penilaian K13: KI/KD, bobot, KKM otomatis, predikat mapel, pengetahuan & keterampilan, sikap spiritual-sosial, penilaian diri & teman sebaya, ekstrakurikuler, prestasi",
+                    "Penilaian Merdeka: Tujuan Pembelajaran (TP) & capaian kompetensi, penilaian formatif & sumatif, Proyek P5 & skor proyek per siswa",
+                    "Rollup / agregasi nilai antar komponen & semester -> Rapor UTS & Semester adaptif PDF resmi",
+                    "Kenaikan kelas batch (generate, finalisasi, override manual per siswa) & Kelulusan batch + sertifikat PDF",
+                    "Jurnal KBM guru, rekap, RPP (Rencana Pelaksanaan Pembelajaran), bahan ajar, tugas & submisi siswa",
+                    "PKL, kegiatan siswa, daftar ulang, & perkembangan karakter"
                 ],
                 'sort_order' => 2
             ],
             [
                 'title' => '3. Absensi RFID & QR Code',
-                'short_title' => 'RFID Absensi',
+                'short_title' => 'Presensi RFID',
                 'category' => 'akademik',
                 'category_name' => 'Presensi Realtime',
                 'icon' => '🪪',
                 'badge_bg' => 'bg-teal-100 text-teal-800',
-                'short_desc' => 'Presensi siswa & staff dengan RFID card tap, scan QR sesi kelas, pengajuan izin, & real-time dashboard.',
-                'full_desc' => 'Sistem absensi modern yang mendukung kartu RFID tap, scan QR code per sesi kelas oleh siswa via portal, pengajuan izin online dengan approval wali kelas, serta absensi guru/karyawan.',
+                'short_desc' => 'Kehadiran siswa & guru via RFID card tap, scan QR sesi kelas, pengajuan izin, & dashboard real-time.',
+                'full_desc' => 'Sistem absensi modern yang mendukung kartu RFID tap, scan QR code per sesi kelas oleh siswa via portal, pengajuan izin online dengan approval wali kelas/admin, serta absensi guru/karyawan.',
                 'highlights' => [
-                    "Kehadiran siswa, guru & karyawan via RFID tap / QR code",
-                    "Sesi kelas QR code unik - guru buka sesi, siswa scan via portal",
-                    "Mark absensi, close session & absensi manual legacy backup",
-                    "Pengajuan & persetujuan izin siswa via portal",
-                    "RFID card management: register, simulate, revoke",
-                    "Dashboard absensi real-time: % kehadiran hari ini",
-                    "Self check-in absensi pribadi guru/karyawan",
-                    "Laporan absensi PDF & CSV export per kelas/bulan"
+                    "Kehadiran siswa, guru & karyawan via RFID tap / QR Code",
+                    "Sesi kelas dengan QR code unik - guru buka sesi, siswa scan via portal",
+                    "Mark absensi, close session, & absensi manual legacy untuk backup jika QR tidak tersedia",
+                    "Pengajuan & persetujuan izin siswa via portal (approval wali kelas/admin)",
+                    "Laporan kehadiran per kelas/bulan - export PDF & CSV",
+                    "Absensi guru & karyawan: mark manual oleh admin atau self check-in pribadi",
+                    "RFID card management: daftar kartu, simulasi tap, revoke",
+                    "Pengaturan absensi: jam, aturan, toleransi",
+                    "Dashboard absensi admin/kurikulum & real-time: persentase kehadiran hari ini",
+                    "Integrasi dengan modul akademik - kehadiran affect rapor jika dikonfigurasi"
                 ],
                 'sort_order' => 3
             ],
             [
                 'title' => '4. Keuangan Sekolah & SPP',
-                'short_title' => 'Bayar SPP',
+                'short_title' => 'Keuangan SPP',
                 'category' => 'keuangan',
                 'category_name' => 'Financial & SPP',
                 'icon' => '💳',
                 'badge_bg' => 'bg-amber-100 text-amber-900',
-                'short_desc' => 'Penagihan SPP otomatis, kasir kwitansi PDF, COA Akuntansi, Buku Besar, Neraca & Arus Kas.',
-                'full_desc' => 'Solusi finansial sekolah komprehensif. Menangani generate tagihan SPP bulanan otomatis, kasir pembayaran, diskon & beasiswa, reminder tunggakan, COA akuntansi, jurnal otomatis, neraca hingga arus kas.',
+                'short_desc' => 'Penagihan SPP otomatis, kasir kwitansi PDF, COA Akuntansi, Buku Besar, Neraca & Kartu Ujian.',
+                'full_desc' => 'Solusi finansial sekolah komprehensif. Menangani generate tagihan SPP bulanan otomatis, kasir pembayaran partial/full, diskon & beasiswa, reminder tunggakan, COA akuntansi, jurnal otomatis, neraca hingga arus kas.',
                 'highlights' => [
-                    "Penagihan SPP otomatis: generate, sync, waive, reminder bulanan",
-                    "Kasir pembayaran: search siswa, bayar partial/full, void, kwitansi PDF",
-                    "Piutang siswa & aging tunggakan follow-up TU",
-                    "Chart of Accounts (COA) & Sub-COA akuntansi sekolah proper",
-                    "Kas & bank multi-rekening, jurnal otomatis dari kasir & pengeluaran",
-                    "Buku besar, neraca & laporan arus kas resmi",
-                    "Syarat lunas SPP untuk penerbitan Kartu Ujian",
-                    "Anggaran tahunan: rencana vs realisasi per kategori"
+                    "Penagihan SPP otomatis: generate per bulan per siswa, sync tagihan jika ada perubahan biaya, waive/bebas tagihan beasiswa penuh, reminder tunggakan via export list follow-up TU",
+                    "Dashboard keuangan real-time: total tagihan, pembayaran hari ini, piutang siswa & aging tunggakan",
+                    "Kasir pembayaran: search siswa, bayar partial/full, void transaksi, kwitansi PDF",
+                    "Jenis biaya/SPP, diskon & beasiswa",
+                    "Chart of Accounts (COA) & Sub-COA untuk akuntansi sekolah yang proper",
+                    "Kas & bank multi-rekening, jurnal otomatis dari transaksi kasir & pengeluaran",
+                    "Buku besar, neraca, arus kas - laporan keuangan resmi cetak PDF",
+                    "Pengeluaran: kategori, approval, reject, bayar & Anggaran tahunan (rencana vs realisasi per kategori)",
+                    "Pengaturan SPP & Kartu Ujian (syarat lunas SPP sebelum boleh ujian)"
                 ],
                 'sort_order' => 4
             ],
             [
                 'title' => '5. Tabungan Siswa',
-                'short_title' => 'Tabungan',
+                'short_title' => 'Tabungan Siswa',
                 'category' => 'keuangan',
                 'category_name' => 'Bank School',
                 'icon' => '💰',
                 'badge_bg' => 'bg-emerald-100 text-emerald-800',
-                'short_desc' => 'Rekening tabungan per siswa, teller setor/tarik, setoran kolektif kelas, & approval orang tua.',
-                'full_desc' => 'Modul perbankan internal sekolah. Mengelola rekening tabungan siswa terhubung ke data master, teller setor/tarik tunai, setoran kolektif massal per kelas, dan pengajuan penarikan via portal ortu.',
+                'short_desc' => 'Rekening tabungan per siswa, teller setor/tarik, setoran kolektif massal per kelas, & approval ortu.',
+                'full_desc' => 'Modul perbankan internal sekolah. Mengelola rekening tabungan siswa terhubung ke data master, teller setor/tarik tunai, setoran kolektif massal per kelas, pengajuan penarikan via portal ortu, dan closing kas harian.',
                 'highlights' => [
                     "Rekening tabungan per siswa terhubung ke data master",
                     "Teller/kasir: setor tunai, tarik saldo, void, cetak kwitansi",
-                    "Setoran kolektif: input massal per kelas efisien",
-                    "Pengajuan penarikan: siswa/ortu ajukan, admin approve via portal",
-                    "Program tabungan & enrollment target simpanan",
+                    "Setoran kolektif (mass deposit): input massal per kelas - efisien untuk program tabungan",
+                    "Pengajuan penarikan: siswa/ortu ajukan via portal, admin approve, ortu konfirmasi via portal",
+                    "Program tabungan & enrollment per siswa dengan target dan bunga (jika ada)",
                     "Closing kas harian teller tabungan",
-                    "Laporan saldo per siswa, mutasi, CSV & PDF export"
+                    "Dashboard tabungan siswa & Laporan saldo per siswa, mutasi, CSV/PDF export",
+                    "Portal: lihat saldo, ajukan penarikan, kwitansi"
                 ],
                 'sort_order' => 5
             ],
             [
                 'title' => '6. Kantin & POS Multi-Outlet',
-                'short_title' => 'Kantin POS',
+                'short_title' => 'POS Kantin',
                 'category' => 'keuangan',
                 'category_name' => 'Point of Sale',
                 'icon' => '🍱',
                 'badge_bg' => 'bg-rose-100 text-rose-800',
-                'short_desc' => 'POS Kantin tap kartu RFID, pre-order makanan, limit belanja harian diatur ortu, & komisi tenant.',
-                'full_desc' => 'Sistem Point of Sale kantin sekolah tanpa uang tunai (cashless). Siswa belanja dengan mengetap kartu RFID, orang tua mengatur limit belanja harian via portal, dan pesanan makanan dapat di pre-order.',
+                'short_desc' => 'POS Kantin tap kartu RFID, pre-order pesanan, limit belanja harian diatur ortu, & settlement komisi tenant.',
+                'full_desc' => 'Sistem Point of Sale kantin sekolah tanpa uang tunai (cashless). Siswa belanja dengan mengetap kartu RFID, orang tua mengatur limit belanja harian via portal, pre-order makanan sebelum jam istirahat, dan settlement komisi tenant.',
                 'highlights' => [
-                    "POS Kantin: checkout tap kartu RFID siswa, void, cetak struk",
-                    "Menu produk, kategori, harga & stok real-time (stock-in)",
-                    "Multi-outlet / tenant kantin (settlement komisi otomatis)",
-                    "Top-up saldo kantin via teller atau portal ortu",
-                    "Pre-order pesanan makanan sebelum jam istirahat",
-                    "Kebijakan limit belanja harian diatur ortu via portal"
+                    "POS Kantin: scan/tap kartu siswa, checkout, struk, void",
+                    "Menu & stok produk dengan kategori, harga, stok real-time (stock-in dari supplier, alert stok minimum)",
+                    "Multi-outlet/tenant kantin: kantin A, kantin B - settlement komisi otomatis",
+                    "Top-up saldo kantin via teller atau portal (konfirmasi admin)",
+                    "Pre-order pesanan makanan sebelum jam istirahat (ambil tanpa antre) & Paket menu harian harga promo",
+                    "Purchase order & supplier (receive, hutang)",
+                    "Kebijakan limit belanja harian - orang tua set via portal",
+                    "Dashboard kantin & Laporan penjualan cetak",
+                    "Portal ortu/siswa: lihat saldo, top-up, pre-order, limit belanja"
                 ],
                 'sort_order' => 6
             ],
             [
-                'title' => '7. Payroll & HRIS Pegawai',
+                'title' => '7. Payroll Pegawai',
                 'short_title' => 'Payroll',
                 'category' => 'operasional',
-                'category_name' => 'Payroll & SDM',
+                'category_name' => 'Payroll & Gaji',
                 'icon' => '💵',
                 'badge_bg' => 'bg-purple-100 text-purple-800',
-                'short_desc' => 'Penggajian guru & staff, PPh21 & BPJS, lembur, kasbon cicilan, & slip gaji digital PDF.',
+                'short_desc' => 'Gaji guru & staff lengkap, PPh21 & BPJS, lembur, kasbon cicilan otomatis, & slip gaji digital PDF.',
                 'full_desc' => 'Sistem payroll otomatis sesuai kepangkatan/golongan pegawai. Menghitung gaji pokok, tunjangan, potongan PPh21 & BPJS, klaim lembur, kasbon, dan menerbitkan slip gaji PDF di portal pegawai.',
                 'highlights' => [
-                    "Periode gaji bulanan dengan tanggal cutoff configurable",
-                    "Komponen gaji: gaji pokok, tunjangan, potongan PPh21 & BPJS",
+                    "Gaji guru & staff lengkap dengan setup periode gaji bulanan & tanggal cutoff",
+                    "Komponen gaji: gaji pokok, tunjangan, potongan - configurable",
                     "Golongan & grade pegawai dengan tabel gaji otomatis",
-                    "Lembur: pengajuan pegawai, approval HRD & kalkulasi otomatis",
-                    "Kasbon & pinjaman: cicilan otomatis memotong gaji",
-                    "Generate payroll bulk, preview, approval & mark paid",
-                    "Pembayaran massal: export rekening transfer bank",
-                    "Slip gaji digital PDF (/my-payroll portal pegawai)"
+                    "Profil pegawai: rekening bank, NPWP, komponen assigned",
+                    "Lembur: pengajuan pegawai, approval HRD, hitung otomatis",
+                    "Kasbon & pinjaman: cicilan otomatis dipotong per periode",
+                    "Generate payroll: kalkulasi bulk, preview, approval, mark paid",
+                    "Pembayaran gaji massal: export rekening untuk transfer bank",
+                    "Slip gaji digital PDF - email/download per pegawai (/my-payroll)",
+                    "Laporan PPh21 & BPJS untuk compliance pajak - cetak",
+                    "Portal pegawai: Slip Gaji Saya tanpa tanya HRD"
                 ],
                 'sort_order' => 7
             ],
@@ -217,16 +231,18 @@ class CmsSeeder extends Seeder
                 'category_name' => 'Konseling & Poin',
                 'icon' => '🤝',
                 'badge_bg' => 'bg-sky-100 text-sky-800',
-                'short_desc' => 'Rekam jejak konseling, master jenis pelanggaran & poin, booking sesi online, & home visit log.',
+                'short_desc' => 'Rekam jejak BK, master jenis pelanggaran & poin, booking sesi online, & home visit log.',
                 'full_desc' => 'Modul BK terstruktur untuk memantau perkembangan karakter dan kedisiplinan siswa. Mencatat kasus pelanggaran dengan sistem poin/sanksi, booking sesi konseling online, dan dokumentasi home visit.',
                 'highlights' => [
-                    "Profil BK per siswa: riwayat konseling, pelanggaran & prestasi",
+                    "Profil BK per siswa: riwayat konseling, pelanggaran, prestasi & rekam jejak",
                     "Master jenis pelanggaran dengan poin & sanksi",
-                    "Pendaftaran konseling: siswa booking via portal, guru BK confirm",
-                    "Catatan sesi konseling confidential per kasus",
-                    "Manajemen kasus: open, in-progress, resolved, referred",
-                    "Monitoring siswa berisiko & dokumentasi foto Home Visit",
-                    "Konseling orang tua terpisah & tes minat bakat"
+                    "Pendaftaran & catatan sesi konseling confidential per kasus (siswa booking via portal, guru BK confirm)",
+                    "Manajemen kasus BK: open, in-progress, resolved, referred",
+                    "Monitoring siswa berisiko & Home visit dengan dokumentasi foto",
+                    "Konseling orang tua terpisah dari sesi siswa",
+                    "Bimbingan karier & tes minat bakat SMK/SMA",
+                    "Rujukan internal/eksternal, Surat & dokumen resmi BK, Laporan BK cetak PDF",
+                    "Portal: booking konseling online"
                 ],
                 'sort_order' => 8
             ],
@@ -241,13 +257,14 @@ class CmsSeeder extends Seeder
                 'full_desc' => 'Pengelolaan aset dan fasilitas sekolah. Mencatat aset tetap dengan barcode & nilai penyusutan, visual floor plan gedung, barang habis pakai, peminjaman fasilitas, serta jadwal maintenance preventif.',
                 'highlights' => [
                     "Gedung & ruangan dengan visual floor plan",
-                    "Aset tetap: barcode unik, nilai perolehan, penyusutan",
-                    "Barang habis pakai: stock in/out movement per ruang",
+                    "Aset tetap: detail per item, barcode unik, nilai perolehan, penyusutan",
+                    "Barang habis pakai: movement / stock in/out per ruang",
                     "Kendaraan sekolah: BPKB, service schedule, driver log",
-                    "Peminjaman aset: request -> approve -> borrow -> return",
+                    "Peminjaman aset/fasilitas: request -> approve -> borrow -> return",
                     "Procurement / pengadaan barang dengan approval chain",
+                    "Mutasi antar lokasi & serah terima documented",
                     "Stock opname dengan scan barcode mobile-friendly",
-                    "Jadwal maintenance preventif & reminder otomatis"
+                    "Penghapusan aset dengan approval & Maintenance korektif/preventif (jadwal otomatis & reminder)"
                 ],
                 'sort_order' => 9
             ],
@@ -261,13 +278,14 @@ class CmsSeeder extends Seeder
                 'short_desc' => 'Sirkulasi pinjam/kembali scan QR, katalog E-Book PDF, denda otomatis, & program literasi.',
                 'full_desc' => 'Perpustakaan fisik dan digital terpadu. Memudahkan pencarian katalog buku via ISBN, sirkulasi pinjam/kembali berbasis QR Code, perhitungan denda otomatis, dan koleksi E-Book digital.',
                 'highlights' => [
-                    "Katalog buku dengan pencarian judul, pengarang, ISBN",
+                    "Katalog buku dengan pencarian judul, pengarang, ISBN & rak buku",
                     "Eksemplar per buku dengan barcode/QR unik",
-                    "Sirkulasi: pinjam, kembali, perpanjang, denda keterlambatan otomatis",
+                    "Sirkulasi: pinjam, kembali (scan QR/manual), perpanjang, denda keterlambatan otomatis",
                     "Reservasi buku yang sedang dipinjam siswa lain",
+                    "Kunjungan perpustakaan: check-in/out untuk statistik",
                     "Koleksi digital: upload E-Book PDF & baca via portal",
-                    "Program literasi: target baca per semester & log ulasan",
-                    "Kunjungan perpustakaan check-in/out statistik"
+                    "Program literasi & gemar membaca: target baca per semester & log ulasan buku siswa (moderasi admin)",
+                    "Dashboard & Laporan sirkulasi cetak"
                 ],
                 'sort_order' => 10
             ],
@@ -282,12 +300,13 @@ class CmsSeeder extends Seeder
                 'full_desc' => 'Platform E-Learning interaktif untuk pembelajaran hybrid. Menyediakan modul materi (PDF, Video, Embed), submisi tugas siswa, forum diskusi per kelas, integrasi sesi Zoom/Meet, dan auto sertifikat PDF.',
                 'highlights' => [
                     "Kursus dengan thumbnail, deskripsi & enrollment per kelas",
-                    "Modul & materi: PDF, video link, text & embed media",
+                    "Modul & materi: PDF, video link, text, embed media",
                     "Assignment / tugas dengan deadline & submisi file siswa",
-                    "Forum diskusi per kursus dengan thread, reply & moderasi",
+                    "Forum diskusi per kursus: thread, reply, lock, hide & moderasi",
                     "Live learning: jadwal Zoom / Google Meet & absensi live",
                     "Quiz e-learning: bank soal, random & passing grade",
-                    "Progress tracking per siswa per modul & sertifikat PDF otomatis"
+                    "Progress tracking per siswa per modul & Sertifikat kursus download PDF otomatis jika lulus",
+                    "Portal: daftar kursus, progress, selesaikan materi, submisi tugas, forum & reply, join live session, quiz online"
                 ],
                 'sort_order' => 11
             ],
@@ -301,13 +320,14 @@ class CmsSeeder extends Seeder
                 'short_desc' => 'Ujian CBT bank soal multi-type, proctoring camera snapshot, anti tab-switch, & auto sync nilai.',
                 'full_desc' => 'Sistem Ujian Komputer dengan standar keamanan tinggi. Mendukung bank soal pilihan ganda, benar/salah, essay, matching, deteksi kecurangan tab-switch, proctoring foto kamera, dan autosave jawaban tiap 30 detik.',
                 'highlights' => [
-                    "Bank soal: pilihan ganda, benar/salah, essay, matching",
-                    "Multi bank soal per mata pelajaran & tingkat",
+                    "Bank soal: pilihan ganda, benar/salah, essay, matching (multi bank per mapel & tingkat)",
                     "Ujian CBT: jadwal, durasi, acak soal & opsi jawaban",
                     "Passing grade & ujian remedial otomatis",
-                    "Keamanan: fullscreen mode, tab-switch detection, camera snapshot proctor",
+                    "Keamanan: fullscreen mode, tab-switch detection, snapshot camera proctor",
                     "Autosave jawaban siswa setiap 30 detik",
-                    "Koreksi essay manual oleh guru & auto sync ke Penilaian Akademik"
+                    "Koreksi essay manual oleh guru",
+                    "Sinkronisasi nilai ke penilaian akademik otomatis & Laporan export hasil ujian",
+                    "Portal: daftar ujian, autosave jawaban, hasil"
                 ],
                 'sort_order' => 12
             ],
@@ -322,13 +342,14 @@ class CmsSeeder extends Seeder
                 'full_desc' => 'Portal SPMB/PPDB publik end-to-end. Calon siswa mendaftar melalui wizard 5 langkah, mengunggah berkas syarat (Akta, KK, Ijazah), konfirmasi bukti bayar, dan jika diterima data otomatis masuk ke Master Siswa.',
                 'highlights' => [
                     "Website publik /ppdb dengan desain ultra responsive",
-                    "Admin CMS: kelola halaman, banner, jadwal & gelombang pendaftaran",
-                    "Registrasi akun calon siswa dengan verifikasi email",
-                    "Wizard 5 langkah: pribadi, ortu, sekolah asal, nilai & dokumen",
-                    "Upload berkas: Akta, KK, Ijazah, Foto dengan validasi admin",
-                    "Konfirmasi pembayaran: upload bukti transfer & verifikasi TU",
+                    "Landing page PPDB publik & Admin CMS (edit halaman, menu, logo, banner, FAQ, biaya, jadwal)",
+                    "Registrasi akun calon siswa dengan email verification",
+                    "Wizard 5 langkah: pribadi, ortu, sekolah asal, nilai, dokumen",
+                    "Upload dokumen: akta, KK, ijazah, foto - dengan validasi admin",
+                    "Konfirmasi pembayaran: upload bukti transfer, verifikasi admin/TU",
+                    "Pengaturan gelombang pendaftaran dengan kuota & tanggal berbeda",
                     "Transfer pendaftar diterima -> data siswa master otomatis",
-                    "Cetak formulir & Form SPMB PDF oleh orang tua"
+                    "Download isian Form SPMB oleh wali siswa dalam bentuk PDF / cetak formulir & rekap PDF export"
                 ],
                 'sort_order' => 13
             ],
@@ -342,13 +363,16 @@ class CmsSeeder extends Seeder
                 'short_desc' => 'Dashboard personal mobile-friendly, multi-anak switcher ortu, kwitansi PDF, & gamifikasi.',
                 'full_desc' => 'Portal mandiri untuk warga sekolah. Memberikan kemudahan bagi orang tua untuk berpindah profil anak dalam 1 akun, melihat Rapor online, mengunduh kwitansi SPP, dan menerima notifikasi in-app.',
                 'highlights' => [
-                    "Beranda dashboard personal siswa & orang tua",
+                    "Self-service warga sekolah: Beranda dashboard personal",
+                    "Nilai & rapor online & Download kwitansi pembayaran PDF",
+                    "Absensi: check-in/out, QR code, pengajuan izin, riwayat",
+                    "E-Learning & CBT terintegrasi",
+                    "Tagihan & riwayat pembayaran, Tabungan (saldo, penarikan, approval ortu), Kantin (saldo, top-up, pre-order, limit), Konseling BK (booking online), Perpustakaan (katalog, pinjaman, digital)",
                     "Multi-anak untuk orang tua: switch profil anak dengan 1 akun",
-                    "Rapor online & download kwitansi pembayaran PDF",
-                    "Absensi: check-in/out, scan QR & pengajuan izin",
-                    "Notifikasi in-app: tagihan, ujian, pengumuman & jadwal sholat",
-                    "Mobile-friendly: akses lancar via browser HP tanpa install app",
-                    "Gamifikasi Amal: pemberian badge digital ('Pejuang Subuh', dll)"
+                    "Slip gaji pegawai self-service (jika wali siswa juga pegawai)",
+                    "Notifikasi in-app: tagihan, ujian, pengumuman & Mobile-friendly via browser HP",
+                    "Gamifikasi Amal: Pemberian badge digital ('Pejuang Subuh', dll) bagi siswa yang disiplin mengisi mutaba'ah harian",
+                    "Widget & Notifikasi Islami: Kutipan hadits harian, notifikasi in-app, dan pengingat waktu ibadah"
                 ],
                 'sort_order' => 14
             ],
@@ -356,19 +380,18 @@ class CmsSeeder extends Seeder
                 'title' => '15. Mutaba\'ah BPI & Character',
                 'short_title' => 'BPI Mutaba\'ah',
                 'category' => 'bpi',
-                'category_name' => 'Islamic Character',
-                'icon' => '📿',
+                'category_name' => 'Bina Pribadi Islami',
+                'icon' => '🕌',
                 'badge_bg' => 'bg-amber-100 text-amber-900',
                 'short_desc' => 'Laporan amal ibadah harian, validasi digital PIN ortu, Al-Mathurat dzikir & API Waktu Sholat Kemenag.',
                 'full_desc' => 'Modul Bina Pribadi Islami (BPI) khas SIT Robbani. Checklist ibadah harian anak di rumah yang diawasi orang tua via PIN digital, radar chart pencapaian karakter, modul Al-Mathurat dzikir, dan pengingat waktu sholat.',
                 'highlights' => [
-                    "Checklist digital ibadah: sholat wajib, rawatib, dhuha, tahajud, tilawah, hafalan",
-                    "Validasi & Approval Orang Tua via tanda tangan digital / PIN",
-                    "Dashboard BPI graphical: radar chart pencapaian amal per kelas/siswa",
-                    "Fitur Dzikir & Do'a Digital: Al-Mathurat pagi-petang + counter tasbih",
-                    "Integrasi API Jadwal Sholat Kemenag berbasis geolokasi sekolah",
-                    "Countdown waktu ibadah di header portal (Siswa, Guru, Ortu)",
-                    "Tracking Amal Jariyah / Infaq Harian terintegrasi ke Keuangan"
+                    "Laporan Amal Ibadah Harian: Checklist digital pelaksanaan sholat wajib, rawatib, dhuha, tahajud, tilawah, hafalan (ziyadah), puasa sunnah, dan infaq harian",
+                    "Validasi & Approval Orang Tua: Ortu wajib memvalidasi (tanda tangan digital / PIN) laporan amal ibadah anak saat di rumah via Portal Ortu",
+                    "Dashboard BPI (Graphical): Visualisasi radar/bar chart pencapaian amal per siswa/kelas sebagai acuan wali kelas untuk catatan perkembangan karakter di Rapor",
+                    "Fitur Dzikir & Do'a Digital: Modul Al-Mathurat (pagi-petang) interaktif dengan teks Arab, terjemahan, dan counter tasbih virtual",
+                    "Pengingat Sholat & Imsakiyah: Integrasi API jadwal Kemenag berbasis geolokasi sekolah. Menampilkan hitung mundur (countdown) waktu sholat di semua header portal aplikasi (Siswa, Guru, Ortu)",
+                    "Amal Jariyah / Infaq Harian: Tracking donasi atau infaq siswa yang terintegrasi langsung dengan mutasi akun di Modul Keuangan sekolah"
                 ],
                 'sort_order' => 15
             ],
@@ -382,12 +405,14 @@ class CmsSeeder extends Seeder
                 'short_desc' => '12+ Role bawaan granular, custom school branding (logo & warna), & multi-school context.',
                 'full_desc' => 'Arsitektur keamanan dan identitas sekolah. Mendukung 12+ role pengguna bawaan (Admin, Guru, Bendahara, BK, dll) dengan hak akses granular per modul, custom branding logo/warna, dan audit log aktivitas.',
                 'highlights' => [
-                    "12+ Role bawaan siap pakai (Admin, Bendahara, Guru, BK, Wali Kelas, Ortu, Siswa, DLL)",
-                    "Role & permission granular per modul dan tindakan aksi",
-                    "Branding sekolah: logo, warna primary/dark/accent & nama aplikasi",
-                    "Multi-sekolah dengan School Context Middleware",
-                    "User management: CRUD akun, reset password, suspend",
-                    "Audit log aktivitas penting untuk transparansi sistem"
+                    "Users, roles, multi-sekolah dengan School Context Middleware",
+                    "Branding: nama sekolah & aplikasi, tagline, upload & hapus logo sekolah, warna tema (primary, dark, accent)",
+                    "Manajemen akun pengguna CRUD: reset password, suspend",
+                    "Role & permission granular per modul & aksi",
+                    "12+ Role bawaan siap pakai (Admin, Bendahara, Guru, BK, Wali Kelas, Ortu, Siswa, Karyawan, DLL) + bisa tambah custom role",
+                    "Dashboard admin quick menu modul & role-based home redirect",
+                    "Audit log aktivitas penting (opsional)",
+                    "Profil user: ganti password, foto, kontak"
                 ],
                 'sort_order' => 16
             ],
@@ -395,17 +420,16 @@ class CmsSeeder extends Seeder
                 'title' => '17. HRIS & Pengembangan SDM',
                 'short_title' => 'HRIS & SDM',
                 'category' => 'operasional',
-                'category_name' => 'SDM & E-Leave',
+                'category_name' => 'HRIS & E-Leave',
                 'icon' => '👥',
                 'badge_bg' => 'bg-purple-100 text-purple-800',
-                'short_desc' => 'Pengajuan cuti E-Leave berjenjang, PKG KPI evaluasi kinerja guru, E-Recruitment, & klaim biaya.',
+                'short_desc' => 'Cuti E-Leave berjenjang, PKG KPI evaluasi kinerja guru, E-Recruitment pelamar, & klaim biaya.',
                 'full_desc' => 'Manajemen Sumber Daya Manusia sekolah. Menangani pengajuan cuti (E-Leave), evaluasi kinerja guru (PKG KPI) berbasis rekap jurnal KBM, tracking pelamar kerja (E-Recruitment), dan klaim operasional.',
                 'highlights' => [
-                    "Cuti & Perizinan (E-Leave): pengajuan cuti berjenjang via portal",
-                    "Saldo cuti terupdate otomatis & memotong komponen payroll",
-                    "Manajemen Kinerja (KPI / PKG): evaluasi kinerja pegawai & jurnal KBM guru",
-                    "Rekrutmen (E-Recruitment): tracking pelamar -> konversi pegawai baru",
-                    "Klaim & Reimbursement operasional terintegrasi ke Bendahara"
+                    "Cuti & Perizinan (E-Leave): Pengajuan cuti (tahunan, melahirkan, sakit, haji/umrah) berjenjang via portal. Saldo cuti terupdate dan memotong komponen payroll",
+                    "Manajemen Kinerja (KPI): Evaluasi kinerja pegawai (PKG), rekap jurnal KBM guru untuk bahan metrik penilaian HRD",
+                    "Rekrutmen (E-Recruitment): Tracking pelamar kerja, jadwal wawancara, konversi otomatis data pelamar menjadi pegawai baru",
+                    "Klaim & Reimbursement: Pengajuan dana operasional pegawai (misal: transport home visit) terintegrasi ke modul Bendahara"
                 ],
                 'sort_order' => 17
             ]
