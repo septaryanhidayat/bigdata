@@ -6,60 +6,162 @@ use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use App\Models\FeatureModule;
 use App\Models\FaqItem;
+use App\Models\Student;
+use App\Models\Employee;
+use App\Models\Classroom;
+use App\Models\School;
+use App\Models\Attendance;
+use App\Models\SppBill;
+use App\Models\SppPayment;
+use App\Models\SavingsTransaction;
+use App\Models\CanteenTransaction;
 use Illuminate\Http\Request;
 
 class CmsController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
+        $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));
+        session(['dashboard_school_id' => $schoolId]);
+
+        $allSchools = School::all();
+        $activeSchoolObj = ($schoolId !== 'all') ? School::find($schoolId) : null;
+
+        $studentsQuery = Student::query();
+        $teachersQuery = Employee::where('role_type', 'TEACHER');
+        $staffQuery = Employee::where('role_type', 'STAFF');
+        $classroomsQuery = Classroom::query();
+        $subjectsQuery = \App\Models\Subject::query();
+        $attendanceQuery = Attendance::query();
+        $sppBillQuery = SppBill::query();
+        $sppPaymentQuery = SppPayment::query();
+        $canteenQuery = CanteenTransaction::query();
+
+        if ($schoolId !== 'all') {
+            $studentsQuery->where('school_id', $schoolId);
+            $teachersQuery->where('school_id', $schoolId);
+            $staffQuery->where('school_id', $schoolId);
+            $classroomsQuery->where('school_id', $schoolId);
+            $subjectsQuery->where('school_id', $schoolId);
+            $attendanceQuery->where('school_id', $schoolId);
+            $sppBillQuery->where('school_id', $schoolId);
+            $sppPaymentQuery->whereHas('sppBill', function($q) use ($schoolId) {
+                $q->where('school_id', $schoolId);
+            });
+            $canteenQuery->whereHas('canteenOutlet', function($q) use ($schoolId) {
+                $q->where('school_id', $schoolId);
+            });
+        }
+
         $moduleCount = FeatureModule::count();
         $faqCount = FaqItem::count();
+        $schoolsCount = $allSchools->count();
+        $studentsCount = $studentsQuery->where('status', 'ACTIVE')->count();
+        $teachersCount = $teachersQuery->count();
+        $staffCount = $staffQuery->count();
+        $classroomsCount = $classroomsQuery->count();
+        $subjectsCount = $subjectsQuery->count();
+
+        // Presensi Stats Today
+        $today = date('Y-m-d');
+        $todayAttendance = (clone $attendanceQuery)->where('date', $today)->get();
+        $presentToday = $todayAttendance->where('status', 'HADIR')->count();
+        $lateToday = $todayAttendance->where('status', 'TERLAMBAT')->count();
+        $leaveToday = $todayAttendance->whereIn('status', ['IZIN', 'SAKIT'])->count();
+        $absentToday = max(0, $studentsCount - ($presentToday + $lateToday + $leaveToday));
+
+        // Finance Stats
+        $sppTotalPaid = $sppPaymentQuery->sum('amount_paid');
+        $sppBillsCount = (clone $sppBillQuery)->count();
+        $sppBillsPaidCount = (clone $sppBillQuery)->where('status', 'PAID')->count();
+        $sppBillsUnpaidCount = (clone $sppBillQuery)->whereIn('status', ['UNPAID', 'PARTIAL'])->count();
+
+        $totalSavings = (clone $studentsQuery)->sum('savings_balance');
+        $canteenSalesToday = $canteenQuery->sum('total_amount');
+
+        // Realtime 10 Attendance Logs
+        $recentAttendanceLogs = (clone $attendanceQuery)->with(['student.school', 'student.classroom'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // Realtime 10 Transactions
+        $recentTransactions = (clone $canteenQuery)->with(['student.school', 'canteenOutlet'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // Schools Distribution for Chart
+        $schools = School::withCount('students')->get();
+        $schoolNames = $schools->pluck('name')->toArray();
+        $schoolStudentCounts = $schools->pluck('students_count')->toArray();
+
         $recentModules = FeatureModule::orderBy('sort_order')->take(5)->get();
 
-        return view('admin.dashboard', compact('moduleCount', 'faqCount', 'recentModules'));
+        return view('admin.dashboard', compact(
+            'schoolId', 'allSchools', 'activeSchoolObj',
+            'moduleCount', 'faqCount', 'schoolsCount', 'studentsCount', 
+            'teachersCount', 'staffCount', 'classroomsCount', 'subjectsCount',
+            'presentToday', 'lateToday', 'leaveToday', 'absentToday',
+            'sppTotalPaid', 'sppBillsCount', 'sppBillsPaidCount', 'sppBillsUnpaidCount',
+            'totalSavings', 'canteenSalesToday',
+            'recentAttendanceLogs', 'recentTransactions',
+            'schoolNames', 'schoolStudentCounts', 'recentModules'
+        ));
     }
 
-    public function settings()
+    public function settingsPortal()
     {
         $settings = [
+            'website_theme' => SiteSetting::get('website_theme', 'theme-emerald'),
             'app_name' => SiteSetting::get('app_name', 'SmartEdu'),
-            'edition_title' => SiteSetting::get('edition_title', 'SmartEdu'),
             'school_name' => SiteSetting::get('school_name', 'Sekolah Islam Terpadu Robbani'),
             'tagline' => SiteSetting::get('tagline', 'Sekolah Islam Terpadu Digital Platform'),
-            'hero_badge' => SiteSetting::get('hero_badge', 'PLATFORM MANAGEMENT SEKOLAH ISLAM TERPADU'),
-            'hero_title' => SiteSetting::get('hero_title', 'Ekosistem Digital Sekolah Islam Terpadu Terpadu & Terlengkap'),
-            'hero_desc' => SiteSetting::get('hero_desc', 'SmartEdu menyajikan 21 modul digital terpadu...'),
-            'bpi_badge' => SiteSetting::get('bpi_badge', 'Bina Pribadi Islami & SafeSchool'),
-            'bpi_title' => SiteSetting::get('bpi_title', 'Mutabaah Yaumiyah, Al-Mathurat & Sistem Anti-Bullying'),
-            'bpi_desc' => SiteSetting::get('bpi_desc', 'Fitur khas Sekolah Islam Terpadu Robbani...'),
-            
-            // Sales & Pricing Section Settings
+            'school_hero_badge' => SiteSetting::get('school_hero_badge', '✨ YAYASAN PENDIDIKAN ISLAM TERPADU ROBBANI'),
+            'school_hero_title' => SiteSetting::get('school_hero_title', 'Pendidikan Karakter Islami & Keunggulan Akademik Digital'),
+            'school_hero_desc' => SiteSetting::get('school_hero_desc', 'Sekolah Islam Terpadu Robbani menyelenggarakan pendidikan terpadu dari jenjang TK, SD, SMP hingga SMA dengan Kurikulum Merdeka, Kekhasan JSIT, Pembiasaan Al-Qur\'an (Tahfidz), Mutaba\'ah BPI, dan Platform Digital SmartEdu.'),
+            'principal_name' => SiteSetting::get('principal_name', 'Ustadz Ahmad Fauzi, S.Pd.I, M.Pd'),
+            'principal_title' => SiteSetting::get('principal_title', 'Ketua Yayasan / Kepala Sekolah SIT Robbani'),
+            'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Sekolah Islam Terpadu Robbani. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, serta siap menghadapi era digital.'),
+            'ppdb_status' => SiteSetting::get('ppdb_status', 'GELOMBANG 1 DIBUKA'),
+            'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Penerimaan Peserta Didik Baru (PPDB) Tahun Ajaran 2026/2027 telah dibuka untuk jenjang TK, SDIT, SMPIT, & SMAIT.'),
+            'contact_phone' => SiteSetting::get('contact_phone', '0812-3456-7890'),
+            'contact_email' => SiteSetting::get('contact_email', 'info@robbani.sch.id'),
+            'contact_address' => SiteSetting::get('contact_address', 'Jl. Pendidikan Karakter No. 1-2, Kota Bandung, Jawa Barat'),
+        ];
+
+        return view('admin.settings.portal', compact('settings'));
+    }
+
+    public function settingsSales()
+    {
+        $settings = [
             'show_sales_section' => SiteSetting::get('show_sales_section', '1'),
             'sales_badge' => SiteSetting::get('sales_badge', 'Penawaran Spesial & Lisensi'),
             'sales_title' => SiteSetting::get('sales_title', 'Pilihan Paket Investasi & Lisensi SmartEdu'),
             'sales_desc' => SiteSetting::get('sales_desc', 'Pilih paket sesuai kebutuhan sekolah, yayasan, atau bisnis Anda. Tanpa biaya sewa bulanan, cukup sekali bayar untuk lisensi selamanya.'),
-            
             'pkg1_title' => SiteSetting::get('pkg1_title', 'Paket Source Code'),
             'pkg1_price' => SiteSetting::get('pkg1_price', 'Rp 1.500.000'),
             'pkg1_desc' => SiteSetting::get('pkg1_desc', 'Cocok untuk tim IT sekolah atau pengembang yang ingin mendeploy sendiri.'),
-            'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n21 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nDokumentasi Kode & Panduan Setup DB\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
-            'pkg1_link' => SiteSetting::get('pkg1_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20membeli%20Paket%20Source%20Code%201,5%20Juta'),
-            
+            'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n21 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
             'pkg2_title' => SiteSetting::get('pkg2_title', 'Paket Server + Reseller'),
             'pkg2_price' => SiteSetting::get('pkg2_price', 'Rp 3.000.000'),
             'pkg2_badge' => SiteSetting::get('pkg2_badge', '🔥 BEST SELLER & RESELLER READY'),
             'pkg2_desc' => SiteSetting::get('pkg2_desc', 'Solusi lengkap siap pakai untuk sekolah + lisensi hak jual kembali!'),
-            'pkg2_features' => SiteSetting::get('pkg2_features', "Semua Fitur Paket Source Code 1,5 Juta\nFREE Setup & Deploy Server VPS/Cloud Sampai Live\nPaket Hak Jual Kembali / Reseller Affiliate (Profit 100%)\nCustom Branding Logo & Nama Sekolah Anda\nSupport Priority WhatsApp Direct 24/7\nFree Update Patch & Bug Fix 1 Tahun"),
-            'pkg2_link' => SiteSetting::get('pkg2_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20membeli%20Paket%20Complete%20Server%20%2B%20Reseller%203%20Juta'),
-            
+            'pkg2_features' => SiteSetting::get('pkg2_features', "Semua Fitur Paket Source Code 1,5 Juta\nFREE Setup & Deploy Server VPS/Cloud Sampai Live\nPaket Hak Jual Kembali / Reseller Affiliate (Profit 100%)\nCustom Branding Logo & Nama Sekolah Anda"),
             'pkg3_title' => SiteSetting::get('pkg3_title', 'Paket Enterprise Yayasan'),
             'pkg3_price' => SiteSetting::get('pkg3_price', 'Rp 5.500.000'),
             'pkg3_desc' => SiteSetting::get('pkg3_desc', 'Didesain khusus untuk yayasan dengan banyak unit/cabang sekolah.'),
-            'pkg3_features' => SiteSetting::get('pkg3_features', "Semua Fitur Paket 3 Juta Complete\nGratis Domain .sch.id Selama 1 Tahun\nLisensi Multi-Sekolah / Cabang Yayasan\nTraining Pembekalan Zoom untuk Admin & Guru (1 Bulan)\nMaintenance Server & Backup Data Otomatis\nRequest Penyesuaian Modul Fitur Custom"),
-            'pkg3_link' => SiteSetting::get('pkg3_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20konsultasi%20Paket%20Enterprise%20Yayasan'),
+            'pkg3_features' => SiteSetting::get('pkg3_features', "Semua Fitur Paket 3 Juta Complete\nGratis Domain .sch.id Selama 1 Tahun\nLisensi Multi-Sekolah / Cabang Yayasan\nTraining Pembekalan Zoom untuk Admin & Guru (1 Bulan)"),
         ];
 
-        return view('admin.settings', compact('settings'));
+        return view('admin.settings.sales', compact('settings'));
+    }
+
+    public function settingsUnits()
+    {
+        $schools = School::withCount(['students', 'employees', 'classrooms'])->get();
+        return view('admin.settings.units', compact('schools'));
     }
 
     public function updateSettings(Request $request)

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(CmsSeeder::class);
+        $this->call(MasterDataSeeder::class);
 
         User::updateOrCreate(
             ['email' => 'admin@smartedu.test'],

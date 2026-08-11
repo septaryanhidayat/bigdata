@@ -72,6 +72,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Tailwind CSS CDN Fallback for Guaranteed Instant Rendering -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
@@ -139,13 +142,16 @@
             </a>
 
             <!-- Desktop Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-700">
+            <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-700">
+                <a href="{{ route('home') }}" class="text-teal-800 hover:text-teal-900 transition-colors flex items-center gap-1.5 font-extrabold bg-teal-50 px-3 py-1.5 rounded-xl border border-teal-200">
+                    <span>🌐 Website Sekolah</span>
+                </a>
                 <a href="#fitur" class="hover:text-teal-700 transition-colors">Modul Fitur</a>
                 <a href="#konsep-aplikasi" class="hover:text-teal-700 transition-colors">Mockup Tampilan</a>
                 @if(($settings['show_sales_section'] ?? '1') === '1')
-                <a href="#harga" class="hover:text-teal-700 transition-colors">Paket Harga & Lisensi</a>
+                <a href="#harga" class="hover:text-teal-700 transition-colors">Paket Harga</a>
                 @endif
-                <a href="#faq" class="hover:text-teal-700 transition-colors">Pertanyaan Umum</a>
+                <a href="#faq" class="hover:text-teal-700 transition-colors">FAQ</a>
                 <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all">
                     <span>Akses CMS Admin</span>
                 </a>
@@ -169,6 +175,7 @@
              x-cloak 
              @click.away="mobileMenuOpen = false" 
              class="md:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 font-bold text-xs text-slate-800 shadow-xl">
+            <a href="{{ route('home') }}" class="block py-2 border-b border-slate-100 text-teal-800 font-extrabold">🌐 Website Sekolah (Profil)</a>
             <a href="#fitur" @click="mobileMenuOpen = false" class="block py-2 border-b border-slate-100 hover:text-teal-700">Modul Fitur</a>
             <a href="#konsep-aplikasi" @click="mobileMenuOpen = false" class="block py-2 border-b border-slate-100 hover:text-teal-700">Mockup Tampilan</a>
             @if(($settings['show_sales_section'] ?? '1') === '1')

@@ -1,12 +1,25 @@
 @extends('admin.layout')
 
-@section('title', 'Web Portal & Landing Settings')
+@section('title', 'Pengaturan Web Portal Sekolah')
 
 @section('content')
 <div class="max-w-4xl space-y-6">
+    <!-- Sub-navigation Tabs -->
+    <div class="flex items-center gap-2 border-b border-slate-200 pb-3">
+        <a href="{{ route('admin.settings.portal') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-theme-gradient text-white shadow-md">
+            🏛️ Web Portal Sekolah
+        </a>
+        <a href="{{ route('admin.settings.sales') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+            📦 Landing Sales 21 Modul
+        </a>
+        <a href="{{ route('admin.settings.units') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+            🏢 Profil Unit Sekolah (SDIT/SMPIT/SMAIT)
+        </a>
+    </div>
+
     <div>
-        <h1 class="text-2xl font-black text-slate-900 tracking-tight">Pengaturan Website Sekolah & Landing Page Sales</h1>
-        <p class="text-xs text-slate-600 font-medium mt-1">Kelola tema warna website publik, profil sekolah, sambutan pimpinan, kontak, serta paket lisensi 21 modul.</p>
+        <h1 class="text-2xl font-black text-slate-900 tracking-tight">Pengaturan Website Utama Sekolah (`/`)</h1>
+        <p class="text-xs text-slate-600 font-medium mt-1">Atur skema warna tema, identitas sekolah, hero banner, sambutan pimpinan, dan kontak resmi yayasan.</p>
     </div>
 
     <form action="{{ route('admin.settings.update') }}" method="POST" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
@@ -14,12 +27,8 @@
 
         <!-- 0. Pilihan Warna Tema Website Publik Sekolah & Admin -->
         <div class="space-y-4 border-b border-slate-100 pb-6">
-            <div class="flex items-center justify-between border-l-4 border-theme-accent pl-3">
-                <div>
-                    <h3 class="font-extrabold text-sm text-slate-900">🎨 Opsi Pilihan Tema Warna Sistem (Website & Admin)</h3>
-                    <p class="text-xs text-slate-500 font-medium">Klik pada salah satu dari 5 paket warna di bawah ini untuk mengubah tema warna sistem secara langsung:</p>
-                </div>
-            </div>
+            <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-theme-accent pl-3">🎨 Opsi Pilihan Tema Warna Sistem (Website & Admin)</h3>
+            <p class="text-xs text-slate-500 font-medium">Klik salah satu dari 5 paket warna di bawah ini untuk mengubah tema warna sistem secara langsung:</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
                 <!-- Option 1: Emerald Robbani -->
@@ -91,17 +100,17 @@
 
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Badge Top Hero Banner:</label>
-                <input type="text" name="school_hero_badge" value="{{ $settings['hero_badge'] ?? '✨ YAYASAN PENDIDIKAN ISLAM TERPADU ROBBANI' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
+                <input type="text" name="school_hero_badge" value="{{ $settings['school_hero_badge'] ?? '✨ YAYASAN PENDIDIKAN ISLAM TERPADU ROBBANI' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
             </div>
 
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Judul Utama Hero Banner (School Portal):</label>
-                <input type="text" name="school_hero_title" value="{{ $settings['hero_title'] ?? 'Pendidikan Karakter Islami & Keunggulan Akademik Digital' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-extrabold text-slate-900">
+                <input type="text" name="school_hero_title" value="{{ $settings['school_hero_title'] ?? 'Pendidikan Karakter Islami & Keunggulan Akademik Digital' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-extrabold text-slate-900">
             </div>
 
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Deskripsi Ringkas Hero Banner:</label>
-                <textarea name="school_hero_desc" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-900">{{ $settings['hero_desc'] ?? 'Sekolah Islam Terpadu Robbani menyelenggarakan pendidikan terpadu...' }}</textarea>
+                <textarea name="school_hero_desc" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-900">{{ $settings['school_hero_desc'] ?? 'Sekolah Islam Terpadu Robbani menyelenggarakan pendidikan terpadu...' }}</textarea>
             </div>
         </div>
 
@@ -158,84 +167,9 @@
             </div>
         </div>
 
-        <!-- 4. Sales & Pricing Section Settings (PRESERVED) -->
-        <div class="space-y-6 pt-2">
-            <div class="flex items-center justify-between border-l-4 border-theme-accent pl-3">
-                <div>
-                    <h3 class="font-extrabold text-sm text-slate-900">📦 Halaman Sales 21 Modul & Lisensi Produk (/sales)</h3>
-                    <p class="text-[11px] text-slate-500 font-normal">Pengaturan harga lisensi paket 1.5jt, 3jt, dan 5.5jt pada halaman sales.</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <label class="text-xs font-bold text-slate-700">Tampilkan Seksi Sales:</label>
-                    <select name="show_sales_section" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 bg-white">
-                        <option value="1" {{ ($settings['show_sales_section'] ?? '1') === '1' ? 'selected' : '' }}>✓ Ya (Tampilkan)</option>
-                        <option value="0" {{ ($settings['show_sales_section'] ?? '1') === '0' ? 'selected' : '' }}>✕ Tidak (Sembunyikan)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Judul Utama Seksi Sales:</label>
-                    <input type="text" name="sales_title" value="{{ $settings['sales_title'] ?? 'Pilihan Paket Investasi & Lisensi SmartEdu' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Harga Paket Complete Reseller:</label>
-                    <input type="text" name="pkg2_price" value="{{ $settings['pkg2_price'] ?? 'Rp 3.000.000' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-theme-accent">
-                </div>
-            </div>
-
-            <!-- Paket 1 Editor -->
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-                <h4 class="font-extrabold text-xs text-slate-900 border-b border-slate-200 pb-2">📦 Paket 1 (Source Code Standar)</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Nama Paket 1:</label>
-                        <input type="text" name="pkg1_title" value="{{ $settings['pkg1_title'] ?? 'Paket Source Code' }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Harga Paket 1:</label>
-                        <input type="text" name="pkg1_price" value="{{ $settings['pkg1_price'] ?? 'Rp 1.500.000' }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold text-slate-900">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Paket 2 Editor -->
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                    <h4 class="font-extrabold text-xs text-slate-900">🔥 Paket 2 (Server + Reseller Affiliate - Best Value)</h4>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Nama Paket 2:</label>
-                        <input type="text" name="pkg2_title" value="{{ $settings['pkg2_title'] ?? 'Paket Server + Reseller' }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Harga Paket 2:</label>
-                        <input type="text" name="pkg2_price" value="{{ $settings['pkg2_price'] ?? 'Rp 3.000.000' }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold text-amber-600">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Paket 3 Editor -->
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-                <h4 class="font-extrabold text-xs text-slate-900 border-b border-slate-200 pb-2">🏛️ Paket 3 (Enterprise Yayasan)</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Nama Paket 3:</label>
-                        <input type="text" name="pkg3_title" value="{{ $settings['pkg3_title'] ?? 'Paket Enterprise Yayasan' }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Harga Paket 3:</label>
-                        <input type="text" name="pkg3_price" value="{{ $settings['pkg3_price'] ?? 'Rp 5.500.000' }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold text-slate-900">
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="pt-4 flex justify-end">
             <button type="submit" class="px-6 py-3 rounded-xl bg-theme-gradient text-white font-extrabold text-xs shadow-lg hover:scale-105 transition-transform">
-                Simpan Perubahan Web Settings ➔
+                Simpan Perubahan Web Portal ➔
             </button>
         </div>
     </form>
@@ -243,12 +177,10 @@
 
 <script>
     function selectThemeRadio(themeName) {
-        // Uncheck all radio inputs
         document.querySelectorAll('input[name="website_theme"]').forEach(radio => {
             radio.checked = (radio.value === themeName);
         });
 
-        // Update card styles
         document.querySelectorAll('.theme-option-card').forEach(card => {
             if (card.id === 'card-' + themeName) {
                 card.className = 'p-3.5 rounded-2xl border-2 cursor-pointer transition-all space-y-2 text-center theme-option-card border-slate-900 bg-slate-100/80 shadow-md ring-2 ring-slate-900';
@@ -257,7 +189,6 @@
             }
         });
 
-        // Live preview admin theme instantly
         if (typeof setAdminTheme === 'function') {
             setAdminTheme(themeName);
         }
