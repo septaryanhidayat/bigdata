@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false }">
+<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false }" :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,617 +7,705 @@
     <meta name="description" content="{{ $settings['hero_desc'] }}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://sitrobbani.sch.id/wp-content/uploads/2022/01/cropped-favicon-32x32.png">
+    <link rel="icon" type="image/png" href="/images/logo-robbani-official.png">
 
-    <!-- Google Fonts: Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary-fixed": "#89f5e7",
+                "on-surface": "#111c2d",
+                "on-tertiary-fixed-variant": "#005049",
+                "on-primary-container": "#8bd6b7",
+                "on-surface-variant": "#3f4944",
+                "secondary-fixed-dim": "#ffb690",
+                "on-background": "#111c2d",
+                "surface-dim": "#cfdaf2",
+                "on-primary": "#ffffff",
+                "surface-container-high": "#dee8ff",
+                "inverse-primary": "#8bd6b6",
+                "surface-variant": "#d8e3fb",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#e7eeff",
+                "on-secondary-container": "#5c2400",
+                "on-secondary": "#ffffff",
+                "inverse-on-surface": "#ecf1ff",
+                "primary-fixed": "#a6f2d1",
+                "surface-tint": "#1b6b51",
+                "tertiary": "#00443e",
+                "secondary-container": "#fd761a",
+                "outline": "#6f7973",
+                "surface-container-low": "#f0f3ff",
+                "inverse-surface": "#263143",
+                "on-error-container": "#93000a",
+                "tertiary-fixed-dim": "#6bd8cb",
+                "on-primary-fixed": "#002116",
+                "on-secondary-fixed": "#341100",
+                "tertiary-container": "#005e56",
+                "secondary-fixed": "#ffdbca",
+                "primary": "#004532",
+                "error": "#ba1a1a",
+                "on-tertiary-fixed": "#00201d",
+                "surface-bright": "#f9f9ff",
+                "on-tertiary-container": "#6cd9cb",
+                "on-primary-fixed-variant": "#00513b",
+                "background": "#f9f9ff",
+                "surface-container-highest": "#d8e3fb",
+                "surface": "#f9f9ff",
+                "on-error": "#ffffff",
+                "secondary": "#9d4300",
+                "on-tertiary": "#ffffff",
+                "primary-fixed-dim": "#8bd6b6",
+                "primary-container": "#065f46",
+                "error-container": "#ffdad6",
+                "outline-variant": "#bec9c2",
+                "on-secondary-fixed-variant": "#783200"
+            },
+            "spacing": {
+                "md": "16px",
+                "sm": "8px",
+                "xs": "4px",
+                "base": "4px",
+                "lg": "24px",
+                "xl": "48px",
+                "container-max": "1280px",
+                "xxl": "80px",
+                "gutter": "24px"
+            },
+            "fontFamily": {
+                "body": ["Inter", "sans-serif"],
+                "headline": ["Montserrat", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+        }
         [x-cloak] { display: none !important; }
-
-        /* Color Scheme: Forest Green (#15803d) & Golden Orange (#f59e0b) */
-        .bg-robbani-green { background-color: #15803d !important; color: #ffffff !important; }
-        .bg-robbani-green:hover { background-color: #166534 !important; }
-
-        .bg-robbani-gold { background-color: #f59e0b !important; color: #000000 !important; }
-        .bg-robbani-gold:hover { background-color: #d97706 !important; color: #ffffff !important; }
-
-        .bg-robbani-orange { background-color: #f97316 !important; color: #ffffff !important; }
-        .bg-robbani-orange:hover { background-color: #ea580c !important; }
     </style>
 </head>
-<body :class="darkMode ? 'bg-[#061208] text-emerald-50 selection:bg-[#15803d] selection:text-white' : 'bg-[#f8fafc] text-slate-900 selection:bg-[#f59e0b] selection:text-slate-900'" class="antialiased min-h-screen pb-24 lg:pb-0">
+<body class="bg-background text-on-background font-body transition-colors duration-300">
 
     <!-- ========================================== -->
-    <!-- 1. HEADER (CLEAN MOBILE LOGO, NO TEXT OVERLAP) -->
+    <!-- TOP NAV BAR                                -->
     <!-- ========================================== -->
-    <header :class="darkMode ? 'bg-[#0a1f0f]/95 border-[#173b1d]' : 'bg-white/95 border-slate-200 shadow-md'" class="sticky top-0 z-50 backdrop-blur-xl border-b">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-            
-            <!-- Logo SIT Robbani (Text Hidden on Mobile) -->
-            <a href="{{ route('home') }}" class="flex items-center gap-3.5 group">
-                <div :class="darkMode ? 'bg-[#122e17] border-[#1d4724]' : 'bg-emerald-50 border-emerald-200'" class="p-2 rounded-2xl border group-hover:border-[#15803d] transition-all">
-                    <img src="/images/logo-robbani-new.png" alt="Logo SIT Robbani" class="h-10 w-auto object-contain" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
-                </div>
-                <!-- Text Hidden on Mobile to prevent squishing -->
-                <div :class="darkMode ? 'border-[#1d4724]' : 'border-slate-300'" class="hidden lg:block border-l pl-3">
-                    <span :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xs font-black uppercase tracking-tight block leading-tight group-hover:text-[#15803d] transition-colors">YAYASAN GENERASI ROBBANI</span>
-                    <span :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-[11px] font-bold block leading-tight">SUMATERA SELATAN (SIT ROBBANI)</span>
+    <nav class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline fixed top-0 left-0 w-full z-50 flex justify-between items-center px-lg py-md max-w-container-max mx-auto h-20 shadow-sm">
+        <div class="flex items-center gap-md">
+            <a href="{{ route('home') }}" class="flex items-center gap-3">
+                <img alt="Yayasan Generasi Robbani Logo" class="h-10 sm:h-12 w-auto object-contain" src="/images/logo-robbani-official.png" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                <div class="font-bold text-lg md:text-xl text-primary dark:text-inverse-primary hidden sm:block font-headline leading-tight">
+                    Yayasan Generasi Robbani
                 </div>
             </a>
-
-            <!-- Desktop Contact, Theme Toggle & Portal Admin -->
-            <div class="hidden lg:flex items-center gap-4 text-xs font-bold">
-                <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="flex items-center gap-1.5 text-[#15803d] dark:text-[#4ade80] hover:underline bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-800">
-                    <span>📞 0811-7474-72</span>
-                </a>
-                
-                <!-- Theme Toggle Button -->
-                <button @click="darkMode = !darkMode" :class="darkMode ? 'bg-white/10 text-white border-white/20' : 'bg-slate-100 text-slate-800 border-slate-300'" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-bold transition-all hover:scale-105">
-                    <span x-show="!darkMode">🌙 Mode Gelap</span>
-                    <span x-show="darkMode" x-cloak>☀️ Mode Terang</span>
-                </button>
-
-                <!-- Portal Admin Button -->
-                <a href="{{ route('admin.dashboard') }}" class="bg-robbani-green px-4 py-2 rounded-xl font-black text-xs shadow-md transition-transform hover:scale-105 flex items-center gap-1.5">
-                    <span>🔑 Portal Admin</span>
-                    <span>➔</span>
-                </a>
-
-                <!-- PPDB Button -->
-                <a href="{{ route('school.ppdb') }}" class="bg-robbani-gold px-4 py-2 rounded-xl font-black text-xs shadow-md transition-transform hover:scale-105">
-                    Daftar PPDB ➔
-                </a>
-            </div>
-
-            <!-- Mobile Buttons (Clean Logo + Minimal Controls) -->
-            <div class="flex items-center gap-2 lg:hidden">
-                <a href="{{ route('admin.dashboard') }}" class="bg-robbani-green px-2.5 py-1.5 rounded-xl text-xs font-black">
-                    Admin
-                </a>
-                <button @click="darkMode = !darkMode" :class="darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-900 border-slate-300'" class="p-2 rounded-xl border text-xs">
-                    <span x-show="!darkMode">🌙</span>
-                    <span x-show="darkMode" x-cloak>☀️</span>
-                </button>
-                <button @click="mobileMenuOpen = !mobileMenuOpen" :class="darkMode ? 'bg-[#122e17] border-[#1d4724] text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-900'" class="p-2 rounded-xl border">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        <path x-show="mobileMenuOpen" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div x-show="mobileMenuOpen" x-cloak :class="darkMode ? 'bg-[#061208] border-[#1d4724] text-slate-100' : 'bg-white border-slate-300 text-slate-900'" class="lg:hidden border-b px-4 py-4 space-y-3 font-bold text-sm shadow-2xl">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
-                <span>📞 Hotline: 0811-7474-72</span>
-                <a href="{{ route('admin.dashboard') }}" class="text-[#15803d] dark:text-[#4ade80] font-black underline">Portal Admin ➔</a>
-            </div>
-            <a @click="mobileMenuOpen = false" href="{{ route('home') }}" class="block py-1 text-[#15803d] dark:text-[#f59e0b]">Beranda</a>
-            <a @click="mobileMenuOpen = false" href="{{ route('school.profil') }}" class="block py-1 text-slate-800 dark:text-slate-200 hover:text-[#15803d]">Profil Yayasan</a>
-            <a @click="mobileMenuOpen = false" href="#unit-sekolah" class="block py-1 text-slate-800 dark:text-slate-200 hover:text-[#15803d]">Unit Sekolah</a>
-            <a @click="mobileMenuOpen = false" href="#artikel-berita" class="block py-1 text-slate-800 dark:text-slate-200 hover:text-[#15803d]">Artikel & Berita</a>
-            <a @click="mobileMenuOpen = false" href="#video-profil" class="block py-1 text-slate-800 dark:text-slate-200 hover:text-[#15803d]">Video Profil</a>
-            <a @click="mobileMenuOpen = false" href="#agenda-pengumuman" class="block py-1 text-slate-800 dark:text-slate-200 hover:text-[#15803d]">Agenda & Pengumuman</a>
-            <a @click="mobileMenuOpen = false" href="#galeri-sekolah" class="block py-1 text-slate-800 dark:text-slate-200 hover:text-[#15803d]">Galeri Sekolah</a>
-            <a href="{{ route('school.ppdb') }}" class="block text-center w-full py-2.5 rounded-xl font-black text-xs bg-robbani-gold">Daftar PPDB Online ➔</a>
+        <div class="hidden md:flex space-x-lg items-center font-semibold text-sm">
+            <a class="text-primary dark:text-inverse-primary border-b-2 border-primary font-bold pb-1 hover:text-secondary-container transition-colors" href="{{ route('home') }}">Beranda</a>
+            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-secondary-fixed-dim transition-colors" href="{{ route('school.profil') }}">Profil</a>
+            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-secondary-fixed-dim transition-colors" href="#unit-sekolah">Unit</a>
+            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-secondary-fixed-dim transition-colors" href="{{ route('school.berita') }}">Berita</a>
+            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-secondary-fixed-dim transition-colors" href="{{ route('school.artikel') }}">Artikel</a>
+            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-secondary-fixed-dim transition-colors" href="{{ route('school.fasilitas') }}">Fasilitas</a>
+            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-secondary-fixed-dim transition-colors" href="{{ route('school.espp') }}">E-SPP</a>
         </div>
-    </header>
 
-    <!-- ========================================== -->
-    <!-- SLIDER GAMBAR DI ATAS MENU UTAMA           -->
-    <!-- ========================================== -->
-    <section class="py-4 sm:py-6 px-4 sm:px-6 max-w-7xl mx-auto" x-data="{
-        slides: [
-            {
-                title: 'Yayasan Generasi Robbani Sumatera Selatan',
-                badge: 'SEKOLAH ISLAM TERPADU UNTUK BANGSA',
-                desc: 'Mewujudkan generasi Qur\'ani, berkarakter Islami, berprestasi akademik tinggi, serta berwawasan global di Kabupaten Ogan Ilir.',
-                image: '/images/logo-robbani-new.png',
-                ctaText: 'Pendaftaran SPMB Online 2026',
-                ctaLink: '{{ route('school.ppdb') }}',
-                bgGradient: 'from-emerald-950 via-slate-900 to-slate-950'
-            },
-            {
-                title: 'Penerimaan Peserta Didik Baru (PPDB) 2026/2027',
-                badge: 'SPMB ONLINE TERPADU',
-                desc: 'Bergabunglah bersama keluarga besar KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir. Kuota terbatas!',
-                image: '/images/logo-robbani-new.png',
-                ctaText: 'Isi Formulir SPMB Now',
-                ctaLink: '{{ route('school.ppdb') }}',
-                bgGradient: 'from-amber-950 via-slate-900 to-emerald-950'
-            },
-            {
-                title: 'Layanan E-SPP Realtime & Sistem ARSI',
-                badge: 'EKOSISTEM DIGITAL ROBBANI',
-                desc: 'Kemudahan cek tagihan SPP, konfirmasi pembayaran, dan informasi akademik siswa secara akurat dan transparan.',
-                image: '/images/logo-robbani-new.png',
-                ctaText: 'Cek E-SPP Siswa',
-                ctaLink: '{{ route('school.espp') }}',
-                bgGradient: 'from-slate-950 via-emerald-900 to-slate-900'
-            }
-        ],
-        activeSlide: 0,
-        next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
-        prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
-        init() { setInterval(() => this.next(), 6000) }
-    }">
-        <div class="relative rounded-[2.5rem] overflow-hidden border border-slate-300 dark:border-emerald-900/60 shadow-2xl bg-slate-900 text-white min-h-[360px] sm:min-h-[400px] flex items-center">
+        <div class="flex items-center gap-sm">
+            <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="p-sm text-primary dark:text-inverse-primary hover:bg-surface-container-high rounded-full transition-colors hidden lg:flex items-center justify-center" title="Hubungi Kami">
+                <span class="material-symbols-outlined">call</span>
+            </a>
             
-            <template x-for="(slide, index) in slides" :key="index">
-                <div x-show="activeSlide === index" 
-                     x-transition:enter="transition ease-out duration-500"
-                     x-transition:enter-start="opacity-0 scale-95"
-                     x-transition:enter-end="opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-300"
-                     x-transition:leave-start="opacity-100 scale-100"
-                     x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute inset-0 p-6 sm:p-10 flex items-center bg-gradient-to-r"
-                     :class="slide.bgGradient">
+            <button @click="darkMode = !darkMode" class="p-sm text-primary dark:text-inverse-primary hover:bg-surface-container-high rounded-full transition-colors hidden lg:flex items-center justify-center" title="Toggle Mode">
+                <span class="material-symbols-outlined" x-show="!darkMode">dark_mode</span>
+                <span class="material-symbols-outlined" x-show="darkMode" x-cloak>light_mode</span>
+            </button>
+
+            <a class="hidden lg:inline-flex px-md py-sm border border-primary text-primary dark:text-inverse-primary font-bold text-xs rounded-full hover:bg-primary-container hover:text-white transition-colors items-center gap-xs" href="{{ route('admin.dashboard') }}">
+                Admin
+            </a>
+            <a class="px-md py-sm bg-secondary-container text-white font-bold text-xs rounded-full hover:opacity-90 transition-opacity flex items-center gap-xs shadow-sm" href="{{ route('school.ppdb') }}">
+                SPMB <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-xl text-primary dark:text-inverse-primary border border-outline-variant">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Drawer -->
+    <div x-show="mobileMenuOpen" x-cloak class="md:hidden fixed inset-x-0 top-20 z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant p-md space-y-md shadow-2xl font-semibold">
+        <a @click="mobileMenuOpen = false" href="{{ route('home') }}" class="block text-primary font-bold">Beranda</a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.profil') }}" class="block text-on-surface-variant dark:text-surface-variant">Profil Yayasan</a>
+        <a @click="mobileMenuOpen = false" href="#unit-sekolah" class="block text-on-surface-variant dark:text-surface-variant">Unit Pendidikan</a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.berita') }}" class="block text-on-surface-variant dark:text-surface-variant">Berita Kampus</a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.artikel') }}" class="block text-on-surface-variant dark:text-surface-variant">Artikel</a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.fasilitas') }}" class="block text-on-surface-variant dark:text-surface-variant">Fasilitas</a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.espp') }}" class="block text-on-surface-variant dark:text-surface-variant">E-SPP ARSI</a>
+        <a href="{{ route('admin.dashboard') }}" class="block text-center py-2 rounded-full border border-primary text-primary font-bold">Portal Admin</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-20">
+
+        <!-- ========================================== -->
+        <!-- HERO SECTION WITH INTEGRATED PRAYER WIDGET -->
+        <!-- ========================================== -->
+        <section class="relative bg-[#111c2d] py-xxl overflow-hidden" style="background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://lh3.googleusercontent.com/aida/AP1WRLuf5i7pWfq9dzqqqjNB6dJ3JNiFjsv6Iv0erwSW9QTXek-Ur1VI-e_ULP2zi3qLQIbKln9GGYMrKRcDMpgsk8uELhhqxDf4J0N_tZ3ObFRa1UmfynfH5wzEfpsoQwZd8ofmDXnfj0-gwTaJjxlH2Gt_qt3XIBHF0DtXovfyqeC4E7-y7dd3rgARHyA57tjdlEywmGuLbJ1q3jagkMiPIv2sK3XpKR-CEw_Kr3hiDZtYNpxD6JtANagJSWCU'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+            <div class="max-w-container-max mx-auto px-gutter relative z-10">
+                <div class="bg-[#111c2d]/90 backdrop-blur-md border border-white/10 rounded-2xl p-lg md:p-xl relative overflow-hidden shadow-2xl">
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full z-10">
-                        <div class="lg:col-span-8 space-y-4">
-                            <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-black text-xs uppercase tracking-wider bg-robbani-gold shadow-md">
-                                <span x-text="slide.badge"></span>
-                            </span>
-
-                            <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black leading-tight text-white" x-text="slide.title"></h1>
-
-                            <p class="text-slate-200 text-xs sm:text-sm font-medium leading-relaxed max-w-2xl" x-text="slide.desc"></p>
-
-                            <div class="flex flex-wrap gap-3 pt-2">
-                                <a :href="slide.ctaLink" class="bg-robbani-green px-6 py-3 rounded-2xl font-black text-xs shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
-                                    <span x-text="slide.ctaText"></span>
-                                    <span>➔</span>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-center relative z-10">
+                        
+                        <!-- Left Hero Column -->
+                        <div class="lg:col-span-7 space-y-lg">
+                            <span class="inline-block bg-secondary-container text-white px-md py-xs rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">SPMB Online Terpadu</span>
+                            <h1 class="text-3xl md:text-5xl font-extrabold font-headline leading-tight text-white">Penerimaan Peserta Didik Baru (PPDB) 2026/2027</h1>
+                            <p class="text-base md:text-lg text-white/90 max-w-2xl font-medium leading-relaxed">Bergabunglah bersama keluarga besar KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir. Kuota terbatas! Wujudkan generasi Qur'ani yang berprestasi.</p>
+                            
+                            <div class="flex flex-wrap gap-md pt-2">
+                                <a class="px-xl py-md bg-primary text-white font-bold text-sm rounded-full hover:bg-primary/90 transition-all flex items-center gap-sm shadow-md hover:scale-105" href="{{ route('school.ppdb') }}">
+                                    Isi Formulir SPMB Now <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </a>
-                                <a href="{{ route('school.profil') }}" class="px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/30 backdrop-blur-md">
-                                    Profil Yayasan ➔
+                                <a class="px-xl py-md bg-white/10 border border-white/20 text-white font-bold text-sm rounded-full hover:bg-white/20 transition-all flex items-center gap-sm backdrop-blur-md" href="{{ route('school.profil') }}">
+                                    Profil Yayasan <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="lg:col-span-4 hidden lg:flex justify-center">
-                            <div class="bg-white/10 border border-white/20 backdrop-blur-md p-6 rounded-3xl text-center space-y-3 max-w-xs">
-                                <img :src="slide.image" class="h-20 mx-auto object-contain bg-white p-2 rounded-2xl border border-white/20">
-                                <span class="block text-xs font-black text-amber-300 uppercase">SIT ROBBANI OGAN ILIR</span>
+                        <!-- Right Column: REALTIME PRAYER TIMES WIDGET -->
+                        <div class="lg:col-span-5">
+                            <div class="bg-black/50 backdrop-blur-md border border-white/15 rounded-xl p-lg shadow-xl relative overflow-hidden space-y-md">
+                                
+                                <div class="flex justify-between items-center border-b border-white/10 pb-sm">
+                                    <div>
+                                        <div class="text-[10px] font-bold text-primary-fixed-dim uppercase flex items-center gap-xs">
+                                            <span class="material-symbols-outlined text-[14px]">location_on</span> Indralaya, Ogan Ilir
+                                        </div>
+                                        <div class="text-sm font-bold text-white">Jadwal Sholat Realtime</div>
+                                    </div>
+                                    <div class="bg-secondary-container text-white px-sm py-xs rounded text-[10px] font-bold flex items-center gap-xs shadow-sm">
+                                        <span class="material-symbols-outlined text-[12px]">explore</span> 295.2° NW
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="text-[10px] font-bold text-primary-fixed-dim uppercase mb-xs">Sholat Berikutnya</div>
+                                    <div class="flex justify-between items-end">
+                                        <div class="text-xl md:text-2xl font-black text-secondary-fixed">Subuh 04:47 WIB</div>
+                                        <div class="text-[10px] font-semibold bg-white/10 px-sm py-xs rounded text-white/90 border border-white/10">29 Safar 1448 H</div>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-5 gap-xs pt-1">
+                                    <div class="bg-white/5 border border-white/10 p-xs rounded text-center">
+                                        <div class="text-[9px] font-bold text-white/70 uppercase">Subuh</div>
+                                        <div class="text-xs font-black text-white">04:47</div>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 p-xs rounded text-center">
+                                        <div class="text-[9px] font-bold text-white/70 uppercase">Dzuhur</div>
+                                        <div class="text-xs font-black text-white">12:08</div>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 p-xs rounded text-center">
+                                        <div class="text-[9px] font-bold text-white/70 uppercase">Ashar</div>
+                                        <div class="text-xs font-black text-white">15:28</div>
+                                    </div>
+                                    <div class="bg-secondary-container p-xs rounded text-center shadow-md border border-secondary-container">
+                                        <div class="text-[9px] font-bold text-white/90 uppercase">Maghrib</div>
+                                        <div class="text-xs font-black text-white">18:10</div>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 p-xs rounded text-center">
+                                        <div class="text-[9px] font-bold text-white/70 uppercase">Isya</div>
+                                        <div class="text-xs font-black text-white">19:21</div>
+                                    </div>
+                                </div>
+
                             </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Slide Navigation Indicator -->
+                    <div class="flex justify-between items-center mt-lg relative z-10 px-lg border-t border-white/10 pt-md">
+                        <div class="text-xs font-medium text-white/60">Slide 2 dari 3</div>
+                        <div class="flex gap-sm">
+                            <button class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"><span class="material-symbols-outlined text-[16px]">chevron_left</span></button>
+                            <button class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"><span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+                        </div>
+                        <div class="flex gap-sm">
+                            <div class="w-8 h-1.5 bg-white/20 rounded-full"></div>
+                            <div class="w-8 h-1.5 bg-secondary-container rounded-full"></div>
+                            <div class="w-8 h-1.5 bg-white/20 rounded-full"></div>
                         </div>
                     </div>
 
                 </div>
-            </template>
-
-            <!-- Slider Controls -->
-            <button @click="prev()" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-slate-950/70 hover:bg-[#15803d] text-white border border-white/30 flex items-center justify-center font-black transition-all">
-                ❮
-            </button>
-            <button @click="next()" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-slate-950/70 hover:bg-[#15803d] text-white border border-white/30 flex items-center justify-center font-black transition-all">
-                ❯
-            </button>
-
-            <!-- Slider Dots -->
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-                <template x-for="(slide, index) in slides" :key="index">
-                    <button @click="activeSlide = index" 
-                            :class="activeSlide === index ? 'w-8 bg-[#f59e0b]' : 'w-2.5 bg-white/50'" 
-                            class="h-2.5 rounded-full transition-all duration-300">
-                    </button>
-                </template>
             </div>
+        </section>
 
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- 2. MENU UTAMA 8 ITEM                       -->
-    <!-- (4 items per row on mobile, 8 in desktop)  -->
-    <!-- ========================================== -->
-    <section class="py-4 px-4 sm:px-6 max-w-7xl mx-auto space-y-3">
-        <div class="flex items-center justify-between px-1">
-            <h3 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-base font-black">Menu Utama Portal</h3>
-            <span :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-bold">8 Fitur Utama</span>
-        </div>
-
-        <div class="grid grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
-            
-            <a href="{{ route('school.profil') }}" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">Profil</h4>
-            </a>
-
-            <a href="#unit-sekolah" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">4 Unit</h4>
-            </a>
-
-            <a href="#artikel-berita" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">Berita</h4>
-            </a>
-
-            <a href="{{ route('school.artikel') }}" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">Artikel</h4>
-            </a>
-
-            <a href="{{ route('school.fasilitas') }}" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">Fasilitas</h4>
-            </a>
-
-            <a href="{{ route('school.espp') }}" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">E-SPP</h4>
-            </a>
-
-            <a href="{{ route('school.ppdb') }}" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">PPDB</h4>
-            </a>
-
-            <a href="#layanan-terpadu" :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] hover:bg-[#15381b]' : 'bg-white border-slate-300 hover:border-[#15803d] shadow-md'" class="p-3 rounded-2xl border transition-all space-y-1.5 group text-center flex flex-col items-center justify-center">
-                <div :class="darkMode ? 'bg-[#061208] text-[#f59e0b] border-[#1d4724]' : 'bg-emerald-50 text-[#15803d] border-emerald-200'" class="w-10 h-10 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                </div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-[11px] font-black group-hover:text-[#15803d] transition-colors leading-tight">Layanan</h4>
-            </a>
-
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- 3. SAMBUTAN KETUA YAYASAN & FOTO           -->
-    <!-- 4. 2 TOMBOL AKSI SAMBUTAN & VISI MISI      -->
-    <!-- ========================================== -->
-    <section class="py-8 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-lg'" class="p-6 sm:p-8 rounded-[2.5rem] border">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- ========================================== -->
+        <!-- ICON MENU SECTION (8 QUICK TILES)          -->
+        <!-- ========================================== -->
+        <section class="py-xl bg-surface dark:bg-inverse-surface/40">
+            <div class="max-w-container-max mx-auto px-gutter space-y-md">
                 
-                <!-- Foto Ketua Yayasan & Nama -->
-                <div class="lg:col-span-4 text-center">
-                    <div class="relative inline-block">
-                        <img src="/images/logo-robbani-new.png" alt="Foto Ketua Yayasan" class="w-40 h-40 object-contain rounded-full bg-white p-4 border-4 border-[#15803d] shadow-xl mx-auto" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
-                        <span class="bg-robbani-green absolute -bottom-2 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full font-black text-[10px] uppercase shadow whitespace-nowrap">
-                            KETUA YAYASAN
-                        </span>
-                    </div>
-                    <h3 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-base font-black mt-4 leading-tight">
-                        {{ $settings['principal_name'] }}
-                    </h3>
-                    <span :class="darkMode ? 'text-emerald-400' : 'text-[#15803d]'" class="text-xs font-bold block mt-1">{{ $settings['principal_title'] }}</span>
+                <div class="flex justify-between items-center border-b border-outline-variant pb-sm">
+                    <h2 class="text-lg md:text-xl font-bold font-headline text-on-surface dark:text-inverse-on-surface">Menu Utama Portal</h2>
+                    <span class="text-xs font-bold text-primary dark:text-inverse-primary">8 Fitur Utama</span>
                 </div>
 
-                <!-- Sambutan Singkat & 2 Tombol Aksi -->
-                <div class="lg:col-span-8 space-y-4">
-                    <span class="text-4xl text-[#15803d] font-serif leading-none block">“</span>
-                    <p :class="darkMode ? 'text-slate-200' : 'text-slate-800'" class="text-sm sm:text-base font-bold leading-relaxed italic -mt-4">
-                        {{ $settings['principal_greeting'] }}
-                    </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-md">
                     
-                    <!-- 2 Tombol Aksi Sambutan & Visi Misi -->
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <a href="{{ route('school.profil') }}" class="bg-robbani-green px-6 py-3 rounded-xl font-black text-xs shadow-md hover:scale-105 transition-transform">
-                            1. Baca Sambutan Lengkap ➔
-                        </a>
-                        <a href="{{ route('school.profil') }}#visi-misi" class="bg-robbani-gold px-6 py-3 rounded-xl font-black text-xs shadow-md hover:scale-105 transition-transform">
-                            2. Visi & Misi Yayasan ➔
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- 5. ARTIKEL & BERITA GRID                   -->
-    <!-- ========================================== -->
-    <section id="artikel-berita" class="py-8 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <span :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] text-[#f59e0b]' : 'bg-emerald-100 border-emerald-300 text-[#15803d]'" class="px-3.5 py-1 rounded-full border font-black text-xs uppercase tracking-wider">KABAR KAMPUS</span>
-                <h2 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-2xl sm:text-3xl font-black mt-1.5">Artikel & Berita Terbaru</h2>
-            </div>
-            <a href="{{ route('school.berita') }}" :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-black hover:underline">
-                Lihat Seluruh Artikel ➔
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            @foreach($newsList as $news)
-            <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-md'" class="rounded-3xl border overflow-hidden flex flex-col justify-between group">
-                <div>
-                    <div class="relative h-44 bg-slate-950 overflow-hidden">
-                        <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='/images/logo-robbani-new.png'; this.className='w-full h-full object-contain p-4 bg-white';">
-                        <span class="bg-robbani-green absolute top-3 left-3 px-2.5 py-1 rounded-lg font-black text-[10px] uppercase shadow-md">
-                            {{ $news['category'] }}
-                        </span>
-                    </div>
-                    <div class="p-4 space-y-2">
-                        <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">📅 {{ $news['date'] }}</span>
-                        <h3 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-sm font-black line-clamp-2 group-hover:text-[#15803d] transition-colors leading-snug">
-                            {{ $news['title'] }}
-                        </h3>
-                        <p :class="darkMode ? 'text-slate-300' : 'text-slate-700'" class="text-xs line-clamp-3 leading-relaxed font-medium">
-                            {{ $news['excerpt'] }}
-                        </p>
-                    </div>
-                </div>
-                <div class="p-4 pt-0">
-                    <a href="{{ route('school.berita.show', $news['slug'] ?? \Illuminate\Support\Str::slug($news['title'])) }}" :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="inline-flex items-center gap-1 text-xs font-black hover:underline">
-                        <span>Baca Artikel Selengkapnya</span>
-                        <span>➔</span>
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="{{ route('school.profil') }}">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">person</span>
+                        </div>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">Profil</span>
                     </a>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </section>
 
-    <!-- ========================================== -->
-    <!-- 6. VIDEO PROFIL & DOKUMENTASI              -->
-    <!-- ========================================== -->
-    <section id="video-profil" class="py-8 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
-            <div>
-                <span :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] text-[#f59e0b]' : 'bg-emerald-100 border-emerald-300 text-[#15803d]'" class="px-3.5 py-1 rounded-full border font-black text-xs uppercase tracking-wider">GALERI VIDEO</span>
-                <h2 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-2xl sm:text-3xl font-black mt-1.5">Video Profil & Dokumentasi Kegiatan</h2>
-            </div>
-            <span :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-bold">SIT Robbani Channel</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            @foreach($videoList as $vid)
-            <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-md'" class="rounded-3xl border overflow-hidden space-y-3 group">
-                <div class="relative h-48 bg-slate-950 overflow-hidden flex items-center justify-center">
-                    <img src="{{ $vid['thumbnail'] }}" alt="{{ $vid['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80">
-                    <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center">
-                        <div class="bg-robbani-gold w-14 h-14 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                            <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="#unit-sekolah">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-secondary-container group-hover:bg-secondary-container group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">domain</span>
                         </div>
-                    </div>
-                    <span class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-slate-950/80 text-white font-mono text-[10px] font-bold">
-                        {{ $vid['duration'] }}
-                    </span>
-                    <span class="bg-robbani-green absolute top-3 left-3 px-2.5 py-1 rounded-lg font-black text-[10px] uppercase">
-                        {{ $vid['category'] }}
-                    </span>
-                </div>
-                <div class="p-4 pt-0 space-y-1.5">
-                    <h3 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-sm font-black group-hover:text-[#15803d] transition-colors leading-snug">
-                        {{ $vid['title'] }}
-                    </h3>
-                    <p :class="darkMode ? 'text-slate-300' : 'text-slate-700'" class="text-xs font-medium leading-relaxed">
-                        {{ $vid['desc'] }}
-                    </p>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </section>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">4 Unit</span>
+                    </a>
 
-    <!-- ========================================== -->
-    <!-- 7. PENGUMUMAN & AGENDA (SEJAJAR / 2-KOLOM) -->
-    <!-- ========================================== -->
-    <section id="agenda-pengumuman" class="py-8 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            <!-- LEFT COLUMN: PAPAN PENGUMUMAN RESMI -->
-            <div class="space-y-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <span :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] text-[#f59e0b]' : 'bg-emerald-100 border-emerald-300 text-[#15803d]'" class="px-3.5 py-1 rounded-full border font-black text-xs uppercase tracking-wider">ANNOUNCEMENT</span>
-                        <h2 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xl sm:text-2xl font-black mt-1">Papan Pengumuman</h2>
-                    </div>
-                    <a href="{{ route('school.berita') }}" :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-black hover:underline">Lihat Semua ➔</a>
-                </div>
-
-                <div class="space-y-3">
-                    @foreach($announcementList as $ann)
-                    <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-sm'" class="p-4 sm:p-5 rounded-3xl border space-y-2 group">
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="bg-robbani-green px-2.5 py-0.5 rounded-lg font-black text-[10px] uppercase">
-                                {{ $ann['category'] }}
-                            </span>
-                            <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">📅 {{ $ann['date'] }}</span>
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="{{ route('school.berita') }}">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">newspaper</span>
                         </div>
-                        <h3 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xs sm:text-sm font-black group-hover:text-[#15803d] transition-colors leading-snug">
-                            {{ $ann['title'] }}
-                        </h3>
-                        <p :class="darkMode ? 'text-slate-300' : 'text-slate-700'" class="text-xs font-medium leading-relaxed">
-                            {{ $ann['summary'] }}
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">Berita</span>
+                    </a>
+
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="{{ route('school.artikel') }}">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-secondary-container group-hover:bg-secondary-container group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">article</span>
+                        </div>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">Artikel</span>
+                    </a>
+
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="{{ route('school.fasilitas') }}">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">home_work</span>
+                        </div>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">Fasilitas</span>
+                    </a>
+
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="{{ route('school.espp') }}">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-secondary-container group-hover:bg-secondary-container group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">payments</span>
+                        </div>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">E-SPP</span>
+                    </a>
+
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="{{ route('school.ppdb') }}">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">how_to_reg</span>
+                        </div>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">PPDB</span>
+                    </a>
+
+                    <a class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col items-center justify-center gap-sm hover:border-primary hover:shadow-md transition-all group" href="#layanan-terpadu">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-secondary-container group-hover:bg-secondary-container group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[36px]" data-weight="fill">support_agent</span>
+                        </div>
+                        <span class="text-xs font-bold text-on-surface-variant group-hover:text-primary">Layanan</span>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- WELCOME SECTION (SAMBUTAN KETUA YAYASAN)   -->
+        <!-- ========================================== -->
+        <section class="py-xl">
+            <div class="max-w-container-max mx-auto px-gutter">
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-[32px] p-lg md:p-xl shadow-sm flex flex-col md:flex-row gap-xl items-center relative overflow-hidden">
+                    
+                    <div class="flex-shrink-0 flex flex-col items-center z-10 w-full md:w-1/3 text-center">
+                        <div class="w-40 h-40 rounded-full border-[5px] border-primary p-1 mb-md shadow-lg">
+                            <img class="w-full h-full object-cover rounded-full bg-white" src="/images/logo-robbani-official.png" alt="Ketua Yayasan Generasi Robbani" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                        </div>
+                        <span class="bg-primary text-white text-[10px] font-bold uppercase px-sm py-xs rounded-full mb-xs">Ketua Yayasan</span>
+                        <h3 class="text-lg font-bold font-headline text-on-surface mb-xs">{{ $settings['principal_name'] }}</h3>
+                        <p class="text-xs font-semibold text-primary max-w-[220px]">{{ $settings['principal_title'] }}</p>
+                    </div>
+
+                    <div class="flex-grow z-10 w-full md:w-2/3 border-t md:border-t-0 md:border-l border-outline-variant pt-lg md:pt-0 md:pl-lg">
+                        <span class="material-symbols-outlined text-[48px] text-primary/40 mb-sm block">format_quote</span>
+                        <p class="text-base md:text-lg font-semibold italic text-on-surface mb-lg leading-relaxed">
+                            "{{ $settings['principal_greeting'] }}"
                         </p>
-                        <div class="pt-1">
-                            <a href="{{ $ann['link'] }}" :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-black hover:underline inline-flex items-center gap-1">
-                                <span>Detail Pengumuman</span>
-                                <span>➔</span>
+                        
+                        <div class="flex flex-wrap gap-md">
+                            <a class="px-md py-sm bg-primary text-white font-bold text-xs rounded-full hover:bg-primary/90 transition-colors flex items-center gap-xs shadow-sm" href="{{ route('school.profil') }}">
+                                1. Baca Sambutan Lengkap <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </a>
+                            <a class="px-md py-sm bg-secondary-container text-white font-bold text-xs rounded-full hover:opacity-90 transition-opacity flex items-center gap-xs shadow-sm" href="{{ route('school.profil') }}#visi-misi">
+                                2. Visi &amp; Misi Yayasan <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </a>
                         </div>
                     </div>
-                    @endforeach
+
                 </div>
             </div>
+        </section>
 
-            <!-- RIGHT COLUMN: AGENDA KEGIATAN -->
-            <div class="space-y-5">
-                <div class="flex items-center justify-between">
+        <!-- ========================================== -->
+        <!-- UNIT PENDIDIKAN (KB/TKIT, SDIT, SMPIT, SMAIT)-->
+        <!-- ========================================== -->
+        <section id="unit-sekolah" class="py-xl bg-surface dark:bg-inverse-surface/40">
+            <div class="max-w-container-max mx-auto px-gutter space-y-lg">
+                
+                <div class="flex justify-between items-end">
                     <div>
-                        <span :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] text-[#f59e0b]' : 'bg-emerald-100 border-emerald-300 text-[#15803d]'" class="px-3.5 py-1 rounded-full border font-black text-xs uppercase tracking-wider">JADWAL & EVENT</span>
-                        <h2 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xl sm:text-2xl font-black mt-1">Agenda Kegiatan</h2>
+                        <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase mb-xs">Jenjang Pendidikan</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface">Unit Pendidikan</h2>
                     </div>
-                    <span :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-bold">2026/2027</span>
                 </div>
 
-                <div class="space-y-3">
-                    @foreach($agendaList as $agenda)
-                    <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-sm'" class="p-4 rounded-3xl border flex items-start gap-4 group hover:border-[#15803d] transition-all">
-                        <div class="bg-robbani-green shrink-0 w-14 h-14 rounded-2xl flex flex-col items-center justify-center font-black shadow-sm">
-                            <span class="text-lg leading-none">{{ $agenda['date_day'] }}</span>
-                            <span class="text-[9px] uppercase tracking-wider leading-none mt-1">{{ $agenda['date_month'] }}</span>
-                        </div>
-                        <div class="space-y-1 flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <span :class="darkMode ? 'text-[#f59e0b] border-[#f59e0b]/30' : 'text-[#15803d] border-[#15803d]/30'" class="px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 font-black text-[9px] uppercase border">
-                                    {{ $agenda['category'] }}
-                                </span>
-                                <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 shrink-0">🕒 {{ $agenda['time'] }}</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+                    
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md text-center shadow-sm hover:shadow-md transition-shadow group flex flex-col justify-between">
+                        <div>
+                            <div class="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-md group-hover:bg-primary/20 transition-colors">
+                                <span class="material-symbols-outlined text-[40px] text-primary">child_care</span>
                             </div>
-                            <h3 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xs sm:text-sm font-black group-hover:text-[#15803d] transition-colors leading-snug">
-                                {{ $agenda['title'] }}
-                            </h3>
-                            <p :class="darkMode ? 'text-slate-300' : 'text-slate-700'" class="text-[11px] font-medium truncate">
-                                📍 {{ $agenda['location'] }}
-                            </p>
+                            <h3 class="text-lg font-bold font-headline text-on-surface mb-xs">KB/TKIT Robbani</h3>
+                            <p class="text-xs text-on-surface-variant mb-md leading-relaxed">Kelompok Bermain &amp; Taman Kanak-Kanak Islam Terpadu berakreditasi unggul.</p>
+                        </div>
+                        <a class="inline-flex items-center justify-center px-md py-sm border border-primary text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-colors text-xs w-full" href="{{ route('school.ppdb') }}">Selengkapnya</a>
+                    </div>
+
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md text-center shadow-sm hover:shadow-md transition-shadow group flex flex-col justify-between">
+                        <div>
+                            <div class="w-20 h-20 mx-auto bg-secondary-container/10 rounded-full flex items-center justify-center mb-md group-hover:bg-secondary-container/20 transition-colors">
+                                <span class="material-symbols-outlined text-[40px] text-secondary-container">school</span>
+                            </div>
+                            <h3 class="text-lg font-bold font-headline text-on-surface mb-xs">SDIT Robbani</h3>
+                            <p class="text-xs text-on-surface-variant mb-md leading-relaxed">Sekolah Dasar Islam Terpadu berakreditasi A dengan program Tahfidz Al-Qur'an.</p>
+                        </div>
+                        <a class="inline-flex items-center justify-center px-md py-sm border border-secondary-container text-secondary-container font-bold rounded-full hover:bg-secondary-container hover:text-white transition-colors text-xs w-full" href="{{ route('school.ppdb') }}">Selengkapnya</a>
+                    </div>
+
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md text-center shadow-sm hover:shadow-md transition-shadow group flex flex-col justify-between">
+                        <div>
+                            <div class="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-md group-hover:bg-primary/20 transition-colors">
+                                <span class="material-symbols-outlined text-[40px] text-primary">menu_book</span>
+                            </div>
+                            <h3 class="text-lg font-bold font-headline text-on-surface mb-xs">SMPIT Robbani</h3>
+                            <p class="text-xs text-on-surface-variant mb-md leading-relaxed">Sekolah Menengah Pertama Islam Terpadu berasrama (boarding) / fullday.</p>
+                        </div>
+                        <a class="inline-flex items-center justify-center px-md py-sm border border-primary text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-colors text-xs w-full" href="{{ route('school.ppdb') }}">Selengkapnya</a>
+                    </div>
+
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md text-center shadow-sm hover:shadow-md transition-shadow group flex flex-col justify-between">
+                        <div>
+                            <div class="w-20 h-20 mx-auto bg-secondary-container/10 rounded-full flex items-center justify-center mb-md group-hover:bg-secondary-container/20 transition-colors">
+                                <span class="material-symbols-outlined text-[40px] text-secondary-container">account_balance</span>
+                            </div>
+                            <h3 class="text-lg font-bold font-headline text-on-surface mb-xs">SMAIT Robbani</h3>
+                            <p class="text-xs text-on-surface-variant mb-md leading-relaxed">Sekolah Menengah Atas Islam Terpadu dengan program unggulan sains & IT.</p>
+                        </div>
+                        <a class="inline-flex items-center justify-center px-md py-sm border border-secondary-container text-secondary-container font-bold rounded-full hover:bg-secondary-container hover:text-white transition-colors text-xs w-full" href="{{ route('school.ppdb') }}">Selengkapnya</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ARTIKEL & BERITA                           -->
+        <!-- ========================================== -->
+        <section id="artikel-berita" class="py-xl bg-surface dark:bg-inverse-surface/40">
+            <div class="max-w-container-max mx-auto px-gutter space-y-lg">
+                
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase mb-xs">Kabar Kampus</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface">Artikel &amp; Berita Terbaru</h2>
+                    </div>
+                    <a class="text-primary font-bold text-xs hover:underline flex items-center gap-xs" href="{{ route('school.berita') }}">
+                        Lihat Seluruh Artikel <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+                    
+                    @if(count($newsList) > 0)
+                    @php $topNews = $newsList[0]; @endphp
+                    <div class="lg:col-span-7">
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden shadow-sm group cursor-pointer hover:shadow-lg transition-all h-full flex flex-col">
+                            <div class="relative h-72 sm:h-80 overflow-hidden bg-slate-900">
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ $topNews['image'] }}" alt="{{ $topNews['title'] }}" onerror="this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-6 bg-white';">
+                                <span class="absolute top-lg left-lg bg-primary text-white px-md py-xs rounded-full text-xs font-bold shadow-md">HEADLINE NEWS</span>
+                            </div>
+                            <div class="p-lg flex-grow flex flex-col justify-between space-y-md">
+                                <div class="space-y-sm">
+                                    <div class="flex items-center gap-sm text-xs text-on-surface-variant font-medium">
+                                        <span class="material-symbols-outlined text-[18px]">calendar_today</span> {{ $topNews['date'] }}
+                                    </div>
+                                    <h3 class="text-lg md:text-xl font-bold font-headline text-on-surface group-hover:text-primary transition-colors leading-snug">
+                                        {{ $topNews['title'] }}
+                                    </h3>
+                                    <p class="text-xs md:text-sm text-on-surface-variant leading-relaxed line-clamp-3">
+                                        {{ $topNews['excerpt'] }}
+                                    </p>
+                                </div>
+                                <a href="{{ route('school.berita.show', $topNews['slug'] ?? \Illuminate\Support\Str::slug($topNews['title'])) }}" class="text-primary font-bold text-xs flex items-center gap-xs group-hover:underline">
+                                    Baca Selengkapnya <span class="material-symbols-outlined">arrow_forward</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="lg:col-span-5 space-y-md">
+                        @foreach(array_slice($newsList, 1, 4) as $sideNews)
+                        <div class="flex items-center gap-md p-sm bg-surface-container-lowest rounded-xl border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group">
+                            <img class="w-20 h-20 object-cover rounded-lg flex-shrink-0 group-hover:opacity-90 transition-opacity bg-slate-900" src="{{ $sideNews['image'] }}" alt="{{ $sideNews['title'] }}" onerror="this.src='/images/logo-robbani-official.png'; this.className='w-20 h-20 object-contain p-2 bg-white rounded-lg';">
+                            <div class="flex-grow space-y-xs min-w-0">
+                                <div class="text-[10px] text-on-surface-variant flex items-center gap-xs font-semibold">
+                                    <span class="material-symbols-outlined text-[12px]">calendar_today</span> {{ $sideNews['date'] }}
+                                </div>
+                                <h4 class="text-xs font-bold text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-snug">
+                                    {{ $sideNews['title'] }}
+                                </h4>
+                                <a href="{{ route('school.berita.show', $sideNews['slug'] ?? \Illuminate\Support\Str::slug($sideNews['title'])) }}" class="text-[11px] font-bold text-primary hover:underline">
+                                    Baca ➔
+                                </a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIDEO PROFIL & DOKUMENTASI KEGIATAN        -->
+        <!-- ========================================== -->
+        <section id="video-profil" class="py-xl">
+            <div class="max-w-container-max mx-auto px-gutter space-y-lg">
+                
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase mb-xs">Galeri Video</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface">Video Profil &amp; Dokumentasi Kegiatan</h2>
+                    </div>
+                    <a class="text-primary font-bold text-xs hover:underline flex items-center gap-xs" href="#">
+                        SIT Robbani Channel <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+                    @foreach($videoList as $vid)
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col group cursor-pointer hover:shadow-md transition-shadow">
+                        <div class="relative h-48 overflow-hidden flex items-center justify-center bg-slate-950">
+                            <img alt="{{ $vid['title'] }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80" src="{{ $vid['thumbnail'] }}">
+                            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+                            <div class="relative z-10 w-14 h-14 bg-secondary-container rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-[32px]" data-weight="fill">play_arrow</span>
+                            </div>
+                            <span class="absolute top-sm left-sm bg-primary text-white text-[10px] font-bold px-2 py-1 rounded z-10 uppercase">{{ $vid['category'] }}</span>
+                            <span class="absolute bottom-sm right-sm bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded z-10">{{ $vid['duration'] }}</span>
+                        </div>
+                        <div class="p-md flex-grow flex flex-col space-y-xs">
+                            <h3 class="text-sm font-bold font-headline text-on-surface line-clamp-2 leading-snug">{{ $vid['title'] }}</h3>
+                            <p class="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">{{ $vid['desc'] }}</p>
                         </div>
                     </div>
                     @endforeach
                 </div>
+
             </div>
+        </section>
 
-        </div>
-    </section>
+        <!-- ========================================== -->
+        <!-- PAPAN PENGUMUMAN & AGENDA KEGIATAN         -->
+        <!-- ========================================== -->
+        <section id="agenda-pengumuman" class="py-xl bg-surface dark:bg-inverse-surface/40">
+            <div class="max-w-container-max mx-auto px-gutter">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+                    
+                    <!-- Papan Pengumuman -->
+                    <div class="space-y-lg">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase mb-xs">Announcement</span>
+                                <h2 class="text-xl md:text-2xl font-extrabold font-headline text-on-surface">Papan Pengumuman</h2>
+                            </div>
+                            <a class="text-primary font-bold text-xs hover:underline flex items-center gap-xs" href="{{ route('school.berita') }}">
+                                Lihat Semua <span class="material-symbols-outlined text-[16px]" data-weight="fill">arrow_forward</span>
+                            </a>
+                        </div>
 
-    <!-- ========================================== -->
-    <!-- 8. GALERI FOTO FASILITAS & KEGIATAN       -->
-    <!-- ========================================== -->
-    <section id="galeri-sekolah" class="py-8 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <span :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] text-[#f59e0b]' : 'bg-emerald-100 border-emerald-300 text-[#15803d]'" class="px-3.5 py-1 rounded-full border font-black text-xs uppercase tracking-wider">DOKUMENTASI FOTO</span>
-                <h2 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-2xl sm:text-3xl font-black mt-1.5">Galeri Sekolah & Sarana Prasarana</h2>
+                        <div class="space-y-md">
+                            @foreach($announcementList as $ann)
+                            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-shadow space-y-xs">
+                                <div class="flex justify-between items-center">
+                                    <span class="bg-secondary-container/10 text-secondary-container text-[10px] font-bold uppercase px-2 py-1 rounded">{{ $ann['category'] }}</span>
+                                    <span class="text-[10px] text-on-surface-variant flex items-center gap-xs font-semibold"><span class="material-symbols-outlined text-[12px]">calendar_today</span> {{ $ann['date'] }}</span>
+                                </div>
+                                <h3 class="text-sm font-bold text-on-surface leading-snug">{{ $ann['title'] }}</h3>
+                                <p class="text-xs text-on-surface-variant leading-relaxed">{{ $ann['summary'] }}</p>
+                                <a class="text-primary text-xs font-bold hover:underline flex items-center gap-xs pt-1" href="{{ $ann['link'] }}">
+                                    Detail Pengumuman <span class="material-symbols-outlined text-[14px]" data-weight="fill">arrow_forward</span>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Agenda Kegiatan -->
+                    <div class="space-y-lg">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase mb-xs">Jadwal &amp; Event</span>
+                                <h2 class="text-xl md:text-2xl font-extrabold font-headline text-on-surface">Agenda Kegiatan</h2>
+                            </div>
+                            <span class="text-primary font-bold text-xs">2026/2027</span>
+                        </div>
+
+                        <div class="space-y-md">
+                            @foreach($agendaList as $agenda)
+                            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm flex gap-md items-start hover:shadow-md transition-shadow">
+                                <div class="flex flex-col items-center justify-center bg-primary text-white w-12 h-12 rounded-lg flex-shrink-0 font-bold">
+                                    <span class="text-base leading-none">{{ $agenda['date_day'] }}</span>
+                                    <span class="text-[9px] uppercase tracking-wider leading-none mt-1">{{ $agenda['date_month'] }}</span>
+                                </div>
+                                <div class="flex-grow space-y-xs min-w-0">
+                                    <div class="flex justify-between items-start">
+                                        <h3 class="text-xs md:text-sm font-bold text-on-surface leading-snug truncate">{{ $agenda['title'] }}</h3>
+                                        <span class="text-[10px] text-on-surface-variant flex items-center gap-xs whitespace-nowrap shrink-0 ml-2 font-semibold">
+                                            <span class="material-symbols-outlined text-[12px]">schedule</span> {{ $agenda['time'] }}
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-on-surface-variant flex items-center gap-xs truncate">
+                                        <span class="material-symbols-outlined text-[14px]">location_on</span> {{ $agenda['location'] }}
+                                    </p>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <a href="{{ route('school.fasilitas') }}" :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-xs font-black hover:underline">Lihat Semua Fasilitas ➔</a>
-        </div>
+        </section>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-            @foreach($facilityList as $fac)
-            <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-md'" class="p-4 rounded-3xl border text-center space-y-2 group hover:border-[#15803d] transition-all">
-                <div class="text-3xl group-hover:scale-110 transition-transform">{{ $fac['icon'] }}</div>
-                <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xs font-black line-clamp-1">{{ $fac['title'] }}</h4>
-                <p :class="darkMode ? 'text-slate-400' : 'text-slate-600'" class="text-[10px] line-clamp-2 leading-snug">{{ $fac['desc'] }}</p>
-            </div>
-            @endforeach
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- 9. TESTIMONI WALI MURID & ALUMNI           -->
-    <!-- ========================================== -->
-    <section id="testimonial-wall" class="py-8 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
-        <div class="text-center max-w-3xl mx-auto space-y-2">
-            <span :class="darkMode ? 'bg-[#0e2412] border-[#1d4724] text-[#f59e0b]' : 'bg-emerald-100 border-emerald-300 text-[#15803d]'" class="px-3.5 py-1 rounded-full border font-black text-xs uppercase tracking-wider">WALL OF TESTIMONIALS</span>
-            <h2 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-2xl sm:text-3xl font-black">Kesan & Testimoni Orang Tua Murid</h2>
-            <p :class="darkMode ? 'text-slate-400' : 'text-slate-700'" class="text-xs sm:text-sm font-medium">Kepercayaan dan apresiasi wali murid & alumni terhadap pendidikan SIT Robbani Ogan Ilir.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            @foreach($testimonialList as $testi)
-            <div :class="darkMode ? 'bg-[#0e2412] border-[#1d4724]' : 'bg-white border-slate-300 shadow-md'" class="p-5 rounded-3xl border flex flex-col justify-between space-y-4 hover:shadow-xl transition-all">
-                <p :class="darkMode ? 'text-slate-200' : 'text-slate-800'" class="text-xs italic leading-relaxed font-bold">
-                    "{{ $testi['text'] }}"
-                </p>
-                <div :class="darkMode ? 'border-[#1d4724]' : 'border-slate-200'" class="flex items-center gap-3 pt-3 border-t">
-                    <img src="{{ $testi['avatar'] }}" alt="{{ $testi['name'] }}" class="w-10 h-10 rounded-full object-cover border-2 border-[#15803d]" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/cropped-favicon-192x192.png';">
+        <!-- ========================================== -->
+        <!-- GALERI FOTO FASILITAS                      -->
+        <!-- ========================================== -->
+        <section id="galeri-sekolah" class="py-xl">
+            <div class="max-w-container-max mx-auto px-gutter space-y-lg">
+                
+                <div class="flex justify-between items-end">
                     <div>
-                        <h4 :class="darkMode ? 'text-white' : 'text-slate-900'" class="text-xs font-black leading-tight">{{ $testi['name'] }}</h4>
-                        <span :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="text-[11px] font-bold block leading-tight">{{ $testi['title'] }}</span>
+                        <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase mb-xs">Dokumentasi Foto</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface">Galeri Sekolah &amp; Sarana Prasarana</h2>
+                    </div>
+                    <a class="text-primary font-bold text-xs hover:underline flex items-center gap-xs" href="{{ route('school.fasilitas') }}">
+                        Lihat Semua Fasilitas <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-md">
+                    @foreach($facilityList as $fac)
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md text-center shadow-sm space-y-xs group hover:border-primary transition-all">
+                        <div class="text-3xl group-hover:scale-110 transition-transform">{{ $fac['icon'] }}</div>
+                        <h4 class="text-xs font-bold text-on-surface truncate">{{ $fac['title'] }}</h4>
+                        <p class="text-[10px] text-on-surface-variant line-clamp-2 leading-snug">{{ $fac['desc'] }}</p>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TESTIMONIAL WALL                           -->
+        <!-- ========================================== -->
+        <section id="testimonial-wall" class="py-xl bg-surface dark:bg-inverse-surface/40">
+            <div class="max-w-container-max mx-auto px-gutter space-y-lg text-center">
+                
+                <div class="max-w-2xl mx-auto space-y-xs">
+                    <span class="inline-block bg-primary/10 text-primary px-sm py-xs rounded-full text-[10px] font-bold uppercase">Wall of Testimonials</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface">Kesan &amp; Testimoni Orang Tua Murid</h2>
+                    <p class="text-xs md:text-sm text-on-surface-variant">Kepercayaan dan apresiasi wali murid &amp; alumni terhadap pendidikan SIT Robbani Ogan Ilir.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-md text-left">
+                    @foreach($testimonialList as $testi)
+                    <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-2xl shadow-sm flex flex-col justify-between space-y-md">
+                        <p class="text-xs italic text-on-surface-variant leading-relaxed font-medium">"{{ $testi['text'] }}"</p>
+                        <div class="flex items-center gap-sm pt-sm border-t border-outline-variant">
+                            <img src="{{ $testi['avatar'] }}" alt="{{ $testi['name'] }}" class="w-10 h-10 rounded-full object-cover border border-primary" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/cropped-favicon-192x192.png';">
+                            <div>
+                                <h4 class="text-xs font-bold text-on-surface leading-tight">{{ $testi['name'] }}</h4>
+                                <span class="text-[10px] text-primary font-semibold block leading-tight">{{ $testi['title'] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- FOOTER WITH BRANDING CREDIT                -->
+    <!-- ========================================== -->
+    <footer class="bg-[#111c2d] text-white py-xl border-t border-white/10 text-xs">
+        <div class="max-w-container-max mx-auto px-gutter space-y-lg">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-md pb-lg border-b border-white/10">
+                <div class="flex items-center gap-md">
+                    <img src="/images/logo-robbani-official.png" class="h-10 p-1 bg-white rounded-lg object-contain" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                    <div>
+                        <span class="font-bold text-sm block text-white font-headline">YAYASAN GENERASI ROBBANI</span>
+                        <span class="text-[10px] text-secondary-container font-semibold block uppercase">SUMATERA SELATAN (SIT ROBBANI)</span>
                     </div>
                 </div>
-            </div>
-            @endforeach
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- FLOATING MOBILE BOTTOM NAVIGATION BAR      -->
-    <!-- ========================================== -->
-    <div :class="darkMode ? 'bg-[#061208]/95 border-[#1d4724]' : 'bg-white/95 border-slate-300 shadow-2xl'" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl border-t px-4 py-2">
-        <div class="max-w-md mx-auto flex items-center justify-between relative">
-            
-            <a href="{{ route('home') }}" :class="darkMode ? 'text-[#f59e0b]' : 'text-[#15803d]'" class="flex flex-col items-center gap-1">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                <span class="text-[10px] font-bold">Home</span>
-            </a>
-
-            <a href="{{ route('school.profil') }}" :class="darkMode ? 'text-slate-400' : 'text-slate-700'" class="flex flex-col items-center gap-1 hover:text-[#15803d]">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                <span class="text-[10px] font-bold">Profil</span>
-            </a>
-
-            <!-- Raised Center Action Button (PPDB) -->
-            <div class="-mt-6">
-                <a href="{{ route('school.ppdb') }}" class="bg-robbani-gold w-14 h-14 rounded-full shadow-lg flex items-center justify-center border-4 border-white dark:border-slate-900 hover:scale-110 transition-transform">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                </a>
-            </div>
-
-            <a href="{{ route('school.berita') }}" :class="darkMode ? 'text-slate-400' : 'text-slate-700'" class="flex flex-col items-center gap-1 hover:text-[#15803d]">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                <span class="text-[10px] font-bold">Berita</span>
-            </a>
-
-            <a href="{{ route('school.espp') }}" :class="darkMode ? 'text-slate-400' : 'text-slate-700'" class="flex flex-col items-center gap-1 hover:text-[#15803d]">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                <span class="text-[10px] font-bold">E-SPP</span>
-            </a>
-
-        </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 10. FOOTER WITH BRANDING CREDIT            -->
-    <!-- ========================================== -->
-    <footer :class="darkMode ? 'bg-[#040d06] border-[#1d4724] text-slate-400' : 'bg-slate-950 border-slate-800 text-slate-200'" class="text-xs py-10 border-t">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-6 text-center">
-            
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-white/10">
-                <div class="flex items-center gap-3 text-left">
-                    <img src="/images/logo-robbani-new.png" class="h-10 p-1 bg-white rounded-xl" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
-                    <div>
-                        <span class="font-black text-xs block text-white">YAYASAN GENERASI ROBBANI</span>
-                        <span class="text-[10px] text-amber-400 font-bold block">SUMATERA SELATAN (SIT ROBBANI)</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 font-bold text-xs">
-                    <a href="{{ route('home') }}" class="hover:text-[#15803d]">Beranda</a>
-                    <a href="{{ route('school.profil') }}" class="hover:text-[#15803d]">Profil</a>
-                    <a href="{{ route('school.ppdb') }}" class="hover:text-[#15803d]">PPDB Online</a>
-                    <a href="{{ route('school.espp') }}" class="hover:text-[#15803d]">E-SPP</a>
-                    <a href="{{ route('admin.dashboard') }}" class="text-emerald-400 hover:underline">Portal Admin</a>
+                
+                <div class="flex flex-wrap gap-md font-semibold text-xs text-white/80">
+                    <a href="{{ route('home') }}" class="hover:text-secondary-container transition-colors">Beranda</a>
+                    <a href="{{ route('school.profil') }}" class="hover:text-secondary-container transition-colors">Profil</a>
+                    <a href="{{ route('school.ppdb') }}" class="hover:text-secondary-container transition-colors">PPDB Online</a>
+                    <a href="{{ route('school.espp') }}" class="hover:text-secondary-container transition-colors">E-SPP ARSI</a>
+                    <a href="{{ route('admin.dashboard') }}" class="text-secondary-container hover:underline">Portal Admin</a>
                 </div>
             </div>
 
-            <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
-            
-            <div class="pt-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-bold text-xs">
-                <span class="text-emerald-400">SIT Robbani Smart Educational System</span>
-                <a href="https://berandadigital.net" target="_blank" class="text-amber-400 hover:underline flex items-center justify-center gap-1">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-sm text-center md:text-left text-white/70">
+                <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
+                <a href="https://berandadigital.net" target="_blank" class="text-secondary-container hover:underline font-bold flex items-center justify-center gap-xs">
                     <span>Powered by Beranda Teknologi Digital</span>
-                    <span>➔</span>
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </a>
             </div>
 

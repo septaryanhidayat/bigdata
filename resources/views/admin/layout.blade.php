@@ -161,37 +161,45 @@
             <!-- Navigation Links (No inner scrollbar) -->
             <nav class="space-y-1 text-xs font-bold">
                 
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-between px-3.5 py-3 rounded-xl transition-all {{ request()->routeIs('admin.dashboard') ? 'nav-link-active' : 'text-slate-400 hover:bg-slate-800/80 hover:text-white' }}">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-between px-3.5 py-3 rounded-xl transition-all {{ request()->routeIs('admin.dashboard') ? 'nav-link-active' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
                     <div class="flex items-center gap-3">
-                        <span class="text-base">📊</span> <span>Dashboard Overview</span>
+                        <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm">📊</span> 
+                        <span>Dashboard Overview</span>
                     </div>
-                    <span class="w-2 h-2 rounded-full bg-white"></span>
+                    <span class="w-2 h-2 rounded-full bg-orange-400"></span>
                 </a>
 
                 <!-- Nav Group: Modul 1 Master Data -->
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between">
-                    <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest block">Modul 1: Master Data</span>
+                    <span class="text-[10px] text-amber-400 font-black uppercase tracking-widest block">Modul 1: Master Data</span>
                 </div>
-                <a href="{{ route('admin.master.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.index') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📂</span> <span>Master Data Hub</span>
+                <a href="{{ route('admin.master.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.index') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm">📂</span> 
+                    <span>Master Data Hub</span>
                 </a>
-                <a href="{{ route('admin.master.schools') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.schools') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🏛️</span> <span>Multi-Sekolah & Profil</span>
+                <a href="{{ route('admin.master.schools') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.schools') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm">🏛️</span> 
+                    <span>Multi-Sekolah & Profil</span>
                 </a>
-                <a href="{{ route('admin.master.curriculums') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.curriculums') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📜</span> <span>Kurikulum & Semester</span>
+                <a href="{{ route('admin.master.curriculums') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.curriculums') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm">📜</span> 
+                    <span>Kurikulum & Semester</span>
                 </a>
-                <a href="{{ route('admin.master.classrooms') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.classrooms') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🏫</span> <span>Tingkat & Rombel</span>
+                <a href="{{ route('admin.master.classrooms') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.classrooms') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm">🏫</span> 
+                    <span>Tingkat & Rombel</span>
                 </a>
-                <a href="{{ route('admin.master.students') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.students') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🎓</span> <span>Data Siswa & RFID</span>
+                <a href="{{ route('admin.master.students') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.students') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm">🎓</span> 
+                    <span>Data Siswa & RFID</span>
                 </a>
-                <a href="{{ route('admin.master.teachers') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.teachers') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>👨‍🏫</span> <span>Guru & Karyawan</span>
+                <a href="{{ route('admin.master.teachers') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.teachers') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm">👨‍🏫</span> 
+                    <span>Guru & Karyawan</span>
                 </a>
-                <a href="{{ route('admin.master.references') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.references') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📑</span> <span>Referensi Mapel & Ruang</span>
+                <a href="{{ route('admin.master.references') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.references') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm">📑</span> 
+                    <span>Referensi Mapel & Ruang</span>
                 </a>
 
                 <!-- Nav Group: Modul 2 & 3 Akademik & Presensi -->
