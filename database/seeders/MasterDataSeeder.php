@@ -27,15 +27,28 @@ class MasterDataSeeder extends Seeder
     public function run(): void
     {
         // 1. Schools
+        $tkit = School::updateOrCreate(
+            ['code' => 'TKIT'],
+            [
+                'name' => 'KB / TKIT Robbani',
+                'npsn' => '20198031',
+                'principal_name' => 'Ustadzah Eliyana, S.Pd',
+                'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'phone' => '0811747472',
+                'email' => 'tk@sitrobbani.sch.id',
+                'theme_color' => '#f59e0b',
+            ]
+        );
+
         $sdit = School::updateOrCreate(
             ['code' => 'SDIT'],
             [
-                'name' => 'SD Islam Terpadu Robbani',
+                'name' => 'SDIT Robbani',
                 'npsn' => '20198032',
                 'principal_name' => 'Ustadz Ahmad Fauzi, S.Pd.I, M.Pd',
-                'address' => 'Jl. Pendidikan Karakter No. 1, Bandung',
-                'phone' => '0812-3456-7890',
-                'email' => 'sdit@robbani.sch.id',
+                'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'phone' => '0811747472',
+                'email' => 'sd@sitrobbani.sch.id',
                 'theme_color' => '#059669',
             ]
         );
@@ -43,12 +56,12 @@ class MasterDataSeeder extends Seeder
         $smpit = School::updateOrCreate(
             ['code' => 'SMPIT'],
             [
-                'name' => 'SMP Islam Terpadu Robbani',
+                'name' => 'SMPIT Robbani',
                 'npsn' => '20198033',
-                'principal_name' => 'Ustadzah Sri Nurhidayat, M.Pd',
-                'address' => 'Jl. Pendidikan Karakter No. 2, Bandung',
-                'phone' => '0812-3456-7891',
-                'email' => 'smpit@robbani.sch.id',
+                'principal_name' => 'Tia Wulandari, S.Pd',
+                'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'phone' => '0811747472',
+                'email' => 'smp@sitrobbani.sch.id',
                 'theme_color' => '#0284c7',
             ]
         );
@@ -56,12 +69,12 @@ class MasterDataSeeder extends Seeder
         $smait = School::updateOrCreate(
             ['code' => 'SMAIT'],
             [
-                'name' => 'SMA Islam Terpadu Robbani',
+                'name' => 'SMAIT Robbani',
                 'npsn' => '20198034',
                 'principal_name' => 'Ustadz Drs. H. Ridwan, M.Ag',
-                'address' => 'Jl. Pendidikan Karakter No. 3, Bandung',
-                'phone' => '0812-3456-7892',
-                'email' => 'smait@robbani.sch.id',
+                'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'phone' => '0811747472',
+                'email' => 'sma@sitrobbani.sch.id',
                 'theme_color' => '#7c3aed',
             ]
         );

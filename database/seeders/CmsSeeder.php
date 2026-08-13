@@ -13,16 +13,24 @@ class CmsSeeder extends Seeder
     {
         // Site Settings
         $settings = [
-            'app_name' => 'SmartEdu',
-            'edition_title' => 'SmartEdu',
-            'school_name' => 'Sekolah Islam Terpadu Robbani',
-            'tagline' => 'Platform Digital Sekolah Islam Terpadu',
-            'hero_badge' => 'PLATFORM MANAJEMEN SEKOLAH ISLAM TERPADU',
-            'hero_title' => 'Ekosistem Digital Sekolah Islam Terpadu Terpadu & Terlengkap',
-            'hero_desc' => 'SmartEdu menyajikan 21 modul digital terpadu yang mengintegrasikan akademik adaptif K13, Kurikulum Merdeka, dan JSIT, presensi RFID/QR, keuangan SPP & akuntansi COA, POS kantin cashless, sistem anti-bullying, chatbot AI 24/7, tracer study alumni, hingga mutabaah yaumiyah BPI.',
-            'bpi_badge' => 'Bina Pribadi Islami & SafeSchool',
-            'bpi_title' => 'Mutabaah Yaumiyah, Al-Mathurat & Sistem Anti-Bullying',
-            'bpi_desc' => 'Fitur khas Sekolah Islam Terpadu Robbani untuk pembentukan karakter siswa (Sholat 5 waktu, Dhuha, Tahajud, Tilawah, Hafalan Ziyadah, dan Infaq) serta sistem perlindungan siswa SafeSchool dengan Panic Alarm darurat.',
+            'app_name' => 'SIT Robbani Ogan Ilir',
+            'edition_title' => 'SIT Robbani',
+            'school_name' => 'Yayasan Generasi Robbani Sumatera Selatan',
+            'tagline' => 'Official Website Sekolah Islam Terpadu Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT)',
+            'hero_badge' => '✨ YAYASAN GENERASI ROBBANI SUMATERA SELATAN',
+            'hero_title' => 'Membentuk Generasi Rabbani Berakhlak Mulia & Berprestasi Digital',
+            'hero_desc' => 'Yayasan Generasi Robbani Sumatera Selatan menyelenggarakan pendidikan Islam Terpadu yang unggul dan terintegrasi dari jenjang KB/TKIT Robbani, SDIT Robbani, SMPIT Robbani, hingga SMAIT Robbani di Ogan Ilir dengan Kurikulum Merdeka, Kekhasan JSIT, Tahfidz Al-Qur\'an, serta Ekosistem Digital Terpadu.',
+            'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di Portal Resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik generasi penerus menjadi pribadi yang Rabbani, hafidz Al-Qur\'an, unggul dalam akademik, dan siap menghadapi era digital.',
+            'principal_name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd',
+            'principal_title' => 'Ketua Yayasan Generasi Robbani Sumatera Selatan',
+            'ppdb_status' => 'SPMB / PPDB TELAH DIBUKA!',
+            'ppdb_desc' => 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT.',
+            'contact_phone' => '0811747472',
+            'contact_email' => 'info@sitrobbani.sch.id',
+            'contact_address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
+            'bpi_badge' => 'Bina Pribadi Islami & Character Building',
+            'bpi_title' => 'Mutabaah Yaumiyah, Al-Qur\'an & Pembentukan Karakter',
+            'bpi_desc' => 'Program unggulan pembentukan karakter siswa Rabbani melalui Ibadah Yaumiyah, Tahfidz Al-Qur\'an, Bina Pribadi Islami (BPI), dan budaya ramah anak di Ogan Ilir.',
         ];
 
         foreach ($settings as $key => $val) {

@@ -13,9 +13,32 @@ use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\SavingsController;
 use App\Http\Controllers\Admin\CanteenController;
 
-// Public School / Foundation Profile Website
+// Public School / Foundation Profile Website (100% Native & Self-Contained)
 Route::get('/', [SchoolWebsiteController::class, 'index'])->name('home');
+Route::get('/profil', [SchoolWebsiteController::class, 'profil'])->name('school.profil');
 Route::get('/unit/{code}', [SchoolWebsiteController::class, 'unitProfile'])->name('school.unit');
+
+Route::get('/berita', [SchoolWebsiteController::class, 'beritaIndex'])->name('school.berita');
+Route::get('/berita/{slug}', [SchoolWebsiteController::class, 'beritaShow'])->name('school.berita.show');
+
+Route::get('/artikel', [SchoolWebsiteController::class, 'artikelIndex'])->name('school.artikel');
+Route::get('/artikel/{slug}', [SchoolWebsiteController::class, 'artikelShow'])->name('school.artikel.show');
+
+Route::get('/fasilitas', [SchoolWebsiteController::class, 'fasilitas'])->name('school.fasilitas');
+
+Route::get('/layanan/kunjungan', [SchoolWebsiteController::class, 'layananKunjungan'])->name('school.layanan.kunjungan');
+Route::post('/layanan/kunjungan', [SchoolWebsiteController::class, 'storeLayananKunjungan'])->name('school.layanan.kunjungan.store');
+
+Route::get('/layanan/kerjasama', [SchoolWebsiteController::class, 'layananKerjasama'])->name('school.layanan.kerjasama');
+Route::post('/layanan/kerjasama', [SchoolWebsiteController::class, 'storeLayananKerjasama'])->name('school.layanan.kerjasama.store');
+
+Route::get('/layanan/sewa', [SchoolWebsiteController::class, 'layananSewa'])->name('school.layanan.sewa');
+Route::post('/layanan/sewa', [SchoolWebsiteController::class, 'storeLayananSewa'])->name('school.layanan.sewa.store');
+
+Route::get('/ppdb', [SchoolWebsiteController::class, 'ppdbForm'])->name('school.ppdb');
+Route::post('/ppdb', [SchoolWebsiteController::class, 'storePpdb'])->name('school.ppdb.store');
+
+Route::get('/e-spp', [SchoolWebsiteController::class, 'eSppCheck'])->name('school.espp');
 
 // SmartEdu 21-Module Sales & Product Showcase Page
 Route::get('/sales', [LandingPageController::class, 'index'])->name('sales');
