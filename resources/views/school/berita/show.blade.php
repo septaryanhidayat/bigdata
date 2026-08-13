@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth {{ $settings['website_theme'] ?? 'theme-emerald' }}">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,70 +7,62 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1206; color: #f7fee7; }
+        .card-dark-surface { background-color: #14220c !important; border: 1px solid #264218 !important; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
+<body class="bg-[#0b1206] text-lime-50 antialiased min-h-screen pb-24 lg:pb-0">
 
-    <!-- Header Navbar -->
-    <header class="bg-slate-950 text-white py-4 px-6 sticky top-0 z-50 shadow-md">
+    <header class="bg-[#070c04] py-4 px-6 sticky top-0 z-50 border-b border-[#1c3011]">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png" class="h-9 bg-white p-1 rounded-xl">
+                <img src="https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png" class="h-9 bg-[#14220c] p-1 rounded-xl border border-[#264218]">
                 <div>
-                    <span class="font-black text-xs block text-amber-300 uppercase">PORTAL BERITA RESMI</span>
-                    <span class="text-[10px] text-emerald-400 font-bold block">SIT ROBBANI OGAN ILIR</span>
+                    <span class="font-black text-xs block text-[#a8f52c] uppercase">PORTAL BERITA RESMI</span>
+                    <span class="text-[10px] text-slate-300 font-bold block">SIT ROBBANI OGAN ILIR</span>
                 </div>
             </a>
-            <div class="flex items-center gap-4 text-xs font-bold">
-                <a href="{{ route('school.berita') }}" class="hover:text-amber-300">← Kembali ke Berita</a>
-            </div>
+            <a href="{{ route('school.berita') }}" class="text-xs font-bold text-slate-300 hover:text-[#a8f52c]">← Kembali ke Berita</a>
         </div>
     </header>
 
-    <!-- Main Article -->
     <main class="py-12 max-w-4xl mx-auto px-4 space-y-8">
-        
         <div class="space-y-4">
-            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black text-xs uppercase inline-block">
+            <span class="px-3 py-1 rounded-full bg-[#14220c] border border-[#264218] text-[#a8f52c] font-black text-xs uppercase inline-block">
                 {{ $news['category'] }}
             </span>
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 leading-tight">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight">
                 {{ $news['title'] }}
             </h1>
-            <div class="flex items-center gap-4 text-xs font-bold text-slate-500 border-b border-slate-200 pb-4">
+            <div class="flex items-center gap-4 text-xs font-bold text-slate-400 border-b border-[#264218] pb-4">
                 <span>📅 {{ $news['date'] }}</span>
                 <span>✍️ {{ $news['author'] ?? 'Humas SIT Robbani' }}</span>
                 <span>📍 Ogan Ilir, Sumsel</span>
             </div>
         </div>
 
-        <!-- Featured Image -->
-        <div class="rounded-3xl overflow-hidden bg-slate-900 shadow-xl border border-slate-200">
-            <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full max-h-[450px] object-cover" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'; this.className='w-full p-8 object-contain bg-slate-950';">
+        <div class="rounded-3xl overflow-hidden bg-[#070c04] border border-[#264218]">
+            <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full max-h-[450px] object-cover" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'; this.className='w-full p-8 object-contain bg-[#070c04]';">
         </div>
 
-        <!-- Content Body -->
-        <div class="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm text-slate-700 text-sm sm:text-base leading-relaxed space-y-4 font-medium">
+        <div class="p-8 rounded-[2rem] card-dark-surface text-slate-200 text-sm sm:text-base leading-relaxed space-y-4 font-medium">
             {!! $news['content'] !!}
         </div>
 
-        <!-- Recent News Sidebar -->
-        <div class="pt-8 border-t border-slate-200 space-y-4">
-            <h3 class="text-lg font-black text-slate-900">Berita Lainnya</h3>
+        <div class="pt-8 border-t border-[#264218] space-y-4">
+            <h3 class="text-lg font-black text-white">Berita Lainnya</h3>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 @foreach($recentNews as $rn)
-                <a href="{{ route('school.berita.show', $rn['slug'] ?? \Illuminate\Support\Str::slug($rn['title'])) }}" class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 transition-all block group">
+                <a href="{{ route('school.berita.show', $rn['slug'] ?? \Illuminate\Support\Str::slug($rn['title'])) }}" class="p-4 rounded-2xl card-dark-surface hover:border-[#a8f52c] transition-all block group">
                     <span class="text-[10px] font-bold text-slate-400 block mb-1">📅 {{ $rn['date'] }}</span>
-                    <h4 class="text-xs font-black text-slate-900 group-hover:text-emerald-700 line-clamp-2 leading-snug">{{ $rn['title'] }}</h4>
+                    <h4 class="text-xs font-black text-white group-hover:text-[#a8f52c] line-clamp-2 leading-snug">{{ $rn['title'] }}</h4>
                 </a>
                 @endforeach
             </div>
         </div>
-
     </main>
 
-    <footer class="bg-slate-950 text-slate-400 text-xs py-8 text-center border-t border-slate-900">
+    <footer class="bg-[#070c04] text-slate-400 text-xs py-8 text-center border-t border-[#1c3011]">
         <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
     </footer>
 

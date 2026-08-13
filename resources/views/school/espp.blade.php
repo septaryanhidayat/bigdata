@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth {{ $settings['website_theme'] ?? 'theme-emerald' }}">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +7,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .theme-btn-primary { background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important; color: #ffffff !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1206; color: #f7fee7; }
+        .btn-lime-primary { background-color: #a8f52c !important; color: #070c04 !important; }
+        .card-dark-surface { background-color: #14220c !important; border: 1px solid #264218 !important; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
+<body class="bg-[#0b1206] text-lime-50 antialiased min-h-screen pb-24 lg:pb-0">
 
-    <header class="bg-slate-950 text-white py-4 px-6 sticky top-0 z-50 shadow-md">
+    <header class="bg-[#070c04] py-4 px-6 sticky top-0 z-50 border-b border-[#1c3011]">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png" class="h-9 bg-white p-1 rounded-xl">
+                <img src="https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png" class="h-9 bg-[#14220c] p-1 rounded-xl border border-[#264218]">
                 <div>
-                    <span class="font-black text-xs block text-amber-300 uppercase">PORTAL E-SPP & ARSI MOBILE</span>
-                    <span class="text-[10px] text-emerald-400 font-bold block">SIT ROBBANI OGAN ILIR</span>
+                    <span class="font-black text-xs block text-[#a8f52c] uppercase">PORTAL E-SPP & ARSI MOBILE</span>
+                    <span class="text-[10px] text-slate-300 font-bold block">SIT ROBBANI OGAN ILIR</span>
                 </div>
             </a>
-            <a href="{{ route('home') }}" class="text-xs font-bold hover:text-amber-300">← Kembali ke Beranda</a>
+            <a href="{{ route('home') }}" class="text-xs font-bold text-slate-300 hover:text-[#a8f52c]">← Beranda</a>
         </div>
     </header>
 
     <main class="py-12 max-w-4xl mx-auto px-4 space-y-8">
         
         <div class="text-center space-y-3">
-            <span class="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black text-xs uppercase">ROBBANI STUDENT INFORMATION</span>
-            <h1 class="text-3xl font-black text-slate-900">Cek Tagihan & Informasi SPP Realtime</h1>
-            <p class="text-slate-600 text-sm font-medium">Masukkan NISN atau Nomor Induk Siswa untuk mengecek rincian tagihan SPP dan riwayat pembayaran.</p>
+            <span class="px-3.5 py-1 rounded-full bg-[#14220c] border border-[#264218] text-[#a8f52c] font-black text-xs uppercase">ROBBANI STUDENT INFORMATION</span>
+            <h1 class="text-3xl font-black text-white">Cek Tagihan & Informasi SPP Realtime</h1>
+            <p class="text-slate-400 text-sm font-medium">Masukkan NISN atau Nomor Induk Siswa untuk mengecek rincian tagihan SPP dan riwayat pembayaran.</p>
         </div>
 
-        <form action="{{ route('school.espp') }}" method="GET" class="p-8 rounded-3xl bg-white border border-slate-200 shadow-xl space-y-4">
+        <form action="{{ route('school.espp') }}" method="GET" class="p-8 rounded-[2rem] card-dark-surface space-y-4">
             <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" name="nisn" value="{{ request('nisn') }}" required placeholder="Masukkan NIS / NISN Siswa..." class="flex-1 px-4 py-3.5 rounded-xl border border-slate-300 text-xs font-bold focus:outline-none focus:border-emerald-600">
-                <button type="submit" class="px-6 py-3.5 rounded-xl theme-btn-primary font-black text-xs uppercase shadow-md hover:scale-105 transition-transform">
+                <input type="text" name="nisn" value="{{ request('nisn') }}" required placeholder="Masukkan NIS / NISN Siswa..." class="flex-1 px-4 py-3.5 rounded-xl bg-[#070c04] border border-[#264218] text-xs font-bold text-white focus:outline-none focus:border-[#a8f52c]">
+                <button type="submit" class="px-6 py-3.5 rounded-xl btn-lime-primary font-black text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-transform">
                     Cek Status SPP ➔
                 </button>
             </div>
@@ -45,47 +46,47 @@
 
         @if(request()->has('nisn'))
             @if($student)
-            <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xl space-y-4">
-                <div class="flex items-center justify-between border-b pb-3 border-slate-100">
+            <div class="p-6 rounded-[2rem] card-dark-surface space-y-4">
+                <div class="flex items-center justify-between border-b pb-3 border-[#264218]">
                     <div>
-                        <h3 class="font-black text-base text-slate-900">{{ $student->name }}</h3>
-                        <span class="text-xs text-slate-500 font-bold">NISN: {{ $student->nisn }} • Unit: {{ $student->school->code ?? 'SIT Robbani' }}</span>
+                        <h3 class="font-black text-base text-white">{{ $student->name }}</h3>
+                        <span class="text-xs text-slate-400 font-bold">NISN: {{ $student->nisn }} • Unit: {{ $student->school->code ?? 'SIT Robbani' }}</span>
                     </div>
-                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-black text-xs rounded-full">SISWA AKTIF</span>
+                    <span class="px-3 py-1 bg-[#a8f52c] text-[#070c04] font-black text-xs rounded-full">SISWA AKTIF</span>
                 </div>
 
                 <div class="space-y-3">
-                    <h4 class="text-xs font-black text-slate-900 uppercase">Rincian Tagihan SPP:</h4>
+                    <h4 class="text-xs font-black text-[#a8f52c] uppercase">Rincian Tagihan SPP:</h4>
                     @if($bills->count() > 0)
                         <div class="space-y-2">
                             @foreach($bills as $bill)
-                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                            <div class="p-4 rounded-xl bg-[#070c04] border border-[#264218] flex items-center justify-between">
                                 <div>
-                                    <span class="block text-xs font-bold text-slate-900">{{ $bill->month }} {{ $bill->year }}</span>
-                                    <span class="text-[11px] text-slate-500 font-medium">Rp {{ number_format($bill->amount, 0, ',', '.') }}</span>
+                                    <span class="block text-xs font-bold text-white">{{ $bill->month }} {{ $bill->year }}</span>
+                                    <span class="text-[11px] text-slate-400 font-medium">Rp {{ number_format($bill->amount, 0, ',', '.') }}</span>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase {{ $bill->status == 'lunas' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800' }}">
+                                <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase {{ $bill->status == 'lunas' ? 'bg-[#a8f52c] text-[#070c04]' : 'bg-red-500 text-white' }}">
                                     {{ $bill->status }}
                                 </span>
                             </div>
                             @endforeach
                         </div>
                     @else
-                        <p class="text-xs text-slate-500 italic">Tidak ada rincian tagihan SPP terpisah. Seluruh pembayaran terdata lunas.</p>
+                        <p class="text-xs text-slate-400 italic">Tidak ada rincian tagihan SPP terpisah. Seluruh pembayaran terdata lunas.</p>
                     @endif
                 </div>
             </div>
             @else
-            <div class="p-6 rounded-3xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold text-center space-y-1">
+            <div class="p-6 rounded-[2rem] bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold text-center space-y-1">
                 <p>Data siswa dengan NISN / NIS "{{ request('nisn') }}" tidak ditemukan.</p>
-                <p class="text-[11px] font-normal text-amber-800">Silakan hubungi Tata Usaha atau WhatsApp Hotline 0811747472.</p>
+                <p class="text-[11px] font-normal text-amber-200">Silakan hubungi Tata Usaha atau WhatsApp Hotline 0811747472.</p>
             </div>
             @endif
         @endif
 
     </main>
 
-    <footer class="bg-slate-950 text-slate-400 text-xs py-8 text-center border-t border-slate-900">
+    <footer class="bg-[#070c04] text-slate-400 text-xs py-8 text-center border-t border-[#1c3011]">
         <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
     </footer>
 

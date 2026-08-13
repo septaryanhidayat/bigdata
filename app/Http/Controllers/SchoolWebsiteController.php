@@ -136,6 +136,11 @@ class SchoolWebsiteController extends Controller
             ]
         ];
 
+        // Data Video, Agenda, Pengumuman Native
+        $videoList = $this->getVideoData();
+        $agendaList = $this->getAgendaData();
+        $announcementList = $this->getAnnouncementData();
+
         return view('school.home', compact(
             'settings',
             'schools',
@@ -147,7 +152,10 @@ class SchoolWebsiteController extends Controller
             'facilityList',
             'testimonialList',
             'digitalApps',
-            'integratedServices'
+            'integratedServices',
+            'videoList',
+            'agendaList',
+            'announcementList'
         ));
     }
 
@@ -440,6 +448,105 @@ class SchoolWebsiteController extends Controller
                 'title' => 'Keamanan CCTV & Satpam 24 Jam',
                 'desc' => 'Lingkungan sekolah dipantau sistem keamanan CCTV terpadu di setiap sudut dan petugas keamanan (security) siap siaga 24 jam demi kenyamanan peserta didik.',
                 'icon' => '🛡️'
+            ]
+        ];
+    }
+
+    private function getVideoData()
+    {
+        return [
+            [
+                'title' => 'Profil Resmi SIT Robbani Ogan Ilir 2026',
+                'category' => 'Profil Video',
+                'duration' => '04:25',
+                'youtube_id' => 'dQw4w9WgXcQ',
+                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'desc' => 'Video sinematik profil Yayasan Generasi Robbani Sumatera Selatan dan 4 unit sekolah unggulan di Ogan Ilir.'
+            ],
+            [
+                'title' => 'Haflah Akhirussanah & Wisuda Tahfidz Al-Qur’an 2026',
+                'category' => 'Dokumentasi Acara',
+                'duration' => '08:12',
+                'youtube_id' => 'dQw4w9WgXcQ',
+                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'desc' => 'Suasana haru dan penuh kebanggaan saat prosesi wisuda tahfidz Al-Qur’an para siswa SIT Robbani.'
+            ],
+            [
+                'title' => 'Ekosistem Digital ARSI & Pembelajaran LMS Robbani',
+                'category' => 'Teknologi Digital',
+                'duration' => '03:40',
+                'youtube_id' => 'dQw4w9WgXcQ',
+                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
+                'desc' => 'Kemudahan akses wali murid memantau presensi, SPP, dan E-Learning di SIT Robbani Ogan Ilir.'
+            ]
+        ];
+    }
+
+    private function getAgendaData()
+    {
+        return [
+            [
+                'title' => 'Simulasi ANBK & Asesmen Digital Berbasis Komputer',
+                'date_day' => '25',
+                'date_month' => 'AGU',
+                'year' => '2026',
+                'time' => '07.30 - 12.00 WIB',
+                'location' => 'Lab Komputer SMPIT & SMAIT Robbani',
+                'category' => 'Akademik'
+            ],
+            [
+                'title' => 'Supercamp Tahfidz Al-Qur’an & Mabit Siswa',
+                'date_day' => '10',
+                'date_month' => 'SEP',
+                'year' => '2026',
+                'time' => '16.00 WIB - Selesai',
+                'location' => 'Masjid Utama SIT Robbani Ogan Ilir',
+                'category' => 'BPI & Tahfidz'
+            ],
+            [
+                'title' => 'Peringatan Hari Sumpah Pemuda & Panggung Aksi Siswa',
+                'date_day' => '28',
+                'date_month' => 'OKT',
+                'year' => '2026',
+                'time' => '08.00 - 15.00 WIB',
+                'location' => 'Aula Pertemuan Robbani',
+                'category' => 'Kreativitas'
+            ],
+            [
+                'title' => 'Penyerahan Laporan Hasil Belajar (Rapor) Semester Ganjil',
+                'date_day' => '18',
+                'date_month' => 'DES',
+                'year' => '2026',
+                'time' => '08.00 - 12.00 WIB',
+                'location' => 'Gedung Unit KB/TK, SD, SMP, SMA',
+                'category' => 'Rapor'
+            ]
+        ];
+    }
+
+    private function getAnnouncementData()
+    {
+        return [
+            [
+                'title' => 'Hasil Seleksi Administrasi Rekrutmen Guru & Pegawai TA 2026/2027',
+                'date' => '07 Mei 2026',
+                'category' => 'Rekrutmen SDM',
+                'summary' => 'Peserta yang dinyatakan lulus tahap administrasi diwajibkan mengikuti Ujian Microteaching & Wawancara Keislaman.',
+                'link' => route('school.berita.show', 'pengumuman-kelulusan-tahap-administrasi-rekrutmen-guru-dan-pegawai-sit-robbani-2026')
+            ],
+            [
+                'title' => 'Pembukaan Pendaftaran SPMB / PPDB Online Gelombang 1',
+                'date' => '01 April 2026',
+                'category' => 'PPDB Online',
+                'summary' => 'Pendaftaran peserta didik baru resmi dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir.',
+                'link' => route('school.ppdb')
+            ],
+            [
+                'title' => 'Edaran Pelaksanaan Penilaian Akhir Semester (PAS) Ganjil',
+                'date' => '01 November 2026',
+                'category' => 'Edaran Akademik',
+                'summary' => 'Dihimbau kepada seluruh orang tua siswa untuk mendampingi belajar ananda selama pekan PAS berlangsung.',
+                'link' => route('school.berita')
             ]
         ];
     }
