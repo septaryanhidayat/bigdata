@@ -13,7 +13,35 @@ use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\SavingsController;
 use App\Http\Controllers\Admin\CanteenController;
 
-// Public School / Foundation Profile Website (100% Native & Self-Contained)
+// ==========================================================================
+// SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
+// ==========================================================================
+Route::domain('spmb.sitrobbani.sch.id')->group(function () {
+    Route::get('/', [SchoolWebsiteController::class, 'ppdbForm'])->name('subdomain.spmb');
+    Route::post('/', [SchoolWebsiteController::class, 'storePpdb']);
+});
+
+Route::domain('{subdomain}.sitrobbani.sch.id')->group(function () {
+    Route::get('/', function ($subdomain) {
+        $map = [
+            'tk' => 'tkit',
+            'tkit' => 'tkit',
+            'sd' => 'sdit',
+            'sdit' => 'sdit',
+            'smp' => 'smpit',
+            'smpit' => 'smpit',
+            'sma' => 'smait',
+            'smait' => 'smait',
+        ];
+        $code = $map[strtolower($subdomain)] ?? null;
+        if ($code) {
+            return app(SchoolWebsiteController::class)->unitProfile($code);
+        }
+        return app(SchoolWebsiteController::class)->index();
+    });
+});
+
+// Public School / Foundation Profile Website (Standard Routes)
 Route::get('/', [SchoolWebsiteController::class, 'index'])->name('home');
 Route::get('/profil', [SchoolWebsiteController::class, 'profil'])->name('school.profil');
 Route::get('/unit/{code}', [SchoolWebsiteController::class, 'unitProfile'])->name('school.unit');

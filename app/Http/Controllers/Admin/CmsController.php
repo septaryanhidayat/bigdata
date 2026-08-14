@@ -128,6 +128,8 @@ class CmsController extends Controller
             'contact_phone' => SiteSetting::get('contact_phone', '0812-3456-7890'),
             'contact_email' => SiteSetting::get('contact_email', 'info@robbani.sch.id'),
             'contact_address' => SiteSetting::get('contact_address', 'Jl. Pendidikan Karakter No. 1-2, Kota Bandung, Jawa Barat'),
+            'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600'),
+            'hero_banner_opacity' => SiteSetting::get('hero_banner_opacity', '70'),
         ];
 
         return view('admin.settings.portal', compact('settings'));
@@ -200,10 +202,10 @@ class CmsController extends Controller
 
         // Handle Kepsek Photo upload if present
         if ($request->hasFile('principal_photo')) {
-            $file = $request->file('principal_photo');
-            $filename = 'kepsek_' . $cleanCode . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/cms'), $filename);
-            $data['principal_photo'] = '/uploads/cms/' . $filename;
+            $compressedPhoto = \App\Services\ImageOptimizer::compress($request->file('principal_photo'), 'uploads/cms', 'kepsek_' . $cleanCode . '_' . uniqid());
+            if ($compressedPhoto) {
+                $data['principal_photo'] = $compressedPhoto . '?v=' . time();
+            }
         } else {
             $existing = SiteSetting::get("unit_profile_{$cleanCode}");
             if ($existing) {
@@ -222,11 +224,50 @@ class CmsController extends Controller
     public function updateSettings(Request $request)
     {
         $data = $request->except('_token');
+        $fileUploaded = false;
+
+        // 1. Process client-compressed base64 payload
+        if ($request->filled('hero_bg_base64')) {
+            $base64Data = $request->input('hero_bg_base64');
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+                $decoded = base64_decode($base64Data);
+
+                if ($decoded !== false) {
+                    $folder = public_path('uploads/cms');
+                    if (!file_exists($folder)) {
+                        mkdir($folder, 0755, true);
+                    }
+                    $filename = 'hero_bg_' . uniqid() . '_' . time() . '.webp';
+                    $fullPath = $folder . '/' . $filename;
+                    file_put_contents($fullPath, $decoded);
+
+                    $pathWithCacheBuster = '/uploads/cms/' . $filename . '?v=' . time();
+                    SiteSetting::set('hero_bg_image', $pathWithCacheBuster);
+                    $data['hero_bg_image'] = $pathWithCacheBuster;
+                    $fileUploaded = true;
+                }
+            }
+        }
+        // 2. Fallback to direct file upload
+        elseif ($request->hasFile('hero_bg_file')) {
+            $compressedPath = \App\Services\ImageOptimizer::compress($request->file('hero_bg_file'), 'uploads/cms', 'hero_bg_' . uniqid());
+            if ($compressedPath) {
+                $pathWithCacheBuster = $compressedPath . '?v=' . time();
+                SiteSetting::set('hero_bg_image', $pathWithCacheBuster);
+                $data['hero_bg_image'] = $pathWithCacheBuster;
+                $fileUploaded = true;
+            }
+        }
+
         foreach ($data as $key => $val) {
+            if (in_array($key, ['hero_bg_file', 'hero_bg_base64'])) {
+                continue;
+            }
             SiteSetting::set($key, $val);
         }
 
-        return redirect()->back()->with('success', 'Pengaturan branding dan landing page berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Pengaturan branding, gambar hero banner, dan opacity berhasil diperbarui!');
     }
 
     public function modules()

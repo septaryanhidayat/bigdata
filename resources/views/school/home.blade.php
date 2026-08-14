@@ -484,8 +484,8 @@
         <!-- ========================================== -->
         <!-- HERO SECTION (CENTER ALIGNED MOBILE/TABLET) -->
         <!-- ========================================== -->
-        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.75)), url('{{ $settings['hero_bg_image'] }}');">
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-950/70 via-slate-950/60 to-orange-950/40 backdrop-blur-[2px]"></div>
+        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}');">
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-950 via-slate-950 to-orange-950 backdrop-blur-[2px]" style="opacity: {{ ((float) (!empty($settings['hero_banner_opacity']) ? $settings['hero_banner_opacity'] : 70)) / 100 }};"></div>
             
             <div class="max-w-container-max mx-auto px-gutter relative z-10">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg sm:gap-xl items-center">

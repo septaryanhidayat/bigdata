@@ -22,7 +22,7 @@
         <p class="text-xs text-slate-600 font-medium mt-1">Atur skema warna tema, identitas sekolah, hero banner, sambutan pimpinan, dan kontak resmi yayasan.</p>
     </div>
 
-    <form action="{{ route('admin.settings.update') }}" method="POST" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+    <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
         @csrf
 
         <!-- 0. Pilihan Warna Tema Website Publik Sekolah & Admin -->
@@ -112,7 +112,87 @@
                 <label class="block text-xs font-bold text-slate-700 mb-1">Deskripsi Ringkas Hero Banner:</label>
                 <textarea name="school_hero_desc" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-900">{{ $settings['school_hero_desc'] ?? 'Sekolah Islam Terpadu Robbani menyelenggarakan pendidikan terpadu...' }}</textarea>
             </div>
+
+            <!-- Hero Banner Background Image & Opacity Control -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                    <span>🖼️</span> <span>Foto Background Hero Banner &amp; Kontrol Transparansi Opacity Overlay</span>
+                </h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Ganti Foto Background Banner (Pilih Foto dari Komputer):</label>
+                        <div class="mb-2 h-32 rounded-xl overflow-hidden border border-slate-300 relative bg-slate-100 shadow-inner">
+                            <img id="heroBgPreview" src="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}" alt="Current Hero Banner" class="w-full h-full object-cover">
+                            <span id="previewBadge" class="hidden absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-md animate-pulse">PRATINJAU FOTO BARU (SIAP DISIMPAN)</span>
+                        </div>
+                        <input type="file" id="heroBgFileInput" name="hero_bg_file" accept="image/*" class="text-xs text-slate-600 border border-slate-300 rounded-xl p-2 w-full cursor-pointer bg-white hover:bg-slate-50 transition-colors" onchange="processHeroBgFile(this)">
+                        
+                        <!-- Hidden Input for Compressed Data Payload -->
+                        <input type="hidden" id="heroBgBase64Input" name="hero_bg_base64">
+                        
+                        <span class="text-[10px] text-slate-500 block mt-1">Pilih file foto dari komputer. Sistem otomatis mengompresi di browser &amp; diproses cepat tanpa batasan ukuran file!</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">URL Foto Background (Alternatif Link Teks):</label>
+                        <input type="text" id="heroBgUrlInput" name="hero_bg_image" value="{{ $settings['hero_bg_image'] ?? '' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-900 mb-3" oninput="document.getElementById('heroBgPreview').src = this.value">
+
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            Kepekatan Transparansi Overlay Banner:
+                            <span id="opacityVal" class="text-emerald-700 font-black">{{ $settings['hero_banner_opacity'] ?? '70' }}%</span>
+                        </label>
+                        <input type="range" name="hero_banner_opacity" min="0" max="100" value="{{ $settings['hero_banner_opacity'] ?? '70' }}" oninput="document.getElementById('opacityVal').innerText = this.value + '%'" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+                        <span class="text-[10px] text-slate-500 block mt-1">Geser slider untuk menyesuaikan opacity layar gelap banner secara real-time.</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <script>
+            function processHeroBgFile(input) {
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            // HTML5 Canvas client-side compression
+                            const canvas = document.createElement('canvas');
+                            const maxW = 1600;
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > maxW) {
+                                height = Math.round((height * maxW) / width);
+                                width = maxW;
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            // Convert image to WebP Data URL at 80% quality
+                            const compressedBase64 = canvas.toDataURL('image/webp', 0.80);
+                            
+                            // Update live preview & hidden input field
+                            const previewImg = document.getElementById('heroBgPreview');
+                            const badge = document.getElementById('previewBadge');
+                            const base64Input = document.getElementById('heroBgBase64Input');
+                            const urlInput = document.getElementById('heroBgUrlInput');
+
+                            if (previewImg) previewImg.src = compressedBase64;
+                            if (base64Input) base64Input.value = compressedBase64;
+                            if (badge) badge.classList.remove('hidden');
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
 
         <!-- 2. Sambutan Pimpinan & Info PPDB -->
         <div class="space-y-4 border-b border-slate-100 pb-6">
