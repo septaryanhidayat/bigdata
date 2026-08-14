@@ -17,7 +17,7 @@
     <header class="bg-[#070c04] py-4 px-6 sticky top-0 z-50 border-b border-[#1c3011]">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png" class="h-9 bg-[#14220c] p-1 rounded-xl border border-[#264218]">
+                <img src="/images/logo robbani dark.png" class="h-9 w-auto object-contain" alt="Logo SIT Robbani">
                 <div>
                     <span class="font-black text-xs block text-[#a8f52c] uppercase">IZIN KUNJUNGAN SEKOLAH</span>
                     <span class="text-[10px] text-slate-300 font-bold block">SIT ROBBANI OGAN ILIR</span>

@@ -83,6 +83,90 @@
             </div>
         </div>
 
+        <!-- 0.5 Upload Logo Light Mode & Dark Mode -->
+        <div class="space-y-4 border-b border-slate-100 pb-6">
+            <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-theme-accent pl-3">🏷️ Upload Logo Resmi Website (Mode Light &amp; Mode Dark)</h3>
+            <p class="text-xs text-slate-500 font-medium">Unggah logo resmi sekolah untuk mode terang dan mode malam. Sistem otomatis mengompresi gambar tanpa merusak transparansi PNG!</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 1. Logo Light Mode -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">☀️ Logo Mode Terang (Light Mode):</label>
+                        <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">Default / Full Color</span>
+                    </div>
+
+                    <div class="h-24 rounded-xl overflow-hidden border border-slate-300 relative bg-white flex items-center justify-center p-3 shadow-inner">
+                        <img id="logoLightPreview" src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" alt="Logo Light Preview" class="max-h-full max-w-full object-contain">
+                        <span id="logoLightBadge" class="hidden absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow animate-pulse">PRATINJAU BARU</span>
+                    </div>
+
+                    <input type="file" id="logoLightFileInput" name="logo_light_file" accept="image/*" class="text-xs text-slate-600 border border-slate-300 rounded-xl p-2 w-full cursor-pointer bg-white" onchange="processLogoFile(this, 'logoLightPreview', 'logoLightBase64Input', 'logoLightBadge')">
+                    <input type="hidden" id="logoLightBase64Input" name="logo_light_base64">
+                    <span class="text-[10px] text-slate-500 block">Tampil saat mode terang. Format PNG transparan direkomendasikan.</span>
+                </div>
+
+                <!-- 2. Logo Dark Mode -->
+                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-black text-emerald-400 uppercase tracking-wider">🌙 Logo Mode Malam (Dark Mode):</label>
+                        <span class="text-[10px] bg-slate-800 text-emerald-300 font-bold px-2 py-0.5 rounded">Solid White / Transparent</span>
+                    </div>
+
+                    <div class="h-24 rounded-xl overflow-hidden border border-slate-700 relative bg-[#071208] flex items-center justify-center p-3 shadow-inner">
+                        <img id="logoDarkPreview" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" alt="Logo Dark Preview" class="max-h-full max-w-full object-contain">
+                        <span id="logoDarkBadge" class="hidden absolute top-2 left-2 bg-emerald-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded shadow animate-pulse">PRATINJAU BARU</span>
+                    </div>
+
+                    <input type="file" id="logoDarkFileInput" name="logo_dark_file" accept="image/*" class="text-xs text-slate-300 border border-slate-700 rounded-xl p-2 w-full cursor-pointer bg-slate-800" onchange="processLogoFile(this, 'logoDarkPreview', 'logoDarkBase64Input', 'logoDarkBadge')">
+                    <input type="hidden" id="logoDarkBase64Input" name="logo_dark_base64">
+                    <span class="text-[10px] text-slate-400 block">Tampil saat mode malam/gelap aktif di website.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 0.6 Upload Favicon & Social Share Image -->
+        <div class="space-y-4 border-b border-slate-100 pb-6">
+            <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-theme-accent pl-3">🔖 Upload Favicon Tab Browser &amp; Gambar Sharing Sosmed (OG Image)</h3>
+            <p class="text-xs text-slate-500 font-medium">Unggah favicon khusus tab browser dan gambar thumbnail yang muncul saat tautan website dibagikan di WhatsApp, Facebook, Telegram, dll.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 1. Favicon Upload -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">🔖 Favicon Tab Browser:</label>
+                        <span class="text-[10px] bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded">Icon Tab Browser</span>
+                    </div>
+
+                    <div class="h-20 rounded-xl overflow-hidden border border-slate-300 relative bg-white flex items-center justify-center p-3 shadow-inner">
+                        <img id="faviconPreview" src="{{ $settings['website_favicon'] ?? '/favicon.png' }}" alt="Favicon Preview" class="w-10 h-10 object-contain">
+                        <span id="faviconBadge" class="hidden absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow animate-pulse">BARU</span>
+                    </div>
+
+                    <input type="file" id="faviconFileInput" name="favicon_file" accept="image/*" class="text-xs text-slate-600 border border-slate-300 rounded-xl p-2 w-full cursor-pointer bg-white" onchange="processLogoFile(this, 'faviconPreview', 'faviconBase64Input', 'faviconBadge')">
+                    <input type="hidden" id="faviconBase64Input" name="favicon_base64">
+                    <span class="text-[10px] text-slate-500 block">Digunakan di ikon tab browser seluruh halaman website. Format PNG/ICO disarankan.</span>
+                </div>
+
+                <!-- 2. Social Share Image Upload -->
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">📱 Gambar Sharing Sosmed (OG Image):</label>
+                        <span class="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">WhatsApp / FB Thumbnail</span>
+                    </div>
+
+                    <div class="h-20 rounded-xl overflow-hidden border border-slate-300 relative bg-slate-100 flex items-center justify-center p-2 shadow-inner">
+                        <img id="socialSharePreview" src="{{ $settings['social_share_image'] ?? '/images/logo robbani light.png' }}" alt="Social Share Preview" class="max-h-full max-w-full object-contain">
+                        <span id="socialShareBadge" class="hidden absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow animate-pulse">BARU</span>
+                    </div>
+
+                    <input type="file" id="socialShareFileInput" name="social_share_file" accept="image/*" class="text-xs text-slate-600 border border-slate-300 rounded-xl p-2 w-full cursor-pointer bg-white" onchange="processLogoFile(this, 'socialSharePreview', 'socialShareBase64Input', 'socialShareBadge')">
+                    <input type="hidden" id="socialShareBase64Input" name="social_share_base64">
+                    <span class="text-[10px] text-slate-500 block">Tampil sebagai pratinjau thumbnail saat link web dikirim melalui WhatsApp / Medsos.</span>
+                </div>
+            </div>
+        </div>
+
         <!-- 1. Identitas & Hero Banner Portal -->
         <div class="space-y-4 border-b border-slate-100 pb-6">
             <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-theme-accent pl-3">Identitas Sekolah & Hero Banner Portal</h3>
@@ -214,6 +298,23 @@
                 <textarea name="principal_greeting" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-900">{{ $settings['principal_greeting'] ?? 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Sekolah Islam Terpadu Robbani.' }}</textarea>
             </div>
 
+            <!-- Upload Foto Resmi Pimpinan / Ketua Yayasan -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">👤 Foto Resmi Ketua Yayasan / Kepala Sekolah:</label>
+                
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-emerald-600 p-0.5 bg-white shrink-0 relative shadow">
+                        <img id="principalPhotoPreview" src="{{ $settings['principal_photo'] ?? '/images/logo robbani light.png' }}" alt="Foto Ketua Yayasan" class="w-full h-full object-cover rounded-full">
+                        <span id="principalPhotoBadge" class="hidden absolute top-0 left-0 bg-emerald-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow animate-pulse">BARU</span>
+                    </div>
+                    <div class="space-y-2 flex-1 w-full">
+                        <input type="file" id="principalPhotoFileInput" name="principal_photo_file" accept="image/*" class="text-xs text-slate-600 border border-slate-300 rounded-xl p-2 w-full cursor-pointer bg-white" onchange="processLogoFile(this, 'principalPhotoPreview', 'principalPhotoBase64Input', 'principalPhotoBadge')">
+                        <input type="hidden" id="principalPhotoBase64Input" name="principal_photo_base64">
+                        <span class="text-[10px] text-slate-500 block">Unggah foto resmi Ketua Yayasan / Pimpinan Sekolah. Sistem otomatis mengompresi di browser!</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Status Gelombang PPDB:</label>
@@ -271,6 +372,44 @@
 
         if (typeof setAdminTheme === 'function') {
             setAdminTheme(themeName);
+        }
+    }
+
+    function processLogoFile(input, previewId, base64InputId, badgeId) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxW = 1200;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxW) {
+                        height = Math.round((height * maxW) / width);
+                        width = maxW;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedBase64 = canvas.toDataURL('image/png');
+
+                    const previewImg = document.getElementById(previewId);
+                    const base64Input = document.getElementById(base64InputId);
+                    const badge = document.getElementById(badgeId);
+
+                    if (previewImg) previewImg.src = compressedBase64;
+                    if (base64Input) base64Input.value = compressedBase64;
+                    if (badge) badge.classList.remove('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
     }
 

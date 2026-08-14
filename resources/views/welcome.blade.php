@@ -43,7 +43,7 @@
     <meta name="description" content="{{ $settings['hero_desc'] }}">
 
     <!-- Favicon / Five Icon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
 
@@ -134,7 +134,7 @@
             
             <!-- SmartEdu Logo & School Identity (Displayed on Mobile & Desktop) -->
             <a href="#" class="flex items-center gap-2.5 group">
-                <img src="/images/smartedu_logo.png" alt="Logo SmartEdu" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
+                <img src="/images/logo-robbani-light.png" alt="Logo SIT Robbani" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
                 <div class="border-l border-slate-200 pl-2.5">
                     <span class="text-[11px] sm:text-xs font-extrabold text-slate-900 uppercase tracking-wide block leading-tight">{{ $settings['edition_title'] }}</span>
                     <span class="text-[10px] sm:text-[11px] text-teal-700 font-semibold block leading-tight">{{ $settings['school_name'] }}</span>
@@ -810,7 +810,7 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-100 text-center md:text-left">
                 
                 <div class="flex flex-col sm:flex-row items-center gap-3">
-                    <img src="/images/smartedu_logo.png" alt="Logo SmartEdu" class="h-10 w-auto object-contain">
+                    <img src="/images/logo-robbani-light.png" alt="Logo SIT Robbani" class="h-10 w-auto object-contain">
                     <div class="border-t sm:border-t-0 sm:border-l border-slate-200 pt-2 sm:pt-0 sm:pl-3">
                         <span class="font-extrabold text-slate-900 text-xs block leading-tight">{{ $settings['edition_title'] }}</span>
                         <span class="text-teal-700 font-semibold text-[11px] block leading-tight">{{ $settings['school_name'] }}</span>

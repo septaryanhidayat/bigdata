@@ -5,7 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil {{ $info['name'] }} | Portal Resmi SIT Robbani</title>
 
-    <link rel="icon" type="image/png" href="https://sitrobbani.sch.id/wp-content/uploads/2022/01/cropped-favicon-32x32.png">
+    <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=2">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Profil {{ $info['name'] }} | Portal Resmi SIT Robbani">
+    <meta property="og:description" content="{{ $info['tagline'] }}">
+    <meta property="og:image" content="{{ asset('images/logo robbani light.png') }}">
+    <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Profil {{ $info['name'] }}">
+    <meta name="twitter:description" content="{{ $info['tagline'] }}">
+    <meta name="twitter:image" content="{{ asset('images/logo robbani light.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,10 +74,11 @@
 
         /* 2. Pure White Logo Filter in Dark Mode (NO WHITE CONTAINER BOX) */
         .logo-badge-container {
-            background-color: #ffffff;
-            padding: 0.375rem 0.625rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            background-color: transparent !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
             display: inline-flex;
             align-items: center;
         }
@@ -178,7 +191,8 @@
             <!-- Logo Section (Full Color in Light, Solid White in Dark Mode) -->
             <a href="{{ route('home') }}" class="flex items-center gap-3 group">
                 <div class="logo-badge-container shrink-0">
-                    <img src="/images/logo-robbani-official.png" alt="Logo SIT Robbani" class="official-logo-img h-11 sm:h-12 w-auto object-contain transition-all" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                    <img src="{{ \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="official-logo-img h-10 sm:h-12 w-auto object-contain transition-all dark:hidden">
+                    <img src="{{ \App\Models\SiteSetting::get('logo_dark', '/images/logo robbani dark.png') }}" alt="Logo SIT Robbani" class="official-logo-img h-10 sm:h-12 w-auto object-contain transition-all hidden dark:block">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
@@ -374,7 +388,7 @@
                     
                     <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-1/3">
                         <div class="w-32 h-32 sm:w-44 sm:h-44 mx-auto rounded-full border-4 border-emerald-600 p-1 mb-3 shadow-lg overflow-hidden bg-white">
-                            <img src="{{ $info['principal_photo'] }}" alt="{{ $info['principal_name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                            <img src="{{ $info['principal_photo'] }}" alt="{{ $info['principal_name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.src='/images/logo robbani light.png';">
                         </div>
                         <span class="unit-pill-badge mb-1 px-3 py-0.5 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-emerald-900 dark:text-[#061107] text-[10px] font-black uppercase">KEPALA SEKOLAH</span>
                         <h3 class="text-base sm:text-lg font-bold font-headline text-slate-900 dark:text-white">{{ $info['principal_name'] }}</h3>
@@ -437,7 +451,7 @@
                     @foreach($info['teachers'] as $t)
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-4 sm:p-5 text-center space-y-3 shadow-sm hover:shadow-md transition-all">
                         <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden border-2 border-emerald-500 p-0.5 bg-white">
-                            <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                            <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.src='/images/logo robbani light.png';">
                         </div>
                         <div>
                             <h4 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug">{{ $t['name'] }}</h4>
@@ -468,7 +482,7 @@
                             "{{ $al['text'] }}"
                         </p>
                         <div class="flex items-center gap-3 pt-2 border-t border-slate-100 dark:border-[#1a381c]">
-                            <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                            <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.src='/images/logo robbani light.png';">
                             <div>
                                 <h4 class="text-xs font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h4>
                                 <span class="text-[10px] text-emerald-700 dark:text-[#c6f634] font-semibold block">{{ $al['title'] }}</span>

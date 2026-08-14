@@ -6,7 +6,7 @@
     <title>Login CMS Admin | SmartEdu Digital Platform</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
 
@@ -29,8 +29,8 @@
         
         <!-- Header Brand Info -->
         <div class="text-center space-y-2">
-            <div class="inline-flex p-3 rounded-2xl bg-teal-50 border border-teal-100 mb-2">
-                <img src="/images/smartedu_logo.png" alt="SmartEdu Logo" class="h-12 w-auto object-contain">
+            <div class="inline-flex mb-2">
+                <img src="{{ asset('images/logo robbani light.png') }}" alt="SIT Robbani Logo" class="h-14 w-auto object-contain">
             </div>
             <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Portal CMS Admin</h1>
             <p class="text-xs text-slate-500 font-medium">Masuk untuk mengelola modul fitur, branding, & pengaturan landing page SmartEdu.</p>

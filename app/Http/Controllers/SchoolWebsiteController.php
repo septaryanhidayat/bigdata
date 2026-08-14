@@ -30,6 +30,11 @@ class SchoolWebsiteController extends Controller
             'contact_email' => SiteSetting::get('contact_email', 'info@sitrobbani.sch.id'),
             'contact_address' => SiteSetting::get('contact_address', 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan'),
             'website_theme' => SiteSetting::get('website_theme', 'theme-emerald'),
+            'logo_light' => SiteSetting::get('logo_light', '/images/logo robbani light.png'),
+            'logo_dark' => SiteSetting::get('logo_dark', '/images/logo robbani dark.png'),
+            'website_favicon' => SiteSetting::get('website_favicon', '/favicon.png'),
+            'social_share_image' => SiteSetting::get('social_share_image', '/images/logo robbani light.png'),
+            'principal_photo' => SiteSetting::get('principal_photo', '/images/logo robbani light.png'),
         ];
 
         $schools = School::withCount(['students', 'employees', 'classrooms'])->where('is_active', true)->get();

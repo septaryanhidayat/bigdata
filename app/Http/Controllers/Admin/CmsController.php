@@ -130,6 +130,11 @@ class CmsController extends Controller
             'contact_address' => SiteSetting::get('contact_address', 'Jl. Pendidikan Karakter No. 1-2, Kota Bandung, Jawa Barat'),
             'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600'),
             'hero_banner_opacity' => SiteSetting::get('hero_banner_opacity', '70'),
+            'logo_light' => SiteSetting::get('logo_light', '/images/logo robbani light.png'),
+            'logo_dark' => SiteSetting::get('logo_dark', '/images/logo robbani dark.png'),
+            'website_favicon' => SiteSetting::get('website_favicon', '/favicon.png'),
+            'social_share_image' => SiteSetting::get('social_share_image', '/images/logo robbani light.png'),
+            'principal_photo' => SiteSetting::get('principal_photo', '/images/logo robbani light.png'),
         ];
 
         return view('admin.settings.portal', compact('settings'));
@@ -224,9 +229,70 @@ class CmsController extends Controller
     public function updateSettings(Request $request)
     {
         $data = $request->except('_token');
-        $fileUploaded = false;
 
-        // 1. Process client-compressed base64 payload
+        // 1. Process Logo Light Mode Upload
+        if ($request->filled('logo_light_base64')) {
+            $base64Data = $request->input('logo_light_base64');
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+                $decoded = base64_decode($base64Data);
+                if ($decoded !== false) {
+                    $folder = public_path('uploads/cms');
+                    if (!file_exists($folder)) {
+                        mkdir($folder, 0755, true);
+                    }
+                    $filename = 'logo_light_' . uniqid() . '_' . time() . '.png';
+                    file_put_contents($folder . '/' . $filename, $decoded);
+                    file_put_contents(public_path('images/logo robbani light.png'), $decoded);
+                    file_put_contents(public_path('images/logo-robbani-light.png'), $decoded);
+                    file_put_contents(public_path('images/logo-robbani-official.png'), $decoded);
+                    file_put_contents(public_path('favicon.png'), $decoded);
+
+                    $pathWithQuery = '/uploads/cms/' . $filename . '?v=' . time();
+                    SiteSetting::set('logo_light', $pathWithQuery);
+                    $data['logo_light'] = $pathWithQuery;
+                }
+            }
+        } elseif ($request->hasFile('logo_light_file')) {
+            $compressedPath = \App\Services\ImageOptimizer::compress($request->file('logo_light_file'), 'uploads/cms', 'logo_light_' . uniqid());
+            if ($compressedPath) {
+                $pathWithQuery = $compressedPath . '?v=' . time();
+                SiteSetting::set('logo_light', $pathWithQuery);
+                $data['logo_light'] = $pathWithQuery;
+            }
+        }
+
+        // 2. Process Logo Dark Mode Upload
+        if ($request->filled('logo_dark_base64')) {
+            $base64Data = $request->input('logo_dark_base64');
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+                $decoded = base64_decode($base64Data);
+                if ($decoded !== false) {
+                    $folder = public_path('uploads/cms');
+                    if (!file_exists($folder)) {
+                        mkdir($folder, 0755, true);
+                    }
+                    $filename = 'logo_dark_' . uniqid() . '_' . time() . '.png';
+                    file_put_contents($folder . '/' . $filename, $decoded);
+                    file_put_contents(public_path('images/logo robbani dark.png'), $decoded);
+                    file_put_contents(public_path('images/logo-robbani-dark.png'), $decoded);
+
+                    $pathWithQuery = '/uploads/cms/' . $filename . '?v=' . time();
+                    SiteSetting::set('logo_dark', $pathWithQuery);
+                    $data['logo_dark'] = $pathWithQuery;
+                }
+            }
+        } elseif ($request->hasFile('logo_dark_file')) {
+            $compressedPath = \App\Services\ImageOptimizer::compress($request->file('logo_dark_file'), 'uploads/cms', 'logo_dark_' . uniqid());
+            if ($compressedPath) {
+                $pathWithQuery = $compressedPath . '?v=' . time();
+                SiteSetting::set('logo_dark', $pathWithQuery);
+                $data['logo_dark'] = $pathWithQuery;
+            }
+        }
+
+        // 3. Process Hero Banner Upload
         if ($request->filled('hero_bg_base64')) {
             $base64Data = $request->input('hero_bg_base64');
             if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
@@ -245,29 +311,113 @@ class CmsController extends Controller
                     $pathWithCacheBuster = '/uploads/cms/' . $filename . '?v=' . time();
                     SiteSetting::set('hero_bg_image', $pathWithCacheBuster);
                     $data['hero_bg_image'] = $pathWithCacheBuster;
-                    $fileUploaded = true;
                 }
             }
-        }
-        // 2. Fallback to direct file upload
-        elseif ($request->hasFile('hero_bg_file')) {
+        } elseif ($request->hasFile('hero_bg_file')) {
             $compressedPath = \App\Services\ImageOptimizer::compress($request->file('hero_bg_file'), 'uploads/cms', 'hero_bg_' . uniqid());
             if ($compressedPath) {
                 $pathWithCacheBuster = $compressedPath . '?v=' . time();
                 SiteSetting::set('hero_bg_image', $pathWithCacheBuster);
                 $data['hero_bg_image'] = $pathWithCacheBuster;
-                $fileUploaded = true;
+            }
+        }
+
+        // 4. Process Favicon Upload
+        if ($request->filled('favicon_base64')) {
+            $base64Data = $request->input('favicon_base64');
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+                $decoded = base64_decode($base64Data);
+                if ($decoded !== false) {
+                    $folder = public_path('uploads/cms');
+                    if (!file_exists($folder)) mkdir($folder, 0755, true);
+                    $filename = 'favicon_' . uniqid() . '_' . time() . '.png';
+                    file_put_contents($folder . '/' . $filename, $decoded);
+                    file_put_contents(public_path('favicon.png'), $decoded);
+                    file_put_contents(public_path('favicon.ico'), $decoded);
+                    file_put_contents(public_path('images/favicon.png'), $decoded);
+
+                    $pathWithQuery = '/uploads/cms/' . $filename . '?v=' . time();
+                    SiteSetting::set('website_favicon', $pathWithQuery);
+                    $data['website_favicon'] = $pathWithQuery;
+                }
+            }
+        } elseif ($request->hasFile('favicon_file')) {
+            $compressedPath = \App\Services\ImageOptimizer::compress($request->file('favicon_file'), 'uploads/cms', 'favicon_' . uniqid());
+            if ($compressedPath) {
+                $pathWithQuery = $compressedPath . '?v=' . time();
+                SiteSetting::set('website_favicon', $pathWithQuery);
+                $data['website_favicon'] = $pathWithQuery;
+            }
+        }
+
+        // 5. Process Social Share Image Upload
+        if ($request->filled('social_share_base64')) {
+            $base64Data = $request->input('social_share_base64');
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+                $decoded = base64_decode($base64Data);
+                if ($decoded !== false) {
+                    $folder = public_path('uploads/cms');
+                    if (!file_exists($folder)) mkdir($folder, 0755, true);
+                    $filename = 'og_share_' . uniqid() . '_' . time() . '.png';
+                    file_put_contents($folder . '/' . $filename, $decoded);
+
+                    $pathWithQuery = '/uploads/cms/' . $filename . '?v=' . time();
+                    SiteSetting::set('social_share_image', $pathWithQuery);
+                    $data['social_share_image'] = $pathWithQuery;
+                }
+            }
+        } elseif ($request->hasFile('social_share_file')) {
+            $compressedPath = \App\Services\ImageOptimizer::compress($request->file('social_share_file'), 'uploads/cms', 'og_share_' . uniqid());
+            if ($compressedPath) {
+                $pathWithQuery = $compressedPath . '?v=' . time();
+                SiteSetting::set('social_share_image', $pathWithQuery);
+                $data['social_share_image'] = $pathWithQuery;
+            }
+        }
+
+        // 6. Process Foto Ketua Yayasan Upload
+        if ($request->filled('principal_photo_base64')) {
+            $base64Data = $request->input('principal_photo_base64');
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Data)) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+                $decoded = base64_decode($base64Data);
+                if ($decoded !== false) {
+                    $folder = public_path('uploads/cms');
+                    if (!file_exists($folder)) mkdir($folder, 0755, true);
+                    $filename = 'principal_photo_' . uniqid() . '_' . time() . '.webp';
+                    file_put_contents($folder . '/' . $filename, $decoded);
+
+                    $pathWithQuery = '/uploads/cms/' . $filename . '?v=' . time();
+                    SiteSetting::set('principal_photo', $pathWithQuery);
+                    $data['principal_photo'] = $pathWithQuery;
+                }
+            }
+        } elseif ($request->hasFile('principal_photo_file')) {
+            $compressedPath = \App\Services\ImageOptimizer::compress($request->file('principal_photo_file'), 'uploads/cms', 'principal_photo_' . uniqid());
+            if ($compressedPath) {
+                $pathWithQuery = $compressedPath . '?v=' . time();
+                SiteSetting::set('principal_photo', $pathWithQuery);
+                $data['principal_photo'] = $pathWithQuery;
             }
         }
 
         foreach ($data as $key => $val) {
-            if (in_array($key, ['hero_bg_file', 'hero_bg_base64'])) {
+            if (in_array($key, [
+                'hero_bg_file', 'hero_bg_base64', 
+                'logo_light_file', 'logo_light_base64', 
+                'logo_dark_file', 'logo_dark_base64',
+                'favicon_file', 'favicon_base64',
+                'social_share_file', 'social_share_base64',
+                'principal_photo_file', 'principal_photo_base64'
+            ])) {
                 continue;
             }
             SiteSetting::set($key, $val);
         }
 
-        return redirect()->back()->with('success', 'Pengaturan branding, gambar hero banner, dan opacity berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Pengaturan branding, logo, favicon, gambar sosmed, foto ketua yayasan, dan opacity berhasil diperbarui!');
     }
 
     public function modules()

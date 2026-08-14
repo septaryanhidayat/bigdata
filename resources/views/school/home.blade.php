@@ -6,8 +6,19 @@
     <title>{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir</title>
     <meta name="description" content="{{ $settings['hero_desc'] }}">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/logo-robbani-official.png">
+    <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=2">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi">
+    <meta property="og:description" content="{{ $settings['hero_desc'] }}">
+    <meta property="og:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
+    <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $settings['school_name'] }} | Website Resmi">
+    <meta name="twitter:description" content="{{ $settings['hero_desc'] }}">
+    <meta name="twitter:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
 
     <!-- Tailwind CSS CDN with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -106,10 +117,11 @@
 
         /* 4. Pure White Logo Filter in Dark Mode (NO WHITE BACKGROUND BOX) */
         .logo-badge-container {
-            background-color: #ffffff;
-            padding: 0.375rem 0.625rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            background-color: transparent !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
             display: inline-flex;
             align-items: center;
         }
@@ -433,7 +445,8 @@
             
             <div class="flex items-center gap-md">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 logo-badge-container" title="SIT Robbani Ogan Ilir">
-                    <img alt="SIT Robbani Logo" class="h-9 sm:h-10 w-auto object-contain" src="/images/logo-robbani-official.png" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                    <img alt="SIT Robbani Logo" class="h-10 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}">
+                    <img alt="SIT Robbani Logo" class="h-10 sm:h-12 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}">
                 </a>
             </div>
 
@@ -759,7 +772,7 @@
                     <!-- Foto & Name: Top on Mobile, Left Column on Desktop -->
                     <div class="flex-shrink-0 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full md:w-1/3">
                         <div class="w-28 h-28 sm:w-40 sm:h-40 mx-auto md:mx-0 rounded-full border-4 border-emerald-600 p-1 mb-sm sm:mb-md shadow-lg">
-                            <img class="w-full h-full object-cover rounded-full bg-white" src="/images/logo-robbani-official.png" alt="Ketua Yayasan Generasi Robbani" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                            <img class="w-full h-full object-cover rounded-full bg-white" src="{{ $settings['principal_photo'] ?? '/images/logo robbani light.png' }}" alt="Ketua Yayasan Generasi Robbani" onerror="this.src='/images/logo robbani light.png';">
                         </div>
                         <span class="site-section-badge mb-xs">Ketua Yayasan</span>
                         <h3 class="text-base sm:text-lg font-bold font-headline text-slate-900 mb-xs">{{ $settings['principal_name'] }}</h3>
@@ -1233,7 +1246,8 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 pb-8 sm:pb-10 border-b border-emerald-800/60 dark:border-[#1a381c]">
                 <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4 text-center sm:text-left">
                     <div class="logo-badge-container">
-                        <img src="/images/logo-robbani-official.png" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0" alt="Logo SIT Robbani" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png';">
+                        <img src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 dark:hidden" alt="Logo SIT Robbani">
+                        <img src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 hidden dark:block" alt="Logo SIT Robbani">
                     </div>
                     <div>
                         <h3 class="font-extrabold text-base sm:text-xl text-white font-headline tracking-wide leading-tight">YAYASAN GENERASI ROBBANI</h3>

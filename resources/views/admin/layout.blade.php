@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard') - SmartEdu</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,10 +72,8 @@
         }
 
         /* ==========================================================================
-           DYNAMIC THEME OVERRIDES FOR ALL MODULE VIEWS (MASTER DATA, AKADEMIK, ETC.)
+           DYNAMIC THEME OVERRIDES FOR ALL MODULE VIEWS
            ========================================================================== */
-
-        /* --- 1. THEME MAGENTA (PINK/PURPLE) --- */
         html.theme-magenta .bg-emerald-600, html.theme-magenta .bg-emerald-700, html.theme-magenta .bg-emerald-800, html.theme-magenta .bg-teal-600, html.theme-magenta .bg-teal-700 { background-color: #ec4899 !important; }
         html.theme-magenta .hover\:bg-emerald-700:hover, html.theme-magenta .hover\:bg-emerald-800:hover, html.theme-magenta .hover\:bg-teal-700:hover { background-color: #db2777 !important; }
         html.theme-magenta .text-emerald-600, html.theme-magenta .text-emerald-700, html.theme-magenta .text-emerald-800, html.theme-magenta .text-emerald-900, html.theme-magenta .text-teal-700, html.theme-magenta .group-hover\:text-emerald-700:hover { color: #db2777 !important; }
@@ -83,7 +81,6 @@
         html.theme-magenta .border-emerald-200, html.theme-magenta .border-emerald-300, html.theme-magenta .border-emerald-500, html.theme-magenta .hover\:border-emerald-500:hover { border-color: #fbcfe8 !important; }
         html.theme-magenta .bg-emerald-950, html.theme-magenta .bg-emerald-900, html.theme-magenta .from-emerald-950, html.theme-magenta .from-emerald-900, html.theme-magenta .to-emerald-900, html.theme-magenta .to-emerald-950 { background: linear-gradient(135deg, #831843 0%, #701a75 50%, #4c1d95 100%) !important; }
 
-        /* --- 2. THEME EMERALD (GREEN/TEAL) --- */
         html.theme-emerald .bg-emerald-600, html.theme-emerald .bg-emerald-700, html.theme-emerald .bg-emerald-800, html.theme-emerald .bg-teal-600, html.theme-emerald .bg-teal-700 { background-color: #10b981 !important; }
         html.theme-emerald .hover\:bg-emerald-700:hover, html.theme-emerald .hover\:bg-emerald-800:hover, html.theme-emerald .hover\:bg-teal-700:hover { background-color: #059669 !important; }
         html.theme-emerald .text-emerald-600, html.theme-emerald .text-emerald-700, html.theme-emerald .text-emerald-800, html.theme-emerald .text-emerald-900, html.theme-emerald .text-teal-700, html.theme-emerald .group-hover\:text-emerald-700:hover { color: #047857 !important; }
@@ -91,7 +88,6 @@
         html.theme-emerald .border-emerald-200, html.theme-emerald .border-emerald-300, html.theme-emerald .border-emerald-500, html.theme-emerald .hover\:border-emerald-500:hover { border-color: #a7f3d0 !important; }
         html.theme-emerald .bg-emerald-950, html.theme-emerald .bg-emerald-900, html.theme-emerald .from-emerald-950, html.theme-emerald .from-emerald-900, html.theme-emerald .to-emerald-900, html.theme-emerald .to-emerald-950 { background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #020617 100%) !important; }
 
-        /* --- 3. THEME OCEAN (BLUE/INDIGO) --- */
         html.theme-ocean .bg-emerald-600, html.theme-ocean .bg-emerald-700, html.theme-ocean .bg-emerald-800, html.theme-ocean .bg-teal-600, html.theme-ocean .bg-teal-700 { background-color: #3b82f6 !important; }
         html.theme-ocean .hover\:bg-emerald-700:hover, html.theme-ocean .hover\:bg-emerald-800:hover, html.theme-ocean .hover\:bg-teal-700:hover { background-color: #2563eb !important; }
         html.theme-ocean .text-emerald-600, html.theme-ocean .text-emerald-700, html.theme-ocean .text-emerald-800, html.theme-ocean .text-emerald-900, html.theme-ocean .text-teal-700, html.theme-ocean .group-hover\:text-emerald-700:hover { color: #1d4ed8 !important; }
@@ -99,7 +95,6 @@
         html.theme-ocean .border-emerald-200, html.theme-ocean .border-emerald-300, html.theme-ocean .border-emerald-500, html.theme-ocean .hover\:border-emerald-500:hover { border-color: #bfdbfe !important; }
         html.theme-ocean .bg-emerald-950, html.theme-ocean .bg-emerald-900, html.theme-ocean .from-emerald-950, html.theme-ocean .from-emerald-900, html.theme-ocean .to-emerald-900, html.theme-ocean .to-emerald-950 { background: linear-gradient(135deg, #172554 0%, #1e1b4b 50%, #0f172a 100%) !important; }
 
-        /* --- 4. THEME SUNSET (ROSE/CORAL/ORANGE) --- */
         html.theme-sunset .bg-emerald-600, html.theme-sunset .bg-emerald-700, html.theme-sunset .bg-emerald-800, html.theme-sunset .bg-teal-600, html.theme-sunset .bg-teal-700 { background-color: #f43f5e !important; }
         html.theme-sunset .hover\:bg-emerald-700:hover, html.theme-sunset .hover\:bg-emerald-800:hover, html.theme-sunset .hover\:bg-teal-700:hover { background-color: #e11d48 !important; }
         html.theme-sunset .text-emerald-600, html.theme-sunset .text-emerald-700, html.theme-sunset .text-emerald-800, html.theme-sunset .text-emerald-900, html.theme-sunset .text-teal-700, html.theme-sunset .group-hover\:text-emerald-700:hover { color: #be123c !important; }
@@ -107,7 +102,6 @@
         html.theme-sunset .border-emerald-200, html.theme-sunset .border-emerald-300, html.theme-sunset .border-emerald-500, html.theme-sunset .hover\:border-emerald-500:hover { border-color: #fecdd3 !important; }
         html.theme-sunset .bg-emerald-950, html.theme-sunset .bg-emerald-900, html.theme-sunset .from-emerald-950, html.theme-sunset .from-emerald-900, html.theme-sunset .to-emerald-900, html.theme-sunset .to-emerald-950 { background: linear-gradient(135deg, #4c0519 0%, #431407 50%, #0f172a 100%) !important; }
 
-        /* --- 5. THEME GOLD (AMBER/GOLD) --- */
         html.theme-gold .bg-emerald-600, html.theme-gold .bg-emerald-700, html.theme-gold .bg-emerald-800, html.theme-gold .bg-teal-600, html.theme-gold .bg-teal-700 { background-color: #f59e0b !important; }
         html.theme-gold .hover\:bg-emerald-700:hover, html.theme-gold .hover\:bg-emerald-800:hover, html.theme-gold .hover\:bg-teal-700:hover { background-color: #d97706 !important; }
         html.theme-gold .text-emerald-600, html.theme-gold .text-emerald-700, html.theme-gold .text-emerald-800, html.theme-gold .text-emerald-900, html.theme-gold .text-teal-700, html.theme-gold .group-hover\:text-emerald-700:hover { color: #b45309 !important; }
@@ -115,8 +109,45 @@
         html.theme-gold .border-emerald-200, html.theme-gold .border-emerald-300, html.theme-gold .border-emerald-500, html.theme-gold .hover\:border-emerald-500:hover { border-color: #fde68a !important; }
         html.theme-gold .bg-emerald-950, html.theme-gold .bg-emerald-900, html.theme-gold .from-emerald-950, html.theme-gold .from-emerald-900, html.theme-gold .to-emerald-900, html.theme-gold .to-emerald-950 { background: linear-gradient(135deg, #451a03 0%, #3f2305 50%, #0f172a 100%) !important; }
 
-        /* Collapsed Sidebar CSS */
-        .sidebar-collapsed {
+        /* ==========================================================================
+           DYNAMIC MINIMIZE / COMPACT SIDEBAR STYLES (ICON ONLY MODE)
+           ========================================================================== */
+        #adminSidebar.sidebar-compact {
+            width: 5rem !important; /* 80px compact width */
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+        }
+
+        #adminSidebar.sidebar-compact .sidebar-text,
+        #adminSidebar.sidebar-compact .sidebar-group-title,
+        #adminSidebar.sidebar-compact .sidebar-profile-info {
+            display: none !important;
+        }
+
+        #adminSidebar.sidebar-compact .sidebar-brand-container {
+            justify-content: center !important;
+        }
+
+        #adminSidebar.sidebar-compact .sidebar-expand-icon {
+            display: none !important;
+        }
+
+        #adminSidebar.sidebar-compact .sidebar-compact-icon {
+            display: inline-block !important;
+        }
+
+        #adminSidebar.sidebar-compact .nav-item-link {
+            justify-content: center !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+        }
+
+        #adminSidebar.sidebar-compact .profile-box-container {
+            justify-content: center !important;
+            padding: 0.5rem !important;
+        }
+
+        #adminSidebar.sidebar-compact .logout-text {
             display: none !important;
         }
     </style>
@@ -129,151 +160,182 @@
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col md:flex-row theme-magenta" id="adminBody">
 
-    <!-- Dark Sleek Floating Sidebar (No inner scroll, clean layout) -->
-    <aside id="adminSidebar" class="w-full md:w-64 bg-[#14151b] text-white shrink-0 p-5 flex flex-col justify-between shadow-2xl relative z-20 transition-all duration-300">
-        <div class="space-y-6">
+    <!-- Dark Sleek Floating Sidebar -->
+    <aside id="adminSidebar" class="w-full md:w-64 bg-[#14151b] text-white shrink-0 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative z-20 transition-all duration-300">
+        <div class="space-y-5">
             
             <!-- Logo & Brand Header -->
-            <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo SmartEdu" class="w-9 h-9 object-contain rounded-xl bg-white p-1 shadow-md">
-                    <div>
-                        <h2 class="font-black text-base tracking-tight leading-none text-white flex items-center gap-1">
-                            <span>SmartEdu</span>
-                            <span class="w-2 h-2 rounded-full bg-theme-accent animate-pulse"></span>
+            <div class="flex items-center justify-between px-1 sidebar-brand-container">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 shrink-0 overflow-hidden">
+                    <img src="{{ \App\Models\SiteSetting::get('logo_dark', '/images/logo robbani dark.png') }}" alt="Logo SIT Robbani" class="h-9 w-auto object-contain shrink-0" onerror="this.src='/images/logo robbani dark.png';">
+                    <div class="sidebar-text overflow-hidden">
+                        <h2 class="font-black text-sm sm:text-base tracking-tight leading-none text-white flex items-center gap-1.5">
+                            <span class="truncate">SmartEdu</span>
+                            <span class="w-2 h-2 rounded-full bg-theme-accent animate-pulse shrink-0"></span>
                         </h2>
-                        <p class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-1">Siakad Robbani</p>
+                        <p class="text-[9px] text-slate-400 font-bold tracking-wider uppercase mt-1 truncate">SIAKAD ROBBANI</p>
                     </div>
+                </a>
+
+                <!-- Minimize / Expand Sidebar Toggle Button -->
+                <button onclick="toggleAdminSidebar()" title="Minimize / Expand Sidebar" class="hidden md:flex w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
+                    <span class="sidebar-expand-icon">◀</span>
+                    <span class="sidebar-compact-icon hidden">▶</span>
+                </button>
+            </div>
+
+            <!-- Profile User Box -->
+            <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 flex items-center gap-3 profile-box-container">
+                <div class="relative shrink-0">
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin Robbani') }}&background=ec4899&color=ffffff&bold=true" alt="Avatar" class="w-9 h-9 rounded-full border-2 border-theme-accent shadow-md">
+                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-[#1d1f27] rounded-full"></span>
+                </div>
+                <div class="overflow-hidden sidebar-profile-info">
+                    <h4 class="font-black text-xs text-white truncate">{{ Auth::user()->name ?? 'Administrator' }}</h4>
+                    <p class="text-[9px] text-theme-accent font-bold uppercase tracking-wider">Super Administrator</p>
                 </div>
             </div>
 
-            <!-- Profile User Box (Matching Reference "ZIHAD BROKEN UIUX Designer") -->
-            <div class="p-3.5 rounded-2xl bg-[#1d1f27] border border-slate-800 flex items-center gap-3">
-                <div class="relative">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin Robbani') }}&background=ec4899&color=ffffff&bold=true" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-theme-accent shadow-md">
-                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-[#1d1f27] rounded-full"></span>
+            <!-- Direct Link Button to Main Website -->
+            <a href="{{ route('home') }}" target="_blank" title="Buka Tampilan Website Utama (SIT Robbani)" class="flex items-center justify-between px-3 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-black hover:opacity-95 transition-all shadow-md group border border-emerald-400/30 nav-item-link">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-white/20 text-white flex items-center justify-center text-sm shrink-0 shadow-inner">🌐</span>
+                    <span class="sidebar-text truncate text-xs">Lihat Website Utama</span>
                 </div>
-                <div class="overflow-hidden">
-                    <h4 class="font-black text-xs text-white truncate">{{ Auth::user()->name ?? 'ZIHAD ROBBANI' }}</h4>
-                    <p class="text-[10px] text-theme-accent font-bold uppercase tracking-wider">Super Administrator</p>
-                </div>
-            </div>
+                <span class="sidebar-text text-xs group-hover:translate-x-1 transition-transform">↗</span>
+            </a>
 
-            <!-- Navigation Links (No inner scrollbar) -->
+            <!-- Navigation Links -->
             <nav class="space-y-1 text-xs font-bold">
                 
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-between px-3.5 py-3 rounded-xl transition-all {{ request()->routeIs('admin.dashboard') ? 'nav-link-active' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                <!-- Dashboard Overview -->
+                <a href="{{ route('admin.dashboard') }}" title="Dashboard Overview" class="flex items-center justify-between px-3 py-2.5 rounded-xl transition-all nav-item-link {{ request()->routeIs('admin.dashboard') ? 'nav-link-active' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
                     <div class="flex items-center gap-3">
-                        <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm">📊</span> 
-                        <span>Dashboard Overview</span>
+                        <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">📊</span> 
+                        <span class="sidebar-text">Dashboard Overview</span>
                     </div>
-                    <span class="w-2 h-2 rounded-full bg-orange-400"></span>
+                    <span class="w-2 h-2 rounded-full bg-orange-400 sidebar-text"></span>
                 </a>
 
                 <!-- Nav Group: Modul 1 Master Data -->
-                <div class="pt-3 pb-1 px-3 flex items-center justify-between">
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-amber-400 font-black uppercase tracking-widest block">Modul 1: Master Data</span>
                 </div>
-                <a href="{{ route('admin.master.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.index') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm">📂</span> 
-                    <span>Master Data Hub</span>
+                <a href="{{ route('admin.master.index') }}" title="Master Data Hub" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.index') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm shrink-0">📂</span> 
+                    <span class="sidebar-text">Master Data Hub</span>
                 </a>
-                <a href="{{ route('admin.master.schools') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.schools') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm">🏛️</span> 
-                    <span>Multi-Sekolah & Profil</span>
+                <a href="{{ route('admin.master.schools') }}" title="Multi-Sekolah & Profil" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.schools') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm shrink-0">🏛️</span> 
+                    <span class="sidebar-text">Multi-Sekolah & Profil</span>
                 </a>
-                <a href="{{ route('admin.master.curriculums') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.curriculums') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm">📜</span> 
-                    <span>Kurikulum & Semester</span>
+                <a href="{{ route('admin.master.curriculums') }}" title="Kurikulum & Semester" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.curriculums') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">📜</span> 
+                    <span class="sidebar-text">Kurikulum & Semester</span>
                 </a>
-                <a href="{{ route('admin.master.classrooms') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.classrooms') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm">🏫</span> 
-                    <span>Tingkat & Rombel</span>
+                <a href="{{ route('admin.master.classrooms') }}" title="Tingkat & Rombel" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.classrooms') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm shrink-0">🏫</span> 
+                    <span class="sidebar-text">Tingkat & Rombel</span>
                 </a>
-                <a href="{{ route('admin.master.students') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.students') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm">🎓</span> 
-                    <span>Data Siswa & RFID</span>
+                <a href="{{ route('admin.master.students') }}" title="Data Siswa & RFID" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.students') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm shrink-0">🎓</span> 
+                    <span class="sidebar-text">Data Siswa & RFID</span>
                 </a>
-                <a href="{{ route('admin.master.teachers') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.teachers') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm">👨‍🏫</span> 
-                    <span>Guru & Karyawan</span>
+                <a href="{{ route('admin.master.teachers') }}" title="Guru & Karyawan" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.teachers') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">👨‍🏫</span> 
+                    <span class="sidebar-text">Guru & Karyawan</span>
                 </a>
-                <a href="{{ route('admin.master.references') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.master.references') ? 'nav-link-active' : 'text-slate-300' }}">
-                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm">📑</span> 
-                    <span>Referensi Mapel & Ruang</span>
+                <a href="{{ route('admin.master.references') }}" title="Referensi Mapel & Ruang" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.references') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm shrink-0">📑</span> 
+                    <span class="sidebar-text">Referensi Mapel & Ruang</span>
                 </a>
 
                 <!-- Nav Group: Modul 2 & 3 Akademik & Presensi -->
-                <div class="pt-3 pb-1 px-3">
-                    <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest block">Akademik & Presensi</span>
+                <div class="pt-3 pb-1 px-3 sidebar-group-title">
+                    <span class="text-[10px] text-purple-400 font-black uppercase tracking-widest block">Akademik & Presensi</span>
                 </div>
-                <a href="{{ route('admin.academic.schedules') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.academic.schedules') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📅</span> <span>Jadwal KBM Mingguan</span>
+                <a href="{{ route('admin.academic.schedules') }}" title="Jadwal KBM Mingguan" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.schedules') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 border border-purple-500/40 flex items-center justify-center text-sm shrink-0">📅</span> 
+                    <span class="sidebar-text">Jadwal KBM Mingguan</span>
                 </a>
-                <a href="{{ route('admin.academic.journals') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.academic.journals') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📖</span> <span>Jurnal KBM Guru</span>
+                <a href="{{ route('admin.academic.journals') }}" title="Jurnal KBM Guru" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.journals') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center text-sm shrink-0">📖</span> 
+                    <span class="sidebar-text">Jurnal KBM Guru</span>
                 </a>
-                <a href="{{ route('admin.academic.grades') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.academic.grades') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📝</span> <span>Penilaian & E-Rapor</span>
+                <a href="{{ route('admin.academic.grades') }}" title="Penilaian & E-Rapor" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.grades') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/40 flex items-center justify-center text-sm shrink-0">📝</span> 
+                    <span class="sidebar-text">Penilaian & E-Rapor</span>
                 </a>
-                <a href="{{ route('admin.attendance.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.attendance.index') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🪪</span> <span>Presensi RFID Gate</span>
+                <a href="{{ route('admin.attendance.index') }}" title="Presensi RFID Gate" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.attendance.index') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-400 border border-teal-500/40 flex items-center justify-center text-sm shrink-0">🪪</span> 
+                    <span class="sidebar-text">Presensi RFID Gate</span>
                 </a>
-                <a href="{{ route('admin.attendance.leaves') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.attendance.leaves') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🏥</span> <span>Pengajuan Izin & Sakit</span>
+                <a href="{{ route('admin.attendance.leaves') }}" title="Pengajuan Izin & Sakit" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.attendance.leaves') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-sm shrink-0">🏥</span> 
+                    <span class="sidebar-text">Pengajuan Izin & Sakit</span>
                 </a>
 
                 <!-- Nav Group: Modul 4, 5, 6 Keuangan & POS -->
-                <div class="pt-3 pb-1 px-3">
-                    <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest block">Keuangan & Cashless</span>
+                <div class="pt-3 pb-1 px-3 sidebar-group-title">
+                    <span class="text-[10px] text-emerald-400 font-black uppercase tracking-widest block">Keuangan & Cashless</span>
                 </div>
-                <a href="{{ route('admin.finance.spp-bills') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.finance.spp-bills') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>💳</span> <span>Kasir SPP & Kwitansi</span>
+                <a href="{{ route('admin.finance.spp-bills') }}" title="Kasir SPP & Kwitansi" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.finance.spp-bills') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">💳</span> 
+                    <span class="sidebar-text">Kasir SPP & Kwitansi</span>
                 </a>
-                <a href="{{ route('admin.finance.coa') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.finance.coa') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📊</span> <span>COA & Jurnal Akuntansi</span>
+                <a href="{{ route('admin.finance.coa') }}" title="COA & Jurnal Akuntansi" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.finance.coa') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center text-sm shrink-0">📊</span> 
+                    <span class="sidebar-text">COA & Jurnal Akuntansi</span>
                 </a>
-                <a href="{{ route('admin.savings.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.savings.*') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🏦</span> <span>Teller Tabungan Siswa</span>
+                <a href="{{ route('admin.savings.index') }}" title="Teller Tabungan Siswa" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.savings.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm shrink-0">🏦</span> 
+                    <span class="sidebar-text">Teller Tabungan Siswa</span>
                 </a>
-                <a href="{{ route('admin.canteen.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.canteen.*') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🛒</span> <span>POS Kantin Cashless</span>
+                <a href="{{ route('admin.canteen.index') }}" title="POS Kantin Cashless" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.canteen.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center justify-center text-sm shrink-0">🛒</span> 
+                    <span class="sidebar-text">POS Kantin Cashless</span>
                 </a>
 
                 <!-- Nav Group: Landing Page & CMS Settings -->
-                <div class="pt-3 pb-1 px-3">
-                    <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest block">Pengaturan Web & Sales</span>
+                <div class="pt-3 pb-1 px-3 sidebar-group-title">
+                    <span class="text-[10px] text-cyan-400 font-black uppercase tracking-widest block">Pengaturan Web & Sales</span>
                 </div>
-                <a href="{{ route('admin.settings.portal') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🏛️</span> <span>Web Portal Utama</span>
+                <a href="{{ route('admin.settings.portal') }}" title="Web Portal Utama" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-400 border border-teal-500/40 flex items-center justify-center text-sm shrink-0">🏛️</span> 
+                    <span class="sidebar-text">Web Portal Utama</span>
                 </a>
-                <a href="{{ route('admin.cms.content') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.cms.content') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🎨</span> <span>Kelola Konten Web</span>
+                <a href="{{ route('admin.cms.content') }}" title="Kelola Konten Web" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.cms.content') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-pink-500/20 text-pink-400 border border-pink-500/40 flex items-center justify-center text-sm shrink-0">🎨</span> 
+                    <span class="sidebar-text">Kelola Konten Web</span>
                 </a>
-                <a href="{{ route('admin.settings.sales') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>📦</span> <span>Landing Sales 21 Modul</span>
+                <a href="{{ route('admin.settings.sales') }}" title="Landing Sales 21 Modul" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 border border-purple-500/40 flex items-center justify-center text-sm shrink-0">📦</span> 
+                    <span class="sidebar-text">Landing Sales 21 Modul</span>
                 </a>
-                <a href="{{ route('admin.settings.units') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.settings.units') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🏢</span> <span>Profil Unit (SD/SMP/SMA)</span>
+                <a href="{{ route('admin.settings.units') }}" title="Profil Unit (SD/SMP/SMA)" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center text-sm shrink-0">🏢</span> 
+                    <span class="sidebar-text">Profil Unit (SD/SMP/SMA)</span>
                 </a>
-                <a href="{{ route('admin.modules.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.modules.*') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>🧩</span> <span>Kelola 21 Modul Fitur</span>
+                <a href="{{ route('admin.modules.index') }}" title="Kelola 21 Modul Fitur" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.modules.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/40 flex items-center justify-center text-sm shrink-0">🧩</span> 
+                    <span class="sidebar-text">Kelola 21 Modul Fitur</span>
                 </a>
-                <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.faqs.*') ? 'nav-link-active' : 'text-slate-400' }}">
-                    <span>❓</span> <span>Kelola FAQ Tanya Jawab</span>
+                <a href="{{ route('admin.faqs.index') }}" title="Kelola FAQ Tanya Jawab" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.faqs.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm shrink-0">❓</span> 
+                    <span class="sidebar-text">Kelola FAQ Tanya Jawab</span>
                 </a>
 
             </nav>
         </div>
 
-        <!-- Sidebar Footer Action Box (Matching Reference "+Add Menu" Card) -->
+        <!-- Sidebar Footer Action Box -->
         <div class="pt-4 mt-6 border-t border-slate-800/80 space-y-3">
-            <div class="p-3.5 rounded-2xl bg-[#1d1f27] border border-slate-800 text-center space-y-2">
-                <p class="text-[11px] text-slate-300 font-semibold leading-tight">SmartEdu Ecosystem Active</p>
+            <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 text-center space-y-2 profile-box-container">
+                <p class="text-[10px] text-slate-400 font-semibold leading-tight sidebar-text">SmartEdu Ecosystem Active</p>
                 <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="w-full py-2 px-3 rounded-xl bg-theme-gradient text-white font-black text-xs transition-colors shadow-lg">
-                        🚪 Keluar (Logout)
+                    <button type="submit" title="Keluar / Logout" class="w-full py-2 px-3 rounded-xl bg-theme-gradient text-white font-black text-xs transition-colors shadow-lg flex items-center justify-center gap-2">
+                        <span>🚪</span> <span class="logout-text">Keluar (Logout)</span>
                     </button>
                 </form>
             </div>
@@ -283,52 +345,57 @@
     <!-- Main Content Container -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
         
-        <!-- Top Bar Header (Matching Reference Image Header with Sidebar Toggle) -->
-        <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between gap-4 sticky top-0 z-10 shadow-sm">
+        <!-- Top Bar Header -->
+        <header class="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between gap-4 sticky top-0 z-10 shadow-sm">
             
             <!-- Sidebar Toggle Button & Global Search Box -->
             <div class="flex items-center gap-3">
                 
-                <!-- Toggle Hide/Show Sidebar Button -->
-                <button onclick="toggleAdminSidebar()" title="Hide/Show Sidebar Nav" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-lg shadow-sm border border-slate-200 transition-transform active:scale-95">
+                <!-- Toggle Minimize/Expand Sidebar Button -->
+                <button onclick="toggleAdminSidebar()" title="Minimize / Expand Sidebar Menu" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-lg shadow-sm border border-slate-200 transition-transform active:scale-95">
                     ☰
                 </button>
 
+                <!-- Direct Website Link (Top Header Quick Button) -->
+                <a href="{{ route('home') }}" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-extrabold text-xs hover:bg-emerald-100 transition-colors">
+                    <span>🌐</span> <span>Lihat Website</span> <span>↗</span>
+                </a>
+
                 <!-- Search Bar -->
-                <div class="hidden sm:flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl w-64 md:w-80">
+                <div class="hidden md:flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl w-64 lg:w-72">
                     <span class="text-slate-400">🔍</span>
                     <input type="text" placeholder="Cari data siswa, guru, tagihan, rfid..." class="bg-transparent border-none text-xs font-semibold focus:outline-none w-full text-slate-700">
                 </div>
             </div>
 
             <!-- Right Controls: 5 Color Preset Switchers & User Dropdown -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 sm:gap-4">
                 
                 <!-- 5 Theme Gradient Color Options -->
-                <div class="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-sm">
                     <span class="text-[10px] text-slate-500 font-black uppercase px-1 hidden lg:inline">Theme:</span>
                     
                     <!-- Option 1: Magenta Pink -->
-                    <button onclick="setAdminTheme('theme-magenta')" data-theme="theme-magenta" title="Theme 1: Neon Magenta" class="theme-btn w-6 h-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 border-2 border-white shadow hover:scale-110 transition-all"></button>
+                    <button onclick="setAdminTheme('theme-magenta')" data-theme="theme-magenta" title="Theme 1: Neon Magenta" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #ec4899 0%, #d946ef 50%, #8b5cf6 100%);"></button>
                     
                     <!-- Option 2: Emerald Robbani -->
-                    <button onclick="setAdminTheme('theme-emerald')" data-theme="theme-emerald" title="Theme 2: Emerald Robbani" class="theme-btn w-6 h-6 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-600 border-2 border-white shadow hover:scale-110 transition-all"></button>
+                    <button onclick="setAdminTheme('theme-emerald')" data-theme="theme-emerald" title="Theme 2: Emerald Robbani" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #06b6d4 100%);"></button>
                     
                     <!-- Option 3: Cyber Ocean Blue -->
-                    <button onclick="setAdminTheme('theme-ocean')" data-theme="theme-ocean" title="Theme 3: Cyber Blue" class="theme-btn w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 border-2 border-white shadow hover:scale-110 transition-all"></button>
+                    <button onclick="setAdminTheme('theme-ocean')" data-theme="theme-ocean" title="Theme 3: Cyber Blue" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);"></button>
                     
                     <!-- Option 4: Sunset Coral -->
-                    <button onclick="setAdminTheme('theme-sunset')" data-theme="theme-sunset" title="Theme 4: Sunset Coral" class="theme-btn w-6 h-6 rounded-full bg-gradient-to-r from-rose-500 to-amber-500 border-2 border-white shadow hover:scale-110 transition-all"></button>
+                    <button onclick="setAdminTheme('theme-sunset')" data-theme="theme-sunset" title="Theme 4: Sunset Coral" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #f43f5e 0%, #f97316 50%, #eab308 100%);"></button>
                     
                     <!-- Option 5: Obsidian Gold -->
-                    <button onclick="setAdminTheme('theme-gold')" data-theme="theme-gold" title="Theme 5: Obsidian Gold" class="theme-btn w-6 h-6 rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 border-2 border-white shadow hover:scale-110 transition-all"></button>
+                    <button onclick="setAdminTheme('theme-gold')" data-theme="theme-gold" title="Theme 5: Obsidian Gold" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);"></button>
                 </div>
 
                 <!-- User Top Profile Indicator -->
                 <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
                     <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin') }}&background=ec4899&color=ffffff&bold=true" class="w-9 h-9 rounded-full border-2 border-theme-accent">
                     <div class="hidden sm:block text-left">
-                        <span class="block text-xs font-black text-slate-900 leading-tight">{{ Auth::user()->name ?? 'Zihad UIUX' }}</span>
+                        <span class="block text-xs font-black text-slate-900 leading-tight">{{ Auth::user()->name ?? 'Administrator' }}</span>
                         <span class="block text-[10px] text-theme-accent font-bold">Admin Portal</span>
                     </div>
                 </div>
@@ -356,12 +423,14 @@
             document.body.className = document.body.className.replace(/theme-\w+/g, '') + ' ' + themeName;
             localStorage.setItem('smartedu_admin_theme', themeName);
 
-            // Highlight active button ring
+            // Highlight active button ring cleanly with shadow ring
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 if (btn.dataset.theme === themeName) {
-                    btn.classList.add('ring-2', 'ring-slate-900', 'scale-110');
+                    btn.style.boxShadow = '0 0 0 2px #ffffff, 0 0 0 4px #0f172a';
+                    btn.style.transform = 'scale(1.15)';
                 } else {
-                    btn.classList.remove('ring-2', 'ring-slate-900', 'scale-110');
+                    btn.style.boxShadow = 'none';
+                    btn.style.transform = 'scale(1)';
                 }
             });
 
@@ -371,19 +440,19 @@
 
         function toggleAdminSidebar() {
             const sidebar = document.getElementById('adminSidebar');
-            sidebar.classList.toggle('sidebar-collapsed');
-            const isCollapsed = sidebar.classList.contains('sidebar-collapsed');
-            localStorage.setItem('smartedu_sidebar_collapsed', isCollapsed);
+            sidebar.classList.toggle('sidebar-compact');
+            const isCompact = sidebar.classList.contains('sidebar-compact');
+            localStorage.setItem('smartedu_sidebar_compact', isCompact);
         }
 
-        // Restore saved theme & sidebar collapse state on page load
+        // Restore saved theme & sidebar compact state on page load
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('smartedu_admin_theme') || 'theme-magenta';
             setAdminTheme(savedTheme);
 
-            const isCollapsed = localStorage.getItem('smartedu_sidebar_collapsed') === 'true';
-            if (isCollapsed) {
-                document.getElementById('adminSidebar').classList.add('sidebar-collapsed');
+            const isCompact = localStorage.getItem('smartedu_sidebar_compact') === 'true';
+            if (isCompact) {
+                document.getElementById('adminSidebar').classList.add('sidebar-compact');
             }
         });
     </script>
