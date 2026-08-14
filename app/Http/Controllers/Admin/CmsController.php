@@ -164,6 +164,61 @@ class CmsController extends Controller
         return view('admin.settings.units', compact('schools'));
     }
 
+    public function editUnitProfile($code)
+    {
+        $cleanCode = strtolower(trim($code));
+        $schoolObj = School::where('code', strtoupper($cleanCode))->first();
+        
+        $unitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
+        $unitData = $unitSetting ? json_decode($unitSetting, true) : [];
+
+        return view('admin.settings.unit_edit', compact('cleanCode', 'schoolObj', 'unitData'));
+    }
+
+    public function updateUnitProfile(Request $request, $code)
+    {
+        $cleanCode = strtolower(trim($code));
+
+        $data = [
+            'name' => $request->input('name'),
+            'code' => strtoupper($cleanCode),
+            'npsn' => $request->input('npsn'),
+            'akreditasi' => $request->input('akreditasi'),
+            'tagline' => $request->input('tagline'),
+            'principal_name' => $request->input('principal_name'),
+            'principal_title' => $request->input('principal_title'),
+            'principal_greeting' => $request->input('principal_greeting'),
+            'description' => $request->input('description'),
+            'vision' => $request->input('vision'),
+            'missions' => array_values(array_filter(array_map('trim', explode("\n", $request->input('missions_text'))))),
+            'phone' => $request->input('phone'),
+            'students_count' => (int) $request->input('students_count'),
+            'employees_count' => (int) $request->input('employees_count'),
+            'classrooms_count' => (int) $request->input('classrooms_count'),
+            'target_hafalan' => $request->input('target_hafalan'),
+        ];
+
+        // Handle Kepsek Photo upload if present
+        if ($request->hasFile('principal_photo')) {
+            $file = $request->file('principal_photo');
+            $filename = 'kepsek_' . $cleanCode . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/cms'), $filename);
+            $data['principal_photo'] = '/uploads/cms/' . $filename;
+        } else {
+            $existing = SiteSetting::get("unit_profile_{$cleanCode}");
+            if ($existing) {
+                $exData = json_decode($existing, true);
+                if (isset($exData['principal_photo'])) {
+                    $data['principal_photo'] = $exData['principal_photo'];
+                }
+            }
+        }
+
+        SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data));
+
+        return redirect()->route('admin.settings.units')->with('success', "Profil Unit " . strtoupper($cleanCode) . " berhasil diperbarui secara mandiri!");
+    }
+
     public function updateSettings(Request $request)
     {
         $data = $request->except('_token');

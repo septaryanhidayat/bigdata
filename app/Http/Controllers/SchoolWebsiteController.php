@@ -178,85 +178,192 @@ class SchoolWebsiteController extends Controller
             $cleanCode = 'tkit';
         }
 
+        $cleanCode = strtolower(trim($code));
         $school = School::withCount(['students', 'employees', 'classrooms'])
             ->where('code', strtoupper($cleanCode))
             ->first();
 
-        if (!$school) {
-            $unitMap = [
-                'tkit' => [
-                    'name' => 'KB & TKIT Robbani Ogan Ilir',
-                    'code' => 'TKIT',
-                    'npsn' => '69981234',
-                    'principal_name' => 'Bunda Nurhayati, S.Pd.AUD',
-                    'description' => 'Kelompok Bermain dan Taman Kanak-Kanak Islam Terpadu berakreditasi unggul. Fokus pada pembentukan adab, pembiasaan hafalan Al-Qur\'an Juz 30 sejak dini, motorik ceria, dan lingkungan tumbuh kembang islami yang menyenangkan.',
-                    'phone' => '0811747472',
-                    'students_count' => 120,
-                    'employees_count' => 15,
-                    'classrooms_count' => 6,
-                    'programs' => [
-                        ['title' => 'Tahfidz Juz 30 Cilik', 'icon' => '📖', 'desc' => 'Metode hafalan menyenangkan khusus anak usia dini dengan target surat pendek Juz 30.'],
-                        ['title' => 'Adab & Doa Harian', 'icon' => '🤲', 'desc' => 'Pembiasaan akhlakul karimah, doa harian, dan praktek ibadah sholat berjamaah.'],
-                        ['title' => 'Sentra Main & Motorik', 'icon' => '🎨', 'desc' => 'Eksplorasi sensorik, seni visual, motorik halus & kasar melalui sentra edukatif.'],
-                        ['title' => 'Billingual Basic', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari secara interaktif.']
-                    ]
+        // Get dynamic unit profile override from SiteSetting if available
+        $dynamicUnitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
+        $customUnit = $dynamicUnitSetting ? json_decode($dynamicUnitSetting, true) : null;
+
+        $unitMap = [
+            'tkit' => [
+                'name' => 'KB & TKIT Robbani Ogan Ilir',
+                'code' => 'TKIT',
+                'npsn' => '69981234',
+                'akreditasi' => 'Terakreditasi Unggul (A)',
+                'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
+                'principal_name' => 'Bunda Hj. Nurhayati, S.Pd.AUD',
+                'principal_title' => 'Kepala Sekolah KB/TKIT Robbani Ogan Ilir',
+                'principal_photo' => '/images/logo-robbani-official.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Periode emas anak usia dini adalah masa terpenting pembentukan karakter dan kecintaan pada Al-Qur\'an. Kami menghadirkan suasana belajar yang gembira, bernilai islami, dan mengedukasi motorik anak secara optimal.',
+                'description' => 'Kelompok Bermain dan Taman Kanak-Kanak Islam Terpadu unggulan di Ogan Ilir. Fokus pada pembentukan adab islami, pembiasaan hafalan Al-Qur\'an Juz 30 sejak dini melalui metode fun-learning, pengembangan motorik ceria, serta literasi sosial dalam lingkungan islami yang hangat dan aman.',
+                'vision' => 'Menjadi Lembaga Pendidikan Anak Usia Dini Islam Terpadu Rujukan dalam Pembentukan Adab, Karakter Qur\'ani, dan Keceriaan Belajar.',
+                'missions' => [
+                    'Menanamkan aqidah islami dan kecintaan pada Al-Qur\'an sejak usia dini.',
+                    'Membiasakan adab islami harian, doa-doa sunnah, dan gerakan sholat secara mandiri.',
+                    'Mengembangkan potensi motorik, sensorik, dan kreativitas anak melalui pembelajaran berbasis sentra.',
+                    'Membangun sinergi kemitraan yang hangat dan komunikatif antara sekolah dan orang tua.'
                 ],
-                'sdit' => [
-                    'name' => 'SDIT Robbani Ogan Ilir',
-                    'code' => 'SDIT',
-                    'npsn' => '69985678',
-                    'principal_name' => 'Ustadz Ahmad Fauzi, S.Pd.I, M.Pd',
-                    'description' => 'Sekolah Dasar Islam Terpadu berakreditasi A. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT, Tahfidz Al-Qur\'an minimal 3-5 Juz, Sains Olimpic, & Literasi Digital.',
-                    'phone' => '0811747472',
-                    'students_count' => 450,
-                    'employees_count' => 38,
-                    'classrooms_count' => 18,
-                    'programs' => [
-                        ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\' dan murojaah harian bersama asatidzh tersertifikasi.'],
-                        ['title' => 'Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Mentoring karakter, penanaman aqidah, dan pembentukan kepemimpinan islami.'],
-                        ['title' => 'Koding & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran dasar pemograman, robotik sederhana, dan eksperimen sains.'],
-                        ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan, serta pembentukan ketangkasan fisik.']
-                    ]
+                'phone' => '0811747472',
+                'students_count' => 120,
+                'employees_count' => 15,
+                'classrooms_count' => 6,
+                'target_hafalan' => 'Juz 30 (Surah Pendek)',
+                'programs' => [
+                    ['title' => 'Tahfidz Juz 30 Cilik', 'icon' => '📖', 'desc' => 'Metode hafalan Al-Qur\'an nada nasyid yang menyenangkan khusus anak usia 3-6 tahun.'],
+                    ['title' => 'Adab & Doa Harian', 'icon' => '🤲', 'desc' => 'Pembiasaan sholat dhuha berjamaah, doa harian, dan adab islami harian.'],
+                    ['title' => 'Sentra Edukatif & Motorik', 'icon' => '🎨', 'desc' => 'Eksplorasi sensorik, seni lukis, balok konstruksi, dan permainan ketangkasan fisik.'],
+                    ['title' => 'Billingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
                 ],
-                'smpit' => [
-                    'name' => 'SMPIT Robbani Ogan Ilir',
-                    'code' => 'SMPIT',
-                    'npsn' => '69989012',
-                    'principal_name' => 'Ustadz Muhammad Ridwan, S.Si, M.Pd',
-                    'description' => 'Sekolah Menengah Pertama Islam Terpadu (Boarding & Fullday). Program unggulan Tahfidz Al-Qur\'an 5-10 Juz, Leadership, Sains Olimpic, dan Bahasa Arab-Inggris.',
-                    'phone' => '0811747472',
-                    'students_count' => 280,
-                    'employees_count' => 26,
-                    'classrooms_count' => 10,
-                    'programs' => [
-                        ['title' => 'Boarding & Fullday System', 'icon' => '🏫', 'desc' => 'Fasilitas asrama islami yang nyaman dengan pengawasan kepengasuhan 24 jam.'],
-                        ['title' => 'Tahfidz Intensive 5-10 Juz', 'icon' => '📜', 'desc' => 'Program karantina tahfidz berkala dengan target hafalan dan pemahaman mutqin.'],
-                        ['title' => 'English & Arabic Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan public speaking.'],
-                        ['title' => 'Koding AI & Digital Skill', 'icon' => '⚡', 'desc' => 'Pengenalan kecerdasan buatan, desain grafis, dan pembuatan website dasar.']
-                    ]
+                'teachers' => [
+                    ['name' => 'Bunda Hj. Nurhayati, S.Pd.AUD', 'role' => 'Kepala Sekolah TKIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
+                    ['name' => 'Bunda Siti Aminah, S.Pd', 'role' => 'Guru Wali Kelas TK-B1', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
+                    ['name' => 'Bunda Rina Marlina, S.Pd.I', 'role' => 'Guru Tahfidz Cilik', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
+                    ['name' => 'Bunda Khadijah, A.Md', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
                 ],
-                'smait' => [
-                    'name' => 'SMAIT Robbani Ogan Ilir',
-                    'code' => 'SMAIT',
-                    'npsn' => '69983456',
-                    'principal_name' => 'Ustadz Syamsul Bahri, M.Sc',
-                    'description' => 'Sekolah Menengah Atas Islam Terpadu unggulan Sains, IT, & Tahfidz. Menyiapkan kelulusan siswa menuju PTN Favorit (UI, ITB, UGM, UNSRI) dan Perguruan Tinggi Luar Negeri.',
-                    'phone' => '0811747472',
-                    'students_count' => 190,
-                    'employees_count' => 22,
-                    'classrooms_count' => 8,
-                    'programs' => [
-                        ['title' => 'Bimbingan PTN & Beasiswa LN', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan bakat minat, dan bimbingan lolos universitas ternama.'],
-                        ['title' => 'Tahfidz Al-Qur\'an 10-30 Juz', 'icon' => '📖', 'desc' => 'Program khusus mencetak Huffazh Al-Qur\'an berijasah sanad.'],
-                        ['title' => 'Riset Sains & Technology Project', 'icon' => '🧪', 'desc' => 'Penelitian ilmiah remaja dan proyek inovasi karya kebanggaan siswa.'],
-                        ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan retorika, debat bahasa inggris, dan kepemimpinan organisasi siswa OSIS.']
-                    ]
+                'alumni' => [
+                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WhatsApp-Image-2022-01-25-at-18.38.24-e1643114298553.jpeg'],
+                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png']
                 ]
-            ];
+            ],
+            'sdit' => [
+                'name' => 'SDIT Robbani Ogan Ilir',
+                'code' => 'SDIT',
+                'npsn' => '69985678',
+                'akreditasi' => 'Terakreditasi A (Unggul)',
+                'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
+                'principal_name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd',
+                'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
+                'principal_photo' => '/images/logo-robbani-official.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
+                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi A unggulan Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
+                'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
+                'missions' => [
+                    'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.',
+                    'Menerapkan Kurikulum Merdeka terintegrasi nilai-nilai keislaman dan pembiasaan ibadah harian.',
+                    'Mengembangkan minat bakat siswa dalam bidang sains, koding digital, seni, dan kepanduan.',
+                    'Membentuk karakter kepemimpinan islami melalui pembinaan Bina Pribadi Islam (BPI).'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 450,
+                'employees_count' => 38,
+                'classrooms_count' => 18,
+                'target_hafalan' => '3 - 5 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
+                    ['title' => 'Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah, karakter, dan kepemimpinan islami.'],
+                    ['title' => 'Koding & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran dasar pemograman, robotik sederhana, dan eksperimen sains sekolah.'],
+                    ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
+                ],
+                'teachers' => [
+                    ['name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd', 'role' => 'Kepala Sekolah SDIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
+                    ['name' => 'Ustadz M. Yusuf, S.Pd.I', 'role' => 'Waka Kesiswaan & Guru Tahfidz', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
+                    ['name' => 'Ustadzah Fatimah, S.Si', 'role' => 'Guru Wali Kelas 5 & Pembina Sains', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
+                    ['name' => 'Ustadz Rizky Pratama, S.Kom', 'role' => 'Guru IT & Koding Digital', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                ],
+                'alumni' => [
+                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
+                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/TK.png']
+                ]
+            ],
+            'smpit' => [
+                'name' => 'SMP IT ROBBANI',
+                'code' => 'SMPIT',
+                'npsn' => '69989012',
+                'akreditasi' => 'Terakreditasi A (Unggul)',
+                'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
+                'principal_name' => 'Ustadz Muhammad Ridwan, S.Si, M.Pd',
+                'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
+                'principal_photo' => '/images/logo-robbani-official.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SMP IT Robbani. Kami memadukan kecerdasan digital (SIPAKAR V2) dan kemuliaan akhlak pada santri untuk melahirkan generasi Rabbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
+                'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu yang memadukan kecerdasan digital, kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter mandiri (Boarding & Fullday). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
+                'vision' => 'Melahirkan Generasi Rabbani yang Beriman dan Bertaqwa, Unggul dalam Ilmu Pengetahuan dan Teknologi serta Berwawasan Global.',
+                'missions' => [
+                    'Mengadakan kegiatan keagamaan secara rutin dan teratur untuk menumbuhkan penghayatan dan pengamalan nilai-nilai ajaran agama Islam.',
+                    'Membina dan menumbuhkan budaya disiplin dan berkarakter.',
+                    'Melaksanakan pengajaran secara efektif dan menyenangkan dengan penerapan teknologi pendidikan (SIPAKAR V2).',
+                    'Membimbing dan mengarahkan setiap murid untuk mengenali potensi diri, sehingga dapat mengembangkan talenta sebagai kecakapan hidupnya.',
+                    'Menumbuhkan daya juang serta semangat yang tinggi dalam belajar dan bekerja keras untuk meraih prestasi dan peduli terhadap lingkungan.'
+                ],
+                'phone' => '085377193977',
+                'students_count' => 280,
+                'employees_count' => 26,
+                'classrooms_count' => 10,
+                'target_hafalan' => '5 - 10 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi, modul CBT, dan rekam jejak hafalan.'],
+                    ['title' => 'Boarding & Fullday System', 'icon' => '🏫', 'desc' => 'Pengasuhan 24 jam dengan pembiasaan tahajud, subuh berjamaah, dan disiplin tinggi.'],
+                    ['title' => 'Tahfidz Intensive 5-10 Juz', 'icon' => '📜', 'desc' => 'Karantina tahfidz berkala dengan target hafalan mutqin dan pemahaman Al-Qur\'an.'],
+                    ['title' => 'English & Arabic Active Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan lomba public speaking.']
+                ],
+                'teachers' => [
+                    ['name' => 'Ustadz M. Ridwan, S.Si, M.Pd', 'role' => 'Kepala Sekolah SMPIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
+                    ['name' => 'Ustadz Farhan, Lc', 'role' => 'Guru Bahasa Arab & Musyrif', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
+                    ['name' => 'Ustadzah Syifa, S.Pd', 'role' => 'Guru Matematika & Pembina OSN', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
+                    ['name' => 'Ustadz Abdullah, S.Pd.I', 'role' => 'Pembina Tahfidz & Keasramaan', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                ],
+                'alumni' => [
+                    ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Kehidupan di asrama SMPIT melatih saya mandiri, disiplin ibadah malam, dan hafal 7 juz Al-Qur\'an.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png'],
+                    ['name' => 'Calvin', 'title' => 'Siswa Boarding SMPIT', 'text' => 'Fasilitas asramanya lengkap, gurunya ramah dan selalu mendampingi saat belajar malam.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png']
+                ]
+            ],
+            'smait' => [
+                'name' => 'SMAIT Robbani Ogan Ilir',
+                'code' => 'SMAIT',
+                'npsn' => '69983456',
+                'akreditasi' => 'Terakreditasi A (Unggul)',
+                'tagline' => 'Center of Excellence: Science, IT, Tahfidz 10-30 Juz, & Mentoring PTN',
+                'principal_name' => 'Ustadz Syamsul Bahri, M.Sc',
+                'principal_title' => 'Kepala Sekolah SMAIT Robbani Ogan Ilir',
+                'principal_photo' => '/images/logo-robbani-official.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. SMAIT Robbani mengantarkan para santri lulusan untuk memimpin dunia, unggul dalam seleksi UTBK PTN ternama (UI, ITB, UGM, UNSRI), serta berjiwa Huffazh Al-Qur\'an yang tangguh.',
+                'description' => 'Sekolah Menengah Atas Islam Terpadu jenjang lanjutan berfokus pada persiapan tembus PTN Favorit & Beasiswa Luar Negeri, Tahfidz Al-Qur\'an 10-30 Juz berijazah sanad, serta Riset Sains & Leadership.',
+                'vision' => 'Menjadi SMAIT Unggulan Nasional dalam Melahirkan Ilmuwan Muslim, Huffazh Al-Qur\'an, dan Pemimpin Masa Depan.',
+                'missions' => [
+                    'Menyelenggarakan bimbingan intensif UTBK-SNBT dan seleksi PTN / Beasiswa Luar Negeri.',
+                    'Melahirkan lulusan berjiwa Huffazh Al-Qur\'an target 10-30 Juz berijazah sanad.',
+                    'Mendorong riset sains remaja, inovasi koding digital, dan karya ilmiah tingkat nasional.',
+                    'Membentuk karakter kader dakwah dan pemimpin berintegritas tinggi.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 190,
+                'employees_count' => 22,
+                'classrooms_count' => 8,
+                'target_hafalan' => '10 - 30 Juz (Huffazh)',
+                'programs' => [
+                    ['title' => 'Bimbingan Intensif PTN & Beasiswa', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan jurusan, dan pendampingan lolos perguruan tinggi ternama.'],
+                    ['title' => 'Tahfidz 10-30 Juz & Sanad', 'icon' => '📖', 'desc' => 'Program khusus santri tahfidz dengan target mutqin dan persiapan pengambilan sanad.'],
+                    ['title' => 'Riset Sains & Technology Project', 'icon' => '🧪', 'desc' => 'Penelitian ilmiah remaja, karya tulis ilmiah, dan proyek teknologi buatan siswa.'],
+                    ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
+                ],
+                'teachers' => [
+                    ['name' => 'Ustadz Syamsul Bahri, M.Sc', 'role' => 'Kepala Sekolah SMAIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
+                    ['name' => 'Ustadz Dr. H. Burhanuddin, M.A', 'role' => 'Guru Al-Qur\'an & Hadits', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
+                    ['name' => 'Ustadzah Intan, M.Pd', 'role' => 'Koordinator Bimbingan PTN / Fisika', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
+                    ['name' => 'Ustadz Ahmad Zaki, S.T', 'role' => 'Pembina Coding & Robotik', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                ],
+                'alumni' => [
+                    ['name' => 'Ahmad Rivaldi', 'title' => 'Alumni SMAIT - Mahasiswa ITB', 'text' => 'Didikan di SMAIT Robbani membuat saya siap bersaing di ITB sambil tetap menjaga hafalan Al-Qur\'an.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png'],
+                    ['name' => 'Siti Humaira', 'title' => 'Alumni SMAIT - Kedokteran UNSRI', 'text' => 'Bimbingan sains dan motivasi di SMAIT Robbani sangat membantu kelulusan saya di Kedokteran.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/TK.png']
+                ]
+            ]
+        ];
 
-            $uKey = isset($unitMap[$cleanCode]) ? $cleanCode : 'sdit';
-            $info = $unitMap[$uKey];
+        $uKey = isset($unitMap[$cleanCode]) ? $cleanCode : 'sdit';
+        $defaultInfo = $unitMap[$uKey];
 
+        // Merge custom setting if present
+        $info = array_merge($defaultInfo, $customUnit ?? []);
+
+        if ($school) {
+            $school->name = $info['name'];
+            $school->npsn = $info['npsn'];
+            $school->principal_name = $info['principal_name'];
+            $school->description = $info['description'];
+            $school->phone = $info['phone'];
+        } else {
             $school = (object) [
                 'id' => 1,
                 'name' => $info['name'],
@@ -279,7 +386,7 @@ class SchoolWebsiteController extends Controller
         $settings = $this->getSettings();
         $headerMenus = $this->getHeaderMenus();
 
-        return view('school.unit', compact('school', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus'));
+        return view('school.unit', compact('school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus'));
     }
 
     public function beritaIndex()

@@ -50,12 +50,12 @@
                 </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+            <div class="pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
                 <a href="{{ route('school.unit', strtolower($sc->code)) }}" target="_blank" class="text-xs font-black text-emerald-700 hover:underline flex items-center gap-1">
-                    <span>Lihat Web Unit ➔</span>
+                    <span>Web Unit ➔</span>
                 </a>
-                <a href="{{ route('admin.master.schools') }}" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold">
-                    Edit Unit
+                <a href="{{ route('admin.settings.units.edit', strtolower($sc->code)) }}" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-sm">
+                    ✏️ Edit Profil Unit
                 </a>
             </div>
         </div>

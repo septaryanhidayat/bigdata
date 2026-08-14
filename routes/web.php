@@ -66,6 +66,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
         Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');
         Route::get('/settings/units', [CmsController::class, 'settingsUnits'])->name('settings.units');
+        Route::get('/settings/units/{code}/edit', [CmsController::class, 'editUnitProfile'])->name('settings.units.edit');
+        Route::post('/settings/units/{code}/update', [CmsController::class, 'updateUnitProfile'])->name('settings.units.update');
         Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
 
         // Modules Management & Show/Hide Toggles
