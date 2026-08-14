@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false }">
+<html lang="id" class="scroll-smooth" x-data="{ darkMode: false }" :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +9,45 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
-        .btn-dark-lime { background-color: #a8f52c !important; color: #070c04 !important; }
-        .btn-light-emerald { background-color: #059669 !important; color: #ffffff !important; }
+        .btn-dark-lime { background-color: #c6f634 !important; color: #071208 !important; }
+        .btn-light-emerald { background-color: #004532 !important; color: #ffffff !important; }
+
+        /* Electric Lemon & Deep Obsidian Emerald Dark Mode System */
+        html.dark, html.dark body {
+            background-color: #071208 !important;
+            color: #f7fee7 !important;
+        }
+
+        html.dark header, html.dark section, html.dark footer, html.dark main {
+            background-color: #071208 !important;
+        }
+
+        html.dark .bg-white, html.dark .bg-slate-50 {
+            background-color: #112413 !important;
+            border-color: #1e3c20 !important;
+            color: #f7fee7 !important;
+        }
+
+        html.dark .text-slate-900, html.dark .text-slate-800, html.dark .text-slate-700 {
+            color: #f7fee7 !important;
+        }
+
+        html.dark .text-slate-600, html.dark .text-slate-500, html.dark .text-slate-400 {
+            color: #d9f99d !important;
+        }
+
+        html.dark .bg-emerald-100, html.dark .bg-orange-100 {
+            background-color: #1e3c20 !important;
+            border-color: #2c592f !important;
+            color: #c6f634 !important;
+        }
+
+        html.dark .border-slate-200, html.dark .border-slate-300 {
+            border-color: #1e3c20 !important;
+        }
     </style>
 </head>
-<body :class="darkMode ? 'bg-[#0b1206] text-lime-50' : 'bg-slate-50 text-slate-900'" class="antialiased min-h-screen pb-24 lg:pb-0">
+<body class="bg-slate-50 dark:bg-[#071208] text-slate-900 dark:text-[#f7fee7] antialiased min-h-screen pb-24 lg:pb-0">
 
     <header :class="darkMode ? 'bg-[#070c04] border-[#1c3011]' : 'bg-white border-slate-200'" class="py-4 px-6 sticky top-0 z-50 border-b shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between">

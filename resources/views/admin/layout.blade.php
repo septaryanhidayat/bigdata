@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -245,6 +246,9 @@
                 </div>
                 <a href="{{ route('admin.settings.portal') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-400' }}">
                     <span>🏛️</span> <span>Web Portal Utama</span>
+                </a>
+                <a href="{{ route('admin.cms.content') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.cms.content') ? 'nav-link-active' : 'text-slate-400' }}">
+                    <span>🎨</span> <span>Kelola Konten Web</span>
                 </a>
                 <a href="{{ route('admin.settings.sales') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800/80 transition-colors {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-400' }}">
                     <span>📦</span> <span>Landing Sales 21 Modul</span>

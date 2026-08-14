@@ -6,13 +6,13 @@
     <title>E-SPP & Portal ARSI Mobile | {{ $settings['school_name'] }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1206; color: #f7fee7; }
-        .btn-lime-primary { background-color: #a8f52c !important; color: #070c04 !important; }
-        .card-dark-surface { background-color: #14220c !important; border: 1px solid #264218 !important; }
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #071208; color: #f7fee7; }
+        .btn-lime-primary { background-color: #c6f634 !important; color: #071208 !important; font-weight: 900 !important; }
+        .card-dark-surface { background-color: #112413 !important; border: 1px solid #1e3c20 !important; }
     </style>
 </head>
-<body class="bg-[#0b1206] text-lime-50 antialiased min-h-screen pb-24 lg:pb-0">
+<body class="bg-[#071208] text-[#f7fee7] antialiased min-h-screen pb-24 lg:pb-0">
 
     <header class="bg-[#070c04] py-4 px-6 sticky top-0 z-50 border-b border-[#1c3011]">
         <div class="max-w-7xl mx-auto flex items-center justify-between">

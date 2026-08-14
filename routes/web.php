@@ -55,7 +55,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [CmsController::class, 'dashboard'])->name('dashboard');
         
-        // Separated Settings & Branding Modules
+        // Dynamic Web Content Management (Berita, Video, Agenda, Pengumuman, Sarana Prasarana, Galeri)
+        Route::get('/cms/content', [CmsController::class, 'contentIndex'])->name('cms.content');
+        Route::post('/cms/content/update', [CmsController::class, 'updateCmsContent'])->name('cms.content.update');
+        Route::post('/cms/content/item/add', [CmsController::class, 'addCmsItem'])->name('cms.content.add');
+        Route::delete('/cms/content/item/delete', [CmsController::class, 'deleteCmsItem'])->name('cms.content.delete');
+
+        // Settings & Branding Modules
         Route::get('/settings', [CmsController::class, 'settingsPortal'])->name('settings');
         Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
         Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');

@@ -307,4 +307,163 @@ class CmsController extends Controller
 
         return redirect()->back()->with('success', 'FAQ berhasil dihapus!');
     }
+
+    public function contentIndex(Request $request)
+    {
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+        
+        $newsList = $schoolWebsiteCtrl->getNewsData();
+        $videoList = $schoolWebsiteCtrl->getVideoData();
+        $agendaList = $schoolWebsiteCtrl->getAgendaData();
+        $announcementList = $schoolWebsiteCtrl->getAnnouncementData();
+        $facilityList = $schoolWebsiteCtrl->getFacilityData();
+        $galleryList = $schoolWebsiteCtrl->getGalleryData();
+        $headerMenus = $schoolWebsiteCtrl->getHeaderMenus();
+
+        $heroSettings = [
+            'hero_badge' => SiteSetting::get('hero_badge', '✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027'),
+            'hero_title' => SiteSetting::get('hero_title', 'Taman Pendidikan & Sekolah Islam Terpadu Robbani'),
+            'hero_desc' => SiteSetting::get('hero_desc', 'Mencetak Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Berprestasi Nasional di Kabupaten Ogan Ilir, Sumatera Selatan.'),
+            'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://lh3.googleusercontent.com/aida/AP1WRLuf5i7pWfq9dzqqqjNB6dJ3JNiFjsv6Iv0erwSW9QTXek-Ur1VI-e_ULP2zi3qLQIbKln9GGYMrKRcDMpgsk8uELhhqxDf4J0N_tZ3ObFRa1UmfynfH5wzEfpsoQwZd8ofmDXnfj0-gwTaJjxlH2Gt_qt3XIBHF0DtXovfyqeC4E7-y7dd3rgARHyA57tjdlEywmGuLbJ1q3jagkMiPIv2sK3XpKR-CEw_Kr3hiDZtYNpxD6JtANagJSWCU'),
+        ];
+
+        $activeTab = $request->get('tab', 'hero');
+
+        return view('admin.cms.content', compact(
+            'newsList', 'videoList', 'agendaList', 'announcementList', 'facilityList', 'galleryList', 'headerMenus', 'heroSettings', 'activeTab'
+        ));
+    }
+
+    public function updateCmsContent(Request $request)
+    {
+        $module = $request->input('module');
+
+        if ($module === 'hero') {
+            SiteSetting::set('hero_badge', $request->input('hero_badge', ''));
+            SiteSetting::set('hero_title', $request->input('hero_title', ''));
+            SiteSetting::set('hero_desc', $request->input('hero_desc', ''));
+
+            if ($request->hasFile('hero_bg_file')) {
+                $file = $request->file('hero_bg_file');
+                $filename = 'hero_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/cms'), $filename);
+                SiteSetting::set('hero_bg_image', '/uploads/cms/' . $filename);
+            } elseif ($request->filled('hero_bg_image')) {
+                SiteSetting::set('hero_bg_image', $request->input('hero_bg_image'));
+            }
+
+            return redirect()->route('admin.cms.content', ['tab' => 'hero'])->with('success', 'Banner Hero & Gambar Background Sekolah berhasil diperbarui!');
+        }
+
+        if ($module === 'menu') {
+            $menus = $request->input('menus', []);
+            $formattedMenus = [];
+            foreach ($menus as $m) {
+                if (!empty($m['title'])) {
+                    $formattedMenus[] = [
+                        'title' => $m['title'],
+                        'url' => $m['url'] ?? '#',
+                        'is_active' => isset($m['is_active']) && $m['is_active'] == '1' ? true : false,
+                    ];
+                }
+            }
+            SiteSetting::set('cms_header_menus', json_encode(array_values($formattedMenus)));
+            return redirect()->route('admin.cms.content', ['tab' => 'menu'])->with('success', 'Pengaturan Menu Header berhasil diperbarui!');
+        }
+
+        $jsonItems = $request->input('items');
+
+        if ($module && is_array($jsonItems)) {
+            SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($jsonItems)));
+            return redirect()->route('admin.cms.content', ['tab' => $module])->with('success', "Data " . ucfirst($module) . " berhasil diperbarui!");
+        }
+
+        return redirect()->back()->with('error', 'Gagal memperbarui data.');
+    }
+
+    public function addCmsItem(Request $request)
+    {
+        $module = $request->input('module');
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+
+        if ($module === 'menu') {
+            $currentData = $schoolWebsiteCtrl->getHeaderMenus();
+            $newItem = [
+                'title' => $request->input('title', 'Menu Baru'),
+                'url' => $request->input('url', '#'),
+                'is_active' => true,
+            ];
+            $currentData[] = $newItem;
+            SiteSetting::set('cms_header_menus', json_encode(array_values($currentData)));
+            return redirect()->route('admin.cms.content', ['tab' => 'menu'])->with('success', 'Menu header baru berhasil ditambahkan!');
+        }
+
+        $currentData = [];
+        if ($module === 'news') $currentData = $schoolWebsiteCtrl->getNewsData();
+        elseif ($module === 'video') $currentData = $schoolWebsiteCtrl->getVideoData();
+        elseif ($module === 'agenda') $currentData = $schoolWebsiteCtrl->getAgendaData();
+        elseif ($module === 'announcement') $currentData = $schoolWebsiteCtrl->getAnnouncementData();
+        elseif ($module === 'facility') $currentData = $schoolWebsiteCtrl->getFacilityData();
+        elseif ($module === 'gallery') $currentData = $schoolWebsiteCtrl->getGalleryData();
+
+        $newItem = $request->except(['_token', 'module', 'image_file', 'thumbnail_file']);
+
+        if ($request->hasFile('image_file')) {
+            $file = $request->file('image_file');
+            $filename = $module . '_' . time() . '_' . \Illuminate\Support\Str::random(6) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/cms'), $filename);
+            $newItem['image'] = '/uploads/cms/' . $filename;
+        }
+
+        if ($request->hasFile('thumbnail_file')) {
+            $file = $request->file('thumbnail_file');
+            $filename = 'thumb_' . time() . '_' . \Illuminate\Support\Str::random(6) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/cms'), $filename);
+            $newItem['thumbnail'] = '/uploads/cms/' . $filename;
+        }
+        
+        // Auto-generate slug if news
+        if ($module === 'news' && !empty($newItem['title'])) {
+            $newItem['slug'] = \Illuminate\Support\Str::slug($newItem['title']);
+        }
+
+        array_unshift($currentData, $newItem);
+        SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($currentData)));
+
+        return redirect()->route('admin.cms.content', ['tab' => $module])->with('success', 'Item baru berhasil ditambahkan!');
+    }
+
+    public function deleteCmsItem(Request $request)
+    {
+        $module = $request->input('module');
+        $index = (int) $request->input('index');
+        
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+
+        if ($module === 'menu') {
+            $currentData = $schoolWebsiteCtrl->getHeaderMenus();
+            if (isset($currentData[$index])) {
+                array_splice($currentData, $index, 1);
+                SiteSetting::set('cms_header_menus', json_encode(array_values($currentData)));
+                return redirect()->route('admin.cms.content', ['tab' => 'menu'])->with('success', 'Menu header berhasil dihapus!');
+            }
+        }
+
+        $currentData = [];
+        if ($module === 'news') $currentData = $schoolWebsiteCtrl->getNewsData();
+        elseif ($module === 'video') $currentData = $schoolWebsiteCtrl->getVideoData();
+        elseif ($module === 'agenda') $currentData = $schoolWebsiteCtrl->getAgendaData();
+        elseif ($module === 'announcement') $currentData = $schoolWebsiteCtrl->getAnnouncementData();
+        elseif ($module === 'facility') $currentData = $schoolWebsiteCtrl->getFacilityData();
+        elseif ($module === 'gallery') $currentData = $schoolWebsiteCtrl->getGalleryData();
+
+        if (isset($currentData[$index])) {
+            array_splice($currentData, $index, 1);
+            SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($currentData)));
+            return redirect()->route('admin.cms.content', ['tab' => $module])->with('success', 'Item berhasil dihapus!');
+        }
+
+        return redirect()->back()->with('error', 'Item tidak ditemukan.');
+    }
 }
+

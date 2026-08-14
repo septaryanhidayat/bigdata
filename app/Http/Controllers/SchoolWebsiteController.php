@@ -16,9 +16,10 @@ class SchoolWebsiteController extends Controller
         $settings = [
             'school_name' => SiteSetting::get('school_name', 'Yayasan Generasi Robbani Sumatera Selatan'),
             'tagline' => SiteSetting::get('tagline', 'Official Website Sekolah Islam Terpadu Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT)'),
-            'hero_badge' => SiteSetting::get('hero_badge', '✨ YAYASAN GENERASI ROBBANI SUMATERA SELATAN'),
-            'hero_title' => SiteSetting::get('hero_title', 'Membentuk Generasi Rabbani Berakhlak Mulia & Berprestasi Digital'),
-            'hero_desc' => SiteSetting::get('hero_desc', 'Yayasan Generasi Robbani Sumatera Selatan menyelenggarakan pendidikan Islam Terpadu unggul dari jenjang KB/TKIT Robbani, SDIT Robbani, SMPIT Robbani, hingga SMAIT Robbani di Ogan Ilir dengan Kurikulum Merdeka, Kekhasan JSIT, Tahfidz Al-Qur\'an, dan Ekosistem Digital.'),
+            'hero_badge' => SiteSetting::get('hero_badge', '✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027'),
+            'hero_title' => SiteSetting::get('hero_title', 'Taman Pendidikan & Sekolah Islam Terpadu Robbani'),
+            'hero_desc' => SiteSetting::get('hero_desc', 'Mencetak Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Berprestasi Nasional di Kabupaten Ogan Ilir, Sumatera Selatan.'),
+            'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://lh3.googleusercontent.com/aida/AP1WRLuf5i7pWfq9dzqqqjNB6dJ3JNiFjsv6Iv0erwSW9QTXek-Ur1VI-e_ULP2zi3qLQIbKln9GGYMrKRcDMpgsk8uELhhqxDf4J0N_tZ3ObFRa1UmfynfH5wzEfpsoQwZd8ofmDXnfj0-gwTaJjxlH2Gt_qt3XIBHF0DtXovfyqeC4E7-y7dd3rgARHyA57tjdlEywmGuLbJ1q3jagkMiPIv2sK3XpKR-CEw_Kr3hiDZtYNpxD6JtANagJSWCU'),
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
             'principal_name' => SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd'),
             'principal_title' => SiteSetting::get('principal_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
@@ -136,10 +137,12 @@ class SchoolWebsiteController extends Controller
             ]
         ];
 
-        // Data Video, Agenda, Pengumuman Native
+        // Data Video, Agenda, Pengumuman, Fasilitas, Galeri & Header Menu Native / Dynamic CMS
         $videoList = $this->getVideoData();
         $agendaList = $this->getAgendaData();
         $announcementList = $this->getAnnouncementData();
+        $galleryList = $this->getGalleryData();
+        $headerMenus = $this->getHeaderMenus();
 
         return view('school.home', compact(
             'settings',
@@ -155,7 +158,9 @@ class SchoolWebsiteController extends Controller
             'integratedServices',
             'videoList',
             'agendaList',
-            'announcementList'
+            'announcementList',
+            'galleryList',
+            'headerMenus'
         ));
     }
 
@@ -168,17 +173,113 @@ class SchoolWebsiteController extends Controller
 
     public function unitProfile($code)
     {
-        $school = School::withCount(['students', 'employees', 'classrooms'])
-            ->where('code', strtoupper($code))
-            ->firstOrFail();
+        $cleanCode = strtolower($code);
+        if ($cleanCode === 'kbtkit') {
+            $cleanCode = 'tkit';
+        }
 
-        $students = Student::where('school_id', $school->id)->where('status', 'aktif')->take(10)->get();
-        $teachers = Employee::where('school_id', $school->id)->where('status', 'aktif')->take(8)->get();
-        $classrooms = Classroom::where('school_id', $school->id)->with('level')->get();
+        $school = School::withCount(['students', 'employees', 'classrooms'])
+            ->where('code', strtoupper($cleanCode))
+            ->first();
+
+        if (!$school) {
+            $unitMap = [
+                'tkit' => [
+                    'name' => 'KB & TKIT Robbani Ogan Ilir',
+                    'code' => 'TKIT',
+                    'npsn' => '69981234',
+                    'principal_name' => 'Bunda Nurhayati, S.Pd.AUD',
+                    'description' => 'Kelompok Bermain dan Taman Kanak-Kanak Islam Terpadu berakreditasi unggul. Fokus pada pembentukan adab, pembiasaan hafalan Al-Qur\'an Juz 30 sejak dini, motorik ceria, dan lingkungan tumbuh kembang islami yang menyenangkan.',
+                    'phone' => '0811747472',
+                    'students_count' => 120,
+                    'employees_count' => 15,
+                    'classrooms_count' => 6,
+                    'programs' => [
+                        ['title' => 'Tahfidz Juz 30 Cilik', 'icon' => '📖', 'desc' => 'Metode hafalan menyenangkan khusus anak usia dini dengan target surat pendek Juz 30.'],
+                        ['title' => 'Adab & Doa Harian', 'icon' => '🤲', 'desc' => 'Pembiasaan akhlakul karimah, doa harian, dan praktek ibadah sholat berjamaah.'],
+                        ['title' => 'Sentra Main & Motorik', 'icon' => '🎨', 'desc' => 'Eksplorasi sensorik, seni visual, motorik halus & kasar melalui sentra edukatif.'],
+                        ['title' => 'Billingual Basic', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari secara interaktif.']
+                    ]
+                ],
+                'sdit' => [
+                    'name' => 'SDIT Robbani Ogan Ilir',
+                    'code' => 'SDIT',
+                    'npsn' => '69985678',
+                    'principal_name' => 'Ustadz Ahmad Fauzi, S.Pd.I, M.Pd',
+                    'description' => 'Sekolah Dasar Islam Terpadu berakreditasi A. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT, Tahfidz Al-Qur\'an minimal 3-5 Juz, Sains Olimpic, & Literasi Digital.',
+                    'phone' => '0811747472',
+                    'students_count' => 450,
+                    'employees_count' => 38,
+                    'classrooms_count' => 18,
+                    'programs' => [
+                        ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\' dan murojaah harian bersama asatidzh tersertifikasi.'],
+                        ['title' => 'Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Mentoring karakter, penanaman aqidah, dan pembentukan kepemimpinan islami.'],
+                        ['title' => 'Koding & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran dasar pemograman, robotik sederhana, dan eksperimen sains.'],
+                        ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan, serta pembentukan ketangkasan fisik.']
+                    ]
+                ],
+                'smpit' => [
+                    'name' => 'SMPIT Robbani Ogan Ilir',
+                    'code' => 'SMPIT',
+                    'npsn' => '69989012',
+                    'principal_name' => 'Ustadz Muhammad Ridwan, S.Si, M.Pd',
+                    'description' => 'Sekolah Menengah Pertama Islam Terpadu (Boarding & Fullday). Program unggulan Tahfidz Al-Qur\'an 5-10 Juz, Leadership, Sains Olimpic, dan Bahasa Arab-Inggris.',
+                    'phone' => '0811747472',
+                    'students_count' => 280,
+                    'employees_count' => 26,
+                    'classrooms_count' => 10,
+                    'programs' => [
+                        ['title' => 'Boarding & Fullday System', 'icon' => '🏫', 'desc' => 'Fasilitas asrama islami yang nyaman dengan pengawasan kepengasuhan 24 jam.'],
+                        ['title' => 'Tahfidz Intensive 5-10 Juz', 'icon' => '📜', 'desc' => 'Program karantina tahfidz berkala dengan target hafalan dan pemahaman mutqin.'],
+                        ['title' => 'English & Arabic Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan public speaking.'],
+                        ['title' => 'Koding AI & Digital Skill', 'icon' => '⚡', 'desc' => 'Pengenalan kecerdasan buatan, desain grafis, dan pembuatan website dasar.']
+                    ]
+                ],
+                'smait' => [
+                    'name' => 'SMAIT Robbani Ogan Ilir',
+                    'code' => 'SMAIT',
+                    'npsn' => '69983456',
+                    'principal_name' => 'Ustadz Syamsul Bahri, M.Sc',
+                    'description' => 'Sekolah Menengah Atas Islam Terpadu unggulan Sains, IT, & Tahfidz. Menyiapkan kelulusan siswa menuju PTN Favorit (UI, ITB, UGM, UNSRI) dan Perguruan Tinggi Luar Negeri.',
+                    'phone' => '0811747472',
+                    'students_count' => 190,
+                    'employees_count' => 22,
+                    'classrooms_count' => 8,
+                    'programs' => [
+                        ['title' => 'Bimbingan PTN & Beasiswa LN', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan bakat minat, dan bimbingan lolos universitas ternama.'],
+                        ['title' => 'Tahfidz Al-Qur\'an 10-30 Juz', 'icon' => '📖', 'desc' => 'Program khusus mencetak Huffazh Al-Qur\'an berijasah sanad.'],
+                        ['title' => 'Riset Sains & Technology Project', 'icon' => '🧪', 'desc' => 'Penelitian ilmiah remaja dan proyek inovasi karya kebanggaan siswa.'],
+                        ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan retorika, debat bahasa inggris, dan kepemimpinan organisasi siswa OSIS.']
+                    ]
+                ]
+            ];
+
+            $uKey = isset($unitMap[$cleanCode]) ? $cleanCode : 'sdit';
+            $info = $unitMap[$uKey];
+
+            $school = (object) [
+                'id' => 1,
+                'name' => $info['name'],
+                'code' => $info['code'],
+                'npsn' => $info['npsn'],
+                'principal_name' => $info['principal_name'],
+                'description' => $info['description'],
+                'phone' => $info['phone'],
+                'students_count' => $info['students_count'],
+                'employees_count' => $info['employees_count'],
+                'classrooms_count' => $info['classrooms_count'],
+                'programs' => $info['programs'],
+            ];
+        }
+
+        $students = Student::where('school_id', $school->id ?? 1)->where('status', 'aktif')->take(10)->get();
+        $teachers = Employee::where('school_id', $school->id ?? 1)->where('status', 'aktif')->take(8)->get();
+        $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
 
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
 
-        return view('school.unit', compact('school', 'students', 'teachers', 'classrooms', 'settings'));
+        return view('school.unit', compact('school', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus'));
     }
 
     public function beritaIndex()
@@ -324,7 +425,7 @@ class SchoolWebsiteController extends Controller
         return view('school.espp', compact('settings', 'student', 'bills'));
     }
 
-    private function getSettings()
+    public function getSettings()
     {
         return [
             'school_name' => SiteSetting::get('school_name', 'Yayasan Generasi Robbani Sumatera Selatan'),
@@ -344,8 +445,16 @@ class SchoolWebsiteController extends Controller
         ];
     }
 
-    private function getNewsData()
+    public function getNewsData()
     {
+        $cmsJson = SiteSetting::get('cms_news_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
         return [
             [
                 'title' => 'Kepala SMP IT Robbani Ogan Ilir Raih Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah Sumatera Selatan 2026',
@@ -386,12 +495,40 @@ class SchoolWebsiteController extends Controller
                 'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
                 'excerpt' => 'Assalamu’alaikum wr. wb. Alhamdulillahirabbil ‘alamin, berdasarkan hasil seleksi administrasi Rekrutmen Guru dan Pegawai Sekolah Islam Terpadu Robbani Ogan Ilir Tahun Ajaran 2026/2027.',
                 'content' => 'Assalamu’alaikum Warahmatullahi Wabarakatuh.<br><br>Alhamdulillahirabbil ‘alamin, berdasarkan verifikasi dokumen dan seleksi administrasi Rekrutmen Guru dan Pegawai Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir Tahun Ajaran 2026/2027, Panitia Seleksi SDM menetapkan nama-nama pelamar yang dinyatakan LULUS Seleksi Administrasi.<br><br>Peserta yang lulus berhak mengikuti tahapan Ujian Microteaching & Wawancara Keislaman. Detail jadwal dan lokasi tes dikirimkan melalui WhatsApp/Email resmi panitia.'
+            ],
+            [
+                'title' => 'Siswa SIT Robbani Borong Medali pada Kompetisi Sains & Robotika Islam Nasional 2026',
+                'slug' => 'siswa-sit-robbani-borong-medali-kompetisi-sains-robotika-2026',
+                'category' => 'Prestasi',
+                'date' => '20 April 2026',
+                'author' => 'Humas Prestasi',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'excerpt' => 'Para santri dan siswa SDIT & SMPIT Robbani Ogan Ilir mengukir prestasi membanggakan dengan meraih 5 emas dan 3 perak dalam ajang Sains & Robotika Nasional.',
+                'content' => 'Prestasi membanggakan kembali diraih oleh kontingen siswa Sekolah Islam Terpadu Robbani Ogan Ilir. Dalam ajang Olimpiade Sains dan Teknologi Islam Nasional 2026, tim robotika dan matematika Robbani berhasil memborong total 8 medali.'
+            ],
+            [
+                'title' => 'Pelatihan & Pembekalan Guru SIT Robbani Dalam Penerapan Kurikulum Merdeka Terintegrasi JSIT',
+                'slug' => 'pelatihan-pembekalan-guru-sit-robbani-kurikulum-merdeka-jsit',
+                'category' => 'Pendidikan',
+                'date' => '10 Maret 2026',
+                'author' => 'Litbang Pendidikan',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'excerpt' => 'Guna mengoptimalkan kualitas pembelajaran berbasis Al-Qur\'an dan Kurikulum Merdeka, seluruh pendidik SIT Robbani mengikuti Workshop Manajemen Kelas Interaktif.',
+                'content' => 'Pengembangan kapasitas guru menjadi prioritas utama Yayasan Generasi Robbani. Workshop peningkatan kompetensi kepengajaran diselenggarakan secara berkala untuk menjaga keunggulan akademik dan adab peserta didik.'
             ]
         ];
     }
 
-    private function getArticleData()
+    public function getArticleData()
     {
+        $cmsJson = SiteSetting::get('cms_article_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
         return [
             [
                 'title' => 'Tata Cara Sholat Tasbih dan Keutamaannya',
@@ -416,44 +553,66 @@ class SchoolWebsiteController extends Controller
         ];
     }
 
-    private function getFacilityData()
+    public function getFacilityData()
     {
+        $cmsJson = SiteSetting::get('cms_facility_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
         return [
             [
                 'title' => 'Ruang Kelas Nyaman Ber-AC',
                 'desc' => 'Setiap ruang kelas di SIT Robbani Ogan Ilir dilengkapi dengan pendingin udara (AC), pencahayaan optimal, loker siswa, dan perlengkapan multimedia LCD proyektor.',
-                'icon' => '❄️'
+                'icon' => '❄️',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'
             ],
             [
                 'title' => 'Masjid & Sarana Ibadah',
                 'desc' => 'Pusat pembinaan karakter spiritual siswa untuk pelaksanaan sholat berjamaah, halaqah Tahfidz Al-Qur\'an, dan kegiatan Bina Pribadi Islami (BPI).',
-                'icon' => '🕌'
+                'icon' => '🕌',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp'
             ],
             [
                 'title' => 'Perpustakaan Digital & E-Library',
                 'desc' => 'Fasilitas perpustakaan fisik dan digital (E-Library) dengan koleksi ribuan buku pelajaran, sains, keislaman, majalah anak, dan literasi umum.',
-                'icon' => '📚'
+                'icon' => '📚',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png'
             ],
             [
                 'title' => 'Laboratorium Komputer & IT',
                 'desc' => 'Sarana laboratorium komputer modern terintegrasi jaringan internet tinggi untuk pembelajaran literasi digital, koding, dan Asesmen Nasional (ANBK).',
-                'icon' => '💻'
+                'icon' => '💻',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp'
             ],
             [
                 'title' => 'Playground & Arena Olahraga',
                 'desc' => 'Fasilitas bermain anak usia dini (outdoor playground) dan lapangan olahraga serbaguna untuk olahraga futsal, basket, bulutangkis, dan panahan.',
-                'icon' => '⚽'
+                'icon' => '⚽',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'
             ],
             [
                 'title' => 'Keamanan CCTV & Satpam 24 Jam',
                 'desc' => 'Lingkungan sekolah dipantau sistem keamanan CCTV terpadu di setiap sudut dan petugas keamanan (security) siap siaga 24 jam demi kenyamanan peserta didik.',
-                'icon' => '🛡️'
+                'icon' => '🛡️',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'
             ]
         ];
     }
 
-    private function getVideoData()
+    public function getVideoData()
     {
+        $cmsJson = SiteSetting::get('cms_video_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
         return [
             [
                 'title' => 'Profil Resmi SIT Robbani Ogan Ilir 2026',
@@ -478,12 +637,44 @@ class SchoolWebsiteController extends Controller
                 'youtube_id' => 'dQw4w9WgXcQ',
                 'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
                 'desc' => 'Kemudahan akses wali murid memantau presensi, SPP, dan E-Learning di SIT Robbani Ogan Ilir.'
+            ],
+            [
+                'title' => 'Kegiatan Pramuka SIT Robbani & Supercamp Tahfidz',
+                'category' => 'Kegiatan Ekstrakurikuler',
+                'duration' => '05:15',
+                'youtube_id' => 'dQw4w9WgXcQ',
+                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/06/2-819x1024.jpg',
+                'desc' => 'Dokumentasi kegiatan alam terbuka, kemandirian siswa, dan mabit pembentukan karakter Rabbani.'
+            ],
+            [
+                'title' => 'Keseruan Belajar Sains & Praktikum Lab Komputer',
+                'category' => 'Pembelajaran Digital',
+                'duration' => '04:10',
+                'youtube_id' => 'dQw4w9WgXcQ',
+                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png',
+                'desc' => 'Momen kebersamaan siswa saat eksplorasi sains, robotika, dan pembelajaran interaktif di sekolah.'
+            ],
+            [
+                'title' => 'Pentas Seni & Panggung Aksi Kreativitas Siswa Robbani',
+                'category' => 'Seni & Bakat',
+                'duration' => '06:30',
+                'youtube_id' => 'dQw4w9WgXcQ',
+                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png',
+                'desc' => 'Penampilan bakat nasyid, pidato 3 bahasa, memanah, dan kreasi seni Islami santri SIT Robbani.'
             ]
         ];
     }
 
-    private function getAgendaData()
+    public function getAgendaData()
     {
+        $cmsJson = SiteSetting::get('cms_agenda_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
         return [
             [
                 'title' => 'Simulasi ANBK & Asesmen Digital Berbasis Komputer',
@@ -520,12 +711,29 @@ class SchoolWebsiteController extends Controller
                 'time' => '08.00 - 12.00 WIB',
                 'location' => 'Gedung Unit KB/TK, SD, SMP, SMA',
                 'category' => 'Rapor'
+            ],
+            [
+                'title' => 'Olimpiade Sains & Seni Islam (OSSI) Antar Unit Robbani',
+                'date_day' => '15',
+                'date_month' => 'JAN',
+                'year' => '2027',
+                'time' => '07.30 - 16.00 WIB',
+                'location' => 'Kompleks Terpadu SIT Robbani Ogan Ilir',
+                'category' => 'Kompetisi'
             ]
         ];
     }
 
-    private function getAnnouncementData()
+    public function getAnnouncementData()
     {
+        $cmsJson = SiteSetting::get('cms_announcement_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
         return [
             [
                 'title' => 'Hasil Seleksi Administrasi Rekrutmen Guru & Pegawai TA 2026/2027',
@@ -547,7 +755,94 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Edaran Akademik',
                 'summary' => 'Dihimbau kepada seluruh orang tua siswa untuk mendampingi belajar ananda selama pekan PAS berlangsung.',
                 'link' => route('school.berita')
+            ],
+            [
+                'title' => 'Jadwal Libur Semester & Penyegaran Awal Tahun Pelajaran',
+                'date' => '20 Desember 2026',
+                'category' => 'Pengumuman Resmi',
+                'summary' => 'Informasi kalender pendidikan libur semester ganjil dan tanggal aktif kembali KBM semester genap.',
+                'link' => route('school.berita')
+            ],
+            [
+                'title' => 'Undangan Parent Teacher Meeting (PTM) Konsultasi Perkembangan Siswa',
+                'date' => '10 Januari 2027',
+                'category' => 'Wali Murid',
+                'summary' => 'Pertemuan silaturahmi ustadz wali kelas dan orang tua murid mengenai evaluasi hafalan dan akademik ananda.',
+                'link' => route('school.berita')
             ]
         ];
     }
+
+    public function getGalleryData()
+    {
+        $cmsJson = SiteSetting::get('cms_gallery_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
+        return [
+            [
+                'title' => 'Prosesi Haflah & Wisuda Tahfidz Al-Qur\'an',
+                'category' => 'Wisuda & Tahfidz',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'desc' => 'Momen kebanggaan wisudawan tahfidz menerima sertifikat hafalan Al-Qur’an.'
+            ],
+            [
+                'title' => 'Gedung & Lingkungan Asri SIT Robbani',
+                'category' => 'Fasilitas Kampus',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'desc' => 'Kompleks persekolahan yang bersih, asri, kondusif, dan dilengkapi fasilitas modern.'
+            ],
+            [
+                'title' => 'Pelaksanaan Qurban Dompet Sosial Robbani',
+                'category' => 'Bakti Sosial',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/06/2-819x1024.jpg',
+                'desc' => 'Kebersamaan civitas akademika dan masyarakat dalam penyembelihan hewan qurban.'
+            ],
+            [
+                'title' => 'Pembelajaran Digital di Lab Komputer',
+                'category' => 'Sarana & Teknologi',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
+                'desc' => 'Siswa berlatih koding, literasi digital, dan Asesmen Komputer (ANBK).'
+            ],
+            [
+                'title' => 'Kegiatan Literasi Perpustakaan Digital',
+                'category' => 'Perpustakaan',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png',
+                'desc' => 'Siswa menikmati koleksi buku fisik dan e-library perpustakaan SIT Robbani.'
+            ],
+            [
+                'title' => 'Penghargaan Kepala Sekolah Terbaik III Sumsel',
+                'category' => 'Prestasi Pendidik',
+                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'desc' => 'Penerimaan sertifikat diklat manajemen kepala sekolah tingkat Provinsi Sumatera Selatan.'
+            ]
+        ];
+    }
+
+    public function getHeaderMenus()
+    {
+        $cmsJson = SiteSetting::get('cms_header_menus');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data) && count($data) > 0) {
+                return $data;
+            }
+        }
+
+        return [
+            ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
+            ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
+            ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
+            ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
+            ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
+            ['title' => 'Sarana & Prasarana', 'url' => '#sarana-prasarana', 'is_active' => true],
+            ['title' => 'Galeri', 'url' => '#galeri-sekolah', 'is_active' => true],
+            ['title' => 'E-SPP', 'url' => route('school.espp'), 'is_active' => true],
+        ];
+    }
 }
+
