@@ -190,46 +190,49 @@
     <!-- TAB: BERITA & ARTIKEL -->
     @if($activeTab === 'news')
 
-    <!-- WordPress XML Auto-Importer Banner -->
-    <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white p-6 rounded-3xl border border-blue-800 shadow-lg space-y-4">
+    <!-- TAB: BERITA & ARTIKEL -->
+    @if($activeTab === 'news')
+
+    <!-- WordPress XML Auto-Importer Banner (High-Contrast Guaranteed) -->
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #ffffff;" class="p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4 font-sans">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="space-y-1">
-                <span class="px-3 py-1 rounded-full bg-blue-500/30 text-blue-200 font-black text-[10px] uppercase tracking-wider border border-blue-400/30 inline-block">
+            <div class="space-y-1.5">
+                <span class="px-3 py-1 rounded-full bg-blue-500/25 text-blue-300 font-black text-xs uppercase tracking-wider border border-blue-400/40 inline-block">
                     🚀 AUTOMATED WORDPRESS MIGRATION TOOL
                 </span>
-                <h3 class="text-lg font-black tracking-tight">Import Konten Berita &amp; Artikel dari WordPress</h3>
-                <p class="text-xs text-blue-200 font-medium max-w-3xl leading-relaxed">
+                <h3 class="text-xl font-black text-white tracking-tight">Import Konten Berita &amp; Artikel dari WordPress</h3>
+                <p class="text-xs text-slate-200 font-medium max-w-3xl leading-relaxed">
                     Ekspor seluruh postingan website WordPress Anda ke berkas XML (WXR), lalu unggah di sini. Sistem akan mengonversi semua judul, berita, artikel, kategori, dan gambar secara otomatis ke CMS Laravel.
                 </p>
             </div>
             
             <!-- Quick Form Upload XML -->
-            <form action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 shrink-0 bg-white/10 p-3 rounded-2xl border border-white/20">
+            <form action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 shrink-0 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-700">
                 @csrf
-                <input type="file" name="xml_file" accept=".xml,.txt" required class="text-xs text-white file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-500 file:text-white hover:file:bg-blue-600 cursor-pointer">
-                <button type="submit" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs rounded-xl shadow-md transition-all shrink-0 w-full sm:w-auto">
-                    ⚡ Import XML WordPress
+                <input type="file" name="xml_file" accept=".xml,.txt" required class="text-xs text-slate-200 file:mr-2 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+                <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md transition-all shrink-0 w-full sm:w-auto flex items-center justify-center gap-1.5">
+                    <span>⚡ Import XML WordPress</span>
                 </button>
             </form>
         </div>
 
-        <div class="pt-3 border-t border-blue-800/80 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-blue-200/90 font-medium">
-            <div class="flex items-start gap-2 bg-blue-950/60 p-3 rounded-xl border border-blue-800/50">
-                <span class="text-base">📋</span>
-                <div>
-                    <strong class="text-white block font-bold mb-0.5">Cara Ekspor dari Dashboard WordPress:</strong>
-                    1. Masuk ke WP Admin ➔ <strong>Tools (Peralatan)</strong> ➔ <strong>Export (Ekspor)</strong>.<br>
-                    2. Pilih <strong>All Content (Semua Konten)</strong> atau <strong>Posts (Pos)</strong>.<br>
-                    3. Klik <strong>Download Export File</strong> (berkas bertipe `.xml`).
-                </div>
+        <div class="pt-3 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium">
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12);" class="p-4 rounded-2xl text-slate-200 space-y-1.5 leading-relaxed">
+                <strong class="text-amber-300 block font-bold text-xs flex items-center gap-1.5">
+                    <span>📋</span> <span>Cara Ekspor dari Dashboard WordPress:</span>
+                </strong>
+                <ol class="list-decimal list-inside space-y-1 text-slate-300 text-xs pl-1">
+                    <li>Masuk ke WP Admin ➔ <strong>Tools (Peralatan)</strong> ➔ <strong>Export (Ekspor)</strong></li>
+                    <li>Pilih <strong>All Content (Semua Konten)</strong> atau <strong>Posts (Pos)</strong></li>
+                    <li>Klik <strong>Download Export File</strong> (berkas bertipe <code class="bg-slate-900 text-blue-300 px-1.5 py-0.5 rounded font-mono text-[11px]">.xml</code>)</li>
+                </ol>
             </div>
-            <div class="flex items-start gap-2 bg-blue-950/60 p-3 rounded-xl border border-blue-800/50">
-                <span class="text-base">💻</span>
-                <div>
-                    <strong class="text-white block font-bold mb-0.5">Atau Jalankan via Terminal Artisan CLI:</strong>
-                    <code class="bg-slate-900 text-amber-300 px-2 py-0.5 rounded text-[11px] font-mono block mt-1">php artisan wp:import path/to/wordpress-export.xml</code>
-                    Perintah CLI siap memproses file XML berukuran besar (100MB+).
-                </div>
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12);" class="p-4 rounded-2xl text-slate-200 space-y-1.5 leading-relaxed">
+                <strong class="text-emerald-400 block font-bold text-xs flex items-center gap-1.5">
+                    <span>💻</span> <span>Atau Jalankan via Terminal Artisan CLI:</span>
+                </strong>
+                <p class="text-slate-300 text-xs">Untuk berkas berukuran besar (100MB+):</p>
+                <code class="bg-slate-950 text-emerald-300 px-3 py-1.5 rounded-xl border border-slate-800 font-mono text-xs block mt-1.5 shadow-inner select-all">php artisan wp:import path/to/wordpress-export.xml</code>
             </div>
         </div>
     </div>
@@ -237,52 +240,52 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Form Tambah Berita Baru -->
         <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-sm text-slate-900 flex items-center gap-2">
+            <h3 class="font-black text-base text-slate-900 flex items-center gap-2">
                 <span>➕</span> <span>Tambah Berita Baru</span>
             </h3>
             <form action="{{ route('admin.cms.content.add') }}" method="POST" enctype="multipart/form-data" class="space-y-3 text-xs">
                 @csrf
                 <input type="hidden" name="module" value="news">
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Judul Berita</label>
-                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-semibold" placeholder="Judul berita...">
+                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Judul Berita</label>
+                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-bold text-slate-900 text-xs" placeholder="Judul berita...">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">Kategori</label>
-                        <input type="text" name="category" value="Berita" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold">
+                        <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Kategori</label>
+                        <input type="text" name="category" value="Berita" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                     </div>
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">Tanggal</label>
-                        <input type="text" name="date" value="{{ date('d F Y') }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold">
+                        <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Tanggal</label>
+                        <input type="text" name="date" value="{{ date('d F Y') }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                     </div>
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Penulis</label>
-                    <input type="text" name="author" value="Humas SIT Robbani" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold">
+                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Penulis</label>
+                    <input type="text" name="author" value="Humas SIT Robbani" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">📁 Upload / Pilih File Gambar Berita</label>
+                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">📁 Upload / Pilih File Gambar Berita</label>
                     <input type="file" name="image_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white mb-2">
-                    <input type="text" name="image" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-semibold text-slate-600" placeholder="atau tempelkan URL gambar...">
+                    <input type="text" name="image" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs" placeholder="atau tempelkan URL gambar...">
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Ringkasan (Excerpt)</label>
-                    <textarea name="excerpt" rows="2" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold"></textarea>
+                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Ringkasan (Excerpt)</label>
+                    <textarea name="excerpt" rows="2" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs"></textarea>
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Isi Berita Lengkap</label>
-                    <textarea name="content" rows="4" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold"></textarea>
+                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Isi Berita Lengkap</label>
+                    <textarea name="content" rows="4" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs"></textarea>
                 </div>
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-theme-gradient text-white font-black shadow-md hover:opacity-90">Simpan Berita Baru</button>
+                <button type="submit" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-black text-xs shadow-md hover:opacity-90">Simpan Berita Baru</button>
             </form>
         </div>
 
         <!-- List Berita Existing -->
         <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-sm text-slate-900 flex items-center justify-between border-b border-slate-200 pb-3">
+            <h3 class="font-black text-base text-slate-900 flex items-center justify-between border-b border-slate-200 pb-3">
                 <span>Daftar Berita Ditampilkan ({{ count($newsList) }})</span>
-                <span class="text-[10px] text-slate-400 font-semibold">Gunakan form di kiri untuk menambah</span>
+                <span class="text-xs text-slate-500 font-bold">Gunakan form di kiri untuk menambah</span>
             </h3>
             
             <form action="{{ route('admin.cms.content.update') }}" method="POST" class="space-y-4">
@@ -293,35 +296,35 @@
                     @foreach($newsList as $idx => $news)
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-black text-[10px] uppercase">
+                            <span class="px-3 py-1 rounded-lg bg-emerald-700 text-white font-black text-xs uppercase shadow-xs">
                                 #{{ $idx+1 }} {{ $idx === 0 ? '🏆 HEADLINE NEWS' : 'BERITA #' . ($idx+1) }}
                             </span>
-                            <button type="submit" form="delete-news-{{ $idx }}" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold">🗑️ Hapus</button>
+                            <button type="submit" form="delete-news-{{ $idx }}" class="px-3.5 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-xl text-xs font-black border border-rose-200">🗑️ Hapus</button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">Judul</label>
-                                <input type="text" name="items[{{ $idx }}][title]" value="{{ $news['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900">
+                                <label class="font-extrabold text-slate-800 text-xs uppercase tracking-wider block mb-1">Judul Berita</label>
+                                <input type="text" name="items[{{ $idx }}][title]" value="{{ $news['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                                 <input type="hidden" name="items[{{ $idx }}][slug]" value="{{ $news['slug'] ?? \Illuminate\Support\Str::slug($news['title']) }}">
                             </div>
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">Kategori &amp; Tanggal</label>
+                                <label class="font-extrabold text-slate-800 text-xs uppercase tracking-wider block mb-1">Kategori &amp; Tanggal</label>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <input type="text" name="items[{{ $idx }}][category]" value="{{ $news['category'] }}" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 font-semibold">
-                                    <input type="text" name="items[{{ $idx }}][date]" value="{{ $news['date'] }}" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 font-semibold">
+                                    <input type="text" name="items[{{ $idx }}][category]" value="{{ $news['category'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
+                                    <input type="text" name="items[{{ $idx }}][date]" value="{{ $news['date'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                                 </div>
                             </div>
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">URL Gambar</label>
-                                <input type="text" name="items[{{ $idx }}][image]" value="{{ $news['image'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold">
+                                <label class="font-extrabold text-slate-800 text-xs uppercase tracking-wider block mb-1">URL / Path Gambar</label>
+                                <input type="text" name="items[{{ $idx }}][image]" value="{{ $news['image'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                             </div>
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">Penulis</label>
-                                <input type="text" name="items[{{ $idx }}][author]" value="{{ $news['author'] ?? 'Humas SIT Robbani' }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold">
+                                <label class="font-extrabold text-slate-800 text-xs uppercase tracking-wider block mb-1">Penulis</label>
+                                <input type="text" name="items[{{ $idx }}][author]" value="{{ $news['author'] ?? 'Humas SIT Robbani' }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                             </div>
                             <div class="md:col-span-2">
-                                <label class="font-bold text-slate-600 block mb-1">Ringkasan</label>
-                                <textarea name="items[{{ $idx }}][excerpt]" rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium">{{ $news['excerpt'] }}</textarea>
+                                <label class="font-extrabold text-slate-800 text-xs uppercase tracking-wider block mb-1">Ringkasan (Excerpt)</label>
+                                <textarea name="items[{{ $idx }}][excerpt]" rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold text-slate-900 text-xs bg-white">{{ $news['excerpt'] }}</textarea>
                                 <input type="hidden" name="items[{{ $idx }}][content]" value="{{ $news['content'] ?? $news['excerpt'] }}">
                             </div>
                         </div>
@@ -330,7 +333,7 @@
                 </div>
                 
                 <div class="pt-4 border-t border-slate-200 flex justify-end">
-                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs hover:bg-emerald-700 shadow-md">Simpan Perubahan Berita</button>
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-emerald-700 text-white font-black text-xs hover:bg-emerald-800 shadow-md transition-all">Simpan Perubahan Berita</button>
                 </div>
             </form>
 
