@@ -938,6 +938,129 @@
 
                 </div>
 
+                <!-- Sub-Section: Berita & Kabar Per Unit Sekolah (TKIT, SDIT, SMPIT, SMAIT) -->
+                <div x-data="{ activeUnitTab: 'all' }" class="pt-8 sm:pt-10 border-t border-slate-200/80 space-y-5">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+                        <div>
+                            <span class="site-section-badge mb-1 inline-block">KABAR KHUSUS UNIT</span>
+                            <h3 class="text-lg sm:text-xl font-extrabold font-headline text-slate-900">Berita &amp; Kegiatan Per Unit Sekolah</h3>
+                            <p class="text-xs text-slate-500 font-medium hidden sm:block">Pilih tab unit di bawah untuk menyaring berita khusus jenjang tertentu.</p>
+                        </div>
+
+                        <!-- Swipeable Horizontal Tab Pills on Mobile -->
+                        <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 scrollbar-none w-full md:w-auto shrink-0 justify-start sm:justify-center">
+                            <button @click="activeUnitTab = 'all'" :class="activeUnitTab === 'all' ? 'bg-emerald-700 text-white shadow-md' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl font-extrabold text-[11px] sm:text-xs shrink-0 transition-all flex items-center gap-1">
+                                🌐 Semua Unit
+                            </button>
+                            <button @click="activeUnitTab = 'tkit'" :class="activeUnitTab === 'tkit' ? 'bg-emerald-700 text-white shadow-md' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl font-extrabold text-[11px] sm:text-xs shrink-0 transition-all flex items-center gap-1">
+                                🧸 KB/TKIT
+                            </button>
+                            <button @click="activeUnitTab = 'sdit'" :class="activeUnitTab === 'sdit' ? 'bg-orange-600 text-white shadow-md' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl font-extrabold text-[11px] sm:text-xs shrink-0 transition-all flex items-center gap-1">
+                                🏫 SDIT
+                            </button>
+                            <button @click="activeUnitTab = 'smpit'" :class="activeUnitTab === 'smpit' ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl font-extrabold text-[11px] sm:text-xs shrink-0 transition-all flex items-center gap-1">
+                                📚 SMPIT
+                            </button>
+                            <button @click="activeUnitTab = 'smait'" :class="activeUnitTab === 'smait' ? 'bg-purple-600 text-white shadow-md' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl font-extrabold text-[11px] sm:text-xs shrink-0 transition-all flex items-center gap-1">
+                                🎓 SMAIT
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4-Column Compact Grid Desktop, 2-Column Mobile -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+                        
+                        <!-- Unit KB/TKIT Card -->
+                        <div x-show="activeUnitTab === 'all' || activeUnitTab === 'tkit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-emerald-500 transition-all flex flex-col justify-between group space-y-2">
+                            <div class="space-y-2">
+                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                    <img src="/images/mockup_mobile_1.png" alt="Berita KB/TKIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
+                                    <span class="absolute top-2 left-2 bg-emerald-700 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">KB/TKIT</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="text-[10px] text-slate-400 font-bold block">🗓️ 12 Agustus 2026</span>
+                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                                        Puncak Tema &amp; Pentas Seni Cilik Santri KB/TKIT Robbani Ogan Ilir
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
+                                        Kecerian dan kebersamaan santri cilik TKIT Robbani saat mengekspresikan bakat hafalan surah &amp; kreasi mewarnai.
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="{{ route('school.unit', 'tkit') }}" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 pt-1">
+                                <span>Kabar KB/TKIT</span> ➔
+                            </a>
+                        </div>
+
+                        <!-- Unit SDIT Card -->
+                        <div x-show="activeUnitTab === 'all' || activeUnitTab === 'sdit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-orange-500 transition-all flex flex-col justify-between group space-y-2">
+                            <div class="space-y-2">
+                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                    <img src="/images/mockup_mobile_2.png" alt="Berita SDIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
+                                    <span class="absolute top-2 left-2 bg-orange-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SDIT</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="text-[10px] text-slate-400 font-bold block">🗓️ 08 Agustus 2026</span>
+                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-snug">
+                                        Pramuka SIT &amp; Supercamp Karakter Siswa SDIT Robbani 2026
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
+                                        Pelatihan kemandirian, ketangkasan, dan mabit malam bina iman takwa santri penggalang SDIT.
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="{{ route('school.unit', 'sdit') }}" class="text-[11px] font-bold text-orange-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Kabar SDIT</span> ➔
+                            </a>
+                        </div>
+
+                        <!-- Unit SMPIT Card -->
+                        <div x-show="activeUnitTab === 'all' || activeUnitTab === 'smpit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-blue-500 transition-all flex flex-col justify-between group space-y-2">
+                            <div class="space-y-2">
+                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                    <img src="/images/hero_3d_illustration_1786347707126.png" alt="Berita SMPIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
+                                    <span class="absolute top-2 left-2 bg-blue-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SMPIT</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="text-[10px] text-slate-400 font-bold block">🗓️ 31 Juli 2026</span>
+                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
+                                        Kepala SMPIT Robbani Raih Peserta Terbaik III Diklat Kepsek Sumsel
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
+                                        Prestasi kepemimpinan Ibu Tia Wulandari, S.Pd. dalam diklat manajemen sekolah tingkat provinsi.
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="{{ route('school.unit', 'smpit') }}" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Kabar SMPIT</span> ➔
+                            </a>
+                        </div>
+
+                        <!-- Unit SMAIT Card -->
+                        <div x-show="activeUnitTab === 'all' || activeUnitTab === 'smait'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-purple-500 transition-all flex flex-col justify-between group space-y-2">
+                            <div class="space-y-2">
+                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                    <img src="/images/mockup_mobile_4.png" alt="Berita SMAIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
+                                    <span class="absolute top-2 left-2 bg-purple-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SMAIT</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="text-[10px] text-slate-400 font-bold block">🗓️ 20 Juli 2026</span>
+                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors line-clamp-2 leading-snug">
+                                        Santri SMAIT Robbani Lolos Seleksi PTN Favorit &amp; Beasiswa Luar Negeri
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
+                                        Capaian alumni SMAIT Robbani tembus jalur SNBP, SNBT, dan universitas timur tengah.
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="{{ route('school.unit', 'smait') }}" class="text-[11px] font-bold text-purple-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Kabar SMAIT</span> ➔
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </section>
 
