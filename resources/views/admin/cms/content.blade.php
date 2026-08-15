@@ -349,82 +349,92 @@
     @if($activeTab === 'video')
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-sm text-slate-900">🎥 Tambah Video Youtube Baru</h3>
-            <form action="{{ route('admin.cms.content.add') }}" method="POST" class="space-y-3 text-xs">
+            <h3 class="font-black text-base text-slate-900">🎥 Tambah Video Youtube Baru</h3>
+            <form action="{{ route('admin.cms.content.add') }}" method="POST" enctype="multipart/form-data" class="space-y-3 text-xs">
                 @csrf
                 <input type="hidden" name="module" value="video">
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Judul Video</label>
-                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold">
+                    <label class="font-extrabold text-slate-800 block mb-1">Judul Video</label>
+                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Youtube ID (misal: dQw4w9WgXcQ)</label>
-                    <input type="text" name="youtube_id" value="dQw4w9WgXcQ" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold">
+                    <label class="font-extrabold text-slate-800 block mb-1">Youtube ID (misal: dQw4w9WgXcQ)</label>
+                    <input type="text" name="youtube_id" value="dQw4w9WgXcQ" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">Kategori</label>
-                        <input type="text" name="category" value="Dokumentasi" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold">
+                        <label class="font-extrabold text-slate-800 block mb-1">Kategori</label>
+                        <input type="text" name="category" value="Dokumentasi" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                     </div>
                     <div>
-                        <label class="font-bold text-slate-700 block mb-1">Durasi</label>
-                        <input type="text" name="duration" value="05:00" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold">
+                        <label class="font-extrabold text-slate-800 block mb-1">Durasi</label>
+                        <input type="text" name="duration" value="05:00" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                     </div>
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Thumbnail Gambar</label>
-                    <input type="text" name="thumbnail" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold" value="/images/mockup_desktop_1.png">
+                    <label class="font-extrabold text-slate-800 block mb-1">📁 Upload / Pilih File Thumbnail Video</label>
+                    <input type="file" name="thumbnail_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white mb-2 cursor-pointer">
+                    <input type="text" name="thumbnail" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs" value="/images/mockup_desktop_1.png" placeholder="atau tempelkan URL gambar...">
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Deskripsi Singkat</label>
-                    <textarea name="desc" rows="2" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold"></textarea>
+                    <label class="font-extrabold text-slate-800 block mb-1">Deskripsi Singkat</label>
+                    <textarea name="desc" rows="2" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs"></textarea>
                 </div>
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-theme-gradient text-white font-black shadow-md">Simpan Video Baru</button>
+                <button type="submit" class="w-full py-3 rounded-xl bg-purple-700 text-white font-black text-xs hover:bg-purple-800 shadow-md transition-all">Simpan Video Baru</button>
             </form>
         </div>
 
         <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-sm text-slate-900 border-b border-slate-200 pb-3">Daftar Video Profil &amp; Dokumentasi ({{ count($videoList) }})</h3>
-            <form action="{{ route('admin.cms.content.update') }}" method="POST" class="space-y-4">
+            <h3 class="font-black text-base text-slate-900 border-b border-slate-200 pb-3">Daftar Video Profil &amp; Dokumentasi ({{ count($videoList) }})</h3>
+            <form action="{{ route('admin.cms.content.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <input type="hidden" name="module" value="video">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2">
                     @foreach($videoList as $idx => $vid)
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="font-black text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded uppercase">Video #{{ $idx+1 }}</span>
-                            <button type="submit" form="delete-video-{{ $idx }}" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold">Hapus</button>
+                            <span class="font-black text-xs bg-purple-700 text-white px-2.5 py-1 rounded-lg uppercase shadow-xs">Video #{{ $idx+1 }}</span>
+                            <button type="submit" form="delete-video-{{ $idx }}" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold">🗑️ Hapus</button>
                         </div>
                         <div class="space-y-2 text-xs">
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">Judul Video</label>
-                                <input type="text" name="items[{{ $idx }}][title]" value="{{ $vid['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold">
+                                <label class="font-extrabold text-slate-800 block mb-1">Judul Video</label>
+                                <input type="text" name="items[{{ $idx }}][title]" value="{{ $vid['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <label class="font-bold text-slate-600 block mb-1">Kategori</label>
-                                    <input type="text" name="items[{{ $idx }}][category]" value="{{ $vid['category'] }}" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-semibold">
+                                    <label class="font-extrabold text-slate-800 block mb-1">Kategori</label>
+                                    <input type="text" name="items[{{ $idx }}][category]" value="{{ $vid['category'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                                 </div>
                                 <div>
-                                    <label class="font-bold text-slate-600 block mb-1">Durasi</label>
-                                    <input type="text" name="items[{{ $idx }}][duration]" value="{{ $vid['duration'] }}" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-semibold">
+                                    <label class="font-extrabold text-slate-800 block mb-1">Durasi</label>
+                                    <input type="text" name="items[{{ $idx }}][duration]" value="{{ $vid['duration'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
                                 </div>
                             </div>
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">Youtube ID / Thumbnail</label>
-                                <input type="text" name="items[{{ $idx }}][youtube_id]" value="{{ $vid['youtube_id'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold mb-1">
-                                <input type="text" name="items[{{ $idx }}][thumbnail]" value="{{ $vid['thumbnail'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold">
+                                <label class="font-extrabold text-slate-800 block mb-1">Youtube Video ID</label>
+                                <input type="text" name="items[{{ $idx }}][youtube_id]" value="{{ $vid['youtube_id'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
+                                <label class="font-extrabold text-slate-800 block">📁 Pilih File Thumbnail Baru (Atau Biarkan Gambar Saat Ini)</label>
+                                <div class="flex items-center gap-3">
+                                    <img src="{{ $vid['thumbnail'] }}" class="w-16 h-12 object-cover rounded-xl border border-slate-300 shrink-0 shadow-xs" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                    <div class="space-y-1 w-full">
+                                        <input type="file" name="items[{{ $idx }}][thumbnail_file]" accept="image/*" class="w-full text-xs font-semibold file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer">
+                                        <input type="text" name="items[{{ $idx }}][thumbnail]" value="{{ $vid['thumbnail'] }}" class="w-full px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 font-mono text-[11px]" placeholder="Path/URL thumbnail...">
+                                    </div>
+                                </div>
                             </div>
                             <div>
-                                <label class="font-bold text-slate-600 block mb-1">Deskripsi</label>
-                                <textarea name="items[{{ $idx }}][desc]" rows="2" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-medium">{{ $vid['desc'] }}</textarea>
+                                <label class="font-extrabold text-slate-800 block mb-1">Deskripsi</label>
+                                <textarea name="items[{{ $idx }}][desc]" rows="2" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold text-slate-900 text-xs bg-white">{{ $vid['desc'] }}</textarea>
                             </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
                 <div class="pt-4 border-t border-slate-200 flex justify-end">
-                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-purple-600 text-white font-black text-xs hover:bg-purple-700 shadow-md">Simpan Perubahan Video</button>
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-purple-700 text-white font-black text-xs hover:bg-purple-800 shadow-md transition-all">Simpan Perubahan Video</button>
                 </div>
             </form>
 
@@ -688,28 +698,46 @@
         </div>
 
         <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-sm text-slate-900 border-b border-slate-200 pb-3">Daftar Foto Galeri Carousel ({{ count($galleryList) }})</h3>
-            <form action="{{ route('admin.cms.content.update') }}" method="POST" class="space-y-4">
+            <h3 class="font-black text-base text-slate-900 border-b border-slate-200 pb-3">Daftar Foto Galeri Carousel ({{ count($galleryList) }})</h3>
+            <form action="{{ route('admin.cms.content.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <input type="hidden" name="module" value="gallery">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2">
                     @foreach($galleryList as $idx => $gal)
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="font-black text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded uppercase">Foto #{{ $idx+1 }}</span>
-                            <button type="submit" form="delete-gal-{{ $idx }}" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold">Hapus</button>
+                            <span class="font-black text-xs bg-emerald-700 text-white px-2.5 py-1 rounded-lg uppercase shadow-xs">Foto #{{ $idx+1 }}</span>
+                            <button type="submit" form="delete-gal-{{ $idx }}" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold">🗑️ Hapus</button>
                         </div>
                         <div class="space-y-2 text-xs">
-                            <input type="text" name="items[{{ $idx }}][title]" value="{{ $gal['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold">
-                            <input type="text" name="items[{{ $idx }}][category]" value="{{ $gal['category'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold">
-                            <input type="text" name="items[{{ $idx }}][image]" value="{{ $gal['image'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold">
-                            <textarea name="items[{{ $idx }}][desc]" rows="2" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-medium">{{ $gal['desc'] }}</textarea>
+                            <div>
+                                <label class="font-extrabold text-slate-800 block mb-1">Judul Foto</label>
+                                <input type="text" name="items[{{ $idx }}][title]" value="{{ $gal['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 bg-white">
+                            </div>
+                            <div>
+                                <label class="font-extrabold text-slate-800 block mb-1">Kategori</label>
+                                <input type="text" name="items[{{ $idx }}][category]" value="{{ $gal['category'] }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 bg-white">
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
+                                <label class="font-extrabold text-slate-800 block">📁 Pilih File Gambar Baru (Atau Biarkan Gambar Saat Ini)</label>
+                                <div class="flex items-center gap-3">
+                                    <img src="{{ $gal['image'] }}" class="w-16 h-12 object-cover rounded-xl border border-slate-300 shrink-0 shadow-xs" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                    <div class="space-y-1 w-full">
+                                        <input type="file" name="items[{{ $idx }}][image_file]" accept="image/*" class="w-full text-xs font-semibold file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+                                        <input type="text" name="items[{{ $idx }}][image]" value="{{ $gal['image'] }}" class="w-full px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 font-mono text-[11px]" placeholder="Path/URL gambar...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="font-extrabold text-slate-800 block mb-1">Deskripsi</label>
+                                <textarea name="items[{{ $idx }}][desc]" rows="2" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold text-slate-900 bg-white">{{ $gal['desc'] }}</textarea>
+                            </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
                 <div class="pt-4 border-t border-slate-200 flex justify-end">
-                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs shadow-md">Simpan Perubahan Galeri</button>
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-emerald-700 text-white font-black text-xs hover:bg-emerald-800 shadow-md transition-all">Simpan Perubahan Galeri</button>
                 </div>
             </form>
 

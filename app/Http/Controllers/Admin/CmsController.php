@@ -780,6 +780,25 @@ class CmsController extends Controller
         $jsonItems = $request->input('items');
 
         if ($module && is_array($jsonItems)) {
+            // Process file uploads for items if present
+            if ($request->hasFile('items')) {
+                $fileItems = $request->file('items');
+                foreach ($fileItems as $idx => $files) {
+                    if (isset($files['image_file']) && $files['image_file']->isValid()) {
+                        $file = $files['image_file'];
+                        $filename = $module . '_' . time() . '_' . $idx . '_' . \Illuminate\Support\Str::random(6) . '.' . $file->getClientOriginalExtension();
+                        $file->move(public_path('uploads/cms'), $filename);
+                        $jsonItems[$idx]['image'] = '/uploads/cms/' . $filename;
+                    }
+                    if (isset($files['thumbnail_file']) && $files['thumbnail_file']->isValid()) {
+                        $file = $files['thumbnail_file'];
+                        $filename = 'thumb_' . time() . '_' . $idx . '_' . \Illuminate\Support\Str::random(6) . '.' . $file->getClientOriginalExtension();
+                        $file->move(public_path('uploads/cms'), $filename);
+                        $jsonItems[$idx]['thumbnail'] = '/uploads/cms/' . $filename;
+                    }
+                }
+            }
+
             SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($jsonItems)));
             return redirect()->route('admin.cms.content', ['tab' => $module])->with('success', "Data " . ucfirst($module) . " berhasil diperbarui!");
         }
