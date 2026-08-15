@@ -106,6 +106,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/settings/units/{code}/edit', [CmsController::class, 'editUnitProfile'])->name('settings.units.edit');
         Route::post('/settings/units/{code}/update', [CmsController::class, 'updateUnitProfile'])->name('settings.units.update');
         Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
+        Route::post('/cms/import-wordpress', [CmsController::class, 'importWordPress'])->name('cms.import-wordpress');
 
         // Modules Management & Show/Hide Toggles
         Route::get('/modules', [CmsController::class, 'modules'])->name('modules.index');

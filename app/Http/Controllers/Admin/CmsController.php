@@ -984,6 +984,107 @@ class CmsController extends Controller
 
         return redirect()->back()->with('success', '🗄️ Database Pool & Query Cache berhasil di-flush dan dioptimalkan!');
     }
+
+    public function importWordPress(Request $request)
+    {
+        $request->validate([
+            'xml_file' => 'required|file|max:20480'
+        ]);
+
+        $file = $request->file('xml_file');
+        $filePath = $file->getRealPath();
+
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        if ($xml === false) {
+            return redirect()->back()->with('error', 'Gagal membaca file XML. Pastikan berkas adalah hasil ekspor resmi WordPress (WXR).');
+        }
+
+        $namespaces = $xml->getNamespaces(true);
+        $items = $xml->channel->item;
+
+        $importedNews = [];
+        $importedArticles = [];
+        $count = 0;
+
+        foreach ($items as $item) {
+            $contentNs = $item->children($namespaces['content'] ?? 'http://purl.org/rss/1.0/modules/content/');
+            $excerptNs = $item->children($namespaces['excerpt'] ?? 'http://wordpress.org/export/1.1/excerpt/');
+            $wpNs = $item->children($namespaces['wp'] ?? 'http://wordpress.org/export/1.1/');
+
+            $postType = (string) $wpNs->post_type;
+            $postStatus = (string) $wpNs->status;
+
+            if ($postType !== 'post' || $postStatus !== 'publish') {
+                continue;
+            }
+
+            $title = (string) $item->title;
+            $content = (string) $contentNs->encoded;
+            $excerpt = (string) $excerptNs->encoded;
+            if (empty($excerpt)) {
+                $excerpt = \Illuminate\Support\Str::limit(strip_tags($content), 160);
+            }
+
+            $postDate = (string) $wpNs->post_date;
+            $formattedDate = !empty($postDate) ? date('d F Y', strtotime($postDate)) : date('d F Y');
+            $slug = (string) $wpNs->post_name;
+            if (empty($slug)) {
+                $slug = \Illuminate\Support\Str::slug($title);
+            }
+
+            $category = 'Berita';
+            foreach ($item->category as $cat) {
+                $domain = (string) $cat['domain'];
+                if ($domain === 'category') {
+                    $category = (string) $cat;
+                    break;
+                }
+            }
+
+            $image = '/images/mockup_desktop_1.png';
+            if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches)) {
+                $image = $matches[1];
+            }
+
+            $postData = [
+                'title' => $title,
+                'slug' => $slug,
+                'category' => $category,
+                'date' => $formattedDate,
+                'author' => 'Import WordPress',
+                'image' => $image,
+                'excerpt' => $excerpt,
+                'content' => $content,
+            ];
+
+            if (\Illuminate\Support\Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian'])) {
+                $importedArticles[] = $postData;
+            } else {
+                $importedNews[] = $postData;
+            }
+
+            $count++;
+        }
+
+        if ($count === 0) {
+            return redirect()->back()->with('error', 'Tidak ada postingan WordPress bertipe "post" dengan status "publish" dalam file XML ini.');
+        }
+
+        $existingNewsJson = SiteSetting::get('cms_news_data');
+        $existingNews = $existingNewsJson ? json_decode($existingNewsJson, true) : [];
+        $finalNews = array_merge($importedNews, is_array($existingNews) ? $existingNews : []);
+
+        $existingArticleJson = SiteSetting::get('cms_article_data');
+        $existingArticles = $existingArticleJson ? json_decode($existingArticleJson, true) : [];
+        $finalArticles = array_merge($importedArticles, is_array($existingArticles) ? $existingArticles : []);
+
+        SiteSetting::set('cms_news_data', json_encode($finalNews, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        SiteSetting::set('cms_article_data', json_encode($finalArticles, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->back()->with('success', "🎉 SUKSES IMPORT! Berhasil mengimpor {$count} postingan WordPress (" . count($importedNews) . " Berita & " . count($importedArticles) . " Artikel).");
+    }
 }
 
 

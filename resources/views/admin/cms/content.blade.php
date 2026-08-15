@@ -189,6 +189,51 @@
 
     <!-- TAB: BERITA & ARTIKEL -->
     @if($activeTab === 'news')
+
+    <!-- WordPress XML Auto-Importer Banner -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white p-6 rounded-3xl border border-blue-800 shadow-lg space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+                <span class="px-3 py-1 rounded-full bg-blue-500/30 text-blue-200 font-black text-[10px] uppercase tracking-wider border border-blue-400/30 inline-block">
+                    🚀 AUTOMATED WORDPRESS MIGRATION TOOL
+                </span>
+                <h3 class="text-lg font-black tracking-tight">Import Konten Berita &amp; Artikel dari WordPress</h3>
+                <p class="text-xs text-blue-200 font-medium max-w-3xl leading-relaxed">
+                    Ekspor seluruh postingan website WordPress Anda ke berkas XML (WXR), lalu unggah di sini. Sistem akan mengonversi semua judul, berita, artikel, kategori, dan gambar secara otomatis ke CMS Laravel.
+                </p>
+            </div>
+            
+            <!-- Quick Form Upload XML -->
+            <form action="{{ route('cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 shrink-0 bg-white/10 p-3 rounded-2xl border border-white/20">
+                @csrf
+                <input type="file" name="xml_file" accept=".xml,.txt" required class="text-xs text-white file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-500 file:text-white hover:file:bg-blue-600 cursor-pointer">
+                <button type="submit" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs rounded-xl shadow-md transition-all shrink-0 w-full sm:w-auto">
+                    ⚡ Import XML WordPress
+                </button>
+            </form>
+        </div>
+
+        <div class="pt-3 border-t border-blue-800/80 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-blue-200/90 font-medium">
+            <div class="flex items-start gap-2 bg-blue-950/60 p-3 rounded-xl border border-blue-800/50">
+                <span class="text-base">📋</span>
+                <div>
+                    <strong class="text-white block font-bold mb-0.5">Cara Ekspor dari Dashboard WordPress:</strong>
+                    1. Masuk ke WP Admin ➔ <strong>Tools (Peralatan)</strong> ➔ <strong>Export (Ekspor)</strong>.<br>
+                    2. Pilih <strong>All Content (Semua Konten)</strong> atau <strong>Posts (Pos)</strong>.<br>
+                    3. Klik <strong>Download Export File</strong> (berkas bertipe `.xml`).
+                </div>
+            </div>
+            <div class="flex items-start gap-2 bg-blue-950/60 p-3 rounded-xl border border-blue-800/50">
+                <span class="text-base">💻</span>
+                <div>
+                    <strong class="text-white block font-bold mb-0.5">Atau Jalankan via Terminal Artisan CLI:</strong>
+                    <code class="bg-slate-900 text-amber-300 px-2 py-0.5 rounded text-[11px] font-mono block mt-1">php artisan wp:import path/to/wordpress-export.xml</code>
+                    Perintah CLI siap memproses file XML berukuran besar (100MB+).
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Form Tambah Berita Baru -->
         <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
