@@ -150,6 +150,47 @@ class SchoolWebsiteController extends Controller
         $galleryList = $this->getGalleryData();
         $headerMenus = $this->getHeaderMenus();
 
+        // Fetch unit profiles & principal info for TKIT, SDIT, SMPIT, SMAIT
+        $unitCodes = ['tkit', 'sdit', 'smpit', 'smait'];
+        $unitProfiles = [];
+        
+        $unitDefaults = [
+            'tkit' => [
+                'name' => 'KB/TKIT Robbani',
+                'principal_name' => 'Ustdz. Nurhidayah, S.Pd.I',
+                'principal_title' => 'Kepala KB/TKIT Robbani',
+                'principal_photo' => '/images/mockup_mobile_1.png',
+                'desc' => 'Kelompok Bermain & TK Islam Terpadu berakreditasi unggul.'
+            ],
+            'sdit' => [
+                'name' => 'SDIT Robbani',
+                'principal_name' => 'Ustdz. M. Ridwan, S.Pd',
+                'principal_title' => 'Kepala SDIT Robbani',
+                'principal_photo' => '/images/mockup_mobile_2.png',
+                'desc' => 'Sekolah Dasar Islam Terpadu berakreditasi A & Tahfidz.'
+            ],
+            'smpit' => [
+                'name' => 'SMPIT Robbani',
+                'principal_name' => 'Ustdz. Tia Wulandari, S.Pd',
+                'principal_title' => 'Kepala SMPIT Robbani',
+                'principal_photo' => '/images/hero_3d_illustration_1786347707126.png',
+                'desc' => 'Sekolah Menengah Pertama berasrama (boarding) / fullday.'
+            ],
+            'smait' => [
+                'name' => 'SMAIT Robbani',
+                'principal_name' => 'Ustdz. Ahmad Subagja, M.Si',
+                'principal_title' => 'Kepala SMAIT Robbani',
+                'principal_photo' => '/images/mockup_mobile_4.png',
+                'desc' => 'Sekolah Menengah Atas dengan program unggulan sains & IT.'
+            ],
+        ];
+
+        foreach ($unitCodes as $c) {
+            $json = SiteSetting::get("unit_profile_{$c}");
+            $parsed = $json ? json_decode($json, true) : [];
+            $unitProfiles[$c] = array_merge($unitDefaults[$c], array_filter($parsed ?? [], fn($v) => !is_null($v) && $v !== ''));
+        }
+
         return view('school.home', compact(
             'settings',
             'schools',
@@ -166,7 +207,8 @@ class SchoolWebsiteController extends Controller
             'agendaList',
             'announcementList',
             'galleryList',
-            'headerMenus'
+            'headerMenus',
+            'unitProfiles'
         ));
     }
 

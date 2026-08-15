@@ -815,48 +815,92 @@
                 <!-- 2 Units Top, 2 Units Bottom on Mobile (2x2 Grid) -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-sm sm:gap-md pt-2">
                     
-                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
+                    <!-- UNIT KB/TKIT -->
+                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
-                            <div class="w-14 h-14 sm:w-20 sm:h-20 mx-auto bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-2xl flex items-center justify-center mb-sm sm:mb-md group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
-                                <span class="material-symbols-outlined text-[28px] sm:text-[40px]">child_care</span>
+                            <!-- Foto Kepala Sekolah -->
+                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
+                                <img src="{{ $unitProfiles['tkit']['principal_photo'] ?? '/images/mockup_mobile_1.png' }}" alt="{{ $unitProfiles['tkit']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-emerald-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <span class="absolute -bottom-1 right-0 w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
-                            <h3 class="text-sm sm:text-lg font-bold font-headline text-slate-900 dark:text-white mb-xs">KB/TKIT Robbani</h3>
+
+                            <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white mb-1">KB/TKIT Robbani</h3>
+                            
+                            <!-- Box Nama & Jabatan Kepsek -->
+                            <div class="bg-white dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs mb-3 space-y-0.5">
+                                <span class="text-xs font-black text-slate-900 dark:text-white block truncate">{{ $unitProfiles['tkit']['principal_name'] }}</span>
+                                <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 block uppercase truncate">{{ $unitProfiles['tkit']['principal_title'] }}</span>
+                            </div>
+
                             <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Kelompok Bermain &amp; TK Islam Terpadu berakreditasi unggul.</p>
                         </div>
                         <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-emerald-700 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold rounded-full hover:bg-emerald-700 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'tkit') }}">Detail Unit ➔</a>
                     </div>
 
-                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-orange-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
+                    <!-- UNIT SDIT -->
+                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-orange-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
-                            <div class="w-14 h-14 sm:w-20 sm:h-20 mx-auto bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 rounded-2xl flex items-center justify-center mb-sm sm:mb-md group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
-                                <span class="material-symbols-outlined text-[28px] sm:text-[40px]">school</span>
+                            <!-- Foto Kepala Sekolah -->
+                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
+                                <img src="{{ $unitProfiles['sdit']['principal_photo'] ?? '/images/mockup_mobile_2.png' }}" alt="{{ $unitProfiles['sdit']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-orange-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <span class="absolute -bottom-1 right-0 w-6 h-6 rounded-full bg-orange-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
-                            <h3 class="text-sm sm:text-lg font-bold font-headline text-slate-900 dark:text-white mb-xs">SDIT Robbani</h3>
+
+                            <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white mb-1">SDIT Robbani</h3>
+
+                            <!-- Box Nama & Jabatan Kepsek -->
+                            <div class="bg-white dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs mb-3 space-y-0.5">
+                                <span class="text-xs font-black text-slate-900 dark:text-white block truncate">{{ $unitProfiles['sdit']['principal_name'] }}</span>
+                                <span class="text-[10px] font-bold text-orange-600 dark:text-orange-400 block uppercase truncate">{{ $unitProfiles['sdit']['principal_title'] }}</span>
+                            </div>
+
                             <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Sekolah Dasar Islam Terpadu berakreditasi A &amp; Tahfidz.</p>
                         </div>
                         <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-orange-600 dark:border-orange-500 text-orange-700 dark:text-orange-300 font-bold rounded-full hover:bg-orange-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'sdit') }}">Detail Unit ➔</a>
                     </div>
 
-                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
+                    <!-- UNIT SMPIT -->
+                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
-                            <div class="w-14 h-14 sm:w-20 sm:h-20 mx-auto bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-2xl flex items-center justify-center mb-sm sm:mb-md group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
-                                <span class="material-symbols-outlined text-[28px] sm:text-[40px]">menu_book</span>
+                            <!-- Foto Kepala Sekolah -->
+                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
+                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/images/hero_3d_illustration_1786347707126.png' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-blue-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <span class="absolute -bottom-1 right-0 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
-                            <h3 class="text-sm sm:text-lg font-bold font-headline text-slate-900 dark:text-white mb-xs">SMPIT Robbani</h3>
+
+                            <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white mb-1">SMPIT Robbani</h3>
+
+                            <!-- Box Nama & Jabatan Kepsek -->
+                            <div class="bg-white dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs mb-3 space-y-0.5">
+                                <span class="text-xs font-black text-slate-900 dark:text-white block truncate">{{ $unitProfiles['smpit']['principal_name'] }}</span>
+                                <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 block uppercase truncate">{{ $unitProfiles['smpit']['principal_title'] }}</span>
+                            </div>
+
                             <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Sekolah Menengah Pertama berasrama (boarding) / fullday.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-emerald-700 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold rounded-full hover:bg-emerald-700 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smpit') }}">Detail Unit ➔</a>
+                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-blue-600 dark:border-blue-500 text-blue-700 dark:text-blue-300 font-bold rounded-full hover:bg-blue-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smpit') }}">Detail Unit ➔</a>
                     </div>
 
-                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-orange-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
+                    <!-- UNIT SMAIT -->
+                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-purple-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
-                            <div class="w-14 h-14 sm:w-20 sm:h-20 mx-auto bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 rounded-2xl flex items-center justify-center mb-sm sm:mb-md group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
-                                <span class="material-symbols-outlined text-[28px] sm:text-[40px]">account_balance</span>
+                            <!-- Foto Kepala Sekolah -->
+                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
+                                <img src="{{ $unitProfiles['smait']['principal_photo'] ?? '/images/mockup_mobile_4.png' }}" alt="{{ $unitProfiles['smait']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-purple-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <span class="absolute -bottom-1 right-0 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
-                            <h3 class="text-sm sm:text-lg font-bold font-headline text-slate-900 dark:text-white mb-xs">SMAIT Robbani</h3>
+
+                            <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white mb-1">SMAIT Robbani</h3>
+
+                            <!-- Box Nama & Jabatan Kepsek -->
+                            <div class="bg-white dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs mb-3 space-y-0.5">
+                                <span class="text-xs font-black text-slate-900 dark:text-white block truncate">{{ $unitProfiles['smait']['principal_name'] }}</span>
+                                <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 block uppercase truncate">{{ $unitProfiles['smait']['principal_title'] }}</span>
+                            </div>
+
                             <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Sekolah Menengah Atas dengan program unggulan sains &amp; IT.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-orange-600 dark:border-orange-500 text-orange-700 dark:text-orange-300 font-bold rounded-full hover:bg-orange-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smait') }}">Detail Unit ➔</a>
+                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-purple-600 dark:border-purple-500 text-purple-700 dark:text-purple-300 font-bold rounded-full hover:bg-purple-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smait') }}">Detail Unit ➔</a>
                     </div>
 
                 </div>
