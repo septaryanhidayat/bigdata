@@ -430,11 +430,11 @@
             border-color: #1a381c !important;
         }
 
-        /* 13. FAST FADE-UP SCROLL REVEAL ANIMATION */
+        /* FADE-UP SCROLL REVEAL ANIMATION (BALANCED ELEGANT 0.65s TRANSITION) */
         .reveal-fade-up {
             opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(40px);
+            transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: opacity, transform;
         }
         .reveal-fade-up.is-visible {
@@ -1657,12 +1657,12 @@
             <button @click="activeLightboxImage = null" class="absolute -top-12 right-0 px-4 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-bold text-xs backdrop-blur-md">✕ Tutup</button>
             <img :src="activeLightboxImage" :alt="activeLightboxTitle" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl object-contain border border-white/20">
             <p class="text-white font-bold text-sm text-center mt-3 bg-black/50 px-4 py-2 rounded-xl backdrop-blur-sm" x-text="activeLightboxTitle"></p>
-    <!-- Fast Fade-Up Scroll Animation Observer Script -->
+    <!-- Balanced Fade-Up Scroll Animation Observer Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const observerOptions = {
-                threshold: 0.05,
-                rootMargin: '0px 0px -25px 0px'
+                threshold: 0.08,
+                rootMargin: '0px 0px -50px 0px'
             };
 
             const observer = new IntersectionObserver((entries) => {
