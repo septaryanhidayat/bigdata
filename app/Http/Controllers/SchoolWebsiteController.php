@@ -448,10 +448,20 @@ class SchoolWebsiteController extends Controller
     {
         $settings = $this->getSettings();
         $newsList = $this->getNewsData();
-        $news = collect($newsList)->firstWhere('slug', $slug) ?? $newsList[0];
-        $recentNews = collect($newsList)->where('slug', '!=', $news['slug'])->take(3);
+        $news = collect($newsList)->firstWhere('slug', $slug);
         
-        return view('school.berita.show', compact('settings', 'news', 'recentNews'));
+        if (!$news) {
+            $news = collect($newsList)->first(function($item) use ($slug) {
+                return \Illuminate\Support\Str::slug($item['title']) === $slug;
+            }) ?? $newsList[0];
+        }
+
+        $recentNews = collect($newsList)->where('slug', '!=', $news['slug'])->take(4);
+        $announcementList = $this->getAnnouncementData();
+        $agendaList = $this->getAgendaData();
+        $headerMenus = $this->getHeaderMenus();
+        
+        return view('school.berita.show', compact('settings', 'news', 'recentNews', 'announcementList', 'agendaList', 'headerMenus'));
     }
 
     public function artikelIndex()
