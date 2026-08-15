@@ -41,8 +41,8 @@
             </div>
         </div>
 
-        <div class="rounded-3xl overflow-hidden bg-[#070c04] border border-[#264218]">
-            <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full max-h-[450px] object-cover" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'; this.className='w-full p-8 object-contain bg-[#070c04]';">
+        <div class="rounded-3xl overflow-hidden card-dark-surface">
+            <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full max-h-[450px] object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full p-8 object-contain bg-white';">
         </div>
 
         <div class="p-8 rounded-[2rem] card-dark-surface text-slate-200 text-sm sm:text-base leading-relaxed space-y-4 font-medium">

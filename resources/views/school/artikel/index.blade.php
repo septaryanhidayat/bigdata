@@ -39,7 +39,7 @@
             <div class="p-6 rounded-3xl card-dark-surface space-y-4 flex flex-col justify-between group">
                 <div class="space-y-3">
                     <div class="h-48 rounded-2xl bg-[#070c04] overflow-hidden">
-                        <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'; this.className='w-full h-full object-contain p-4 bg-[#070c04]';">
+                        <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-4 bg-white';">
                     </div>
                     <span class="px-2.5 py-1 rounded-md bg-[#a8f52c] text-[#070c04] font-black text-[10px] uppercase inline-block">
                         {{ $article['category'] }}

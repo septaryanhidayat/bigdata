@@ -772,7 +772,7 @@
                     <!-- Foto & Name: Top on Mobile, Left Column on Desktop -->
                     <div class="flex-shrink-0 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full md:w-1/3">
                         <div class="w-28 h-28 sm:w-40 sm:h-40 mx-auto md:mx-0 rounded-full border-4 border-emerald-600 p-1 mb-sm sm:mb-md shadow-lg">
-                            <img class="w-full h-full object-cover rounded-full bg-white" src="{{ $settings['principal_photo'] ?? '/images/logo robbani light.png' }}" alt="Ketua Yayasan Generasi Robbani" onerror="this.src='/images/logo robbani light.png';">
+                            <img class="w-full h-full object-cover rounded-full bg-white" src="{{ $settings['principal_photo'] ?? '/images/logo-robbani-official.png' }}" alt="Ketua Yayasan Generasi Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                         </div>
                         <span class="site-section-badge mb-xs">Ketua Yayasan</span>
                         <h3 class="text-base sm:text-lg font-bold font-headline text-slate-900 mb-xs">{{ $settings['principal_name'] }}</h3>
@@ -889,7 +889,7 @@
                         <div class="bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm group cursor-pointer hover:shadow-xl hover:border-emerald-500 transition-all duration-300 h-full flex flex-col justify-between">
                             <div>
                                 <div class="relative h-60 sm:h-80 overflow-hidden bg-slate-900">
-                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ $topNews['image'] }}" alt="{{ $topNews['title'] }}" onerror="this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-6 bg-white';">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ $topNews['image'] }}" alt="{{ $topNews['title'] }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-6 bg-white';">
                                     <span class="absolute top-md left-md bg-emerald-700 text-white px-md py-xs rounded-full text-xs font-bold shadow-md">HEADLINE NEWS</span>
                                 </div>
                                 <div class="p-md sm:p-lg space-y-sm">
@@ -919,7 +919,7 @@
                     <div class="lg:col-span-6 flex flex-col justify-between space-y-sm">
                         @foreach(array_slice($newsList, 1, 5) as $sideNews)
                         <div class="flex items-center gap-sm sm:gap-md p-sm bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer group flex-1">
-                            <img class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl flex-shrink-0 group-hover:scale-105 transition-transform bg-slate-900" src="{{ $sideNews['image'] }}" alt="{{ $sideNews['title'] }}" onerror="this.src='/images/logo-robbani-official.png'; this.className='w-16 h-16 sm:w-20 sm:h-20 object-contain p-2 bg-white rounded-xl';">
+                            <img class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl flex-shrink-0 group-hover:scale-105 transition-transform bg-slate-900" src="{{ $sideNews['image'] }}" alt="{{ $sideNews['title'] }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-16 h-16 sm:w-20 sm:h-20 object-contain p-2 bg-white rounded-xl';">
                             <div class="flex-grow space-y-xs min-w-0">
                                 <div class="text-[10px] text-slate-500 flex items-center justify-between font-semibold">
                                     <span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[12px]">calendar_today</span> {{ $sideNews['date'] }}</span>
@@ -1224,7 +1224,7 @@
                             <p class="text-xs italic text-slate-700 leading-relaxed font-medium">"{{ $testi['text'] }}"</p>
                         </div>
                         <div class="flex items-center gap-sm pt-sm border-t border-slate-200">
-                            <img src="{{ $testi['avatar'] }}" alt="{{ $testi['name'] }}" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.src='https://sitrobbani.sch.id/wp-content/uploads/2022/01/cropped-favicon-192x192.png';">
+                            <img src="{{ $testi['avatar'] }}" alt="{{ $testi['name'] }}" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                             <div>
                                 <h4 class="text-xs font-bold text-slate-900 leading-tight">{{ $testi['name'] }}</h4>
                                 <span class="text-[10px] text-emerald-700 font-semibold block leading-tight">{{ $testi['title'] }}</span>

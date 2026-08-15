@@ -46,8 +46,8 @@
             
             <!-- Logo Header -->
             <a href="{{ route('home') }}" class="flex items-center gap-3.5 group shrink-0" title="Kembali ke Beranda SIT Robbani">
-                <img src="{{ !empty($settings['logo_light']) ? $settings['logo_light'] : '/images/logo robbani light.png' }}" class="h-10 sm:h-12 w-auto object-contain dark:hidden" alt="Logo SIT Robbani" onerror="this.src='/images/logo robbani light.png';">
-                <img src="{{ !empty($settings['logo_dark']) ? $settings['logo_dark'] : '/images/logo robbani dark.png' }}" class="h-10 sm:h-12 w-auto object-contain hidden dark:block" alt="Logo SIT Robbani" onerror="this.src='/images/logo robbani dark.png';">
+                <img src="{{ !empty($settings['logo_light']) ? $settings['logo_light'] : '/images/logo-robbani-official.png' }}" class="h-10 sm:h-12 w-auto object-contain dark:hidden" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                <img src="{{ !empty($settings['logo_dark']) ? $settings['logo_dark'] : '/images/logo-robbani-official.png' }}" class="h-10 sm:h-12 w-auto object-contain hidden dark:block" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 <div>
                     <span class="font-black text-xs sm:text-sm block text-emerald-800 dark:text-[#a3e635] uppercase tracking-wider">PROFIL YAYASAN</span>
                     <span class="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300 font-bold block">SIT ROBBANI OGAN ILIR</span>
@@ -92,7 +92,7 @@
                 <!-- Foto Ketua Yayasan -->
                 <div class="shrink-0 flex flex-col items-center text-center">
                     <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-full border-4 border-emerald-600 dark:border-[#a3e635] p-1 shadow-2xl bg-white overflow-hidden relative">
-                        <img src="{{ !empty($settings['principal_photo']) ? $settings['principal_photo'] : '/images/logo robbani light.png' }}" alt="{{ $settings['principal_name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.src='/images/logo robbani light.png';">
+                        <img src="{{ !empty($settings['principal_photo']) ? $settings['principal_photo'] : '/images/logo-robbani-official.png' }}" alt="{{ $settings['principal_name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                     </div>
                     <span class="mt-4 px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#a3e635] text-emerald-950 dark:text-[#050d06] text-[10px] font-black uppercase tracking-wider shadow-sm">
                         KETUA YAYASAN
