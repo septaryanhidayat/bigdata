@@ -12,6 +12,13 @@ use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\SavingsController;
 use App\Http\Controllers\Admin\CanteenController;
+use App\Http\Controllers\Admin\BpiController;
+use App\Http\Controllers\Admin\HrisPayrollController;
+use App\Http\Controllers\Admin\CbtPpdbController;
+use App\Http\Controllers\Admin\SarprasController;
+use App\Http\Controllers\Admin\LibraryController;
+use App\Http\Controllers\Admin\LmsController;
+use App\Http\Controllers\Admin\BkController;
 
 // ==========================================================================
 // SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
@@ -65,6 +72,8 @@ Route::post('/layanan/sewa', [SchoolWebsiteController::class, 'storeLayananSewa'
 
 Route::get('/ppdb', [SchoolWebsiteController::class, 'ppdbForm'])->name('school.ppdb');
 Route::post('/ppdb', [SchoolWebsiteController::class, 'storePpdb'])->name('school.ppdb.store');
+Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('school.spmb.download-pdf');
+Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('school.spmb.verify');
 
 Route::get('/e-spp', [SchoolWebsiteController::class, 'eSppCheck'])->name('school.espp');
 
@@ -112,6 +121,49 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/faqs', [CmsController::class, 'storeFaq'])->name('faqs.store');
         Route::delete('/faqs/{id}', [CmsController::class, 'destroyFaq'])->name('faqs.destroy');
 
+        // System Error Monitoring & Mitigation Center
+        Route::post('/system-errors/{id}/resolve', [CmsController::class, 'resolveSystemError'])->name('system-errors.resolve');
+        Route::post('/system-errors/run-auto-mitigation', [CmsController::class, 'runAutoMitigation'])->name('system-errors.auto-mitigation');
+        Route::post('/system-errors/simulate-test-error', [CmsController::class, 'simulateTestError'])->name('system-errors.simulate');
+        Route::post('/system-errors/log-client-error', [CmsController::class, 'logClientError'])->name('system-errors.log-client');
+
+        // System Concurrency & High-Traffic Load Control Center
+        Route::post('/system-control/set-mode', [CmsController::class, 'setTrafficMode'])->name('system-control.set-mode');
+        Route::post('/system-control/purge-sessions', [CmsController::class, 'purgeExpiredSessions'])->name('system-control.purge-sessions');
+        Route::post('/system-control/optimize-db-pool', [CmsController::class, 'optimizeDbPool'])->name('system-control.optimize-db-pool');
+
+        // Modul 15: Mutaba'ah BPI & Character Building
+        Route::get('/bpi', [BpiController::class, 'index'])->name('bpi.index');
+        Route::post('/bpi', [BpiController::class, 'store'])->name('bpi.store');
+
+        // Modul 7 & 17: HRIS & E-Payroll Pegawai
+        Route::get('/payroll', [HrisPayrollController::class, 'index'])->name('payroll.index');
+        Route::post('/payroll/generate', [HrisPayrollController::class, 'generate'])->name('payroll.generate');
+
+        // Modul 12 & 13: CBT Ujian & PPDB Manager
+        Route::get('/cbt', [CbtPpdbController::class, 'cbtIndex'])->name('cbt.index');
+        Route::post('/cbt', [CbtPpdbController::class, 'storeCbtExam'])->name('cbt.store');
+        Route::post('/cbt/questions', [CbtPpdbController::class, 'storeQuestion'])->name('cbt.questions.store');
+        Route::get('/ppdb-admin', [CbtPpdbController::class, 'ppdbIndex'])->name('ppdb-admin.index');
+        Route::post('/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
+        Route::get('/ppdb-admin/{id}/download-pdf', [CbtPpdbController::class, 'downloadSpmbPdf'])->name('ppdb-admin.download-pdf');
+
+        // Modul 9: Sarpras Aset & Barcode
+        Route::get('/sarpras', [SarprasController::class, 'index'])->name('sarpras.index');
+        Route::post('/sarpras', [SarprasController::class, 'store'])->name('sarpras.store');
+
+        // Modul 10: Perpustakaan Digital E-Library
+        Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
+        Route::post('/library', [LibraryController::class, 'store'])->name('library.store');
+
+        // Modul 11: E-Learning LMS
+        Route::get('/lms', [LmsController::class, 'index'])->name('lms.index');
+        Route::post('/lms', [LmsController::class, 'store'])->name('lms.store');
+
+        // Modul 8: BK Online & Poin Siswa
+        Route::get('/bk', [BkController::class, 'index'])->name('bk.index');
+        Route::post('/bk', [BkController::class, 'store'])->name('bk.store');
+
         // Modul 1: Master Data Management Base
         Route::prefix('master')->name('master.')->group(function () {
             Route::get('/', [MasterDataController::class, 'index'])->name('index');
@@ -126,8 +178,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/classrooms', [MasterDataController::class, 'storeClassroom'])->name('classrooms.store');
             Route::get('/students', [MasterDataController::class, 'students'])->name('students');
             Route::post('/students', [MasterDataController::class, 'storeStudent'])->name('students.store');
+            Route::get('/students/export', [MasterDataController::class, 'exportStudents'])->name('students.export');
+            Route::post('/students/import', [MasterDataController::class, 'importStudents'])->name('students.import');
             Route::get('/teachers', [MasterDataController::class, 'teachers'])->name('teachers');
             Route::post('/teachers', [MasterDataController::class, 'storeTeacher'])->name('teachers.store');
+            Route::get('/teachers/export', [MasterDataController::class, 'exportTeachers'])->name('teachers.export');
             Route::get('/employees', [MasterDataController::class, 'employees'])->name('employees');
             Route::get('/references', [MasterDataController::class, 'references'])->name('references');
             Route::post('/subjects', [MasterDataController::class, 'storeSubject'])->name('subjects.store');

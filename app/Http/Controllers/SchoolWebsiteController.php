@@ -506,20 +506,130 @@ class SchoolWebsiteController extends Controller
 
     public function storePpdb(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'school_code' => 'required|string',
-            'nama_lengkap' => 'required|string|max:255',
+            'jalur_pendaftaran' => 'nullable|string',
+            'nama_lengkap' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/|max:255',
+            'nik_siswa' => 'nullable|numeric|digits:16',
+            'nisn' => 'nullable|numeric|digits_between:8,12',
             'jenis_kelamin' => 'required|string',
-            'tempat_lahir' => 'required|string',
+            'tempat_lahir' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/',
             'tanggal_lahir' => 'required|date',
-            'nama_ortu' => 'required|string|max:255',
-            'no_hp_ortu' => 'required|string',
+            'sekolah_asal' => 'nullable|string',
+            'anak_ke' => 'nullable|integer|min:1',
+            'jumlah_saudara' => 'nullable|integer|min:0',
+            // Data Ayah & Ibu
+            'nama_ayah' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/|max:255',
+            'nik_ayah' => 'nullable|numeric|digits:16',
+            'pekerjaan_ayah' => 'nullable|string',
+            'pendidikan_ayah' => 'nullable|string',
+            'no_hp_ayah' => 'required|string|regex:/^[0-9\+\-\s]+$/',
+            'email_ortu' => 'required|email',
+            'penghasilan_ayah' => 'nullable|string',
+            'nama_ibu' => 'nullable|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/|max:255',
+            'nik_ibu' => 'nullable|numeric|digits:16',
+            'pekerjaan_ibu' => 'nullable|string',
+            'pendidikan_ibu' => 'nullable|string',
+            'no_hp_ibu' => 'nullable|string|regex:/^[0-9\+\-\s]+$/',
+            // Data Wali
+            'nama_wali' => 'nullable|string',
+            'hubungan_wali' => 'nullable|string',
+            'no_hp_wali' => 'nullable|string',
+            // Domisili
             'alamat' => 'required|string',
+            'kelurahan' => 'nullable|string',
+            'kecamatan' => 'nullable|string',
+            'kabupaten' => 'nullable|string',
+            'provinsi' => 'nullable|string',
+            // Sibling Info
+            'has_sibling' => 'nullable|string',
+            'sibling_info' => 'nullable|string',
+            // File Uploads
+            'pas_foto' => 'nullable|file|mimes:jpg,jpeg,png|max:5000',
+            'ktp_ortu' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5000',
+            'kartu_keluarga' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5000',
+            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5000',
         ]);
 
-        $noRegistrasi = 'PPDB-' . strtoupper($request->school_code) . '-' . rand(10000, 99999);
+        $uploadedDocs = [];
+        $uploadFields = ['pas_foto', 'ktp_ortu', 'kartu_keluarga', 'bukti_transfer'];
+        
+        foreach ($uploadFields as $field) {
+            if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $field . '_' . rand(100, 999) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/spmb'), $filename);
+                $uploadedDocs[$field] = '/uploads/spmb/' . $filename;
+            } else {
+                $uploadedDocs[$field] = null;
+            }
+        }
 
-        return redirect()->back()->with('success', 'Pendaftaran PPDB Berhasil! Nomor Registrasi Ananda: ' . $noRegistrasi . '. Panitia PPDB SIT Robbani akan menghubungi Anda untuk tahapan observasi & wawancara.');
+        $schoolCode = strtoupper($request->school_code);
+        $schoolObj = School::where('code', $schoolCode)->first() ?? School::first();
+
+        $fees = [
+            'TKIT' => 200000,
+            'SDIT' => 250000,
+            'SMPIT' => 300000,
+            'SMAIT' => 350000,
+        ];
+        $registrationFee = $fees[$schoolCode] ?? 250000;
+
+        $noRegistrasi = 'SPMB-2026-' . $schoolCode . '-' . rand(10000, 99999);
+
+        $detailsArray = array_merge($validated, [
+            'registration_fee' => $registrationFee,
+            'uploaded_docs' => $uploadedDocs,
+            'submitted_at' => now()->toDateTimeString(),
+        ]);
+
+        $reg = \App\Models\PpdbRegistration::create([
+            'school_id' => $schoolObj->id ?? 1,
+            'registration_number' => $noRegistrasi,
+            'full_name' => $request->nama_lengkap,
+            'parent_name' => $request->nama_ayah,
+            'phone_number' => $request->no_hp_ayah,
+            'target_level' => $schoolCode,
+            'previous_school' => $request->sekolah_asal ?? 'TK/SD Asal',
+            'status' => 'PENDING',
+            'registration_fee' => $registrationFee,
+            'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
+            'details_json' => json_encode($detailsArray),
+        ]);
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => 1,
+                'action' => 'PENDAFTARAN SPMB ONLINE',
+                'model_type' => 'PpdbRegistration',
+                'model_id' => $reg->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch(\Throwable $e) {}
+
+        return redirect()->back()->with('spmb_success_data', [
+            'registration_id' => $reg->id,
+            'registration_number' => $noRegistrasi,
+            'student_name' => $request->nama_lengkap,
+            'target_level' => $schoolCode,
+            'parent_phone' => $request->no_hp_ayah,
+            'date' => now()->translatedFormat('d F Y H:i'),
+        ]);
+    }
+
+    public function downloadSpmbPdf($id)
+    {
+        $settings = $this->getSettings();
+        $registration = \App\Models\PpdbRegistration::findOrFail($id);
+        return view('school.spmb_pdf', compact('settings', 'registration'));
+    }
+
+    public function verifySpmb($regNumber)
+    {
+        $settings = $this->getSettings();
+        $registration = \App\Models\PpdbRegistration::where('registration_number', $regNumber)->firstOrFail();
+        return view('school.spmb_verify', compact('settings', 'registration'));
     }
 
     public function eSppCheck(Request $request)
@@ -555,6 +665,9 @@ class SchoolWebsiteController extends Controller
             'contact_email' => SiteSetting::get('contact_email', 'info@sitrobbani.sch.id'),
             'contact_address' => SiteSetting::get('contact_address', 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan'),
             'website_theme' => SiteSetting::get('website_theme', 'theme-emerald'),
+            'school_logo' => SiteSetting::get('school_logo', SiteSetting::get('logo_light', '/images/smartedu_logo.jpg')),
+            'logo_light' => SiteSetting::get('logo_light', SiteSetting::get('school_logo', '/images/smartedu_logo.jpg')),
+            'logo_dark' => SiteSetting::get('logo_dark', SiteSetting::get('school_logo', '/images/smartedu_logo.jpg')),
         ];
     }
 

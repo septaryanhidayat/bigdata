@@ -18,10 +18,23 @@ class FinanceController extends Controller
      */
     public function sppBills()
     {
-        $bills = SppBill::with(['student.school', 'student.classroom'])->latest()->paginate(15);
-        $students = Student::where('status', 'AKTIF')->get();
+        $schoolId = session('dashboard_school_id', 'all');
 
-        return view('admin.finance.spp_bills', compact('bills', 'students'));
+        $billsQuery = SppBill::with(['student.school', 'student.classroom']);
+        $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
+
+        if ($schoolId !== 'all') {
+            $billsQuery->where('school_id', $schoolId);
+            $studentsQuery->where('school_id', $schoolId);
+        }
+
+        $bills = $billsQuery->latest()->paginate(15);
+        $students = $studentsQuery->get();
+        if ($students->isEmpty()) {
+            $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
+        }
+
+        return view('admin.finance.spp_bills', compact('bills', 'students', 'schoolId'));
     }
 
     public function storeSppBill(Request $request)
@@ -34,7 +47,7 @@ class FinanceController extends Controller
         ]);
 
         $student = Student::find($request->student_id);
-        $validated['school_id'] = $student->school_id;
+        $validated['school_id'] = $student->school_id ?? 1;
         $validated['status'] = 'UNPAID';
 
         SppBill::create($validated);
@@ -55,7 +68,7 @@ class FinanceController extends Controller
 
         $receiptNo = 'KW-SPP-' . date('Ymd') . '-' . str_pad($bill->id, 4, '0', STR_PAD_LEFT);
 
-        SppPayment::create([
+        $payment = SppPayment::create([
             'spp_bill_id' => $bill->id,
             'receipt_no' => $receiptNo,
             'amount_paid' => $bill->amount,
@@ -70,7 +83,7 @@ class FinanceController extends Controller
         $kasCoa = ChartOfAccount::where('code', '101')->first();
         if ($kasCoa) {
             JournalEntry::create([
-                'school_id' => $bill->school_id,
+                'school_id' => $bill->school_id ?? 1,
                 'coa_id' => $kasCoa->id,
                 'transaction_date' => date('Y-m-d'),
                 'reference_no' => $receiptNo,
@@ -80,6 +93,16 @@ class FinanceController extends Controller
             ]);
             $kasCoa->increment('balance', $bill->amount);
         }
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'BAYAR SPP',
+                'model_type' => 'SppPayment',
+                'model_id' => $payment->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch(\Throwable $e) {}
 
         return redirect()->back()->with('success', "Pembayaran SPP Berhasil! Kwitansi: {$receiptNo}");
     }

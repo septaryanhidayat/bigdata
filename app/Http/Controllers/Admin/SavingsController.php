@@ -15,12 +15,29 @@ class SavingsController extends Controller
      */
     public function index()
     {
-        $transactions = SavingsTransaction::with(['student.school', 'student.classroom'])->latest()->paginate(15);
-        $students = Student::where('status', 'AKTIF')->get();
+        $schoolId = session('dashboard_school_id', 'all');
 
-        $totalSavings = Student::sum('savings_balance');
+        $transactionsQuery = SavingsTransaction::with(['student.school', 'student.classroom']);
+        $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
+        $totalSavingsQuery = Student::query();
 
-        return view('admin.savings.index', compact('transactions', 'students', 'totalSavings'));
+        if ($schoolId !== 'all') {
+            $transactionsQuery->whereHas('student', function($q) use ($schoolId) {
+                $q->where('school_id', $schoolId);
+            });
+            $studentsQuery->where('school_id', $schoolId);
+            $totalSavingsQuery->where('school_id', $schoolId);
+        }
+
+        $transactions = $transactionsQuery->latest()->paginate(15);
+        $students = $studentsQuery->get();
+        if ($students->isEmpty()) {
+            $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
+        }
+
+        $totalSavings = $totalSavingsQuery->sum('savings_balance');
+
+        return view('admin.savings.index', compact('transactions', 'students', 'totalSavings', 'schoolId'));
     }
 
     public function storeTransaction(Request $request)
@@ -46,14 +63,24 @@ class SavingsController extends Controller
 
         $student->update(['savings_balance' => $newBalance]);
 
-        SavingsTransaction::create([
-            'school_id' => $student->school_id,
+        $trx = SavingsTransaction::create([
+            'school_id' => $student->school_id ?? 1,
             'student_id' => $student->id,
             'transaction_type' => $request->transaction_type,
             'amount' => $request->amount,
             'balance_after' => $newBalance,
             'notes' => $request->notes ?? ($request->transaction_type == 'DEPOSIT' ? 'Setoran Tabungan Teller' : 'Penarikan Tabungan Teller'),
         ]);
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'TABUNGAN ' . $request->transaction_type,
+                'model_type' => 'SavingsTransaction',
+                'model_id' => $trx->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch(\Throwable $e) {}
 
         $typeLabel = $request->transaction_type == 'DEPOSIT' ? 'Setoran' : 'Penarikan';
         return redirect()->back()->with('success', "Transaksi {$typeLabel} Tabungan Berhasil! Saldo Baru: Rp " . number_format($newBalance, 0, ',', '.'));

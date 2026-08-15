@@ -49,12 +49,21 @@ class MasterDataController extends Controller
      */
     public function switchSchool(Request $request)
     {
-        $request->validate(['school_id' => 'required|exists:schools,id']);
-        session(['active_school_id' => $request->school_id]);
-        
-        $school = School::find($request->school_id);
+        $schoolId = $request->input('school_id', 'all');
+        if ($schoolId !== 'all') {
+            $request->validate(['school_id' => 'exists:schools,id']);
+            $school = School::find($schoolId);
+            $schoolName = $school ? $school->name : 'Unit Sekolah';
+        } else {
+            $schoolName = 'Semua Unit (Yayasan Robbani)';
+        }
 
-        return redirect()->back()->with('success', "Berhasil beralih ke unit sekolah: {$school->name}");
+        session([
+            'dashboard_school_id' => $schoolId,
+            'active_school_id' => $schoolId,
+        ]);
+
+        return redirect()->back()->with('success', "✓ Mode Unit Aktif Berhasil Diubah: {$schoolName}");
     }
 
     /**
@@ -206,16 +215,133 @@ class MasterDataController extends Controller
             'nis' => 'required|string|unique:students,nis',
             'nisn' => 'nullable|string',
             'full_name' => 'required|string',
-            'gender' => 'required|in:L,P',
+            'gender' => 'required',
             'birth_place' => 'nullable|string',
             'birth_date' => 'nullable|date',
             'rfid_tag' => 'nullable|string|unique:students,rfid_tag',
-            'status' => 'required|in:AKTIF,LULUS,KELUAR,MUTASI',
+            'status' => 'nullable|string',
         ]);
+
+        $validated['gender'] = in_array(strtoupper($request->gender), ['L', 'LAKI_LAKI', 'M']) ? 'M' : 'F';
+        $validated['status'] = in_array(strtoupper($request->status ?? 'ACTIVE'), ['AKTIF', 'ACTIVE']) ? 'ACTIVE' : 'ACTIVE';
 
         Student::create($validated);
 
         return redirect()->back()->with('success', 'Data Siswa Baru Berhasil Ditambahkan!');
+    }
+
+    /**
+     * Export Data Siswa ke CSV/Excel
+     */
+    public function exportStudents()
+    {
+        $students = Student::with(['school', 'classroom'])->get();
+        $filename = 'export_students_' . date('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function () use ($students) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'NIS', 'NISN', 'Nama Lengkap', 'Jenis Kelamin', 'Unit Sekolah', 'Kelas', 'RFID Tag', 'Saldo Cashless', 'Status']);
+
+            foreach ($students as $st) {
+                fputcsv($file, [
+                    $st->id,
+                    $st->nis,
+                    $st->nisn ?? '-',
+                    $st->full_name,
+                    $st->gender == 'M' ? 'Laki-Laki' : 'Perempuan',
+                    $st->school->name ?? '-',
+                    $st->classroom->name ?? '-',
+                    $st->rfid_tag ?? '-',
+                    $st->savings_balance,
+                    $st->status,
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Import Massal Data Siswa dari File CSV
+     */
+    public function importStudents(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt|max:5120',
+        ]);
+
+        $file = $request->file('csv_file');
+        $handle = fopen($file->getPathname(), 'r');
+        $header = fgetcsv($handle); // Skip header
+
+        $importedCount = 0;
+        $firstSchool = School::first();
+
+        while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+            if (count($data) >= 3) {
+                $nis = trim($data[0]);
+                $fullName = trim($data[1]);
+                $genderInput = strtoupper(trim($data[2] ?? 'L'));
+                $gender = in_array($genderInput, ['L', 'LAKI_LAKI', 'M']) ? 'M' : 'F';
+
+                Student::firstOrCreate(
+                    ['nis' => $nis],
+                    [
+                        'school_id' => $firstSchool->id ?? 1,
+                        'full_name' => $fullName,
+                        'gender' => $gender,
+                        'rfid_tag' => 'RFID-IMP-' . rand(10000, 99999),
+                        'status' => 'ACTIVE',
+                        'savings_balance' => 50000,
+                    ]
+                );
+                $importedCount++;
+            }
+        }
+        fclose($handle);
+
+        return redirect()->back()->with('success', "✓ Berhasil mengimpor {$importedCount} data siswa baru secara massal!");
+    }
+
+    /**
+     * Export Data Guru/Pendidik ke CSV
+     */
+    public function exportTeachers()
+    {
+        $teachers = Employee::whereIn('role_type', ['TEACHER', 'GURU'])->orWhere('type', 'GURU')->get();
+        $filename = 'export_teachers_' . date('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function () use ($teachers) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'NIP', 'Nama Guru', 'Gelar', 'Jabatan', 'Unit Sekolah', 'No. HP', 'Email']);
+
+            foreach ($teachers as $t) {
+                fputcsv($file, [
+                    $t->id,
+                    $t->nip ?? '-',
+                    $t->full_name,
+                    $t->title ?? '-',
+                    $t->position ?? 'Guru Pelajaran',
+                    $t->school->name ?? '-',
+                    $t->phone ?? '-',
+                    $t->email ?? '-',
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

@@ -21,13 +21,28 @@ class AcademicController extends Controller
      */
     public function schedules()
     {
-        $schedules = Schedule::with(['school', 'classroom', 'subject', 'teacher'])->get();
-        $schools = School::all();
-        $classrooms = Classroom::all();
-        $subjects = Subject::all();
-        $teachers = Employee::where('type', 'GURU')->get();
+        $schoolId = session('dashboard_school_id', 'all');
 
-        return view('admin.academic.schedules', compact('schedules', 'schools', 'classrooms', 'subjects', 'teachers'));
+        $schedulesQuery = Schedule::with(['school', 'classroom', 'subject', 'teacher']);
+        $classroomsQuery = Classroom::query();
+        $teachersQuery = Employee::whereIn('role_type', ['TEACHER', 'GURU'])->orWhere('type', 'GURU');
+
+        if ($schoolId !== 'all') {
+            $schedulesQuery->where('school_id', $schoolId);
+            $classroomsQuery->where('school_id', $schoolId);
+            $teachersQuery->where('school_id', $schoolId);
+        }
+
+        $schedules = $schedulesQuery->get();
+        $schools = School::all();
+        $classrooms = $classroomsQuery->get();
+        $subjects = Subject::all();
+        $teachers = $teachersQuery->get();
+        if ($teachers->isEmpty()) {
+            $teachers = ($schoolId !== 'all') ? Employee::where('school_id', $schoolId)->get() : Employee::all();
+        }
+
+        return view('admin.academic.schedules', compact('schedules', 'schools', 'classrooms', 'subjects', 'teachers', 'schoolId'));
     }
 
     public function storeSchedule(Request $request)
@@ -42,7 +57,17 @@ class AcademicController extends Controller
             'end_time' => 'required',
         ]);
 
-        Schedule::create($validated);
+        $sch = Schedule::create($validated);
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'JADWAL KBM',
+                'model_type' => 'Schedule',
+                'model_id' => $sch->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch(\Throwable $e) {}
 
         return redirect()->back()->with('success', 'Jadwal Pelajaran Berhasil Ditambahkan!');
     }
@@ -54,7 +79,10 @@ class AcademicController extends Controller
     {
         $journals = KbmJournal::with(['schedule.classroom', 'schedule.subject', 'teacher'])->latest()->paginate(15);
         $schedules = Schedule::with(['classroom', 'subject'])->get();
-        $teachers = Employee::where('role_type', 'TEACHER')->orWhere('type', 'GURU')->get();
+        $teachers = Employee::whereIn('role_type', ['TEACHER', 'GURU'])->orWhere('type', 'GURU')->get();
+        if ($teachers->isEmpty()) {
+            $teachers = Employee::all();
+        }
 
         return view('admin.academic.journals', compact('journals', 'schedules', 'teachers'));
     }
@@ -70,9 +98,19 @@ class AcademicController extends Controller
         ]);
 
         $schedule = Schedule::find($request->schedule_id);
-        $validated['school_id'] = $schedule->school_id;
+        $validated['school_id'] = $schedule->school_id ?? 1;
 
-        KbmJournal::create($validated);
+        $jrn = KbmJournal::create($validated);
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'JURNAL KBM',
+                'model_type' => 'KbmJournal',
+                'model_id' => $jrn->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch(\Throwable $e) {}
 
         return redirect()->back()->with('success', 'Catatan Jurnal KBM Guru Berhasil Disimpan!');
     }
@@ -82,12 +120,25 @@ class AcademicController extends Controller
      */
     public function grades()
     {
-        $grades = Grade::with(['student', 'subject', 'academicYear'])->latest()->paginate(15);
-        $students = Student::where('status', 'AKTIF')->get();
+        $schoolId = session('dashboard_school_id', 'all');
+
+        $gradesQuery = Grade::with(['student', 'subject', 'academicYear']);
+        $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
+
+        if ($schoolId !== 'all') {
+            $gradesQuery->where('school_id', $schoolId);
+            $studentsQuery->where('school_id', $schoolId);
+        }
+
+        $grades = $gradesQuery->latest()->paginate(15);
+        $students = $studentsQuery->get();
+        if ($students->isEmpty()) {
+            $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
+        }
         $subjects = Subject::all();
         $academicYears = AcademicYear::all();
 
-        return view('admin.academic.grades', compact('grades', 'students', 'subjects', 'academicYears'));
+        return view('admin.academic.grades', compact('grades', 'students', 'subjects', 'academicYears', 'schoolId'));
     }
 
     public function storeGrade(Request $request)
@@ -111,7 +162,17 @@ class AcademicController extends Controller
         elseif ($score >= 70) $validated['predicate'] = 'C';
         else $validated['predicate'] = 'D';
 
-        Grade::create($validated);
+        $grd = Grade::create($validated);
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'PENILAIAN E-RAPOR',
+                'model_type' => 'Grade',
+                'model_id' => $grd->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch(\Throwable $e) {}
 
         return redirect()->back()->with('success', 'Nilai Siswa Berhasil Diinput!');
     }

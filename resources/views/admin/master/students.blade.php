@@ -10,12 +10,34 @@
         </div>
 
         <div class="flex items-center gap-2">
-            <button onclick="alert('Fitur Export Excel/CSV Data Siswa Siakad Siap Digunakan!')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs border border-slate-300 transition-colors">
-                📥 Export Data Siswa
+            <a href="{{ route('admin.master.students.export') }}" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs border border-slate-300 transition-colors inline-flex items-center gap-1">
+                📥 Export CSV Siswa
+            </a>
+            <button onclick="document.getElementById('importModal').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-colors shadow">
+                📤 Import Data CSV
             </button>
-            <button onclick="alert('Fitur Import Excel Data Siswa Siakad Siap Digunakan!')" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-colors shadow">
-                📤 Import Data Excel
-            </button>
+        </div>
+    </div>
+
+    <!-- Modal Import CSV -->
+    <div id="importModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="text-base font-black text-slate-900">Import Massal Data Siswa (CSV)</h3>
+                <button onclick="document.getElementById('importModal').classList.add('hidden')" class="text-slate-400 font-bold">✕</button>
+            </div>
+            <form action="{{ route('admin.master.students.import') }}" method="POST" enctype="multipart/form-data" class="space-y-4 text-xs font-bold">
+                @csrf
+                <div>
+                    <label class="block text-slate-700 mb-1">Pilih File CSV Data Siswa:</label>
+                    <input type="file" name="csv_file" accept=".csv,.txt" required class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <p class="text-[10px] text-slate-400 mt-1 font-normal">Format CSV: NIS, Nama_Lengkap, Jenis_Kelamin (L/P)</p>
+                </div>
+                <div class="flex items-center justify-end gap-2 border-t border-slate-100 pt-3">
+                    <button type="button" onclick="document.getElementById('importModal').classList.add('hidden')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600">Batal</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-black">Unggah & Import</button>
+                </div>
+            </form>
         </div>
     </div>
 
