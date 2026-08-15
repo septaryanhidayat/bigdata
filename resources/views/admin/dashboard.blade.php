@@ -320,7 +320,7 @@
                 <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black text-[10px] uppercase border border-emerald-200">● Live Logging Active</span>
             </div>
 
-            <div class="space-y-3">
+            <div class="space-y-3 max-h-[320px] overflow-y-auto pr-1">
                 @foreach($auditLogs as $log)
                 <div class="flex items-start justify-between gap-4 p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-slate-100/80 transition-all">
                     <div class="flex items-start gap-3">
@@ -581,103 +581,101 @@
 
     </div>
 
-    <!-- Section: Pusat Pemantauan Error & Mitigasi Diagnostik Sistem (Full-Width At Bottom of Dashboard) -->
-    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+    <!-- Section: Pusat Pemantauan Error & Mitigasi Diagnostik Sistem (Compact & Scrollable) -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
         
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
                 <div class="flex items-center gap-2">
-                    <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 font-extrabold text-[10px] uppercase border border-rose-200">System Telemetry & Device Exception Monitor</span>
-                    <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                    <span class="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 font-black text-[10px] uppercase border border-rose-200">System Telemetry &amp; Device Exception Monitor</span>
+                    <span class="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
                 </div>
-                <h3 class="text-xl font-black text-slate-900 tracking-tight mt-1 flex items-center gap-2">
-                    <span>🚨</span> Pusat Pemantauan Error Sistem & Mitigasi Diagnostik
+                <h3 class="text-lg font-black text-slate-900 tracking-tight mt-1 flex items-center gap-2">
+                    <span>🚨</span> Pusat Pemantauan Error Sistem &amp; Mitigasi Diagnostik ({{ count($systemErrorLogs) }})
                 </h3>
-                <p class="text-xs text-slate-500 font-medium">Pemantauan realtime kendala backend PHP, API, device/browser pengguna, serta panduan resolusi otomatis.</p>
+                <p class="text-xs text-slate-500 font-medium">Pemantauan realtime kendala backend PHP, API, dan panduan resolusi otomatis.</p>
             </div>
 
-            <!-- Quick Action Mitigation Buttons -->
+            <!-- Quick Action Mitigation Buttons (High-Contrast Guaranteed) -->
             <div class="flex flex-wrap items-center gap-2">
-                <form action="{{ route('admin.system-errors.auto-mitigation') }}" method="POST" onsubmit="return confirm('Jalankan pembersihan cache & auto-mitigasi recovery sistem?')">
+                <form action="{{ route('admin.system-errors.auto-mitigation') }}" method="POST" onsubmit="return confirm('Jalankan pembersihan cache &amp; auto-mitigasi recovery sistem?')">
                     @csrf
-                    <button type="submit" class="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-xs hover:opacity-95 shadow-md flex items-center gap-1.5 transition-transform active:scale-95">
-                        <span>⚡</span> Auto-Clear Cache & Recovery
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md border border-emerald-500 transition-all flex items-center gap-1.5">
+                        <span>⚡</span> Auto-Clear Cache &amp; Recovery
                     </button>
                 </form>
 
                 <form action="{{ route('admin.system-errors.simulate') }}" method="POST">
                     @csrf
-                    <button type="submit" class="px-3.5 py-2 rounded-2xl bg-slate-900 text-white font-extrabold text-xs hover:bg-slate-800 shadow-md flex items-center gap-1.5 transition-transform active:scale-95">
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs shadow-md border border-slate-700 transition-all flex items-center gap-1.5">
                         <span>🧪</span> Simulasi Error
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- Table / Timeline of Recorded System & Device Errors -->
-        <div class="space-y-4">
+        <!-- Table / Compact Scrollable List of Recorded System & Device Errors (Fixed Max-Height 380px) -->
+        <div class="max-h-[380px] overflow-y-auto pr-2 space-y-3">
             @forelse($systemErrorLogs as $err)
-            <div class="p-4 rounded-3xl border {{ $err->status == 'UNRESOLVED' ? 'bg-rose-50/40 border-rose-200' : 'bg-slate-50 border-slate-200' }} space-y-3 transition-all hover:shadow-md">
+            <div class="p-4 rounded-2xl border {{ $err->status == 'UNRESOLVED' ? 'bg-rose-50/60 border-rose-200' : 'bg-slate-50 border-slate-200' }} space-y-2.5 transition-all hover:shadow-sm">
                 
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                     <div class="flex items-center gap-2 flex-wrap">
-                        <span class="px-2.5 py-1 rounded-xl text-[10px] font-black text-white {{ $err->severity == 'CRITICAL' ? 'bg-rose-600' : ($err->severity == 'HIGH' ? 'bg-amber-600' : 'bg-blue-600') }}">
+                        <span class="px-2.5 py-0.5 rounded-lg text-xs font-black text-white {{ $err->severity == 'CRITICAL' ? 'bg-rose-600' : ($err->severity == 'HIGH' ? 'bg-amber-600' : 'bg-blue-600') }}">
                             {{ $err->severity }}
                         </span>
-                        <span class="px-2.5 py-1 rounded-xl bg-slate-200 text-slate-800 text-[10px] font-extrabold">
+                        <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 text-white text-xs font-bold">
                             {{ $err->error_type }}
                         </span>
-                        <span class="font-mono text-xs font-black text-slate-900">
-                            {{ $err->file ?? 'Unknown File' }} : <span class="text-rose-600">Line {{ $err->line ?? 0 }}</span>
+                        <span class="font-mono text-xs font-extrabold text-slate-900">
+                            {{ $err->file ?? 'Unknown File' }} : <span class="text-rose-600 font-black">Line {{ $err->line ?? 0 }}</span>
                         </span>
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <span class="text-[11px] text-slate-400 font-bold">
+                        <span class="text-xs text-slate-500 font-bold">
                             🕒 {{ is_string($err->created_at) ? $err->created_at : ($err->created_at ? $err->created_at->diffForHumans() : 'Baru saja') }}
                         </span>
                         @if($err->status == 'UNRESOLVED')
-                            <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[10px] font-black border border-rose-300">● BELUM SELESAI</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white text-[10px] font-black shadow-xs">● BELUM SELESAI</span>
                         @else
-                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-black border border-emerald-300">✓ RESOLVED / MITIGATED</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-black shadow-xs">✓ RESOLVED / MITIGATED</span>
                         @endif
                     </div>
                 </div>
 
                 <!-- Error Message Banner -->
-                <div class="p-3 rounded-2xl bg-white border border-slate-200 font-mono text-xs text-rose-900 font-bold overflow-x-auto shadow-inner">
-                    <span class="text-rose-500 font-black">Error:</span> {{ $err->message }}
+                <div class="p-3 rounded-xl bg-white border border-slate-300 font-mono text-xs text-rose-900 font-bold overflow-x-auto shadow-xs">
+                    <span class="text-rose-600 font-black">Error:</span> {{ $err->message }}
                 </div>
 
                 <!-- Device / User Agent Specs & Request URL -->
-                <div class="flex flex-wrap items-center gap-4 text-[11px] text-slate-500 font-medium bg-white/60 p-2 rounded-xl border border-slate-100">
-                    <span>🌐 <b>URL:</b> <code class="text-slate-700">{{ $err->url ?? '-' }}</code></span>
-                    <span>💻 <b>Perangkat:</b> <span class="text-slate-700 font-bold truncate max-w-xs">{{ $err->user_agent ?? 'Client Browser' }}</span></span>
-                    <span>📍 <b>IP:</b> <span class="text-slate-700 font-mono font-bold">{{ $err->ip_address ?? '127.0.0.1' }}</span></span>
+                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-bold bg-white/80 p-2.5 rounded-xl border border-slate-200">
+                    <span>🌐 <b>URL:</b> <code class="text-slate-900 bg-slate-100 px-1.5 py-0.5 rounded font-mono">{{ $err->url ?? '-' }}</code></span>
+                    <span>💻 <b>Perangkat:</b> <span class="text-slate-900 font-extrabold truncate max-w-xs">{{ $err->user_agent ?? 'Client Browser' }}</span></span>
+                    <span>📍 <b>IP:</b> <span class="text-slate-900 font-mono font-bold">{{ $err->ip_address ?? '127.0.0.1' }}</span></span>
                 </div>
 
                 <!-- Mitigation Box (Panduan Resolusi Masalah) -->
-                <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-300/40 text-xs text-amber-950 font-bold space-y-1.5">
-                    <div class="flex items-center justify-between">
-                        <span class="text-amber-800 font-black flex items-center gap-1.5">
-                            🛠️ Panduan Mitigasi & Langkah Resolusi Masalah:
-                        </span>
-                    </div>
-                    <div class="text-[11px] text-amber-900 leading-relaxed font-medium whitespace-pre-line pl-1">
+                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-300/50 text-xs text-amber-950 font-bold space-y-1">
+                    <span class="text-amber-900 font-black block flex items-center gap-1.5 text-xs">
+                        🛠️ Panduan Mitigasi &amp; Langkah Resolusi:
+                    </span>
+                    <div class="text-xs text-amber-950 leading-relaxed font-semibold whitespace-pre-line pl-1">
                         {{ $err->mitigation_solution ?? 'Lakukan pengujian stack trace dan periksa file terkait.' }}
                     </div>
                 </div>
 
-                <!-- Action Footer per Error -->
-                <div class="flex items-center justify-between pt-1">
-                    <button onclick="alert('Stack Trace Diagnostic Details:\n\n' + {{ json_encode($err->stack_trace ?? $err->message) }})" class="text-[11px] font-black text-slate-600 hover:text-slate-900 underline flex items-center gap-1">
+                <!-- Action Footer per Error (High Contrast Buttons Guaranteed) -->
+                <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
+                    <button onclick="alert('Stack Trace Diagnostic Details:\n\n' + {{ json_encode($err->stack_trace ?? $err->message) }})" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1">
                         🔍 Lihat Trace Lengkap
                     </button>
 
                     @if($err->status == 'UNRESOLVED' && isset($err->id) && is_numeric($err->id))
                     <form action="{{ route('admin.system-errors.resolve', $err->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] shadow-sm transition-transform active:scale-95 flex items-center gap-1">
+                        <button type="submit" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-sm transition-all flex items-center gap-1">
                             ✓ Tandai Selesai / Mitigated
                         </button>
                     </form>
@@ -686,7 +684,7 @@
 
             </div>
             @empty
-            <div class="p-8 text-center bg-slate-50 rounded-3xl border border-slate-200 text-slate-400 space-y-2">
+            <div class="p-8 text-center bg-slate-50 rounded-2xl border border-slate-200 text-slate-500 space-y-2">
                 <span class="text-3xl block">🎉</span>
                 <p class="font-bold text-xs">Sistem Berjalan 100% Normal. Belum Ada Error Terekam.</p>
             </div>
