@@ -429,6 +429,18 @@
         html.dark .border-slate-300 {
             border-color: #1a381c !important;
         }
+
+        /* 13. FAST FADE-UP SCROLL REVEAL ANIMATION */
+        .reveal-fade-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-body transition-colors duration-300 antialiased selection:bg-emerald-500 selection:text-white">
@@ -504,7 +516,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg sm:gap-xl items-center">
                     
                     <!-- Left Hero Column: Center aligned on Mobile & Tablet -->
-                    <div class="lg:col-span-7 hero-glass-container backdrop-blur-xl border shadow-2xl rounded-3xl p-6 sm:p-8 space-y-4 text-center lg:text-left flex flex-col items-center lg:items-start">
+                    <div class="lg:col-span-7 hero-glass-container backdrop-blur-xl border shadow-2xl rounded-3xl p-6 sm:p-8 space-y-4 text-center lg:text-left flex flex-col items-center lg:items-start reveal-fade-up">
                         <div>
                             <span class="site-section-badge flex items-center gap-1.5">
                                 <span class="w-2 h-2 rounded-full bg-emerald-800 dark:bg-[#061107] animate-ping"></span>
@@ -538,7 +550,7 @@
                     </div>
 
                     <!-- Right Column: PRAYER TIMES REALTIME WIDGET (WITH LIVE CLOCK & LOCATION SELECTOR) -->
-                    <div class="lg:col-span-5" x-data="{
+                    <div class="lg:col-span-5 reveal-fade-up" data-delay="100" x-data="{
                         selectedLoc: 'indralaya_utara',
                         liveTimeStr: '',
                         liveDateStr: '',
@@ -691,7 +703,7 @@
         <!-- ========================================== -->
         <!-- QUICK MENU (4 PER ROW ON MOBILE)           -->
         <!-- ========================================== -->
-        <section class="py-10 sm:py-14 bg-white border-b border-slate-200/60">
+        <section class="py-10 sm:py-14 bg-white border-b border-slate-200/60 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-sm sm:space-y-md">
                 
                 <div class="text-center space-y-1">
@@ -765,7 +777,7 @@
         <!-- ========================================== -->
         <!-- SAMBUTAN KETUA YAYASAN                     -->
         <!-- ========================================== -->
-        <section class="py-12 sm:py-16 bg-slate-50">
+        <section class="py-12 sm:py-16 bg-slate-50 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter">
                 <div class="bg-white border border-slate-200/80 rounded-3xl p-md sm:p-xl shadow-md flex flex-col md:flex-row gap-lg md:gap-xl items-center relative overflow-hidden">
                     
@@ -803,7 +815,7 @@
         <!-- ========================================== -->
         <!-- UNIT PENDIDIKAN (2 DITAS, 2 DIBAWAH DI MOBILE) -->
         <!-- ========================================== -->
-        <section id="unit-sekolah" class="py-12 sm:py-16 bg-white border-y border-slate-200/60">
+        <section id="unit-sekolah" class="py-12 sm:py-16 bg-white border-y border-slate-200/60 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-md sm:space-y-lg">
                 
                 <div class="text-center space-y-1">
@@ -911,7 +923,7 @@
         <!-- ========================================== -->
         <!-- BERITA & ARTIKEL                           -->
         <!-- ========================================== -->
-        <section id="artikel-berita" class="py-12 sm:py-16 bg-slate-50">
+        <section id="artikel-berita" class="py-12 sm:py-16 bg-slate-50 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-lg">
                 
                 <div class="flex flex-col lg:flex-row justify-between items-center lg:items-end text-center lg:text-left gap-sm border-b border-slate-200 pb-xs">
@@ -1215,7 +1227,7 @@
         <!-- ========================================== -->
         <!-- VIDEO DOKUMENTASI                          -->
         <!-- ========================================== -->
-        <section id="video-profil" class="py-12 sm:py-16 bg-white border-t border-slate-200/60">
+        <section id="video-profil" class="py-12 sm:py-16 bg-white border-t border-slate-200/60 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-lg">
                 
                 <div class="flex flex-col lg:flex-row justify-between items-center lg:items-end text-center lg:text-left gap-sm border-b border-slate-200 pb-xs">
@@ -1259,7 +1271,7 @@
         <!-- ========================================== -->
         <!-- PENGUMUMAN (3 ITEM) & AGENDA (5 ITEM)     -->
         <!-- ========================================== -->
-        <section id="agenda-pengumuman" class="py-12 sm:py-16 bg-slate-50 border-t border-slate-200/60">
+        <section id="agenda-pengumuman" class="py-12 sm:py-16 bg-slate-50 border-t border-slate-200/60 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-xl items-start">
                     
@@ -1328,7 +1340,7 @@
         <!-- ========================================== -->
         <!-- SARANA & PRASARANA                         -->
         <!-- ========================================== -->
-        <section id="sarana-prasarana" class="py-12 sm:py-16 bg-white border-t border-slate-200/60">
+        <section id="sarana-prasarana" class="py-12 sm:py-16 bg-white border-t border-slate-200/60 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-lg">
                 
                 <div class="text-center space-y-1">
@@ -1374,7 +1386,7 @@
         <!-- ========================================== -->
         <!-- SPMB ONLINE REGISTRATION CALLOUT CARD      -->
         <!-- ========================================== -->
-        <section class="py-10 bg-slate-50">
+        <section class="py-10 bg-slate-50 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter">
                 <div class="rounded-3xl spmb-callout-card bg-gradient-to-r from-[#004532] via-[#065f46] to-[#fd761a] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
                     <div class="space-y-2 text-center md:text-left">
@@ -1395,7 +1407,7 @@
         <!-- ========================================== -->
         <!-- GALERI FOTO: CAROUSEL 6 FOTO SEKALIGUS    -->
         <!-- ========================================== -->
-        <section id="galeri-sekolah" class="py-12 sm:py-16 bg-white border-t border-slate-200/60 overflow-hidden" 
+        <section id="galeri-sekolah" class="py-12 sm:py-16 bg-white border-t border-slate-200/60 overflow-hidden reveal-fade-up" 
             x-data="{ 
                 currentIndex: 0, 
                 items: {{ json_encode($galleryList) }},
@@ -1478,7 +1490,7 @@
         <!-- ========================================== -->
         <!-- TESTIMONIAL                                -->
         <!-- ========================================== -->
-        <section id="testimonial-wall" class="py-12 sm:py-16 bg-slate-50 border-t border-slate-200/60">
+        <section id="testimonial-wall" class="py-12 sm:py-16 bg-slate-50 border-t border-slate-200/60 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-lg text-center">
                 
                 <div class="max-w-2xl mx-auto space-y-1">
@@ -1510,7 +1522,7 @@
 
     </main>
 
-    <footer class="bg-gradient-to-b from-[#003828] via-[#00291d] to-[#001c14] text-slate-300 pt-12 sm:pt-16 pb-10 sm:pb-12 border-t border-emerald-900 text-xs">
+    <footer class="bg-gradient-to-b from-[#003828] via-[#00291d] to-[#001c14] text-slate-300 pt-12 sm:pt-16 pb-10 sm:pb-12 border-t border-emerald-900 text-xs reveal-fade-up">
         <div class="max-w-container-max mx-auto px-gutter space-y-8 sm:space-y-12">
             
             <!-- Top Branding Banner: Centered on Mobile/Tablet, Horizontal on Desktop -->
@@ -1645,8 +1657,30 @@
             <button @click="activeLightboxImage = null" class="absolute -top-12 right-0 px-4 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-bold text-xs backdrop-blur-md">✕ Tutup</button>
             <img :src="activeLightboxImage" :alt="activeLightboxTitle" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl object-contain border border-white/20">
             <p class="text-white font-bold text-sm text-center mt-3 bg-black/50 px-4 py-2 rounded-xl backdrop-blur-sm" x-text="activeLightboxTitle"></p>
-        </div>
-    </div>
+    <!-- Fast Fade-Up Scroll Animation Observer Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.05,
+                rootMargin: '0px 0px -25px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const delay = el.getAttribute('data-delay') || 0;
+                        setTimeout(() => {
+                            el.classList.add('is-visible');
+                        }, parseInt(delay));
+                        observer.unobserve(el);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-fade-up').forEach(el => observer.observe(el));
+        });
+    </script>
 
 </body>
 </html>
