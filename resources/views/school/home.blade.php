@@ -493,14 +493,44 @@
             </div>
         </div>
     </nav>
-    <!-- Mobile Menu Drawer (CENTERED IN MOBILE/TABLET) -->
-    <div x-show="mobileMenuOpen" x-cloak class="md:hidden fixed inset-x-0 top-20 z-40 bg-white dark:bg-[#061107] border-b border-slate-200 dark:border-[#1a381c] p-6 space-y-3 shadow-2xl font-bold text-center">
-        @foreach($headerMenus as $menu)
-            @if(!isset($menu['is_active']) || $menu['is_active'])
-                <a @click="mobileMenuOpen = false" href="{{ $menu['url'] }}" class="block text-slate-800 dark:text-slate-100 hover:text-emerald-500 py-2 border-b border-slate-100 dark:border-white/10 text-center">{{ $menu['title'] }}</a>
-            @endif
-        @endforeach
-        <a href="{{ route('admin.dashboard') }}" class="block text-center py-2.5 rounded-full border-2 border-emerald-600 text-emerald-700 dark:text-[#c6f634] font-black mt-2">Portal Admin</a>
+    <!-- Mobile Menu Drawer (INTERACTIVE WITH SELECTION INDICATORS) -->
+    <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden fixed inset-x-4 top-20 z-50 bg-white/95 dark:bg-[#0c1a0e]/95 backdrop-blur-xl border border-slate-200 dark:border-[#1c401f] p-4 rounded-3xl space-y-1.5 shadow-2xl transition-all">
+        <a @click="mobileMenuOpen = false" href="{{ route('home') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('home') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>🏠</span> <span>Beranda Utama</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.profil') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.profil') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>👤</span> <span>Profil &amp; Sambutan</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#unit-sekolah" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300">
+            <span class="flex items-center gap-2"><span>🏫</span> <span>4 Unit Sekolah</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.berita') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.berita*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>📰</span> <span>Berita Kampus</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.artikel') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.artikel*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>📖</span> <span>Artikel Edukasi</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#sarana-prasarana" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300">
+            <span class="flex items-center gap-2"><span>🏢</span> <span>Fasilitas Kampus</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.espp') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.espp') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>💳</span> <span>E-SPP Online</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+            <a href="{{ route('school.ppdb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
+                <span>✨ Pendaftaran SPMB Online 2026/2027</span> ➔
+            </a>
+            <a href="{{ route('admin.dashboard') }}" class="w-full py-2.5 text-center rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-xs border border-slate-200 dark:border-slate-700">
+                ⚙️ Portal Admin Sekolah
+            </a>
+        </div>
     </div>
 
     <!-- MAIN CONTENT -->
