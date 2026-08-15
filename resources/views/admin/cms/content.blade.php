@@ -204,7 +204,7 @@
             </div>
             
             <!-- Quick Form Upload XML -->
-            <form action="{{ route('cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 shrink-0 bg-white/10 p-3 rounded-2xl border border-white/20">
+            <form action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 shrink-0 bg-white/10 p-3 rounded-2xl border border-white/20">
                 @csrf
                 <input type="file" name="xml_file" accept=".xml,.txt" required class="text-xs text-white file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-500 file:text-white hover:file:bg-blue-600 cursor-pointer">
                 <button type="submit" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs rounded-xl shadow-md transition-all shrink-0 w-full sm:w-auto">
