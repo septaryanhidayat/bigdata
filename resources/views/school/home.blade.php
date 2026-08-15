@@ -430,10 +430,12 @@
             border-color: #1a381c !important;
         }
 
-        /* FADE-UP SCROLL REVEAL ANIMATION (BALANCED ELEGANT 0.65s TRANSITION) */
-        .reveal-fade-up {
+        /* FADE-UP SCROLL REVEAL ANIMATION (SAFE & VISIBLE BY DEFAULT) */
+        .js-reveal .reveal-fade-up:not(.is-visible) {
             opacity: 0;
             transform: translateY(40px);
+        }
+        .reveal-fade-up {
             transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: opacity, transform;
         }
@@ -1687,12 +1689,16 @@
             <button @click="activeLightboxImage = null" class="absolute -top-12 right-0 px-4 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-bold text-xs backdrop-blur-md">✕ Tutup</button>
             <img :src="activeLightboxImage" :alt="activeLightboxTitle" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl object-contain border border-white/20">
             <p class="text-white font-bold text-sm text-center mt-3 bg-black/50 px-4 py-2 rounded-xl backdrop-blur-sm" x-text="activeLightboxTitle"></p>
+        </div>
+    </div>
+
     <!-- Balanced Fade-Up Scroll Animation Observer Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('js-reveal');
             const observerOptions = {
-                threshold: 0.08,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.05,
+                rootMargin: '0px 0px -40px 0px'
             };
 
             const observer = new IntersectionObserver((entries) => {
@@ -1710,6 +1716,8 @@
 
             document.querySelectorAll('.reveal-fade-up').forEach(el => observer.observe(el));
         });
+    </script>
+
     <!-- Robbani AI Assistant Chat Widget -->
     @include('components.chat-ai-widget')
 
