@@ -190,9 +190,6 @@
     <!-- TAB: BERITA & ARTIKEL -->
     @if($activeTab === 'news')
 
-    <!-- TAB: BERITA & ARTIKEL -->
-    @if($activeTab === 'news')
-
     <!-- WordPress XML Auto-Importer Banner (High-Contrast Guaranteed) -->
     <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #ffffff;" class="p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4 font-sans">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
