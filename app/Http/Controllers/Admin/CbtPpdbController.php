@@ -125,7 +125,7 @@ class CbtPpdbController extends Controller
             $schoolId = $reg->school_id ?? \App\Models\School::first()?->id;
             $classroomId = \App\Models\Classroom::where('school_id', $schoolId)->first()?->id;
 
-            \App\Models\Student::firstOrCreate(
+            $student = \App\Models\Student::firstOrCreate(
                 ['nis' => '2026' . str_pad($reg->id, 4, '0', STR_PAD_LEFT)],
                 [
                     'school_id' => $schoolId,
@@ -138,6 +138,35 @@ class CbtPpdbController extends Controller
                     'status' => 'ACTIVE',
                 ]
             );
+
+            // Auto create/link Parent record for Parent Portal
+            if ($reg->parent_name) {
+                try {
+                    \App\Models\ParentModel::firstOrCreate(
+                        ['phone_number' => $reg->phone_number],
+                        [
+                            'full_name' => $reg->parent_name,
+                            'email' => $reg->details_json['email_ortu'] ?? 'ortu.' . $reg->id . '@sitrobbani.sch.id',
+                            'password' => bcrypt('123456'),
+                        ]
+                    );
+                } catch (\Throwable $e) {}
+            }
+
+            // Auto create initial SPP bill in Finance Module
+            try {
+                \App\Models\SppBill::firstOrCreate(
+                    [
+                        'student_id' => $student->id,
+                        'month_year' => date('Y-m'),
+                    ],
+                    [
+                        'school_id' => $schoolId,
+                        'amount' => 350000,
+                        'status' => 'UNPAID',
+                    ]
+                );
+            } catch (\Throwable $e) {}
         }
 
         try {
