@@ -76,6 +76,7 @@ Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'download
 Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('school.spmb.verify');
 
 Route::get('/e-spp', [SchoolWebsiteController::class, 'eSppCheck'])->name('school.espp');
+Route::post('/chat-ai', [SchoolWebsiteController::class, 'chatAi'])->name('school.chat-ai');
 
 // SmartEdu 21-Module Sales & Product Showcase Page
 Route::get('/sales', [LandingPageController::class, 'index'])->name('sales');

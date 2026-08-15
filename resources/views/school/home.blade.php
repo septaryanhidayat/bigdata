@@ -1710,7 +1710,8 @@
 
             document.querySelectorAll('.reveal-fade-up').forEach(el => observer.observe(el));
         });
-    </script>
+    <!-- Robbani AI Assistant Chat Widget -->
+    @include('components.chat-ai-widget')
 
 </body>
 </html>

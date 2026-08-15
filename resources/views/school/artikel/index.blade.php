@@ -161,5 +161,8 @@
         </div>
     </footer>
 
+    <!-- Robbani AI Assistant Chat Widget -->
+    @include('components.chat-ai-widget')
+
 </body>
 </html>
