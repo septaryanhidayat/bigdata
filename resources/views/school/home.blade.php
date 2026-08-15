@@ -1017,176 +1017,192 @@
                         <!-- CARD 1: KB/TKIT #1 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'tkit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-emerald-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'puncak-tema-pentas-seni-cilik-santri-kbtkit-robbani-ogan-ilir') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_mobile_1.png" alt="Berita KB/TKIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-emerald-700 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">KB/TKIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 12 Agustus 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
-                                        Puncak Tema &amp; Pentas Seni Cilik Santri KB/TKIT Robbani Ogan Ilir
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'puncak-tema-pentas-seni-cilik-santri-kbtkit-robbani-ogan-ilir') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                                            Puncak Tema &amp; Pentas Seni Cilik Santri KB/TKIT Robbani Ogan Ilir
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Kecerian dan kebersamaan santri cilik TKIT Robbani saat mengekspresikan bakat hafalan surah &amp; kreasi mewarnai.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'tkit') }}" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar KB/TKIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'puncak-tema-pentas-seni-cilik-santri-kbtkit-robbani-ogan-ilir') }}" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita TKIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 2: SDIT #1 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'sdit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-orange-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'pramuka-sit-supercamp-karakter-siswa-sdit-robbani-2026') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_mobile_2.png" alt="Berita SDIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-orange-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SDIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 08 Agustus 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-snug">
-                                        Pramuka SIT &amp; Supercamp Karakter Siswa SDIT Robbani 2026
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'pramuka-sit-supercamp-karakter-siswa-sdit-robbani-2026') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-snug">
+                                            Pramuka SIT &amp; Supercamp Karakter Siswa SDIT Robbani 2026
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Pelatihan kemandirian, ketangkasan, dan mabit malam bina iman takwa santri penggalang SDIT.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'sdit') }}" class="text-[11px] font-bold text-orange-600 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar SDIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'pramuka-sit-supercamp-karakter-siswa-sdit-robbani-2026') }}" class="text-[11px] font-bold text-orange-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita SDIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 3: SMPIT #1 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'smpit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-blue-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'kepsek-smp-it-robbani-raih-peserta-terbaik-iii') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/hero_3d_illustration_1786347707126.png" alt="Berita SMPIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-blue-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SMPIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 31 Juli 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
-                                        Kepala SMPIT Robbani Raih Peserta Terbaik III Diklat Kepsek Sumsel
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'kepsek-smp-it-robbani-raih-peserta-terbaik-iii') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
+                                            Kepala SMPIT Robbani Raih Peserta Terbaik III Diklat Kepsek Sumsel
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Prestasi kepemimpinan Ibu Tia Wulandari, S.Pd. dalam diklat manajemen sekolah tingkat provinsi.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'smpit') }}" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar SMPIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'kepsek-smp-it-robbani-raih-peserta-terbaik-iii') }}" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita SMPIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 4: SMAIT #1 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'smait'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-purple-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'santri-smait-robbani-lolos-seleksi-ptn-favorit-beasiswa-luar-negeri-2026') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_mobile_4.png" alt="Berita SMAIT Robbani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-purple-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SMAIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 20 Juli 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors line-clamp-2 leading-snug">
-                                        Santri SMAIT Robbani Lolos Seleksi PTN Favorit &amp; Beasiswa Luar Negeri
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'santri-smait-robbani-lolos-seleksi-ptn-favorit-beasiswa-luar-negeri-2026') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors line-clamp-2 leading-snug">
+                                            Santri SMAIT Robbani Lolos Seleksi PTN Favorit &amp; Beasiswa Luar Negeri
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Capaian alumni SMAIT Robbani tembus jalur SNBP, SNBT, dan universitas timur tengah.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'smait') }}" class="text-[11px] font-bold text-purple-600 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar SMAIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'santri-smait-robbani-lolos-seleksi-ptn-favorit-beasiswa-luar-negeri-2026') }}" class="text-[11px] font-bold text-purple-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita SMAIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 5: KB/TKIT #2 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'tkit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-emerald-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'kegiatan-fun-cooking-edukasi-gizi-santri-usia-dini-tkit-robbani') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_desktop_1.png" alt="Berita KB/TKIT Robbani 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-emerald-700 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">KB/TKIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 05 Juli 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
-                                        Kegiatan Fun Cooking &amp; Edukasi Gizi Santri Usia Dini TKIT Robbani
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'kegiatan-fun-cooking-edukasi-gizi-santri-usia-dini-tkit-robbani') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                                            Kegiatan Fun Cooking &amp; Edukasi Gizi Santri Usia Dini TKIT Robbani
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Mengenalkan makanan sehat halal dan thoyyib sejak dini melalui praktik memasak menyenangkan.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'tkit') }}" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar KB/TKIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'kegiatan-fun-cooking-edukasi-gizi-santri-usia-dini-tkit-robbani') }}" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita TKIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 6: SDIT #2 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'sdit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-orange-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'munaqosyah-tahfidz-juz-29-30-terbuka-sdit-robbani-ogan-ilir') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_desktop_2.png" alt="Berita SDIT Robbani 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-orange-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SDIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 18 Juni 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-snug">
-                                        Munaqosyah Tahfidz Juz 29 &amp; 30 Terbuka SDIT Robbani Ogan Ilir
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'munaqosyah-tahfidz-juz-29-30-terbuka-sdit-robbani-ogan-ilir') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-snug">
+                                            Munaqosyah Tahfidz Juz 29 &amp; 30 Terbuka SDIT Robbani Ogan Ilir
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Ujian hafalan Al-Qur'an terbuka siswa SDIT di hadapan para penguji dan orang tua santri.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'sdit') }}" class="text-[11px] font-bold text-orange-600 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar SDIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'munaqosyah-tahfidz-juz-29-30-terbuka-sdit-robbani-ogan-ilir') }}" class="text-[11px] font-bold text-orange-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita SDIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 7: SMPIT #2 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'smpit'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-blue-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'olimpiade-sains-kebumian-tim-santri-smpit-robbani-sabet-emas') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_desktop_3.png" alt="Berita SMPIT Robbani 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-blue-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SMPIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 10 Juni 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
-                                        Olimpiade Sains &amp; Kebumian: Tim Santri SMPIT Robbani Sabet Emas
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'olimpiade-sains-kebumian-tim-santri-smpit-robbani-sabet-emas') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
+                                            Olimpiade Sains &amp; Kebumian: Tim Santri SMPIT Robbani Sabet Emas
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Perjuangan tim olimpiade sains SMPIT dalam kompetisi akademik tingkat regional.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'smpit') }}" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar SMPIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'olimpiade-sains-kebumian-tim-santri-smpit-robbani-sabet-emas') }}" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita SMPIT</span> ➔
                             </a>
                         </div>
 
                         <!-- CARD 8: SMAIT #2 -->
                         <div x-show="activeUnitTab === 'all' || activeUnitTab === 'smait'" x-transition class="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-4 shadow-xs hover:shadow-md hover:border-purple-500 transition-all flex flex-col justify-between group space-y-2">
                             <div class="space-y-2">
-                                <div class="relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
+                                <a href="{{ route('school.berita.show', 'workshop-iot-coding-mobile-app-santri-smait-robbani-2026') }}" class="block relative h-28 sm:h-36 overflow-hidden rounded-xl bg-slate-900">
                                     <img src="/images/mockup_desktop_4.png" alt="Berita SMAIT Robbani 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-3 bg-white';">
                                     <span class="absolute top-2 left-2 bg-purple-600 text-white px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase shadow-xs">SMAIT</span>
-                                </div>
+                                </a>
                                 <div class="space-y-1">
                                     <span class="text-[10px] text-slate-400 font-bold block">🗓️ 28 Mei 2026</span>
-                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors line-clamp-2 leading-snug">
-                                        Workshop IoT &amp; Coding Mobile App Santri SMAIT Robbani
-                                    </h4>
+                                    <a href="{{ route('school.berita.show', 'workshop-iot-coding-mobile-app-santri-smait-robbani-2026') }}" class="block">
+                                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors line-clamp-2 leading-snug">
+                                            Workshop IoT &amp; Coding Mobile App Santri SMAIT Robbani
+                                        </h4>
+                                    </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
                                         Pelatihan pemrograman aplikasi android dan teknologi internet of things berbasis dakwah digital.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('school.unit', 'smait') }}" class="text-[11px] font-bold text-purple-600 hover:underline flex items-center gap-1 pt-1">
-                                <span>Kabar SMAIT</span> ➔
+                            <a href="{{ route('school.berita.show', 'workshop-iot-coding-mobile-app-santri-smait-robbani-2026') }}" class="text-[11px] font-bold text-purple-600 hover:underline flex items-center gap-1 pt-1">
+                                <span>Baca Berita SMAIT</span> ➔
                             </a>
                         </div>
 
