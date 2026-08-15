@@ -1,74 +1,5 @@
 <!-- Robbani AI Assistant Floating Chat Widget -->
-<div x-data="{
-    isOpen: false,
-    messages: [
-        {
-            sender: 'ai',
-            time: 'Baru saja',
-            text: 'Assalamu\'alaikum! 👋 Saya **Robbani AI Assistant**, asisten cerdas resmi SIT Robbani Ogan Ilir.\n\nAda yang bisa saya bantu mengenai Pendaftaran SPMB, 4 Unit Sekolah, Alamat Kampus, atau Pengecekan SPP?'
-        }
-    ],
-    inputMessage: '',
-    isLoading: false,
-    sendMessage(customText = null) {
-        let msg = customText || this.inputMessage;
-        if (!msg || !msg.trim()) return;
-        
-        // Push user message
-        this.messages.push({
-            sender: 'user',
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            text: msg
-        });
-        
-        if (!customText) this.inputMessage = '';
-        this.isLoading = true;
-        
-        this.$nextTick(() => { this.scrollToBottom(); });
-
-        fetch('{{ route("school.chat-ai") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ message: msg })
-        })
-        .then(res => res.json())
-        .then(data => {
-            this.isLoading = false;
-            this.messages.push({
-                sender: 'ai',
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                text: data.answer || 'Mohon maaf, terjadi gangguan server AI. Silakan hubungi WhatsApp Hotline Admin 0811-7474-72.'
-            });
-            this.$nextTick(() => { this.scrollToBottom(); });
-        })
-        .catch(err => {
-            this.isLoading = false;
-            this.messages.push({
-                sender: 'ai',
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                text: 'Mohon maaf, koneksi terputus. Silakan periksa jaringan internet Anda.'
-            });
-            this.$nextTick(() => { this.scrollToBottom(); });
-        });
-    },
-    scrollToBottom() {
-        const chatContainer = this.$refs.chatBox;
-        if (chatContainer) {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    },
-    formatMarkdown(text) {
-        if (!text) return '';
-        let formatted = text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/`(.*?)`/g, '<code class="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-emerald-600 dark:text-[#a3e635] font-mono text-[11px]">$1</code>')
-            .replace(/\n/g, '<br>');
-        return formatted;
-    }
-}" class="fixed bottom-5 right-5 z-50 font-sans">
+<div x-data="robbaniAiChat" class="fixed bottom-5 right-5 z-50 font-sans">
 
     <!-- Floating Trigger Button -->
     <button @click="isOpen = !isOpen" class="group relative px-4 py-3.5 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 text-white font-extrabold text-xs shadow-2xl flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 border-2 border-white/20">
@@ -177,3 +108,77 @@
     </div>
 
 </div>
+
+<!-- Separate Clean Alpine Component Script -->
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('robbaniAiChat', () => ({
+            isOpen: false,
+            messages: [
+                {
+                    sender: 'ai',
+                    time: 'Baru saja',
+                    text: 'Assalamu\'alaikum! 👋 Saya **Robbani AI Assistant**, asisten cerdas resmi SIT Robbani Ogan Ilir.\n\nAda yang bisa saya bantu mengenai Pendaftaran SPMB, 4 Unit Sekolah, Alamat Kampus, atau Pengecekan SPP?'
+                }
+            ],
+            inputMessage: '',
+            isLoading: false,
+            sendMessage(customText = null) {
+                let msg = customText || this.inputMessage;
+                if (!msg || !msg.trim()) return;
+                
+                this.messages.push({
+                    sender: 'user',
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    text: msg
+                });
+                
+                if (!customText) this.inputMessage = '';
+                this.isLoading = true;
+                
+                this.$nextTick(() => { this.scrollToBottom(); });
+
+                fetch('{{ route("school.chat-ai") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ message: msg })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    this.isLoading = false;
+                    this.messages.push({
+                        sender: 'ai',
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        text: data.answer || 'Mohon maaf, terjadi gangguan server AI. Silakan hubungi WhatsApp Hotline Admin 0811-7474-72.'
+                    });
+                    this.$nextTick(() => { this.scrollToBottom(); });
+                })
+                .catch(err => {
+                    this.isLoading = false;
+                    this.messages.push({
+                        sender: 'ai',
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        text: 'Mohon maaf, koneksi terputus. Silakan periksa jaringan internet Anda.'
+                    });
+                    this.$nextTick(() => { this.scrollToBottom(); });
+                });
+            },
+            scrollToBottom() {
+                const chatContainer = this.$refs.chatBox;
+                if (chatContainer) {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+            },
+            formatMarkdown(text) {
+                if (!text) return '';
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/`(.*?)`/g, '<code class="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-emerald-600 dark:text-[#a3e635] font-mono text-[11px]">$1</code>')
+                    .replace(/\n/g, '<br>');
+            }
+        }));
+    });
+</script>
