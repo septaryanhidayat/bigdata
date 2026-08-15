@@ -53,37 +53,37 @@ class SchoolWebsiteController extends Controller
                 'name' => 'ECILIA OKTARINA, SE., MM.',
                 'title' => 'Bapenda Provinsi Sumsel',
                 'text' => 'Tenaga pendidik profesional dan berkompeten sangat menunjang pembelajaran. Terjalinnya kedekatan antara guru, anak, dan orang tua. Pelajaran ilmu agama serta sopan santun yang diajarkan sangat menonjol. Sekolah Robbani adalah pilihan tepat di masa globalisasi.',
-                'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'
+                'avatar' => '/images/mockup_mobile_1.png'
             ],
             [
                 'name' => 'RENNI SUSANTI, A.Md. Kep.',
                 'title' => 'Perawat RSUD Ogan Ilir',
                 'text' => 'Sekolah Robbani merupakan sekolah pilihan terbaik saat ini. Pembelajarannya sangat bagus, gurunya muda dan berkompeten, serta fondasi agamanya sangat kuat. Hubungan silaturahmi antara guru, siswa, dan ortu sangat erat.',
-                'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'
+                'avatar' => '/images/mockup_mobile_2.png'
             ],
             [
                 'name' => 'Bunda Mazaya',
                 'title' => 'Wali Murid Alumni SDIT Robbani',
                 'text' => 'Alhamdulillah selama anak saya Mazaya bersekolah di sini, banyak ilmu yang didapat terutama pengetahuan Agama, hafalan Al-Qur\'an bertambah, dan sering ikut perlombaan sehingga bertambah percaya dirinya.',
-                'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WhatsApp-Image-2022-01-25-at-18.38.24-e1643114298553.jpeg'
+                'avatar' => '/images/mockup_mobile_3.png'
             ],
             [
                 'name' => 'Calvin',
                 'title' => 'Siswa SDIT Robbani',
                 'text' => 'Sekolah di Robbani enak, punya banyak teman, sekolahnya nyaman, fasilitasnya bagus, gurunya baik dan ramah, ada satpam yang stay terus jadi sekolahnya aman.',
-                'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'
+                'avatar' => '/images/mockup_mobile_4.png'
             ],
             [
                 'name' => 'Faiz',
                 'title' => 'Siswa SDIT Robbani',
                 'text' => 'Sekolahnya menyenangkan, gurunya ramah, ruang kelas ber-AC jadi sangat nyaman saat belajar.',
-                'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png'
+                'avatar' => '/images/mockup_mobile_5.png'
             ],
             [
                 'name' => 'Anaya Tahta',
                 'title' => 'Alumni SIT Robbani TA 2020/2021',
                 'text' => 'Selama sekolah di ROBBANI saya mendapatkan banyak ilmu bermanfaat, dapat menyelesaikan hafalan beberapa juz, serta diajarkan disiplin dan bertanggung jawab. Terimakasih ustadz dan bunda atas bimbingannya.',
-                'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/TK.png'
+                'avatar' => '/images/logo-robbani-official.png'
             ]
         ];
 
@@ -224,14 +224,14 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Billingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
                 ],
                 'teachers' => [
-                    ['name' => 'Bunda Hj. Nurhayati, S.Pd.AUD', 'role' => 'Kepala Sekolah TKIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
-                    ['name' => 'Bunda Siti Aminah, S.Pd', 'role' => 'Guru Wali Kelas TK-B1', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
-                    ['name' => 'Bunda Rina Marlina, S.Pd.I', 'role' => 'Guru Tahfidz Cilik', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
-                    ['name' => 'Bunda Khadijah, A.Md', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                    ['name' => 'Bunda Hj. Nurhayati, S.Pd.AUD', 'role' => 'Kepala Sekolah TKIT', 'photo' => '/images/mockup_mobile_1.png'],
+                    ['name' => 'Bunda Siti Aminah, S.Pd', 'role' => 'Guru Wali Kelas TK-B1', 'photo' => '/images/mockup_mobile_2.png'],
+                    ['name' => 'Bunda Rina Marlina, S.Pd.I', 'role' => 'Guru Tahfidz Cilik', 'photo' => '/images/mockup_mobile_3.png'],
+                    ['name' => 'Bunda Khadijah, A.Md', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/images/mockup_mobile_4.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WhatsApp-Image-2022-01-25-at-18.38.24-e1643114298553.jpeg'],
-                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png']
+                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/images/mockup_mobile_3.png'],
+                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/images/mockup_mobile_2.png']
                 ]
             ],
             'sdit' => [
@@ -264,14 +264,14 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
                 ],
                 'teachers' => [
-                    ['name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd', 'role' => 'Kepala Sekolah SDIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
-                    ['name' => 'Ustadz M. Yusuf, S.Pd.I', 'role' => 'Waka Kesiswaan & Guru Tahfidz', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
-                    ['name' => 'Ustadzah Fatimah, S.Si', 'role' => 'Guru Wali Kelas 5 & Pembina Sains', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
-                    ['name' => 'Ustadz Rizky Pratama, S.Kom', 'role' => 'Guru IT & Koding Digital', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                    ['name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd', 'role' => 'Kepala Sekolah SDIT', 'photo' => '/images/mockup_mobile_1.png'],
+                    ['name' => 'Ustadz M. Yusuf, S.Pd.I', 'role' => 'Waka Kesiswaan & Guru Tahfidz', 'photo' => '/images/mockup_mobile_2.png'],
+                    ['name' => 'Ustadzah Fatimah, S.Si', 'role' => 'Guru Wali Kelas 5 & Pembina Sains', 'photo' => '/images/mockup_mobile_3.png'],
+                    ['name' => 'Ustadz Rizky Pratama, S.Kom', 'role' => 'Guru IT & Koding Digital', 'photo' => '/images/mockup_mobile_4.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
-                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/TK.png']
+                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/images/mockup_mobile_1.png'],
+                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/images/logo-robbani-official.png']
                 ]
             ],
             'smpit' => [
@@ -305,14 +305,14 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'English & Arabic Active Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan lomba public speaking.']
                 ],
                 'teachers' => [
-                    ['name' => 'Ustadz M. Ridwan, S.Si, M.Pd', 'role' => 'Kepala Sekolah SMPIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
-                    ['name' => 'Ustadz Farhan, Lc', 'role' => 'Guru Bahasa Arab & Musyrif', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
-                    ['name' => 'Ustadzah Syifa, S.Pd', 'role' => 'Guru Matematika & Pembina OSN', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
-                    ['name' => 'Ustadz Abdullah, S.Pd.I', 'role' => 'Pembina Tahfidz & Keasramaan', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                    ['name' => 'Ustadz M. Ridwan, S.Si, M.Pd', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/images/mockup_mobile_1.png'],
+                    ['name' => 'Ustadz Farhan, Lc', 'role' => 'Guru Bahasa Arab & Musyrif', 'photo' => '/images/mockup_mobile_2.png'],
+                    ['name' => 'Ustadzah Syifa, S.Pd', 'role' => 'Guru Matematika & Pembina OSN', 'photo' => '/images/mockup_mobile_3.png'],
+                    ['name' => 'Ustadz Abdullah, S.Pd.I', 'role' => 'Pembina Tahfidz & Keasramaan', 'photo' => '/images/mockup_mobile_4.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Kehidupan di asrama SMPIT melatih saya mandiri, disiplin ibadah malam, dan hafal 7 juz Al-Qur\'an.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png'],
-                    ['name' => 'Calvin', 'title' => 'Siswa Boarding SMPIT', 'text' => 'Fasilitas asramanya lengkap, gurunya ramah dan selalu mendampingi saat belajar malam.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png']
+                    ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Kehidupan di asrama SMPIT melatih saya mandiri, disiplin ibadah malam, dan hafal 7 juz Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
+                    ['name' => 'Calvin', 'title' => 'Siswa Boarding SMPIT', 'text' => 'Fasilitas asramanya lengkap, gurunya ramah dan selalu mendampingi saat belajar malam.', 'avatar' => '/images/mockup_mobile_4.png']
                 ]
             ],
             'smait' => [
@@ -345,14 +345,14 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
                 ],
                 'teachers' => [
-                    ['name' => 'Ustadz Syamsul Bahri, M.Sc', 'role' => 'Kepala Sekolah SMAIT', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'],
-                    ['name' => 'Ustadz Dr. H. Burhanuddin, M.A', 'role' => 'Guru Al-Qur\'an & Hadits', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/XA.png'],
-                    ['name' => 'Ustadzah Intan, M.Pd', 'role' => 'Koordinator Bimbingan PTN / Fisika', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi2.png'],
-                    ['name' => 'Ustadz Ahmad Zaki, S.T', 'role' => 'Pembina Coding & Robotik', 'photo' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png']
+                    ['name' => 'Ustadz Syamsul Bahri, M.Sc', 'role' => 'Kepala Sekolah SMAIT', 'photo' => '/images/mockup_mobile_1.png'],
+                    ['name' => 'Ustadz Dr. H. Burhanuddin, M.A', 'role' => 'Guru Al-Qur\'an & Hadits', 'photo' => '/images/mockup_mobile_2.png'],
+                    ['name' => 'Ustadzah Intan, M.Pd', 'role' => 'Koordinator Bimbingan PTN / Fisika', 'photo' => '/images/mockup_mobile_3.png'],
+                    ['name' => 'Ustadz Ahmad Zaki, S.T', 'role' => 'Pembina Coding & Robotik', 'photo' => '/images/mockup_mobile_4.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Ahmad Rivaldi', 'title' => 'Alumni SMAIT - Mahasiswa ITB', 'text' => 'Didikan di SMAIT Robbani membuat saya siap bersaing di ITB sambil tetap menjaga hafalan Al-Qur\'an.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/03/FAIZ-768x768.png'],
-                    ['name' => 'Siti Humaira', 'title' => 'Alumni SMAIT - Kedokteran UNSRI', 'text' => 'Bimbingan sains dan motivasi di SMAIT Robbani sangat membantu kelulusan saya di Kedokteran.', 'avatar' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/TK.png']
+                    ['name' => 'Ahmad Rivaldi', 'title' => 'Alumni SMAIT - Mahasiswa ITB', 'text' => 'Didikan di SMAIT Robbani membuat saya siap bersaing di ITB sambil tetap menjaga hafalan Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
+                    ['name' => 'Siti Humaira', 'title' => 'Alumni SMAIT - Kedokteran UNSRI', 'text' => 'Bimbingan sains dan motivasi di SMAIT Robbani sangat membantu kelulusan saya di Kedokteran.', 'avatar' => '/images/logo-robbani-official.png']
                 ]
             ]
         ];
@@ -688,7 +688,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Berita',
                 'date' => '31 Juli 2026',
                 'author' => 'Humas SIT Robbani',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'image' => '/images/hero_3d_illustration_1786347707126.png',
                 'excerpt' => 'Alhamdulillah, Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir berhasil meraih Penghargaan Peserta Terbaik III dalam Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan.',
                 'content' => 'Ogan Ilir — Sebuah kebanggaan besar kembali diukir oleh keluarga besar Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Ibu Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir, berhasil meraih penghargaan sebagai Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan Tahun 2026.<br><br>Kegiatan diklat ini diselenggarakan oleh Dinas Pendidikan Provinsi Sumatera Selatan sebagai upaya meningkatkan kompetensi kepemimpinan manajerial, kewirausahaan, dan supervisi akademik kepala sekolah di era transformasi digital.<br><br>Dalam kesempatannya, Ibu Tia Wulandari menyampaikan rasa syukur dan dedikasi atas pencapaian ini kepada seluruh jajaran ustadz-ustadzah, siswa, dan orang tua murid di SIT Robbani Ogan Ilir. "Penghargaan ini merupakan motivasi bagi kami untuk terus berinovasi dan menghadirkan tata kelola sekolah Islam terpadu yang profesional, berkarakter, dan berdaya saing tinggi," tutur beliau.'
             ],
@@ -698,7 +698,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Berita',
                 'date' => '15 Juni 2026',
                 'author' => 'Panitia Haflah Robbani',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'image' => '/images/mockup_desktop_1.png',
                 'excerpt' => 'Ogan Ilir — Suasana penuh haru, syukur, dan kebanggaan menyelimuti pelaksanaan Haflah Akhirussanah & Wisuda Tahfidz SIT Robbani Ogan Ilir tahun ajaran 2025/2026.',
                 'content' => 'Ogan Ilir, 15 Juni 2026 — Suasana khidmat, haru, dan melimpah keberkahan mewarnai gedung acara pelaksanaan Haflah Akhirussanah & Wisuda Tahfidz Al-Qur’an SIT Robbani Ogan Ilir.<br><br>Sebanyak puluhan wisudawan dari jenjang TKIT, SDIT, SMPIT, dan SMAIT Robbani dengan bangga dipasangkan mahkota dan menerima ijazah kelulusan serta sertifikat tahfidz hafalan Al-Qur\'an (1 Juz hingga 5 Juz).<br><br>Acara dihadiri oleh jajaran pengurus Yayasan Generasi Robbani Sumatera Selatan, Dinas Pendidikan Ogan Ilir, tokoh masyarakat, dan ratusan wali murid yang meneteskan air mata bahagia menyaksikan wisuda ananda.'
             ],
@@ -708,7 +708,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Berita',
                 'date' => '02 Juni 2026',
                 'author' => 'Dompet Sosial Robbani',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/06/2-819x1024.jpg',
+                'image' => '/images/mockup_desktop_2.png',
                 'excerpt' => 'Ogan Ilir – Dalam semangat berbagi dan meneladani keikhlasan Nabi Ibrahim AS, Dompet Sosial Robbani Peduli berkolaborasi dengan SIT Robbani menyelenggarakan penyembelihan hewan qurban.',
                 'content' => 'Ogan Ilir — Menyemarakkan Hari Raya Idul Adha 1447 H, Lembaga Dompet Sosial Robbani Peduli berkolaborasi dengan Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir sukses melaksanakan penyembelihan dan pendistribusian paket hewan qurban.<br><br>Daging qurban didistribusikan kepada masyarakat di sekitar lingkungan sekolah, kaum dhuafa, anak yatim, serta keluarga besar pegawai dan guru SIT Robbani.<br><br>Kegiatan ini menjadi wadah edukasi praktis bagi para siswa untuk meneladani sifat kedermawanan, empati sosial, dan ketakwaan Nabi Ibrahim AS dan Nabi Ismail AS.'
             ],
@@ -718,7 +718,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Pengumuman',
                 'date' => '07 Mei 2026',
                 'author' => 'Tim Rekrutmen SDM',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
+                'image' => '/images/mockup_desktop_3.png',
                 'excerpt' => 'Assalamu’alaikum wr. wb. Alhamdulillahirabbil ‘alamin, berdasarkan hasil seleksi administrasi Rekrutmen Guru dan Pegawai Sekolah Islam Terpadu Robbani Ogan Ilir Tahun Ajaran 2026/2027.',
                 'content' => 'Assalamu’alaikum Warahmatullahi Wabarakatuh.<br><br>Alhamdulillahirabbil ‘alamin, berdasarkan verifikasi dokumen dan seleksi administrasi Rekrutmen Guru dan Pegawai Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir Tahun Ajaran 2026/2027, Panitia Seleksi SDM menetapkan nama-nama pelamar yang dinyatakan LULUS Seleksi Administrasi.<br><br>Peserta yang lulus berhak mengikuti tahapan Ujian Microteaching & Wawancara Keislaman. Detail jadwal dan lokasi tes dikirimkan melalui WhatsApp/Email resmi panitia.'
             ],
@@ -728,7 +728,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Prestasi',
                 'date' => '20 April 2026',
                 'author' => 'Humas Prestasi',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'image' => '/images/mockup_desktop_4.png',
                 'excerpt' => 'Para santri dan siswa SDIT & SMPIT Robbani Ogan Ilir mengukir prestasi membanggakan dengan meraih 5 emas dan 3 perak dalam ajang Sains & Robotika Nasional.',
                 'content' => 'Prestasi membanggakan kembali diraih oleh kontingen siswa Sekolah Islam Terpadu Robbani Ogan Ilir. Dalam ajang Olimpiade Sains dan Teknologi Islam Nasional 2026, tim robotika dan matematika Robbani berhasil memborong total 8 medali.'
             ],
@@ -738,7 +738,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Pendidikan',
                 'date' => '10 Maret 2026',
                 'author' => 'Litbang Pendidikan',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'image' => '/images/mockup_desktop_5.png',
                 'excerpt' => 'Guna mengoptimalkan kualitas pembelajaran berbasis Al-Qur\'an dan Kurikulum Merdeka, seluruh pendidik SIT Robbani mengikuti Workshop Manajemen Kelas Interaktif.',
                 'content' => 'Pengembangan kapasitas guru menjadi prioritas utama Yayasan Generasi Robbani. Workshop peningkatan kompetensi kepengajaran diselenggarakan secara berkala untuk menjaga keunggulan akademik dan adab peserta didik.'
             ]
@@ -762,7 +762,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Artikel Keislaman',
                 'date' => '06 Maret 2026',
                 'author' => 'Tim Bina Pribadi Islami',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1-Copy-1024x678.webp',
+                'image' => '/images/hero_3d_illustration_1786347707126.png',
                 'excerpt' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam. Sholat ini memiliki keistimewaan karena di dalamnya dipenuhi kalimat tasbih.',
                 'content' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam, baik dilaksanakan pada siang hari maupun malam hari.<br><br><strong>Keutamaan Sholat Tasbih:</strong><br>1. Menggugurkan dosa-dosa kecil maupun besar.<br>2. Menjadikan hati lebih tenang dan dekat dengan Allah SWT.<br>3. Meneladani sunnah Rasulullah SAW dan arahan kepada Sayyidina Abbas RA.<br><br><strong>Tata Cara Pelaksanaan:</strong><br>Sholat Tasbih dikerjakan sebanyak 4 rakaat. Dalam setiap rakaatnya, dibaca kalimat tasbih <i>"Subhanallah walhamdulillah wala ilaha illallah wallahu akbar"</i> sebanyak 75 kali (total 300 kali tasbih dalam 4 rakaat).'
             ],
@@ -772,7 +772,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Artikel Edukasi',
                 'date' => '18 Februari 2026',
                 'author' => 'Tim Kurikulum JSIT',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png',
+                'image' => '/images/bpi_mutabaah_3d_1786347836635.png',
                 'excerpt' => 'Pembentukan karakter generasi Rabbani diawali dengan pembiasaan sholat 5 waktu tepat waktu, tilawah Al-Qur\'an, hafalan ziyadah, dan keterlibatan aktif wali murid.',
                 'content' => 'Pembentukan karakter siswa tidak hanya cukup dilakukan melalui teori di dalam kelas, namun membutuhkan pembiasaan (amaliyah yaumiyah) yang konsisten.<br><br>Melalui modul Bina Pribadi Islami (BPI) dan Mutabaah Yaumiyah di SIT Robbani Ogan Ilir, siswa dibimbing untuk melatih kedisiplinan ibadah mandiri: Sholat Fardhu tepat waktu, Sholat Dhuha, Tahajud, Tilawah harian, hafalan ayat Al-Qur\'an, serta bakti kepada orang tua.'
             ]
@@ -794,37 +794,37 @@ class SchoolWebsiteController extends Controller
                 'title' => 'Ruang Kelas Nyaman Ber-AC',
                 'desc' => 'Setiap ruang kelas di SIT Robbani Ogan Ilir dilengkapi dengan pendingin udara (AC), pencahayaan optimal, loker siswa, dan perlengkapan multimedia LCD proyektor.',
                 'icon' => '❄️',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'
+                'image' => '/images/mockup_desktop_1.png'
             ],
             [
                 'title' => 'Masjid & Sarana Ibadah',
                 'desc' => 'Pusat pembinaan karakter spiritual siswa untuk pelaksanaan sholat berjamaah, halaqah Tahfidz Al-Qur\'an, dan kegiatan Bina Pribadi Islami (BPI).',
                 'icon' => '🕌',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp'
+                'image' => '/images/hero_3d_illustration_1786347707126.png'
             ],
             [
                 'title' => 'Perpustakaan Digital & E-Library',
                 'desc' => 'Fasilitas perpustakaan fisik dan digital (E-Library) dengan koleksi ribuan buku pelajaran, sains, keislaman, majalah anak, dan literasi umum.',
                 'icon' => '📚',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png'
+                'image' => '/images/mockup_desktop_2.png'
             ],
             [
                 'title' => 'Laboratorium Komputer & IT',
                 'desc' => 'Sarana laboratorium komputer modern terintegrasi jaringan internet tinggi untuk pembelajaran literasi digital, koding, dan Asesmen Nasional (ANBK).',
                 'icon' => '💻',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp'
+                'image' => '/images/mockup_desktop_3.png'
             ],
             [
                 'title' => 'Playground & Arena Olahraga',
                 'desc' => 'Fasilitas bermain anak usia dini (outdoor playground) dan lapangan olahraga serbaguna untuk olahraga futsal, basket, bulutangkis, dan panahan.',
                 'icon' => '⚽',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png'
+                'image' => '/images/mockup_desktop_4.png'
             ],
             [
                 'title' => 'Keamanan CCTV & Satpam 24 Jam',
                 'desc' => 'Lingkungan sekolah dipantau sistem keamanan CCTV terpadu di setiap sudut dan petugas keamanan (security) siap siaga 24 jam demi kenyamanan peserta didik.',
                 'icon' => '🛡️',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png'
+                'image' => '/images/mockup_desktop_5.png'
             ]
         ];
     }
@@ -845,7 +845,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Profil Video',
                 'duration' => '04:25',
                 'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'thumbnail' => '/images/mockup_desktop_1.png',
                 'desc' => 'Video sinematik profil Yayasan Generasi Robbani Sumatera Selatan dan 4 unit sekolah unggulan di Ogan Ilir.'
             ],
             [
@@ -853,7 +853,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Dokumentasi Acara',
                 'duration' => '08:12',
                 'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'thumbnail' => '/images/hero_3d_illustration_1786347707126.png',
                 'desc' => 'Suasana haru dan penuh kebanggaan saat prosesi wisuda tahfidz Al-Qur’an para siswa SIT Robbani.'
             ],
             [
@@ -861,7 +861,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Teknologi Digital',
                 'duration' => '03:40',
                 'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
+                'thumbnail' => '/images/dashboard_admin_3d_1786349842846.png',
                 'desc' => 'Kemudahan akses wali murid memantau presensi, SPP, dan E-Learning di SIT Robbani Ogan Ilir.'
             ],
             [
@@ -869,7 +869,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Kegiatan Ekstrakurikuler',
                 'duration' => '05:15',
                 'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/06/2-819x1024.jpg',
+                'thumbnail' => '/images/mockup_desktop_2.png',
                 'desc' => 'Dokumentasi kegiatan alam terbuka, kemandirian siswa, dan mabit pembentukan karakter Rabbani.'
             ],
             [
@@ -877,7 +877,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Pembelajaran Digital',
                 'duration' => '04:10',
                 'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png',
+                'thumbnail' => '/images/mockup_desktop_3.png',
                 'desc' => 'Momen kebersamaan siswa saat eksplorasi sains, robotika, dan pembelajaran interaktif di sekolah.'
             ],
             [
@@ -885,7 +885,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Seni & Bakat',
                 'duration' => '06:30',
                 'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/testi1.png',
+                'thumbnail' => '/images/mockup_desktop_4.png',
                 'desc' => 'Penampilan bakat nasyid, pidato 3 bahasa, memanah, dan kreasi seni Islami santri SIT Robbani.'
             ]
         ];
@@ -1013,37 +1013,37 @@ class SchoolWebsiteController extends Controller
             [
                 'title' => 'Prosesi Haflah & Wisuda Tahfidz Al-Qur\'an',
                 'category' => 'Wisuda & Tahfidz',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'image' => '/images/hero_3d_illustration_1786347707126.png',
                 'desc' => 'Momen kebanggaan wisudawan tahfidz menerima sertifikat hafalan Al-Qur’an.'
             ],
             [
                 'title' => 'Gedung & Lingkungan Asri SIT Robbani',
                 'category' => 'Fasilitas Kampus',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png',
+                'image' => '/images/mockup_desktop_1.png',
                 'desc' => 'Kompleks persekolahan yang bersih, asri, kondusif, dan dilengkapi fasilitas modern.'
             ],
             [
                 'title' => 'Pelaksanaan Qurban Dompet Sosial Robbani',
                 'category' => 'Bakti Sosial',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/06/2-819x1024.jpg',
+                'image' => '/images/mockup_desktop_2.png',
                 'desc' => 'Kebersamaan civitas akademika dan masyarakat dalam penyembelihan hewan qurban.'
             ],
             [
                 'title' => 'Pembelajaran Digital di Lab Komputer',
                 'category' => 'Sarana & Teknologi',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/image-1-1024x608.webp',
+                'image' => '/images/mockup_desktop_3.png',
                 'desc' => 'Siswa berlatih koding, literasi digital, dan Asesmen Komputer (ANBK).'
             ],
             [
                 'title' => 'Kegiatan Literasi Perpustakaan Digital',
                 'category' => 'Perpustakaan',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2023/11/book.png',
+                'image' => '/images/mockup_desktop_4.png',
                 'desc' => 'Siswa menikmati koleksi buku fisik dan e-library perpustakaan SIT Robbani.'
             ],
             [
                 'title' => 'Penghargaan Kepala Sekolah Terbaik III Sumsel',
                 'category' => 'Prestasi Pendidik',
-                'image' => 'https://sitrobbani.sch.id/wp-content/uploads/2026/07/1000264778-1024x683.webp',
+                'image' => '/images/hero_3d_illustration_1786347707126.png',
                 'desc' => 'Penerimaan sertifikat diklat manajemen kepala sekolah tingkat Provinsi Sumatera Selatan.'
             ]
         ];

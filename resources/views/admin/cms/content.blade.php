@@ -328,7 +328,7 @@
                 </div>
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Thumbnail Gambar</label>
-                    <input type="url" name="thumbnail" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold" value="https://sitrobbani.sch.id/wp-content/uploads/2022/01/WEB-SIT-2.png">
+                    <input type="text" name="thumbnail" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold" value="/images/mockup_desktop_1.png">
                 </div>
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Deskripsi Singkat</label>
