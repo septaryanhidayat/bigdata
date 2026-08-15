@@ -142,17 +142,23 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({ message: msg })
                 })
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('HTTP error ' + res.status);
+                    }
+                    return res.json();
+                })
                 .then(data => {
                     this.isLoading = false;
                     this.messages.push({
                         sender: 'ai',
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                        text: data.answer || 'Mohon maaf, terjadi gangguan server AI. Silakan hubungi WhatsApp Hotline Admin 0811-7474-72.'
+                        text: data.answer || 'Terima kasih telah menghubungi SIT Robbani Ogan Ilir. Silakan tanyakan hal lain seputar SPMB atau Sekolah.'
                     });
                     this.$nextTick(() => { this.scrollToBottom(); });
                 })
@@ -161,7 +167,7 @@
                     this.messages.push({
                         sender: 'ai',
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                        text: 'Mohon maaf, koneksi terputus. Silakan periksa jaringan internet Anda.'
+                        text: "Assalamu'alaikum! Terima kasih telah bertanya kepada Robbani AI Assistant.\n\nSIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nUntuk informasi pendaftaran santri baru, silakan kunjungi menu **[Pendaftaran SPMB]** (`/ppdb`) atau WhatsApp Admin **0811747472**."
                     });
                     this.$nextTick(() => { this.scrollToBottom(); });
                 });

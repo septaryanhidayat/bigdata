@@ -1148,111 +1148,121 @@ class SchoolWebsiteController extends Controller
      */
     public function chatAi(Request $request)
     {
-        $message = trim($request->input('message', ''));
-        if (empty($message)) {
-            return response()->json([
-                'status' => 'error',
-                'answer' => 'Mohon maaf, pesan Anda tidak boleh kosong. Silakan tuliskan pertanyaan Anda seputar SIT Robbani.'
-            ]);
-        }
+        try {
+            $message = trim($request->input('message', ''));
+            if (empty($message)) {
+                return response()->json([
+                    'status' => 'error',
+                    'answer' => 'Mohon maaf, pesan Anda tidak boleh kosong. Silakan tuliskan pertanyaan Anda seputar SIT Robbani.'
+                ]);
+            }
 
-        $query = strtolower($message);
-        $settings = $this->getSiteSettings();
-        $principalName = $settings['principal_name'] ?? 'Ustadz L. Ahmad Fauzi, S.Pd.I., M.Pd.';
+            $query = strtolower($message);
+            $principalName = SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd');
+            $principalTitle = SiteSetting::get('principal_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan');
+            $contactAddress = SiteSetting::get('contact_address', 'Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan');
+            $contactPhone = SiteSetting::get('contact_phone', '0811747472');
+            $contactEmail = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
 
-        // Check if Gemini API key exists in ENV
-        $geminiKey = env('GEMINI_API_KEY') ?: env('GOOGLE_API_KEY');
-        if (!empty($geminiKey)) {
-            try {
-                $promptContext = "Anda adalah Robbani AI Assistant, asisten kecerdasan buatan resmi untuk SIT Robbani Ogan Ilir (Yayasan Generasi Robbani Sumatera Selatan). Berikan jawaban yang ramah, sopan, islami, dan membantu dalam Bahasa Indonesia.\n\nData Resmi SIT Robbani:\n";
-                $promptContext .= "- Nama Pimpinan: " . $principalName . " (" . ($settings['principal_title'] ?? 'Ketua Yayasan') . ")\n";
-                $promptContext .= "- Alamat Kampus: " . ($settings['contact_address'] ?? 'Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan') . "\n";
-                $promptContext .= "- Hotline WhatsApp: " . ($settings['contact_phone'] ?? '0811-7474-72') . "\n";
-                $promptContext .= "- Email: " . ($settings['contact_email'] ?? 'info@sitrobbani.sch.id') . "\n";
-                $promptContext .= "- 4 Unit Sekolah: KB/TKIT Robbani, SDIT Robbani, SMPIT Robbani, dan SMAIT Robbani.\n";
-                $promptContext .= "- Kurikulum: Integrasi Kurikulum Merdeka & Standar JSIT (Jaringan Sekolah Islam Terpadu).\n";
-                $promptContext .= "- Program Unggulan: Tahfidz Al-Qur'an (Juz 30 & Juz 1-5), Bina Pribadi Islami (BPI), SmartEdu Digital Campus (RFID Presensi & Cashless).\n";
-                $promptContext .= "- Pendaftaran SPMB: Dibuka Pendaftaran Online TA 2026/2027 di menu /ppdb atau WhatsApp Admin.\n\n";
-                $promptContext .= "Pertanyaan Pengunjung: " . $message;
+            // Check if Gemini API key exists in ENV
+            $geminiKey = env('GEMINI_API_KEY') ?: env('GOOGLE_API_KEY');
+            if (!empty($geminiKey)) {
+                try {
+                    $promptContext = "Anda adalah Robbani AI Assistant, asisten kecerdasan buatan resmi untuk SIT Robbani Ogan Ilir (Yayasan Generasi Robbani Sumatera Selatan). Berikan jawaban yang ramah, sopan, islami, dan membantu dalam Bahasa Indonesia.\n\nData Resmi SIT Robbani:\n";
+                    $promptContext .= "- Nama Pimpinan: " . $principalName . " (" . $principalTitle . ")\n";
+                    $promptContext .= "- Alamat Kampus: " . $contactAddress . "\n";
+                    $promptContext .= "- Hotline WhatsApp: " . $contactPhone . "\n";
+                    $promptContext .= "- Email: " . $contactEmail . "\n";
+                    $promptContext .= "- 4 Unit Sekolah: KB/TKIT Robbani, SDIT Robbani, SMPIT Robbani, dan SMAIT Robbani.\n";
+                    $promptContext .= "- Kurikulum: Integrasi Kurikulum Merdeka & Standar JSIT (Jaringan Sekolah Islam Terpadu).\n";
+                    $promptContext .= "- Program Unggulan: Tahfidz Al-Qur'an (Juz 30 & Juz 1-5), Bina Pribadi Islami (BPI), SmartEdu Digital Campus (RFID Presensi & Cashless).\n";
+                    $promptContext .= "- Pendaftaran SPMB: Dibuka Pendaftaran Online TA 2026/2027 di menu /ppdb atau WhatsApp Admin.\n\n";
+                    $promptContext .= "Pertanyaan Pengunjung: " . $message;
 
-                $response = \Illuminate\Support\Facades\Http::withHeaders([
-                    'Content-Type' => 'application/json',
-                ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $geminiKey, [
-                    'contents' => [
-                        [
-                            'parts' => [
-                                ['text' => $promptContext]
+                    $response = \Illuminate\Support\Facades\Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                    ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $geminiKey, [
+                        'contents' => [
+                            [
+                                'parts' => [
+                                    ['text' => $promptContext]
+                                ]
                             ]
                         ]
-                    ]
-                ]);
+                    ]);
 
-                if ($response->successful()) {
-                    $json = $response->json();
-                    $aiReply = $json['candidates'][0]['content']['parts'][0]['text'] ?? null;
-                    if (!empty($aiReply)) {
-                        return response()->json([
-                            'status' => 'success',
-                            'answer' => trim($aiReply)
-                        ]);
+                    if ($response->successful()) {
+                        $json = $response->json();
+                        $aiReply = $json['candidates'][0]['content']['parts'][0]['text'] ?? null;
+                        if (!empty($aiReply)) {
+                            return response()->json([
+                                'status' => 'success',
+                                'answer' => trim($aiReply)
+                            ]);
+                        }
                     }
+                } catch (\Throwable $e) {
+                    // Fallback to local RAG knowledge engine if API call fails
                 }
-            } catch (\Throwable $e) {
-                // Fallback to local RAG knowledge engine if API call fails
             }
-        }
 
-        // Smart Local Knowledge Engine (Built-in RAG)
-        if (str_contains($query, 'daftar') || str_contains($query, 'spmb') || str_contains($query, 'ppdb') || str_contains($query, 'syarat') || str_contains($query, 'masuk')) {
-            $reply = "Assalamu'alaikum! Pendaftaran Santri Baru (SPMB / PPDB Online) SIT Robbani TA 2026/2027 saat ini telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\n" .
-                     "📌 **Cara Mendaftar:**\n" .
-                     "1. Anda dapat mengisi Formulir Online di menu **[Pendaftaran SPMB]** (`/ppdb`).\n" .
-                     "2. Hubungi WhatsApp Hotline Panitia SPMB di **" . ($settings['contact_phone'] ?? '0811-7474-72') . "**.\n" .
-                     "3. Atau berkunjung langsung ke Sekretariat Pusat di Kecamatan Indralaya Utara, Kabupaten Ogan Ilir.";
-        } elseif (str_contains($query, 'biaya') || str_contains($query, 'spp') || str_contains($query, 'uang') || str_contains($query, 'bayar') || str_contains($query, 'tarif')) {
-            $reply = "Informasi Rincian Biaya SPMB & SPP Bulanan SIT Robbani:\n\n" .
-                     "• **Pengecekan Tagihan Realtime**: Anda bisa mengecek tagihan dan riwayat pembayaran di menu **[Portal E-SPP]** (`/espp`) dengan memasukkan NIS / NISN siswa.\n" .
-                     "• **Informasi Biaya Pendaftaran Baru**: Rincian infak pembangunan, seragam, dan SPP bulanan disesuaikan dengan jenjang unit (KB/TKIT, SDIT, SMPIT, SMAIT).\n\n" .
-                     "💬 Untuk mendapatkan brosur rincian biaya lengkap, silakan kirim pesan WhatsApp ke **" . ($settings['contact_phone'] ?? '0811-7474-72') . "**.";
-        } elseif (str_contains($query, 'unit') || str_contains($query, 'tk') || str_contains($query, 'sd') || str_contains($query, 'smp') || str_contains($query, 'sma') || str_contains($query, 'sekolah')) {
-            $reply = "SIT Robbani Ogan Ilir memiliki **4 Unit Pendidikan Terpadu Unggulan**:\n\n" .
-                     "1. **KB / TKIT Robbani**: Pendidikan anak usia dini berbasis pembentukan adab, kemandirian, dan hafalan surat pendek.\n" .
-                     "2. **SDIT Robbani**: Sekolah Dasar Islam Terpadu unggulan dengan target Tahfidz Juz 30 & Juz 1-2.\n" .
-                     "3. **SMPIT Robbani**: Sekolah Menengah Pertama Islam Terpadu berbasis kepemimpinan & olimpiade sains.\n" .
-                     "4. **SMAIT Robbani**: Sekolah Menengah Atas Islam Terpadu dengan program persiapan PTN Favorit, Beasiswa Luar Negeri, dan Coding/IoT.\n\n" .
-                     "Ketua Yayasan: **" . $principalName . "**.";
-        } elseif (str_contains($query, 'alamat') || str_contains($query, 'lokasi') || str_contains($query, 'dimana') || str_contains($query, 'kontak') || str_contains($query, 'telepon') || str_contains($query, 'wa') || str_contains($query, 'nomor')) {
-            $reply = "📍 **Alamat & Kontak Resmi Kampus SIT Robbani Ogan Ilir:**\n\n" .
-                     "• **Lokasi**: " . ($settings['contact_address'] ?? 'Jl. Raya Indralaya - Prabumulih, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan') . ".\n" .
-                     "• **WhatsApp Admin / Hotline**: " . ($settings['contact_phone'] ?? '0811-7474-72') . "\n" .
-                     "• **Email Resmi**: " . ($settings['contact_email'] ?? 'info@sitrobbani.sch.id') . "\n" .
-                     "• **Jam Operasional Sekretariat**: Senin - Sabtu (07.30 - 15.30 WIB).";
-        } elseif (str_contains($query, 'fasilitas') || str_contains($query, 'sarana') || str_contains($query, 'masjid') || str_contains($query, 'lab') || str_contains($query, 'ac')) {
-            $reply = "Fasilitas Kampus SIT Robbani Ogan Ilir dirancang modern, nyaman, dan kondusif:\n\n" .
-                     "✔ Ruang Kelas Ber-AC & Multimedia Smart TV\n" .
-                     "✔ Masjid Al-Robbani (Pusat Ibadah & Tahfidz)\n" .
-                     "✔ Laboratorium Komputer & Digital Coding\n" .
-                     "✔ Perpustakaan Digital & Ruang Baca\n" .
-                     "✔ Lapangan Olahraga & Playground Ramah Anak\n" .
-                     "✔ Ekosistem SmartEdu (RFID Presensi Gate & Cashless Kantin)\n" .
-                     "✔ Keamanan CCTV 24 Jam";
-        } elseif (str_contains($query, 'kepsek') || str_contains($query, 'ketua') || str_contains($query, 'pimpinan') || str_contains($query, 'yayasan') || str_contains($query, 'fauzi')) {
-            $reply = "Pimpinan Yayasan Generasi Robbani Sumatera Selatan dipimpin oleh **" . $principalName . "** selaku " . ($settings['principal_title'] ?? 'Ketua Yayasan Generasi Robbani') . ".\n\n" .
-                     "Beliau berkomitmen mencetak generasi santri yang berakhlak mulia, hafidz Al-Qur'an, serta menguasai sains dan teknologi digital.";
-        } else {
-            $reply = "Terima kasih telah bertanya kepada Robbani AI Assistant!\n\n" .
-                     "SIT Robbani Ogan Ilir adalah Lembaga Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, SMAIT) di Ogan Ilir, Sumatera Selatan.\n\n" .
-                     "Anda dapat bertanya seputar:\n" .
-                     "• Pendaftaran SPMB Online TA 2026/2027 (`/ppdb`)\n" .
-                     "• Profil 4 Unit Sekolah & Pimpinan Yayasan\n" .
-                     "• Pengecekan SPP Siswa (`/espp`)\n" .
-                     "• Alamat & Kontak Hotline WhatsApp Admin (**" . ($settings['contact_phone'] ?? '0811-7474-72') . "**)";
-        }
+            // Smart Local Knowledge Engine (Built-in RAG)
+            if (str_contains($query, 'daftar') || str_contains($query, 'spmb') || str_contains($query, 'ppdb') || str_contains($query, 'syarat') || str_contains($query, 'masuk')) {
+                $reply = "Assalamu'alaikum! Pendaftaran Santri Baru (SPMB / PPDB Online) SIT Robbani TA 2026/2027 saat ini telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\n" .
+                         "📌 **Cara Mendaftar:**\n" .
+                         "1. Anda dapat mengisi Formulir Online di menu **[Pendaftaran SPMB]** (`/ppdb`).\n" .
+                         "2. Hubungi WhatsApp Hotline Panitia SPMB di **" . $contactPhone . "**.\n" .
+                         "3. Atau berkunjung langsung ke Sekretariat Pusat di " . $contactAddress . ".";
+            } elseif (str_contains($query, 'biaya') || str_contains($query, 'spp') || str_contains($query, 'uang') || str_contains($query, 'bayar') || str_contains($query, 'tarif')) {
+                $reply = "Informasi Rincian Biaya SPMB & SPP Bulanan SIT Robbani:\n\n" .
+                         "• **Pengecekan Tagihan Realtime**: Anda bisa mengecek tagihan dan riwayat pembayaran di menu **[Portal E-SPP]** (`/espp`) dengan memasukkan NIS / NISN siswa.\n" .
+                         "• **Informasi Biaya Pendaftaran Baru**: Rincian infak pembangunan, seragam, dan SPP bulanan disesuaikan dengan jenjang unit (KB/TKIT, SDIT, SMPIT, SMAIT).\n\n" .
+                         "💬 Untuk mendapatkan brosur rincian biaya lengkap, silakan kirim pesan WhatsApp ke **" . $contactPhone . "**.";
+            } elseif (str_contains($query, 'unit') || str_contains($query, 'tk') || str_contains($query, 'sd') || str_contains($query, 'smp') || str_contains($query, 'sma') || str_contains($query, 'sekolah')) {
+                $reply = "SIT Robbani Ogan Ilir memiliki **4 Unit Pendidikan Terpadu Unggulan**:\n\n" .
+                         "1. **KB / TKIT Robbani**: Pendidikan anak usia dini berbasis pembentukan adab, kemandirian, dan hafalan surat pendek.\n" .
+                         "2. **SDIT Robbani**: Sekolah Dasar Islam Terpadu unggulan dengan target Tahfidz Juz 30 & Juz 1-2.\n" .
+                         "3. **SMPIT Robbani**: Sekolah Menengah Pertama Islam Terpadu berbasis kepemimpinan & olimpiade sains.\n" .
+                         "4. **SMAIT Robbani**: Sekolah Menengah Atas Islam Terpadu dengan program persiapan PTN Favorit, Beasiswa Luar Negeri, dan Coding/IoT.\n\n" .
+                         "Ketua Yayasan: **" . $principalName . "**.";
+            } elseif (str_contains($query, 'alamat') || str_contains($query, 'lokasi') || str_contains($query, 'dimana') || str_contains($query, 'kontak') || str_contains($query, 'telepon') || str_contains($query, 'wa') || str_contains($query, 'nomor')) {
+                $reply = "📍 **Alamat & Kontak Resmi Kampus SIT Robbani Ogan Ilir:**\n\n" .
+                         "• **Lokasi**: " . $contactAddress . ".\n" .
+                         "• **WhatsApp Admin / Hotline**: " . $contactPhone . "\n" .
+                         "• **Email Resmi**: " . $contactEmail . "\n" .
+                         "• **Jam Operasional Sekretariat**: Senin - Sabtu (07.30 - 15.30 WIB).";
+            } elseif (str_contains($query, 'fasilitas') || str_contains($query, 'sarana') || str_contains($query, 'masjid') || str_contains($query, 'lab') || str_contains($query, 'ac')) {
+                $reply = "Fasilitas Kampus SIT Robbani Ogan Ilir dirancang modern, nyaman, dan kondusif:\n\n" .
+                         "✔ Ruang Kelas Ber-AC & Multimedia Smart TV\n" .
+                         "✔ Masjid Al-Robbani (Pusat Ibadah & Tahfidz)\n" .
+                         "✔ Laboratorium Komputer & Digital Coding\n" .
+                         "✔ Perpustakaan Digital & Ruang Baca\n" .
+                         "✔ Lapangan Olahraga & Playground Ramah Anak\n" .
+                         "✔ Ekosistem SmartEdu (RFID Presensi Gate & Cashless Kantin)\n" .
+                         "✔ Keamanan CCTV 24 Jam";
+            } elseif (str_contains($query, 'kepsek') || str_contains($query, 'ketua') || str_contains($query, 'pimpinan') || str_contains($query, 'yayasan') || str_contains($query, 'fauzi')) {
+                $reply = "Pimpinan Yayasan Generasi Robbani Sumatera Selatan dipimpin oleh **" . $principalName . "** selaku " . $principalTitle . ".\n\n" .
+                         "Beliau berkomitmen mencetak generasi santri yang berakhlak mulia, hafidz Al-Qur'an, serta menguasai sains dan teknologi digital.";
+            } else {
+                $reply = "Terima kasih telah bertanya kepada Robbani AI Assistant!\n\n" .
+                         "SIT Robbani Ogan Ilir adalah Lembaga Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, SMAIT) di Ogan Ilir, Sumatera Selatan.\n\n" .
+                         "Anda dapat bertanya seputar:\n" .
+                         "• Pendaftaran SPMB Online TA 2026/2027 (`/ppdb`)\n" .
+                         "• Profil 4 Unit Sekolah & Pimpinan Yayasan\n" .
+                         "• Pengecekan SPP Siswa (`/espp`)\n" .
+                         "• Alamat & Kontak Hotline WhatsApp Admin (**" . $contactPhone . "**)";
+            }
 
-        return response()->json([
-            'status' => 'success',
-            'answer' => $reply
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'answer' => $reply
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'success',
+                'answer' => "Assalamu'alaikum! Terima kasih telah bertanya. SIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nSilakan kunjungi menu **Pendaftaran SPMB** (`/ppdb`) atau hubungi WhatsApp Hotline Admin di **0811747472**."
+            ]);
+        }
     }
 }
 
