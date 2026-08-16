@@ -134,19 +134,19 @@
                 <button @click="activeCategory = 'all'" :class="activeCategory === 'all' ? 'bg-emerald-700 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
                     🌟 Semua Berita
                 </button>
-                <button @click="activeCategory = 'KB/TKIT'" :class="activeCategory === 'KB/TKIT' || activeCategory === 'TKIT' ? 'bg-amber-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                <button @click="activeCategory = 'tkit'" :class="activeCategory === 'tkit' ? 'bg-amber-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
                     🎨 KB/TKIT
                 </button>
-                <button @click="activeCategory = 'SDIT'" :class="activeCategory === 'SDIT' ? 'bg-emerald-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                <button @click="activeCategory = 'sdit'" :class="activeCategory === 'sdit' ? 'bg-emerald-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
                     🎒 SDIT
                 </button>
-                <button @click="activeCategory = 'SMPIT'" :class="activeCategory === 'SMPIT' ? 'bg-blue-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                <button @click="activeCategory = 'smpit'" :class="activeCategory === 'smpit' ? 'bg-blue-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
                     📘 SMPIT
                 </button>
-                <button @click="activeCategory = 'SMAIT'" :class="activeCategory === 'SMAIT' ? 'bg-purple-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                <button @click="activeCategory = 'smait'" :class="activeCategory === 'smait' ? 'bg-purple-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
                     🎓 SMAIT
                 </button>
-                <button @click="activeCategory = 'YAYASAN'" :class="activeCategory === 'YAYASAN' || activeCategory === 'Yayasan' ? 'bg-slate-800 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                <button @click="activeCategory = 'yayasan'" :class="activeCategory === 'yayasan' ? 'bg-slate-800 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
                     🏢 Yayasan
                 </button>
             </div>
@@ -155,17 +155,17 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             @foreach($newsList as $news)
             @php
-                $rawCat = $news['category'] ?? 'Berita';
-                $normCat = strtoupper($rawCat);
-                $badgeBg = match(true) {
-                    str_contains($normCat, 'TK') => 'bg-amber-600 text-white',
-                    str_contains($normCat, 'SD') => 'bg-emerald-600 text-white',
-                    str_contains($normCat, 'SMP') => 'bg-blue-600 text-white',
-                    str_contains($normCat, 'SMA') => 'bg-purple-600 text-white',
+                $u = strtolower($news['unit'] ?? 'yayasan');
+                $rawCat = strtolower($news['category'] ?? 'berita');
+                $badgeBg = match($u) {
+                    'tkit' => 'bg-amber-600 text-white',
+                    'sdit' => 'bg-emerald-600 text-white',
+                    'smpit' => 'bg-blue-600 text-white',
+                    'smait' => 'bg-purple-600 text-white',
                     default => 'bg-slate-800 text-white'
                 };
             @endphp
-            <div x-show="activeCategory === 'all' || '{{ $normCat }}'.includes(activeCategory.toUpperCase())" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm hover:shadow-md hover:border-emerald-500 transition-all">
+            <div x-show="activeCategory === 'all' || activeCategory === '{{ $u }}' || '{{ $rawCat }}'.includes(activeCategory)" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm hover:shadow-md hover:border-emerald-500 transition-all">
                 <div>
                     <div class="relative h-48 bg-slate-900 overflow-hidden">
                         <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-4 bg-white';">

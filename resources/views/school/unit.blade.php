@@ -219,6 +219,7 @@
                 <a href="#kepsek" class="hover:text-orange-500 transition-colors whitespace-nowrap">Kepsek</a>
                 <a href="#kurikulum" class="hover:text-orange-500 transition-colors whitespace-nowrap">Program</a>
                 <a href="#guru" class="hover:text-orange-500 transition-colors whitespace-nowrap">Guru</a>
+                <a href="#berita" class="hover:text-orange-500 transition-colors whitespace-nowrap">Berita</a>
                 <a href="#alumni" class="hover:text-orange-500 transition-colors whitespace-nowrap">Testimoni</a>
 
                 <!-- Dark Mode Toggle Button -->
@@ -464,7 +465,63 @@
                         </div>
                     </div>
                     @endforeach
+            </div>
+        </section>
+
+        <!-- 6.5 BERITA & KEGIATAN KHUSUS UNIT -->
+        <section id="berita" class="py-12 sm:py-16 px-4 sm:px-6 bg-slate-50 dark:bg-[#081709] border-y border-slate-200/80 dark:border-[#1a381c]">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                    <div>
+                        <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">KABAR TERBARU</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Berita &amp; Kegiatan {{ $info['name'] }}</h2>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Dokumentasi kegiatan, prestasi santri, dan pengumuman resmi unit {{ $info['code'] }}.</p>
+                    </div>
+                    <a href="{{ route('school.berita') }}" class="px-5 py-2.5 rounded-full bg-white dark:bg-[#0d1e0f] text-emerald-700 dark:text-[#c6f634] font-black text-xs border border-slate-200/80 dark:border-[#1a381c] shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 shrink-0">
+                        <span>Lihat Semua Berita</span> ➔
+                    </a>
                 </div>
+
+                @if(isset($unitNews) && count($unitNews) > 0)
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($unitNews as $un)
+                    @php
+                        $unSlug = $un['slug'] ?? \Illuminate\Support\Str::slug($un['title']);
+                    @endphp
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900">
+                                <img src="{{ $un['image'] }}" alt="{{ $un['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-4 bg-white';">
+                                <span class="absolute top-3 left-3 bg-emerald-700 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-md">
+                                    {{ $un['category'] ?? ('Berita ' . $info['code']) }}
+                                </span>
+                            </div>
+                            <div class="p-5 sm:p-6 space-y-2.5">
+                                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-400 block">🗓️ {{ $un['date'] }}</span>
+                                <h3 class="text-sm sm:text-base font-black font-headline text-slate-900 dark:text-white line-clamp-2 group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">
+                                    {{ $un['title'] }}
+                                </h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed font-medium">
+                                    {{ $un['excerpt'] }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 sm:p-6 pt-0">
+                            <a href="{{ route('school.berita.show', $unSlug) }}" class="text-emerald-700 dark:text-[#c6f634] font-black text-xs flex items-center gap-1 group-hover:underline">
+                                <span>Baca Selengkapnya</span> ➔
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                @else
+                <div class="text-center py-12 bg-white dark:bg-[#0d1e0f] rounded-3xl border border-slate-200/80 dark:border-[#1a381c] p-6 space-y-2">
+                    <span class="text-3xl block">📰</span>
+                    <h4 class="text-sm font-bold text-slate-900 dark:text-white">Belum Ada Berita Khusus Unit {{ $info['code'] }}</h4>
+                    <p class="text-xs text-slate-500">Berita dan kegiatan unit akan segera diperbarui secara berkala.</p>
+                </div>
+                @endif
 
             </div>
         </section>
