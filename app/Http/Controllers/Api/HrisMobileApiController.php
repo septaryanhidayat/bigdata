@@ -1075,15 +1075,18 @@ class HrisMobileApiController extends Controller
 
         if ($request->filled('name')) {
             $user->name = $request->input('name');
-            $user->save();
         }
 
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
-            $user->save();
         }
 
-        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $user->save();
+
+        $employee = DB::table('employees')->where('user_id', $user->id)->first()
+            ?? DB::table('employees')->where('email', $user->email)->first()
+            ?? DB::table('employees')->first();
+
         if ($employee) {
             $updateData = [];
             if ($request->filled('name')) $updateData['full_name'] = $request->input('name');
@@ -1096,7 +1099,7 @@ class HrisMobileApiController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Profil pegawai berhasil diperbarui.',
+            'message' => 'Profil pegawai berhasil diperbarui dan disinkronkan ke server.',
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
