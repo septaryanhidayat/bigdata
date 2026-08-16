@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->replace(
+            \Illuminate\Http\Middleware\ValidatePostSize::class,
+            \App\Http\Middleware\CustomValidatePostSize::class,
+        );
+
         $middleware->redirectTo(
             guests: '/admin/login',
         );
@@ -23,6 +28,20 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Ukuran file unggahan terlalu besar untuk diproses oleh server web.',
+                    'post_max_size' => ini_get('post_max_size'),
+                ], 413);
+            }
+
+            return redirect()->back()->with(
+                'error',
+                '⛔ Ukuran berkas unggahan melebihi batas POST server web (Batas saat ini: ' . ini_get('post_max_size') . '). Gunakan opsi "Impor via Path File Server" atau jalankan perintah "php artisan wp:import" pada terminal untuk file berukuran besar tanpa batas.'
+            );
+        });
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );

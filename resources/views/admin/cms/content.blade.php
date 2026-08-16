@@ -191,29 +191,66 @@
     @if($activeTab === 'news')
 
     <!-- WordPress XML Auto-Importer Banner (High-Contrast Guaranteed) -->
-    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #ffffff;" class="p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4 font-sans">
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #ffffff;" class="p-6 rounded-3xl border border-slate-800 shadow-xl space-y-5 font-sans" x-data="{ importMethod: 'upload' }">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1.5">
-                <span class="px-3 py-1 rounded-full bg-blue-500/25 text-blue-300 font-black text-xs uppercase tracking-wider border border-blue-400/40 inline-block">
-                    🚀 AUTOMATED WORDPRESS MIGRATION TOOL
-                </span>
-                <h3 class="text-xl font-black text-white tracking-tight">Import Konten Berita &amp; Artikel dari WordPress</h3>
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 rounded-full bg-blue-500/25 text-blue-300 font-black text-xs uppercase tracking-wider border border-blue-400/40 inline-block">
+                        🚀 AUTOMATED WORDPRESS MIGRATION TOOL
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">
+                        ⚡ Support File Besar (100MB+)
+                    </span>
+                </div>
+                <h3 class="text-xl font-black text-white tracking-tight">Import Konten Berita &amp; Artikel dari WordPress (WXR XML)</h3>
                 <p class="text-xs text-slate-200 font-medium max-w-3xl leading-relaxed">
-                    Ekspor seluruh postingan website WordPress Anda ke berkas XML (WXR), lalu unggah di sini. Sistem akan mengonversi semua judul, berita, artikel, kategori, dan gambar secara otomatis ke CMS Laravel.
+                    Ekspor postingan website WordPress Anda ke berkas XML, lalu impor ke sini. Sistem akan otomatis memindahkan judul, artikel, berita, tanggal rilis, kategori, dan gambar ke CMS SmartEdu.
                 </p>
             </div>
             
-            <!-- Quick Form Upload XML -->
-            <form action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 shrink-0 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-700">
-                @csrf
-                <input type="file" name="xml_file" accept=".xml,.txt" required class="text-xs text-slate-200 file:mr-2 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-                <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md transition-all shrink-0 w-full sm:w-auto flex items-center justify-center gap-1.5">
-                    <span>⚡ Import XML WordPress</span>
+            <!-- Import Method Toggle Tabs -->
+            <div class="flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-700 shrink-0">
+                <button type="button" @click="importMethod = 'upload'" :class="importMethod === 'upload' ? 'bg-blue-600 text-white font-black' : 'text-slate-400 hover:text-white font-bold'" class="px-3 py-1.5 rounded-xl text-xs transition-all">
+                    📁 Unggah File
                 </button>
+                <button type="button" @click="importMethod = 'path'" :class="importMethod === 'path' ? 'bg-indigo-600 text-white font-black' : 'text-slate-400 hover:text-white font-bold'" class="px-3 py-1.5 rounded-xl text-xs transition-all">
+                    📂 Path Server
+                </button>
+            </div>
+        </div>
+
+        <!-- Forms Container -->
+        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700">
+            <!-- Option 1: File Upload -->
+            <form x-show="importMethod === 'upload'" action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-3">
+                @csrf
+                <div class="flex-1 w-full">
+                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Pilih Berkas XML WordPress (.xml / .txt) - Maks. 100MB:</label>
+                    <input type="file" name="xml_file" accept=".xml,.txt" required class="w-full text-xs text-slate-200 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+                </div>
+                <div class="sm:self-end w-full sm:w-auto">
+                    <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                        <span>⚡ Mulai Import File</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Option 2: Server File Path -->
+            <form x-show="importMethod === 'path'" x-cloak action="{{ route('admin.cms.import-wordpress') }}" method="POST" class="flex flex-col sm:flex-row items-center gap-3">
+                @csrf
+                <div class="flex-1 w-full">
+                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Path Berkas XML di Project / Server (Contoh: <code class="text-indigo-300">storage/app/wordpress.xml</code>):</label>
+                    <input type="text" name="server_file_path" required placeholder="Contoh: storage/app/wordpress_export.xml" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none focus:border-indigo-500">
+                </div>
+                <div class="sm:self-end w-full sm:w-auto">
+                    <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                        <span>⚡ Import dari Path</span>
+                    </button>
+                </div>
             </form>
         </div>
 
-        <div class="pt-3 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium">
+        <div class="pt-2 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium">
             <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12);" class="p-4 rounded-2xl text-slate-200 space-y-1.5 leading-relaxed">
                 <strong class="text-amber-300 block font-bold text-xs flex items-center gap-1.5">
                     <span>📋</span> <span>Cara Ekspor dari Dashboard WordPress:</span>
@@ -228,7 +265,7 @@
                 <strong class="text-emerald-400 block font-bold text-xs flex items-center gap-1.5">
                     <span>💻</span> <span>Atau Jalankan via Terminal Artisan CLI:</span>
                 </strong>
-                <p class="text-slate-300 text-xs">Untuk berkas berukuran besar (100MB+):</p>
+                <p class="text-slate-300 text-xs">Untuk berkas berukuran sangat besar tanpa batasan HTTP server:</p>
                 <code class="bg-slate-950 text-emerald-300 px-3 py-1.5 rounded-xl border border-slate-800 font-mono text-xs block mt-1.5 shadow-inner select-all">php artisan wp:import path/to/wordpress-export.xml</code>
             </div>
         </div>

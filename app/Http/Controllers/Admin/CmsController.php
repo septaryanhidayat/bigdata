@@ -1022,18 +1022,44 @@ class CmsController extends Controller
 
     public function importWordPress(Request $request)
     {
+        @ini_set('memory_limit', '1024M');
+        @ini_set('max_execution_time', '600');
+        @set_time_limit(600);
+
         $request->validate([
-            'xml_file' => 'required|file|max:20480'
+            'xml_file' => 'nullable|file|max:102400', // up to 100MB
+            'server_file_path' => 'nullable|string|max:1000',
         ]);
 
-        $file = $request->file('xml_file');
-        $filePath = $file->getRealPath();
+        $filePath = null;
+
+        if ($request->hasFile('xml_file')) {
+            $file = $request->file('xml_file');
+            $filePath = $file->getRealPath();
+        } elseif ($request->filled('server_file_path')) {
+            $candidatePath = trim($request->server_file_path);
+            if (file_exists($candidatePath)) {
+                $filePath = $candidatePath;
+            } elseif (file_exists(base_path($candidatePath))) {
+                $filePath = base_path($candidatePath);
+            } elseif (file_exists(storage_path('app/' . $candidatePath))) {
+                $filePath = storage_path('app/' . $candidatePath);
+            } else {
+                return redirect()->back()->with('error', "Berkas XML tidak ditemukan pada path: '{$candidatePath}'. Pastikan file diletakkan di server/project.");
+            }
+        } else {
+            return redirect()->back()->with('error', 'Silakan pilih berkas XML yang akan diunggah atau masukkan path berkas di server.');
+        }
 
         libxml_use_internal_errors(true);
-        $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOCDATA);
+        // Use LIBXML_PARSEHUGE and LIBXML_NOCDATA to handle huge XML files without limit
+        $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_PARSEHUGE);
 
         if ($xml === false) {
-            return redirect()->back()->with('error', 'Gagal membaca file XML. Pastikan berkas adalah hasil ekspor resmi WordPress (WXR).');
+            $xmlErrors = libxml_get_errors();
+            libxml_clear_errors();
+            $errMsg = !empty($xmlErrors) ? $xmlErrors[0]->message : 'Format XML tidak valid.';
+            return redirect()->back()->with('error', 'Gagal membaca berkas XML: ' . trim($errMsg) . '. Pastikan berkas adalah hasil ekspor resmi WordPress (WXR).');
         }
 
         $namespaces = $xml->getNamespaces(true);
@@ -1070,11 +1096,13 @@ class CmsController extends Controller
             }
 
             $category = 'Berita';
-            foreach ($item->category as $cat) {
-                $domain = (string) $cat['domain'];
-                if ($domain === 'category') {
-                    $category = (string) $cat;
-                    break;
+            if (isset($item->category)) {
+                foreach ($item->category as $cat) {
+                    $domain = (string) $cat['domain'];
+                    if ($domain === 'category') {
+                        $category = (string) $cat;
+                        break;
+                    }
                 }
             }
 

@@ -27,6 +27,9 @@ class ImportWordPressXml extends Command
      */
     public function handle()
     {
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(600);
+
         $filePath = $this->argument('file');
 
         if (!file_exists($filePath)) {
@@ -37,7 +40,7 @@ class ImportWordPressXml extends Command
         $this->info("Memulai proses parsing file WordPress XML: {$filePath}...");
 
         libxml_use_internal_errors(true);
-        $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_PARSEHUGE);
 
         if ($xml === false) {
             $this->error("Gagal membaca file XML. Pastikan format file adalah ekspor resmi WordPress (WXR).");
