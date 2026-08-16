@@ -612,12 +612,12 @@
                 </button>
 
                 <!-- Direct Website Link (Top Header Quick Button) -->
-                <a href="{{ route('home') }}" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-extrabold text-xs hover:bg-emerald-100 transition-colors">
+                <a href="{{ route('home') }}" target="_blank" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-extrabold text-xs transition-colors shadow-2xs">
                     <span>🌐</span> <span>Lihat Website</span> <span>↗</span>
                 </a>
 
                 <!-- Search Bar -->
-                <div class="hidden md:flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl w-64 lg:w-72">
+                <div class="hidden md:flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl w-64 lg:w-72 border border-slate-200">
                     <span class="text-slate-400">🔍</span>
                     <input type="text" placeholder="Cari data siswa, guru, tagihan, rfid..." class="bg-transparent border-none text-xs font-semibold focus:outline-none w-full text-slate-700">
                 </div>
@@ -627,35 +627,40 @@
             <div class="flex items-center gap-3 sm:gap-4">
                 
                 <!-- 5 Theme Gradient Color Options -->
-                <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-xs">
                     <span class="text-[10px] text-slate-500 font-black uppercase px-1 hidden lg:inline">Theme:</span>
                     
-                    <!-- Option 1: Magenta Pink -->
-                    <button onclick="setAdminTheme('theme-magenta')" data-theme="theme-magenta" title="Theme 1: Neon Magenta" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #ec4899 0%, #d946ef 50%, #8b5cf6 100%);"></button>
+                    <!-- Option 1: Emerald Robbani -->
+                    <button onclick="setAdminTheme('theme-emerald')" data-theme="theme-emerald" title="Theme: Emerald Robbani" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0284c7 100%);"></button>
                     
-                    <!-- Option 2: Emerald Robbani -->
-                    <button onclick="setAdminTheme('theme-emerald')" data-theme="theme-emerald" title="Theme 2: Emerald Robbani" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #06b6d4 100%);"></button>
+                    <!-- Option 2: Cyber Ocean Blue -->
+                    <button onclick="setAdminTheme('theme-ocean')" data-theme="theme-ocean" title="Theme: Ocean Blue" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);"></button>
                     
-                    <!-- Option 3: Cyber Ocean Blue -->
-                    <button onclick="setAdminTheme('theme-ocean')" data-theme="theme-ocean" title="Theme 3: Cyber Blue" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);"></button>
+                    <!-- Option 3: Magenta Violet -->
+                    <button onclick="setAdminTheme('theme-magenta')" data-theme="theme-magenta" title="Theme: Magenta Violet" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #db2777 0%, #c026d3 50%, #7c3aed 100%);"></button>
                     
                     <!-- Option 4: Sunset Coral -->
-                    <button onclick="setAdminTheme('theme-sunset')" data-theme="theme-sunset" title="Theme 4: Sunset Coral" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #f43f5e 0%, #f97316 50%, #eab308 100%);"></button>
+                    <button onclick="setAdminTheme('theme-sunset')" data-theme="theme-sunset" title="Theme: Sunset Coral" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #e11d48 0%, #ea580c 50%, #ca8a04 100%);"></button>
                     
                     <!-- Option 5: Obsidian Gold -->
-                    <button onclick="setAdminTheme('theme-gold')" data-theme="theme-gold" title="Theme 5: Obsidian Gold" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);"></button>
+                    <button onclick="setAdminTheme('theme-gold')" data-theme="theme-gold" title="Theme: Obsidian Gold" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #78350f 100%);"></button>
                 </div>
 
                 <!-- User Top Profile Indicator & Logout Action -->
+                @php
+                    $topUserPhoto = Auth::user()->avatar 
+                        ? (str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar)) 
+                        : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name ?? 'Admin') . '&background=0f172a&color=ffffff&bold=true';
+                @endphp
                 <div class="flex items-center gap-2.5 pl-3 border-l border-slate-200">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin') }}&background=ec4899&color=ffffff&bold=true" class="w-9 h-9 rounded-full border-2 border-theme-accent">
+                    <img src="{{ $topUserPhoto }}" class="w-9 h-9 rounded-full object-cover border-2 border-slate-300 shadow-xs">
                     <div class="hidden sm:block text-left">
                         <span class="block text-xs font-black text-slate-900 leading-tight">{{ Auth::user()->name ?? 'Administrator' }}</span>
-                        <span class="block text-[10px] text-theme-accent font-bold">Admin Portal</span>
+                        <span class="block text-[10px] text-emerald-700 font-extrabold">Admin Portal</span>
                     </div>
                     <form action="{{ route('admin.logout') }}" method="POST" class="inline-block ml-1">
                         @csrf
-                        <button type="submit" title="Keluar / Logout dari Sistem" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-colors flex items-center gap-1 text-xs font-bold" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                        <button type="submit" title="Keluar / Logout dari Sistem" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5 text-xs font-black" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
                             <span>🚪</span> <span class="hidden md:inline">Keluar</span>
                         </button>
                     </form>
@@ -753,7 +758,7 @@
 
         // Restore saved theme, active group & sidebar compact state on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('smartedu_admin_theme') || 'theme-magenta';
+            const savedTheme = localStorage.getItem('smartedu_admin_theme') || 'theme-emerald';
             setAdminTheme(savedTheme);
 
             const isCompact = localStorage.getItem('smartedu_sidebar_compact') === 'true';
