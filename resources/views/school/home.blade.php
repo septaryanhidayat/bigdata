@@ -717,7 +717,7 @@
             <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
         </a>
         <a @click="mobileMenuOpen = false" href="#smartedu-ekosistem" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 hover:bg-emerald-700 hover:text-white transition-all shadow-xs">
-            <span class="flex items-center gap-2"><span>✨</span> <span class="font-black">SmartEdu (22 Modul Digital)</span></span>
+            <span class="flex items-center gap-2"><span>✨</span> <span class="font-black">SmartEdu (23+ Modul Digital)</span></span>
             <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500 text-slate-950">PROMOSI</span>
         </a>
         <a @click="mobileMenuOpen = false" href="{{ route('school.berita') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.berita*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
@@ -1217,7 +1217,7 @@
                             <span>✨ EKOSISTEM DIGITAL SMARTEDU TERPADU</span>
                         </div>
                         <h2 class="text-xl sm:text-3xl font-black font-headline text-slate-900 dark:text-white">
-                            Transformasi Digital Sekolah <span class="bg-gradient-to-r from-emerald-700 via-teal-600 to-orange-600 dark:from-emerald-400 dark:via-teal-300 dark:to-[#c6f634] bg-clip-text text-transparent">22+ Modul Terintegrasi</span>
+                            Transformasi Digital Sekolah <span class="bg-gradient-to-r from-emerald-700 via-teal-600 to-orange-600 dark:from-emerald-400 dark:via-teal-300 dark:to-[#c6f634] bg-clip-text text-transparent">23+ Modul Terintegrasi</span>
                         </h2>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">
@@ -1315,13 +1315,27 @@
                                     </div>
                                     <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">6 Modul</span>
                                 </button>
+
+                                <!-- 6. Smart AI Assistant & Dokumen RAG (NEW) -->
+                                <button @click="activeModuleTab = 'ai_assistant'" 
+                                    :class="activeModuleTab === 'ai_assistant' ? 'is-active pl-4 ring-2 ring-emerald-500 dark:ring-[#c6f634]' : ''" 
+                                    class="smartedu-tab-btn w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group bg-gradient-to-r from-emerald-50/50 to-teal-50/50 dark:from-[#09220d]/60 dark:to-[#07170a]/60">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="text-base animate-bounce">🤖</span>
+                                        <div>
+                                            <div class="smartedu-tab-title leading-tight text-emerald-800 dark:text-[#c6f634]">Smart AI &amp; RAG Dokumen</div>
+                                            <div class="smartedu-tab-sub text-[10px]">Chatbot 24/7, Ingest PDF SOP</div>
+                                        </div>
+                                    </div>
+                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px] bg-emerald-600 text-white font-black">AI Unggulan</span>
+                                </button>
                             </div>
                         </div>
 
                         <!-- Mini Stats Bar -->
                         <div class="pt-3 border-t border-emerald-200/70 dark:border-[#1c4021] grid grid-cols-3 gap-2 text-center">
                             <div class="bg-emerald-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-emerald-200/80 dark:border-[#183a1b]">
-                                <div class="text-base font-black text-emerald-800 dark:text-[#c6f634] font-headline">22+</div>
+                                <div class="text-base font-black text-emerald-800 dark:text-[#c6f634] font-headline">23+</div>
                                 <div class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">Modul</div>
                             </div>
                             <div class="bg-orange-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-orange-200/80 dark:border-[#183a1b]">
@@ -1385,7 +1399,7 @@
                                 </div>
                             </div>
 
-                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all sm:col-span-2">
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 sm:col-span-2 transition-all">
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">👨‍🏫</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
@@ -1590,9 +1604,57 @@
                             </div>
                         </div>
 
+                        <!-- TAB 6: SMART AI ASSISTANT & KNOWLEDGE RAG (NEW) -->
+                        <div x-show="activeModuleTab === 'ai_assistant'" class="grid grid-cols-1 sm:grid-cols-3 gap-3" x-transition.opacity x-cloak>
+                            <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-[#0c2410] dark:to-[#07170a] border-2 border-emerald-300 dark:border-emerald-700/60">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">🤖</div>
+                                        <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-black text-[9px] uppercase">24/7 AI Realtime</span>
+                                    </div>
+                                    <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Robbani Smart AI Assistant</h4>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        Chatbot interaktif cerdas yang melayani pertanyaan wali santri &amp; publik seputar SPMB, biaya, profil unit, serta lokasi kampus 24 jam nonstop.
+                                    </p>
+                                </div>
+                                <button @click="window.dispatchEvent(new CustomEvent('open-robbani-ai'))" class="mt-3 w-full py-2 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-[11px] shadow-sm flex items-center justify-center gap-1.5 transition-transform hover:scale-105">
+                                    <span>💬 Coba Chatbot AI Sekarang</span>
+                                    <span>➔</span>
+                                </button>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">📄</div>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">RAG Engine</span>
+                                    </div>
+                                    <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Knowledge Base Dokumen &amp; PDF</h4>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        AI mampu mempelajari berkas PDF (Brosur SPMB, SOP Santri, Kurikulum Tahfidz, Aturan Sekolah) dan menjawab setiap detail pertanyaan secara akurat dengan rujukan dokumen.
+                                    </p>
+                                </div>
+                                <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">📚 Ekstraksi Otomatis PDF</span>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">⚡</div>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Live Sync</span>
+                                    </div>
+                                    <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Integrasi Database SmartEdu</h4>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        Tersinkronisasi otomatis dengan database tahun ajaran aktif, jumlah pendaftar SPMB, unit sekolah, dan alur pembayaran E-SPP santri secara aman.
+                                    </p>
+                                </div>
+                                <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">🔐 Sinkronisasi Database Aman</span>
+                            </div>
+                        </div>
+
                         <!-- Bottom Highlight Strip -->
                         <div class="pt-3 mt-3 border-t border-emerald-200/70 dark:border-[#1c4021] flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-600 dark:text-slate-300">
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-700 dark:text-[#c6f634] font-black">✓</span> Semua modul saling terhubung otomatis dalam 1 database multi-tenant</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-700 dark:text-[#c6f634] font-black">✓</span> Semua 23+ modul digital saling terhubung otomatis dalam 1 database multi-tenant</span>
                             <a href="{{ route('school.profil') }}" class="text-emerald-800 dark:text-[#c6f634] hover:text-orange-600 font-extrabold hover:underline inline-flex items-center gap-1">
                                 <span>Pelajari Tata Kelola Yayasan</span> ➔
                             </a>

@@ -118,11 +118,23 @@
                 {
                     sender: 'ai',
                     time: 'Baru saja',
-                    text: 'Assalamu\'alaikum! 👋 Saya **Robbani AI Assistant**, asisten cerdas resmi SIT Robbani Ogan Ilir.\n\nAda yang bisa saya bantu mengenai Pendaftaran SPMB, 4 Unit Sekolah, Alamat Kampus, atau Pengecekan SPP?'
+                    text: 'Assalamu\'alaikum! 👋 Saya **Robbani SmartEdu AI Assistant**, asisten kecerdasan buatan resmi SIT Robbani Ogan Ilir.\n\nSaya telah mempelajari seluruh dokumen resmi sekolah, kurikulum tahfidz, dan data sistem SmartEdu. Silakan tanyakan seputar pendaftaran SPMB, biaya, dokumen SOP, atau sistem kami!'
                 }
             ],
             inputMessage: '',
             isLoading: false,
+            init() {
+                window.addEventListener('open-robbani-ai', (e) => {
+                    this.isOpen = true;
+                    if (e.detail && e.detail.query) {
+                        this.sendMessage(e.detail.query);
+                    }
+                    this.$nextTick(() => {
+                        const input = this.$el.querySelector('input');
+                        if (input) input.focus();
+                    });
+                });
+            },
             sendMessage(customText = null) {
                 let msg = customText || this.inputMessage;
                 if (!msg || !msg.trim()) return;
