@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/context/AuthContext';
@@ -9,7 +9,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 function MainApp() {
   const { isDarkMode, colors } = useTheme();
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider style={[styles.container, { backgroundColor: isDarkMode ? '#061107' : '#004532' }]}>
       <StatusBar style={isDarkMode ? 'light' : 'dark'} />
       <View style={[styles.appWrapper, { backgroundColor: colors.bg }]}>
         <AppNavigator />
@@ -31,12 +31,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#004532',
+    width: '100%',
+    ...(Platform.OS === 'web' ? { height: '100vh' } : {}),
   },
   appWrapper: {
     flex: 1,
     width: '100%',
     maxWidth: 480,
     alignSelf: 'center',
+    ...(Platform.OS === 'web' ? { height: '100vh' } : {}),
   },
 });

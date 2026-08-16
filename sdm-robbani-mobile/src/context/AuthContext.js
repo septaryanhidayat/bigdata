@@ -5,7 +5,7 @@ import { hrisApi } from '../api/hrisApi';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [userToken, setUserToken] = useState(null);
   const [user, setUser] = useState(null);
   const [employee, setEmployee] = useState(null);
@@ -29,9 +29,7 @@ export const AuthProvider = ({ children }) => {
         if (storedUnit) setUnit(JSON.parse(storedUnit));
       }
     } catch (e) {
-      console.error('Failed to load auth state', e);
-    } finally {
-      setIsLoading(false);
+      console.warn('AsyncStorage check warning', e);
     }
   };
 
@@ -44,11 +42,15 @@ export const AuthProvider = ({ children }) => {
         setEmployee(res.employee);
         setUnit(res.unit);
 
-        await AsyncStorage.setItem('user_token', res.token);
-        await AsyncStorage.setItem('user_id', String(res.user.id));
-        await AsyncStorage.setItem('user_data', JSON.stringify(res.user));
-        await AsyncStorage.setItem('employee_data', JSON.stringify(res.employee));
-        await AsyncStorage.setItem('unit_data', JSON.stringify(res.unit));
+        try {
+          await AsyncStorage.setItem('user_token', res.token);
+          await AsyncStorage.setItem('user_id', String(res.user.id));
+          await AsyncStorage.setItem('user_data', JSON.stringify(res.user));
+          await AsyncStorage.setItem('employee_data', JSON.stringify(res.employee));
+          await AsyncStorage.setItem('unit_data', JSON.stringify(res.unit));
+        } catch (storageErr) {
+          console.warn('Could not persist to storage', storageErr);
+        }
 
         return { success: true };
       }
