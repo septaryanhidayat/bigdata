@@ -48,7 +48,7 @@ class MobileHrisAdminController extends Controller
         // 2. Log Presensi Mobile Hari Ini (dengan foto selfie & GPS)
         $attendanceLogs = DB::table('employee_attendance_logs')
             ->join('employees', 'employee_attendance_logs.employee_id', '=', 'employees.id')
-            ->select('employee_attendance_logs.*', 'employees.full_name', 'employees.nip', 'employees.position', 'employees.face_photo_url')
+            ->select('employee_attendance_logs.*', 'employees.full_name', 'employees.nip', 'employees.role_type as position', 'employees.face_photo_url')
             ->orderBy('employee_attendance_logs.id', 'desc')
             ->limit(15)
             ->get();

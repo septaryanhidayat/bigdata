@@ -31,7 +31,7 @@
                     <tr class="hover:bg-slate-800/40 transition-colors">
                         <td class="px-5 py-4">
                             <div class="font-bold text-white">{{ $emp->full_name }}</div>
-                            <div class="text-xs text-slate-400">NIP: {{ $emp->nip }} • {{ $emp->position }}</div>
+                            <div class="text-xs text-slate-400">NIP: {{ $emp->nip }} • {{ $emp->role_type ?? 'Pendidik' }}</div>
                         </td>
                         <td class="px-5 py-4">
                             <img src="{{ $emp->face_photo_url ? (str_starts_with($emp->face_photo_url, 'http') ? $emp->face_photo_url : asset($emp->face_photo_url)) : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}" 
