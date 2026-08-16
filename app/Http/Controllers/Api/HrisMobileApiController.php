@@ -195,15 +195,27 @@ class HrisMobileApiController extends Controller
     }
 
     /**
+     * Helper: Dapatkan Record Employee dari Akun User
+     */
+    private function getEffectiveEmployee($user)
+    {
+        if (!$user) return null;
+        return DB::table('employees')->where('user_id', $user->id)->first()
+            ?? DB::table('employees')->where('email', $user->email)->first()
+            ?? DB::table('employees')->find($user->id)
+            ?? DB::table('employees')->first();
+    }
+
+    /**
      * 2. Dashboard SDM Multi-Unit
      */
     public function dashboard(Request $request)
     {
         $userId = $request->header('X-User-Id') ?? 1;
         $user = User::find($userId) ?? User::first();
-        $employee = DB::table('employees')->where('user_id', $user->id)->first();
-        $employeeId = $employee ? $employee->id : $user->id;
-        $schoolId = $user->school_id;
+        $employee = $this->getEffectiveEmployee($user);
+        $employeeId = $employee ? $employee->id : 1;
+        $schoolId = ($employee && $employee->school_id) ? $employee->school_id : ($user->school_id ?? 1);
 
         $today = date('Y-m-d');
 
@@ -430,16 +442,15 @@ class HrisMobileApiController extends Controller
     {
         $userId = $request->header('X-User-Id') ?? 1;
         $user = User::find($userId) ?? User::first();
-        $employee = DB::table('employees')->where('user_id', $user->id)->first();
-        $employeeId = $employee ? $employee->id : $user->id;
+        $employee = $this->getEffectiveEmployee($user);
+        $employeeId = $employee ? $employee->id : 1;
 
-        $month = $request->query('month', date('m'));
+        $month = str_pad((string)$request->query('month', date('m')), 2, '0', STR_PAD_LEFT);
         $year = $request->query('year', date('Y'));
 
         $logs = DB::table('employee_attendance_logs')
             ->where('employee_id', $employeeId)
-            ->whereYear('date', $year)
-            ->whereMonth('date', $month)
+            ->where('date', 'like', "{$year}-{$month}%")
             ->orderBy('date', 'desc')
             ->get();
 

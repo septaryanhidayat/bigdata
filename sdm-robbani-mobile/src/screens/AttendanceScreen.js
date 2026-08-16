@@ -65,15 +65,16 @@ export default function AttendanceScreen({ navigation }) {
           ? await hrisApi.checkIn(payload)
           : await hrisApi.checkOut(payload);
 
-      if (res?.status === 'success' || res?.message) {
+      if (res?.status === 'success') {
         setLastResult(res);
-        Alert.alert('Alhamdulillah! Presensi Berhasil', res.message || 'Presensi selfie Anda telah berhasil dicatat ke sistem.');
+        Alert.alert('Alhamdulillah! Presensi Berhasil', res.message || 'Presensi selfie Anda telah berhasil dicatat ke sistem database.');
       } else {
-        Alert.alert('Presensi Berhasil', 'Presensi selfie Anda telah tersimpan dan disinkronkan ke server.');
+        Alert.alert('Informasi Presensi', res?.message || 'Presensi selfie Anda telah diproses.');
       }
     } catch (e) {
-      const msg = e.response?.data?.message || 'Alhamdulillah, Presensi Selfie Anda berhasil dicatat dan disinkronkan ke server!';
-      Alert.alert('Presensi Berhasil', msg);
+      const errorMsg = e.response?.data?.message || e.message || 'Terjadi kendala saat menghubungkan ke server presensi.';
+      const isRejected = e.response?.status === 422 || e.response?.data?.status === 'error';
+      Alert.alert(isRejected ? '⛔ Presensi Belum Masuk' : 'Kendala Koneksi', errorMsg);
     } finally {
       setIsSubmitting(false);
     }

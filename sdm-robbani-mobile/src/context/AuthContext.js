@@ -135,12 +135,21 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfileData = async (newData) => {
     try {
-      const updatedUser = { ...user, name: newData.name || user?.name };
+      const newAvatar = newData.avatar || newData.photo || user?.avatar;
+      const updatedUser = { 
+        ...user, 
+        name: newData.name || user?.name,
+        avatar: newAvatar,
+        phone: newData.phone !== undefined ? newData.phone : user?.phone,
+        address: newData.address !== undefined ? newData.address : user?.address,
+      };
       const updatedEmployee = {
         ...employee,
         full_name: newData.name || employee?.full_name,
         phone: newData.phone !== undefined ? newData.phone : employee?.phone,
+        wa_number: newData.phone !== undefined ? newData.phone : employee?.wa_number,
         address: newData.address !== undefined ? newData.address : employee?.address,
+        face_photo_url: newAvatar || employee?.face_photo_url,
       };
 
       setUser(updatedUser);

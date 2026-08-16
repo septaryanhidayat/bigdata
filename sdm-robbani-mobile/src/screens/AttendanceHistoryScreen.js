@@ -41,7 +41,18 @@ export default function AttendanceHistoryScreen() {
     <View style={[styles.container, { backgroundColor: colors.bg }]}>
       <HeaderBar title="Riwayat Presensi" subtitle="Rekapitulasi Kehadiran Bulanan" />
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent} 
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={fetchHistory}
+            tintColor={colors.primary}
+            colors={[colors.primary]}
+          />
+        }
+      >
         {/* Summary Metric Badges */}
         <View style={styles.statsRow}>
           <View style={[styles.statCard, { backgroundColor: '#dcfce7' }]}>
