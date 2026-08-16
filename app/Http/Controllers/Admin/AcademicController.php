@@ -21,25 +21,25 @@ class AcademicController extends Controller
      */
     public function schedules()
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $schedulesQuery = Schedule::with(['school', 'classroom', 'subject', 'teacher']);
         $classroomsQuery = Classroom::query();
         $teachersQuery = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $schedulesQuery->where('school_id', $schoolId);
             $classroomsQuery->where('school_id', $schoolId);
             $teachersQuery->where('school_id', $schoolId);
         }
 
         $schedules = $schedulesQuery->get();
-        $schools = School::all();
+        $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
         $classrooms = $classroomsQuery->get();
-        $subjects = Subject::all();
+        $subjects = $schoolId ? Subject::where('school_id', $schoolId)->get() : Subject::all();
         $teachers = $teachersQuery->get();
         if ($teachers->isEmpty()) {
-            $teachers = ($schoolId !== 'all') ? Employee::where('school_id', $schoolId)->get() : Employee::all();
+            $teachers = $schoolId ? Employee::where('school_id', $schoolId)->get() : Employee::all();
         }
 
         return view('admin.academic.schedules', compact('schedules', 'schools', 'classrooms', 'subjects', 'teachers', 'schoolId'));
@@ -47,6 +47,9 @@ class AcademicController extends Controller
 
     public function storeSchedule(Request $request)
     {
+        $user = auth()->user();
+        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+
         $validated = $request->validate([
             'school_id' => 'required|exists:schools,id',
             'classroom_id' => 'required|exists:classrooms,id',
@@ -57,6 +60,7 @@ class AcademicController extends Controller
             'end_time' => 'required',
         ]);
 
+        $validated['school_id'] = $schoolId;
         $sch = Schedule::create($validated);
 
         try {
@@ -77,11 +81,24 @@ class AcademicController extends Controller
      */
     public function journals()
     {
-        $journals = KbmJournal::with(['schedule.classroom', 'schedule.subject', 'teacher'])->latest()->paginate(15);
-        $schedules = Schedule::with(['classroom', 'subject'])->get();
-        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $journalsQuery = KbmJournal::with(['schedule.classroom', 'schedule.subject', 'teacher']);
+        $schedulesQuery = Schedule::with(['classroom', 'subject']);
+        $teachersQuery = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR']);
+
+        if ($schoolId) {
+            $journalsQuery->whereHas('schedule', fn($q) => $q->where('school_id', $schoolId));
+            $schedulesQuery->where('school_id', $schoolId);
+            $teachersQuery->where('school_id', $schoolId);
+        }
+
+        $journals = $journalsQuery->latest()->paginate(15);
+        $schedules = $schedulesQuery->get();
+        $teachers = $teachersQuery->get();
         if ($teachers->isEmpty()) {
-            $teachers = Employee::all();
+            $teachers = $schoolId ? Employee::where('school_id', $schoolId)->get() : Employee::all();
         }
 
         return view('admin.academic.journals', compact('journals', 'schedules', 'teachers'));
@@ -123,12 +140,12 @@ class AcademicController extends Controller
      */
     public function grades()
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $gradesQuery = Grade::with(['student.classroom', 'subject', 'academicYear']);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $gradesQuery->whereHas('student', fn($q) => $q->where('school_id', $schoolId));
             $studentsQuery->where('school_id', $schoolId);
         }
@@ -136,9 +153,9 @@ class AcademicController extends Controller
         $grades = $gradesQuery->latest()->paginate(15);
         $students = $studentsQuery->get();
         if ($students->isEmpty()) {
-            $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
+            $students = $schoolId ? Student::where('school_id', $schoolId)->get() : Student::all();
         }
-        $subjects = Subject::all();
+        $subjects = $schoolId ? Subject::where('school_id', $schoolId)->get() : Subject::all();
         $academicYears = AcademicYear::all();
 
         return view('admin.academic.grades', compact('grades', 'students', 'subjects', 'academicYears', 'schoolId'));

@@ -49,6 +49,11 @@ class MasterDataController extends Controller
      */
     public function switchSchool(Request $request)
     {
+        $user = auth()->user();
+        if ($user && $user->school_id) {
+            return redirect()->back()->with('error', '⛔ Akun Anda terkunci pada unit ' . ($user->school->name ?? 'sekolah'));
+        }
+
         $schoolId = $request->input('school_id', 'all');
         if ($schoolId !== 'all') {
             $request->validate(['school_id' => 'exists:schools,id']);
@@ -71,7 +76,12 @@ class MasterDataController extends Controller
      */
     public function schools()
     {
-        $schools = School::withCount(['classrooms', 'employees', 'students'])->get();
+        $user = auth()->user();
+        if ($user && $user->school_id) {
+            $schools = School::where('id', $user->school_id)->withCount(['classrooms', 'employees', 'students'])->get();
+        } else {
+            $schools = School::withCount(['classrooms', 'employees', 'students'])->get();
+        }
         return view('admin.master.schools', compact('schools'));
     }
 
@@ -87,10 +97,15 @@ class MasterDataController extends Controller
             'email' => 'nullable|email',
             'theme_color' => 'required|string',
             'logo' => 'nullable|image|max:5120',
+            'kop_letterhead' => 'nullable|image|max:5120',
         ]);
 
         if ($request->hasFile('logo')) {
             $validated['logo_url'] = ImageOptimizerService::convertAndOptimizeToWebp($request->file('logo'), 'schools');
+        }
+
+        if ($request->hasFile('kop_letterhead')) {
+            $validated['kop_image_url'] = ImageOptimizerService::convertAndOptimizeToWebp($request->file('kop_letterhead'), 'schools');
         }
 
         School::create($validated);
@@ -111,10 +126,15 @@ class MasterDataController extends Controller
             'email' => 'nullable|email',
             'theme_color' => 'required|string',
             'logo' => 'nullable|image|max:5120',
+            'kop_letterhead' => 'nullable|image|max:5120',
         ]);
 
         if ($request->hasFile('logo')) {
             $validated['logo_url'] = ImageOptimizerService::convertAndOptimizeToWebp($request->file('logo'), 'schools');
+        }
+
+        if ($request->hasFile('kop_letterhead')) {
+            $validated['kop_image_url'] = ImageOptimizerService::convertAndOptimizeToWebp($request->file('kop_letterhead'), 'schools');
         }
 
         $school->update($validated);
@@ -156,16 +176,27 @@ class MasterDataController extends Controller
      */
     public function classrooms()
     {
-        $classrooms = Classroom::with(['school', 'level', 'homeroomTeacher'])->get();
-        $schools = School::all();
-        $levels = Level::all();
-        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $classroomsQuery = Classroom::with(['school', 'level', 'homeroomTeacher']);
+        if ($schoolId) {
+            $classroomsQuery->where('school_id', $schoolId);
+        }
+
+        $classrooms = $classroomsQuery->paginate(15);
+        $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
+        $levels = $schoolId ? Level::where('school_id', $schoolId)->get() : Level::all();
+        $teachers = $schoolId ? Employee::where('school_id', $schoolId)->whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get() : Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
 
         return view('admin.master.classrooms', compact('classrooms', 'schools', 'levels', 'teachers'));
     }
 
     public function storeClassroom(Request $request)
     {
+        $user = auth()->user();
+        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+
         $validated = $request->validate([
             'school_id' => 'required|exists:schools,id',
             'level_id' => 'required|exists:levels,id',
@@ -174,6 +205,7 @@ class MasterDataController extends Controller
             'homeroom_teacher_id' => 'nullable|exists:employees,id',
         ]);
 
+        $validated['school_id'] = $schoolId;
         $activeYear = AcademicYear::where('is_active', true)->first() ?? AcademicYear::first();
         $validated['academic_year_id'] = $request->academic_year_id ?? ($activeYear ? $activeYear->id : 1);
 
@@ -187,7 +219,16 @@ class MasterDataController extends Controller
      */
     public function students(Request $request)
     {
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
         $query = Student::with(['school', 'classroom', 'guardian']);
+
+        if ($schoolId) {
+            $query->where('school_id', $schoolId);
+        } elseif ($request->has('school_id') && $request->school_id != '') {
+            $query->where('school_id', $request->school_id);
+        }
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -199,19 +240,18 @@ class MasterDataController extends Controller
             });
         }
 
-        if ($request->has('school_id') && $request->school_id != '') {
-            $query->where('school_id', $request->school_id);
-        }
-
         $students = $query->latest()->paginate(15);
-        $schools = School::all();
-        $classrooms = Classroom::all();
+        $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
+        $classrooms = $schoolId ? Classroom::where('school_id', $schoolId)->get() : Classroom::all();
 
         return view('admin.master.students', compact('students', 'schools', 'classrooms'));
     }
 
     public function storeStudent(Request $request)
     {
+        $user = auth()->user();
+        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+
         $request->validate([
             'school_id' => 'required|exists:schools,id',
             'classroom_id' => 'nullable|exists:classrooms,id',
@@ -229,7 +269,7 @@ class MasterDataController extends Controller
         $status = in_array(strtoupper($request->status ?? 'ACTIVE'), ['AKTIF', 'ACTIVE']) ? 'ACTIVE' : 'ACTIVE';
 
         Student::create([
-            'school_id' => $request->school_id,
+            'school_id' => $schoolId,
             'classroom_id' => $request->classroom_id,
             'nis' => $request->nis,
             'nisn' => $request->nisn,
@@ -252,7 +292,15 @@ class MasterDataController extends Controller
      */
     public function exportStudents()
     {
-        $students = Student::with(['school', 'classroom'])->get();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $query = Student::with(['school', 'classroom']);
+        if ($schoolId) {
+            $query->where('school_id', $schoolId);
+        }
+        $students = $query->get();
+
         $filename = 'export_students_' . date('Ymd_His') . '.csv';
 
         $headers = [
@@ -293,12 +341,14 @@ class MasterDataController extends Controller
             'csv_file' => 'required|file|mimes:csv,txt|max:5120',
         ]);
 
+        $user = auth()->user();
+        $defaultSchool = $user && $user->school_id ? School::find($user->school_id) : School::first();
+
         $file = $request->file('csv_file');
         $handle = fopen($file->getPathname(), 'r');
         $header = fgetcsv($handle); // Skip header
 
         $importedCount = 0;
-        $firstSchool = School::first();
 
         while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
             if (count($data) >= 3) {
@@ -310,7 +360,7 @@ class MasterDataController extends Controller
                 Student::firstOrCreate(
                     ['nis' => $nis],
                     [
-                        'school_id' => $firstSchool->id ?? 1,
+                        'school_id' => $defaultSchool->id ?? 1,
                         'full_name' => $fullName,
                         'gender' => $gender,
                         'rfid_tag' => 'RFID-IMP-' . rand(10000, 99999),
@@ -333,7 +383,15 @@ class MasterDataController extends Controller
      */
     public function exportTeachers()
     {
-        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $query = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR']);
+        if ($schoolId) {
+            $query->where('school_id', $schoolId);
+        }
+        $teachers = $query->get();
+
         $filename = 'export_teachers_' . date('Ymd_His') . '.csv';
 
         $headers = [
@@ -368,14 +426,25 @@ class MasterDataController extends Controller
      */
     public function teachers()
     {
-        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->with('school')->latest()->paginate(15);
-        $schools = School::all();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $query = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->with('school');
+        if ($schoolId) {
+            $query->where('school_id', $schoolId);
+        }
+
+        $teachers = $query->latest()->paginate(15);
+        $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
 
         return view('admin.master.teachers', compact('teachers', 'schools'));
     }
 
     public function storeTeacher(Request $request)
     {
+        $user = auth()->user();
+        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+
         $request->validate([
             'school_id' => 'required|exists:schools,id',
             'nip' => 'required|string|unique:employees,nip',
@@ -390,7 +459,7 @@ class MasterDataController extends Controller
         $roleType = in_array(strtoupper($request->type ?? 'GURU'), ['NON_GURU', 'STAFF']) ? 'STAFF' : 'TEACHER';
 
         Employee::create([
-            'school_id' => $request->school_id,
+            'school_id' => $schoolId,
             'nip' => $request->nip,
             'full_name' => $request->full_name,
             'title_suffix' => $request->title,
@@ -398,31 +467,48 @@ class MasterDataController extends Controller
             'employment_status' => $request->position ?? 'PERMANENT',
             'phone' => $request->phone,
             'email' => $request->email,
-            'is_active' => true,
         ]);
 
-        return redirect()->back()->with('success', 'Data Guru/Pendidik Berhasil Ditambahkan!');
+        return redirect()->back()->with('success', 'Data Guru Baru Berhasil Ditambahkan!');
     }
 
     /**
-     * Kelola Karyawan Non-Guru (TU, CS, Security)
+     * Kelola Seluruh Data Karyawan & Pegawai
      */
     public function employees()
     {
-        $employees = Employee::whereIn('role_type', ['STAFF', 'TREASURER'])->with('school')->latest()->paginate(15);
-        $schools = School::all();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $query = Employee::with('school');
+        if ($schoolId) {
+            $query->where('school_id', $schoolId);
+        }
+
+        $employees = $query->latest()->paginate(15);
+        $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
 
         return view('admin.master.employees', compact('employees', 'schools'));
     }
 
     /**
-     * Kelola Referensi Mata Pelajaran & Ruangan
+     * Referensi Mata Pelajaran & Ruangan
      */
     public function references()
     {
-        $subjects = Subject::with('school')->get();
-        $rooms = Room::with('school')->get();
-        $schools = School::all();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+
+        $subjectsQuery = Subject::with('school');
+        $roomsQuery = Room::with('school');
+        if ($schoolId) {
+            $subjectsQuery->where('school_id', $schoolId);
+            $roomsQuery->where('school_id', $schoolId);
+        }
+
+        $subjects = $subjectsQuery->get();
+        $rooms = $roomsQuery->get();
+        $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
 
         return view('admin.master.references', compact('subjects', 'rooms', 'schools'));
     }

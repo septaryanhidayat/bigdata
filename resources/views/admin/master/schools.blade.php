@@ -118,9 +118,28 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-slate-700 mb-1">Unggah Logo Unit (Auto Convert WebP & Max 50KB)</label>
-                        <input type="file" name="logo" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-slate-700 mb-1">Unggah Logo Unit (Tengah KOP)</label>
+                            <input type="file" name="logo" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800">
+                            @if($sc->logo_url)
+                                <div class="mt-1 flex items-center gap-1.5 text-[10px] text-emerald-700">
+                                    <span>✓ Logo terpasang:</span>
+                                    <img src="{{ asset($sc->logo_url) }}" class="w-6 h-6 object-contain border p-0.5 rounded">
+                                </div>
+                            @endif
+                        </div>
+
+                        <div>
+                            <label class="block text-slate-700 mb-1">Unggah Banner KOP Surat (Opsional)</label>
+                            <input type="file" name="kop_letterhead" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-800">
+                            @if($sc->kop_image_url)
+                                <div class="mt-1 flex items-center gap-1.5 text-[10px] text-blue-700">
+                                    <span>✓ KOP terpasang:</span>
+                                    <a href="{{ asset($sc->kop_image_url) }}" target="_blank" class="underline font-mono">Lihat Banner</a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
                     <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700 transition-colors shadow">
@@ -166,6 +185,12 @@
             <div>
                 <label class="block text-slate-700 mb-1">Logo Sekolah (Auto WebP <50KB)</label>
                 <input type="file" name="logo" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800">
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-slate-700 mb-1">Upload Banner KOP Surat Resmi Unit (Opsional)</label>
+                <input type="file" name="kop_letterhead" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-800">
+                <span class="text-[10px] text-slate-400 font-normal">Jika diunggah, gambar banner KOP ini akan langsung digunakan pada bagian atas setiap cetak PDF surat dinas.</span>
             </div>
 
             <div class="md:col-span-2 pt-2">

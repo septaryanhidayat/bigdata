@@ -17,13 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CmsSeeder::class);
         $this->call(MasterDataSeeder::class);
-
-        User::updateOrCreate(
-            ['email' => 'admin@smartedu.test'],
-            [
-                'name' => 'Administrator SmartEdu',
-                'password' => bcrypt('p4l3mb4ng'),
-            ]
-        );
+        $this->call(LetterSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }

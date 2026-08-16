@@ -98,8 +98,13 @@ class MasterDataSeeder extends Seeder
         $lvlSMA10 = Level::updateOrCreate(['school_id' => $smait->id, 'code' => 'SMA10'], ['name' => 'Kelas 10 SMA']);
         $lvlSMA11 = Level::updateOrCreate(['school_id' => $smait->id, 'code' => 'SMA11'], ['name' => 'Kelas 11 SMA']);
 
-        // 4. Employees (12+ Guru & Staf Non-Guru)
+        // 4. Employees (Pimpinan Yayasan, Kepala Unit & Dewan Guru)
         $teachersData = [
+            ['nip' => '197808122010011001', 'school' => null, 'name' => 'Ustadz H. Mukhtarom Lc M.H.I', 'role' => 'HEADMASTER', 'gender' => 'M'],
+            ['nip' => '198204152012012001', 'school' => $tkit, 'name' => 'Ustadzah Eliyana S.Pd', 'role' => 'HEADMASTER', 'gender' => 'F'],
+            ['nip' => '198406122014011002', 'school' => $sdit, 'name' => 'Ustadz Ahmad Fauzi S.Pd.I M.Pd', 'role' => 'HEADMASTER', 'gender' => 'M'],
+            ['nip' => '198609202016012003', 'school' => $smpit, 'name' => 'Ustadzah Tia Wulandari S.Pd', 'role' => 'HEADMASTER', 'gender' => 'F'],
+            ['nip' => '198003102011011004', 'school' => $smait, 'name' => 'Ustadz Drs. H. Ridwan M.Ag', 'role' => 'HEADMASTER', 'gender' => 'M'],
             ['nip' => '198505122026011001', 'school' => $smpit, 'name' => 'Ustadz Rizky S.Pd.I', 'role' => 'TEACHER', 'gender' => 'M'],
             ['nip' => '198807152026012002', 'school' => $smpit, 'name' => 'Ustadzah Siti Nurhaliza M.Pd', 'role' => 'TEACHER', 'gender' => 'F'],
             ['nip' => '199003202026011003', 'school' => $sdit, 'name' => 'Ustadzah Fitriana S.Si', 'role' => 'TEACHER', 'gender' => 'F'],
@@ -119,7 +124,7 @@ class MasterDataSeeder extends Seeder
             $employees[$td['nip']] = Employee::updateOrCreate(
                 ['nip' => $td['nip']],
                 [
-                    'school_id' => $td['school']->id,
+                    'school_id' => $td['school'] ? $td['school']->id : null,
                     'full_name' => $td['name'],
                     'role_type' => $td['role'],
                     'gender' => $td['gender'],

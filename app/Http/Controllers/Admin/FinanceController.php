@@ -19,12 +19,12 @@ class FinanceController extends Controller
      */
     public function sppBills()
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $billsQuery = SppBill::with(['student.school', 'student.classroom', 'payments']);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $billsQuery->where('school_id', $schoolId);
             $studentsQuery->where('school_id', $schoolId);
         }
@@ -32,7 +32,7 @@ class FinanceController extends Controller
         $bills = $billsQuery->latest()->paginate(15);
         $students = $studentsQuery->get();
         if ($students->isEmpty()) {
-            $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
+            $students = $schoolId ? Student::where('school_id', $schoolId)->get() : Student::all();
         }
 
         return view('admin.finance.spp_bills', compact('bills', 'students', 'schoolId'));

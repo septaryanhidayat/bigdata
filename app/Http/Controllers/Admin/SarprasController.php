@@ -11,10 +11,10 @@ class SarprasController extends Controller
 {
     public function index(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $assetsQuery = SarprasAsset::with('school');
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $assetsQuery->where('school_id', $schoolId);
         }
 
@@ -28,7 +28,7 @@ class SarprasController extends Controller
             ];
 
             foreach ($samples as $s) {
-                $targetSchoolId = ($schoolId !== 'all') ? $schoolId : (School::first()?->id ?? 1);
+                $targetSchoolId = $schoolId ? $schoolId : (School::first()?->id ?? 1);
                 $assetCode = $s['code'] . '-S' . $targetSchoolId;
 
                 SarprasAsset::firstOrCreate(
@@ -54,6 +54,9 @@ class SarprasController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+        $schoolId = $user && $user->school_id ? $user->school_id : ($request->school_id ?? (School::first()?->id ?? 1));
+
         $validated = $request->validate([
             'name' => 'required|string',
             'asset_code' => 'required|string|unique:sarpras_assets,asset_code',

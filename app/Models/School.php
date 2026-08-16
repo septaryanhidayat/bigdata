@@ -19,6 +19,7 @@ class School extends Model
         'phone',
         'email',
         'logo_url',
+        'kop_image_url',
         'theme_color',
         'is_active',
     ];

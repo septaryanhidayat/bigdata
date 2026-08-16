@@ -327,7 +327,12 @@ class CmsController extends Controller
 
     public function settingsUnits()
     {
-        $schools = School::withCount(['students', 'employees', 'classrooms'])->get();
+        $user = auth()->user();
+        if ($user && $user->school_id) {
+            $schools = School::where('id', $user->school_id)->withCount(['students', 'employees', 'classrooms'])->get();
+        } else {
+            $schools = School::withCount(['students', 'employees', 'classrooms'])->get();
+        }
         return view('admin.settings.units', compact('schools'));
     }
 
@@ -336,6 +341,11 @@ class CmsController extends Controller
         $cleanCode = strtolower(trim($code));
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
         
+        $user = auth()->user();
+        if ($user && $user->school_id && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+            return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
+        }
+
         $unitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
         $unitData = $unitSetting ? json_decode($unitSetting, true) : [];
 
@@ -345,6 +355,12 @@ class CmsController extends Controller
     public function updateUnitProfile(Request $request, $code)
     {
         $cleanCode = strtolower(trim($code));
+        $schoolObj = School::where('code', strtoupper($cleanCode))->first();
+
+        $user = auth()->user();
+        if ($user && $user->school_id && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+            return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
+        }
 
         $data = [
             'name' => $request->input('name'),

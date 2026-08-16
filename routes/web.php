@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\SarprasController;
 use App\Http\Controllers\Admin\LibraryController;
 use App\Http\Controllers\Admin\LmsController;
 use App\Http\Controllers\Admin\BkController;
+use App\Http\Controllers\Admin\LetterController;
+use App\Http\Controllers\PublicLetterVerificationController;
 
 // ==========================================================================
 // SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
@@ -81,6 +83,9 @@ Route::post('/chat-ai', [SchoolWebsiteController::class, 'chatAi'])->name('schoo
 // SmartEdu 21-Module Sales & Product Showcase Page
 Route::get('/sales', [LandingPageController::class, 'index'])->name('sales');
 
+// Verifikasi Publik Keaslian Dokumen & TTE (Scan QR Code)
+Route::get('/verifikasi-surat/{token}', [PublicLetterVerificationController::class, 'verify'])->name('letter.verify');
+
 // Login Route for Auth Middleware
 Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -91,83 +96,100 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Protected Admin CMS Dashboard & Feature Manager
     Route::middleware('auth')->group(function () {
+        
+        // 1. Dashboard Utama (Bisa diakses seluruh role pengguna)
         Route::get('/', [CmsController::class, 'dashboard'])->name('dashboard');
         
-        // Dynamic Web Content Management (Berita, Video, Agenda, Pengumuman, Sarana Prasarana, Galeri)
-        Route::get('/cms/content', [CmsController::class, 'contentIndex'])->name('cms.content');
-        Route::post('/cms/content/update', [CmsController::class, 'updateCmsContent'])->name('cms.content.update');
-        Route::post('/cms/content/item/add', [CmsController::class, 'addCmsItem'])->name('cms.content.add');
-        Route::delete('/cms/content/item/delete', [CmsController::class, 'deleteCmsItem'])->name('cms.content.delete');
+        // 2a. Pengelolaan Profil Website Unit & Publikasi Berita Unit (Super Admin, Ketua Yayasan, Kepala Unit, Staf TU)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_TU')->group(function () {
+            Route::get('/settings/units', [CmsController::class, 'settingsUnits'])->name('settings.units');
+            Route::get('/settings/units/{code}/edit', [CmsController::class, 'editUnitProfile'])->name('settings.units.edit');
+            Route::post('/settings/units/{code}/update', [CmsController::class, 'updateUnitProfile'])->name('settings.units.update');
 
-        // Settings & Branding Modules
-        Route::get('/settings', [CmsController::class, 'settingsPortal'])->name('settings');
-        Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
-        Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');
-        Route::get('/settings/units', [CmsController::class, 'settingsUnits'])->name('settings.units');
-        Route::get('/settings/units/{code}/edit', [CmsController::class, 'editUnitProfile'])->name('settings.units.edit');
-        Route::post('/settings/units/{code}/update', [CmsController::class, 'updateUnitProfile'])->name('settings.units.update');
-        Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
-        Route::post('/cms/import-wordpress', [CmsController::class, 'importWordPress'])->name('cms.import-wordpress');
+            Route::get('/cms/content', [CmsController::class, 'contentIndex'])->name('cms.content');
+            Route::post('/cms/content/update', [CmsController::class, 'updateCmsContent'])->name('cms.content.update');
+            Route::post('/cms/content/item/add', [CmsController::class, 'addCmsItem'])->name('cms.content.add');
+            Route::delete('/cms/content/item/delete', [CmsController::class, 'deleteCmsItem'])->name('cms.content.delete');
+        });
 
-        // Modules Management & Show/Hide Toggles
-        Route::get('/modules', [CmsController::class, 'modules'])->name('modules.index');
-        Route::post('/modules/{id}/toggle', [CmsController::class, 'toggleModule'])->name('modules.toggle');
-        Route::get('/modules/create', [CmsController::class, 'createModule'])->name('modules.create');
-        Route::post('/modules', [CmsController::class, 'storeModule'])->name('modules.store');
-        Route::get('/modules/{id}/edit', [CmsController::class, 'editModule'])->name('modules.edit');
-        Route::put('/modules/{id}', [CmsController::class, 'updateModule'])->name('modules.update');
-        Route::delete('/modules/{id}', [CmsController::class, 'destroyModule'])->name('modules.destroy');
+        // 2b. Pengaturan Global Portal Yayasan, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN')->group(function () {
+            Route::get('/settings', [CmsController::class, 'settingsPortal'])->name('settings');
+            Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
+            Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');
+            Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
+            Route::post('/cms/import-wordpress', [CmsController::class, 'importWordPress'])->name('cms.import-wordpress');
 
-        // FAQs Management
-        Route::get('/faqs', [CmsController::class, 'faqs'])->name('faqs.index');
-        Route::post('/faqs', [CmsController::class, 'storeFaq'])->name('faqs.store');
-        Route::delete('/faqs/{id}', [CmsController::class, 'destroyFaq'])->name('faqs.destroy');
+            Route::get('/modules', [CmsController::class, 'modules'])->name('modules.index');
+            Route::post('/modules/{id}/toggle', [CmsController::class, 'toggleModule'])->name('modules.toggle');
+            Route::get('/modules/create', [CmsController::class, 'createModule'])->name('modules.create');
+            Route::post('/modules', [CmsController::class, 'storeModule'])->name('modules.store');
+            Route::get('/modules/{id}/edit', [CmsController::class, 'editModule'])->name('modules.edit');
+            Route::put('/modules/{id}', [CmsController::class, 'updateModule'])->name('modules.update');
+            Route::delete('/modules/{id}', [CmsController::class, 'destroyModule'])->name('modules.destroy');
 
-        // System Error Monitoring & Mitigation Center
-        Route::post('/system-errors/{id}/resolve', [CmsController::class, 'resolveSystemError'])->name('system-errors.resolve');
-        Route::post('/system-errors/run-auto-mitigation', [CmsController::class, 'runAutoMitigation'])->name('system-errors.auto-mitigation');
-        Route::post('/system-errors/simulate-test-error', [CmsController::class, 'simulateTestError'])->name('system-errors.simulate');
-        Route::post('/system-errors/log-client-error', [CmsController::class, 'logClientError'])->name('system-errors.log-client');
+            Route::get('/faqs', [CmsController::class, 'faqs'])->name('faqs.index');
+            Route::post('/faqs', [CmsController::class, 'storeFaq'])->name('faqs.store');
+            Route::delete('/faqs/{id}', [CmsController::class, 'destroyFaq'])->name('faqs.destroy');
 
-        // System Concurrency & High-Traffic Load Control Center
-        Route::post('/system-control/set-mode', [CmsController::class, 'setTrafficMode'])->name('system-control.set-mode');
-        Route::post('/system-control/purge-sessions', [CmsController::class, 'purgeExpiredSessions'])->name('system-control.purge-sessions');
-        Route::post('/system-control/optimize-db-pool', [CmsController::class, 'optimizeDbPool'])->name('system-control.optimize-db-pool');
+            Route::post('/system-errors/{id}/resolve', [CmsController::class, 'resolveSystemError'])->name('system-errors.resolve');
+            Route::post('/system-errors/run-auto-mitigation', [CmsController::class, 'runAutoMitigation'])->name('system-errors.auto-mitigation');
+            Route::post('/system-errors/simulate-test-error', [CmsController::class, 'simulateTestError'])->name('system-errors.simulate');
+            Route::post('/system-errors/log-client-error', [CmsController::class, 'logClientError'])->name('system-errors.log-client');
 
-        // Modul 15: Mutaba'ah BPI & Character Building
-        Route::get('/bpi', [BpiController::class, 'index'])->name('bpi.index');
-        Route::post('/bpi', [BpiController::class, 'store'])->name('bpi.store');
+            Route::post('/system-control/set-mode', [CmsController::class, 'setTrafficMode'])->name('system-control.set-mode');
+            Route::post('/system-control/purge-sessions', [CmsController::class, 'purgeExpiredSessions'])->name('system-control.purge-sessions');
+            Route::post('/system-control/optimize-db-pool', [CmsController::class, 'optimizeDbPool'])->name('system-control.optimize-db-pool');
+        });
 
-        // Modul 7 & 17: HRIS & E-Payroll Pegawai
-        Route::get('/payroll', [HrisPayrollController::class, 'index'])->name('payroll.index');
-        Route::post('/payroll/generate', [HrisPayrollController::class, 'generate'])->name('payroll.generate');
+        // 3. Modul 15: Mutaba'ah BPI & Character Building (Super Admin, Kepala Sekolah, Guru, Musyrif)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,TEACHER,MUSYRIF_ASRAMA')->group(function () {
+            Route::get('/bpi', [BpiController::class, 'index'])->name('bpi.index');
+            Route::post('/bpi', [BpiController::class, 'store'])->name('bpi.store');
+        });
 
-        // Modul 12 & 13: CBT Ujian & PPDB Manager
-        Route::get('/cbt', [CbtPpdbController::class, 'cbtIndex'])->name('cbt.index');
-        Route::post('/cbt', [CbtPpdbController::class, 'storeCbtExam'])->name('cbt.store');
-        Route::post('/cbt/questions', [CbtPpdbController::class, 'storeQuestion'])->name('cbt.questions.store');
-        Route::get('/ppdb-admin', [CbtPpdbController::class, 'ppdbIndex'])->name('ppdb-admin.index');
-        Route::post('/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
-        Route::get('/ppdb-admin/{id}/download-pdf', [CbtPpdbController::class, 'downloadSpmbPdf'])->name('ppdb-admin.download-pdf');
+        // 4. Modul 7 & 17: HRIS & E-Payroll Pegawai (Super Admin, Ketua Yayasan, Kepala Sekolah, Bendahara)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_KEUANGAN')->group(function () {
+            Route::get('/payroll', [HrisPayrollController::class, 'index'])->name('payroll.index');
+            Route::post('/payroll/generate', [HrisPayrollController::class, 'generate'])->name('payroll.generate');
+        });
 
-        // Modul 9: Sarpras Aset & Barcode
-        Route::get('/sarpras', [SarprasController::class, 'index'])->name('sarpras.index');
-        Route::post('/sarpras', [SarprasController::class, 'store'])->name('sarpras.store');
+        // 5. Modul 12 & 13: CBT Ujian & PPDB Manager (Super Admin, Kepala Sekolah, TU, Panitia PPDB)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,PANITIA_PPDB')->group(function () {
+            Route::get('/cbt', [CbtPpdbController::class, 'cbtIndex'])->name('cbt.index');
+            Route::post('/cbt', [CbtPpdbController::class, 'storeCbtExam'])->name('cbt.store');
+            Route::post('/cbt/questions', [CbtPpdbController::class, 'storeQuestion'])->name('cbt.questions.store');
+            Route::get('/ppdb-admin', [CbtPpdbController::class, 'ppdbIndex'])->name('ppdb-admin.index');
+            Route::post('/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
+            Route::get('/ppdb-admin/{id}/download-pdf', [CbtPpdbController::class, 'downloadSpmbPdf'])->name('ppdb-admin.download-pdf');
+        });
 
-        // Modul 10: Perpustakaan Digital E-Library
-        Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
-        Route::post('/library', [LibraryController::class, 'store'])->name('library.store');
+        // 6. Modul 9: Sarpras Aset & Barcode (Super Admin, Ketua Yayasan, Kepala Sekolah, Petugas Sarpras)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,PETUGAS_SARPRAS')->group(function () {
+            Route::get('/sarpras', [SarprasController::class, 'index'])->name('sarpras.index');
+            Route::post('/sarpras', [SarprasController::class, 'store'])->name('sarpras.store');
+        });
 
-        // Modul 11: E-Learning LMS
-        Route::get('/lms', [LmsController::class, 'index'])->name('lms.index');
-        Route::post('/lms', [LmsController::class, 'store'])->name('lms.store');
+        // 7. Modul 10: Perpustakaan Digital E-Library (Super Admin, Kepala Sekolah, Pustakawan, Guru)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,PETUGAS_PERPUS,TEACHER')->group(function () {
+            Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
+            Route::post('/library', [LibraryController::class, 'store'])->name('library.store');
+        });
 
-        // Modul 8: BK Online & Poin Siswa
-        Route::get('/bk', [BkController::class, 'index'])->name('bk.index');
-        Route::post('/bk', [BkController::class, 'store'])->name('bk.store');
+        // 8. Modul 11: E-Learning LMS (Super Admin, Kepala Sekolah, Guru)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,TEACHER')->group(function () {
+            Route::get('/lms', [LmsController::class, 'index'])->name('lms.index');
+            Route::post('/lms', [LmsController::class, 'store'])->name('lms.store');
+        });
 
-        // Modul 1: Master Data Management Base
-        Route::prefix('master')->name('master.')->group(function () {
+        // 9. Modul 8: BK Online & Poin Siswa (Super Admin, Kepala Sekolah, Guru BK, Guru)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,GURU_BK,TEACHER')->group(function () {
+            Route::get('/bk', [BkController::class, 'index'])->name('bk.index');
+            Route::post('/bk', [BkController::class, 'store'])->name('bk.store');
+        });
+
+        // 10. Modul 1: Master Data Management (Super Admin, Kepala Sekolah, Tata Usaha)
+        Route::prefix('master')->name('master.')->middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU')->group(function () {
             Route::get('/', [MasterDataController::class, 'index'])->name('index');
             Route::post('/switch-school', [MasterDataController::class, 'switchSchool'])->name('switch-school');
             
@@ -191,8 +213,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/rooms', [MasterDataController::class, 'storeRoom'])->name('rooms.store');
         });
 
-        // Modul 2: Core Akademik, Penilaian & E-Rapor
-        Route::prefix('academic')->name('academic.')->group(function () {
+        // 11. Modul 2: Core Akademik, Penilaian & E-Rapor (Super Admin, Kepala Sekolah, TU, Guru)
+        Route::prefix('academic')->name('academic.')->middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,TEACHER')->group(function () {
             Route::get('/schedules', [AcademicController::class, 'schedules'])->name('schedules');
             Route::post('/schedules', [AcademicController::class, 'storeSchedule'])->name('schedules.store');
             Route::get('/journals', [AcademicController::class, 'journals'])->name('journals');
@@ -202,16 +224,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/report-card/{studentId}', [AcademicController::class, 'reportCard'])->name('report-card');
         });
 
-        // Modul 3: Absensi Realtime RFID & QR Code Gate
-        Route::prefix('attendance')->name('attendance.')->group(function () {
+        // 12. Modul 3: Absensi Realtime RFID & QR Code (Super Admin, Kepala Sekolah, TU, Guru, Guru BK)
+        Route::prefix('attendance')->name('attendance.')->middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,TEACHER,GURU_BK')->group(function () {
             Route::get('/', [AttendanceController::class, 'index'])->name('index');
             Route::post('/tap-rfid', [AttendanceController::class, 'tapRfidSimulator'])->name('tap-rfid');
             Route::get('/leaves', [AttendanceController::class, 'leaves'])->name('leaves');
             Route::post('/leaves', [AttendanceController::class, 'storeLeave'])->name('leaves.store');
         });
 
-        // Modul 4: Keuangan Sekolah, SPP & Akuntansi COA
-        Route::prefix('finance')->name('finance.')->group(function () {
+        // 13. Modul 4: Keuangan Sekolah, SPP & Akuntansi (Super Admin, Ketua Yayasan, Bendahara)
+        Route::prefix('finance')->name('finance.')->middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,STAFF_KEUANGAN')->group(function () {
             Route::get('/spp-bills', [FinanceController::class, 'sppBills'])->name('spp-bills');
             Route::post('/spp-bills', [FinanceController::class, 'storeSppBill'])->name('spp-bills.store');
             Route::post('/spp-bills/{billId}/pay', [FinanceController::class, 'paySpp'])->name('spp-bills.pay');
@@ -220,18 +242,50 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/coa', [FinanceController::class, 'storeCoa'])->name('coa.store');
         });
 
-        // Modul 5: Tabungan Siswa
-        Route::prefix('savings')->name('savings.')->group(function () {
+        // 14. Modul 5: Tabungan Siswa (Super Admin, Bendahara)
+        Route::prefix('savings')->name('savings.')->middleware('role:SUPER_ADMIN,STAFF_KEUANGAN')->group(function () {
             Route::get('/', [SavingsController::class, 'index'])->name('index');
             Route::post('/', [SavingsController::class, 'storeTransaction'])->name('store');
         });
 
-        // Modul 6: Kantin & POS Multi-Outlet (Cashless RFID Tap)
-        Route::prefix('canteen')->name('canteen.')->group(function () {
+        // 15. Modul 6: Kantin & POS Multi-Outlet RFID (Super Admin, Bendahara, Kasir Kantin)
+        Route::prefix('canteen')->name('canteen.')->middleware('role:SUPER_ADMIN,STAFF_KEUANGAN,PETUGAS_KANTIN')->group(function () {
             Route::get('/', [CanteenController::class, 'index'])->name('index');
             Route::post('/outlets', [CanteenController::class, 'storeOutlet'])->name('outlets.store');
             Route::post('/products', [CanteenController::class, 'storeProduct'])->name('products.store');
             Route::post('/checkout', [CanteenController::class, 'checkoutPos'])->name('checkout');
+        });
+
+        // 16. Modul 22: Sistem Persuratan & TTE (Super Admin, Ketua Yayasan, Kepala Sekolah, TU)
+        Route::prefix('letters')->name('letters.')->middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_TU')->group(function () {
+            Route::get('/', [LetterController::class, 'index'])->name('index');
+            
+            // Surat Masuk & Disposisi
+            Route::get('/incoming', [LetterController::class, 'incoming'])->name('incoming');
+            Route::post('/incoming', [LetterController::class, 'storeIncoming'])->name('incoming.store');
+            
+            // Surat Keluar & Draft Engine
+            Route::get('/outgoing', [LetterController::class, 'outgoing'])->name('outgoing');
+            Route::post('/outgoing', [LetterController::class, 'storeOutgoing'])->name('outgoing.store');
+            Route::post('/outgoing/{id}/update', [LetterController::class, 'updateOutgoing'])->name('outgoing.update');
+            Route::delete('/{id}', [LetterController::class, 'destroy'])->name('destroy');
+            
+            // Lembar Disposisi Pimpinan
+            Route::get('/dispositions', [LetterController::class, 'dispositions'])->name('dispositions');
+            Route::post('/dispositions', [LetterController::class, 'storeDisposition'])->name('dispositions.store');
+            Route::post('/dispositions/{id}/update', [LetterController::class, 'updateDispositionStatus'])->name('dispositions.update');
+            
+            // Otoritas TTE & Bulk Signing
+            Route::get('/tte-queue', [LetterController::class, 'tteQueue'])->name('tte-queue');
+            Route::post('/sign/{id}', [LetterController::class, 'signLetter'])->name('sign');
+            Route::post('/bulk-sign', [LetterController::class, 'bulkSign'])->name('bulk-sign');
+            
+            // Template Baku & E-Filing Arsip
+            Route::get('/templates', [LetterController::class, 'templates'])->name('templates');
+            Route::post('/templates', [LetterController::class, 'storeTemplate'])->name('templates.store');
+            Route::get('/archive', [LetterController::class, 'archive'])->name('archive');
+            Route::get('/preview-pdf/{id}', [LetterController::class, 'previewPdf'])->name('preview-pdf');
+            Route::get('/tracking/{id}', [LetterController::class, 'tracking'])->name('tracking');
         });
     });
 });

@@ -116,27 +116,60 @@
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 space-y-8 flex-1">
+    <!-- Main Content Grid with Unit Category Filter -->
+    <main class="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 space-y-8 flex-1" x-data="{ activeCategory: 'all' }">
         <div class="text-center max-w-2xl mx-auto space-y-3">
             <span class="px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-slate-800 border border-emerald-300 dark:border-slate-700 text-emerald-800 dark:text-emerald-400 font-black text-xs uppercase shadow-xs">
-                KABAR KAMPUS ROBBANI
+                KABAR KAMPUS SIT ROBBANI
             </span>
             <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
                 Berita, Kegiatan &amp; Pengumuman
             </h1>
             <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm font-semibold">
-                Informasi resmi seputar Haflah, Wisuda Tahfidz, Qurban, dan prestasi santri SIT Robbani Ogan Ilir.
+                Informasi resmi seputar Haflah, Wisuda Tahfidz, Prestasi, dan Kegiatan Unit KB/TKIT, SDIT, SMPIT, SMAIT, & Yayasan Robbani.
             </p>
+
+            <!-- Unit Filter Chips -->
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-3">
+                <button @click="activeCategory = 'all'" :class="activeCategory === 'all' ? 'bg-emerald-700 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                    🌟 Semua Berita
+                </button>
+                <button @click="activeCategory = 'KB/TKIT'" :class="activeCategory === 'KB/TKIT' || activeCategory === 'TKIT' ? 'bg-amber-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                    🎨 KB/TKIT
+                </button>
+                <button @click="activeCategory = 'SDIT'" :class="activeCategory === 'SDIT' ? 'bg-emerald-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                    🎒 SDIT
+                </button>
+                <button @click="activeCategory = 'SMPIT'" :class="activeCategory === 'SMPIT' ? 'bg-blue-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                    📘 SMPIT
+                </button>
+                <button @click="activeCategory = 'SMAIT'" :class="activeCategory === 'SMAIT' ? 'bg-purple-600 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                    🎓 SMAIT
+                </button>
+                <button @click="activeCategory = 'YAYASAN'" :class="activeCategory === 'YAYASAN' || activeCategory === 'Yayasan' ? 'bg-slate-800 text-white font-black shadow-md' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-100 dark:hover:bg-slate-800'" class="px-3.5 py-1.5 rounded-full text-xs transition-all">
+                    🏢 Yayasan
+                </button>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             @foreach($newsList as $news)
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm hover:shadow-md hover:border-emerald-500 transition-all">
+            @php
+                $rawCat = $news['category'] ?? 'Berita';
+                $normCat = strtoupper($rawCat);
+                $badgeBg = match(true) {
+                    str_contains($normCat, 'TK') => 'bg-amber-600 text-white',
+                    str_contains($normCat, 'SD') => 'bg-emerald-600 text-white',
+                    str_contains($normCat, 'SMP') => 'bg-blue-600 text-white',
+                    str_contains($normCat, 'SMA') => 'bg-purple-600 text-white',
+                    default => 'bg-slate-800 text-white'
+                };
+            @endphp
+            <div x-show="activeCategory === 'all' || '{{ $normCat }}'.includes(activeCategory.toUpperCase())" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm hover:shadow-md hover:border-emerald-500 transition-all">
                 <div>
                     <div class="relative h-48 bg-slate-900 overflow-hidden">
                         <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-4 bg-white';">
-                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-black text-[10px] uppercase shadow-sm">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg {{ $badgeBg }} font-black text-[10px] uppercase shadow-sm">
                             {{ $news['category'] ?? 'Berita' }}
                         </span>
                     </div>
