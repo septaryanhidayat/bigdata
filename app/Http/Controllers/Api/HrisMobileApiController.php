@@ -1115,23 +1115,26 @@ class HrisMobileApiController extends Controller
             $user->save();
         }
 
+        // Format URL agar sesuai IP yang dapat diakses HP Android
+        $formattedUrl = $this->formatMediaUrl($facePhotoUrl, $request);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Sampel wajah biometrik berhasil didaftarkan dan disimpan sebagai foto profil!',
-            'face_photo_url' => $facePhotoUrl,
+            'face_photo_url' => $formattedUrl,
             'face_registered_at' => now()->format('d M Y, H:i') . ' WIB',
             'data' => [
                 'employee_id' => $employeeId,
-                'face_photo_url' => $facePhotoUrl,
+                'face_photo_url' => $formattedUrl,
                 'face_registered_at' => now()->format('d M Y, H:i') . ' WIB',
             ],
             'user' => [
                 'id' => $user ? $user->id : 1,
-                'avatar' => $facePhotoUrl,
+                'avatar' => $formattedUrl,
             ],
             'employee' => [
                 'id' => $employeeId,
-                'face_photo_url' => $facePhotoUrl,
+                'face_photo_url' => $formattedUrl,
                 'is_face_registered' => true,
             ]
         ]);
@@ -1155,7 +1158,7 @@ class HrisMobileApiController extends Controller
             'status' => 'success',
             'data' => [
                 'is_face_registered' => $isRegistered,
-                'face_photo_url' => $emp ? $emp->face_photo_url : ($user ? $user->avatar : null),
+                'face_photo_url' => $this->formatMediaUrl($emp ? $emp->face_photo_url : ($user ? $user->avatar : null), $request),
                 'face_registered_at' => ($emp && $emp->face_registered_at) ? date('d M Y, H:i', strtotime($emp->face_registered_at)) . ' WIB' : null,
                 'employee_name' => $emp ? $emp->full_name : $user->name,
                 'nip' => $emp ? $emp->nip : '-',

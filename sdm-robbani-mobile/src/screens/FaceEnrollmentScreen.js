@@ -94,38 +94,46 @@ export default function FaceEnrollmentScreen({ navigation }) {
       year: 'numeric',
     }) + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
 
-    const payloadPhoto = (base64Data && (base64Data.startsWith('data:image') || base64Data.length > 200)) ? base64Data : (base64Data || uri || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400');
-    const localDisplayPhoto = uri || payloadPhoto;
+    // Hanya kirim base64 nyata ke server (bukan URL external atau string placeholder)
+    const isRealBase64 = base64Data && base64Data.startsWith('data:image') && base64Data.length > 5000;
+    const payloadPhoto = isRealBase64 ? base64Data : null;
+    const localDisplayPhoto = uri || base64Data;
 
     try {
-      // 1. Simpan langsung ke penyimpanan lokal agar instan dan offline-ready
-      await AsyncStorage.setItem('enrolled_face_photo', localDisplayPhoto);
-      await AsyncStorage.setItem('enrolled_face_time', nowTimeStr);
+      // 1. Simpan tampilan lokal dahulu (bisa pakai URI dari kamera)
+      if (localDisplayPhoto && !localDisplayPhoto.includes('unsplash')) {
+        await AsyncStorage.setItem('enrolled_face_photo', localDisplayPhoto);
+        await AsyncStorage.setItem('enrolled_face_time', nowTimeStr);
+      }
 
-      // 2. Update AuthContext secara langsung sehingga ProfileScreen dan DashboardScreen langsung menampilkan foto baru
-      if (updateProfileData) {
+      // 2. Update AuthContext agar foto langsung tampil di ProfileScreen
+      if (updateProfileData && localDisplayPhoto && !localDisplayPhoto.includes('unsplash')) {
         await updateProfileData({
           avatar: localDisplayPhoto,
           photo: localDisplayPhoto,
         });
       }
 
-      // 3. Kirim sampel Base64 asli ke server yayasan
-      try {
-        const res = await hrisApi.enrollFace(payloadPhoto);
-        const rawUrl = res?.data?.face_photo_url || res?.face_photo_url;
-        const serverPhotoUrl = normalizeImageUrl(rawUrl);
-        if (serverPhotoUrl) {
-          await AsyncStorage.setItem('enrolled_face_photo', serverPhotoUrl);
-          await updateProfileData?.({
-            avatar: serverPhotoUrl,
-            photo: serverPhotoUrl,
-            face_photo_url: serverPhotoUrl,
-          });
-          await refreshProfile?.();
+      // 3. Kirim ke server HANYA jika ada base64 asli
+      if (payloadPhoto) {
+        try {
+          const res = await hrisApi.enrollFace(payloadPhoto);
+          const rawUrl = res?.data?.face_photo_url || res?.face_photo_url;
+          const serverPhotoUrl = normalizeImageUrl(rawUrl);
+          if (serverPhotoUrl) {
+            await AsyncStorage.setItem('enrolled_face_photo', serverPhotoUrl);
+            await updateProfileData?.({
+              avatar: serverPhotoUrl,
+              photo: serverPhotoUrl,
+              face_photo_url: serverPhotoUrl,
+            });
+            await refreshProfile?.();
+          }
+        } catch (serverErr) {
+          console.warn('Server sync queued for face enrollment', serverErr.message);
         }
-      } catch (serverErr) {
-        console.warn('Server sync queued for face enrollment', serverErr.message);
+      } else {
+        console.warn('Foto tidak dikirim ke server: base64 tidak valid atau menggunakan URI eksternal');
       }
 
       setFaceStatus({
@@ -138,7 +146,9 @@ export default function FaceEnrollmentScreen({ navigation }) {
 
       Alert.alert(
         'Alhamdulillah! Sukses',
-        'Sampel wajah biometrik (Face ID) & Foto Profil Anda berhasil diperbarui dan disinkronkan ke server yayasan.'
+        payloadPhoto
+          ? 'Sampel wajah biometrik (Face ID) & Foto Profil Anda berhasil diperbarui dan disinkronkan ke server yayasan.'
+          : 'Foto berhasil diambil. Akan disinkronkan ke server saat koneksi tersedia.'
       );
     } catch (e) {
       Alert.alert('Error', 'Gagal memproses sampel foto wajah.');
@@ -146,6 +156,7 @@ export default function FaceEnrollmentScreen({ navigation }) {
       setSubmitting(false);
     }
   };
+
 
   const isRegistered = Boolean(faceStatus?.is_face_registered);
 

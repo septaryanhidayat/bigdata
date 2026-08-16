@@ -41,26 +41,26 @@ export default function CameraAttendanceModal({
         setCapturedPhoto(photo);
       } catch (e) {
         console.error('Error taking picture', e);
-        setCapturedPhoto({
-          uri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400',
-          base64: 'SAMPLE_FACE_BASE64_DATA',
-        });
+        // Jika kamera gagal, beri notifikasi — jangan fallback ke data palsu
+        setCapturedPhoto(null);
+        alert('Gagal mengambil foto. Pastikan kamera berfungsi dengan baik.');
       } finally {
         setCapturing(false);
       }
     } else {
-      setCapturedPhoto({
-        uri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400',
-        base64: 'SAMPLE_FACE_BASE64_DATA',
-      });
+      // Kamera belum siap — minta user coba lagi
+      alert('Kamera belum siap. Tunggu sebentar dan coba lagi.');
     }
   };
 
   const handleConfirm = () => {
     if (capturedPhoto) {
       let base64String = capturedPhoto.base64;
-      if (base64String && !base64String.startsWith('data:image')) {
+      // Pastikan base64 valid — jangan kirim placeholder string
+      if (base64String && base64String.length > 100 && !base64String.startsWith('data:image')) {
         base64String = 'data:image/jpeg;base64,' + base64String;
+      } else if (!base64String || base64String.length < 100) {
+        base64String = null; // base64 tidak valid, fallback ke URI
       }
       const validPhoto = base64String || capturedPhoto.uri;
       onCapture(validPhoto, capturedPhoto.uri);
@@ -172,17 +172,7 @@ export default function CameraAttendanceModal({
                 )}
               </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.mockDemoBtn}
-                onPress={() => {
-                  setCapturedPhoto({
-                    uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400',
-                    base64: 'QUICK_FACE_SAMPLE_BASE64',
-                  });
-                }}
-              >
-                <Text style={styles.mockDemoBtnText}>⚡ Instan</Text>
-              </TouchableOpacity>
+              <View style={{ width: 64 }} />
             </View>
           )}
 
