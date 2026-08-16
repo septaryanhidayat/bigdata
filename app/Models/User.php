@@ -81,6 +81,23 @@ class User extends Authenticatable
     }
 
     /**
+     * Accessor: $user->avatar → membaca dari kolom avatar_url
+     * Memastikan semua kode yang memakai ->avatar tetap bekerja
+     */
+    public function getAvatarAttribute(): ?string
+    {
+        return $this->avatar_url;
+    }
+
+    /**
+     * Mutator: $user->avatar = '...' → menyimpan ke kolom avatar_url
+     */
+    public function setAvatarAttribute(?string $value): void
+    {
+        $this->attributes['avatar_url'] = $value;
+    }
+
+    /**
      * Check if user is Super Admin
      */
     public function isSuperAdmin(): bool
