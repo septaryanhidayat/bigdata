@@ -9,6 +9,8 @@ import AttendanceHistoryScreen from '../screens/AttendanceHistoryScreen';
 import KpiScreen from '../screens/KpiScreen';
 import CanteenScreen from '../screens/CanteenScreen';
 import AnnouncementScreen from '../screens/AnnouncementScreen';
+import MutabaahScreen from '../screens/MutabaahScreen';
+import BpiScreen from '../screens/BpiScreen';
 import { useTheme } from '../context/ThemeContext';
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +39,8 @@ export default function AppNavigator() {
             <Stack.Screen name="Kpi" component={KpiScreen} />
             <Stack.Screen name="Canteen" component={CanteenScreen} />
             <Stack.Screen name="Announcements" component={AnnouncementScreen} />
+            <Stack.Screen name="Mutabaah" component={MutabaahScreen} />
+            <Stack.Screen name="Bpi" component={BpiScreen} />
           </>
         )}
       </Stack.Navigator>

@@ -169,4 +169,66 @@ assert($resAnn->getStatusCode() === 200, "Announcements should return 200");
 assert(count($dataAnn['data']) === 3, "Should return 3 announcements");
 echo "✓ 12. Broadcast Memos: Retrieved " . count($dataAnn['data']) . " official school & foundation announcements\n";
 
-echo "\n=== ALL 12 MOBILE HRIS API ENDPOINTS PASSED WITH 100% SUCCESS! ===\n";
+// 13. Test BPI (Bina Pribadi Islam) Group
+$reqBpi = Request::create('/api/v1/mobile/bpi/my-group', 'GET');
+$reqBpi->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resBpi = $controller->bpiGroup($reqBpi);
+$dataBpi = json_decode($resBpi->getContent(), true);
+
+assert($resBpi->getStatusCode() === 200, "BPI group should return 200");
+assert(isset($dataBpi['data']['group']['name']), "BPI group name must exist");
+echo "✓ 13. BPI Group API: Halaqah '" . $dataBpi['data']['group']['name'] . "' with Pembina " . $dataBpi['data']['mentor']['name'] . " (" . $dataBpi['data']['total_members'] . " members)\n";
+
+// 14. Test Mutabaah Yaumiyah Save & Score Calculation
+$reqSaveMut = Request::create('/api/v1/mobile/bpi/mutabaah/save', 'POST', [
+    'sholat_fardhu_jamaah' => 5,
+    'sholat_rawatib' => true,
+    'sholat_tahajjud' => true,
+    'sholat_dhuha' => true,
+    'tilawah_pages' => 6,
+    'al_matsurat' => 'lengkap',
+    'puasa_sunnah' => false,
+    'infaq' => true,
+    'baca_buku' => true,
+    'notes' => 'Alhamdulillah tilawah 6 lembar dan dhuha 4 rakaat.',
+]);
+$reqSaveMut->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resSaveMut = $controller->saveTodayMutabaah($reqSaveMut);
+$dataSaveMut = json_decode($resSaveMut->getContent(), true);
+
+assert($resSaveMut->getStatusCode() === 200, "Save mutabaah should return 200");
+assert($dataSaveMut['status'] === 'success', "Save mutabaah should be success");
+
+$reqGetMut = Request::create('/api/v1/mobile/bpi/mutabaah/today', 'GET');
+$reqGetMut->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resGetMut = $controller->getTodayMutabaah($reqGetMut);
+$dataGetMut = json_decode($resGetMut->getContent(), true);
+
+assert($dataGetMut['score_percentage'] === 100, "Score percentage should be 100% for full checklist");
+echo "✓ 14. Mutabaah Yaumiyah SDM: Saved daily worship report with Capaian Score " . $dataGetMut['score_percentage'] . "%\n";
+
+// 15. Test Mentor Dashboard (Pemantauan Binaan)
+$reqMentor = Request::create('/api/v1/mobile/bpi/mentor/dashboard', 'GET');
+$reqMentor->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resMentor = $controller->mentorDashboard($reqMentor);
+$dataMentor = json_decode($resMentor->getContent(), true);
+
+assert($resMentor->getStatusCode() === 200, "Mentor dashboard should return 200");
+echo "✓ 15. Mentor BPI Dashboard: Pembina successfully monitored " . $dataMentor['data']['total_mentees'] . " mentees (" . $dataMentor['data']['completed_today'] . " reported today)\n";
+
+// 16. Test Record BPI Meeting
+$reqMeet = Request::create('/api/v1/mobile/bpi/meetings/record', 'POST', [
+    'group_id' => $dataBpi['data']['group']['id'],
+    'topic_title' => 'Tazkiyatun Nafs & Adab Pendidik Robbani',
+    'date' => date('Y-m-d'),
+    'summary_notes' => 'Membahas pentingnya keikhlasan niat dalam mengajar.',
+]);
+$reqMeet->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resMeet = $controller->saveBpiMeeting($reqMeet);
+$dataMeet = json_decode($resMeet->getContent(), true);
+
+assert($resMeet->getStatusCode() === 200, "Save meeting should return 200");
+assert($dataMeet['status'] === 'success', "Meeting save should be success");
+echo "✓ 16. BPI Meeting Record: Recorded weekly halaqah meeting (ID: " . $dataMeet['meeting_id'] . ")\n";
+
+echo "\n=== ALL 16 MOBILE HRIS, MUTABAAH YAUMIYAH & BPI API ENDPOINTS PASSED WITH 100% SUCCESS! ===\n";

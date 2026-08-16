@@ -88,4 +88,37 @@ export const hrisApi = {
     const response = await apiClient.get('/announcements');
     return response.data;
   },
+
+  // 9. BPI (Bina Pribadi Islam) & Mutabaah Yaumiyah SDM
+  getBpiGroup: async () => {
+    const response = await apiClient.get('/bpi/my-group');
+    return response.data;
+  },
+
+  getTodayMutabaah: async () => {
+    const response = await apiClient.get('/bpi/mutabaah/today');
+    return response.data;
+  },
+
+  saveTodayMutabaah: async (data) => {
+    const response = await apiClient.post('/bpi/mutabaah/save', data);
+    return response.data;
+  },
+
+  getMutabaahHistory: async (month, year) => {
+    const response = await apiClient.get('/bpi/mutabaah/history', {
+      params: { month, year },
+    });
+    return response.data;
+  },
+
+  getMentorDashboard: async () => {
+    const response = await apiClient.get('/bpi/mentor/dashboard');
+    return response.data;
+  },
+
+  saveBpiMeeting: async (data) => {
+    const response = await apiClient.post('/bpi/meetings/record', data);
+    return response.data;
+  },
 };

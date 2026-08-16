@@ -37,6 +37,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/canteen/products', [HrisMobileApiController::class, 'canteenProducts']);
         Route::post('/canteen/pay', [HrisMobileApiController::class, 'canteenPay']);
 
+        // BPI (Bina Pribadi Islam) & Mutabaah Yaumiyah SDM
+        Route::get('/bpi/my-group', [HrisMobileApiController::class, 'bpiGroup']);
+        Route::get('/bpi/mutabaah/today', [HrisMobileApiController::class, 'getTodayMutabaah']);
+        Route::post('/bpi/mutabaah/save', [HrisMobileApiController::class, 'saveTodayMutabaah']);
+        Route::get('/bpi/mutabaah/history', [HrisMobileApiController::class, 'mutabaahHistory']);
+        Route::get('/bpi/mentor/dashboard', [HrisMobileApiController::class, 'mentorDashboard']);
+        Route::post('/bpi/meetings/record', [HrisMobileApiController::class, 'saveBpiMeeting']);
+
         // Pengumuman & Memo
         Route::get('/announcements', [HrisMobileApiController::class, 'announcements']);
     });

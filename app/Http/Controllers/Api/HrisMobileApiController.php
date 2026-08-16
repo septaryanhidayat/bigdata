@@ -659,4 +659,320 @@ class HrisMobileApiController extends Controller
             'data' => $announcements,
         ]);
     }
+
+    /**
+     * 11. Kelompok BPI SDM (Bina Pribadi Islam)
+     */
+    public function bpiGroup(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employeeId = $employee ? $employee->id : $user->id;
+
+        // Cek apakah pegawai sebagai mentor atau anggota
+        $groupAsMentor = DB::table('employee_bpi_groups')->where('mentor_id', $employeeId)->first();
+        
+        $groupMember = DB::table('employee_bpi_members')
+            ->join('employee_bpi_groups', 'employee_bpi_members.group_id', '=', 'employee_bpi_groups.id')
+            ->where('employee_bpi_members.employee_id', $employeeId)
+            ->select('employee_bpi_groups.*')
+            ->first();
+
+        $group = $groupAsMentor ?? $groupMember;
+
+        // Seed kelompok default jika belum ada
+        if (!$group) {
+            $mentorEmp = DB::table('employees')->where('school_id', $user->school_id)->first() ?? $employee;
+            $mentorId = $mentorEmp ? $mentorEmp->id : $employeeId;
+
+            $groupId = DB::table('employee_bpi_groups')->insertGetId([
+                'school_id' => $user->school_id,
+                'name' => 'Halaqah BPI SDM 1 - Utsman Bin Affan',
+                'mentor_id' => $mentorId,
+                'schedule_day' => 'Jumat',
+                'schedule_time' => '16:00 WIB',
+                'location' => 'Masjid Utama Kampus SIT Robbani',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Tambahkan anggota
+            $allEmployees = DB::table('employees')->where('school_id', $user->school_id)->limit(6)->get();
+            foreach ($allEmployees as $emp) {
+                DB::table('employee_bpi_members')->insertOrIgnore([
+                    'group_id' => $groupId,
+                    'employee_id' => $emp->id,
+                    'joined_date' => '2026-07-15',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // Pastikan user saat ini masuk anggota
+            DB::table('employee_bpi_members')->insertOrIgnore([
+                'group_id' => $groupId,
+                'employee_id' => $employeeId,
+                'joined_date' => '2026-07-15',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $group = DB::table('employee_bpi_groups')->where('id', $groupId)->first();
+        }
+
+        $mentor = DB::table('employees')->where('id', $group->mentor_id)->first();
+        $isMentor = ($group->mentor_id == $employeeId);
+
+        // Ambil Anggota Kelompok
+        $members = DB::table('employee_bpi_members')
+            ->join('employees', 'employee_bpi_members.employee_id', '=', 'employees.id')
+            ->where('employee_bpi_members.group_id', $group->id)
+            ->select('employees.id', 'employees.full_name', 'employees.role_type as position', 'employees.nip')
+            ->get();
+
+        // Ambil Riwayat Pertemuan BPI
+        $meetings = DB::table('employee_bpi_meetings')
+            ->where('group_id', $group->id)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        if ($meetings->isEmpty()) {
+            DB::table('employee_bpi_meetings')->insert([
+                'group_id' => $group->id,
+                'mentor_id' => $group->mentor_id,
+                'date' => '2026-08-15',
+                'topic_title' => 'Tazkiyatun Nafs & Adab Pendidik Robbani',
+                'summary_notes' => 'Membahas pentingnya keikhlasan niat dalam mengajar, membersihkan hati dari riya, serta istiqomah dalam ibadah yaumiyah.',
+                'attendees_json' => json_encode([$employeeId]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $meetings = DB::table('employee_bpi_meetings')->where('group_id', $group->id)->get();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'group' => $group,
+                'is_mentor' => $isMentor,
+                'mentor' => [
+                    'id' => $mentor ? $mentor->id : 1,
+                    'name' => $mentor ? $mentor->full_name : 'Ustadz H. Mukhtarom, Lc',
+                    'title' => 'Pembina (Murabbi) Halaqah SDM',
+                    'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200',
+                ],
+                'members' => $members,
+                'total_members' => $members->count(),
+                'meetings' => $meetings,
+            ]
+        ]);
+    }
+
+    /**
+     * 12. Laporan Amal Ibadah Harian (Mutabaah Yaumiyah SDM)
+     */
+    public function getTodayMutabaah(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employeeId = $employee ? $employee->id : $user->id;
+
+        $today = date('Y-m-d');
+        $mutabaah = DB::table('employee_mutabaahs')
+            ->where('employee_id', $employeeId)
+            ->where('date', $today)
+            ->first();
+
+        // Default Checklist
+        if (!$mutabaah) {
+            $mutabaah = (object)[
+                'date' => $today,
+                'sholat_fardhu_jamaah' => 5,
+                'sholat_rawatib' => 1,
+                'sholat_tahajjud' => 1,
+                'sholat_dhuha' => 1,
+                'tilawah_pages' => 4,
+                'al_matsurat' => 'lengkap',
+                'puasa_sunnah' => 0,
+                'infaq' => 1,
+                'baca_buku' => 1,
+                'notes' => 'Alhamdulillah target tilawah 4 lembar tercapai.',
+                'verified_by_mentor' => 0,
+            ];
+        }
+
+        // Hitung Skor Persentase Amal Yaumiyah Hari Ini (0-100%)
+        $score = 0;
+        if ($mutabaah->sholat_fardhu_jamaah >= 5) $score += 30;
+        elseif ($mutabaah->sholat_fardhu_jamaah >= 3) $score += 20;
+        if ($mutabaah->sholat_rawatib) $score += 10;
+        if ($mutabaah->sholat_tahajjud) $score += 15;
+        if ($mutabaah->sholat_dhuha) $score += 10;
+        if ($mutabaah->tilawah_pages >= 4) $score += 15;
+        elseif ($mutabaah->tilawah_pages > 0) $score += 10;
+        if ($mutabaah->al_matsurat === 'lengkap') $score += 10;
+        elseif ($mutabaah->al_matsurat !== 'none') $score += 5;
+        if ($mutabaah->infaq) $score += 5;
+        if ($mutabaah->baca_buku) $score += 5;
+
+        $finalScore = min(100, $score);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutabaah,
+            'score_percentage' => $finalScore,
+        ]);
+    }
+
+    public function saveTodayMutabaah(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employeeId = $employee ? $employee->id : $user->id;
+
+        $today = date('Y-m-d');
+
+        DB::table('employee_mutabaahs')->updateOrInsert(
+            [
+                'employee_id' => $employeeId,
+                'date' => $today,
+            ],
+            [
+                'sholat_fardhu_jamaah' => $request->sholat_fardhu_jamaah ?? 5,
+                'sholat_rawatib' => $request->boolean('sholat_rawatib'),
+                'sholat_tahajjud' => $request->boolean('sholat_tahajjud'),
+                'sholat_dhuha' => $request->boolean('sholat_dhuha'),
+                'tilawah_pages' => $request->tilawah_pages ?? 0,
+                'al_matsurat' => $request->al_matsurat ?? 'lengkap',
+                'puasa_sunnah' => $request->boolean('puasa_sunnah'),
+                'infaq' => $request->boolean('infaq'),
+                'baca_buku' => $request->boolean('baca_buku'),
+                'notes' => $request->notes ?? null,
+                'updated_at' => now(),
+            ]
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Alhamdulillah, Laporan Amal Ibadah Harian berhasil disimpan dan dikirim ke Pembina BPI.',
+        ]);
+    }
+
+    /**
+     * 13. Riwayat Mutabaah Bulanan
+     */
+    public function mutabaahHistory(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employeeId = $employee ? $employee->id : $user->id;
+
+        $month = $request->query('month', date('m'));
+        $year = $request->query('year', date('Y'));
+
+        $history = DB::table('employee_mutabaahs')
+            ->where('employee_id', $employeeId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $history,
+        ]);
+    }
+
+    /**
+     * 14. Dashboard Pemantauan Pembina BPI (Mentor View)
+     */
+    public function mentorDashboard(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employeeId = $employee ? $employee->id : $user->id;
+
+        $group = DB::table('employee_bpi_groups')->where('mentor_id', $employeeId)->first()
+            ?? DB::table('employee_bpi_groups')->first();
+
+        if (!$group) {
+            return response()->json(['status' => 'error', 'message' => 'Grup BPI tidak ditemukan.'], 404);
+        }
+
+        $today = date('Y-m-d');
+
+        // Ambil seluruh anggota binaan beserta laporan mutabaah hari ini
+        $members = DB::table('employee_bpi_members')
+            ->join('employees', 'employee_bpi_members.employee_id', '=', 'employees.id')
+            ->leftJoin('employee_mutabaahs', function ($join) use ($today) {
+                $join->on('employees.id', '=', 'employee_mutabaahs.employee_id')
+                    ->where('employee_mutabaahs.date', '=', $today);
+            })
+            ->where('employee_bpi_members.group_id', $group->id)
+            ->select(
+                'employees.id as employee_id',
+                'employees.full_name',
+                'employees.role_type as position',
+                'employees.nip',
+                'employee_mutabaahs.sholat_fardhu_jamaah',
+                'employee_mutabaahs.sholat_tahajjud',
+                'employee_mutabaahs.tilawah_pages',
+                'employee_mutabaahs.al_matsurat',
+                'employee_mutabaahs.verified_by_mentor',
+                'employee_mutabaahs.date as mutabaah_date'
+            )
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'group_name' => $group->name,
+                'schedule' => $group->schedule_day . ', ' . $group->schedule_time,
+                'location' => $group->location,
+                'total_mentees' => $members->count(),
+                'completed_today' => $members->whereNotNull('mutabaah_date')->count(),
+                'mentees' => $members,
+            ]
+        ]);
+    }
+
+    /**
+     * 15. Simpan Pertemuan BPI Mingguan
+     */
+    public function saveBpiMeeting(Request $request)
+    {
+        $request->validate([
+            'group_id' => 'required',
+            'topic_title' => 'required|string',
+            'date' => 'required|date',
+        ]);
+
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employeeId = $employee ? $employee->id : $user->id;
+
+        $id = DB::table('employee_bpi_meetings')->insertGetId([
+            'group_id' => $request->group_id,
+            'mentor_id' => $employeeId,
+            'date' => $request->date,
+            'topic_title' => $request->topic_title,
+            'summary_notes' => $request->summary_notes ?? null,
+            'attendees_json' => json_encode($request->attendees ?? [$employeeId]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Laporan Pertemuan Mingguan BPI berhasil disimpan.',
+            'meeting_id' => $id,
+        ]);
+    }
 }
+

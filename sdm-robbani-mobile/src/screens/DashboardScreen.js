@@ -161,6 +161,22 @@ export default function DashboardScreen({ navigation }) {
 
         <View style={styles.gridRow}>
           <QuickActionCard
+            title="Amal Ibadah"
+            icon="🕌"
+            subtitle="Mutabaah Yaumiyah"
+            badge="IBADAH"
+            onPress={() => navigation.navigate('Mutabaah')}
+          />
+          <QuickActionCard
+            title="Halaqah BPI"
+            icon="👥"
+            subtitle="Bina Pribadi Islam"
+            onPress={() => navigation.navigate('Bpi')}
+          />
+        </View>
+
+        <View style={styles.gridRow}>
+          <QuickActionCard
             title="Kantin &amp; Koperasi"
             icon="🍽️"
             subtitle={formatRupiah(dashboardData?.wallet_balance || 350000)}
