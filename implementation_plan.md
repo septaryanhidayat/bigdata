@@ -158,41 +158,78 @@ app/
 
 ---
 
-## 🧪 8. Panduan Eksekusi Automated Test Suite
+## 🤖 8. Modul 23: SmartEdu AI Chatbot & Knowledge Base RAG Engine
+
+```mermaid
+graph TD
+    A[Unggah PDF Brosur SPMB, SOP, Kurikulum Tahfidz] --> B[AiRagEngine Text Extractor]
+    B --> C[(Tabel: ai_knowledge_bases)]
+    D[User Chat / Pertanyaan Publik] --> E[SchoolWebsiteController::chatAi]
+    E --> F[AiRagEngine::answer]
+    F --> G[1. RAG Search ai_knowledge_bases]
+    F --> H[2. Live SmartEdu Data: SPMB, E-SPP, Unit, TA]
+    G & H --> I[Sintesis Prompt Gemini / Offline RAG Engine]
+    I --> J[Jawaban Cerdas & Rujukan Dokumen Resmi]
+```
+
+1. **Komponen Backend:**
+   - **Tabel `ai_knowledge_bases`**: Menyimpan judul dokumen, kategori, file asli, teks hasil ekstraksi, ringkasan, dan kata kunci berbobot.
+   - **`App\Services\AiRagEngine`**: Menjalankan ekstraksi teks PDF otomatis, pencarian semantik dokumen (*Retrieval-Augmented Generation*), dan sintesis jawaban cerdas.
+   - **`App\Models\AiKnowledgeBase::findRelevantKnowledge($query)`**: Mencocokkan pertanyaan pengunjung dengan basis pengetahuan sekolah.
+2. **Komponen Frontend:**
+   - **Showcase Interaktif Web Utama (`#smartedu-ekosistem`)**: Tab kategori *"🤖 Smart AI & RAG Dokumen"* dengan tombol pemicu langsung *"💬 Coba Chatbot AI Sekarang"*.
+   - **Floating Widget (`resources/views/components/chat-ai-widget.blade.php`)**: Jendela obrolan melayang di kanan bawah dengan saran pertanyaan instan (*Quick Suggestion Chips*).
+
+---
+
+## 🚀 9. Mesin Migrasi SEO Otomatis & Keamanan Siber (*Cybersecurity Hardening*)
+
+1. **SEO & WordPress 301 Migration:**
+   - **Dynamic XML Sitemap (`/sitemap.xml`)**: Otomatis menghasilkan peta situs XML standar Google dengan rincian URL halaman, berita, artikel keislaman, gambar, dan `<lastmod>`.
+   - **Dynamic Robots.txt (`/robots.txt`)**: Mengizinkan perayapan Googlebot pada halaman publik dan menyertakan rujukan sitemap.
+   - **WordPress 301 Permanent Redirect Handler**: Mengalihkan pola permalink lama WordPress (`/{year}/{month}/{day}/{slug}`, `/category/{cat}`, `/tag/{tag}`) secara otomatis dengan status **HTTP 301** agar traffic domain lama terjaga 100%.
+   - **Schema.org JSON-LD**: Structured data `NewsArticle` pada berita dan `EducationalOrganization` + `WebSite` pada homepage.
+2. **Keamanan Siber (*Security Hardening*):**
+   - **Global Security Headers Middleware (`App\Http\Middleware\SecurityHeaders`)**: Menerapkan `X-Frame-Options: SAMEORIGIN` (Anti-Clickjacking), `X-Content-Type-Options: nosniff` (Anti-MIME Sniffing), `X-XSS-Protection`, dan `Referrer-Policy`.
+   - **Anti SQL Injection**: Seluruh query menggunakan *Eloquent ORM Parameterized / PDO Prepared Statements*.
+   - **Proteksi CSRF**: Token verifikasi aktif pada seluruh form publik & endpoint otentikasi.
+
+---
+
+## 🧪 10. Panduan Eksekusi Automated Test Suite
 
 Untuk memverifikasi keutuhan sistem kapan saja, jalankan script verifikasi mandiri berikut:
 
 ```bash
-# 1. Verifikasi Seluruh Modul Sistem (22 Modul)
+# 1. Verifikasi Seluruh Modul Sistem (23 Modul Utama)
 php scratch/test_all_features.php
 
-# 2. Verifikasi Isolasi Data Unit & Akses TU
+# 2. Verifikasi AI Chatbot Knowledge Base RAG & PDF Ingestion
+php scratch/test_ai_rag_chatbot.php
+
+# 3. Verifikasi SEO Sitemap, Robots.txt, 301 Redirects & Security Headers
+php scratch/test_seo_security_migration.php
+
+# 4. Verifikasi Tampilan Detail Berita 2-Kolom Desktop & Mobile
+php scratch/test_news_detail.php
+
+# 5. Verifikasi Isolasi Data Multi-Tenancy Scoping
 php scratch/test_unit_scoping.php
 
-# 3. Verifikasi RBAC 15 Peran Pengguna
+# 6. Verifikasi RBAC 15 Peran Pengguna
 php scratch/test_rbac_and_roles.php
 
-# 4. Verifikasi Persuratan, Disposisi & TTE
+# 7. Verifikasi Persuratan, Disposisi & TTE
 php scratch/test_letters_and_tte.php
-
-# 5. Verifikasi Manajemen Akun Pengguna
-php scratch/test_user_management.php
-
-# 6. Verifikasi Auto-Kategorisasi Konten WordPress 2026
-php scratch/test_cms_auto_cat.php
-
-# 7. Verifikasi Tampilan Berita Real Unit di Frontend
-php scratch/test_real_unit_news_views.php
-
-# 8. Verifikasi Integrasi Video YouTube Resmi
-php scratch/test_real_youtube_videos.php
 ```
 
 ---
 
-## 🚀 9. Standar Kerja untuk Developer & Agent Selanjutnya
+## 🚀 11. Standar Kerja untuk Developer & Agent Selanjutnya
 
 1. **Prinsip Multi-Tenancy:** Jangan pernah mengambil data tanpa menerapkan filter `school_id` untuk pengguna unit.
-2. **Prinsip Notifikasi:** Gunakan SweetAlert2 untuk feedback user (`swal-success`, `swal-error`, dll.) dengan auto-timer.
-3. **Kompresi Aset Gambar:** Setiap aset baru wajib dioptimasi di bawah 100KB.
-4. **Git Commit:** Selalu jalankan test suite sebelum commit, gunakan pesan commit deskriptif dalam **Bahasa Indonesia**, dan push ke branch `main`.
+2. **Prinsip AI RAG:** Tambahkan dokumen baru ke `ai_knowledge_bases` agar kecerdasan chatbot terus bertambah seiring bertambahnya dokumen sekolah.
+3. **Prinsip Notifikasi:** Gunakan SweetAlert2 untuk feedback user (`swal-success`, `swal-error`, dll.) dengan auto-timer.
+4. **Kompresi Aset Gambar:** Setiap aset baru wajib dioptimasi di bawah 100KB.
+5. **Git Commit:** Selalu jalankan test suite sebelum commit, gunakan pesan commit deskriptif dalam **Bahasa Indonesia**, dan push ke branch `main`.
+
