@@ -121,4 +121,17 @@ export const hrisApi = {
     const response = await apiClient.post('/bpi/meetings/record', data);
     return response.data;
   },
+
+  // 10. Biometrik Wajah (Face Enrollment & Verification)
+  enrollFace: async (faceImageBase64) => {
+    const response = await apiClient.post('/face/enroll', {
+      face_image: faceImageBase64,
+    });
+    return response.data;
+  },
+
+  getFaceStatus: async () => {
+    const response = await apiClient.get('/face/status');
+    return response.data;
+  },
 };

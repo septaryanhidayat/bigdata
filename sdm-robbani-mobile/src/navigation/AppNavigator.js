@@ -14,6 +14,7 @@ import AnnouncementScreen from '../screens/AnnouncementScreen';
 import MutabaahScreen from '../screens/MutabaahScreen';
 import BpiScreen from '../screens/BpiScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import FaceEnrollmentScreen from '../screens/FaceEnrollmentScreen';
 import { TouchableOpacity, Text } from 'react-native';
 
 export default function AppNavigator() {
@@ -21,7 +22,7 @@ export default function AppNavigator() {
   const { colors } = useTheme();
 
   // Active Screen State
-  const [currentScreen, setCurrentScreen] = useState('Home'); // 'Home' | 'Presensi' | 'Cuti' | 'Payroll' | 'Profil' | 'History' | 'Kpi' | 'Canteen' | 'Announcements' | 'Mutabaah' | 'Bpi'
+  const [currentScreen, setCurrentScreen] = useState('Home'); // 'Home' | 'Presensi' | 'Cuti' | 'Payroll' | 'Profil' | 'History' | 'Kpi' | 'Canteen' | 'Announcements' | 'Mutabaah' | 'Bpi' | 'FaceEnrollment'
 
   const navigation = {
     navigate: (screenName) => setCurrentScreen(screenName),
@@ -64,6 +65,8 @@ export default function AppNavigator() {
         return <MutabaahScreen navigation={navigation} />;
       case 'Bpi':
         return <BpiScreen navigation={navigation} />;
+      case 'FaceEnrollment':
+        return <FaceEnrollmentScreen navigation={navigation} />;
       case 'Profil':
         return <ProfileScreen navigation={navigation} />;
       default:

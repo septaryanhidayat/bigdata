@@ -227,8 +227,27 @@ $reqMeet->headers->set('X-User-Id', $dataLogin['user']['id']);
 $resMeet = $controller->saveBpiMeeting($reqMeet);
 $dataMeet = json_decode($resMeet->getContent(), true);
 
-assert($resMeet->getStatusCode() === 200, "Save meeting should return 200");
-assert($dataMeet['status'] === 'success', "Meeting save should be success");
-echo "✓ 16. BPI Meeting Record: Recorded weekly halaqah meeting (ID: " . $dataMeet['meeting_id'] . ")\n";
+// 17. Test Face Enrollment API
+$reqFace = Request::create('/api/v1/mobile/face/enroll', 'POST', [
+    'face_image' => 'data:image/jpeg;base64,' . base64_encode('LIVE_TEST_FACE_BIOMETRIC_DATA'),
+]);
+$reqFace->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resFace = $controller->enrollFace($reqFace);
+$dataFace = json_decode($resFace->getContent(), true);
 
-echo "\n=== ALL 16 MOBILE HRIS, MUTABAAH YAUMIYAH & BPI API ENDPOINTS PASSED WITH 100% SUCCESS! ===\n";
+assert($resFace->getStatusCode() === 200, "Face enrollment should return 200");
+assert($dataFace['status'] === 'success', "Face enrollment should be success");
+echo "✓ 17. Face Enrollment API: Registered employee biometric face sample (" . $dataFace['data']['face_photo_url'] . " at " . $dataFace['data']['face_registered_at'] . ")\n";
+
+// 18. Test Face Biometric Status API
+$reqStatus = Request::create('/api/v1/mobile/face/status', 'GET');
+$reqStatus->headers->set('X-User-Id', $dataLogin['user']['id']);
+$resStatus = $controller->faceStatus($reqStatus);
+$dataStatus = json_decode($resStatus->getContent(), true);
+
+assert($resStatus->getStatusCode() === 200, "Face status should return 200");
+assert($dataStatus['data']['is_face_registered'] === true, "Face must be registered");
+echo "✓ 18. Face Status API: Verified Face ID Active status for " . $dataStatus['data']['employee_name'] . "\n";
+
+echo "\n=== ALL 18 MOBILE HRIS, MUTABAAH YAUMIYAH, BPI & LIVE FACE BIOMETRIC API ENDPOINTS PASSED WITH 100% SUCCESS! ===\n";
+

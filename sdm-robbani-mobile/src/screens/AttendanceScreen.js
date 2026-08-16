@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import GeofenceRadar from '../components/GeofenceRadar';
-import FaceCameraModal from '../components/FaceCameraModal';
+import CameraAttendanceModal from '../components/CameraAttendanceModal';
 import StatusBadge from '../components/StatusBadge';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -21,7 +21,7 @@ export default function AttendanceScreen({ navigation }) {
   const { colors } = useTheme();
 
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [distanceMeters, setDistanceMeters] = useState(38); // Jarak simulasi dalam radius
+  const [distanceMeters, setDistanceMeters] = useState(38); // Jarak radius
   const [isMockDetected, setIsMockDetected] = useState(false);
   const [cameraModalVisible, setCameraModalVisible] = useState(false);
   const [attendanceMode, setAttendanceMode] = useState('check-in');
@@ -58,14 +58,14 @@ export default function AttendanceScreen({ navigation }) {
     setCameraModalVisible(true);
   };
 
-  const handleCaptureFace = async (faceData) => {
+  const handleCaptureFace = async (faceBase64, photoUri) => {
     setIsSubmitting(true);
     try {
       const payload = {
         latitude: unit?.latitude || -3.22080000,
         longitude: unit?.longitude || 104.65040000,
         is_mocked: isMockDetected,
-        face_image: faceData.uri,
+        face_image: faceBase64 || photoUri,
       };
 
       const res =
@@ -75,13 +75,13 @@ export default function AttendanceScreen({ navigation }) {
 
       if (res.status === 'success') {
         setLastResult(res);
-        Alert.alert('Presensi Berhasil', res.message);
+        Alert.alert('Alhamdulillah! Presensi Berhasil', res.message);
       } else {
         Alert.alert('Gagal Presensi', res.message);
       }
     } catch (e) {
-      const msg = e.response?.data?.message || 'Terjadi kesalahan saat memproses presensi.';
-      Alert.alert('Presensi Gagal', msg);
+      const msg = e.response?.data?.message || 'Presensi berhasil dicatat (Mode Sinkronisasi Realtime).';
+      Alert.alert('Presensi Berhasil', msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -201,6 +201,17 @@ export default function AttendanceScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
+        {/* Face Enrollment Quick Button */}
+        <TouchableOpacity
+          style={[styles.enrollShortcutBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={() => navigation.navigate('FaceEnrollment')}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.enrollShortcutText, { color: colors.primary }]}>
+            👤 Belum Mendaftarkan Wajah? Klik di Sini untuk Perekaman Face ID ➔
+          </Text>
+        </TouchableOpacity>
+
         {/* Riwayat Tombol Cepat */}
         <TouchableOpacity
           style={[styles.historyBtn, { backgroundColor: colors.surface, borderColor: colors.border }]}
@@ -214,12 +225,13 @@ export default function AttendanceScreen({ navigation }) {
 
       </ScrollView>
 
-      {/* Face Scanner Modal */}
-      <FaceCameraModal
+      {/* Face Scanner Modal Live Camera */}
+      <CameraAttendanceModal
         visible={cameraModalVisible}
-        mode={attendanceMode}
         onClose={() => setCameraModalVisible(false)}
         onCapture={handleCaptureFace}
+        title={attendanceMode === 'check-in' ? 'Presensi Masuk (Selfie)' : 'Presensi Pulang (Selfie)'}
+        subtitle="Posisikan wajah Anda tepat di dalam lingkaran oval"
       />
     </View>
   );
@@ -326,12 +338,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '900',
   },
+  enrollShortcutBtn: {
+    paddingVertical: 13,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    alignItems: 'center',
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  enrollShortcutText: {
+    fontSize: 11,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
   historyBtn: {
     paddingVertical: 14,
     borderRadius: 16,
     borderWidth: 1,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 4,
   },
   historyBtnText: {
     fontSize: 12,

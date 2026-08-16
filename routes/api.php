@@ -45,6 +45,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/bpi/mentor/dashboard', [HrisMobileApiController::class, 'mentorDashboard']);
         Route::post('/bpi/meetings/record', [HrisMobileApiController::class, 'saveBpiMeeting']);
 
+        // Pendaftaran & Biometrik Wajah (Face Enrollment)
+        Route::post('/face/enroll', [HrisMobileApiController::class, 'enrollFace']);
+        Route::get('/face/status', [HrisMobileApiController::class, 'faceStatus']);
+
         // Pengumuman & Memo
         Route::get('/announcements', [HrisMobileApiController::class, 'announcements']);
     });
