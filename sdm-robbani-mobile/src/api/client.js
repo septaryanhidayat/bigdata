@@ -12,7 +12,9 @@ export const BASE_API_URL =
 
 const apiClient = axios.create({
   baseURL: BASE_API_URL,
-  timeout: 10000,
+  timeout: 60000, // 60 detik untuk upload foto base64 besar
+  maxContentLength: Infinity,
+  maxBodyLength: Infinity,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

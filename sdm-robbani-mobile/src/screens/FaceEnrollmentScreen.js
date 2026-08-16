@@ -95,9 +95,12 @@ export default function FaceEnrollmentScreen({ navigation }) {
     }) + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
 
     // Hanya kirim base64 nyata ke server (bukan URL external atau string placeholder)
-    const isRealBase64 = base64Data && base64Data.startsWith('data:image') && base64Data.length > 5000;
+    const isRealBase64 = base64Data && base64Data.startsWith('data:image') && base64Data.length > 500;
     const payloadPhoto = isRealBase64 ? base64Data : null;
     const localDisplayPhoto = uri || base64Data;
+
+    console.log('[FaceEnroll] base64Data length:', base64Data?.length, 'startsWithDataImage:', base64Data?.startsWith?.('data:image'), 'isRealBase64:', isRealBase64);
+    console.log('[FaceEnroll] payloadPhoto akan dikirim:', !!payloadPhoto, 'URI:', uri?.substring?.(0, 50));
 
     try {
       // 1. Simpan tampilan lokal dahulu (bisa pakai URI dari kamera)
@@ -117,7 +120,9 @@ export default function FaceEnrollmentScreen({ navigation }) {
       // 3. Kirim ke server HANYA jika ada base64 asli
       if (payloadPhoto) {
         try {
+          console.log('[FaceEnroll] Mengirim enrollFace ke server, panjang payload:', payloadPhoto.length);
           const res = await hrisApi.enrollFace(payloadPhoto);
+          console.log('[FaceEnroll] Response server:', JSON.stringify(res?.status), 'face_photo_url:', res?.face_photo_url || res?.data?.face_photo_url);
           const rawUrl = res?.data?.face_photo_url || res?.face_photo_url;
           const serverPhotoUrl = normalizeImageUrl(rawUrl);
           if (serverPhotoUrl) {
@@ -130,10 +135,10 @@ export default function FaceEnrollmentScreen({ navigation }) {
             await refreshProfile?.();
           }
         } catch (serverErr) {
-          console.warn('Server sync queued for face enrollment', serverErr.message);
+          console.warn('[FaceEnroll] Server sync ERROR:', serverErr.message, serverErr?.response?.status, serverErr?.response?.data);
         }
       } else {
-        console.warn('Foto tidak dikirim ke server: base64 tidak valid atau menggunakan URI eksternal');
+        console.warn('[FaceEnroll] Foto TIDAK dikirim ke server: base64 tidak valid');
       }
 
       setFaceStatus({

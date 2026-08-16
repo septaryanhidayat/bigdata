@@ -156,13 +156,18 @@ export default function EditProfileScreen({ navigation }) {
 
       if (photoBase64) {
         payload.photo = photoBase64;
+        console.log('[EditProfile] Mengirim foto base64, panjang:', photoBase64.length, 'prefix:', photoBase64.substring(0, 30));
+      } else {
+        console.log('[EditProfile] Tidak ada foto base64 untuk dikirim, photoBase64 =', photoBase64);
       }
 
       if (password) {
         payload.password = password;
       }
 
+      console.log('[EditProfile] Mengirim updateProfile ke server, payload keys:', Object.keys(payload), 'photo length:', payload.photo?.length || 0);
       const res = await hrisApi.updateProfile(payload);
+      console.log('[EditProfile] Response server:', JSON.stringify(res?.status), 'avatar:', res?.user?.avatar, 'face_photo_url:', res?.employee?.face_photo_url);
 
       if (res?.status === 'success' || res?.employee) {
         const rawAvatar = res?.user?.avatar || res?.employee?.face_photo_url || res?.employee?.avatar;
@@ -182,6 +187,7 @@ export default function EditProfileScreen({ navigation }) {
         navigation?.goBack?.();
       }
     } catch (e) {
+      console.error('[EditProfile] ERROR saat updateProfile:', e?.message, e?.response?.status, e?.response?.data);
       await updateProfileData({ name, phone, address, avatar: photoUri });
       Alert.alert('Alhamdulillah', 'Perubahan profil berhasil disimpan.');
       navigation?.goBack?.();
