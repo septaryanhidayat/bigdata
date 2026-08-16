@@ -18,7 +18,7 @@ import { getGreetingIndonesia } from '../utils/formatters';
 import CameraAttendanceModal from '../components/CameraAttendanceModal';
 
 export default function DashboardScreen({ navigation }) {
-  const { user, employee, unit } = useAuth();
+  const { user, employee, unit, refreshProfile } = useAuth();
   const { colors, isDarkMode, toggleDarkMode } = useTheme();
 
   const [refreshing, setRefreshing] = useState(false);
@@ -37,6 +37,7 @@ export default function DashboardScreen({ navigation }) {
 
   const fetchDashboard = async () => {
     try {
+      refreshProfile?.();
       const res = await hrisApi.getDashboard();
       if (res?.status === 'success') {
         setDashboardData(res.data);
@@ -72,7 +73,7 @@ export default function DashboardScreen({ navigation }) {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchDashboard();
+    await Promise.all([fetchDashboard(), refreshProfile?.()]);
     setRefreshing(false);
   };
 

@@ -27,9 +27,29 @@ export const AuthProvider = ({ children }) => {
         setUser(JSON.parse(storedUser));
         if (storedEmployee) setEmployee(JSON.parse(storedEmployee));
         if (storedUnit) setUnit(JSON.parse(storedUnit));
+
+        // Auto-synchronize latest SDM profile from server in background
+        refreshProfile();
       }
     } catch (e) {
       console.warn('AsyncStorage check warning', e);
+    }
+  };
+
+  const refreshProfile = async () => {
+    try {
+      const res = await hrisApi.getProfile();
+      if (res?.status === 'success') {
+        if (res.user) setUser(res.user);
+        if (res.employee) setEmployee(res.employee);
+        if (res.unit) setUnit(res.unit);
+
+        if (res.user) await AsyncStorage.setItem('user_data', JSON.stringify(res.user));
+        if (res.employee) await AsyncStorage.setItem('employee_data', JSON.stringify(res.employee));
+        if (res.unit) await AsyncStorage.setItem('unit_data', JSON.stringify(res.unit));
+      }
+    } catch (e) {
+      // Silent error fallback
     }
   };
 
@@ -173,6 +193,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         updateProfileData,
+        refreshProfile,
       }}
     >
       {children}

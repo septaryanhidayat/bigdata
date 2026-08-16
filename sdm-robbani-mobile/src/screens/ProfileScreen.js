@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,30 @@ import {
   Image,
   Alert,
   Switch,
+  RefreshControl,
 } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
 export default function ProfileScreen({ navigation }) {
-  const { user, employee, unit, logout } = useAuth();
+  const { user, employee, unit, logout, refreshProfile } = useAuth();
   const { colors, isDarkMode, toggleDarkMode } = useTheme();
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    // Auto sync from server whenever Profile tab is opened
+    refreshProfile?.();
+  }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refreshProfile?.();
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleLogout = () => {
     Alert.alert('Konfirmasi Keluar', 'Apakah Anda yakin ingin keluar dari aplikasi SDM SIT Robbani?', [
@@ -36,7 +52,18 @@ export default function ProfileScreen({ navigation }) {
     <View style={[styles.container, { backgroundColor: colors.bg }]}>
       <HeaderBar title="Profil & Informasi SDM" subtitle="Sinkronisasi Data Real SIT Robbani" />
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent} 
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.primary}
+            colors={[colors.primary]}
+          />
+        }
+      >
         
         {/* Profile Hero Card */}
         <View style={[styles.profileCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>

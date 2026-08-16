@@ -1123,6 +1123,45 @@ class HrisMobileApiController extends Controller
     }
 
     /**
+     * Dapatkan Data Profil Real-time SDM dari Server Yayasan
+     */
+    public function getProfile(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+        $employee = $this->getEffectiveEmployee($user);
+        $school = $employee && $employee->school_id ? School::find($employee->school_id) : ($user->school_id ? School::find($user->school_id) : null);
+        
+        $employeeData = $this->formatEmployeeProfile($employee, $user, $school);
+
+        $unitData = [
+            'id' => $school ? $school->id : 1,
+            'name' => $school ? $school->name : 'Yayasan Generasi Robbani',
+            'code' => $school ? $school->code : 'YAYASAN',
+            'latitude' => $school && $school->latitude ? (float)$school->latitude : -3.22080000,
+            'longitude' => $school && $school->longitude ? (float)$school->longitude : 104.65040000,
+            'radius_meters' => $school && $school->radius_meters ? (int)$school->radius_meters : 150,
+            'address' => $school ? ($school->address ?? 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir') : 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir',
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'role_id' => $user->role,
+                'avatar' => $user->avatar ? (str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar)) : ($employee ? $employee->face_photo_url : null),
+                'phone' => $employee ? $employee->phone : $user->phone,
+                'address' => $employee ? $employee->address : $user->address,
+            ],
+            'employee' => $employeeData,
+            'unit' => $unitData,
+        ]);
+    }
+
+    /**
      * 18. Update Profil Mandiri Pegawai Mobile
      */
     public function updateProfile(Request $request)

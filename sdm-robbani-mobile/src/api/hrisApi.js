@@ -7,9 +7,14 @@ export const hrisApi = {
     return response.data;
   },
 
-  // 2. Dashboard
+  // 2. Dashboard & Profile
   getDashboard: async () => {
     const response = await apiClient.get('/dashboard');
+    return response.data;
+  },
+
+  getProfile: async () => {
+    const response = await apiClient.get('/profile');
     return response.data;
   },
 
