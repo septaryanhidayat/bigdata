@@ -115,6 +115,18 @@
         }
         [x-cloak] { display: none !important; }
 
+        /* Snappy Fast Fade-Up Scroll Animation */
+        .reveal-fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out;
+            will-change: transform, opacity;
+        }
+        .reveal-fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* ==========================================================================
            EXECUTIVE DEEP OBSIDIAN EMERALD & ELECTRIC LEMON DARK MODE SYSTEM
            ========================================================================== */
@@ -851,17 +863,17 @@
                             this.liveTimeStr = h + ':' + m + ':' + s + ' WIB';
                         }
                     }">
-                        <div class="prayer-widget-card bg-slate-900 dark:bg-[#0d1e0f] text-white border border-slate-800 dark:border-[#1a381c] rounded-3xl p-md sm:p-lg shadow-2xl relative overflow-hidden space-y-sm sm:space-y-md">
+                        <div class="prayer-widget-card bg-slate-900 dark:bg-[#0d1e0f] text-white border border-slate-800 dark:border-[#1a381c] rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden space-y-3 sm:space-y-4">
                             
-                            <!-- Header with Location Dropdown & Qibla -->
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 dark:border-[#1a381c] pb-xs sm:pb-sm">
-                                <div class="w-full sm:w-auto">
-                                    <div class="text-[10px] font-bold text-emerald-400 dark:text-[#c6f634] uppercase flex items-center gap-xs mb-1">
+                            <!-- Header with Location Dropdown & Qibla (Clean Wrap & No Overflow) -->
+                            <div class="flex items-center justify-between gap-2 border-b border-slate-800 dark:border-[#1a381c] pb-2.5 sm:pb-3">
+                                <div class="min-w-0 flex-1 space-y-0.5">
+                                    <div class="text-[10px] font-bold text-emerald-400 dark:text-[#c6f634] uppercase flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[14px]">location_on</span>
                                         <!-- Location Select Dropdown -->
-                                        <select x-model="selectedLoc" class="bg-slate-800 dark:bg-[#153018] text-white dark:text-[#f7fee7] border border-slate-700 dark:border-[#1f4523] rounded-lg px-2 py-0.5 text-[10px] font-bold focus:outline-none cursor-pointer max-w-[200px] sm:max-w-xs truncate">
+                                        <select x-model="selectedLoc" class="bg-slate-800 dark:bg-[#153018] text-white dark:text-[#f7fee7] border border-slate-700 dark:border-[#1f4523] rounded-lg px-2 py-0.5 text-[10px] font-bold focus:outline-none cursor-pointer max-w-[170px] sm:max-w-xs truncate">
                                             <optgroup label="Kabupaten Ogan Ilir (16 Kecamatan)">
-                                                <option value="indralaya_utara">★ Kec. Indralaya Utara (Kantor Pusat Yayasan)</option>
+                                                <option value="indralaya_utara">★ Kec. Indralaya Utara (Pusat Yayasan)</option>
                                                 <option value="indralaya">Kec. Indralaya</option>
                                                 <option value="indralaya_selatan">Kec. Indralaya Selatan</option>
                                                 <option value="pemulutan">Kec. Pemulutan</option>
@@ -895,10 +907,11 @@
                                             </optgroup>
                                         </select>
                                     </div>
-                                    <div class="text-xs sm:text-sm font-bold text-white font-headline">Jadwal Sholat Realtime</div>
+                                    <div class="text-xs sm:text-sm font-black text-white font-headline">Jadwal Sholat Realtime</div>
                                 </div>
-                                <div class="bg-orange-500 dark:bg-[#c6f634] text-white dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-xs shadow-sm border border-transparent dark:border-[#c6f634] shrink-0">
-                                    <span class="material-symbols-outlined text-[12px]">explore</span> <span class="dark:text-[#061107] font-black" x-text="locations[selectedLoc].qibla"></span>
+                                <div class="bg-orange-500 dark:bg-[#c6f634] text-white dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-transparent dark:border-[#c6f634] shrink-0">
+                                    <span class="material-symbols-outlined text-[12px]">explore</span>
+                                    <span class="dark:text-[#061107] font-black whitespace-nowrap" x-text="locations[selectedLoc].qibla"></span>
                                 </div>
                             </div>
 
@@ -906,7 +919,7 @@
                             <div class="bg-white/5 dark:bg-[#153018]/50 p-2.5 rounded-2xl border border-white/10 dark:border-[#1f4523] flex justify-between items-center text-xs">
                                 <div>
                                     <span class="text-[9px] font-bold text-emerald-400 dark:text-[#c6f634] uppercase block">Waktu Sekarang</span>
-                                    <span class="font-black text-amber-300 dark:text-[#c6f634] text-sm tracking-wider font-mono" x-text="liveTimeStr"></span>
+                                    <span class="font-black text-amber-300 dark:text-[#c6f634] text-sm sm:text-base tracking-wider font-mono" x-text="liveTimeStr"></span>
                                 </div>
                                 <div class="text-right">
                                     <span class="text-[9px] font-semibold text-slate-300 block" x-text="liveDateStr"></span>
@@ -915,32 +928,32 @@
                             </div>
 
                             <!-- Sholat Berikutnya Display -->
-                            <div>
-                                <div class="text-[9px] sm:text-[10px] font-bold text-emerald-300 dark:text-[#c6f634] uppercase mb-xs">Sholat Berikutnya</div>
-                                <div class="text-lg sm:text-2xl font-black text-amber-300 dark:text-[#c6f634] font-headline" x-text="locations[selectedLoc].next"></div>
+                            <div class="space-y-0.5">
+                                <div class="text-[9px] sm:text-[10px] font-bold text-emerald-300 dark:text-[#c6f634] uppercase">Sholat Berikutnya:</div>
+                                <div class="text-lg sm:text-2xl font-black text-amber-300 dark:text-[#c6f634] font-headline tracking-tight" x-text="locations[selectedLoc].next"></div>
                             </div>
 
-                            <!-- 5 Prayer Times Grid -->
-                            <div class="grid grid-cols-5 gap-xs pt-1">
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700 dark:border-[#1f4523] p-xs rounded-xl text-center">
-                                    <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-300 uppercase">Subuh</div>
-                                    <div class="text-[11px] sm:text-xs font-black text-white dark:text-[#f7fee7]" x-text="locations[selectedLoc].subuh"></div>
+                            <!-- 5 Prayer Times Grid (Proportional, Zero Stacking Bug) -->
+                            <div class="grid grid-cols-5 gap-1.5 sm:gap-2 pt-1">
+                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Subuh</div>
+                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].subuh"></div>
                                 </div>
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700 dark:border-[#1f4523] p-xs rounded-xl text-center">
-                                    <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-300 uppercase">Dzuhur</div>
-                                    <div class="text-[11px] sm:text-xs font-black text-white dark:text-[#f7fee7]" x-text="locations[selectedLoc].dzuhur"></div>
+                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Dzuhur</div>
+                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].dzuhur"></div>
                                 </div>
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700 dark:border-[#1f4523] p-xs rounded-xl text-center">
-                                    <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-300 uppercase">Ashar</div>
-                                    <div class="text-[11px] sm:text-xs font-black text-white dark:text-[#f7fee7]" x-text="locations[selectedLoc].ashar"></div>
+                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Ashar</div>
+                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].ashar"></div>
                                 </div>
-                                <div class="bg-orange-600 dark:bg-[#c6f634] p-xs rounded-xl text-center shadow-md border border-orange-500 dark:border-[#c6f634]">
-                                    <div class="text-[8px] sm:text-[9px] font-black text-white/90 dark:text-[#061107] uppercase">Maghrib</div>
-                                    <div class="text-[11px] sm:text-xs font-black text-white dark:text-[#061107]" x-text="locations[selectedLoc].maghrib"></div>
+                                <div class="bg-orange-600 dark:bg-[#c6f634] p-1.5 sm:p-2.5 rounded-xl text-center shadow-md border border-orange-500 dark:border-[#c6f634] flex flex-col justify-center items-center min-w-0">
+                                    <div class="text-[8px] sm:text-[9px] font-black text-white/90 dark:text-[#061107] uppercase tracking-tight truncate w-full">Maghrib</div>
+                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#061107] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].maghrib"></div>
                                 </div>
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700 dark:border-[#1f4523] p-xs rounded-xl text-center">
-                                    <div class="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-300 uppercase">Isya</div>
-                                    <div class="text-[11px] sm:text-xs font-black text-white dark:text-[#f7fee7]" x-text="locations[selectedLoc].isya"></div>
+                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Isya</div>
+                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].isya"></div>
                                 </div>
                             </div>
 
@@ -962,7 +975,7 @@
                     <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900">Menu Utama</h2>
                 </div>
 
-                <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-xs sm:gap-sm md:gap-md pt-2">
+                <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 sm:gap-3 md:gap-4 pt-2">
                     
                     <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.profil') }}">
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
@@ -979,7 +992,7 @@
                     </a>
 
                     <a class="quick-menu-card bg-emerald-500/10 dark:bg-emerald-950/40 border-2 border-emerald-500/40 dark:border-emerald-400/50 rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group relative overflow-hidden" href="#smartedu-ekosistem">
-                        <span class="absolute top-1 right-1 bg-amber-500 text-slate-950 font-black text-[7px] px-1.5 py-0.5 rounded-full uppercase shadow-xs">22 Modul</span>
+                        <span class="absolute top-1 right-1 bg-amber-500 text-slate-950 font-black text-[7px] px-1.5 py-0.5 rounded-full uppercase shadow-xs">23+ Modul</span>
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px]" data-weight="fill">hub</span>
                         </div>
@@ -1037,31 +1050,31 @@
         <!-- SAMBUTAN KETUA YAYASAN                     -->
         <!-- ========================================== -->
         <section class="py-12 sm:py-16 bg-slate-50 reveal-fade-up">
-            <div class="max-w-container-max mx-auto px-gutter">
-                <div class="bg-white border border-slate-200/80 rounded-3xl p-md sm:p-xl shadow-md flex flex-col md:flex-row gap-lg md:gap-xl items-center relative overflow-hidden">
+            <div class="max-w-container-max mx-auto px-4 sm:px-6">
+                <div class="bg-white dark:bg-[#0e2010] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 sm:p-8 md:p-10 shadow-md flex flex-col md:flex-row gap-6 sm:gap-8 items-center relative overflow-hidden">
                     
                     <!-- Foto & Name: Top on Mobile, Left Column on Desktop -->
                     <div class="flex-shrink-0 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full md:w-1/3">
-                        <div class="w-28 h-28 sm:w-40 sm:h-40 mx-auto md:mx-0 rounded-full border-4 border-emerald-600 p-1 mb-sm sm:mb-md shadow-lg">
+                        <div class="w-24 h-24 sm:w-36 sm:h-36 mx-auto md:mx-0 rounded-full border-4 border-emerald-600 p-1 mb-3 sm:mb-4 shadow-lg">
                             <img class="w-full h-full object-cover rounded-full bg-white" src="{{ $settings['principal_photo'] ?? '/images/logo-robbani-official.png' }}" alt="Ketua Yayasan Generasi Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                         </div>
-                        <span class="site-section-badge mb-xs">Ketua Yayasan</span>
-                        <h3 class="text-base sm:text-lg font-bold font-headline text-slate-900 mb-xs">{{ $settings['principal_name'] }}</h3>
-                        <p class="text-[11px] sm:text-xs font-semibold text-emerald-700 max-w-[220px]">{{ $settings['principal_title'] }}</p>
+                        <span class="site-section-badge mb-1">Ketua Yayasan</span>
+                        <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white mb-1">{{ $settings['principal_name'] }}</h3>
+                        <p class="text-[11px] sm:text-xs font-semibold text-emerald-700 dark:text-[#c6f634] max-w-[220px]">{{ $settings['principal_title'] }}</p>
                     </div>
 
                     <!-- Sambutan Quote & Buttons: Bottom on Mobile, Right Column on Desktop -->
-                    <div class="flex-grow z-10 w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 pt-md md:pt-0 md:pl-lg text-center md:text-left flex flex-col items-center md:items-start">
-                        <span class="material-symbols-outlined text-[36px] sm:text-[48px] text-emerald-600/30 mb-xs sm:mb-sm block md:inline-block">format_quote</span>
-                        <p class="text-xs sm:text-base md:text-lg font-semibold italic text-slate-800 mb-md sm:mb-lg leading-relaxed">
+                    <div class="flex-grow z-10 w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700 pt-4 md:pt-0 md:pl-6 text-center md:text-left flex flex-col items-center md:items-start">
+                        <span class="material-symbols-outlined text-[36px] sm:text-[48px] text-emerald-600/30 dark:text-emerald-400/30 mb-2 block md:inline-block">format_quote</span>
+                        <p class="text-xs sm:text-base md:text-lg font-semibold italic text-slate-800 dark:text-slate-200 mb-4 sm:mb-6 leading-relaxed">
                             "{{ $settings['principal_greeting'] }}"
                         </p>
                         
-                        <div class="flex flex-wrap justify-center md:justify-start gap-sm sm:gap-md">
-                            <a class="px-5 py-2.5 bg-emerald-700 text-white font-bold text-xs rounded-full hover:bg-emerald-800 transition-colors flex items-center gap-xs shadow-sm" href="{{ route('school.profil') }}">
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2.5 sm:gap-3">
+                            <a class="px-5 py-2.5 bg-emerald-700 text-white font-bold text-xs rounded-full hover:bg-emerald-800 transition-colors flex items-center gap-1 shadow-sm" href="{{ route('school.profil') }}">
                                 Sambutan Lengkap <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                             </a>
-                            <a class="px-5 py-2.5 bg-orange-600 text-white font-bold text-xs rounded-full hover:bg-orange-700 transition-opacity flex items-center gap-xs shadow-sm" href="{{ route('school.profil') }}#visi-misi">
+                            <a class="px-5 py-2.5 bg-orange-600 text-white font-bold text-xs rounded-full hover:bg-orange-700 transition-opacity flex items-center gap-1 shadow-sm" href="{{ route('school.profil') }}#visi-misi">
                                 Visi &amp; Misi <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                             </a>
                         </div>
@@ -1074,17 +1087,17 @@
         <!-- ========================================== -->
         <!-- UNIT PENDIDIKAN (2 DITAS, 2 DIBAWAH DI MOBILE) -->
         <!-- ========================================== -->
-        <section id="unit-sekolah" class="py-12 sm:py-16 bg-white border-y border-slate-200/60 reveal-fade-up">
-            <div class="max-w-container-max mx-auto px-gutter space-y-md sm:space-y-lg">
+        <section id="unit-sekolah" class="py-12 sm:py-16 bg-white dark:bg-[#061107] border-y border-slate-200/60 dark:border-[#1a381c] reveal-fade-up">
+            <div class="max-w-container-max mx-auto px-4 sm:px-6 space-y-6 sm:space-y-8">
                 
                 <div class="text-center space-y-1">
                     <span class="site-section-badge">JENJANG PENDIDIKAN</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900">Unit Pendidikan SIT Robbani</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">Pendidikan berjenjang terpadu dari tingkat usia dini hingga tingkat menengah atas.</p>
+                    <h2 class="text-2xl sm:text-3xl font-black font-headline text-slate-900 dark:text-white">Unit Pendidikan SIT Robbani</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pendidikan berjenjang terpadu dari tingkat usia dini hingga tingkat menengah atas.</p>
                 </div>
 
                 <!-- 2 Units Top, 2 Units Bottom on Mobile (2x2 Grid) -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-sm sm:gap-md pt-2">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 pt-2">
                     
                     <!-- UNIT KB/TKIT -->
                     <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
@@ -1108,9 +1121,9 @@
                                 <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 block uppercase truncate">{{ $unitProfiles['tkit']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Kelompok Bermain &amp; TK Islam Terpadu berakreditasi unggul.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Kelompok Bermain &amp; TK Islam Terpadu berakreditasi unggul.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-emerald-700 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold rounded-full hover:bg-emerald-700 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'tkit') }}">Detail Unit ➔</a>
+                        <a class="inline-flex items-center justify-center px-3 py-2 border border-emerald-700 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold rounded-full hover:bg-emerald-700 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'tkit') }}">Detail Unit ➔</a>
                     </div>
 
                     <!-- UNIT SDIT -->
@@ -1135,9 +1148,9 @@
                                 <span class="text-[10px] font-bold text-orange-600 dark:text-orange-400 block uppercase truncate">{{ $unitProfiles['sdit']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Sekolah Dasar Islam Terpadu berakreditasi A &amp; Tahfidz.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Dasar Islam Terpadu berakreditasi A &amp; Tahfidz.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-orange-600 dark:border-orange-500 text-orange-700 dark:text-orange-300 font-bold rounded-full hover:bg-orange-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'sdit') }}">Detail Unit ➔</a>
+                        <a class="inline-flex items-center justify-center px-3 py-2 border border-orange-600 dark:border-orange-500 text-orange-700 dark:text-orange-300 font-bold rounded-full hover:bg-orange-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'sdit') }}">Detail Unit ➔</a>
                     </div>
 
                     <!-- UNIT SMPIT -->
@@ -1162,9 +1175,9 @@
                                 <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 block uppercase truncate">{{ $unitProfiles['smpit']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Sekolah Menengah Pertama berasrama (boarding) / fullday.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Pertama berasrama (boarding) / fullday.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-blue-600 dark:border-blue-500 text-blue-700 dark:text-blue-300 font-bold rounded-full hover:bg-blue-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smpit') }}">Detail Unit ➔</a>
+                        <a class="inline-flex items-center justify-center px-3 py-2 border border-blue-600 dark:border-blue-500 text-blue-700 dark:text-blue-300 font-bold rounded-full hover:bg-blue-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smpit') }}">Detail Unit ➔</a>
                     </div>
 
                     <!-- UNIT SMAIT -->
@@ -1189,9 +1202,9 @@
                                 <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 block uppercase truncate">{{ $unitProfiles['smait']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-sm sm:mb-md leading-relaxed line-clamp-2">Sekolah Menengah Atas dengan program unggulan sains &amp; IT.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Atas dengan program unggulan sains &amp; IT.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-sm py-xs sm:px-md sm:py-sm border border-purple-600 dark:border-purple-500 text-purple-700 dark:text-purple-300 font-bold rounded-full hover:bg-purple-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smait') }}">Detail Unit ➔</a>
+                        <a class="inline-flex items-center justify-center px-3 py-2 border border-purple-600 dark:border-purple-500 text-purple-700 dark:text-purple-300 font-bold rounded-full hover:bg-purple-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smait') }}">Detail Unit ➔</a>
                     </div>
 
                 </div>
@@ -2052,21 +2065,21 @@
                 </div>
 
                 <!-- 6 Photos Grid Carousel (2 Rows of 3 Photos Each) -->
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-md transition-all duration-500">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 transition-all duration-500">
                     <template x-for="(item, idx) in getVisibleItems()" :key="idx + '-' + item.title">
-                        <div class="bg-slate-50/80 border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm flex flex-col group cursor-pointer hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="relative h-52 sm:h-60 overflow-hidden bg-slate-950">
+                        <div class="bg-slate-50/80 dark:bg-[#0e2010] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm flex flex-col group cursor-pointer hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="relative h-36 sm:h-48 md:h-56 overflow-hidden bg-slate-950">
                                 <img :src="item.image" :alt="item.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
-                                <span class="absolute top-sm left-sm bg-orange-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-md uppercase" x-text="item.category"></span>
-                                <button @click="activeLightboxImage = item.image; activeLightboxTitle = item.title" class="absolute bottom-sm right-sm w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md text-white flex items-center justify-center transition-colors" title="Perbesar Foto">
-                                    <span class="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_in</span>
+                                <span class="absolute top-2 left-2 bg-orange-600 dark:bg-[#c6f634] text-white dark:text-[#061107] text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-md shadow-md uppercase" x-text="item.category"></span>
+                                <button @click="activeLightboxImage = item.image; activeLightboxTitle = item.title" class="absolute bottom-2 right-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md text-white flex items-center justify-center transition-colors" title="Perbesar Foto">
+                                    <span class="material-symbols-outlined text-[14px] sm:text-[16px]">zoom_in</span>
                                 </button>
                             </div>
-                            <div class="p-md space-y-xs flex-grow flex flex-col justify-between">
+                            <div class="p-2.5 sm:p-4 space-y-1 flex-grow flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-sm font-bold font-headline text-slate-900 line-clamp-1 group-hover:text-emerald-700 transition-colors" x-text="item.title"></h3>
-                                    <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed mt-1" x-text="item.desc"></p>
+                                    <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white line-clamp-1 group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors" x-text="item.title"></h3>
+                                    <p class="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed mt-0.5" x-text="item.desc"></p>
                                 </div>
                             </div>
                         </div>
@@ -2259,23 +2272,29 @@
         </div>
     </div>
 
-    <!-- Balanced Fade-Up Scroll Animation Observer Script -->
+    <!-- Fast & Silky Fade-Up Scroll Animation Observer -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.body.classList.add('js-reveal');
+            if (!('IntersectionObserver' in window)) {
+                document.querySelectorAll('.reveal-fade-up').forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+
             const observerOptions = {
-                threshold: 0.05,
-                rootMargin: '0px 0px -40px 0px'
+                threshold: 0.02,
+                rootMargin: '0px 0px 40px 0px'
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const el = entry.target;
-                        const delay = el.getAttribute('data-delay') || 0;
-                        setTimeout(() => {
+                        const delay = parseInt(el.getAttribute('data-delay') || 0);
+                        if (delay > 0) {
+                            setTimeout(() => { el.classList.add('is-visible'); }, delay);
+                        } else {
                             el.classList.add('is-visible');
-                        }, parseInt(delay));
+                        }
                         observer.unobserve(el);
                     }
                 });
