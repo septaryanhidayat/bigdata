@@ -216,15 +216,19 @@
 
             @if(Auth::user()->school_id)
             <!-- Locked Unit Badge for Unit Specific Accounts -->
-            <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-1.5 sidebar-text">
+            <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-2 sidebar-text">
                 <div class="flex items-center justify-between text-[9px] font-black text-slate-400">
                     <span class="uppercase tracking-wider">UNIT KERJA:</span>
                     <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-extrabold">
                         🔒 Terkunci
                     </span>
                 </div>
-                <div class="px-2.5 py-1.5 rounded-xl bg-slate-900 text-white font-black text-xs border border-slate-700 flex items-center gap-2">
-                    <span class="text-sm shrink-0">🏫</span>
+                <div class="p-2 rounded-xl bg-slate-900 text-white font-black text-xs border border-slate-700 flex items-center gap-2.5">
+                    @if(Auth::user()->school && Auth::user()->school->logo_url)
+                        <img src="{{ asset(Auth::user()->school->logo_url) }}" alt="Logo {{ Auth::user()->school->code }}" class="h-6 w-auto object-contain shrink-0">
+                    @else
+                        <span class="text-sm shrink-0">🏫</span>
+                    @endif
                     <span class="truncate">{{ Auth::user()->school->name ?? 'Unit Sekolah' }}</span>
                 </div>
             </div>

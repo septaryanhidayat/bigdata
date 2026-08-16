@@ -36,6 +36,7 @@ class MasterDataSeeder extends Seeder
                 'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
                 'phone' => '0811747472',
                 'email' => 'tk@sitrobbani.sch.id',
+                'logo_url' => '/images/logo_tkit.png',
                 'theme_color' => '#f59e0b',
             ]
         );
@@ -49,6 +50,7 @@ class MasterDataSeeder extends Seeder
                 'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
                 'phone' => '0811747472',
                 'email' => 'sd@sitrobbani.sch.id',
+                'logo_url' => '/images/logo_sdit.png',
                 'theme_color' => '#059669',
             ]
         );
@@ -62,6 +64,7 @@ class MasterDataSeeder extends Seeder
                 'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
                 'phone' => '0811747472',
                 'email' => 'smp@sitrobbani.sch.id',
+                'logo_url' => '/images/logo_smpit.png',
                 'theme_color' => '#0284c7',
             ]
         );
@@ -75,6 +78,7 @@ class MasterDataSeeder extends Seeder
                 'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
                 'phone' => '0811747472',
                 'email' => 'sma@sitrobbani.sch.id',
+                'logo_url' => '/images/logo_smait.png',
                 'theme_color' => '#7c3aed',
             ]
         );

@@ -862,6 +862,11 @@
                     <!-- UNIT KB/TKIT -->
                     <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
+                            <!-- Logo Unit TKIT -->
+                            <div class="h-10 mb-3 flex items-center justify-center">
+                                <img src="/images/logo_tkit.png" alt="Logo KB/TKIT Robbani" class="max-h-9 w-auto object-contain">
+                            </div>
+
                             <!-- Foto Kepala Sekolah -->
                             <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
                                 <img src="{{ $unitProfiles['tkit']['principal_photo'] ?? '/images/mockup_mobile_1.png' }}" alt="{{ $unitProfiles['tkit']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-emerald-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
@@ -884,6 +889,11 @@
                     <!-- UNIT SDIT -->
                     <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-orange-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
+                            <!-- Logo Unit SDIT -->
+                            <div class="h-10 mb-3 flex items-center justify-center">
+                                <img src="/images/logo_sdit.png" alt="Logo SDIT Robbani" class="max-h-9 w-auto object-contain">
+                            </div>
+
                             <!-- Foto Kepala Sekolah -->
                             <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
                                 <img src="{{ $unitProfiles['sdit']['principal_photo'] ?? '/images/mockup_mobile_2.png' }}" alt="{{ $unitProfiles['sdit']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-orange-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
@@ -906,6 +916,11 @@
                     <!-- UNIT SMPIT -->
                     <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
+                            <!-- Logo Unit SMPIT -->
+                            <div class="h-10 mb-3 flex items-center justify-center">
+                                <img src="/images/logo_smpit.png" alt="Logo SMPIT Robbani" class="max-h-9 w-auto object-contain">
+                            </div>
+
                             <!-- Foto Kepala Sekolah -->
                             <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
                                 <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/images/hero_3d_illustration_1786347707126.png' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-blue-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
@@ -928,6 +943,11 @@
                     <!-- UNIT SMAIT -->
                     <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-purple-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
                         <div>
+                            <!-- Logo Unit SMAIT -->
+                            <div class="h-10 mb-3 flex items-center justify-center">
+                                <img src="/images/logo_smait.png" alt="Logo SMAIT Robbani" class="max-h-9 w-auto object-contain">
+                            </div>
+
                             <!-- Foto Kepala Sekolah -->
                             <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3">
                                 <img src="{{ $unitProfiles['smait']['principal_photo'] ?? '/images/mockup_mobile_4.png' }}" alt="{{ $unitProfiles['smait']['principal_name'] }}" class="w-full h-full rounded-full object-cover border-2 border-purple-500 shadow-md group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">

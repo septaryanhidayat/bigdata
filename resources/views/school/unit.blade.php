@@ -188,11 +188,16 @@
     <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#061107]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#1a381c] transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
             
-            <!-- Logo Section (Full Color in Light, Solid White in Dark Mode) -->
+            <!-- Logo Section (Unit Specific Official Compressed Logo) -->
+            @php
+                $unitLogoPath = '/images/logo_' . strtolower($info['code'] ?? 'sdit') . '.png';
+                if (!file_exists(public_path($unitLogoPath))) {
+                    $unitLogoPath = \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png');
+                }
+            @endphp
             <a href="{{ route('home') }}" class="flex items-center gap-3 group">
                 <div class="logo-badge-container shrink-0">
-                    <img src="{{ \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="official-logo-img h-10 sm:h-12 w-auto object-contain transition-all dark:hidden">
-                    <img src="{{ \App\Models\SiteSetting::get('logo_dark', '/images/logo robbani dark.png') }}" alt="Logo SIT Robbani" class="official-logo-img h-10 sm:h-12 w-auto object-contain transition-all hidden dark:block">
+                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 sm:h-12 w-auto object-contain transition-all">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">

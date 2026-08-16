@@ -18,11 +18,17 @@
         
         <!-- Brand Header -->
         <div class="text-center space-y-2">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-600 text-white font-black text-2xl shadow-xl border border-white/20">
-                S
-            </div>
+            @if($signature->letter->school && $signature->letter->school->logo_url)
+                <div class="flex items-center justify-center">
+                    <img src="{{ asset($signature->letter->school->logo_url) }}" alt="Logo {{ $signature->letter->school->name }}" class="h-14 w-auto object-contain">
+                </div>
+            @else
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-600 text-white font-black text-2xl shadow-xl border border-white/20">
+                    S
+                </div>
+            @endif
             <h1 class="text-lg sm:text-xl font-black tracking-tight text-white uppercase">Sistem Verifikasi TTE Digital Internal</h1>
-            <p class="text-xs text-slate-400 font-medium">Layanan Verifikasi Keabsahan Dokumen Resmi Sekolah Islam Terpadu Robbani</p>
+            <p class="text-xs text-slate-400 font-medium">Layanan Verifikasi Keabsahan Dokumen Resmi {{ $signature->letter->school->name ?? 'Sekolah Islam Terpadu Robbani' }}</p>
         </div>
 
         <!-- Verification Success Card -->
