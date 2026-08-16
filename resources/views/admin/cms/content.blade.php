@@ -219,6 +219,30 @@
             </div>
         </div>
 
+        @php
+            $defaultXmlServerPath = 'public/images/sitrobbani.WordPress.2026-08-16.xml';
+            $hasLocalXml = file_exists(base_path($defaultXmlServerPath)) || file_exists(public_path('images/sitrobbani.WordPress.2026-08-16.xml'));
+        @endphp
+        @if($hasLocalXml)
+        <!-- Quick 1-Click Server Import Alert -->
+        <div class="bg-emerald-950/80 border border-emerald-500/50 p-3.5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-inner">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">⚡</span>
+                <div>
+                    <strong class="text-white block font-black">Berkas XML Siap Pakai di Server: <code class="text-emerald-300 font-mono text-[11px] bg-slate-900 px-1.5 py-0.5 rounded">sitrobbani.WordPress.2026-08-16.xml</code></strong>
+                    <span class="text-emerald-200/80 text-[11px]">Anda tidak perlu upload ulang melalui browser (Bebas error 419 / timeout jaringan).</span>
+                </div>
+            </div>
+            <form action="{{ route('admin.cms.import-wordpress') }}" method="POST" onsubmit="if(window.Swal){ Swal.fire({ title: 'Memproses Impor Kilat...', html: '<p class=\'text-xs text-slate-300\'>Sedang mengonversi postingan langsung dari server dalam 0.1 detik...</p>', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } }); }">
+                @csrf
+                <input type="hidden" name="server_file_path" value="public/images/sitrobbani.WordPress.2026-08-16.xml">
+                <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-slate-950 font-black text-xs rounded-xl shadow-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer">
+                    <span>🚀 Langsung Impor 1-Klik (0.1 Detik)</span>
+                </button>
+            </form>
+        </div>
+        @endif
+
         <!-- Forms Container -->
         <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700">
             <!-- Option 1: File Upload -->

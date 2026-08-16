@@ -19,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\CustomValidatePostSize::class,
         );
 
+        $middleware->validateCsrfTokens(except: [
+            'admin/cms/import-wordpress',
+            'cms/import-wordpress',
+        ]);
+
         $middleware->redirectTo(
             guests: '/admin/login',
         );
@@ -28,6 +33,17 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'CSRF Token Mismatch / Page Expired'], 419);
+            }
+
+            return redirect()->back()->with(
+                'error',
+                '⚠️ Sesi formulir telah kedaluwarsa (HTTP 419). Silakan ulangi kembali atau gunakan opsi "Impor via Path File Server".'
+            );
+        });
+
         $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, Request $request) {
             if ($request->expectsJson()) {
                 return response()->json([
