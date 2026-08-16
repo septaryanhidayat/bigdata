@@ -922,7 +922,7 @@
     </script>
     @endif
 
-    @if($errors->any())
+    @if(isset($errors) && $errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let errorHtml = '<ul style="text-align: left; font-size: 0.85rem; padding-left: 1.2rem; list-style-type: disc; color: #fca5a5;">';
