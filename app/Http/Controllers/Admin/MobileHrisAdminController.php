@@ -97,20 +97,35 @@ class MobileHrisAdminController extends Controller
     {
         $school = \App\Models\School::findOrFail($id);
 
-        $request->validate([
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'radius_meters' => 'required|integer|min:20|max:5000',
-            'address' => 'nullable|string|max:500',
-        ]);
+        $rawLat = trim((string)$request->input('latitude'));
+        $rawLng = trim((string)$request->input('longitude'));
 
-        $school->update([
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'radius_meters' => $request->radius_meters,
-            'address' => $request->address ?? $school->address,
-        ]);
+        // Support full copy-paste from Google Maps e.g. "-3.220800, 104.650400"
+        if (str_contains($rawLat, ',')) {
+            $parts = explode(',', $rawLat);
+            if (count($parts) >= 2 && empty($rawLng)) {
+                $rawLat = trim($parts[0]);
+                $rawLng = trim($parts[1]);
+            }
+        }
 
-        return redirect()->back()->with('success', "✓ Titik Koordinat Peta & Radius Presensi untuk {$school->name} Berhasil Disimpan!");
+        $cleanLat = str_replace([' ', ','], ['', '.'], $rawLat);
+        $cleanLng = str_replace([' ', ','], ['', '.'], $rawLng);
+        $rawRadius = (int) preg_replace('/[^0-9]/', '', (string)$request->input('radius_meters', 150));
+
+        $lat = is_numeric($cleanLat) ? (float)$cleanLat : (float)($school->latitude ?? -3.22080000);
+        $lng = is_numeric($cleanLng) ? (float)$cleanLng : (float)($school->longitude ?? 104.65040000);
+        $radius = ($rawRadius >= 10 && $rawRadius <= 50000) ? $rawRadius : (int)($school->radius_meters ?? 150);
+
+        $school->latitude = $lat;
+        $school->longitude = $lng;
+        $school->radius_meters = $radius;
+        if ($request->filled('address')) {
+            $school->address = $request->input('address');
+        }
+        $school->save();
+
+        return redirect()->route('admin.mobile.geofence')
+            ->with('success', "✓ Titik Koordinat Peta ({$lat}, {$lng}) & Radius Presensi ({$radius}m) untuk {$school->name} Berhasil Disimpan!");
     }
 }
