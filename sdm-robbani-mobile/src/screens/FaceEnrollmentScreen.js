@@ -77,7 +77,7 @@ export default function FaceEnrollmentScreen({ navigation }) {
       year: 'numeric',
     }) + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
 
-    const photoToSave = base64Data || uri || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400';
+    const photoToSave = uri || base64Data || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400';
 
     try {
       // 1. Simpan langsung ke penyimpanan lokal agar instan dan offline-ready

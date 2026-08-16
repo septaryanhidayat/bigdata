@@ -58,8 +58,8 @@ export default function CameraAttendanceModal({
 
   const handleConfirm = () => {
     if (capturedPhoto) {
-      const base64Data = capturedPhoto.base64 || 'SAMPLE_FACE_BASE64_DATA';
-      onCapture(base64Data, capturedPhoto.uri);
+      const validPhoto = capturedPhoto.uri || capturedPhoto.base64;
+      onCapture(validPhoto, capturedPhoto.uri);
       setCapturedPhoto(null);
       onClose();
     }

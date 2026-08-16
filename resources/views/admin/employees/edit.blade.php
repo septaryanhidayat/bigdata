@@ -52,6 +52,62 @@
         @csrf
         @method('PUT')
 
+        @php
+            $currentPhoto = $employee->face_photo_url 
+                ? (str_starts_with($employee->face_photo_url, 'http') ? $employee->face_photo_url : asset($employee->face_photo_url)) 
+                : ($employee->user && $employee->user->avatar ? (str_starts_with($employee->user->avatar, 'http') ? $employee->user->avatar : asset($employee->user->avatar)) : 'https://ui-avatars.com/api/?name=' . urlencode($employee->full_name) . '&background=059669&color=fff&bold=true&size=200');
+        @endphp
+
+        <!-- Card 0: Foto Profil & Biometrik Wajah SDM -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-7 space-y-4">
+            <div class="border-b border-slate-100 pb-3.5 flex items-center justify-between">
+                <h3 class="text-base font-black text-slate-900 flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-sm font-bold border border-pink-100">📷</span>
+                    Foto Profil &amp; Sampel Wajah Biometrik (Face ID)
+                </h3>
+                <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                    Otomatis Sinkron ke Aplikasi Mobile
+                </span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-6">
+                <div class="relative shrink-0">
+                    <img id="avatarPreview" 
+                         src="{{ $currentPhoto }}" 
+                         alt="{{ $employee->full_name }}" 
+                         class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl object-cover border-4 border-slate-200 shadow-md">
+                    <div class="absolute -bottom-2 -right-2 bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full border-2 border-white shadow-xs">
+                        Aktif
+                    </div>
+                </div>
+
+                <div class="flex-1 space-y-2 text-center sm:text-left">
+                    <label class="block text-xs font-black text-slate-700">Pilih Foto Profil Baru</label>
+                    <input type="file" 
+                           name="avatar" 
+                           id="avatarInput" 
+                           accept=".jpg,.jpeg,.png,.webp" 
+                           onchange="previewAvatarImage(this)" 
+                           class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer">
+                    <p class="text-[11px] text-slate-500 font-medium">
+                        Unggah foto wajah resmi berformat JPG, PNG, atau WEBP (Maksimal 5MB). Foto ini akan langsung menggantikan foto profil dan sampel wajah presensi mobile pegawai.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function previewAvatarImage(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('avatarPreview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
+
         <!-- Card 1: Identitas Kependudukan & Biodata Pribadi -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-7 space-y-5">
             <div class="border-b border-slate-100 pb-3.5 flex items-center justify-between">
