@@ -68,3 +68,18 @@
   - `Referrer-Policy: strict-origin-when-cross-origin`
 - **Enkripsi & Hash:** SHA-256 untuk TTE Digital Surat Resmi, `bcrypt` untuk password pengguna.
 - **Validasi Permintaan:** Laravel Form Request Validation & CSRF Protection Token.
+
+---
+
+## 🌐 6. Infrastruktur Produksi & Integrasi Layanan Eksternal
+
+| Komponen | Spesifikasi / Provider | Keterangan |
+| :--- | :--- | :--- |
+| **Sistem Operasi Server**| **Ubuntu 22.04 / 24.04 LTS** | Lingkungan peladen VPS / Cloud terisolasi |
+| **Web Server** | **Nginx (HTTP/2, Gzip, SSL TLS 1.3)** | Reverse proxy & static assets accelerator |
+| **In-Memory Cache & Queue**| **Redis 7.x** | Antrian background job & session caching |
+| **Process Supervisor** | **Supervisor Daemon** | Menjaga `artisan queue:work` tetap berjalan terus-menerus |
+| **Payment Gateway** | **Midtrans (Snap) & Xendit** | Penagihan E-SPP via QRIS, Virtual Account BCA/Mandiri/BSI |
+| **WhatsApp Gateway** | **Fonnte / Wablas / WAHA API** | Pengiriman otomatis rincian tagihan SPP & notifikasi presensi |
+| **Spesifikasi Lengkap API**| **[`ai-context/API_CONTRACT.md`](./API_CONTRACT.md)** | Dokumen kontrak JSON payload, webhook signature, dan REST API |
+

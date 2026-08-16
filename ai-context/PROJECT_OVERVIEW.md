@@ -63,3 +63,20 @@ Setiap unit memiliki isolasi data yang ketat (*Multi-Tenancy Unit Scoping*), di 
 - **Staf Tata Usaha (TU):** Kelola persuratan, buku agenda, CMS berita/profil unit.
 - **Bendahara Keuangan:** Kelola pos tagihan SPP, kuitansi PDF ber-QR, rekap kas harian.
 - **Kepala Sekolah & Ketua Yayasan:** Monitoring capaian akademik, disposisi surat masuk, persetujuan TTE, dan audit keuangan multi-unit.
+
+---
+
+## 📚 5. Indeks Dokumen Master di `ai-context/`
+
+| Dokumen | Tautan | Deskripsi |
+| :--- | :--- | :--- |
+| **Project Overview** | [`PROJECT_OVERVIEW.md`](./PROJECT_OVERVIEW.md) | Visi, cakupan sistem, hierarki 4 unit, dan stakeholder |
+| **Product Requirements** | [`PRD.md`](./PRD.md) | Kebutuhan fungsional 23 modul, 15 peran RBAC, dan NFR |
+| **Tech Stack** | [`TECH_STACK.md`](./TECH_STACK.md) | Spesifikasi teknologi PHP 8.4, Laravel, Tailwind, Gemini AI, Nginx |
+| **System Architecture** | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Diagram sistem, multi-tenancy, siklus TTE, topologi VPS Nginx |
+| **Database Schema** | [`DATABASE_SCHEMA.md`](./DATABASE_SCHEMA.md) | Skema lengkap 23 modul (Tahfidz, LMS, Library, UKS, Asrama, dll) |
+| **API Contract** | [`API_CONTRACT.md`](./API_CONTRACT.md) | Kontrak Payment Gateway (Midtrans/Xendit), WA API, REST API |
+| **AI & Dev Rules** | [`AI_RULES.md`](./AI_RULES.md) | Aturan anti kebocoran unit, kontras dark mode, automated testing |
+| **UI/UX Design** | [`UI_UX_DESIGN.md`](./UI_UX_DESIGN.md) | Desain token, mode gelap Obsidian/Lime, layout mobile-first |
+| **Roadmap** | [`ROADMAP.md`](./ROADMAP.md) | Riwayat rilis Fase 1-6 dan rencana masa depan |
+

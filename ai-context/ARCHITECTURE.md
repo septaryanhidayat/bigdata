@@ -113,3 +113,85 @@ sequenceDiagram
 3. **Augmentation & Synthesis Stage:**
    - Prompt digabungkan: `System Islamic Identity` + `Live DB Context (Tahun Ajaran, Unit)` + `RAG Knowledge Snippets` + `User Message`.
    - Dikirim ke Google Gemini API (atau Smart Local Synthesizer jika offline) untuk menghasilkan jawaban presisi dan mencantumkan rujukan dokumen resmi.
+
+---
+
+## 🖥️ 5. Infrastruktur Peladen, Topologi Server & Lingkungan Deployment
+
+Sistem dirancang fleksibel untuk dapat berjalan di beberapa target infrastruktur produksi:
+
+### 5.1. Topologi Standar Produksi (Ubuntu VPS / Dedicated Server)
+
+```mermaid
+graph TD
+    User([Pengunjung / Wali / Admin]) --> Cloudflare[Cloudflare CDN & WAF / SSL]
+    Cloudflare --> Nginx[Nginx Web Server (Reverse Proxy & Static Files)]
+    Nginx --> PHP[PHP 8.4-FPM Socket (/run/php/php8.4-fpm.sock)]
+    PHP --> Laravel[Laravel Application Core]
+    Laravel --> MySQL[(MySQL 8.0 / MariaDB 10.6 Database)]
+    Laravel --> Redis[(Redis 7.x Cache & Queue Broker)]
+    Supervisor[Supervisor Daemon] --> QueueWorker[php artisan queue:work --tries=3]
+    Cron[Linux Crontab] --> Scheduler[php artisan schedule:run]
+```
+
+#### Spesifikasi Konfigurasi Server:
+1. **Sistem Operasi:** Ubuntu 22.04 LTS atau 24.04 LTS 64-bit.
+2. **Web Server Nginx (`/etc/nginx/sites-available/sitrobbani.conf`):**
+   ```nginx
+   server {
+       listen 80;
+       server_name sitrobbani.sch.id www.sitrobbani.sch.id;
+       return 301 https://$host$request_uri;
+   }
+
+   server {
+       listen 443 ssl http2;
+       server_name sitrobbani.sch.id www.sitrobbani.sch.id;
+       root /var/www/smartedu/public;
+
+       ssl_certificate /etc/letsencrypt/live/sitrobbani.sch.id/fullchain.pem;
+       ssl_certificate_key /etc/letsencrypt/live/sitrobbani.sch.id/privkey.pem;
+
+       index index.php index.html;
+       charset utf-8;
+       client_max_body_size 50M;
+
+       # Gzip Compression
+       gzip on;
+       gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
+
+       location / {
+           try_files $uri $uri/ /index.php?$query_string;
+       }
+
+       location = /favicon.ico { access_log off; log_not_found off; }
+       location = /robots.txt  { access_log off; log_not_found off; }
+
+       error_page 404 /index.php;
+
+       location ~ \.php$ {
+           fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+           fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+           include fastcgi_params;
+           fastcgi_read_timeout 180;
+       }
+
+       location ~ /\.(?!well-known).* {
+           deny all;
+       }
+   }
+   ```
+
+### 5.2. Opsi Containerization (Docker Support)
+- **`Dockerfile` Multi-Stage:**
+  - Base Image: `php:8.4-fpm-alpine`
+  - Ekstensi PHP Wajib: `pdo_mysql`, `gd`, `zip`, `opcache`, `bcmath`, `intl`, `exif`.
+- **`docker-compose.yml`:**
+  - Services: `app` (PHP-FPM), `web` (Nginx), `db` (MySQL 8.0), `redis` (Redis Alpine), `worker` (Queue Supervisor).
+
+### 5.3. Opsi Shared Hosting / cPanel Deployment
+- Dokumen root domain diarahkan ke direktori `public_html/public` atau memindahkan konten `public/` ke `public_html/` dengan penyesuaian `require __DIR__.'/../vendor/autoload.php'`.
+- Menjalankan `php artisan storage:link` untuk symlink direktori media aset.
+- Menambahkan Cron Job cPanel setiap 1 menit:
+  `* * * * * /usr/local/bin/php /home/username/public_html/artisan schedule:run >> /dev/null 2>&1`
+

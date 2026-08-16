@@ -67,7 +67,33 @@
 
 ---
 
-## 📦 6. Konvensi Git Commit & Deployment
+## 🧪 6. Pedoman Pengujian Otomatis & Mocking Layanan Berbayar (*Testing Guidelines*)
+
+1. **Framework Pengujian:**
+   - Proyek mendukung **PHPUnit** / **Pest PHP** serta skrip mandiri (*Self-Contained CLI Test Suite*) berbasis artisan bootstrap.
+2. **Aturan Wajib Feature Test:**
+   - Setiap penambahan rute HTTP dan Controller baru **WAJIB** disertai skrip pengujian untuk memvalidasi:
+     - Respons status HTTP (200 OK, 302 Redirect, 403 Forbidden untuk unauthorized role).
+     - Isolasi data multi-tenancy (pastikan akun unit A ditolak saat mengakses data unit B).
+     - Integritas data di basis data (`assertDatabaseHas` / `assertDatabaseMissing`).
+3. **Mocking Layanan Berbayar & Pihak Ketiga (*Zero-Cost Testing Rule*):**
+   - **Google Gemini API:** **DILARANG KERAS** memanggil API live Google Gemini berulang kali saat automated test berjalan untuk menghemat kuota dan biaya.
+     ```php
+     // Contoh Mocking Google Gemini API dengan Laravel Http Client
+     Http::fake([
+         'generativelanguage.googleapis.com/*' => Http::response([
+             'candidates' => [
+                 ['content' => ['parts' => [['text' => 'Jawaban AI Ter-Mocking']]]]
+             ]
+         ], 200)
+     ]);
+     ```
+   - **Payment Gateway (Midtrans/Xendit):** Gunakan mock webhook payload dengan SHA512 signature valid lokal untuk menguji alur pelunasan faktur tanpa transaksi nyata.
+   - **WhatsApp Gateway:** Mock pemanggilan HTTP outbound ke endpoint WA API.
+
+---
+
+## 📦 7. Konvensi Git Commit & Deployment
 
 1. **Bahasa Commit:**
    - Selalu tulis pesan commit dalam **Bahasa Indonesia** yang jelas dan deskriptif.
@@ -85,3 +111,4 @@
      php scratch/test_ai_rag_chatbot.php
      ```
    - Push langsung ke branch `origin main`.
+
