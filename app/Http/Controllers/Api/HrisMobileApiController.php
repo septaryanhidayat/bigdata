@@ -1055,24 +1055,25 @@ class HrisMobileApiController extends Controller
 
         $facePhotoUrl = '/uploads/faces/face_employee_' . $employeeId . '.jpg';
         
-        // Simpan foto wajah jika berupa base64
-        $imageData = $request->input('face_image');
-        if (str_contains($imageData, 'base64,')) {
-            $imageData = explode('base64,', $imageData)[1];
-        }
+        // Simpan foto wajah jika berupa base64 atau data-url
+        $imageData = $request->input('face_image') ?? $request->input('photo') ?? $request->input('avatar');
+        if ($imageData) {
+            if (str_contains($imageData, 'base64,')) {
+                $imageData = explode('base64,', $imageData)[1];
+            }
 
-        $uploadDir = public_path('uploads/faces');
-        if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+            $uploadDir = public_path('uploads/faces');
+            if (!file_exists($uploadDir)) {
+                @mkdir($uploadDir, 0777, true);
+            }
 
-        $filePath = $uploadDir . '/face_employee_' . $employeeId . '.jpg';
-        $decoded = base64_decode($imageData, true);
-        if ($decoded !== false && strlen($decoded) > 50) {
-            file_put_contents($filePath, $decoded);
-        } else {
-            // Salin dari asset default jika bukan base64 valid
-            file_put_contents($filePath, $imageData);
+            $filePath = $uploadDir . '/face_employee_' . $employeeId . '.jpg';
+            $decoded = base64_decode($imageData, true);
+            if ($decoded !== false && strlen($decoded) > 50) {
+                file_put_contents($filePath, $decoded);
+            } elseif (filter_var($imageData, FILTER_VALIDATE_URL) || str_starts_with($imageData, 'http')) {
+                $facePhotoUrl = $imageData;
+            }
         }
 
         DB::table('employees')->where('id', $employeeId)->update([
@@ -1094,10 +1095,21 @@ class HrisMobileApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Sampel wajah biometrik berhasil didaftarkan dan disimpan sebagai foto profil!',
+            'face_photo_url' => $facePhotoUrl,
+            'face_registered_at' => now()->format('d M Y, H:i') . ' WIB',
             'data' => [
                 'employee_id' => $employeeId,
                 'face_photo_url' => $facePhotoUrl,
                 'face_registered_at' => now()->format('d M Y, H:i') . ' WIB',
+            ],
+            'user' => [
+                'id' => $user ? $user->id : 1,
+                'avatar' => $facePhotoUrl,
+            ],
+            'employee' => [
+                'id' => $employeeId,
+                'face_photo_url' => $facePhotoUrl,
+                'is_face_registered' => true,
             ]
         ]);
     }

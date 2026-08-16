@@ -72,43 +72,12 @@
             box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
         }
 
-        /* ==========================================================================
-           DYNAMIC THEME OVERRIDES FOR ALL MODULE VIEWS
-           ========================================================================== */
-        html.theme-magenta .bg-emerald-600, html.theme-magenta .bg-emerald-700, html.theme-magenta .bg-emerald-800, html.theme-magenta .bg-teal-600, html.theme-magenta .bg-teal-700 { background-color: #ec4899 !important; }
-        html.theme-magenta .hover\:bg-emerald-700:hover, html.theme-magenta .hover\:bg-emerald-800:hover, html.theme-magenta .hover\:bg-teal-700:hover { background-color: #db2777 !important; }
-        html.theme-magenta .text-emerald-600, html.theme-magenta .text-emerald-700, html.theme-magenta .text-emerald-800, html.theme-magenta .text-emerald-900, html.theme-magenta .text-teal-700, html.theme-magenta .group-hover\:text-emerald-700:hover { color: #db2777 !important; }
-        html.theme-magenta .bg-emerald-100, html.theme-magenta .bg-emerald-50, html.theme-magenta .bg-teal-100 { background-color: #fce7f3 !important; }
-        html.theme-magenta .border-emerald-200, html.theme-magenta .border-emerald-300, html.theme-magenta .border-emerald-500, html.theme-magenta .hover\:border-emerald-500:hover { border-color: #fbcfe8 !important; }
-        html.theme-magenta .bg-emerald-950, html.theme-magenta .bg-emerald-900, html.theme-magenta .from-emerald-950, html.theme-magenta .from-emerald-900, html.theme-magenta .to-emerald-900, html.theme-magenta .to-emerald-950 { background: linear-gradient(135deg, #831843 0%, #701a75 50%, #4c1d95 100%) !important; }
-
-        html.theme-emerald .bg-emerald-600, html.theme-emerald .bg-emerald-700, html.theme-emerald .bg-emerald-800, html.theme-emerald .bg-teal-600, html.theme-emerald .bg-teal-700 { background-color: #10b981 !important; }
-        html.theme-emerald .hover\:bg-emerald-700:hover, html.theme-emerald .hover\:bg-emerald-800:hover, html.theme-emerald .hover\:bg-teal-700:hover { background-color: #059669 !important; }
-        html.theme-emerald .text-emerald-600, html.theme-emerald .text-emerald-700, html.theme-emerald .text-emerald-800, html.theme-emerald .text-emerald-900, html.theme-emerald .text-teal-700, html.theme-emerald .group-hover\:text-emerald-700:hover { color: #047857 !important; }
-        html.theme-emerald .bg-emerald-100, html.theme-emerald .bg-emerald-50, html.theme-emerald .bg-teal-100 { background-color: #d1fae5 !important; }
-        html.theme-emerald .border-emerald-200, html.theme-emerald .border-emerald-300, html.theme-emerald .border-emerald-500, html.theme-emerald .hover\:border-emerald-500:hover { border-color: #a7f3d0 !important; }
-        html.theme-emerald .bg-emerald-950, html.theme-emerald .bg-emerald-900, html.theme-emerald .from-emerald-950, html.theme-emerald .from-emerald-900, html.theme-emerald .to-emerald-900, html.theme-emerald .to-emerald-950 { background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #020617 100%) !important; }
-
-        html.theme-ocean .bg-emerald-600, html.theme-ocean .bg-emerald-700, html.theme-ocean .bg-emerald-800, html.theme-ocean .bg-teal-600, html.theme-ocean .bg-teal-700 { background-color: #3b82f6 !important; }
-        html.theme-ocean .hover\:bg-emerald-700:hover, html.theme-ocean .hover\:bg-emerald-800:hover, html.theme-ocean .hover\:bg-teal-700:hover { background-color: #2563eb !important; }
-        html.theme-ocean .text-emerald-600, html.theme-ocean .text-emerald-700, html.theme-ocean .text-emerald-800, html.theme-ocean .text-emerald-900, html.theme-ocean .text-teal-700, html.theme-ocean .group-hover\:text-emerald-700:hover { color: #1d4ed8 !important; }
-        html.theme-ocean .bg-emerald-100, html.theme-ocean .bg-emerald-50, html.theme-ocean .bg-teal-100 { background-color: #dbeafe !important; }
-        html.theme-ocean .border-emerald-200, html.theme-ocean .border-emerald-300, html.theme-ocean .border-emerald-500, html.theme-ocean .hover\:border-emerald-500:hover { border-color: #bfdbfe !important; }
-        html.theme-ocean .bg-emerald-950, html.theme-ocean .bg-emerald-900, html.theme-ocean .from-emerald-950, html.theme-ocean .from-emerald-900, html.theme-ocean .to-emerald-900, html.theme-ocean .to-emerald-950 { background: linear-gradient(135deg, #172554 0%, #1e1b4b 50%, #0f172a 100%) !important; }
-
-        html.theme-sunset .bg-emerald-600, html.theme-sunset .bg-emerald-700, html.theme-sunset .bg-emerald-800, html.theme-sunset .bg-teal-600, html.theme-sunset .bg-teal-700 { background-color: #f43f5e !important; }
-        html.theme-sunset .hover\:bg-emerald-700:hover, html.theme-sunset .hover\:bg-emerald-800:hover, html.theme-sunset .hover\:bg-teal-700:hover { background-color: #e11d48 !important; }
-        html.theme-sunset .text-emerald-600, html.theme-sunset .text-emerald-700, html.theme-sunset .text-emerald-800, html.theme-sunset .text-emerald-900, html.theme-sunset .text-teal-700, html.theme-sunset .group-hover\:text-emerald-700:hover { color: #be123c !important; }
-        html.theme-sunset .bg-emerald-100, html.theme-sunset .bg-emerald-50, html.theme-sunset .bg-teal-100 { background-color: #ffe4e6 !important; }
-        html.theme-sunset .border-emerald-200, html.theme-sunset .border-emerald-300, html.theme-sunset .border-emerald-500, html.theme-sunset .hover\:border-emerald-500:hover { border-color: #fecdd3 !important; }
-        html.theme-sunset .bg-emerald-950, html.theme-sunset .bg-emerald-900, html.theme-sunset .from-emerald-950, html.theme-sunset .from-emerald-900, html.theme-sunset .to-emerald-900, html.theme-sunset .to-emerald-950 { background: linear-gradient(135deg, #4c0519 0%, #431407 50%, #0f172a 100%) !important; }
-
-        html.theme-gold .bg-emerald-600, html.theme-gold .bg-emerald-700, html.theme-gold .bg-emerald-800, html.theme-gold .bg-teal-600, html.theme-gold .bg-teal-700 { background-color: #f59e0b !important; }
-        html.theme-gold .hover\:bg-emerald-700:hover, html.theme-gold .hover\:bg-emerald-800:hover, html.theme-gold .hover\:bg-teal-700:hover { background-color: #d97706 !important; }
-        html.theme-gold .text-emerald-600, html.theme-gold .text-emerald-700, html.theme-gold .text-emerald-800, html.theme-gold .text-emerald-900, html.theme-gold .text-teal-700, html.theme-gold .group-hover\:text-emerald-700:hover { color: #b45309 !important; }
-        html.theme-gold .bg-emerald-100, html.theme-gold .bg-emerald-50, html.theme-gold .bg-teal-100 { background-color: #fef3c7 !important; }
-        html.theme-gold .border-emerald-200, html.theme-gold .border-emerald-300, html.theme-gold .border-emerald-500, html.theme-gold .hover\:border-emerald-500:hover { border-color: #fde68a !important; }
-        html.theme-gold .bg-emerald-950, html.theme-gold .bg-emerald-900, html.theme-gold .from-emerald-950, html.theme-gold .from-emerald-900, html.theme-gold .to-emerald-900, html.theme-gold .to-emerald-950 { background: linear-gradient(135deg, #451a03 0%, #3f2305 50%, #0f172a 100%) !important; }
+        /* Theme overrides for sidebar active indicators only */
+        html.theme-emerald { --theme-accent: #059669; --theme-accent-light: #ecfdf5; --theme-gradient-primary: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0284c7 100%); }
+        html.theme-ocean { --theme-accent: #2563eb; --theme-accent-light: #eff6ff; --theme-gradient-primary: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%); }
+        html.theme-magenta { --theme-accent: #db2777; --theme-accent-light: #fdf2f8; --theme-gradient-primary: linear-gradient(135deg, #db2777 0%, #c026d3 50%, #7c3aed 100%); }
+        html.theme-sunset { --theme-accent: #e11d48; --theme-accent-light: #fff1f2; --theme-gradient-primary: linear-gradient(135deg, #e11d48 0%, #ea580c 50%, #ca8a04 100%); }
+        html.theme-gold { --theme-accent: #d97706; --theme-accent-light: #fffbeb; --theme-gradient-primary: linear-gradient(135deg, #d97706 0%, #b45309 50%, #78350f 100%); }
 
         /* ==========================================================================
            DYNAMIC MINIMIZE / COMPACT SIDEBAR STYLES (ICON ONLY MODE)

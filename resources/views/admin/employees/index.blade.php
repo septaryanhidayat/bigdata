@@ -4,23 +4,21 @@
 
 @section('content')
 <div class="space-y-6">
-    <!-- Header Hero Banner (Clean Executive Dark Emerald Slate Design) -->
-    <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 lg:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
-        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black tracking-wider uppercase border border-emerald-500/30 mb-2.5">
-                    <span>📁</span> Pusat Data Kepegawaian &amp; E-Berkas SDM
-                </div>
-                <h1 class="text-2xl lg:text-3xl font-black tracking-tight text-white">Database Induk &amp; Berkas Pegawai SIT Robbani</h1>
-                <p class="text-slate-300 text-xs sm:text-sm mt-1 max-w-2xl font-medium leading-relaxed">
-                    Pusat arsip digital guru &amp; staf: KTP, KK, Ijazah, SK Kontrak, Sertifikat, Prestasi, NPWP, dan BPJS terintegrasi presensi mobile.
-                </p>
+    <!-- Header Hero Banner (Clean Executive Solid Slate Card - Maximum Contrast) -->
+    <div class="bg-[#0f172a] rounded-3xl p-6 lg:p-7 text-white shadow-md border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 text-emerald-300 text-xs font-black tracking-wider uppercase border border-emerald-500/40 mb-2.5">
+                <span>📁</span> Pusat Data Kepegawaian &amp; E-Berkas SDM
             </div>
-            <div class="flex flex-wrap items-center gap-3">
-                <a href="{{ route('admin.mobile.index') }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md transition-all flex items-center gap-2 border border-emerald-400/30">
-                    <span>📱</span> Monitoring Presensi Mobile
-                </a>
-            </div>
+            <h1 class="text-2xl lg:text-3xl font-black tracking-tight text-white">Database Induk &amp; Berkas Pegawai SIT Robbani</h1>
+            <p class="text-slate-200 text-xs sm:text-sm mt-1 max-w-2xl font-semibold leading-relaxed">
+                Pusat arsip digital guru &amp; staf: KTP, KK, Ijazah, SK Kontrak, Sertifikat, Prestasi, NPWP, dan BPJS terintegrasi presensi mobile.
+            </p>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+            <a href="{{ route('admin.mobile.index') }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md transition-all flex items-center gap-2 border border-emerald-500">
+                <span>📱</span> Monitoring Presensi Mobile
+            </a>
         </div>
     </div>
 
