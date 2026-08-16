@@ -160,6 +160,9 @@ class HrisMobileApiController extends Controller
         $dob = $employee ? ($employee->dob ?? '1990-05-15') : '1990-05-15';
         $dobFormatted = date('d F Y', strtotime($dob));
 
+        $photoRaw = ($employee && $employee->face_photo_url) ? $employee->face_photo_url : ($user ? $user->avatar : null);
+        $photoUrl = $this->formatMediaUrl($photoRaw, request());
+
         return [
             'id' => $employee ? $employee->id : $user->id,
             'nip' => $employee ? ($employee->nip ?? ('NIP-2026' . str_pad($employee->id, 4, '0', STR_PAD_LEFT))) : ('PEG-' . str_pad($user->id, 4, '0', STR_PAD_LEFT)),
@@ -169,6 +172,8 @@ class HrisMobileApiController extends Controller
             'role_type' => $roleType,
             'employment_status' => $statusFormatted,
             'raw_employment_status' => $rawStatus,
+            'face_photo_url' => $photoUrl,
+            'avatar' => $photoUrl,
             'email' => $user->email,
             'phone' => $employee ? ($employee->phone ?? $user->phone ?? '-') : ($user->phone ?? '-'),
             'wa_number' => $employee ? ($employee->phone ?? $user->phone ?? '-') : ($user->phone ?? '-'),
@@ -192,6 +197,27 @@ class HrisMobileApiController extends Controller
                 'address' => $school ? ($school->address ?? 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir') : 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir',
             ]
         ];
+    }
+
+    /**
+     * Helper: Format Media URL agar sesuai dengan host pemanggil (LAN IP / Domain)
+     */
+    private function formatMediaUrl(?string $path, Request $request = null): ?string
+    {
+        if (empty($path)) return null;
+        if (str_starts_with($path, 'data:image')) return $path;
+
+        $host = $request ? $request->getSchemeAndHttpHost() : (request() ? request()->getSchemeAndHttpHost() : 'http://192.168.1.8:8000');
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            if (str_contains($path, 'bigdata.test') && $request && $request->getHost() !== 'bigdata.test') {
+                return str_replace('http://bigdata.test', $host, $path);
+            }
+            return $path;
+        }
+
+        $cleanPath = ltrim($path, '/');
+        return $host . '/' . $cleanPath;
     }
 
     /**
@@ -1167,7 +1193,7 @@ class HrisMobileApiController extends Controller
                 'email' => $user->email,
                 'role' => $user->role,
                 'role_id' => $user->role,
-                'avatar' => $user->avatar ? (str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar)) : ($employee ? $employee->face_photo_url : null),
+                'avatar' => $this->formatMediaUrl(($employee && $employee->face_photo_url) ? $employee->face_photo_url : $user->avatar, $request),
                 'phone' => $employee ? $employee->phone : $user->phone,
                 'address' => $employee ? $employee->address : $user->address,
             ],
@@ -1263,6 +1289,7 @@ class HrisMobileApiController extends Controller
                 'role_id' => $user->role,
                 'phone' => $request->input('phone', $updatedEmployee ? $updatedEmployee->phone : null),
                 'address' => $request->input('address', $updatedEmployee ? $updatedEmployee->address : null),
+                'avatar' => $this->formatMediaUrl($avatarUrl ?: $user->avatar, $request),
             ],
             'employee' => $employeeData,
         ]);

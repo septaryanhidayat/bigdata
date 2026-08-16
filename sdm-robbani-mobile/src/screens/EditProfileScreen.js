@@ -11,10 +11,28 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import HeaderBar from '../components/HeaderBar';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { hrisApi } from '../api/hrisApi';
+import { BASE_API_URL } from '../api/client';
+
+// Normalize URL foto agar bisa tampil di Android (ganti bigdata.test → IP server)
+function normalizeImageUrl(url) {
+  if (!url) return null;
+  if (url.startsWith('data:image')) return url;
+  if (url.startsWith('file://')) return null;
+  if (url.includes('bigdata.test')) {
+    const base = BASE_API_URL.replace(/\/api.*$/, '');
+    return url.replace(/https?:\/\/bigdata\.test/g, base);
+  }
+  if (url.startsWith('/')) {
+    const base = BASE_API_URL.replace(/\/api.*$/, '');
+    return base + url;
+  }
+  return url;
+}
 
 export default function EditProfileScreen({ navigation }) {
   const { user, employee, unit, updateProfileData } = useAuth();
@@ -25,56 +43,90 @@ export default function EditProfileScreen({ navigation }) {
   const [address, setAddress] = useState(employee?.address || '');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [photoUri, setPhotoUri] = useState(user?.avatar || employee?.face_photo_url || null);
+  const [photoUri, setPhotoUri] = useState(normalizeImageUrl(user?.avatar || employee?.face_photo_url) || null);
   const [photoBase64, setPhotoBase64] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const fileInputRef = useRef(null);
 
+  // Kompres gambar dengan canvas (web only)
+  const compressImageWeb = (dataUrl) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxDim = 480;
+        let w = img.width;
+        let h = img.height;
+        if (w > h) {
+          if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
+        } else {
+          if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.65));
+      };
+      img.src = dataUrl;
+    });
+  };
+
   // Handle Photo Picker (Web & Mobile)
-  const handlePickPhoto = () => {
+  const handlePickPhoto = async () => {
     if (Platform.OS === 'web') {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+      input.onchange = async (e) => {
         const file = e.target.files[0];
         if (file) {
           const reader = new FileReader();
-          reader.onloadend = () => {
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.createElement('canvas');
-              const maxDim = 480;
-              let w = img.width;
-              let h = img.height;
-              if (w > h) {
-                if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
-              } else {
-                if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
-              }
-              canvas.width = w;
-              canvas.height = h;
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(img, 0, 0, w, h);
-              const compressed = canvas.toDataURL('image/jpeg', 0.65);
-              setPhotoUri(compressed);
-              setPhotoBase64(compressed);
-            };
-            img.src = reader.result;
+          reader.onloadend = async () => {
+            const compressed = await compressImageWeb(reader.result);
+            setPhotoUri(compressed);
+            setPhotoBase64(compressed);
           };
           reader.readAsDataURL(file);
         }
       };
       input.click();
     } else {
-      // Prompt option or navigate to camera
+      // Android/iOS: Pilih dari galeri atau kamera
       Alert.alert(
         'Ganti Foto Profil',
-        'Pilih opsi untuk memperbarui foto profil dan biometrik wajah Anda:',
+        'Pilih sumber foto:',
         [
           {
-            text: 'Ambil Foto Wajah (Kamera)',
+            text: '📁 Galeri Foto',
+            onPress: async () => {
+              try {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                  Alert.alert('Izin Diperlukan', 'Izin akses galeri foto diperlukan.');
+                  return;
+                }
+                const result = await ImagePicker.launchImageLibraryAsync({
+                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                  allowsEditing: true,
+                  aspect: [1, 1],
+                  quality: 0.4,
+                  base64: true,
+                });
+                if (!result.canceled && result.assets?.[0]) {
+                  const asset = result.assets[0];
+                  const b64 = `data:image/jpeg;base64,${asset.base64}`;
+                  setPhotoUri(asset.uri);
+                  setPhotoBase64(b64);
+                }
+              } catch (err) {
+                Alert.alert('Error', 'Gagal membuka galeri foto.');
+              }
+            },
+          },
+          {
+            text: '📷 Kamera Wajah',
             onPress: () => navigation?.navigate?.('FaceEnrollment'),
           },
           { text: 'Batal', style: 'cancel' },
@@ -113,12 +165,13 @@ export default function EditProfileScreen({ navigation }) {
       const res = await hrisApi.updateProfile(payload);
 
       if (res?.status === 'success' || res?.employee) {
-        const serverAvatar = res?.user?.avatar || res?.employee?.face_photo_url || photoUri;
+        const rawAvatar = res?.user?.avatar || res?.employee?.face_photo_url || res?.employee?.avatar;
+        const serverAvatar = normalizeImageUrl(rawAvatar) || photoUri;
         await updateProfileData({
           name,
           phone,
           address,
-          avatar: (serverAvatar && !serverAvatar.startsWith('file://')) ? serverAvatar : photoUri,
+          avatar: serverAvatar,
         });
 
         Alert.alert('Alhamdulillah!', 'Data profil & foto Anda berhasil diperbarui dan disinkronkan ke sistem yayasan.');
@@ -136,6 +189,7 @@ export default function EditProfileScreen({ navigation }) {
       setSubmitting(false);
     }
   };
+
 
   return (
     <View style={[styles.container, { backgroundColor: colors.bg }]}>

@@ -13,6 +13,23 @@ import {
 import HeaderBar from '../components/HeaderBar';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { BASE_API_URL } from '../api/client';
+
+// Normalize URL foto agar bisa tampil di Android (ganti bigdata.test → IP server)
+function normalizeImageUrl(url) {
+  if (!url) return null;
+  if (url.startsWith('data:image')) return url;
+  if (url.startsWith('file://')) return null;
+  if (url.includes('bigdata.test')) {
+    const base = BASE_API_URL.replace(/\/api.*$/, '');
+    return url.replace(/https?:\/\/bigdata\.test/g, base);
+  }
+  if (url.startsWith('/')) {
+    const base = BASE_API_URL.replace(/\/api.*$/, '');
+    return base + url;
+  }
+  return url;
+}
 
 export default function ProfileScreen({ navigation }) {
   const { user, employee, unit, logout, refreshProfile } = useAuth();
@@ -68,7 +85,7 @@ export default function ProfileScreen({ navigation }) {
         {/* Profile Hero Card */}
         <View style={[styles.profileCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <Image
-            source={{ uri: user?.avatar || employee?.face_photo_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}
+            source={{ uri: normalizeImageUrl(user?.avatar || employee?.face_photo_url) || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}
             style={[styles.avatarBig, { borderColor: colors.primary }]}
           />
           <Text style={[styles.name, { color: colors.text }]}>{employee?.full_name || user?.name || 'Pegawai SIT Robbani'}</Text>

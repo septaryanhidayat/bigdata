@@ -15,6 +15,23 @@ import CameraAttendanceModal from '../components/CameraAttendanceModal';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { hrisApi } from '../api/hrisApi';
+import { BASE_API_URL } from '../api/client';
+
+// Normalize URL foto agar bisa tampil di Android
+function normalizeImageUrl(url) {
+  if (!url) return null;
+  if (url.startsWith('data:image')) return url;
+  if (url.startsWith('file://')) return null;
+  if (url.includes('bigdata.test')) {
+    const base = BASE_API_URL.replace(/\/api.*$/, '');
+    return url.replace(/https?:\/\/bigdata\.test/g, base);
+  }
+  if (url.startsWith('/')) {
+    const base = BASE_API_URL.replace(/\/api.*$/, '');
+    return base + url;
+  }
+  return url;
+}
 
 export default function FaceEnrollmentScreen({ navigation }) {
   const { colors } = useTheme();
@@ -46,7 +63,7 @@ export default function FaceEnrollmentScreen({ navigation }) {
       if (res?.status === 'success' && res?.data) {
         setFaceStatus({
           ...res.data,
-          face_photo_url: res.data.face_photo_url || localFacePhoto || user?.avatar || employee?.face_photo_url,
+          face_photo_url: normalizeImageUrl(res.data.face_photo_url) || localFacePhoto || normalizeImageUrl(user?.avatar) || normalizeImageUrl(employee?.face_photo_url),
         });
       }
     } catch (e) {
@@ -96,8 +113,9 @@ export default function FaceEnrollmentScreen({ navigation }) {
       // 3. Kirim sampel Base64 asli ke server yayasan
       try {
         const res = await hrisApi.enrollFace(payloadPhoto);
-        const serverPhotoUrl = res?.data?.face_photo_url || res?.face_photo_url;
-        if (serverPhotoUrl && !serverPhotoUrl.startsWith('file://')) {
+        const rawUrl = res?.data?.face_photo_url || res?.face_photo_url;
+        const serverPhotoUrl = normalizeImageUrl(rawUrl);
+        if (serverPhotoUrl) {
           await AsyncStorage.setItem('enrolled_face_photo', serverPhotoUrl);
           await updateProfileData?.({
             avatar: serverPhotoUrl,
