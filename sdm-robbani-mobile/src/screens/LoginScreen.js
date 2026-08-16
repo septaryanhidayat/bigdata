@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -53,9 +54,11 @@ export default function LoginScreen() {
         
         {/* Logo & Header */}
         <View style={styles.header}>
-          <View style={[styles.logoCircle, { backgroundColor: colors.primary }]}>
-            <Text style={styles.logoIcon}>🕌</Text>
-          </View>
+          <Image
+            source={require('../../assets/logo.png')}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
           <Text style={[styles.brandTitle, { color: colors.text }]}>SDM SIT ROBBANI</Text>
           <Text style={[styles.brandSubtitle, { color: colors.textLight }]}>
             Portal Kepegawaian, Presensi Wajah &amp; HRIS Terpadu
@@ -164,20 +167,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
   },
-  logoCircle: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 4,
-  },
-  logoIcon: {
-    fontSize: 32,
+  logoImage: {
+    width: 90,
+    height: 90,
+    marginBottom: 8,
   },
   brandTitle: {
     fontSize: 20,
