@@ -1058,19 +1058,27 @@ class HrisMobileApiController extends Controller
         // Simpan foto wajah jika berupa base64 atau data-url
         $imageData = $request->input('face_image') ?? $request->input('photo') ?? $request->input('avatar');
         if ($imageData) {
-            if (str_contains($imageData, 'base64,')) {
-                $imageData = explode('base64,', $imageData)[1];
-            }
-
             $uploadDir = public_path('uploads/faces');
             if (!file_exists($uploadDir)) {
                 @mkdir($uploadDir, 0777, true);
             }
 
-            $filePath = $uploadDir . '/face_employee_' . $employeeId . '.jpg';
-            $decoded = base64_decode($imageData, true);
-            if ($decoded !== false && strlen($decoded) > 50) {
-                file_put_contents($filePath, $decoded);
+            $filename = 'face_employee_' . $employeeId . '_' . time() . '.jpg';
+            $filePath = $uploadDir . '/' . $filename;
+
+            if (str_contains($imageData, 'base64,')) {
+                $rawBase64 = explode('base64,', $imageData)[1];
+                $decoded = base64_decode($rawBase64, true);
+                if ($decoded !== false && strlen($decoded) > 50) {
+                    file_put_contents($filePath, $decoded);
+                    $facePhotoUrl = '/uploads/faces/' . $filename;
+                }
+            } elseif (strlen($imageData) > 200 && !str_starts_with($imageData, 'http')) {
+                $decoded = base64_decode($imageData, true);
+                if ($decoded !== false && strlen($decoded) > 50) {
+                    file_put_contents($filePath, $decoded);
+                    $facePhotoUrl = '/uploads/faces/' . $filename;
+                }
             } elseif (filter_var($imageData, FILTER_VALIDATE_URL) || str_starts_with($imageData, 'http')) {
                 $facePhotoUrl = $imageData;
             }

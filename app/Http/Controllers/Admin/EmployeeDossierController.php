@@ -248,15 +248,16 @@ class EmployeeDossierController extends Controller
         }
 
         // Handle Foto Profil & Biometrik Wajah
-        if ($request->hasFile('avatar') || $request->hasFile('face_photo')) {
-            $photoFile = $request->file('avatar') ?? $request->file('face_photo');
+        if ($request->hasFile('avatar') || $request->hasFile('face_photo') || $request->hasFile('photo')) {
+            $photoFile = $request->file('avatar') ?? $request->file('face_photo') ?? $request->file('photo');
             $uploadDir = public_path('uploads/faces');
             if (!file_exists($uploadDir)) {
                 @mkdir($uploadDir, 0777, true);
             }
-            $filename = 'face_employee_' . $employee->id . '.jpg';
+            $ext = $photoFile->getClientOriginalExtension() ?: 'jpg';
+            $filename = 'face_employee_' . $employee->id . '_' . time() . '.' . $ext;
             $photoFile->move($uploadDir, $filename);
-            $photoUrl = '/uploads/faces/' . $filename . '?t=' . time();
+            $photoUrl = '/uploads/faces/' . $filename;
             $updateData['face_photo_url'] = $photoUrl;
             $updateData['face_registered_at'] = now();
         }

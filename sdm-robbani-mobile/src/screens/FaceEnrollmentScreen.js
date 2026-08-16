@@ -94,8 +94,15 @@ export default function FaceEnrollmentScreen({ navigation }) {
 
       // 3. Kirim sampel ke server yayasan
       try {
-        const res = await hrisApi.enrollFace(base64Data || uri);
-        if (res?.data?.face_photo_url) {
+        const res = await hrisApi.enrollFace(photoToSave);
+        const serverPhotoUrl = res?.data?.face_photo_url || res?.face_photo_url || photoToSave;
+        if (serverPhotoUrl) {
+          await AsyncStorage.setItem('enrolled_face_photo', serverPhotoUrl);
+          await updateProfileData?.({
+            avatar: serverPhotoUrl,
+            photo: serverPhotoUrl,
+            face_photo_url: serverPhotoUrl,
+          });
           await refreshProfile?.();
         }
       } catch (serverErr) {

@@ -174,10 +174,10 @@
                             if (!empty($emp->$d)) $docCount++;
                         }
 
-                        // Photo Source
+                        // Photo Source with dynamic cache buster
                         $empPhoto = $emp->face_photo_url 
-                            ? (str_starts_with($emp->face_photo_url, 'http') ? $emp->face_photo_url : asset($emp->face_photo_url)) 
-                            : ($emp->user && $emp->user->avatar ? (str_starts_with($emp->user->avatar, 'http') ? $emp->user->avatar : asset($emp->user->avatar)) : 'https://ui-avatars.com/api/?name=' . urlencode($emp->full_name) . '&background=059669&color=fff&bold=true&size=100');
+                            ? (str_starts_with($emp->face_photo_url, 'http') ? $emp->face_photo_url : asset($emp->face_photo_url) . '?v=' . time()) 
+                            : ($emp->user && $emp->user->avatar ? (str_starts_with($emp->user->avatar, 'http') ? $emp->user->avatar : asset($emp->user->avatar) . '?v=' . time()) : 'https://ui-avatars.com/api/?name=' . urlencode($emp->full_name) . '&background=059669&color=fff&bold=true&size=100');
 
                         // Role Formatting
                         $roleTitle = match($emp->role_type) {

@@ -54,10 +54,10 @@
             default => $employee->employment_status ?? 'Pegawai Tetap (PTY)',
         };
 
-        // Photo URL
+        // Photo URL with dynamic cache buster
         $photoSrc = $employee->face_photo_url 
-            ? (str_starts_with($employee->face_photo_url, 'http') ? $employee->face_photo_url : asset($employee->face_photo_url)) 
-            : ($employee->user && $employee->user->avatar ? (str_starts_with($employee->user->avatar, 'http') ? $employee->user->avatar : asset($employee->user->avatar)) : 'https://ui-avatars.com/api/?name=' . urlencode($employee->full_name) . '&background=059669&color=fff&bold=true&size=200');
+            ? (str_starts_with($employee->face_photo_url, 'http') ? $employee->face_photo_url : asset($employee->face_photo_url) . '?v=' . time()) 
+            : ($employee->user && $employee->user->avatar ? (str_starts_with($employee->user->avatar, 'http') ? $employee->user->avatar : asset($employee->user->avatar) . '?v=' . time()) : 'https://ui-avatars.com/api/?name=' . urlencode($employee->full_name) . '&background=059669&color=fff&bold=true&size=200');
     @endphp
 
     <!-- Main Grid: Left Profile Card, Right Files -->
