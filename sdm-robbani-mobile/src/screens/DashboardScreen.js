@@ -14,22 +14,31 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { hrisApi } from '../api/hrisApi';
-import { formatRupiah, getGreetingIndonesia } from '../utils/formatters';
+import { getGreetingIndonesia } from '../utils/formatters';
 import CameraAttendanceModal from '../components/CameraAttendanceModal';
 
 export default function DashboardScreen({ navigation }) {
-  const { user, employee, unit, logout } = useAuth();
+  const { user, employee, unit } = useAuth();
   const { colors, isDarkMode, toggleDarkMode } = useTheme();
 
   const [refreshing, setRefreshing] = useState(false);
   const [dashboardData, setDashboardData] = useState(null);
   const [cameraModalVisible, setCameraModalVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
+  const [activePrayer, setActivePrayer] = useState({ name: 'Isya', time: '19:20' });
+
+  const prayerTimes = [
+    { id: 'subuh', name: 'Subuh', time: '04:48', icon: '🌅' },
+    { id: 'dzuhur', name: 'Dzuhur', time: '12:08', icon: '☀️' },
+    { id: 'ashar', name: 'Ashar', time: '15:28', icon: '⛅' },
+    { id: 'maghrib', name: 'Maghrib', time: '18:09', icon: '🌇' },
+    { id: 'isya', name: 'Isya', time: '19:20', icon: '🌙' },
+  ];
 
   const fetchDashboard = async () => {
     try {
       const res = await hrisApi.getDashboard();
-      if (res.status === 'success') {
+      if (res?.status === 'success') {
         setDashboardData(res.data);
       }
     } catch (err) {
@@ -43,6 +52,18 @@ export default function DashboardScreen({ navigation }) {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
       setCurrentTime(timeStr);
+
+      // Tentukan waktu sholat aktif
+      const hour = now.getHours();
+      const min = now.getMinutes();
+      const totalMin = hour * 60 + min;
+
+      if (totalMin < 4 * 60 + 48) setActivePrayer({ name: 'Subuh', time: '04:48' });
+      else if (totalMin < 12 * 60 + 8) setActivePrayer({ name: 'Dzuhur', time: '12:08' });
+      else if (totalMin < 15 * 60 + 28) setActivePrayer({ name: 'Ashar', time: '15:28' });
+      else if (totalMin < 18 * 60 + 9) setActivePrayer({ name: 'Maghrib', time: '18:09' });
+      else if (totalMin < 19 * 60 + 20) setActivePrayer({ name: 'Isya', time: '19:20' });
+      else setActivePrayer({ name: 'Subuh', time: '04:48' });
     };
     updateClock();
     const timer = setInterval(updateClock, 30000);
@@ -55,34 +76,34 @@ export default function DashboardScreen({ navigation }) {
     setRefreshing(false);
   };
 
-  const handleQuickFaceAttendance = (base64Data) => {
+  const handleQuickFaceAttendance = () => {
     navigation.navigate('Presensi');
   };
 
   const bankGridMenus = [
-    { id: 'presensi', title: 'Presensi Wajah', icon: '📸', bg: '#ecfdf5', color: '#059669', screen: 'Presensi', badge: 'LIVE' },
-    { id: 'ibadah', title: 'Amal Ibadah', icon: '🕌', bg: '#eff6ff', color: '#2563eb', screen: 'Mutabaah', badge: 'YAUMIYAH' },
-    { id: 'bpi', title: 'Halaqah BPI', icon: '👥', bg: '#f5f3ff', color: '#7c3aed', screen: 'Bpi' },
-    { id: 'cuti', title: 'Izin & Cuti', icon: '📝', bg: '#fff7ed', color: '#ea580c', screen: 'Cuti' },
-    { id: 'gaji', title: 'Slip Gaji', icon: '💰', bg: '#fefce8', color: '#ca8a04', screen: 'Payroll' },
-    { id: 'kpi', title: 'Kinerja KPI', icon: '📊', bg: '#fdf2f8', color: '#db2777', screen: 'Kpi' },
-    { id: 'kantin', title: 'Kantin & Koperasi', icon: '🍽️', bg: '#f0fdf4', color: '#16a34a', screen: 'Canteen' },
-    { id: 'face', title: 'Daftar Face ID', icon: '👤', bg: '#f1f5f9', color: '#475569', screen: 'FaceEnrollment', badge: 'NEW' },
-    { id: 'berita', title: 'Memo & Berita', icon: '📢', bg: '#e0f2fe', color: '#0284c7', screen: 'Announcements' },
-    { id: 'profil', title: 'Profil Pegawai', icon: '⚙️', bg: '#f8fafc', color: '#334155', screen: 'Profil' },
+    { id: 'presensi', title: 'Presensi Wajah', icon: '📸', bg: '#ecfdf5', screen: 'Presensi', badge: 'LIVE' },
+    { id: 'ibadah', title: 'Amal Ibadah', icon: '🕌', bg: '#eff6ff', screen: 'Mutabaah', badge: 'YAUMIYAH' },
+    { id: 'bpi', title: 'Halaqah BPI', icon: '👥', bg: '#f5f3ff', screen: 'Bpi' },
+    { id: 'cuti', title: 'Izin & Cuti', icon: '📝', bg: '#fff7ed', screen: 'Cuti' },
+    { id: 'gaji', title: 'Slip Gaji', icon: '💰', bg: '#fefce8', screen: 'Payroll' },
+    { id: 'kpi', title: 'Kinerja KPI', icon: '📊', bg: '#fdf2f8', screen: 'Kpi' },
+    { id: 'kantin', title: 'Kantin & Toko', icon: '🍽️', bg: '#f0fdf4', screen: 'Canteen' },
+    { id: 'face', title: 'Daftar Face ID', icon: '👤', bg: '#f1f5f9', screen: 'FaceEnrollment', badge: 'NEW' },
+    { id: 'berita', title: 'Memo & Berita', icon: '📢', bg: '#e0f2fe', screen: 'Announcements' },
+    { id: 'profil', title: 'Profil Pegawai', icon: '⚙️', bg: '#f8fafc', screen: 'Profil' },
   ];
 
   return (
     <View style={[styles.container, { backgroundColor: colors.bg }]}>
       
-      {/* 1. Header Bank Modern: Identitas & Saldo */}
+      {/* 1. Header Bank Modern: Identitas & Jadwal Sholat */}
       <View style={[styles.bankHeader, { backgroundColor: '#004532' }]}>
         <View style={styles.headerTopRow}>
           <View style={styles.headerLeft}>
             <Text style={styles.greetingText}>{getGreetingIndonesia()},</Text>
-            <Text style={styles.userNameText}>{employee?.full_name || user?.name || 'Ustadz Rizky S.Pd.I'}</Text>
+            <Text style={styles.userNameText}>{employee?.full_name || user?.name || 'Super Admin SmartEdu'}</Text>
             <View style={styles.unitPill}>
-              <Text style={styles.unitPillText}>{unit?.name || 'SMPIT Robbani Ogan Ilir'}</Text>
+              <Text style={styles.unitPillText}>{unit?.name || 'Yayasan Generasi Robbani'}</Text>
             </View>
           </View>
 
@@ -99,16 +120,42 @@ export default function DashboardScreen({ navigation }) {
           </View>
         </View>
 
-        {/* 2. Kartu Digital Dompet & Kehadiran (Gaya Rekening Bank) */}
+        {/* 2. Kartu Jadwal Sholat & Waktu Ibadah (Pengganti Saldo) */}
         <View style={styles.digitalCard}>
           <View style={styles.cardTop}>
             <View>
-              <Text style={styles.cardSubTitle}>SALDO DOMPET KANTIN &amp; KOPERASI</Text>
-              <Text style={styles.cardBalance}>{formatRupiah(dashboardData?.wallet_balance || 350000)}</Text>
+              <Text style={styles.cardSubTitle}>🕌 JADWAL SHOLAT • KAB. OGAN ILIR</Text>
+              <Text style={styles.activePrayerText}>
+                Waktu Berikutnya: <Text style={{ color: '#c6f634' }}>{activePrayer.name} {activePrayer.time} WIB</Text>
+              </Text>
             </View>
             <View style={styles.liveClockBadge}>
               <Text style={styles.liveClockText}>🕒 {currentTime}</Text>
             </View>
+          </View>
+
+          {/* 5 Waktu Sholat Horizontal Bar */}
+          <View style={styles.prayerRow}>
+            {prayerTimes.map((p) => {
+              const isTarget = p.name === activePrayer.name;
+              return (
+                <View
+                  key={p.id}
+                  style={[
+                    styles.prayerItem,
+                    isTarget && { backgroundColor: 'rgba(198, 246, 52, 0.25)', borderColor: '#c6f634' },
+                  ]}
+                >
+                  <Text style={styles.prayerIcon}>{p.icon}</Text>
+                  <Text style={[styles.prayerName, isTarget && { color: '#c6f634', fontWeight: '900' }]}>
+                    {p.name}
+                  </Text>
+                  <Text style={[styles.prayerTime, isTarget && { color: '#ffffff', fontWeight: '900' }]}>
+                    {p.time}
+                  </Text>
+                </View>
+              );
+            })}
           </View>
 
           <View style={styles.cardDivider} />
@@ -181,7 +228,7 @@ export default function DashboardScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
       >
         
-        {/* 3. Modern Bank Icon Launcher (10-Grid Rounded Square Menu) */}
+        {/* 3. Modern Bank Icon Launcher (4-Kolom Proporsional) */}
         <View style={styles.menuSectionHeader}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Menu Utama SmartEdu SDM</Text>
           <Text style={[styles.sectionSub, { color: colors.textLight }]}>Akses seluruh modul digital dalam 1 sentuhan</Text>
@@ -291,7 +338,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 14,
   },
   headerLeft: {
     flex: 1,
@@ -362,11 +409,11 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     letterSpacing: 0.5,
   },
-  cardBalance: {
+  activePrayerText: {
     color: '#ffffff',
-    fontSize: 22,
-    fontWeight: '900',
-    marginTop: 2,
+    fontSize: 14,
+    fontWeight: '800',
+    marginTop: 3,
   },
   liveClockBadge: {
     backgroundColor: 'rgba(0,0,0,0.25)',
@@ -378,6 +425,37 @@ const styles = StyleSheet.create({
     color: '#c6f634',
     fontSize: 10,
     fontWeight: '800',
+  },
+  prayerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+    gap: 4,
+  },
+  prayerItem: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 2,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+  },
+  prayerIcon: {
+    fontSize: 13,
+    marginBottom: 2,
+  },
+  prayerName: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 9,
+    fontWeight: '700',
+  },
+  prayerTime: {
+    color: '#ffffff',
+    fontSize: 10,
+    fontWeight: '800',
+    marginTop: 2,
   },
   cardDivider: {
     height: 1,

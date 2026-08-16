@@ -3,16 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
 // Auto-detect base URL:
-// Di Web: gunakan http://bigdata.test/api/v1/mobile (Herd)
-// Di HP Fisik (Expo Go): gunakan IP LAN Laptop (http://192.168.1.8/api/v1/mobile)
+// Di Web: gunakan http://bigdata.test/api/v1/mobile
+// Di HP Android Fisik: gunakan IP LAN Laptop port 8000 (http://192.168.1.8:8000/api/v1/mobile)
 export const BASE_API_URL =
   Platform.OS === 'web'
     ? 'http://bigdata.test/api/v1/mobile'
-    : 'http://192.168.1.8/api/v1/mobile';
+    : 'http://192.168.1.8:8000/api/v1/mobile';
 
 const apiClient = axios.create({
   baseURL: BASE_API_URL,
-  timeout: 8000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
