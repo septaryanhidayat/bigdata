@@ -7,6 +7,17 @@ export function formatRupiah(amount) {
 }
 
 /**
+ * Sapaan otomatis waktu Indonesia (Pagi, Siang, Sore, Malam)
+ */
+export function getGreetingIndonesia() {
+  const hour = new Date().getHours();
+  if (hour >= 3 && hour < 11) return 'Selamat Pagi';
+  if (hour >= 11 && hour < 15) return 'Selamat Siang';
+  if (hour >= 15 && hour < 18) return 'Selamat Sore';
+  return 'Selamat Malam';
+}
+
+/**
  * Format tanggal YYYY-MM-DD ke teks Bahasa Indonesia
  */
 export function formatDateIndonesia(dateString) {
