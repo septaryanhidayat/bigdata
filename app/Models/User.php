@@ -33,6 +33,10 @@ class User extends Authenticatable
         'password',
         'role',
         'school_id',
+        'is_active',
+        'phone',
+        'avatar_url',
+        'last_login_at',
     ];
 
     protected $hidden = [
@@ -44,6 +48,8 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
+            'is_active' => 'boolean',
             'password' => 'hashed',
         ];
     }

@@ -112,8 +112,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/cms/content/item/delete', [CmsController::class, 'deleteCmsItem'])->name('cms.content.delete');
         });
 
-        // 2b. Pengaturan Global Portal Yayasan, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
+        // 2b. Pengaturan Global Portal Yayasan, Manajemen Akun, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
         Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN')->group(function () {
+            // Manajemen Akun & Hak Akses Pengguna
+            Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+            Route::post('/users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
+            Route::get('/users/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
+            Route::put('/users/{id}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+            Route::post('/users/{id}/reset-password', [\App\Http\Controllers\Admin\UserController::class, 'resetPassword'])->name('users.reset-password');
+            Route::post('/users/{id}/toggle-status', [\App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('users.toggle-status');
+            Route::delete('/users/{id}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+            Route::get('/users-export', [\App\Http\Controllers\Admin\UserController::class, 'export'])->name('users.export');
+
             Route::get('/settings', [CmsController::class, 'settingsPortal'])->name('settings');
             Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
             Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');
