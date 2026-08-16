@@ -247,19 +247,27 @@ class EmployeeDossierController extends Controller
             }
         }
 
-        // Handle Foto Profil & Biometrik Wajah
-        if ($request->hasFile('avatar') || $request->hasFile('face_photo') || $request->hasFile('photo')) {
-            $photoFile = $request->file('avatar') ?? $request->file('face_photo') ?? $request->file('photo');
+        // Handle Foto Profil & Biometrik Wajah (< 50KB Auto Compression)
+        $photoSource = null;
+        if ($request->filled('avatar_base64')) {
+            $photoSource = $request->input('avatar_base64');
+        } elseif ($request->hasFile('avatar') || $request->hasFile('face_photo') || $request->hasFile('photo')) {
+            $photoSource = $request->file('avatar') ?? $request->file('face_photo') ?? $request->file('photo');
+        }
+
+        if ($photoSource) {
             $uploadDir = public_path('uploads/faces');
             if (!file_exists($uploadDir)) {
                 @mkdir($uploadDir, 0777, true);
             }
-            $ext = $photoFile->getClientOriginalExtension() ?: 'jpg';
-            $filename = 'face_employee_' . $employee->id . '_' . time() . '.' . $ext;
-            $photoFile->move($uploadDir, $filename);
-            $photoUrl = '/uploads/faces/' . $filename;
-            $updateData['face_photo_url'] = $photoUrl;
-            $updateData['face_registered_at'] = now();
+            $filename = 'face_employee_' . $employee->id . '_' . time() . '.jpg';
+            $destPath = $uploadDir . '/' . $filename;
+
+            if (\App\Services\ImageOptimizerService::optimizeAndSave($photoSource, $destPath, 480, 48)) {
+                $photoUrl = '/uploads/faces/' . $filename;
+                $updateData['face_photo_url'] = $photoUrl;
+                $updateData['face_registered_at'] = now();
+            }
         }
 
         $employee->update($updateData);

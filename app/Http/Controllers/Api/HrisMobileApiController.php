@@ -1055,7 +1055,7 @@ class HrisMobileApiController extends Controller
 
         $facePhotoUrl = '/uploads/faces/face_employee_' . $employeeId . '.jpg';
         
-        // Simpan foto wajah jika berupa base64 atau data-url
+        // Simpan foto wajah dengan kompresi otomatis < 50KB
         $imageData = $request->input('face_image') ?? $request->input('photo') ?? $request->input('avatar');
         if ($imageData) {
             $uploadDir = public_path('uploads/faces');
@@ -1066,19 +1066,8 @@ class HrisMobileApiController extends Controller
             $filename = 'face_employee_' . $employeeId . '_' . time() . '.jpg';
             $filePath = $uploadDir . '/' . $filename;
 
-            if (str_contains($imageData, 'base64,')) {
-                $rawBase64 = explode('base64,', $imageData)[1];
-                $decoded = base64_decode($rawBase64, true);
-                if ($decoded !== false && strlen($decoded) > 50) {
-                    file_put_contents($filePath, $decoded);
-                    $facePhotoUrl = '/uploads/faces/' . $filename;
-                }
-            } elseif (strlen($imageData) > 200 && !str_starts_with($imageData, 'http')) {
-                $decoded = base64_decode($imageData, true);
-                if ($decoded !== false && strlen($decoded) > 50) {
-                    file_put_contents($filePath, $decoded);
-                    $facePhotoUrl = '/uploads/faces/' . $filename;
-                }
+            if (\App\Services\ImageOptimizerService::optimizeAndSave($imageData, $filePath, 480, 48)) {
+                $facePhotoUrl = '/uploads/faces/' . $filename;
             } elseif (str_starts_with($imageData, 'http') || (filter_var($imageData, FILTER_VALIDATE_URL) && !str_starts_with($imageData, 'file://'))) {
                 $facePhotoUrl = $imageData;
             }
@@ -1210,36 +1199,28 @@ class HrisMobileApiController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
-        // Handle Photo / Avatar Upload (Base64 or File Upload)
+        // Handle Photo / Avatar Upload (Base64 or File Upload with < 50KB Auto Compression)
         $avatarUrl = null;
+        $photoSource = null;
         if ($request->filled('photo') || $request->filled('avatar')) {
-            $rawPhoto = $request->input('photo', $request->input('avatar'));
-            if (str_starts_with($rawPhoto, 'data:image')) {
-                @list($type, $rawPhoto) = explode(';', $rawPhoto);
-                @list(, $rawPhoto) = explode(',', $rawPhoto);
-            }
-
-            $decodedImage = base64_decode($rawPhoto);
-            if ($decodedImage !== false && strlen($decodedImage) > 100) {
-                $dirPath = public_path('uploads/avatars');
-                if (!file_exists($dirPath)) {
-                    @mkdir($dirPath, 0777, true);
-                }
-                $filename = 'avatar_user_' . $user->id . '_' . time() . '.jpg';
-                file_put_contents($dirPath . '/' . $filename, $decodedImage);
-                $avatarUrl = '/uploads/avatars/' . $filename;
-            } elseif (filter_var($rawPhoto, FILTER_VALIDATE_URL) || str_starts_with($rawPhoto, '/')) {
-                $avatarUrl = $rawPhoto;
-            }
+            $photoSource = $request->input('photo', $request->input('avatar'));
         } elseif ($request->hasFile('photo') || $request->hasFile('avatar')) {
-            $file = $request->file('photo') ?? $request->file('avatar');
+            $photoSource = $request->file('photo') ?? $request->file('avatar');
+        }
+
+        if ($photoSource) {
             $dirPath = public_path('uploads/avatars');
             if (!file_exists($dirPath)) {
                 @mkdir($dirPath, 0777, true);
             }
-            $filename = 'avatar_user_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($dirPath, $filename);
-            $avatarUrl = '/uploads/avatars/' . $filename;
+            $filename = 'avatar_user_' . $user->id . '_' . time() . '.jpg';
+            $destPath = $dirPath . '/' . $filename;
+
+            if (\App\Services\ImageOptimizerService::optimizeAndSave($photoSource, $destPath, 480, 48)) {
+                $avatarUrl = '/uploads/avatars/' . $filename;
+            } elseif (str_starts_with($photoSource, 'http') || (filter_var($photoSource, FILTER_VALIDATE_URL) && !str_starts_with($photoSource, 'file://'))) {
+                $avatarUrl = $photoSource;
+            }
         }
 
         if ($avatarUrl) {

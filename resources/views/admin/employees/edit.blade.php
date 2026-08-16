@@ -83,27 +83,79 @@
 
                 <div class="flex-1 space-y-2 text-center sm:text-left">
                     <label class="block text-xs font-black text-slate-700">Pilih Foto Profil Baru</label>
+                    <input type="hidden" name="avatar_base64" id="avatarBase64Input">
                     <input type="file" 
                            name="avatar" 
                            id="avatarInput" 
-                           accept=".jpg,.jpeg,.png,.webp" 
-                           onchange="previewAvatarImage(this)" 
+                           accept="image/*" 
+                           onchange="compressAndPreviewAvatar(this)" 
                            class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer">
+                    <div id="compressionStatus" class="hidden">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200" id="compressionText">
+                            ⚡ Mengompresi foto...
+                        </span>
+                    </div>
                     <p class="text-[11px] text-slate-500 font-medium">
-                        Unggah foto wajah resmi berformat JPG, PNG, atau WEBP (Maksimal 5MB). Foto ini akan langsung menggantikan foto profil dan sampel wajah presensi mobile pegawai.
+                        Foto otomatis dikompresi di bawah 50 KB oleh sistem agar penyimpanan ringan dan sinkron instan ke presensi mobile.
                     </p>
                 </div>
             </div>
         </div>
 
         <script>
-            function previewAvatarImage(input) {
+            function compressAndPreviewAvatar(input) {
                 if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    const statusDiv = document.getElementById('compressionStatus');
+                    const statusText = document.getElementById('compressionText');
+                    statusDiv.classList.remove('hidden');
+                    statusText.innerHTML = '⏳ Mengompresi ukuran foto ke &lt; 50 KB...';
+
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        document.getElementById('avatarPreview').src = e.target.result;
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const maxDim = 480;
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > height) {
+                                if (width > maxDim) {
+                                    height = Math.round((height * maxDim) / width);
+                                    width = maxDim;
+                                }
+                            } else {
+                                if (height > maxDim) {
+                                    width = Math.round((width * maxDim) / height);
+                                    height = maxDim;
+                                }
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(0, 0, width, height);
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            let quality = 0.75;
+                            let compressedData = canvas.toDataURL('image/jpeg', quality);
+                            let sizeKb = Math.round((compressedData.length * 3 / 4) / 1024);
+
+                            if (sizeKb > 48) {
+                                quality = 0.55;
+                                compressedData = canvas.toDataURL('image/jpeg', quality);
+                                sizeKb = Math.round((compressedData.length * 3 / 4) / 1024);
+                            }
+
+                            document.getElementById('avatarPreview').src = compressedData;
+                            document.getElementById('avatarBase64Input').value = compressedData;
+                            statusText.innerHTML = '✅ Foto berhasil dioptimasi: <b>' + sizeKb + ' KB</b> (Optimal &lt; 50KB)';
+                        };
+                        img.src = e.target.result;
                     };
-                    reader.readAsDataURL(input.files[0]);
+                    reader.readAsDataURL(file);
                 }
             }
         </script>

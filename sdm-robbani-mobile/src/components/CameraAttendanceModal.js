@@ -35,7 +35,7 @@ export default function CameraAttendanceModal({
       try {
         setCapturing(true);
         const photo = await cameraRef.current.takePictureAsync({
-          quality: 0.7,
+          quality: 0.35,
           base64: true,
         });
         setCapturedPhoto(photo);
