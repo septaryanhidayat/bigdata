@@ -134,4 +134,10 @@ export const hrisApi = {
     const response = await apiClient.get('/face/status');
     return response.data;
   },
+
+  // 11. Edit Profil Mandiri Pegawai
+  updateProfile: async (data) => {
+    const response = await apiClient.post('/profile/update', data);
+    return response.data;
+  },
 };

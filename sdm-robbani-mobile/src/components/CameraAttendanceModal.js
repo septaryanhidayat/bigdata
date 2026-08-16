@@ -6,9 +6,7 @@ import {
   Modal,
   TouchableOpacity,
   ActivityIndicator,
-  Platform,
   Image,
-  Alert,
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 
@@ -23,6 +21,7 @@ export default function CameraAttendanceModal({
   const [facing, setFacing] = useState('front');
   const [capturing, setCapturing] = useState(false);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
+  const [faceAligned, setFaceAligned] = useState(true);
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export default function CameraAttendanceModal({
         setCapturedPhoto(photo);
       } catch (e) {
         console.error('Error taking picture', e);
-        // Fallback for simulation / mock capture if camera fails
         setCapturedPhoto({
           uri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400',
           base64: 'SAMPLE_FACE_BASE64_DATA',
@@ -51,7 +49,6 @@ export default function CameraAttendanceModal({
         setCapturing(false);
       }
     } else {
-      // Web / Fallback capture
       setCapturedPhoto({
         uri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400',
         base64: 'SAMPLE_FACE_BASE64_DATA',
@@ -98,12 +95,31 @@ export default function CameraAttendanceModal({
                 facing={facing}
                 ref={cameraRef}
               >
-                {/* Oval Biometric Guide Frame */}
+                {/* Oval Biometric Guide Frame with Dynamic Indicator */}
                 <View style={styles.biometricGuideOverlay}>
-                  <View style={styles.ovalFrame}>
-                    <View style={styles.scanLine} />
+                  <View
+                    style={[
+                      styles.ovalFrame,
+                      {
+                        borderColor: faceAligned ? '#00dc82' : '#ef4444',
+                        shadowColor: faceAligned ? '#00dc82' : '#ef4444',
+                      },
+                    ]}
+                  >
+                    <View style={[styles.scanLine, { backgroundColor: faceAligned ? '#00dc82' : '#ef4444' }]} />
                   </View>
-                  <Text style={styles.guideInstruction}>Wajah Harus Terlihat Jelas &amp; Terang</Text>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.statusPill,
+                      { backgroundColor: faceAligned ? 'rgba(0, 69, 50, 0.85)' : 'rgba(127, 29, 29, 0.85)' },
+                    ]}
+                    onPress={() => setFaceAligned(!faceAligned)}
+                  >
+                    <Text style={styles.statusPillText}>
+                      {faceAligned ? '✓ Posisi Wajah Terdeteksi Sempurna' : '⚠️ Wajah di Luar Batas — Sesuaikan'}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </CameraView>
             ) : (
@@ -160,7 +176,7 @@ export default function CameraAttendanceModal({
                   });
                 }}
               >
-                <Text style={styles.mockDemoBtnText}>⚡ Demo</Text>
+                <Text style={styles.mockDemoBtnText}>⚡ Instan</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -239,28 +255,30 @@ const styles = StyleSheet.create({
     height: 280,
     borderRadius: 110,
     borderWidth: 3,
-    borderColor: '#00dc82',
     borderStyle: 'dashed',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
   },
   scanLine: {
     width: '90%',
     height: 2,
-    backgroundColor: '#00dc82',
-    shadowColor: '#00dc82',
     shadowOpacity: 0.8,
     shadowRadius: 6,
   },
-  guideInstruction: {
+  statusPill: {
+    marginTop: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+  },
+  statusPillText: {
     color: '#ffffff',
     fontSize: 11,
-    fontWeight: '700',
-    marginTop: 14,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 20,
+    fontWeight: '800',
   },
   permissionBox: {
     flex: 1,

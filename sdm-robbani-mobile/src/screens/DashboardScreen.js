@@ -89,7 +89,9 @@ export default function DashboardScreen({ navigation }) {
     { id: 'kpi', title: 'Kinerja KPI', icon: '📊', bg: '#fdf2f8', screen: 'Kpi' },
     { id: 'kantin', title: 'Kantin & Toko', icon: '🍽️', bg: '#f0fdf4', screen: 'Canteen' },
     { id: 'face', title: 'Daftar Face ID', icon: '👤', bg: '#f1f5f9', screen: 'FaceEnrollment', badge: 'NEW' },
-    { id: 'berita', title: 'Memo & Berita', icon: '📢', bg: '#e0f2fe', screen: 'Announcements' },
+    { id: 'quran', title: 'Al-Qur\'an 30 Juz', icon: '📖', bg: '#ecfeff', screen: 'Quran' },
+    { id: 'matsurat', title: 'Al-Ma\'tsurat', icon: '📿', bg: '#fdf4ff', screen: 'Almatsurat' },
+    { id: 'asmaul', title: 'Asmaul Husna', icon: '🕋', bg: '#fefce8', screen: 'AsmaulHusna' },
     { id: 'profil', title: 'Profil Pegawai', icon: '⚙️', bg: '#f8fafc', screen: 'Profil' },
   ];
 

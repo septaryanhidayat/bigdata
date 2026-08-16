@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\LibraryController;
 use App\Http\Controllers\Admin\LmsController;
 use App\Http\Controllers\Admin\BkController;
 use App\Http\Controllers\Admin\LetterController;
+use App\Http\Controllers\Admin\MobileHrisAdminController;
 use App\Http\Controllers\PublicLetterVerificationController;
 
 // ==========================================================================
@@ -159,10 +160,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/bpi', [BpiController::class, 'store'])->name('bpi.store');
         });
 
-        // 4. Modul 7 & 17: HRIS & E-Payroll Pegawai (Super Admin, Ketua Yayasan, Kepala Sekolah, Bendahara)
-        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_KEUANGAN')->group(function () {
+        // 4. Modul 7 & 17: HRIS & E-Payroll Pegawai & Aplikasi Mobile SDM (Super Admin, Ketua Yayasan, Kepala Sekolah, Bendahara)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_KEUANGAN,STAFF_TU')->group(function () {
             Route::get('/payroll', [HrisPayrollController::class, 'index'])->name('payroll.index');
             Route::post('/payroll/generate', [HrisPayrollController::class, 'generate'])->name('payroll.generate');
+            
+            // Aplikasi Mobile SDM & Biometrik Wajah
+            Route::get('/mobile-hris', [MobileHrisAdminController::class, 'index'])->name('mobile.index');
+            Route::get('/mobile-hris/faces', [MobileHrisAdminController::class, 'faceBiometrics'])->name('mobile.faces');
         });
 
         // 5. Modul 12 & 13: CBT Ujian & PPDB Manager (Super Admin, Kepala Sekolah, TU, Panitia PPDB)

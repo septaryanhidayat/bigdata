@@ -80,18 +80,18 @@ export default function ProfileScreen({ navigation }) {
           </View>
           <TouchableOpacity
             style={styles.settingBtn}
-            onPress={() => navigation?.navigate?.('FaceEnrollment')}
+            onPress={() => navigation?.navigate?.('EditProfile')}
           >
-            <Text style={[styles.settingBtnText, { color: colors.text }]}>👤 Kelola Biometrik Wajah (Face ID)</Text>
+            <Text style={[styles.settingBtnText, { color: colors.text }]}>✏️ Ubah Data Profil &amp; Kata Sandi</Text>
             <Text style={[styles.arrowText, { color: colors.primary }]}>➔</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.settingBtn}
-            onPress={() => Alert.alert('Keamanan', 'Fitur ganti kata sandi dapat dilakukan melalui portal web SmartEdu.')}
+            onPress={() => navigation?.navigate?.('FaceEnrollment')}
           >
-            <Text style={[styles.settingBtnText, { color: colors.text }]}>🔒 Ganti Kata Sandi</Text>
-            <Text style={[styles.arrowText, { color: colors.textLight }]}>➔</Text>
+            <Text style={[styles.settingBtnText, { color: colors.text }]}>👤 Kelola Biometrik Wajah (Face ID)</Text>
+            <Text style={[styles.arrowText, { color: colors.primary }]}>➔</Text>
           </TouchableOpacity>
         </View>
 

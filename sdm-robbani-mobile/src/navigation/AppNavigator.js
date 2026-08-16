@@ -14,7 +14,11 @@ import AnnouncementScreen from '../screens/AnnouncementScreen';
 import MutabaahScreen from '../screens/MutabaahScreen';
 import BpiScreen from '../screens/BpiScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import FaceEnrollmentScreen from '../screens/FaceEnrollmentScreen';
+import QuranScreen from '../screens/QuranScreen';
+import AsmaulHusnaScreen from '../screens/AsmaulHusnaScreen';
+import AlmatsuratScreen from '../screens/AlmatsuratScreen';
 import { TouchableOpacity, Text } from 'react-native';
 
 export default function AppNavigator() {
@@ -22,7 +26,7 @@ export default function AppNavigator() {
   const { colors } = useTheme();
 
   // Active Screen State
-  const [currentScreen, setCurrentScreen] = useState('Home'); // 'Home' | 'Presensi' | 'Cuti' | 'Payroll' | 'Profil' | 'History' | 'Kpi' | 'Canteen' | 'Announcements' | 'Mutabaah' | 'Bpi' | 'FaceEnrollment'
+  const [currentScreen, setCurrentScreen] = useState('Home');
 
   const navigation = {
     navigate: (screenName) => setCurrentScreen(screenName),
@@ -67,6 +71,14 @@ export default function AppNavigator() {
         return <BpiScreen navigation={navigation} />;
       case 'FaceEnrollment':
         return <FaceEnrollmentScreen navigation={navigation} />;
+      case 'EditProfile':
+        return <EditProfileScreen navigation={navigation} />;
+      case 'Quran':
+        return <QuranScreen navigation={navigation} />;
+      case 'AsmaulHusna':
+        return <AsmaulHusnaScreen navigation={navigation} />;
+      case 'Almatsurat':
+        return <AlmatsuratScreen navigation={navigation} />;
       case 'Profil':
         return <ProfileScreen navigation={navigation} />;
       default:

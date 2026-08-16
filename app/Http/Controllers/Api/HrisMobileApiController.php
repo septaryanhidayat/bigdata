@@ -1057,5 +1057,54 @@ class HrisMobileApiController extends Controller
             ]
         ]);
     }
+
+    /**
+     * 18. Update Profil Mandiri Pegawai Mobile
+     */
+    public function updateProfile(Request $request)
+    {
+        $userId = $request->header('X-User-Id') ?? 1;
+        $user = User::find($userId) ?? User::first();
+
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:30',
+            'address' => 'nullable|string|max:500',
+            'password' => 'nullable|string|min:6',
+        ]);
+
+        if ($request->filled('name')) {
+            $user->name = $request->input('name');
+            $user->save();
+        }
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
+        }
+
+        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        if ($employee) {
+            $updateData = [];
+            if ($request->filled('name')) $updateData['full_name'] = $request->input('name');
+            if ($request->filled('phone')) $updateData['phone'] = $request->input('phone');
+            if ($request->filled('address')) $updateData['address'] = $request->input('address');
+            $updateData['updated_at'] = now();
+
+            DB::table('employees')->where('id', $employee->id)->update($updateData);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Profil pegawai berhasil diperbarui.',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $request->input('phone', $employee ? $employee->phone : null),
+                'address' => $request->input('address', $employee ? $employee->address : null),
+            ]
+        ]);
+    }
 }
 

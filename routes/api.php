@@ -16,6 +16,7 @@ Route::prefix('v1')->group(function () {
 
         // Dashboard & Profile
         Route::get('/dashboard', [HrisMobileApiController::class, 'dashboard']);
+        Route::post('/profile/update', [HrisMobileApiController::class, 'updateProfile']);
 
         // Presensi Face Recognition & Anti-Fake GPS
         Route::post('/attendance/check-in', [HrisMobileApiController::class, 'attendanceCheckIn']);

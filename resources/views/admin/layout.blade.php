@@ -409,6 +409,10 @@
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">💼</span> 
                         <span class="sidebar-text">HRIS & E-Payroll Pegawai</span>
                     </a>
+                    <a href="{{ route('admin.mobile.index') }}" title="Aplikasi Mobile SDM & Face ID" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.mobile.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <span class="w-5 text-center text-sm shrink-0 opacity-80">📱</span> 
+                        <span class="sidebar-text">Aplikasi Mobile & Face ID</span>
+                    </a>
                     @endif
                 </div>
                 @endif
