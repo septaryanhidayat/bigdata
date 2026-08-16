@@ -52,7 +52,7 @@
                     <td class="py-3 px-4 font-bold text-slate-900 max-w-xs">{{ $faq->question }}</td>
                     <td class="py-3 px-4 text-slate-600 max-w-md">{{ $faq->answer }}</td>
                     <td class="py-3 px-4 text-center">
-                        <form action="{{ route('admin.faqs.destroy', $faq->id) }}" method="POST" onsubmit="return confirm('Hapus FAQ ini?')">
+                        <form action="{{ route('admin.faqs.destroy', $faq->id) }}" method="POST" onsubmit="smartAlert.confirmDelete(event, this, 'Konfirmasi Hapus FAQ', 'Apakah Anda yakin ingin menghapus FAQ ini?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="px-3 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold">Hapus</button>

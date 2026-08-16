@@ -270,7 +270,7 @@
 
                                 <!-- Delete Button -->
                                 @if($user->id !== auth()->id() && $user->email !== 'admin@smartedu.test')
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun {{ addslashes($user->name) }}? Aksi ini tidak dapat dibatalkan.');" class="inline">
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="smartAlert.confirmDelete(event, this, 'Konfirmasi Hapus Akun', 'Apakah Anda yakin ingin menghapus akun {{ addslashes($user->name) }}? Aksi ini tidak dapat dibatalkan.');" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" title="Hapus Akun Pengguna" class="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 transition-colors">

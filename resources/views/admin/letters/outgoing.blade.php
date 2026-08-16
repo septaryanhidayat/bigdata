@@ -98,7 +98,7 @@
                                 </a>
 
                                 @if($lt->status !== 'SIGNED')
-                                    <form action="{{ route('admin.letters.destroy', $lt->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus draft surat ini?');" class="inline">
+                                    <form action="{{ route('admin.letters.destroy', $lt->id) }}" method="POST" onsubmit="smartAlert.confirmDelete(event, this, 'Konfirmasi Hapus Draft Surat', 'Apakah Anda yakin ingin menghapus draft surat ini?');" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-2 py-1.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 text-[10px] font-bold" title="Hapus">

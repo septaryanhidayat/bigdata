@@ -14,6 +14,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -710,26 +711,202 @@
             }
         });
 
-        // Global Client Device & Browser Exception Listener
-        window.addEventListener('error', function(event) {
-            if (!event.message || event.message.includes('Script error')) return;
-            try {
-                fetch('/admin/system-errors/log-client-error', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        message: event.message,
-                        file: event.filename ? event.filename.split('/').slice(-2).join('/') : 'Browser JS Device',
-                        line: event.lineno || 0,
-                        stack_trace: event.error ? event.error.stack : null,
-                        url: window.location.href
-                    })
+        // Global SweetAlert2 Toast & Dialog Helpers
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            background: '#1d1f27',
+            color: '#ffffff',
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+            customClass: {
+                popup: 'rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-md text-xs font-bold'
+            }
+        });
+
+        window.smartAlert = {
+            toast: function(icon, title, timer = 3500) {
+                return Toast.fire({ icon, title, timer });
+            },
+            confirmDelete: function(event, form, title = 'Konfirmasi Hapus Data', text = 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.') {
+                event.preventDefault();
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e11d48',
+                    cancelButtonColor: '#475569',
+                    confirmButtonText: '🗑️ Ya, Hapus!',
+                    cancelButtonText: 'Batal',
+                    background: '#1d1f27',
+                    color: '#ffffff',
+                    customClass: {
+                        popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs',
+                        confirmButton: 'rounded-xl font-black px-4 py-2 text-xs',
+                        cancelButton: 'rounded-xl font-bold px-4 py-2 text-xs'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
                 });
-            } catch(e) {}
+            }
+        };
+
+        // Global SweetAlert2 Confirmation Interceptor for forms with data-confirm
+        document.addEventListener('submit', function(e) {
+            const form = e.target;
+            const confirmMsg = form.getAttribute('data-confirm');
+            if (confirmMsg && !form.dataset.confirmed) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Konfirmasi Tindakan',
+                    text: confirmMsg,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#059669',
+                    cancelButtonColor: '#475569',
+                    confirmButtonText: 'Ya, Lanjutkan',
+                    cancelButtonText: 'Batal',
+                    background: '#1d1f27',
+                    color: '#ffffff',
+                    customClass: {
+                        popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs',
+                        confirmButton: 'rounded-xl font-black px-4 py-2 text-xs',
+                        cancelButton: 'rounded-xl font-bold px-4 py-2 text-xs'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.dataset.confirmed = "true";
+                        form.submit();
+                    }
+                });
+            }
         });
     </script>
+
+    <!-- SweetAlert2 Session Flash Notifications (Auto-Dismiss with Timer) -->
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: @json(session('success')),
+                timer: 3500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                background: '#1d1f27',
+                color: '#ffffff',
+                iconColor: '#10b981',
+                customClass: {
+                    popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs'
+                }
+            });
+        });
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Perhatian / Terjadi Kesalahan!',
+                text: @json(session('error')),
+                timer: 4500,
+                timerProgressBar: true,
+                showConfirmButton: true,
+                confirmButtonText: 'Mengerti',
+                confirmButtonColor: '#e11d48',
+                background: '#1d1f27',
+                color: '#ffffff',
+                iconColor: '#f43f5e',
+                customClass: {
+                    popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs',
+                    confirmButton: 'rounded-xl font-black px-5 py-2.5 text-xs'
+                }
+            });
+        });
+    </script>
+    @endif
+
+    @if(session('warning'))
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan!',
+                text: @json(session('warning')),
+                timer: 4000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                background: '#1d1f27',
+                color: '#ffffff',
+                iconColor: '#f59e0b',
+                customClass: {
+                    popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs'
+                }
+            });
+        });
+    </script>
+    @endif
+
+    @if(session('info'))
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Informasi',
+                text: @json(session('info')),
+                timer: 3500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                background: '#1d1f27',
+                color: '#ffffff',
+                iconColor: '#3b82f6',
+                customClass: {
+                    popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs'
+                }
+            });
+        });
+    </script>
+    @endif
+
+    @if($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let errorHtml = '<ul style="text-align: left; font-size: 0.85rem; padding-left: 1.2rem; list-style-type: disc; color: #fca5a5;">';
+            @foreach($errors->all() as $error)
+                errorHtml += '<li style="margin-bottom: 4px;">' + @json($error) + '</li>';
+            @endforeach
+            errorHtml += '</ul>';
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validasi Data Gagal!',
+                html: errorHtml,
+                timer: 5000,
+                timerProgressBar: true,
+                showConfirmButton: true,
+                confirmButtonText: 'Periksa Kembali',
+                confirmButtonColor: '#e11d48',
+                background: '#1d1f27',
+                color: '#ffffff',
+                iconColor: '#f43f5e',
+                customClass: {
+                    popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs',
+                    confirmButton: 'rounded-xl font-black px-5 py-2.5 text-xs'
+                }
+            });
+        });
+    </script>
+    @endif
 </body>
 </html>

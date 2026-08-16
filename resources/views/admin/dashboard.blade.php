@@ -598,7 +598,7 @@
 
             <!-- Quick Action Mitigation Buttons (High-Contrast Guaranteed) -->
             <div class="flex flex-wrap items-center gap-2">
-                <form action="{{ route('admin.system-errors.auto-mitigation') }}" method="POST" onsubmit="return confirm('Jalankan pembersihan cache &amp; auto-mitigasi recovery sistem?')">
+                <form action="{{ route('admin.system-errors.auto-mitigation') }}" method="POST" data-confirm="Jalankan pembersihan cache & auto-mitigasi recovery sistem sekarang?">
                     @csrf
                     <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md border border-emerald-500 transition-all flex items-center gap-1.5">
                         <span>⚡</span> Auto-Clear Cache &amp; Recovery

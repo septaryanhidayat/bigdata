@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permohonan Sewa Fasilitas | {{ $settings['school_name'] }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1206; color: #f7fee7; }
@@ -86,6 +87,27 @@
     <footer class="bg-[#070c04] text-slate-400 text-xs py-8 text-center border-t border-[#1c3011]">
         <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
     </footer>
+
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Permohonan Berhasil Dikirim!',
+                text: @json(session('success')),
+                timer: 4000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                background: '#14220c',
+                color: '#f7fee7',
+                iconColor: '#a8f52c',
+                customClass: {
+                    popup: 'rounded-3xl border border-[#264218] shadow-2xl p-6 text-xs font-bold'
+                }
+            });
+        });
+    </script>
+    @endif
 
 </body>
 </html>

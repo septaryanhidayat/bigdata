@@ -66,7 +66,7 @@
                                 <a href="{{ route('admin.modules.edit', $mod->id) }}" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 font-bold">
                                     Edit ✏️
                                 </a>
-                                <form action="{{ route('admin.modules.destroy', $mod->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus modul ini?')">
+                                <form action="{{ route('admin.modules.destroy', $mod->id) }}" method="POST" onsubmit="smartAlert.confirmDelete(event, this, 'Konfirmasi Hapus Modul', 'Apakah Anda yakin ingin menghapus modul fitur ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold">
