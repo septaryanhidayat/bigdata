@@ -18,39 +18,84 @@ class EmployeeDossierController extends Controller
      */
     public function index(Request $request)
     {
-        $schoolId = $request->input('school_id', session('selected_school_id', 'all'));
-        $search = $request->input('search');
+        $schoolId = $request->input('school_id');
+        $search = trim((string)$request->input('search'));
         $roleType = $request->input('role_type');
         $status = $request->input('employment_status');
+        $dossierStatus = $request->input('dossier_status');
+        $faceStatus = $request->input('face_status');
+        $perPage = $request->input('per_page', 25);
 
         $query = Employee::with('school');
 
-        if ($schoolId && $schoolId !== 'all') {
-            $query->where('school_id', $schoolId);
+        // 1. Filter Unit Sekolah / Yayasan
+        if ($schoolId !== null && $schoolId !== '' && $schoolId !== 'all') {
+            if ($schoolId === 'yayasan' || $schoolId === '0') {
+                $query->whereNull('school_id');
+            } else {
+                $query->where('school_id', $schoolId);
+            }
         }
 
-        if ($search) {
+        // 2. Filter Pencarian Cepat
+        if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
                   ->orWhere('nip', 'like', "%{$search}%")
                   ->orWhere('nik', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('major', 'like', "%{$search}%")
+                  ->orWhere('university', 'like', "%{$search}%");
             });
         }
 
-        if ($roleType) {
-            $query->where('role_type', $roleType);
+        // 3. Filter Peran / Jabatan
+        if (!empty($roleType) && $roleType !== 'all') {
+            if ($roleType === 'GURU') {
+                $query->whereIn('role_type', ['TEACHER', 'HEADMASTER']);
+            } else {
+                $query->where('role_type', $roleType);
+            }
         }
 
-        if ($status) {
+        // 4. Filter Status Kepegawaian
+        if (!empty($status) && $status !== 'all') {
             $query->where('employment_status', $status);
         }
 
-        $employees = $query->orderBy('id', 'desc')->paginate(15)->withQueryString();
-        $schools = School::all();
+        // 5. Filter Kelengkapan Berkas
+        if ($dossierStatus === 'complete') {
+            $query->whereNotNull('file_ktp')
+                  ->whereNotNull('file_kk')
+                  ->whereNotNull('file_ijazah');
+        } elseif ($dossierStatus === 'incomplete') {
+            $query->where(function ($q) {
+                $q->whereNull('file_ktp')
+                  ->orWhereNull('file_kk')
+                  ->orWhereNull('file_ijazah');
+            });
+        }
 
-        // Metrics Summary
+        // 6. Filter Status Face ID
+        if ($faceStatus === 'registered') {
+            $query->whereNotNull('face_registered_at');
+        } elseif ($faceStatus === 'unregistered') {
+            $query->whereNull('face_registered_at');
+        }
+
+        // 7. Pagination Size
+        $perPageInt = 25;
+        if ($perPage === 'all' || (int)$perPage >= 10000 || (int)$perPage === -1) {
+            $perPageInt = 10000;
+        } elseif (in_array((int)$perPage, [15, 25, 50, 100, 500, 1000])) {
+            $perPageInt = (int)$perPage;
+        }
+
+        $employees = $query->orderBy('full_name', 'asc')->paginate($perPageInt)->withQueryString();
+        $schools = School::orderBy('id', 'asc')->get();
+
+        // Metrics Summary (Global Across All SDM)
         $totalEmployees = Employee::count();
         $totalTeachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER'])->count();
         $totalStaff = Employee::where('role_type', 'STAFF')->count();
@@ -58,6 +103,7 @@ class EmployeeDossierController extends Controller
             ->whereNotNull('file_kk')
             ->whereNotNull('file_ijazah')
             ->count();
+        $enrolledFaceCount = Employee::whereNotNull('face_registered_at')->count();
 
         return view('admin.employees.index', compact(
             'employees',
@@ -66,46 +112,63 @@ class EmployeeDossierController extends Controller
             'search',
             'roleType',
             'status',
+            'dossierStatus',
+            'faceStatus',
+            'perPage',
             'totalEmployees',
             'totalTeachers',
             'totalStaff',
-            'completeDossierCount'
+            'completeDossierCount',
+            'enrolledFaceCount'
         ));
     }
 
     /**
-     * Tampilkan Profil & Berkas Lengkap Pegawai
+     * Tampilkan Detail Dossier & Curriculum Vitae Pegawai
      */
     public function show($id)
     {
-        $employee = Employee::with('school')->findOrFail($id);
+        $employee = Employee::with(['school', 'user'])->findOrFail($id);
 
-        // Riwayat Presensi Terakhir
-        $recentAttendances = [];
-        if (Schema::hasTable('employee_attendance_logs')) {
-            $recentAttendances = DB::table('employee_attendance_logs')
-                ->where('employee_id', $employee->id)
-                ->orderBy('date', 'desc')
-                ->limit(10)
-                ->get();
+        $attendanceLogs = DB::table('employee_attendance_logs')
+            ->where('employee_id', $id)
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get();
+
+        $dossierFiles = [
+            ['title' => 'Scan KTP', 'field' => 'file_ktp', 'icon' => '🪪', 'val' => $employee->file_ktp],
+            ['title' => 'Scan Kartu Keluarga (KK)', 'field' => 'file_kk', 'icon' => '👨‍👩‍👧', 'val' => $employee->file_kk],
+            ['title' => 'Ijazah & Transkrip Nilai', 'field' => 'file_ijazah', 'icon' => '🎓', 'val' => $employee->file_ijazah],
+            ['title' => 'Surat Lamaran Kerja', 'field' => 'file_surat_lamaran', 'icon' => '✉️', 'val' => $employee->file_surat_lamaran],
+            ['title' => 'SK / Kontrak Kerja (PKWT/PTY)', 'field' => 'file_kontrak_kerja', 'icon' => '📜', 'val' => $employee->file_kontrak_kerja],
+            ['title' => 'Sertifikat Pendidik / Pelatihan', 'field' => 'file_sertifikat', 'icon' => '🎖️', 'val' => $employee->file_sertifikat],
+            ['title' => 'Piagam Prestasi & Penghargaan', 'field' => 'file_prestasi', 'icon' => '🏆', 'val' => $employee->file_prestasi],
+            ['title' => 'Kartu NPWP', 'field' => 'file_npwp', 'icon' => '💼', 'val' => $employee->file_npwp],
+            ['title' => 'Kartu BPJS Kesehatan / TK', 'field' => 'file_bpjs', 'icon' => '🏥', 'val' => $employee->file_bpjs],
+        ];
+
+        $uploadedCount = 0;
+        foreach ($dossierFiles as $f) {
+            if (!empty($f['val'])) $uploadedCount++;
         }
 
-        return view('admin.employees.show', compact('employee', 'recentAttendances'));
+        return view('admin.employees.show', compact('employee', 'attendanceLogs', 'dossierFiles', 'uploadedCount'));
     }
 
     /**
-     * Form Edit Data & Upload Berkas Lengkap SDM
+     * Formulir Edit Lengkap Data Pribadi & Upload Berkas Dossier
      */
     public function edit($id)
     {
-        $employee = Employee::with('school')->findOrFail($id);
+        $employee = Employee::with(['school', 'user'])->findOrFail($id);
         $schools = School::all();
 
         return view('admin.employees.edit', compact('employee', 'schools'));
     }
 
     /**
-     * Simpan Perubahan Profil & Unggah Dokumen SDM
+     * Simpan Pembaruan Data Dossier & Berkas Dokumen SDM
      */
     public function update(Request $request, $id)
     {
@@ -116,26 +179,17 @@ class EmployeeDossierController extends Controller
             'nip' => 'nullable|string|max:50',
             'nik' => 'nullable|string|max:30',
             'kk_number' => 'nullable|string|max:30',
-            'email' => 'nullable|email|max:150',
             'phone' => 'nullable|string|max:30',
-            'school_id' => 'required|exists:schools,id',
+            'email' => 'nullable|email|max:255',
+            'address' => 'nullable|string|max:500',
             'role_type' => 'required|string',
-            'employment_status' => 'required|string',
-            'pob' => 'nullable|string|max:100',
-            'dob' => 'nullable|date',
-            'gender' => 'nullable|in:M,F',
-            'blood_type' => 'nullable|string|max:5',
-            'marital_status' => 'nullable|string|max:30',
-            'children_count' => 'nullable|integer',
-            'last_education' => 'nullable|string|max:50',
-            'major' => 'nullable|string|max:150',
-            'university' => 'nullable|string|max:150',
+            'employment_status' => 'nullable|string',
+            'last_education' => 'nullable|string',
+            'major' => 'nullable|string|max:255',
+            'university' => 'nullable|string|max:255',
             'graduation_year' => 'nullable|string|max:10',
             'join_date' => 'nullable|date',
-            'address' => 'nullable|string',
             'notes' => 'nullable|string',
-            
-            // Upload Dokumen Berkas
             'file_ktp' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -147,41 +201,63 @@ class EmployeeDossierController extends Controller
             'file_bpjs' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
-        $data = $request->only([
-            'school_id', 'nip', 'nik', 'kk_number', 'full_name', 'title_prefix', 'title_suffix',
-            'gender', 'pob', 'dob', 'religion', 'blood_type', 'marital_status', 'children_count',
-            'phone', 'email', 'address', 'role_type', 'employment_status', 'last_education',
-            'major', 'university', 'graduation_year', 'join_date', 'notes'
-        ]);
-
-        // Proses Unggah Berkas Digital SDM
-        $documentFields = [
-            'file_ktp', 'file_kk', 'file_ijazah', 'file_surat_lamaran', 
-            'file_kontrak_kerja', 'file_sertifikat', 'file_prestasi', 'file_npwp', 'file_bpjs'
+        $updateData = [
+            'full_name' => $request->full_name,
+            'nip' => $request->nip,
+            'nik' => $request->nik,
+            'kk_number' => $request->kk_number,
+            'school_id' => ($request->school_id === 'yayasan' || empty($request->school_id)) ? null : $request->school_id,
+            'role_type' => $request->role_type,
+            'employment_status' => $request->employment_status ?? 'TETAP',
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'pob' => $request->pob,
+            'dob' => $request->dob,
+            'religion' => $request->religion ?? 'Islam',
+            'blood_type' => $request->blood_type,
+            'marital_status' => $request->marital_status,
+            'children_count' => (int) $request->children_count,
+            'last_education' => $request->last_education,
+            'major' => $request->major,
+            'university' => $request->university,
+            'graduation_year' => $request->graduation_year,
+            'join_date' => $request->join_date,
+            'notes' => $request->notes,
         ];
 
-        foreach ($documentFields as $field) {
+        // Handle 9 Digital File Dossier Uploads
+        $fileFields = [
+            'file_ktp', 'file_kk', 'file_ijazah', 'file_surat_lamaran', 
+            'file_kontrak_kerja', 'file_sertifikat', 'file_prestasi', 
+            'file_npwp', 'file_bpjs'
+        ];
+
+        foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
-                $filename = "sdm_{$employee->id}_{$field}_" . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('uploads/sdm_dossier', $filename, 'public');
-                $data[$field] = '/storage/' . $path;
+                $filename = $field . '_emp_' . $employee->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('uploads/dossier', $filename, 'public');
+                $updateData[$field] = '/storage/' . $path;
             }
         }
 
-        $employee->update($data);
+        $employee->update($updateData);
 
-        // Sinkronisasi dengan User jika terhubung
+        // Sync with users table if account linked
         if ($employee->user_id) {
             $user = User::find($employee->user_id);
             if ($user) {
-                $user->name = $employee->full_name;
-                if ($employee->email) $user->email = $employee->email;
-                $user->save();
+                $user->update([
+                    'name' => $request->full_name,
+                    'email' => $request->email ?: $user->email,
+                    'phone' => $request->phone ?: $user->phone,
+                    'school_id' => $updateData['school_id'],
+                ]);
             }
         }
 
         return redirect()->route('admin.employees.show', $employee->id)
-            ->with('success', '✓ Biodata & Berkas Digital Pegawai Berhasil Diperbarui!');
+            ->with('success', "✓ Data Induk & E-Berkas SDM untuk {$employee->full_name} berhasil diperbarui!");
     }
 }

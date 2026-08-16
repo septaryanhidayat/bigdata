@@ -57,9 +57,26 @@
                 </select>
             </div>
 
-            <button type="submit" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-900 text-white font-extrabold text-xs">
-                🔍 Filter Data
-            </button>
+            <div class="w-full sm:w-48">
+                <select name="per_page" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-black text-emerald-800 bg-emerald-50/50">
+                    <option value="15" {{ (string)request('per_page', $perPage ?? 25) === '15' ? 'selected' : '' }}>15 Siswa / Hal</option>
+                    <option value="25" {{ (string)request('per_page', $perPage ?? 25) === '25' ? 'selected' : '' }}>25 Siswa / Hal</option>
+                    <option value="50" {{ (string)request('per_page', $perPage ?? 25) === '50' ? 'selected' : '' }}>50 Siswa / Hal</option>
+                    <option value="100" {{ (string)request('per_page', $perPage ?? 25) === '100' ? 'selected' : '' }}>100 Siswa / Hal</option>
+                    <option value="500" {{ (string)request('per_page', $perPage ?? 25) === '500' ? 'selected' : '' }}>500 Siswa / Hal</option>
+                    <option value="1000" {{ (string)request('per_page', $perPage ?? 25) === '1000' ? 'selected' : '' }}>1.000 Siswa / Hal</option>
+                    <option value="all" {{ request('per_page') === 'all' ? 'selected' : '' }}>⭐ Tampilkan SEMUA</option>
+                </select>
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <a href="{{ route('admin.master.students') }}" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-300 transition-colors">
+                    🔄 Reset
+                </a>
+                <button type="submit" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs transition-colors">
+                    🔍 Filter Data
+                </button>
+            </div>
         </form>
     </div>
 

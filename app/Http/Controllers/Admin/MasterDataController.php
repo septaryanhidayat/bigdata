@@ -226,12 +226,12 @@ class MasterDataController extends Controller
 
         if ($schoolId) {
             $query->where('school_id', $schoolId);
-        } elseif ($request->has('school_id') && $request->school_id != '') {
+        } elseif ($request->filled('school_id') && $request->school_id !== 'all') {
             $query->where('school_id', $request->school_id);
         }
 
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
+        if ($request->filled('search')) {
+            $search = trim((string)$request->search);
             $query->where(function($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
                   ->orWhere('nis', 'like', "%{$search}%")
@@ -240,11 +240,19 @@ class MasterDataController extends Controller
             });
         }
 
-        $students = $query->latest()->paginate(15);
+        $perPage = $request->input('per_page', 25);
+        $perPageInt = 25;
+        if ($perPage === 'all' || (int)$perPage >= 10000 || (int)$perPage === -1) {
+            $perPageInt = 10000;
+        } elseif (in_array((int)$perPage, [15, 25, 50, 100, 500, 1000])) {
+            $perPageInt = (int)$perPage;
+        }
+
+        $students = $query->orderBy('full_name', 'asc')->paginate($perPageInt)->withQueryString();
         $schools = $schoolId ? School::where('id', $schoolId)->get() : School::all();
         $classrooms = $schoolId ? Classroom::where('school_id', $schoolId)->get() : Classroom::all();
 
-        return view('admin.master.students', compact('students', 'schools', 'classrooms'));
+        return view('admin.master.students', compact('students', 'schools', 'classrooms', 'perPage'));
     }
 
     public function storeStudent(Request $request)
