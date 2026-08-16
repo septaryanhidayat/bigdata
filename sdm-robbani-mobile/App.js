@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { registerRootComponent } from 'expo';
 import { AuthProvider } from './src/context/AuthContext';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -42,3 +43,6 @@ const styles = StyleSheet.create({
     ...(Platform.OS === 'web' ? { height: '100vh' } : {}),
   },
 });
+
+// Daftarkan komponen utama ke AppRegistry Expo
+registerRootComponent(App);
