@@ -90,13 +90,14 @@ export default function CameraAttendanceModal({
             {capturedPhoto ? (
               <Image source={{ uri: capturedPhoto.uri }} style={styles.previewImage} resizeMode="cover" />
             ) : permission?.granted ? (
-              <CameraView
-                style={styles.camera}
-                facing={facing}
-                ref={cameraRef}
-              >
-                {/* Oval Biometric Guide Frame with Dynamic Indicator */}
-                <View style={styles.biometricGuideOverlay}>
+              <View style={styles.cameraContainer}>
+                <CameraView
+                  style={styles.camera}
+                  facing={facing}
+                  ref={cameraRef}
+                />
+                {/* Oval Biometric Guide Frame with Dynamic Indicator Rendered as Absolute Sibling */}
+                <View style={styles.biometricGuideOverlay} pointerEvents="box-none">
                   <View
                     style={[
                       styles.ovalFrame,
@@ -121,7 +122,7 @@ export default function CameraAttendanceModal({
                     </Text>
                   </TouchableOpacity>
                 </View>
-              </CameraView>
+              </View>
             ) : (
               <View style={styles.permissionBox}>
                 <Text style={styles.permissionIcon}>📷</Text>
@@ -237,15 +238,25 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '#1e293b',
   },
+  cameraContainer: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+  },
   camera: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
   },
   previewImage: {
     width: '100%',
     height: '100%',
   },
   biometricGuideOverlay: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)',
