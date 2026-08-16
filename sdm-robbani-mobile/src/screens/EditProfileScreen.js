@@ -95,11 +95,12 @@ export default function EditProfileScreen({ navigation }) {
       const res = await hrisApi.updateProfile(payload);
 
       if (res?.status === 'success' || res?.employee) {
+        const serverAvatar = res?.user?.avatar || res?.employee?.face_photo_url || photoUri;
         await updateProfileData({
           name,
           phone,
           address,
-          avatar: photoUri,
+          avatar: (serverAvatar && !serverAvatar.startsWith('file://')) ? serverAvatar : photoUri,
         });
 
         Alert.alert('Alhamdulillah!', 'Data profil & foto Anda berhasil diperbarui dan disinkronkan ke sistem yayasan.');

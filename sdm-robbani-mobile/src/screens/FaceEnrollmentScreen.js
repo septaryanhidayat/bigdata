@@ -77,26 +77,27 @@ export default function FaceEnrollmentScreen({ navigation }) {
       year: 'numeric',
     }) + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
 
-    const photoToSave = uri || base64Data || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400';
+    const payloadPhoto = (base64Data && (base64Data.startsWith('data:image') || base64Data.length > 200)) ? base64Data : (base64Data || uri || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400');
+    const localDisplayPhoto = uri || payloadPhoto;
 
     try {
       // 1. Simpan langsung ke penyimpanan lokal agar instan dan offline-ready
-      await AsyncStorage.setItem('enrolled_face_photo', photoToSave);
+      await AsyncStorage.setItem('enrolled_face_photo', localDisplayPhoto);
       await AsyncStorage.setItem('enrolled_face_time', nowTimeStr);
 
       // 2. Update AuthContext secara langsung sehingga ProfileScreen dan DashboardScreen langsung menampilkan foto baru
       if (updateProfileData) {
         await updateProfileData({
-          avatar: photoToSave,
-          photo: photoToSave,
+          avatar: localDisplayPhoto,
+          photo: localDisplayPhoto,
         });
       }
 
-      // 3. Kirim sampel ke server yayasan
+      // 3. Kirim sampel Base64 asli ke server yayasan
       try {
-        const res = await hrisApi.enrollFace(photoToSave);
-        const serverPhotoUrl = res?.data?.face_photo_url || res?.face_photo_url || photoToSave;
-        if (serverPhotoUrl) {
+        const res = await hrisApi.enrollFace(payloadPhoto);
+        const serverPhotoUrl = res?.data?.face_photo_url || res?.face_photo_url;
+        if (serverPhotoUrl && !serverPhotoUrl.startsWith('file://')) {
           await AsyncStorage.setItem('enrolled_face_photo', serverPhotoUrl);
           await updateProfileData?.({
             avatar: serverPhotoUrl,
@@ -111,7 +112,7 @@ export default function FaceEnrollmentScreen({ navigation }) {
 
       setFaceStatus({
         is_face_registered: true,
-        face_photo_url: photoToSave,
+        face_photo_url: localDisplayPhoto,
         face_registered_at: nowTimeStr,
         employee_name: employee?.full_name || user?.name || 'Pegawai SIT Robbani',
         nip: employee?.nip || '-',

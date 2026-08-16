@@ -1079,7 +1079,7 @@ class HrisMobileApiController extends Controller
                     file_put_contents($filePath, $decoded);
                     $facePhotoUrl = '/uploads/faces/' . $filename;
                 }
-            } elseif (filter_var($imageData, FILTER_VALIDATE_URL) || str_starts_with($imageData, 'http')) {
+            } elseif (str_starts_with($imageData, 'http') || (filter_var($imageData, FILTER_VALIDATE_URL) && !str_starts_with($imageData, 'file://'))) {
                 $facePhotoUrl = $imageData;
             }
         }
