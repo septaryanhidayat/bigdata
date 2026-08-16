@@ -274,6 +274,23 @@
             </form>
         </div>
 
+        <!-- 1-Click Auto-Categorize Toolbar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-900/90 p-3.5 rounded-2xl border border-indigo-500/40 text-xs shadow-inner">
+            <div class="text-slate-300 flex items-center gap-2.5">
+                <span class="text-xl">🏷️</span>
+                <div>
+                    <strong class="text-white block font-black">Auto-Kategori Cerdas Unit Pendidikan:</strong>
+                    <span class="text-slate-400 text-[11px]">Otomatis kelompokkan ratusan berita/artikel ke <strong>TKIT, SDIT, SMPIT, SMAIT, atau Yayasan</strong> &amp; tampilkan tahun 2026 di urutan teratas.</span>
+                </div>
+            </div>
+            <form action="{{ route('admin.cms.auto-categorize') }}" method="POST" onsubmit="if(window.Swal){ Swal.fire({ title: 'Mengategorikan...', html: '<p class=\'text-xs text-slate-300\'>Sedang memindai teks dan mengelompokkan ke unit sekolah serta mengurutkan data...</p>', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } }); }">
+                @csrf
+                <button type="submit" class="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <span>✨ Auto-Kategorikan &amp; Urutkan 2026 Sekarang</span>
+                </button>
+            </form>
+        </div>
+
         <div class="pt-2 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium">
             <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12);" class="p-4 rounded-2xl text-slate-200 space-y-1.5 leading-relaxed">
                 <strong class="text-amber-300 block font-bold text-xs flex items-center gap-1.5">

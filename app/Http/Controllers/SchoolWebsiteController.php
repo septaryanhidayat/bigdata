@@ -434,7 +434,19 @@ class SchoolWebsiteController extends Controller
         $settings = $this->getSettings();
         $headerMenus = $this->getHeaderMenus();
 
-        return view('school.unit', compact('school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus'));
+        // Get news strictly relevant to this unit or general news
+        $allNews = $this->getNewsData();
+        $unitNews = collect($allNews)->filter(function($item) use ($cleanCode) {
+            $u = strtolower($item['unit'] ?? '');
+            $cat = strtolower($item['category'] ?? '');
+            return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
+        })->values()->take(6);
+
+        if ($unitNews->isEmpty()) {
+            $unitNews = collect($allNews)->take(6);
+        }
+
+        return view('school.unit', compact('school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus', 'unitNews'));
     }
 
     public function beritaIndex()
@@ -730,6 +742,12 @@ class SchoolWebsiteController extends Controller
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
+                // Ensure always sorted by date timestamp DESC (newest 2026 first)
+                usort($data, function($a, $b) {
+                    $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+                    $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+                    return $tB <=> $tA;
+                });
                 return $data;
             }
         }
@@ -824,6 +842,12 @@ class SchoolWebsiteController extends Controller
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
+                // Ensure always sorted by date timestamp DESC (newest 2026 first)
+                usort($data, function($a, $b) {
+                    $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+                    $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+                    return $tB <=> $tA;
+                });
                 return $data;
             }
         }

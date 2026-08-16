@@ -1058,8 +1058,7 @@ class CmsController extends Controller
         }
 
         $attachmentMap = [];
-        $importedNews = [];
-        $importedArticles = [];
+        $allItems = [];
         $count = 0;
 
         libxml_use_internal_errors(true);
@@ -1100,19 +1099,20 @@ class CmsController extends Controller
                     }
 
                     $postDate = (string) $wpNs->post_date;
-                    $formattedDate = !empty($postDate) ? date('d F Y', strtotime($postDate)) : date('d F Y');
+                    $timestamp = !empty($postDate) ? strtotime($postDate) : time();
+                    $formattedDate = !empty($postDate) ? date('d F Y', $timestamp) : date('d F Y');
                     $slug = (string) $wpNs->post_name;
                     if (empty($slug)) {
                         $slug = \Illuminate\Support\Str::slug($title);
                     }
 
-                    $category = 'Berita';
+                    // Extract WP Categories
+                    $wpCategories = [];
                     if (isset($item->category)) {
                         foreach ($item->category as $cat) {
                             $domain = (string) $cat['domain'];
                             if ($domain === 'category') {
-                                $category = (string) $cat;
-                                break;
+                                $wpCategories[] = (string) $cat;
                             }
                         }
                     }
@@ -1137,23 +1137,57 @@ class CmsController extends Controller
                         $image = '/images/mockup_desktop_1.png';
                     }
 
-                    $postData = [
+                    // -------------------------------------------------------------
+                    // INTELLIGENT UNIT AUTO-CATEGORIZATION ENGINE
+                    // -------------------------------------------------------------
+                    $searchCorpus = strtolower($title . ' ' . implode(' ', $wpCategories) . ' ' . substr(strip_tags($content), 0, 1500));
+                    $isArticle = \Illuminate\Support\Str::contains(strtolower(implode(' ', $wpCategories) . ' ' . $title), ['artikel', 'edukasi', 'opini', 'tips', 'kajian', 'parenting', 'tata cara', 'keutamaan']);
+                    
+                    $unitCode = 'yayasan';
+                    $unitName = 'Yayasan Robbani';
+                    
+                    if (preg_match('/\b(tkit|tk\s*it|paud|kelompok\s*bermain|taman\s*kanak|kb[\/\-]?tk|kb[\/\-]?tkit)\b/i', $searchCorpus)) {
+                        $unitCode = 'tkit';
+                        $unitName = 'KB/TKIT Robbani';
+                    } elseif (preg_match('/\b(sdit|sd\s*it|sekolah\s*dasar|sd\s*robbani|pramuka\s*siaga|kelas\s*[1-6])\b/i', $searchCorpus)) {
+                        $unitCode = 'sdit';
+                        $unitName = 'SDIT Robbani';
+                    } elseif (preg_match('/\b(smpit|smp\s*it|sekolah\s*menengah\s*pertama|smp\s*robbani|boarding|asrama\s*putr|santri\s*smp)\b/i', $searchCorpus)) {
+                        $unitCode = 'smpit';
+                        $unitName = 'SMPIT Robbani';
+                    } elseif (preg_match('/\b(smait|sma\s*it|sekolah\s*menengah\s*atas|sma\s*robbani|santri\s*sma|jurusan\s*(ipa|ips)|snbt|utbk)\b/i', $searchCorpus)) {
+                        $unitCode = 'smait';
+                        $unitName = 'SMAIT Robbani';
+                    }
+
+                    if ($unitCode === 'tkit') {
+                        $category = $isArticle ? 'Artikel TKIT' : 'Berita TKIT';
+                    } elseif ($unitCode === 'sdit') {
+                        $category = $isArticle ? 'Artikel SDIT' : 'Berita SDIT';
+                    } elseif ($unitCode === 'smpit') {
+                        $category = $isArticle ? 'Artikel SMPIT' : 'Berita SMPIT';
+                    } elseif ($unitCode === 'smait') {
+                        $category = $isArticle ? 'Artikel SMAIT' : 'Berita SMAIT';
+                    } else {
+                        $category = $isArticle ? 'Artikel Edukasi' : 'Berita Yayasan';
+                    }
+
+                    $allItems[] = [
                         'title' => $title,
                         'slug' => $slug,
                         'category' => $category,
+                        'unit' => $unitCode,
+                        'unit_name' => $unitName,
+                        'is_article' => $isArticle,
                         'date' => $formattedDate,
+                        'timestamp' => $timestamp,
+                        'raw_date' => $postDate,
                         'author' => 'Admin SIT Robbani',
                         'image' => $image,
                         'excerpt' => $excerpt,
                         'content' => $content,
                         'wp_thumbnail_id' => $thumbnailId,
                     ];
-
-                    if (\Illuminate\Support\Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian'])) {
-                        $importedArticles[] = $postData;
-                    } else {
-                        $importedNews[] = $postData;
-                    }
 
                     $count++;
                 }
@@ -1162,42 +1196,150 @@ class CmsController extends Controller
         $reader->close();
 
         // Resolve thumbnail URLs that were defined after post item
-        foreach ($importedNews as &$pn) {
-            if ((empty($pn['image']) || $pn['image'] === '/images/mockup_desktop_1.png') && !empty($pn['wp_thumbnail_id'])) {
-                if (isset($attachmentMap[$pn['wp_thumbnail_id']])) {
-                    $pn['image'] = $attachmentMap[$pn['wp_thumbnail_id']];
+        foreach ($allItems as &$item) {
+            if ((empty($item['image']) || $item['image'] === '/images/mockup_desktop_1.png') && !empty($item['wp_thumbnail_id'])) {
+                if (isset($attachmentMap[$item['wp_thumbnail_id']])) {
+                    $item['image'] = $attachmentMap[$item['wp_thumbnail_id']];
                 }
             }
-            unset($pn['wp_thumbnail_id']);
+            unset($item['wp_thumbnail_id']);
         }
-        unset($pn);
-
-        foreach ($importedArticles as &$pa) {
-            if ((empty($pa['image']) || $pa['image'] === '/images/mockup_desktop_1.png') && !empty($pa['wp_thumbnail_id'])) {
-                if (isset($attachmentMap[$pa['wp_thumbnail_id']])) {
-                    $pa['image'] = $attachmentMap[$pa['wp_thumbnail_id']];
-                }
-            }
-            unset($pa['wp_thumbnail_id']);
-        }
-        unset($pa);
+        unset($item);
 
         if ($count === 0) {
             return redirect()->back()->with('error', 'Tidak ada postingan WordPress bertipe "post" dengan status "publish" dalam berkas XML ini.');
         }
 
-        $existingNewsJson = SiteSetting::get('cms_news_data');
-        $existingNews = $existingNewsJson ? json_decode($existingNewsJson, true) : [];
-        $finalNews = array_merge($importedNews, is_array($existingNews) ? $existingNews : []);
+        // SORT DESCENDING BY TIMESTAMP (Latest 2026 posts first, oldest 2021 last)
+        usort($allItems, fn($a, $b) => $b['timestamp'] <=> $a['timestamp']);
 
-        $existingArticleJson = SiteSetting::get('cms_article_data');
-        $existingArticles = $existingArticleJson ? json_decode($existingArticleJson, true) : [];
-        $finalArticles = array_merge($importedArticles, is_array($existingArticles) ? $existingArticles : []);
+        // De-duplicate by slug
+        $unique = [];
+        $deduped = [];
+        foreach ($allItems as $it) {
+            if (!isset($unique[$it['slug']])) {
+                $unique[$it['slug']] = true;
+                $deduped[] = $it;
+            }
+        }
 
-        SiteSetting::set('cms_news_data', json_encode($finalNews, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        SiteSetting::set('cms_article_data', json_encode($finalArticles, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $newsList = array_values(array_filter($deduped, fn($x) => !$x['is_article']));
+        $articleList = array_values(array_filter($deduped, fn($x) => $x['is_article']));
 
-        return redirect()->back()->with('success', "🎉 SUKSES IMPORT KILAT! Berhasil mengimpor {$count} postingan WordPress (" . count($importedNews) . " Berita & " . count($importedArticles) . " Artikel, " . count($attachmentMap) . " Gambar Terpetakan).");
+        SiteSetting::set('cms_news_data', json_encode($newsList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        SiteSetting::set('cms_article_data', json_encode($articleList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        $unitCounts = ['TKIT' => 0, 'SDIT' => 0, 'SMPIT' => 0, 'SMAIT' => 0, 'YAYASAN' => 0];
+        foreach ($deduped as $d) {
+            $uKey = strtoupper($d['unit'] ?? 'YAYASAN');
+            if (!isset($unitCounts[$uKey])) {
+                $unitCounts[$uKey] = 0;
+            }
+            $unitCounts[$uKey]++;
+        }
+
+        return redirect()->back()->with(
+            'success',
+            "🎉 SUKSES IMPORT & AUTO-KATEGORISASI! Berhasil mengimpor " . count($deduped) . " postingan dengan urutan terbaru (2026 di atas). Rincian kategori unit: TKIT ({$unitCounts['TKIT']}), SDIT ({$unitCounts['SDIT']}), SMPIT ({$unitCounts['SMPIT']}), SMAIT ({$unitCounts['SMAIT']}), Yayasan ({$unitCounts['YAYASAN']})."
+        );
+    }
+
+    public function autoCategorizeContent(Request $request)
+    {
+        $newsJson = SiteSetting::get('cms_news_data');
+        $articleJson = SiteSetting::get('cms_article_data');
+
+        $news = $newsJson ? json_decode($newsJson, true) : [];
+        $articles = $articleJson ? json_decode($articleJson, true) : [];
+
+        $all = array_merge(is_array($news) ? $news : [], is_array($articles) ? $articles : []);
+
+        if (empty($all)) {
+            return redirect()->back()->with('error', 'Belum ada data berita atau artikel untuk dikategorikan.');
+        }
+
+        $categorized = [];
+        foreach ($all as $item) {
+            $title = $item['title'] ?? '';
+            $content = $item['content'] ?? '';
+            $cat = $item['category'] ?? '';
+            $rawDate = $item['raw_date'] ?? ($item['date'] ?? 'now');
+            $timestamp = isset($item['timestamp']) ? (int)$item['timestamp'] : strtotime($rawDate);
+
+            $searchCorpus = strtolower($title . ' ' . $cat . ' ' . substr(strip_tags($content), 0, 1500));
+            $isArticle = \Illuminate\Support\Str::contains(strtolower($cat . ' ' . $title), ['artikel', 'edukasi', 'opini', 'tips', 'kajian', 'parenting', 'tata cara', 'keutamaan']);
+
+            $unitCode = 'yayasan';
+            $unitName = 'Yayasan Robbani';
+
+            if (preg_match('/\b(tkit|tk\s*it|paud|kelompok\s*bermain|taman\s*kanak|kb[\/\-]?tk|kb[\/\-]?tkit)\b/i', $searchCorpus)) {
+                $unitCode = 'tkit';
+                $unitName = 'KB/TKIT Robbani';
+            } elseif (preg_match('/\b(sdit|sd\s*it|sekolah\s*dasar|sd\s*robbani|pramuka\s*siaga|kelas\s*[1-6])\b/i', $searchCorpus)) {
+                $unitCode = 'sdit';
+                $unitName = 'SDIT Robbani';
+            } elseif (preg_match('/\b(smpit|smp\s*it|sekolah\s*menengah\s*pertama|smp\s*robbani|boarding|asrama\s*putr|santri\s*smp)\b/i', $searchCorpus)) {
+                $unitCode = 'smpit';
+                $unitName = 'SMPIT Robbani';
+            } elseif (preg_match('/\b(smait|sma\s*it|sekolah\s*menengah\s*atas|sma\s*robbani|santri\s*sma|jurusan\s*(ipa|ips)|snbt|utbk)\b/i', $searchCorpus)) {
+                $unitCode = 'smait';
+                $unitName = 'SMAIT Robbani';
+            }
+
+            if ($unitCode === 'tkit') {
+                $category = $isArticle ? 'Artikel TKIT' : 'Berita TKIT';
+            } elseif ($unitCode === 'sdit') {
+                $category = $isArticle ? 'Artikel SDIT' : 'Berita SDIT';
+            } elseif ($unitCode === 'smpit') {
+                $category = $isArticle ? 'Artikel SMPIT' : 'Berita SMPIT';
+            } elseif ($unitCode === 'smait') {
+                $category = $isArticle ? 'Artikel SMAIT' : 'Berita SMAIT';
+            } else {
+                $category = $isArticle ? 'Artikel Edukasi' : 'Berita Yayasan';
+            }
+
+            $item['category'] = $category;
+            $item['unit'] = $unitCode;
+            $item['unit_name'] = $unitName;
+            $item['is_article'] = $isArticle;
+            $item['timestamp'] = $timestamp;
+
+            $categorized[] = $item;
+        }
+
+        // Sort descending by timestamp
+        usort($categorized, fn($a, $b) => $b['timestamp'] <=> $a['timestamp']);
+
+        // De-duplicate
+        $unique = [];
+        $deduped = [];
+        foreach ($categorized as $it) {
+            $k = $it['slug'] ?? \Illuminate\Support\Str::slug($it['title']);
+            if (!isset($unique[$k])) {
+                $unique[$k] = true;
+                $deduped[] = $it;
+            }
+        }
+
+        $newsList = array_values(array_filter($deduped, fn($x) => empty($x['is_article']) || !$x['is_article']));
+        $articleList = array_values(array_filter($deduped, fn($x) => !empty($x['is_article'])));
+
+        SiteSetting::set('cms_news_data', json_encode($newsList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        SiteSetting::set('cms_article_data', json_encode($articleList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        $unitCounts = ['TKIT' => 0, 'SDIT' => 0, 'SMPIT' => 0, 'SMAIT' => 0, 'YAYASAN' => 0];
+        foreach ($deduped as $d) {
+            $uKey = strtoupper($d['unit'] ?? 'YAYASAN');
+            if (!isset($unitCounts[$uKey])) {
+                $unitCounts[$uKey] = 0;
+            }
+            $unitCounts[$uKey]++;
+        }
+
+        return redirect()->back()->with(
+            'success',
+            "✨ AUTO-KATEGORISASI SELESAI! " . count($deduped) . " berita & artikel berhasil dikelompokkan ke unit masing-masing dan diurutkan dari tahun 2026 terbaru: TKIT ({$unitCounts['TKIT']}), SDIT ({$unitCounts['SDIT']}), SMPIT ({$unitCounts['SMPIT']}), SMAIT ({$unitCounts['SMAIT']}), Yayasan ({$unitCounts['YAYASAN']})."
+        );
     }
 }
 

@@ -129,6 +129,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');
             Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
             Route::post('/cms/import-wordpress', [CmsController::class, 'importWordPress'])->name('cms.import-wordpress');
+            Route::post('/cms/auto-categorize', [CmsController::class, 'autoCategorizeContent'])->name('cms.auto-categorize');
 
             Route::get('/modules', [CmsController::class, 'modules'])->name('modules.index');
             Route::post('/modules/{id}/toggle', [CmsController::class, 'toggleModule'])->name('modules.toggle');
