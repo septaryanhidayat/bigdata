@@ -15,8 +15,8 @@ $controller = new HrisMobileApiController();
 
 // 1. Test Login & Auto Multi-Tenancy Unit Detection
 $reqLogin = Request::create('/api/v1/mobile/auth/login', 'POST', [
-    'email' => 'guru@robbani.sch.id',
-    'password' => 'Password@123',
+    'email' => 'ryan@sitrobbani.sch.id',
+    'password' => 'p4l3mb4ng',
 ]);
 $resLogin = $controller->login($reqLogin);
 $dataLogin = json_decode($resLogin->getContent(), true);
