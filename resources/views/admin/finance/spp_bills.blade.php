@@ -35,7 +35,7 @@
                             <span class="font-black text-slate-900 block">{{ $bl->student->full_name ?? '-' }}</span>
                             <span class="text-[10px] text-slate-400">NIS: {{ $bl->student->nis ?? '-' }} • {{ $bl->student->classroom->name ?? '-' }}</span>
                         </td>
-                        <td class="p-4 font-bold text-slate-900">{{ $bl->month }} {{ $bl->year }}</td>
+                        <td class="p-4 font-bold text-slate-900">{{ $bl->month_period ?? ($bl->month . ' ' . $bl->year) }}</td>
                         <td class="p-4 font-black text-emerald-700">Rp {{ number_format($bl->amount, 0, ',', '.') }}</td>
                         <td class="p-4">
                             @if($bl->status == 'PAID')
@@ -53,7 +53,16 @@
                                     </button>
                                 </form>
                             @else
+                                @php
+                                    $paymentRecord = $bl->payments->first();
+                                @endphp
+                                @if($paymentRecord)
+                                <a href="{{ route('admin.finance.receipt', $paymentRecord->id) }}" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 font-black text-[10px] shadow transition-colors inline-flex items-center gap-1">
+                                    🖨️ Cetak Kwitansi
+                                </a>
+                                @else
                                 <span class="text-xs text-slate-400 font-semibold">Tercatat Lunas</span>
+                                @endif
                             @endif
                         </td>
                     </tr>

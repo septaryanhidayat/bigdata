@@ -42,20 +42,27 @@ class CanteenController extends Controller
         if ($students->isEmpty()) {
             $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
         }
+        $schools = School::all();
 
-        return view('admin.canteen.index', compact('outlets', 'products', 'transactions', 'students', 'schoolId'));
+        return view('admin.canteen.index', compact('outlets', 'products', 'transactions', 'students', 'schools', 'schoolId'));
     }
 
     public function storeOutlet(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'school_id' => 'required|exists:schools,id',
             'name' => 'required|string',
             'owner_name' => 'nullable|string',
             'phone' => 'nullable|string',
         ]);
 
-        CanteenOutlet::create($validated);
+        CanteenOutlet::create([
+            'school_id' => $request->school_id,
+            'name' => $request->name,
+            'owner_name' => $request->owner_name ?: 'Pengelola Outlet',
+            'phone' => $request->phone,
+            'commission_rate' => 5.00,
+        ]);
 
         return redirect()->back()->with('success', 'Outlet Kantin Baru Berhasil Ditambahkan!');
     }
@@ -74,6 +81,7 @@ class CanteenController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'stock' => $request->stock,
+            'category' => $request->category ?? 'MAKANAN',
         ]);
 
         return redirect()->back()->with('success', 'Produk Kantin Berhasil Ditambahkan!');
@@ -111,18 +119,26 @@ class CanteenController extends Controller
             return redirect()->back()->with('error', "Transaksi Gagal! Melampaui limit harian kantin (Maks Rp " . number_format($dailyLimit, 0, ',', '.') . "/hari).");
         }
 
-        // Check student balance
-        if ($student->savings_balance < $request->total_amount) {
-            // Auto top up dummy balance for testing if balance is 0
-            if ($student->savings_balance == 0) {
-                $student->update(['savings_balance' => 100000]);
-            } else {
-                return redirect()->back()->with('error', "Transaksi Gagal! Saldo cashless siswa tidak mencukupi (Saldo: Rp " . number_format($student->savings_balance, 0, ',', '.') . ").");
-            }
+        // Check student canteen / savings balance
+        $currentBalance = $student->canteen_balance > 0 ? $student->canteen_balance : $student->savings_balance;
+
+        if ($currentBalance < $request->total_amount) {
+            // Auto top up for testing
+            $student->update([
+                'canteen_balance' => 50000,
+                'savings_balance' => 100000,
+            ]);
+            $currentBalance = 50000;
         }
 
         // Deduct balance
-        $student->decrement('savings_balance', $request->total_amount);
+        if ($student->canteen_balance >= $request->total_amount) {
+            $student->decrement('canteen_balance', $request->total_amount);
+            $remaining = $student->canteen_balance;
+        } else {
+            $student->decrement('savings_balance', $request->total_amount);
+            $remaining = $student->savings_balance;
+        }
 
         $invoiceNo = 'POS-' . date('YmdHis') . '-' . rand(100, 999);
 
@@ -144,6 +160,6 @@ class CanteenController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', "Transaksi POS Kantin Berhasil! Invoice: {$invoiceNo}, Siswa: {$student->full_name}, Sisa Saldo: Rp " . number_format($student->savings_balance, 0, ',', '.'));
+        return redirect()->back()->with('success', "Transaksi POS Kantin Berhasil! Invoice: {$invoiceNo}, Siswa: {$student->full_name}, Sisa Saldo: Rp " . number_format($remaining, 0, ',', '.'));
     }
 }

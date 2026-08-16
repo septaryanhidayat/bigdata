@@ -42,7 +42,7 @@ class SavingsController extends Controller
 
     public function storeTransaction(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'student_id' => 'required|exists:students,id',
             'transaction_type' => 'required|in:DEPOSIT,WITHDRAWAL',
             'amount' => 'required|numeric|min:1000',
@@ -64,12 +64,11 @@ class SavingsController extends Controller
         $student->update(['savings_balance' => $newBalance]);
 
         $trx = SavingsTransaction::create([
-            'school_id' => $student->school_id ?? 1,
             'student_id' => $student->id,
-            'transaction_type' => $request->transaction_type,
+            'type' => $request->transaction_type,
             'amount' => $request->amount,
             'balance_after' => $newBalance,
-            'notes' => $request->notes ?? ($request->transaction_type == 'DEPOSIT' ? 'Setoran Tabungan Teller' : 'Penarikan Tabungan Teller'),
+            'description' => $request->notes ?? ($request->transaction_type == 'DEPOSIT' ? 'Setoran Tabungan Teller' : 'Penarikan Tabungan Teller'),
         ]);
 
         try {

@@ -27,6 +27,8 @@ class Student extends Model
         'canteen_daily_limit',
         'canteen_balance',
         'savings_balance',
+        'birth_place',
+        'birth_date',
     ];
 
     protected $casts = [
@@ -54,5 +56,25 @@ class Student extends Model
     public function guardian(): BelongsTo
     {
         return $this->belongsTo(Guardian::class);
+    }
+
+    public function getBirthPlaceAttribute(): ?string
+    {
+        return $this->pob;
+    }
+
+    public function setBirthPlaceAttribute($value)
+    {
+        $this->attributes['pob'] = $value;
+    }
+
+    public function getBirthDateAttribute(): ?string
+    {
+        return $this->dob?->format('Y-m-d');
+    }
+
+    public function setBirthDateAttribute($value)
+    {
+        $this->attributes['dob'] = $value;
     }
 }

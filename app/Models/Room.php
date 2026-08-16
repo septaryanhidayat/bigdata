@@ -17,10 +17,21 @@ class Room extends Model
         'category',
         'capacity',
         'location_building',
+        'building',
     ];
 
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function getBuildingAttribute(): ?string
+    {
+        return $this->location_building;
+    }
+
+    public function setBuildingAttribute($value)
+    {
+        $this->attributes['location_building'] = $value;
     }
 }

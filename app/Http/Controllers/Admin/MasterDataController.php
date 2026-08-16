@@ -28,8 +28,8 @@ class MasterDataController extends Controller
         $activeYear = AcademicYear::where('is_active', 1)->first() ?? $academicYears->first();
         
         $studentsCount = Student::count();
-        $teachersCount = Employee::where('type', 'GURU')->count();
-        $staffCount = Employee::where('type', 'NON_GURU')->count();
+        $teachersCount = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->count();
+        $staffCount = Employee::whereIn('role_type', ['STAFF', 'TREASURER'])->count();
         $classroomsCount = Classroom::count();
 
         $activeSchoolId = session('active_school_id', $schools->first()->id ?? 1);
@@ -159,7 +159,7 @@ class MasterDataController extends Controller
         $classrooms = Classroom::with(['school', 'level', 'homeroomTeacher'])->get();
         $schools = School::all();
         $levels = Level::all();
-        $teachers = Employee::where('type', 'GURU')->get();
+        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
 
         return view('admin.master.classrooms', compact('classrooms', 'schools', 'levels', 'teachers'));
     }
@@ -173,6 +173,9 @@ class MasterDataController extends Controller
             'capacity' => 'required|integer',
             'homeroom_teacher_id' => 'nullable|exists:employees,id',
         ]);
+
+        $activeYear = AcademicYear::where('is_active', true)->first() ?? AcademicYear::first();
+        $validated['academic_year_id'] = $request->academic_year_id ?? ($activeYear ? $activeYear->id : 1);
 
         Classroom::create($validated);
 
@@ -209,7 +212,7 @@ class MasterDataController extends Controller
 
     public function storeStudent(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'school_id' => 'required|exists:schools,id',
             'classroom_id' => 'nullable|exists:classrooms,id',
             'nis' => 'required|string|unique:students,nis',
@@ -222,10 +225,24 @@ class MasterDataController extends Controller
             'status' => 'nullable|string',
         ]);
 
-        $validated['gender'] = in_array(strtoupper($request->gender), ['L', 'LAKI_LAKI', 'M']) ? 'M' : 'F';
-        $validated['status'] = in_array(strtoupper($request->status ?? 'ACTIVE'), ['AKTIF', 'ACTIVE']) ? 'ACTIVE' : 'ACTIVE';
+        $gender = in_array(strtoupper($request->gender), ['L', 'LAKI_LAKI', 'M']) ? 'M' : 'F';
+        $status = in_array(strtoupper($request->status ?? 'ACTIVE'), ['AKTIF', 'ACTIVE']) ? 'ACTIVE' : 'ACTIVE';
 
-        Student::create($validated);
+        Student::create([
+            'school_id' => $request->school_id,
+            'classroom_id' => $request->classroom_id,
+            'nis' => $request->nis,
+            'nisn' => $request->nisn,
+            'full_name' => $request->full_name,
+            'gender' => $gender,
+            'pob' => $request->birth_place ?? $request->pob,
+            'dob' => $request->birth_date ?? $request->dob,
+            'rfid_tag' => $request->rfid_tag,
+            'status' => $status,
+            'savings_balance' => 0,
+            'canteen_balance' => 0,
+            'canteen_daily_limit' => 50000,
+        ]);
 
         return redirect()->back()->with('success', 'Data Siswa Baru Berhasil Ditambahkan!');
     }
@@ -245,7 +262,7 @@ class MasterDataController extends Controller
 
         $callback = function () use ($students) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['ID', 'NIS', 'NISN', 'Nama Lengkap', 'Jenis Kelamin', 'Unit Sekolah', 'Kelas', 'RFID Tag', 'Saldo Cashless', 'Status']);
+            fputcsv($file, ['ID', 'NIS', 'NISN', 'Nama Lengkap', 'Jenis Kelamin', 'Unit Sekolah', 'Kelas', 'RFID Tag', 'Saldo Tabungan', 'Status']);
 
             foreach ($students as $st) {
                 fputcsv($file, [
@@ -299,6 +316,8 @@ class MasterDataController extends Controller
                         'rfid_tag' => 'RFID-IMP-' . rand(10000, 99999),
                         'status' => 'ACTIVE',
                         'savings_balance' => 50000,
+                        'canteen_balance' => 20000,
+                        'canteen_daily_limit' => 50000,
                     ]
                 );
                 $importedCount++;
@@ -314,7 +333,7 @@ class MasterDataController extends Controller
      */
     public function exportTeachers()
     {
-        $teachers = Employee::whereIn('role_type', ['TEACHER', 'GURU'])->orWhere('type', 'GURU')->get();
+        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
         $filename = 'export_teachers_' . date('Ymd_His') . '.csv';
 
         $headers = [
@@ -331,8 +350,8 @@ class MasterDataController extends Controller
                     $t->id,
                     $t->nip ?? '-',
                     $t->full_name,
-                    $t->title ?? '-',
-                    $t->position ?? 'Guru Pelajaran',
+                    $t->title_suffix ?? $t->title_prefix ?? '-',
+                    $t->employment_status ?? 'Guru Pelajaran',
                     $t->school->name ?? '-',
                     $t->phone ?? '-',
                     $t->email ?? '-',
@@ -349,7 +368,7 @@ class MasterDataController extends Controller
      */
     public function teachers()
     {
-        $teachers = Employee::where('type', 'GURU')->with('school')->latest()->paginate(15);
+        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->with('school')->latest()->paginate(15);
         $schools = School::all();
 
         return view('admin.master.teachers', compact('teachers', 'schools'));
@@ -357,18 +376,30 @@ class MasterDataController extends Controller
 
     public function storeTeacher(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'school_id' => 'required|exists:schools,id',
             'nip' => 'required|string|unique:employees,nip',
             'full_name' => 'required|string',
             'title' => 'nullable|string',
-            'type' => 'required|in:GURU,NON_GURU',
-            'position' => 'required|string',
+            'type' => 'nullable|string',
+            'position' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
         ]);
 
-        Employee::create($validated);
+        $roleType = in_array(strtoupper($request->type ?? 'GURU'), ['NON_GURU', 'STAFF']) ? 'STAFF' : 'TEACHER';
+
+        Employee::create([
+            'school_id' => $request->school_id,
+            'nip' => $request->nip,
+            'full_name' => $request->full_name,
+            'title_suffix' => $request->title,
+            'role_type' => $roleType,
+            'employment_status' => $request->position ?? 'PERMANENT',
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'is_active' => true,
+        ]);
 
         return redirect()->back()->with('success', 'Data Guru/Pendidik Berhasil Ditambahkan!');
     }
@@ -378,7 +409,7 @@ class MasterDataController extends Controller
      */
     public function employees()
     {
-        $employees = Employee::where('type', 'NON_GURU')->with('school')->latest()->paginate(15);
+        $employees = Employee::whereIn('role_type', ['STAFF', 'TREASURER'])->with('school')->latest()->paginate(15);
         $schools = School::all();
 
         return view('admin.master.employees', compact('employees', 'schools'));
@@ -398,21 +429,27 @@ class MasterDataController extends Controller
 
     public function storeSubject(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'school_id' => 'required|exists:schools,id',
             'code' => 'required|string',
             'name' => 'required|string',
-            'group' => 'required|string',
+            'group' => 'nullable|string',
         ]);
 
-        Subject::create($validated);
+        Subject::create([
+            'school_id' => $request->school_id,
+            'code' => $request->code,
+            'name' => $request->name,
+            'category' => $request->group ?? $request->category ?? 'MUATAN_NASIONAL',
+            'passing_grade' => 75,
+        ]);
 
         return redirect()->back()->with('success', 'Mata Pelajaran Berhasil Ditambahkan!');
     }
 
     public function storeRoom(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'school_id' => 'required|exists:schools,id',
             'code' => 'required|string',
             'name' => 'required|string',
@@ -420,7 +457,14 @@ class MasterDataController extends Controller
             'capacity' => 'required|integer',
         ]);
 
-        Room::create($validated);
+        Room::create([
+            'school_id' => $request->school_id,
+            'code' => $request->code,
+            'name' => $request->name,
+            'location_building' => $request->building ?? $request->location_building ?? 'Gedung Utama',
+            'capacity' => $request->capacity,
+            'category' => 'CLASSROOM',
+        ]);
 
         return redirect()->back()->with('success', 'Ruangan Berhasil Ditambahkan!');
     }

@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\StudentLeave;
 use App\Models\Student;
 use App\Models\School;
+use App\Models\Guardian;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -95,11 +96,11 @@ class AttendanceController extends Controller
     {
         $schoolId = session('dashboard_school_id', 'all');
 
-        $leavesQuery = StudentLeave::with(['student', 'school']);
+        $leavesQuery = StudentLeave::with(['student.school', 'student.classroom', 'guardian']);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
 
         if ($schoolId !== 'all') {
-            $leavesQuery->where('school_id', $schoolId);
+            $leavesQuery->whereHas('student', fn($q) => $q->where('school_id', $schoolId));
             $studentsQuery->where('school_id', $schoolId);
         }
 
@@ -114,19 +115,27 @@ class AttendanceController extends Controller
 
     public function storeLeave(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'student_id' => 'required|exists:students,id',
-            'leave_type' => 'required|in:SAKIT,IZIN,DISPENSASI',
+            'leave_type' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'reason' => 'required|string',
         ]);
 
         $student = Student::find($request->student_id);
-        $validated['school_id'] = $student->school_id ?? 1;
-        $validated['status'] = 'APPROVED';
+        $leaveType = in_array(strtoupper($request->leave_type), ['SAKIT', 'IZIN', 'LAINNYA']) ? strtoupper($request->leave_type) : 'IZIN';
+        $guardianId = $student->guardian_id ?? Guardian::first()?->id ?? 1;
 
-        $lve = StudentLeave::create($validated);
+        $lve = StudentLeave::create([
+            'student_id' => $student->id,
+            'guardian_id' => $guardianId,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'type' => $leaveType,
+            'reason' => $request->reason,
+            'status' => 'APPROVED',
+        ]);
 
         try {
             \App\Models\AuditLog::create([

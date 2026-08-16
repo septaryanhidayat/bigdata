@@ -25,7 +25,7 @@ class AcademicController extends Controller
 
         $schedulesQuery = Schedule::with(['school', 'classroom', 'subject', 'teacher']);
         $classroomsQuery = Classroom::query();
-        $teachersQuery = Employee::whereIn('role_type', ['TEACHER', 'GURU'])->orWhere('type', 'GURU');
+        $teachersQuery = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR']);
 
         if ($schoolId !== 'all') {
             $schedulesQuery->where('school_id', $schoolId);
@@ -79,7 +79,7 @@ class AcademicController extends Controller
     {
         $journals = KbmJournal::with(['schedule.classroom', 'schedule.subject', 'teacher'])->latest()->paginate(15);
         $schedules = Schedule::with(['classroom', 'subject'])->get();
-        $teachers = Employee::whereIn('role_type', ['TEACHER', 'GURU'])->orWhere('type', 'GURU')->get();
+        $teachers = Employee::whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])->get();
         if ($teachers->isEmpty()) {
             $teachers = Employee::all();
         }
@@ -89,7 +89,7 @@ class AcademicController extends Controller
 
     public function storeJournal(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'schedule_id' => 'required|exists:schedules,id',
             'teacher_id' => 'required|exists:employees,id',
             'date' => 'required|date',
@@ -97,10 +97,13 @@ class AcademicController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $schedule = Schedule::find($request->schedule_id);
-        $validated['school_id'] = $schedule->school_id ?? 1;
-
-        $jrn = KbmJournal::create($validated);
+        $jrn = KbmJournal::create([
+            'schedule_id' => $request->schedule_id,
+            'teacher_id' => $request->teacher_id,
+            'date' => $request->date,
+            'topic' => $request->topic,
+            'notes' => $request->notes,
+        ]);
 
         try {
             \App\Models\AuditLog::create([
@@ -122,11 +125,11 @@ class AcademicController extends Controller
     {
         $schoolId = session('dashboard_school_id', 'all');
 
-        $gradesQuery = Grade::with(['student', 'subject', 'academicYear']);
+        $gradesQuery = Grade::with(['student.classroom', 'subject', 'academicYear']);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
 
         if ($schoolId !== 'all') {
-            $gradesQuery->where('school_id', $schoolId);
+            $gradesQuery->whereHas('student', fn($q) => $q->where('school_id', $schoolId));
             $studentsQuery->where('school_id', $schoolId);
         }
 
@@ -143,7 +146,7 @@ class AcademicController extends Controller
 
     public function storeGrade(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'student_id' => 'required|exists:students,id',
             'subject_id' => 'required|exists:subjects,id',
             'academic_year_id' => 'required|exists:academic_years,id',
@@ -152,17 +155,15 @@ class AcademicController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $student = Student::find($request->student_id);
-        $validated['school_id'] = $student->school_id;
-
-        // Auto compute predicate
-        $score = $validated['score'];
-        if ($score >= 90) $validated['predicate'] = 'A';
-        elseif ($score >= 80) $validated['predicate'] = 'B';
-        elseif ($score >= 70) $validated['predicate'] = 'C';
-        else $validated['predicate'] = 'D';
-
-        $grd = Grade::create($validated);
+        $grd = Grade::create([
+            'student_id' => $request->student_id,
+            'subject_id' => $request->subject_id,
+            'academic_year_id' => $request->academic_year_id,
+            'assessment_type' => $request->type,
+            'competency_code' => 'TP-01',
+            'score' => $request->score,
+            'notes' => $request->notes,
+        ]);
 
         try {
             \App\Models\AuditLog::create([
@@ -182,7 +183,7 @@ class AcademicController extends Controller
      */
     public function reportCard($studentId)
     {
-        $student = Student::with(['school', 'classroom', 'guardian'])->findOrFail($studentId);
+        $student = Student::with(['school', 'classroom.homeroomTeacher', 'guardian'])->findOrFail($studentId);
         $grades = Grade::where('student_id', $studentId)->with('subject')->get();
         $academicYear = AcademicYear::where('is_active', 1)->first() ?? AcademicYear::first();
 

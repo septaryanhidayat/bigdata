@@ -684,8 +684,9 @@ class SchoolWebsiteController extends Controller
         return view('school.spmb_verify', compact('settings', 'registration'));
     }
 
-    public function eSppCheck(Request $request)
+    public function eSppCheck(Request $request = null)
     {
+        $request = $request ?? request();
         $settings = $this->getSettings();
         $student = null;
         $bills = collect();

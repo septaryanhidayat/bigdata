@@ -7,23 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class KbmJournal extends Model
 {
     protected $fillable = [
-        'school_id',
         'schedule_id',
         'teacher_id',
         'date',
         'topic',
         'notes',
-        'student_attendance_summary',
+        'student_present_count',
+        'student_absent_count',
     ];
-
-    protected $casts = [
-        'student_attendance_summary' => 'array',
-    ];
-
-    public function school()
-    {
-        return $this->belongsTo(School::class);
-    }
 
     public function schedule()
     {

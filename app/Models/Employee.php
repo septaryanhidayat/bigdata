@@ -25,6 +25,9 @@ class Employee extends Model
         'role_type',
         'employment_status',
         'is_active',
+        'title',
+        'type',
+        'position',
     ];
 
     protected $casts = [
@@ -51,5 +54,35 @@ class Employee extends Model
         $prefix = $this->title_prefix ? $this->title_prefix . ' ' : '';
         $suffix = $this->title_suffix ? ', ' . $this->title_suffix : '';
         return $prefix . $this->full_name . $suffix;
+    }
+
+    public function getTitleAttribute(): string
+    {
+        return $this->title_suffix ?: ($this->title_prefix ?: '');
+    }
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title_suffix'] = $value;
+    }
+
+    public function getTypeAttribute(): string
+    {
+        return $this->role_type === 'TEACHER' ? 'GURU' : 'NON_GURU';
+    }
+
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['role_type'] = in_array(strtoupper($value ?? ''), ['GURU', 'TEACHER']) ? 'TEACHER' : 'STAFF';
+    }
+
+    public function getPositionAttribute(): ?string
+    {
+        return $this->employment_status;
+    }
+
+    public function setPositionAttribute($value)
+    {
+        $this->attributes['employment_status'] = $value;
     }
 }

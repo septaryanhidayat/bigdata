@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\CbtExam;
 use App\Models\PpdbRegistration;
 use App\Models\School;
+use App\Models\Student;
+use App\Models\Guardian;
+use App\Models\Classroom;
+use App\Models\AcademicYear;
+use App\Models\SppBill;
 use Illuminate\Http\Request;
 
 class CbtPpdbController extends Controller
@@ -122,48 +127,55 @@ class CbtPpdbController extends Controller
 
         if ($newStatus === 'PASSED') {
             // Auto create student in Master Data
-            $schoolId = $reg->school_id ?? \App\Models\School::first()?->id;
-            $classroomId = \App\Models\Classroom::where('school_id', $schoolId)->first()?->id;
+            $schoolId = $reg->school_id ?? School::first()?->id ?? 1;
+            $classroomId = Classroom::where('school_id', $schoolId)->first()?->id;
 
-            $student = \App\Models\Student::firstOrCreate(
-                ['nis' => '2026' . str_pad($reg->id, 4, '0', STR_PAD_LEFT)],
-                [
-                    'school_id' => $schoolId,
-                    'classroom_id' => $classroomId,
-                    'nisn' => '006' . str_pad($reg->id, 7, '0', STR_PAD_LEFT),
-                    'full_name' => $reg->full_name,
-                    'gender' => 'M',
-                    'rfid_tag' => 'RFID-PPDB-' . rand(1000, 9999),
-                    'savings_balance' => 100000,
-                    'status' => 'ACTIVE',
-                ]
-            );
-
-            // Auto create/link Parent record for Parent Portal
+            $guardian = null;
             if ($reg->parent_name) {
                 try {
-                    \App\Models\ParentModel::firstOrCreate(
-                        ['phone_number' => $reg->phone_number],
+                    $guardian = Guardian::firstOrCreate(
+                        ['phone' => $reg->phone_number],
                         [
                             'full_name' => $reg->parent_name,
-                            'email' => $reg->details_json['email_ortu'] ?? 'ortu.' . $reg->id . '@sitrobbani.sch.id',
-                            'password' => bcrypt('123456'),
+                            'type' => 'FATHER',
+                            'occupation' => 'Wiraswasta / Karyawan',
                         ]
                     );
                 } catch (\Throwable $e) {}
             }
 
+            $student = Student::firstOrCreate(
+                ['nis' => '2026' . str_pad($reg->id, 4, '0', STR_PAD_LEFT)],
+                [
+                    'school_id' => $schoolId,
+                    'classroom_id' => $classroomId,
+                    'guardian_id' => $guardian?->id,
+                    'nisn' => '006' . str_pad($reg->id, 7, '0', STR_PAD_LEFT),
+                    'full_name' => $reg->full_name,
+                    'gender' => 'M',
+                    'rfid_tag' => 'RFID-PPDB-' . rand(1000, 9999),
+                    'savings_balance' => 100000,
+                    'canteen_balance' => 50000,
+                    'status' => 'ACTIVE',
+                ]
+            );
+
             // Auto create initial SPP bill in Finance Module
             try {
-                \App\Models\SppBill::firstOrCreate(
+                $academicYear = AcademicYear::where('is_active', true)->first() ?? AcademicYear::first();
+                SppBill::firstOrCreate(
                     [
                         'student_id' => $student->id,
-                        'month_year' => date('Y-m'),
+                        'month_period' => date('F Y'),
                     ],
                     [
                         'school_id' => $schoolId,
+                        'academic_year_id' => $academicYear ? $academicYear->id : 1,
                         'amount' => 350000,
+                        'discount_amount' => 0,
+                        'paid_amount' => 0,
                         'status' => 'UNPAID',
+                        'due_date' => now()->endOfMonth()->toDateString(),
                     ]
                 );
             } catch (\Throwable $e) {}
