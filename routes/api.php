@@ -2,9 +2,42 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AttendanceApiController;
+use App\Http\Controllers\Api\HrisMobileApiController;
 
-// API v1 Endpoints for Android Apps & Hardware Terminals
+// API v1 Endpoints for Android Apps, Hardware Terminals & Mobile HRIS
 Route::prefix('v1')->group(function () {
-    // Tap RFID Gate Terminal
+    // 1. Tap RFID Gate Terminal
     Route::post('/attendance/tap-rfid', [AttendanceApiController::class, 'tapRfid']);
+
+    // 2. Mobile HRIS SDM SIT Robbani Endpoints
+    Route::prefix('mobile')->group(function () {
+        // Auth
+        Route::post('/auth/login', [HrisMobileApiController::class, 'login']);
+
+        // Dashboard & Profile
+        Route::get('/dashboard', [HrisMobileApiController::class, 'dashboard']);
+
+        // Presensi Face Recognition & Anti-Fake GPS
+        Route::post('/attendance/check-in', [HrisMobileApiController::class, 'attendanceCheckIn']);
+        Route::post('/attendance/check-out', [HrisMobileApiController::class, 'attendanceCheckOut']);
+        Route::get('/attendance/history', [HrisMobileApiController::class, 'attendanceHistory']);
+
+        // Izin & Cuti
+        Route::get('/leaves', [HrisMobileApiController::class, 'leaves']);
+        Route::post('/leaves/apply', [HrisMobileApiController::class, 'applyLeave']);
+
+        // Payroll & Slip Gaji
+        Route::get('/payroll', [HrisMobileApiController::class, 'payroll']);
+        Route::get('/payroll/{id}/slip', [HrisMobileApiController::class, 'payrollSlip']);
+
+        // KPI & Kinerja
+        Route::get('/kpi', [HrisMobileApiController::class, 'kpi']);
+
+        // Belanja Produk Kantin/Koperasi
+        Route::get('/canteen/products', [HrisMobileApiController::class, 'canteenProducts']);
+        Route::post('/canteen/pay', [HrisMobileApiController::class, 'canteenPay']);
+
+        // Pengumuman & Memo
+        Route::get('/announcements', [HrisMobileApiController::class, 'announcements']);
+    });
 });

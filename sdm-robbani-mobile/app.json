@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "SDM SIT Robbani",
+    "slug": "sdm-robbani-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#004532"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sitrobbani.sdmmobile",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Aplikasi memerlukan akses kamera untuk verifikasi presensi wajah (Face Recognition).",
+        "NSLocationWhenInUseUsageDescription": "Aplikasi memerlukan akses lokasi GPS untuk memvalidasi radius kehadiran di kampus unit sekolah."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#004532"
+      },
+      "package": "com.sitrobbani.sdmmobile",
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
