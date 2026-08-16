@@ -11,24 +11,7 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'school_id',
-        'nip',
-        'nik',
-        'full_name',
-        'title_prefix',
-        'title_suffix',
-        'gender',
-        'phone',
-        'email',
-        'role_type',
-        'employment_status',
-        'is_active',
-        'title',
-        'type',
-        'position',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'is_active' => 'boolean',

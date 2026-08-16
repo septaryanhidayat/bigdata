@@ -207,6 +207,7 @@ class EmployeeDossierController extends Controller
             'full_name' => $request->full_name,
             'nip' => $request->nip,
             'nik' => $request->nik,
+            'gender' => $request->gender ?? $employee->gender ?? 'M',
             'kk_number' => $request->kk_number,
             'school_id' => ($request->school_id === 'yayasan' || empty($request->school_id)) ? null : $request->school_id,
             'role_type' => $request->role_type,

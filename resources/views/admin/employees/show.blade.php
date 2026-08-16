@@ -28,6 +28,13 @@
         </div>
     </div>
 
+    <!-- Flash Messages -->
+    @if(session('success'))
+    <div class="bg-emerald-50 border border-emerald-300 text-emerald-900 px-5 py-4 rounded-2xl font-bold text-xs flex items-center gap-2 shadow-xs">
+        <span class="text-base">✓</span> {{ session('success') }}
+    </div>
+    @endif
+
     <!-- Main Grid: Left Profile Card, Right Files -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Left: Biodata Pribadi & Info Kepegawaian (2 Cols) -->
