@@ -1050,7 +1050,7 @@ class HrisMobileApiController extends Controller
 
         $userId = $request->header('X-User-Id') ?? 1;
         $user = User::find($userId) ?? User::first();
-        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employee = $this->getEffectiveEmployee($user);
         $employeeId = $employee ? $employee->id : 1;
 
         $facePhotoUrl = '/uploads/faces/face_employee_' . $employeeId . '.jpg';
@@ -1067,11 +1067,12 @@ class HrisMobileApiController extends Controller
         }
 
         $filePath = $uploadDir . '/face_employee_' . $employeeId . '.jpg';
-        if (base64_decode($imageData, true)) {
-            file_put_contents($filePath, base64_decode($imageData));
+        $decoded = base64_decode($imageData, true);
+        if ($decoded !== false && strlen($decoded) > 50) {
+            file_put_contents($filePath, $decoded);
         } else {
-            // Jika dummy/string nama file
-            file_put_contents($filePath, 'ENROLLED_FACE_BIOMETRIC_DATA');
+            // Salin dari asset default jika bukan base64 valid
+            file_put_contents($filePath, $imageData);
         }
 
         DB::table('employees')->where('id', $employeeId)->update([
@@ -1085,9 +1086,14 @@ class HrisMobileApiController extends Controller
             'updated_at' => now(),
         ]);
 
+        if ($user) {
+            $user->avatar = $facePhotoUrl;
+            $user->save();
+        }
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Sampel wajah biometrik berhasil didaftarkan ke sistem!',
+            'message' => 'Sampel wajah biometrik berhasil didaftarkan dan disimpan sebagai foto profil!',
             'data' => [
                 'employee_id' => $employeeId,
                 'face_photo_url' => $facePhotoUrl,
@@ -1103,7 +1109,7 @@ class HrisMobileApiController extends Controller
     {
         $userId = $request->header('X-User-Id') ?? 1;
         $user = User::find($userId) ?? User::first();
-        $employee = DB::table('employees')->where('user_id', $user->id)->first();
+        $employee = $this->getEffectiveEmployee($user);
         $employeeId = $employee ? $employee->id : 1;
 
         $emp = DB::table('employees')->where('id', $employeeId)->first();
@@ -1114,7 +1120,7 @@ class HrisMobileApiController extends Controller
             'status' => 'success',
             'data' => [
                 'is_face_registered' => $isRegistered,
-                'face_photo_url' => $emp ? $emp->face_photo_url : null,
+                'face_photo_url' => $emp ? $emp->face_photo_url : ($user ? $user->avatar : null),
                 'face_registered_at' => ($emp && $emp->face_registered_at) ? date('d M Y, H:i', strtotime($emp->face_registered_at)) . ' WIB' : null,
                 'employee_name' => $emp ? $emp->full_name : $user->name,
                 'nip' => $emp ? $emp->nip : '-',

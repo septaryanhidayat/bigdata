@@ -116,7 +116,9 @@ export default function DashboardScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Profil')}>
               <Image
-                source={require('../../assets/logo.png')}
+                source={{
+                  uri: user?.avatar || employee?.face_photo_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200',
+                }}
                 style={styles.avatarImg}
               />
             </TouchableOpacity>

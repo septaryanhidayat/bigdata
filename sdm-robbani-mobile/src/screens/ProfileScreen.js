@@ -68,7 +68,7 @@ export default function ProfileScreen({ navigation }) {
         {/* Profile Hero Card */}
         <View style={[styles.profileCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <Image
-            source={{ uri: user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}
+            source={{ uri: user?.avatar || employee?.face_photo_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}
             style={[styles.avatarBig, { borderColor: colors.primary }]}
           />
           <Text style={[styles.name, { color: colors.text }]}>{employee?.full_name || user?.name || 'Pegawai SIT Robbani'}</Text>

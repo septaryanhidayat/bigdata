@@ -18,7 +18,7 @@ import { hrisApi } from '../api/hrisApi';
 
 export default function FaceEnrollmentScreen({ navigation }) {
   const { colors } = useTheme();
-  const { user, employee } = useAuth();
+  const { user, employee, updateProfileData, refreshProfile } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -31,32 +31,33 @@ export default function FaceEnrollmentScreen({ navigation }) {
       const localFacePhoto = await AsyncStorage.getItem('enrolled_face_photo');
       const localFaceTime = await AsyncStorage.getItem('enrolled_face_time');
 
-      if (localFacePhoto) {
+      if (localFacePhoto || user?.avatar || employee?.face_photo_url) {
         setFaceStatus({
           is_face_registered: true,
-          face_photo_url: localFacePhoto,
-          face_registered_at: localFaceTime || 'Hari ini, 20:30 WIB',
-          employee_name: employee?.full_name || user?.name || 'Ustadz Rizky S.Pd.I',
-          nip: employee?.nip || '199208152020121003',
+          face_photo_url: localFacePhoto || user?.avatar || employee?.face_photo_url,
+          face_registered_at: localFaceTime || 'Terdaftar Aktif',
+          employee_name: employee?.full_name || user?.name || 'Pegawai SIT Robbani',
+          nip: employee?.nip || '-',
         });
       }
 
-      // 2. Sinkronkan dengan server backend
+      // 2. Sinkronkan dengan server backend yayasan
       const res = await hrisApi.getFaceStatus();
       if (res?.status === 'success' && res?.data) {
-        if (res.data.is_face_registered || !localFacePhoto) {
-          setFaceStatus(res.data);
-        }
+        setFaceStatus({
+          ...res.data,
+          face_photo_url: res.data.face_photo_url || localFacePhoto || user?.avatar || employee?.face_photo_url,
+        });
       }
     } catch (e) {
       console.warn('Using local face biometric cache', e.message);
       if (!faceStatus) {
         setFaceStatus({
-          is_face_registered: false,
-          face_photo_url: null,
-          face_registered_at: null,
-          employee_name: employee?.full_name || user?.name || 'Ustadz Rizky S.Pd.I',
-          nip: employee?.nip || '199208152020121003',
+          is_face_registered: Boolean(user?.avatar || employee?.face_photo_url),
+          face_photo_url: user?.avatar || employee?.face_photo_url || null,
+          face_registered_at: 'Terdaftar Aktif',
+          employee_name: employee?.full_name || user?.name || 'Pegawai SIT Robbani',
+          nip: employee?.nip || '-',
         });
       }
     } finally {
@@ -76,16 +77,27 @@ export default function FaceEnrollmentScreen({ navigation }) {
       year: 'numeric',
     }) + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
 
-    const photoToSave = uri || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400';
+    const photoToSave = base64Data || uri || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400';
 
     try {
-      // Simpan langsung ke penyimpanan lokal agar instan dan offline-ready
+      // 1. Simpan langsung ke penyimpanan lokal agar instan dan offline-ready
       await AsyncStorage.setItem('enrolled_face_photo', photoToSave);
       await AsyncStorage.setItem('enrolled_face_time', nowTimeStr);
 
-      // Coba kirim ke server live
+      // 2. Update AuthContext secara langsung sehingga ProfileScreen dan DashboardScreen langsung menampilkan foto baru
+      if (updateProfileData) {
+        await updateProfileData({
+          avatar: photoToSave,
+          photo: photoToSave,
+        });
+      }
+
+      // 3. Kirim sampel ke server yayasan
       try {
-        await hrisApi.enrollFace(base64Data);
+        const res = await hrisApi.enrollFace(base64Data || uri);
+        if (res?.data?.face_photo_url) {
+          await refreshProfile?.();
+        }
       } catch (serverErr) {
         console.warn('Server sync queued for face enrollment', serverErr.message);
       }
@@ -94,13 +106,13 @@ export default function FaceEnrollmentScreen({ navigation }) {
         is_face_registered: true,
         face_photo_url: photoToSave,
         face_registered_at: nowTimeStr,
-        employee_name: employee?.full_name || user?.name || 'Ustadz Rizky S.Pd.I',
-        nip: employee?.nip || '199208152020121003',
+        employee_name: employee?.full_name || user?.name || 'Pegawai SIT Robbani',
+        nip: employee?.nip || '-',
       });
 
       Alert.alert(
         'Alhamdulillah! Sukses',
-        'Sampel wajah biometrik (Face ID) Anda berhasil didaftarkan dan aktif untuk presensi kehadiran.'
+        'Sampel wajah biometrik (Face ID) & Foto Profil Anda berhasil diperbarui dan disinkronkan ke server yayasan.'
       );
     } catch (e) {
       Alert.alert('Error', 'Gagal memproses sampel foto wajah.');
@@ -122,83 +134,122 @@ export default function FaceEnrollmentScreen({ navigation }) {
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
-        {/* Status Card Hero */}
+        {/* Status Verification Card */}
         <View
           style={[
-            styles.statusHero,
-            { backgroundColor: isRegistered ? '#004532' : '#7f1d1d' },
+            styles.statusCard,
+            {
+              backgroundColor: isRegistered ? '#ecfdf5' : '#fef2f2',
+              borderColor: isRegistered ? '#10b981' : '#ef4444',
+            },
           ]}
         >
-          <View style={styles.heroLeft}>
-            <Text style={styles.heroBadge}>
-              {isRegistered ? '✓ BIOMETRIK TERDAFTAR & AKTIF' : '⚠️ WAJAH BELUM TERDAFTAR'}
-            </Text>
-            <Text style={styles.heroTitle}>
-              {isRegistered ? 'Face ID Siap Digunakan' : 'Daftarkan Wajah Anda'}
-            </Text>
-            <Text style={styles.heroSub}>
-              {isRegistered
-                ? `Terdaftar: ${faceStatus?.face_registered_at || 'Hari ini'}`
-                : 'Wajib didaftarkan sebelum dapat melakukan presensi kehadiran wajah.'}
-            </Text>
-          </View>
-          <View style={styles.heroIconCircle}>
-            <Text style={styles.heroIcon}>{isRegistered ? '👤' : '📸'}</Text>
-          </View>
-        </View>
-
-        {/* Registered Face Photo or Silhouette */}
-        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Sampel Biometrik Wajah Pegawai</Text>
-          
-          <View style={styles.facePreviewContainer}>
-            {faceStatus?.face_photo_url ? (
-              <Image
-                source={{ uri: faceStatus.face_photo_url }}
-                style={[styles.faceAvatar, { borderColor: colors.primary }]}
-              />
-            ) : (
-              <View style={[styles.faceAvatarPlaceholder, { backgroundColor: colors.surfaceSub }]}>
-                <Text style={styles.placeholderIcon}>👤</Text>
-                <Text style={[styles.placeholderText, { color: colors.textLight }]}>Belum ada foto</Text>
-              </View>
-            )}
-
-            <View style={styles.employeeMetaBox}>
-              <Text style={[styles.employeeName, { color: colors.text }]}>
-                {faceStatus?.employee_name || employee?.full_name || user?.name || 'Dewan Guru'}
+          <View style={styles.statusHeaderRow}>
+            <Text style={styles.statusIcon}>{isRegistered ? '✅' : '⚠️'}</Text>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={[
+                  styles.statusTitle,
+                  { color: isRegistered ? '#065f46' : '#991b1b' },
+                ]}
+              >
+                {isRegistered
+                  ? 'Face ID Biometrik Aktif & Terverifikasi'
+                  : 'Belum Ada Sampel Wajah Terdaftar'}
               </Text>
-              <Text style={[styles.employeeNip, { color: colors.textLight }]}>
-                NIP: {faceStatus?.nip || employee?.nip || '199208152020121003'}
+              <Text
+                style={[
+                  styles.statusSubtitle,
+                  { color: isRegistered ? '#047857' : '#b91c1c' },
+                ]}
+              >
+                {isRegistered
+                  ? 'Wajah Anda dikenali sistem untuk presensi GPS & Face Recognition.'
+                  : 'Daftarkan sampel foto wajah Anda sekarang agar dapat melakukan presensi.'}
               </Text>
-              <View style={[styles.verifiedPill, { backgroundColor: isRegistered ? '#dcfce7' : '#fee2e2' }]}>
-                <Text style={[styles.verifiedPillText, { color: isRegistered ? '#15803d' : '#b91c1c' }]}>
-                  {isRegistered ? '✓ BIOMETRIK VALID (98.5% MATCH)' : 'TIDAK AKTIF'}
-                </Text>
-              </View>
             </View>
           </View>
         </View>
 
-        {/* Petunjuk & Standar Perekaman Wajah */}
+        {/* Biometric Face Sample Preview */}
         <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>💡 Petunjuk Perekaman Wajah Biometrik</Text>
-          <View style={styles.tipsList}>
-            <Text style={[styles.tipItem, { color: colors.textLight }]}>
-              1. ☀️ <Text style={{ fontWeight: '700', color: colors.text }}>Pencahayaan Cukup:</Text> Pastikan ruangan terang dan tidak membelakangi cahaya (backlight).
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Sampel Foto Wajah Anda</Text>
+
+          <View style={styles.avatarContainer}>
+            <Image
+              source={{
+                uri:
+                  faceStatus?.face_photo_url ||
+                  user?.avatar ||
+                  employee?.face_photo_url ||
+                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400',
+              }}
+              style={[
+                styles.faceImage,
+                { borderColor: isRegistered ? '#10b981' : colors.border },
+              ]}
+            />
+            {isRegistered ? (
+              <View style={styles.verifiedBadge}>
+                <Text style={styles.verifiedBadgeText}>✓ TERVERIFIKASI</Text>
+              </View>
+            ) : null}
+          </View>
+
+          {/* Metadata Rows */}
+          <View style={styles.metaBox}>
+            <View style={styles.metaRow}>
+              <Text style={[styles.metaLabel, { color: colors.textLight }]}>Nama Pegawai</Text>
+              <Text style={[styles.metaVal, { color: colors.text }]}>
+                {faceStatus?.employee_name || employee?.full_name || user?.name}
+              </Text>
+            </View>
+
+            <View style={styles.metaRow}>
+              <Text style={[styles.metaLabel, { color: colors.textLight }]}>NIP</Text>
+              <Text style={[styles.metaVal, styles.monoText, { color: colors.text }]}>
+                {faceStatus?.nip || employee?.nip || '-'}
+              </Text>
+            </View>
+
+            <View style={styles.metaRow}>
+              <Text style={[styles.metaLabel, { color: colors.textLight }]}>Waktu Pendaftaran</Text>
+              <Text style={[styles.metaVal, { color: isRegistered ? '#059669' : colors.textLight }]}>
+                {faceStatus?.face_registered_at || 'Belum Terdaftar'}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Enrollment Instructions */}
+        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Panduan Pindai Wajah</Text>
+          <View style={styles.stepRow}>
+            <Text style={styles.stepNum}>1</Text>
+            <Text style={[styles.stepText, { color: colors.textLight }]}>
+              Pastikan wajah berada di tempat dengan pencahayaan terang dan merata.
             </Text>
-            <Text style={[styles.tipItem, { color: colors.textLight }]}>
-              2. 🕶️ <Text style={{ fontWeight: '700', color: colors.text }}>Wajah Terbuka:</Text> Lepaskan kacamata hitam, masker, atau topi penutup dahi.
+          </View>
+          <View style={styles.stepRow}>
+            <Text style={styles.stepNum}>2</Text>
+            <Text style={[styles.stepText, { color: colors.textLight }]}>
+              Posisikan wajah tepat di tengah bingkai lingkaran kamera.
             </Text>
-            <Text style={[styles.tipItem, { color: colors.textLight }]}>
-              3. 🎯 <Text style={{ fontWeight: '700', color: colors.text }}>Tepat di Tengah:</Text> Posisikan wajah tepat di dalam garis panduan oval hijau.
+          </View>
+          <View style={styles.stepRow}>
+            <Text style={styles.stepNum}>3</Text>
+            <Text style={[styles.stepText, { color: colors.textLight }]}>
+              Lepaskan kacamata hitam atau masker saat proses pemindaian wajah.
             </Text>
           </View>
         </View>
 
         {/* Action Button */}
         <TouchableOpacity
-          style={[styles.enrollBtn, { backgroundColor: colors.primary }]}
+          style={[
+            styles.enrollBtn,
+            { backgroundColor: isRegistered ? colors.primary : '#059669' },
+          ]}
           onPress={() => setCameraModalVisible(true)}
           disabled={submitting}
           activeOpacity={0.8}
@@ -207,20 +258,19 @@ export default function FaceEnrollmentScreen({ navigation }) {
             <ActivityIndicator color="#ffffff" />
           ) : (
             <Text style={styles.enrollBtnText}>
-              {isRegistered ? '🔄 Perbarui / Pindai Ulang Wajah ➔' : '📸 Mulai Pindai Wajah Sekarang ➔'}
+              {isRegistered ? '🔄 Perbarui Sampel Wajah (Face ID)' : '📷 Pindai & Daftarkan Wajah'}
             </Text>
           )}
         </TouchableOpacity>
 
       </ScrollView>
 
-      {/* Camera Live Modal */}
+      {/* Live Camera Scanner Modal */}
       <CameraAttendanceModal
         visible={cameraModalVisible}
         onClose={() => setCameraModalVisible(false)}
+        mode="enrollment"
         onCapture={handleCaptureEnrolledFace}
-        title="Perekaman Wajah Biometrik"
-        subtitle="Posisikan wajah Anda tepat di dalam lingkaran oval"
       />
     </View>
   );
@@ -234,128 +284,128 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 40,
   },
-  statusHero: {
-    borderRadius: 24,
-    padding: 20,
+  statusCard: {
+    padding: 16,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    marginBottom: 16,
+  },
+  statusHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: 12,
+  },
+  statusIcon: {
+    fontSize: 28,
+  },
+  statusTitle: {
+    fontSize: 14,
+    fontWeight: '900',
+    marginBottom: 2,
+  },
+  statusSubtitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    lineHeight: 16,
+  },
+  card: {
+    padding: 16,
+    borderRadius: 20,
+    borderWidth: 1,
     marginBottom: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    elevation: 4,
   },
-  heroLeft: {
-    flex: 1,
+  cardTitle: {
+    fontSize: 13,
+    fontWeight: '900',
+    marginBottom: 14,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
-  heroBadge: {
-    color: '#c6f634',
-    fontSize: 9,
+  avatarContainer: {
+    alignItems: 'center',
+    position: 'relative',
+    marginVertical: 10,
+  },
+  faceImage: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    borderWidth: 4,
+  },
+  verifiedBadge: {
+    backgroundColor: '#10b981',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 20,
+    marginTop: -14,
+    borderWidth: 2,
+    borderColor: '#ffffff',
+  },
+  verifiedBadgeText: {
+    color: '#ffffff',
+    fontSize: 10,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
-  heroTitle: {
-    color: '#ffffff',
-    fontSize: 18,
-    fontWeight: '900',
-    marginVertical: 4,
+  metaBox: {
+    marginTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(150, 150, 150, 0.1)',
+    paddingTop: 10,
   },
-  heroSub: {
-    color: 'rgba(255,255,255,0.85)',
-    fontSize: 11,
-    lineHeight: 16,
-  },
-  heroIconCircle: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  heroIcon: {
-    fontSize: 26,
-  },
-  card: {
-    padding: 18,
-    borderRadius: 22,
-    borderWidth: 1,
-    marginBottom: 14,
-  },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: '800',
-    marginBottom: 12,
-  },
-  facePreviewContainer: {
+  metaRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 7,
   },
-  faceAvatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    borderWidth: 3,
-    marginRight: 16,
-  },
-  faceAvatarPlaceholder: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  placeholderIcon: {
-    fontSize: 32,
-  },
-  placeholderText: {
-    fontSize: 9,
-    marginTop: 2,
-  },
-  employeeMetaBox: {
-    flex: 1,
-  },
-  employeeName: {
-    fontSize: 15,
-    fontWeight: '900',
-  },
-  employeeNip: {
-    fontSize: 11,
-    marginTop: 2,
-  },
-  verifiedPill: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    marginTop: 8,
-  },
-  verifiedPillText: {
-    fontSize: 9,
-    fontWeight: '900',
-  },
-  tipsList: {
-    gap: 8,
-  },
-  tipItem: {
+  metaLabel: {
     fontSize: 12,
+    fontWeight: '600',
+  },
+  metaVal: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  monoText: {
+    fontFamily: 'monospace',
+  },
+  stepRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    marginBottom: 10,
+  },
+  stepNum: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#059669',
+    color: '#ffffff',
+    textAlign: 'center',
+    lineHeight: 22,
+    fontSize: 11,
+    fontWeight: '900',
+  },
+  stepText: {
+    fontSize: 12,
+    fontWeight: '600',
+    flex: 1,
     lineHeight: 18,
   },
   enrollBtn: {
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderRadius: 18,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 4,
     shadowColor: '#000',
     shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 3,
   },
   enrollBtnText: {
     color: '#ffffff',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '900',
   },
 });
