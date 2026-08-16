@@ -1,184 +1,198 @@
-# Rencana Kerja & Roadmap Pengembangan Bertahap 21 Modul SmartEdu
+# SmartEdu SIT Robbani Ogan Ilir — Comprehensive Implementation & Architecture Plan
 
-Dokumen ini berisi rencana kerja komprehensif untuk pengadaan dan pengembangan **21 Modul Digital SmartEdu (Sekolah Islam Terpadu)**. Pengembangan disusun secara **bertahap (phased development)** mulai dari **Fase 1: Master Data & Sistem Administrator** sebagai fondasi utama (*single source of truth*) yang akan dikonsumsi oleh seluruh modul dan aplikasi mobile (Android).
-
----
-
-## 📌 Prinsip Pengembangan & Arsitektur
-
-1. **Master Data First:** Fondasi entitas (Sekolah, Tahun Akademik, Rombel, Siswa, Guru, Ortu, User/Role) dibangun paling awal dengan validasi ketat.
-2. **Modular & Scalable API:** Setiap modul backend menyediakan endpoint REST API standar yang akan digunakan oleh Web Admin dan 3 Aplikasi Mobile Android (Parent App, Teacher App, Kiosk/POS App).
-3. **Multi-School / Yayasan Context:** Seluruh tabel database dirancang dengan `school_id` middleware untuk mendukung multi-unit sekolah (TK, SD, SMP, SMA) dalam 1 instansi yayasan.
+Dokumen ini merupakan panduan master arsitektur, alur kerja sistem, hierarki data, dan status implementasi terkini dari platform **SmartEdu SIT Robbani Ogan Ilir**. Dokumen ini dirancang agar setiap *programmer*, *developer*, maupun *AI Agent* selanjutnya dapat langsung memahami seluruh sistem secara komprehensif tanpa ambiguitas.
 
 ---
 
-## 🗓️ Timeline & Roadmap Pengembangan (Tahap demi Tahap)
+## 📌 1. Gambaran Umum & Stack Teknologi
+
+| Komponen | Spesifikasi / Teknologi | Keterangan |
+| :--- | :--- | :--- |
+| **Framework Backend** | **Laravel (PHP 8.4+)** | MVC, Eloquent ORM, Blade Templating Engine |
+| **Frontend & UI** | **Tailwind CSS + Alpine.js** | Desain modern, responsive, interaktif tanpa reload berat |
+| **Notifikasi Global** | **SweetAlert2 (Timer Auto-Close)** | Notifikasi alert konsisten di seluruh sistem admin & web |
+| **Ekspor Dokumen & PDF** | **Barryvdh DomPDF + Simple QrCode** | Cetak Bukti Pembayaran, Kuitansi SPP, Surat Resmi Ber-KOP, QR TTE |
+| **Basis Data** | **MySQL / SQLite Support** | Relasi multi-tenancy dengan kolom `school_id` |
+| **Media & Branding** | **WebP / PNG Compressed (<100KB)** | Logo resmi TKIT, SDIT, SMPIT, SMAIT terkompresi |
+| **Integrasi Eksternal** | **WordPress XML Parser & YouTube API/oEmbed** | 247 postingan berita riil & video resmi channel SIT Robbani |
+
+---
+
+## 🏛️ 2. Struktur Organisasi & Multi-Tenancy (Unit Scoping)
+
+Sistem mengelola 4 unit pendidikan di bawah naungan 1 yayasan induk:
+1. **Yayasan Generasi Robbani Ogan Ilir** (Yayasan Induk / Global Oversight)
+2. **KB/TKIT Robbani** (`code: TKIT`, `school_id: 1`)
+3. **SDIT Robbani** (`code: SDIT`, `school_id: 2`)
+4. **SMPIT Robbani** (`code: SMPIT`, `school_id: 3`)
+5. **SMAIT Robbani** (`code: SMAIT`, `school_id: 4`)
+
+### Aturan Isolasi Data (*Data Scoping Rules*):
+- **Akun Unit (`user->school_id != null`):**
+  - Data terkunci 100% pada unit sekolahnya.
+  - Query otomatis menerapkan `where('school_id', $user->school_id)`.
+  - Switcher unit di sidebar terkunci dengan status: `🏫 Unit: [Nama Unit] (Terkunci)`.
+  - Unit user dilarang melihat, mengedit, atau menghapus data milik unit lain.
+- **Akun Yayasan (`user->school_id == null`):**
+  - Khusus `SUPER_ADMIN` dan `YAYASAN_CHAIRMAN`.
+  - Memiliki akses monitoring lintas unit dan dapat beralih unit menggunakan switcher dashboard (`session('dashboard_school_id')`).
+
+---
+
+## 👥 3. Matriks Role-Based Access Control (15 Peran)
+
+Sistem memiliki 15 peran pengguna (*roles*) dengan pembagian tugas yang tegas:
+
+| No | Role ID | Nama Peran | Lingkup Akses & Modul Utama |
+| :---: | :--- | :--- | :--- |
+| 1 | `SUPER_ADMIN` | 👑 Super Admin IT | Seluruh modul sistem, konfigurasi server, manajemen akun, CMS, DB |
+| 2 | `YAYASAN_CHAIRMAN` | 🏛️ Ketua Yayasan | Dashboard eksekutif konsolidasi, persuratan/disposisi, laporan keuangan |
+| 3 | `HEADMASTER` (TKIT) | 🏫 Kepala Sekolah TKIT | Manajemen akademik, guru, siswa, persuratan, approval unit TKIT |
+| 4 | `HEADMASTER` (SDIT) | 🏫 Kepala Sekolah SDIT | Manajemen akademik, guru, siswa, persuratan, approval unit SDIT |
+| 5 | `HEADMASTER` (SMPIT) | 🏫 Kepala Sekolah SMPIT | Manajemen akademik, guru, siswa, persuratan, approval unit SMPIT |
+| 6 | `HEADMASTER` (SMAIT) | 🏫 Kepala Sekolah SMAIT | Manajemen akademik, guru, siswa, persuratan, approval unit SMAIT |
+| 7 | `STAFF_TU` | 📋 Tata Usaha (TU) | Persuratan masuk/keluar, buku agenda, data siswa/guru, **CMS Profil Unit** |
+| 8 | `STAFF_KEUANGAN` | 💰 Bendahara / Keuangan | Tagihan SPP, pos pembayaran, kasir POS, tabungan siswa, payroll gaji |
+| 9 | `GURU` | 👨‍🏫 Dewan Guru | E-Learning/LMS, jurnal mengajar, absensi harian, penilaian rapor |
+| 10 | `GURU_BK` | 👥 Guru BK (Konseling) | Konseling siswa, catatan pelanggaran & poin prestasi, mutabaah |
+| 11 | `MUSYRIF` | 🕌 Pembina Asrama / Musyrif | Pembinaan Bina Pribadi Islam (BPI), mutabaah yaumiyah, tahfidz asrama |
+| 12 | `PUSTAKAWAN` | 📚 Pustakawan | Katalog E-Library, sirkulasi peminjaman/pengembalian buku, denda |
+| 13 | `KASIR_KANTIN` | 🍽️ Kasir Kantin RFID | Transaksi POS kantin non-tunai, riwayat belanja santri |
+| 14 | `PANITIA_PPDB` | 🎯 Panitia PPDB & CBT | Pendaftaran santri baru, verifikasi berkas, bank soal CBT, pengumuman |
+| 15 | `SARPRAS` | 🏢 Petugas Sarpras & Aset | Inventarisasi aset, pemeliharaan ruangan, peminjaman barang |
+
+---
+
+## 📨 4. Alur Persuratan Resmi & Tanda Tangan Elektronik (TTE) Internal
 
 ```mermaid
-gantt
-    title Roadmap Pengembangan SmartEdu (21 Modul)
-    dateFormat  YYYY-MM-DD
-    section Fase 1: Master & Admin
-    Master Data & System Admin (Modul 1 & 16) :f1, 2026-09-01, 3w
-    section Fase 2: SIADAK & Presensi
-    Akademik, Kurikulum & E-Rapor (Modul 2)  :f2a, after f1, 3w
-    Absensi RFID & QR Sesi (Modul 3)          :f2b, after f2a, 2w
-    section Fase 3: Financial & POS
-    Keuangan SPP & COA Akuntansi (Modul 4)   :f3a, after f2b, 3w
-    Tabungan Siswa (Modul 5)                 :f3b, after f3a, 1w
-    Kantin Cashless & POS RFID (Modul 6)     :f3c, after f3b, 2w
-    section Fase 4: BPI & Android Apps
-    Mutaba'ah BPI & Al-Mathurat (Modul 15)   :f4a, after f3c, 2w
-    Portal Ortu & App Flutter (Modul 14)     :f4b, after f4a, 3w
-    section Fase 5: HRIS & Operasional
-    Payroll & HRIS Pegawai (Modul 7 & 17)    :f5a, after f4b, 3w
-    Sarpras Aset & E-Library (Modul 9 & 10)  :f5b, after f5a, 2w
-    section Fase 6: LMS, CBT, PPDB & BK
-    PPDB Online & BK Online (Modul 13 & 8)   :f6a, after f5b, 2w
-    CBT Ujian & E-Learning LMS (Modul 12 & 11):f6b, after f6a, 3w
+flowchart TD
+    A[Staf TU: Buat Draft Surat Keluar] --> B[Simpan & Masuk Antrian Verifikasi]
+    B --> C{Pimpinan Unit / Yayasan}
+    C -->|Revisi / Disposisi| D[Staf TU: Edit Draf & Kirim Ulang]
+    D --> B
+    C -->|Setujui & TTE Digital| E[Generate SHA-256 Hash + Token Publik + Secure QR]
+    E --> F[Terbitkan Surat Resmi Ber-KOP PDF]
+    F --> G[Verifikasi Publik: /verifikasi-surat/{token}]
+```
+
+1. **Format KOP Surat Resmi:**
+   - Opsi 1: Mode Logo Tunggal di tengah atas.
+   - Opsi 2: Mode Banner KOP Unit resmi dengan informasi kontak dan akreditasi.
+2. **Keamanan TTE Digital Internal:**
+   - Hash SHA-256 dibuat dari kombinasi ID surat, nomor agenda, tanggal terbit, dan identitas penandatangan.
+   - Dilengkapi Token Unik UUID 32 karakter untuk verifikasi publik instan via scan QR.
+
+---
+
+## 🌐 5. Website Publik & Integrasi Konten WordPress Asli
+
+```mermaid
+graph TD
+    A[sitrobbani.WordPress.2026-08-16.xml] -->|Stream Parser in 0.1s| B[247 Postingan Asli]
+    B --> C[Mesin Auto-Kategorisasi Cerdas]
+    C --> D[TKIT: 35 Berita / 41 Total]
+    C --> E[SDIT: 32 Berita / 39 Total]
+    C --> F[SMPIT: 17 Berita / 20 Total]
+    C --> G[Yayasan: 36 Berita / 147 Total]
+    D --> H[Website Utama & Profil /unit/tkit]
+    E --> I[Website Utama & Profil /unit/sdit]
+    F --> J[Website Utama & Profil /unit/smpit]
+    G --> K[Website Utama & Profil Yayasan]
+```
+
+### Fitur CMS & Website:
+1. **Website Utama (`/`):** Menampilkan berita terkini berurutan dari tahun 2026 terbaru, tab filter interaktif unit, video dokumentasi, fasilitas, dan pendaftaran SPMB.
+2. **Halaman Unit (`/unit/{code}`):** Profil lengkap masing-masing unit (`tkit`, `sdit`, `smpit`, `smait`) dengan sambutan kepala sekolah, visi-misi, kurikulum, dan seksi berita khusus unit terkait.
+3. **Pengelolaan Profil Unit oleh TU:** Staf TU unit dapat login dan langsung memperbarui informasi website unitnya tanpa mengganggu unit lain (`/admin/settings/units/{code}/edit`).
+4. **Portal Berita (`/berita`):** Pencarian, filter per unit, dan tampilan detail berita lengkap dengan gambar resolusi penuh.
+
+---
+
+## 🎥 6. Integrasi Video YouTube Resmi (@sitrobbanioganilir8496)
+
+Seluruh video demo telah dibersihkan. Sistem terhubung langsung dengan Channel Resmi **YouTube SIT Robbani Ogan Ilir**:
+- Jingle Resmi SIT Robbani Ogan Ilir (`Q-vZ49vP1_c`)
+- After Movie MPLS SIT Robbani (`8yp0GZL27fU`)
+- Wisuda Tahfidz & Haflah Akhirussanah (`lhFR6TrEWxY`)
+- Dokumentasi Manasik Haji KB/TKIT (`5ifsHX2orZ8`), Qur'an Camp SDIT (`ug0lt6LlYSs`), Robbani Talent Show SMPIT (`cCRXQhYNF38`), dll.
+- Pemutar video modal interaktif dengan embed HD langsung dari YouTube.
+
+---
+
+## 📁 7. Peta Controller & Model Utama
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/
+│   │   │   ├── AcademicController.php      # Akademik, Jadwal, Penilaian Rapor
+│   │   │   ├── AttendanceController.php    # Presensi Siswa & Karyawan
+│   │   │   ├── BkController.php            # Konseling BK & Poin Pelanggaran
+│   │   │   ├── BpiController.php           # Bina Pribadi Islam & Mutabaah
+│   │   │   ├── CanteenController.php       # Transaksi Kantin RFID
+│   │   │   ├── CbtPpdbController.php       # CBT Online & Seleksi PPDB
+│   │   │   ├── CmsController.php           # CMS Web, Berita, Unit, Parser XML
+│   │   │   ├── FinanceController.php       # SPP, Pos Bayar, Laporan Kasir
+│   │   │   ├── HrisPayrollController.php   # Data Pegawai & Penggajian
+│   │   │   ├── LetterController.php        # Persuratan, Disposisi & TTE
+│   │   │   ├── LibraryController.php       # Perpustakaan E-Library
+│   │   │   ├── LmsController.php           # Materi E-Learning & Tugas
+│   │   │   ├── MasterDataController.php    # Data Siswa, Guru, Kelas, Rombel
+│   │   │   ├── SarprasController.php       # Inventaris & Peminjaman Sarpras
+│   │   │   ├── SavingsController.php       # Tabungan Santri
+│   │   │   └── UserController.php          # Manajemen 15 Akun & Hak Akses
+│   │   └── SchoolWebsiteController.php     # Frontend Web Utama, Unit, Berita
+│   └── Middleware/
+│       ├── CheckRole.php                   # RBAC Role Gatekeeper
+│       └── EnsureUnitAccess.php            # Data Scoping Gatekeeper
+└── Models/
+    ├── School.php                          # Master Unit Sekolah
+    ├── User.php                            # Akun Pengguna & Roles
+    ├── Student.php, Employee.php           # Data Siswa & Karyawan
+    ├── Letter.php, LetterDisposition.php   # Persuratan & TTE
+    ├── Invoice.php, Payment.php            # Keuangan & Transaksi SPP
+    └── SiteSetting.php                     # Konfigurasi Global & CMS JSON
 ```
 
 ---
 
-## 📂 Rincian Tasks & Sub-Modul per Fase
+## 🧪 8. Panduan Eksekusi Automated Test Suite
 
-### 🔷 FASE 1: Master Data & System Admin (Fondasi Utam)
-> **Goal:** Membangun seluruh referensi entitas dasar sekolah dan manajemen akses role (RBAC) agar sistem siap menerima modul-modul turunan.
+Untuk memverifikasi keutuhan sistem kapan saja, jalankan script verifikasi mandiri berikut:
 
-#### 1. Modul 1: Master Data & Referensi Akademik
-* [ ] **Sub-Modul 1.1: Multi-School & Unit Yayasan (`schools`)**
-  * CRUD Profil Sekolah (NPSN, Alamat, Logo, Warna Primary, Kepala Sekolah).
-  * Middleware `SchoolContext` untuk filter otomatis data per unit aktif.
-* [ ] **Sub-Modul 1.2: Kurikulum & Tahun Akademik (`academic_years`, `curriculums`)**
-  * Manajemen Tahun Ajaran (contoh: 2026/2027) & Semester (Ganjil/Genap).
-  * Setup Jenis Kurikulum: K13, Kurikulum Merdeka, JSIT, & Kustom.
-* [ ] **Sub-Modul 1.3: Tingkat & Rombongan Belajar (`levels`, `classrooms`)**
-  * Tingkat Kelas (TK, 1-6 SD, 7-9 SMP, 10-12 SMA).
-  * Rombel/Kelas (contoh: 7-Umar bin Khattab) + Assignment Wali Kelas.
-* [ ] **Sub-Modul 1.4: Gedung, Ruang & Mata Pelajaran (`rooms`, `subjects`)**
-  * Master Ruangan (Kelas, Lab, Lapangan) + Kapasitas.
-  * Master Mata Pelajaran (Kode Mapel, Nama, Kelompok K13/Merdeka/Muatan Lokal/JSIT).
-* [ ] **Sub-Modul 1.5: Master Data Guru & Staf Pegawai (`employees`)**
-  * Biodata lengkap Guru (NIP, NIK, Status Kepegawaian, Gelar, Kontak, User Account).
-  * Data Staf Non-Guru (TU, Security, Janitor, Driver).
-* [ ] **Sub-Modul 1.6: Master Data Siswa & Orang Tua/Wali (`students`, `guardians`)**
-  * Biodata Siswa (NIS, NISN, RFID Tag Code, Status Aktif/Lulus/Mutasi, Rombel aktif).
-  * Data Orang Tua/Wali + Relasi Multi-Anak (*1 akun ortu bisa menghubungkan >1 siswa*).
-  * Fitur Import/Export Massal Excel Data Siswa & Guru.
+```bash
+# 1. Verifikasi Seluruh Modul Sistem (22 Modul)
+php scratch/test_all_features.php
 
-#### 2. Modul 16: System Admin & Authorization
-* [ ] **Sub-Modul 16.1: Role & Permission (RBAC Spatie/Custom)**
-  * Setup 12+ Role Bawaan: `Super Admin Yayasan`, `Admin Sekolah`, `Kepala Sekolah`, `Guru`, `Wali Kelas`, `Guru BK`, `Bendahara/Kasir`, `Admin HRD`, `Kasir Kantin`, `Petugas Perpus`, `Orang Tua`, `Siswa`.
-  * Middleware Permission Granular per Aksi (Create, Read, Update, Delete, Export).
-* [ ] **Sub-Modul 16.2: System Settings & Audit Log (`site_settings`, `audit_logs`)**
-  * Branding Sekolah (Logo, Favicon, Hero Title).
-  * Audit Trail untuk mencatat aktivitas penting (Siapa mengubah nilai, Siapa melakukan void pembayaran SPP).
+# 2. Verifikasi Isolasi Data Unit & Akses TU
+php scratch/test_unit_scoping.php
+
+# 3. Verifikasi RBAC 15 Peran Pengguna
+php scratch/test_rbac_and_roles.php
+
+# 4. Verifikasi Persuratan, Disposisi & TTE
+php scratch/test_letters_and_tte.php
+
+# 5. Verifikasi Manajemen Akun Pengguna
+php scratch/test_user_management.php
+
+# 6. Verifikasi Auto-Kategorisasi Konten WordPress 2026
+php scratch/test_cms_auto_cat.php
+
+# 7. Verifikasi Tampilan Berita Real Unit di Frontend
+php scratch/test_real_unit_news_views.php
+
+# 8. Verifikasi Integrasi Video YouTube Resmi
+php scratch/test_real_youtube_videos.php
+```
 
 ---
 
-### 🔷 FASE 2: Core Akademik & Presensi Realtime
+## 🚀 9. Standar Kerja untuk Developer & Agent Selanjutnya
 
-#### 1. Modul 2: Akademik, Penilaian & E-Rapor
-* [ ] **Sub-Modul 2.1: RPP & Jadwal Pelajaran Mingguan**
-  * Penjadwalan mingguan bebas bentrok (Guru & Ruangan).
-  * Jurnal KBM (Materi diajar, Catatan Kelas, Absensi Per Sesi).
-* [ ] **Sub-Modul 2.2: Penilaian Multi-Kurikulum**
-  * Penilaian K13 (KI-1 Spritual, KI-2 Sosial, KI-3 Pengetahuan, KI-4 Keterampilan).
-  * Penilaian Kurikulum Merdeka (Tujuan Pembelajaran / TP, Formatif, Sumatif, Proyek P5).
-* [ ] **Sub-Modul 2.3: Rollup Nilai & Cetak Rapor PDF**
-  * Agregasi nilai akhir otomatis.
-  * Export Rapor UTS & Rapor Akhir Semester format PDF resmi.
-
-#### 2. Modul 3: Absensi Realtime RFID & QR Code
-* [ ] **Sub-Modul 3.1: Absensi RFID & QR Code Gate**
-  * Integration Endpoint REST API untuk Reader RFID Tap (Siswa & Staf).
-  * Sesi QR Code Dinamis Per Kelas (Siswa scan QR guru via Mobile).
-* [ ] **Sub-Modul 3.2: Pengajuan Izin & Dashboard Realtime**
-  * Form Izin Sakit/Sakit online + Upload Surat Dokter.
-  * Realtime Dashboard persentase kehadiran sekolah hari ini.
-
----
-
-### 🔷 FASE 3: Keuangan Sekolah, SPP, Tabungan & POS Kantin
-
-#### 1. Modul 4: Keuangan Sekolah, SPP & Akuntansi (COA)
-* [ ] **Sub-Modul 4.1: Penagihan SPP & Kasir Kwitansi**
-  * Generate Tagihan SPP Bulanan Otomatis + Skema Beasiswa/Diskon.
-  * Kasir Pembayaran Tunai/Transfer + Cetak Kwitansi PDF.
-* [ ] **Sub-Modul 4.2: Chart of Accounts (COA) & Jurnal Otomatis**
-  * Setup COA (Kas, Bank, Piutang SPP, Pendapatan, Beban Operasional).
-  * Buku Besar, Neraca, & Laporan Arus Kas Otomatis.
-
-#### 2. Modul 5: Tabungan Siswa
-* [ ] **Sub-Modul 5.1: Rekening & Teller Tabungan**
-  * Master Rekening Tabungan Siswa.
-  * Teller Setor/Tarik Tunai + Input Setoran Massal per Kelas.
-
-#### 3. Modul 6: Kantin & POS Multi-Outlet (Cashless)
-* [ ] **Sub-Modul 6.1: POS Kantin & NFC/RFID Tap**
-  * Aplikasi POS Checkout Kasir Kantin tap Kartu RFID Siswa.
-  * Pengaturan Limit Belanja Harian (Diatur orang tua via Portal).
-  * Settlement Komisi Tenant / Multi-Outlet Kantin.
-
----
-
-### 🔷 FASE 4: Character Building (BPI) & Mobile Apps (Android/Flutter)
-
-#### 1. Modul 15: Mutaba'ah BPI & Character Building
-* [ ] **Sub-Modul 15.1: Monitoring Amal Harian & Dzikir**
-  * Checklist Ibadah (Sholat 5 Waktu, Rawatib, Dhuha, Tahajud, Tilawah, Hafalan, Infaq).
-  * Validasi PIN Orang Tua di rumah.
-  * Modul Dzikir Al-Mathurat Pagi & Petang + API Jadwal Sholat Kemenag.
-
-#### 2. Modul 14: Portal Siswa & Ortu Mobile Apps
-* [ ] **Sub-Modul 14.1: REST API Mobile (Laravel Sanctum)**
-  * Endpoint autentikasi, switcher profil anak, data presensi, bill SPP, & BPI.
-* [ ] **Sub-Modul 14.2: App Android Flutter (Parent & Student App)**
-  * Layout UI Responsive + Dark/Light Theme.
-  * Push Notification (FCM) saat presensi siswa tercatat & pengingat SPP.
-
----
-
-### 🔷 FASE 5: Penunjang Operasional & SDM (HRIS/Payroll)
-
-#### 1. Modul 7 & Modul 17: Payroll, HRIS Pegawai & E-Leave
-* [ ] **Sub-Modul 7.1: Payroll & Slip Gaji PDF**
-  * Kalkulasi Gaji Pokok, Tunjangan, Potongan BPJS & PPh21, Lembur, Kasbon.
-  * Generate E-Slip Gaji PDF di Portal Pegawai.
-* [ ] **Sub-Modul 17.1: E-Leave & Evaluasi Kinerja (PKG KPI)**
-  * Pengajuan Cuti Berjenjang + Evaluasi Kinerja Guru.
-
-#### 2. Modul 9 & Modul 10: Sarpras Aset & Perpustakaan Digital
-* [ ] **Sub-Modul 9.1: Sarana Prasarana (Asset Barcode & Floorplan)**
-  * Aset Barcode, Floorplan Gedung, Movement Barang Habis Pakai, Peminjaman.
-* [ ] **Sub-Modul 10.1: Perpustakaan Digital (E-Library)**
-  * Katalog Buku ISBN, Sirkulasi Pinjam QR, Denda Otomatis, Reader E-Book PDF.
-
----
-
-### 🔷 FASE 6: E-Learning LMS, CBT, PPDB Online & BK Online
-
-#### 1. Modul 13: PPDB / SPMB Online
-* [ ] Wizard 5-Langkah Pendaftaran, Upload Syarat Dokumen, Konfirmasi Bayar.
-* [ ] **Fitur Kunci:** Transfer Pendaftar Diterima -> Auto Create Master Data Siswa.
-
-#### 2. Modul 12: CBT (Computer Based Test)
-* [ ] Bank Soal Multi-type (PG, Essay, Matching), Proctoring Kamera, Deteksi Tab Switch, & Auto Sync Nilai ke E-Rapor.
-
-#### 3. Modul 11: E-Learning LMS
-* [ ] Modul Pembelajaran (Video/PDF), Assignment, Forum Diskusi, & Live Class.
-
-#### 4. Modul 8: Bimbingan Konseling (BK Online)
-* [ ] Catatan Pelanggaran & Poin, Booking Sesi Konseling Online, & Foto Log Home Visit.
-
----
-
-## 🔒 Verification Plan & Kriteria Selesai (Definition of Done)
-
-1. **Ketersediaan Data Master (Fase 1):**
-   * Berhasil melakukan Seeding Data Dummy Sekolah, Tahun Akademik, Rombel, 50 Siswa, 10 Guru, dan 10 Orang Tua.
-   * Uji coba pembuatan akun & assign Role RBAC berjalan tanpa bocor data antar unit sekolah.
-2. **API Readiness:**
-   * Seluruh API Endpoint Master Data lulus pengujian Postman/Pest PHP dengan HTTP Response Code status 200/201.
-3. **Integrasi Frontend & Mobile:**
-   * Halaman Admin CMS Web dapat menambah/mengedit master data secara seamless.
+1. **Prinsip Multi-Tenancy:** Jangan pernah mengambil data tanpa menerapkan filter `school_id` untuk pengguna unit.
+2. **Prinsip Notifikasi:** Gunakan SweetAlert2 untuk feedback user (`swal-success`, `swal-error`, dll.) dengan auto-timer.
+3. **Kompresi Aset Gambar:** Setiap aset baru wajib dioptimasi di bawah 100KB.
+4. **Git Commit:** Selalu jalankan test suite sebelum commit, gunakan pesan commit deskriptif dalam **Bahasa Indonesia**, dan push ke branch `main`.
