@@ -985,483 +985,388 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- EKOSISTEM DIGITAL SMARTEDU (PROMOSI FITUR & MODUL SISTEM) -->
+        <!-- EKOSISTEM DIGITAL SMARTEDU (KOMPAK & INTERAKTIF)           -->
         <!-- ========================================================= -->
-        <section id="smartedu-ekosistem" class="py-14 sm:py-20 bg-gradient-to-b from-slate-900 via-[#002b1f] to-slate-950 text-white relative overflow-hidden reveal-fade-up">
+        <section id="smartedu-ekosistem" class="py-10 sm:py-14 bg-gradient-to-b from-slate-900 via-[#00281d] to-slate-950 text-white relative overflow-hidden reveal-fade-up">
             <!-- Background Decorative Ambient Glows -->
-            <div class="absolute -top-40 -left-40 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+            <div class="absolute -top-32 -left-32 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="max-w-container-max mx-auto px-gutter relative z-10 space-y-8 sm:space-y-12" x-data="{ activeModuleTab: 'all' }">
+            <div class="max-w-container-max mx-auto px-gutter relative z-10 space-y-6 sm:space-y-8" x-data="{ activeModuleTab: 'akademik' }">
                 
-                <!-- Section Header with Badges & Intro -->
-                <div class="text-center space-y-3 sm:space-y-4 max-w-3xl mx-auto">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-black uppercase tracking-wider shadow-inner">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span>✨ EKOSISTEM DIGITAL SMARTEDU TERPADU</span>
+                <!-- Section Header (Compact & Punchy) -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-5">
+                    <div class="space-y-1 text-center md:text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10px] font-black uppercase tracking-wider">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>✨ EKOSISTEM DIGITAL SMARTEDU TERPADU</span>
+                        </div>
+                        <h2 class="text-xl sm:text-3xl font-black font-headline text-white">
+                            Transformasi Digital Sekolah <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-400 bg-clip-text text-transparent">22+ Modul Terintegrasi</span>
+                        </h2>
                     </div>
-                    <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black font-headline tracking-tight text-white leading-tight">
-                        Transformasi Digital Sekolah <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-400 bg-clip-text text-transparent">Terlengkap &amp; Terintegrasi</span>
-                    </h2>
-                    <p class="text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed">
-                        Satu platform cerdas menghubungkan <strong>Yayasan, 4 Unit Sekolah (TKIT, SDIT, SMPIT, SMAIT), Guru, Keuangan, Tata Usaha, hingga Wali Santri</strong> dalam 22+ modul digital realtime, paperless, dan aman.
-                    </p>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <div class="hidden sm:flex items-center gap-3 text-right">
+                            <div class="text-[11px] text-slate-300 font-medium">Platform 4 Unit Terpadu</div>
+                            <div class="h-6 w-px bg-slate-700"></div>
+                        </div>
+                        <a href="{{ route('admin.dashboard') }}" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs rounded-full shadow-md hover:shadow-emerald-900/50 transition-all flex items-center gap-1.5">
+                            <span>🔐 Masuk Portal</span>
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Interactive Category Filter Tabs -->
-                <div class="flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-                    <button @click="activeModuleTab = 'all'" :class="activeModuleTab === 'all' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-900/50 border-emerald-400' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 border-slate-700/80'" class="px-4 py-2.5 rounded-2xl font-extrabold text-xs shrink-0 transition-all border flex items-center gap-1.5">
-                        <span>🌟 Semua Modul (22)</span>
-                    </button>
-                    <button @click="activeModuleTab = 'akademik'" :class="activeModuleTab === 'akademik' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-900/50 border-emerald-400' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 border-slate-700/80'" class="px-4 py-2.5 rounded-2xl font-extrabold text-xs shrink-0 transition-all border flex items-center gap-1.5">
-                        <span>🎓 Akademik &amp; KBM (5)</span>
-                    </button>
-                    <button @click="activeModuleTab = 'keuangan'" :class="activeModuleTab === 'keuangan' ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg shadow-amber-900/50 border-amber-400' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 border-slate-700/80'" class="px-4 py-2.5 rounded-2xl font-extrabold text-xs shrink-0 transition-all border flex items-center gap-1.5">
-                        <span>💳 Keuangan &amp; POS (4)</span>
-                    </button>
-                    <button @click="activeModuleTab = 'persuratan'" :class="activeModuleTab === 'persuratan' ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/50 border-blue-400' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 border-slate-700/80'" class="px-4 py-2.5 rounded-2xl font-extrabold text-xs shrink-0 transition-all border flex items-center gap-1.5">
-                        <span>📨 Persuratan &amp; TTE (4)</span>
-                    </button>
-                    <button @click="activeModuleTab = 'karakter'" :class="activeModuleTab === 'karakter' ? 'bg-gradient-to-r from-emerald-600 to-cyan-600 text-white shadow-lg shadow-cyan-900/50 border-cyan-400' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 border-slate-700/80'" class="px-4 py-2.5 rounded-2xl font-extrabold text-xs shrink-0 transition-all border flex items-center gap-1.5">
-                        <span>🕌 Karakter &amp; BPI (3)</span>
-                    </button>
-                    <button @click="activeModuleTab = 'manajemen'" :class="activeModuleTab === 'manajemen' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-900/50 border-purple-400' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 border-slate-700/80'" class="px-4 py-2.5 rounded-2xl font-extrabold text-xs shrink-0 transition-all border flex items-center gap-1.5">
-                        <span>🏢 Fasilitas &amp; SDM (6)</span>
-                    </button>
-                </div>
-
-                <!-- 22 Modules Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+                <!-- Compact 2-Column Split Bento Hub Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                     
-                    <!-- 1. LMS & E-Learning -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'akademik'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📚
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">E-Learning</span>
+                    <!-- Left Column: Category Navigator & Key Metrics (lg:col-span-4) -->
+                    <div class="lg:col-span-4 flex flex-col justify-between space-y-4 bg-slate-800/50 border border-slate-700/80 rounded-3xl p-4 sm:p-5">
+                        
+                        <div class="space-y-2">
+                            <span class="text-[11px] font-black uppercase tracking-wider text-emerald-400 block">Pilih Kategori Modul:</span>
+                            
+                            <!-- 5 Interactive Category Buttons -->
+                            <div class="grid grid-cols-1 gap-2">
+                                <button @click="activeModuleTab = 'akademik'" :class="activeModuleTab === 'akademik' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md border-emerald-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="text-base">🎓</span>
+                                        <div>
+                                            <div class="leading-tight">Akademik &amp; KBM</div>
+                                            <div class="text-[10px] font-normal text-slate-300/80">LMS, CBT, E-Rapor, Presensi</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'akademik' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">5 Modul</span>
+                                </button>
+
+                                <button @click="activeModuleTab = 'keuangan'" :class="activeModuleTab === 'keuangan' ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md border-amber-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="text-base">💳</span>
+                                        <div>
+                                            <div class="leading-tight">Keuangan &amp; Smart POS</div>
+                                            <div class="text-[10px] font-normal text-slate-300/80">SPP, Tabungan, Kantin RFID</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'keuangan' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">4 Modul</span>
+                                </button>
+
+                                <button @click="activeModuleTab = 'persuratan'" :class="activeModuleTab === 'persuratan' ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md border-blue-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="text-base">📨</span>
+                                        <div>
+                                            <div class="leading-tight">Persuratan &amp; TTE Digital</div>
+                                            <div class="text-[10px] font-normal text-slate-300/80">Agenda, TTE QR, Disposisi</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'persuratan' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">4 Modul</span>
+                                </button>
+
+                                <button @click="activeModuleTab = 'karakter'" :class="activeModuleTab === 'karakter' ? 'bg-gradient-to-r from-emerald-600 to-cyan-600 text-white shadow-md border-cyan-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="text-base">🕌</span>
+                                        <div>
+                                            <div class="leading-tight">Karakter &amp; Keislaman</div>
+                                            <div class="text-[10px] font-normal text-slate-300/80">BPI, Tahfidz Tracker, BK</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'karakter' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">3 Modul</span>
+                                </button>
+
+                                <button @click="activeModuleTab = 'manajemen'" :class="activeModuleTab === 'manajemen' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md border-purple-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="text-base">🏢</span>
+                                        <div>
+                                            <div class="leading-tight">Fasilitas &amp; SDM</div>
+                                            <div class="text-[10px] font-normal text-slate-300/80">E-Library, Sarpras, HRIS, CMS</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'manajemen' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">6 Modul</span>
+                                </button>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-emerald-300 transition-colors">LMS &amp; Kelas Online</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Materi ajar multimedia, bank materi terstruktur, tugas &amp; kuis interaktif per rombel siswa.</p>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👥 Guru &amp; Siswa</span>
-                            <span class="text-emerald-400 font-bold">⚡ Interaktif</span>
-                        </div>
-                    </div>
 
-                    <!-- 2. CBT Ujian Online -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'akademik'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📝
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">Ujian Online</span>
+                        <!-- Mini Stats Bar -->
+                        <div class="pt-3 border-t border-slate-700/80 grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700/60">
+                                <div class="text-base font-black text-emerald-400 font-headline">22+</div>
+                                <div class="text-[9px] text-slate-400 font-bold">Modul</div>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-blue-300 transition-colors">CBT Ujian &amp; Asesmen</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Ujian online anti-curang, acak soal &amp; opsi jawaban, timer otomatis, dan analisis nilai instan.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🎯 Panitia &amp; Siswa</span>
-                            <span class="text-blue-400 font-bold">⏱️ Auto-Grade</span>
-                        </div>
-                    </div>
-
-                    <!-- 3. Rapor Kurikulum Merdeka -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'akademik'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📊
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Kurikulum</span>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700/60">
+                                <div class="text-base font-black text-amber-400 font-headline">4 Unit</div>
+                                <div class="text-[9px] text-slate-400 font-bold">Terpadu</div>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-indigo-300 transition-colors">E-Rapor Merdeka</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Leger nilai formatif &amp; sumatif otomatis, capaian kompetensi, dan cetak e-rapor PDF standar Diknas.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👨‍🏫 Wali Kelas &amp; Kepsek</span>
-                            <span class="text-indigo-400 font-bold">📄 PDF Resmi</span>
-                        </div>
-                    </div>
-
-                    <!-- 4. Presensi Digital & Geofence -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'akademik'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    ⏱️
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30">Presensi</span>
+                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700/60">
+                                <div class="text-base font-black text-cyan-400 font-headline">15 Role</div>
+                                <div class="text-[9px] text-slate-400 font-bold">RBAC</div>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-teal-300 transition-colors">Presensi Digital Realtime</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Pencatatan absensi siswa &amp; GTK harian, izin, sakit, alpa dengan rekapitulasi otomatis akurat.</p>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>📋 Seluruh GTK &amp; Siswa</span>
-                            <span class="text-teal-400 font-bold">📍 Real-time</span>
-                        </div>
+
                     </div>
 
-                    <!-- 5. Jurnal Mengajar KBM -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'akademik'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    👨‍🏫
+                    <!-- Right Column: Dynamic Compact Module Cards (lg:col-span-8) -->
+                    <div class="lg:col-span-8 bg-slate-900/60 border border-slate-800 rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
+                        
+                        <!-- TAB 1: AKADEMIK & KBM (5 Cards) -->
+                        <div x-show="activeModuleTab === 'akademik'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity>
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">📚</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">LMS &amp; Kelas Online</h4>
+                                        <span class="text-[9px] font-bold text-emerald-400 uppercase">Interaktif</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Materi ajar multimedia, bank soal terstruktur, tugas &amp; kuis online per rombel.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">KBM</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-cyan-300 transition-colors">Jurnal Mengajar Guru</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Dokumentasi materi KBM per pertemuan, absensi tatap muka, dan supervisi kepala sekolah.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👨‍🏫 Dewan Guru</span>
-                            <span class="text-cyan-400 font-bold">📖 Terstruktur</span>
-                        </div>
-                    </div>
 
-                    <!-- 6. Keuangan & SPP Multi-Unit -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'keuangan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-amber-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    💳
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-blue-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">📝</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">CBT Ujian &amp; Asesmen</h4>
+                                        <span class="text-[9px] font-bold text-blue-400 uppercase">Anti-Curang</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Ujian komputer otomatis, acak butir soal &amp; opsi, timer serta analisis nilai instan.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">E-SPP</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-amber-300 transition-colors">Tagihan SPP &amp; Pos Bayar</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Manajemen pos SPP per unit, tagihan otomatis, penerimaan kasir, dan cetak kuitansi PDF resmi.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>💰 Bendahara &amp; Wali Murid</span>
-                            <span class="text-amber-400 font-bold">🧾 Cetak Kuitansi</span>
-                        </div>
-                    </div>
 
-                    <!-- 7. Tabungan Santri Digital -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'keuangan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-amber-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-orange-500/20 text-orange-300 border border-orange-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    💰
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-indigo-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center text-xl shrink-0">📊</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">E-Rapor Merdeka</h4>
+                                        <span class="text-[9px] font-bold text-indigo-400 uppercase">PDF Resmi</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Leger nilai formatif &amp; sumatif otomatis, capaian kompetensi &amp; cetak rapor standar Diknas.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-orange-500/20 text-orange-300 border border-orange-500/30">Tabungan</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-orange-300 transition-colors">Tabungan Santri Digital</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Buku tabungan digital santri, transaksi setor/tarik cepat, mutasi saldo, dan laporan buku kas.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>💰 Kasir &amp; Santri</span>
-                            <span class="text-orange-400 font-bold">📈 Mutasi Jelas</span>
-                        </div>
-                    </div>
 
-                    <!-- 8. Kantin RFID POS -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'keuangan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-amber-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🍽️
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-teal-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center text-xl shrink-0">⏱️</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Presensi Digital Realtime</h4>
+                                        <span class="text-[9px] font-bold text-teal-400 uppercase">Otomatis</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Pencatatan kehadiran siswa &amp; GTK harian dengan rekapitulasi kehadiran akurat.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">Cashless RFID</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-yellow-300 transition-colors">Kantin Smart RFID POS</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Belanja kantin cashless via kartu santri RFID, kontrol limit jajan harian, &amp; riwayat belanja.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🍽️ Petugas Kantin &amp; Santri</span>
-                            <span class="text-yellow-400 font-bold">💳 Bebas Uang Tunai</span>
-                        </div>
-                    </div>
 
-                    <!-- 9. Laporan Kas & Arus Kas Yayasan -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'keuangan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-amber-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📈
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-cyan-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all sm:col-span-2">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0">👨‍🏫</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Jurnal Mengajar Guru</h4>
+                                        <span class="text-[9px] font-bold text-cyan-400 uppercase">KBM Terstruktur</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Agenda tatap muka kelas, capaian materi per pertemuan, &amp; supervisi kepala sekolah.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Laporan</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-emerald-300 transition-colors">Laporan Kas &amp; Audit</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Rekapitulasi arus kas 4 unit, kontrol piutang/tunggakan, dan audit konsolidasi yayasan.</p>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🏛️ Pimpinan &amp; Yayasan</span>
-                            <span class="text-emerald-400 font-bold">📊 Transparan</span>
-                        </div>
-                    </div>
 
-                    <!-- 10. Persuratan Digital Resmi -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'persuratan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-blue-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📨
+                        <!-- TAB 2: KEUANGAN & POS (4 Cards) -->
+                        <div x-show="activeModuleTab === 'keuangan'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-amber-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-xl shrink-0">💳</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Tagihan SPP &amp; Pos Bayar</h4>
+                                        <span class="text-[9px] font-bold text-amber-400 uppercase">E-Billing</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Manajemen pos SPP per unit, tagihan otomatis, kasir, &amp; cetak bukti kuitansi PDF resmi.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">E-Office</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-blue-300 transition-colors">Persuratan &amp; Agenda</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Buku agenda surat masuk/keluar, draf surat resmi ber-KOP unit, penomoran otomatis &amp; arsip.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>📋 Tata Usaha (TU)</span>
-                            <span class="text-blue-400 font-bold">🗂️ Paperless</span>
-                        </div>
-                    </div>
 
-                    <!-- 11. TTE Digital Internal -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'persuratan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-blue-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🖋️
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-orange-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-300 border border-orange-500/30 flex items-center justify-center text-xl shrink-0">💰</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Tabungan Santri Digital</h4>
+                                        <span class="text-[9px] font-bold text-orange-400 uppercase">Mutasi Realtime</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Buku tabungan digital, transaksi setor/tarik cepat, &amp; transparansi laporan wali.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">TTE Digital</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-indigo-300 transition-colors">TTE Digital QR &amp; SHA-256</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Tanda tangan elektronik pimpinan ber-QR Code dengan SHA-256 Digest &amp; verifikasi publik instan.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🏫 Kepala Sekolah &amp; Yayasan</span>
-                            <span class="text-indigo-400 font-bold">🔐 Anti-Pemalsuan</span>
-                        </div>
-                    </div>
 
-                    <!-- 12. Disposisi Pimpinan -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'persuratan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-blue-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-violet-500/20 text-violet-300 border border-violet-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📋
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-yellow-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 flex items-center justify-center text-xl shrink-0">🍽️</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Kantin Smart RFID POS</h4>
+                                        <span class="text-[9px] font-bold text-yellow-400 uppercase">Cashless</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Belanja non-tunai via kartu santri RFID, batasan limit jajan harian &amp; laporan kasir.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-violet-500/20 text-violet-300 border border-violet-500/30">Disposisi</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-violet-300 transition-colors">Disposisi Instruksi</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Alur lembar disposisi instruksi pimpinan secara berjenjang kepada jajaran staf dan guru.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🏛️ Pimpinan &amp; Staf</span>
-                            <span class="text-violet-400 font-bold">⚡ Cepat &amp; Terdokumentasi</span>
-                        </div>
-                    </div>
 
-                    <!-- 13. Multi-Tenancy Unit Scoping -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'persuratan'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-blue-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🔒
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">📈</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Laporan Kas &amp; Audit</h4>
+                                        <span class="text-[9px] font-bold text-emerald-400 uppercase">Konsolidasi</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Rekapitulasi arus kas 4 unit, kontrol tunggakan, dan audit keuangan yayasan.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Multi-Tenancy</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-cyan-300 transition-colors">Isolasi Data Per-Unit</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Data 4 unit terisolasi aman; akun TKIT, SDIT, SMPIT, SMAIT hanya mengelola data unit masing-masing.</p>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👑 Seluruh Pengguna Unit</span>
-                            <span class="text-cyan-400 font-bold">🛡️ Privasi Aman</span>
-                        </div>
-                    </div>
 
-                    <!-- 14. Bina Pribadi Islami (BPI) -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'karakter'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🕌
+                        <!-- TAB 3: PERSURATAN & TTE (4 Cards) -->
+                        <div x-show="activeModuleTab === 'persuratan'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-blue-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">📨</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Persuratan &amp; Agenda</h4>
+                                        <span class="text-[9px] font-bold text-blue-400 uppercase">E-Office</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Buku agenda surat masuk/keluar, draf surat resmi ber-KOP unit, &amp; penomoran otomatis.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Karakter</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-emerald-300 transition-colors">Bina Pribadi Islami (BPI)</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Pembinaan kelompok mentoring halaqah, materi adab islami, &amp; bimbingan ruhiyah oleh musyrif.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🕌 Musyrif &amp; Santri</span>
-                            <span class="text-emerald-400 font-bold">🌱 Karakter Qur'ani</span>
-                        </div>
-                    </div>
 
-                    <!-- 15. Mutaba'ah & Tahfidz Tracker -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'karakter'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📖
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-indigo-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center text-xl shrink-0">🖋️</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">TTE Digital QR &amp; SHA-256</h4>
+                                        <span class="text-[9px] font-bold text-indigo-400 uppercase">Keamanan</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Tanda tangan elektronik pimpinan ber-QR Code dengan SHA-256 &amp; verifikasi publik.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30">Tahfidz</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-teal-300 transition-colors">Mutabaah &amp; Tahfidz Tracker</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Monitoring hafalan Al-Qur'an (ziyadah &amp; muraja'ah), sholat 5 waktu berjamaah, dan tilawah harian.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>📖 Guru Tahfidz &amp; Wali</span>
-                            <span class="text-teal-400 font-bold">🕋 Mutqin 30 Juz</span>
-                        </div>
-                    </div>
 
-                    <!-- 16. Bimbingan Konseling (BK) -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'karakter'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    👥
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-violet-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-violet-500/20 text-violet-300 border border-violet-500/30 flex items-center justify-center text-xl shrink-0">📋</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Disposisi Instruksi</h4>
+                                        <span class="text-[9px] font-bold text-violet-400 uppercase">Berjenjang</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Alur instruksi pimpinan yayasan &amp; kepala sekolah kepada jajaran staf dan guru.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30">Konseling</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-rose-300 transition-colors">Bimbingan Konseling &amp; Prestasi</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Layanan konseling siswa, catatan pembinaan adab, sistem poin pelanggaran, &amp; portofolio prestasi.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👥 Guru BK &amp; Orang Tua</span>
-                            <span class="text-rose-400 font-bold">🏆 Pembinaan Holistik</span>
-                        </div>
-                    </div>
 
-                    <!-- 17. E-Library & Perpustakaan -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'manajemen'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-purple-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    📚
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-cyan-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0">🔒</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Isolasi Data Per-Unit</h4>
+                                        <span class="text-[9px] font-bold text-cyan-400 uppercase">Multi-Tenancy</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Isolasi data 4 unit aman; akun TKIT, SDIT, SMPIT, SMAIT mengelola unitnya masing-masing.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">Perpustakaan</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-purple-300 transition-colors">E-Library &amp; Sirkulasi Buku</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Katalog ribuan buku online, peminjaman &amp; pengembalian via barcode scanner, serta riwayat denda.</p>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>📚 Pustakawan &amp; Santri</span>
-                            <span class="text-purple-400 font-bold">🔍 Barcode Scan</span>
-                        </div>
-                    </div>
 
-                    <!-- 18. Sarpras & Manajemen Aset -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'manajemen'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-purple-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-pink-500/20 text-pink-300 border border-pink-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🏢
+                        <!-- TAB 4: KARAKTER & BPI (3 Cards) -->
+                        <div x-show="activeModuleTab === 'karakter'" class="grid grid-cols-1 sm:grid-cols-3 gap-3" x-transition.opacity x-cloak>
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex flex-col justify-between transition-all">
+                                <div class="space-y-2">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl">🕌</div>
+                                    <h4 class="text-xs font-black text-white">Bina Pribadi Islami (BPI)</h4>
+                                    <p class="text-[11px] text-slate-300 leading-snug">Kelompok mentoring halaqah, materi adab, &amp; bimbingan ruhiyah musyrif.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-pink-500/20 text-pink-300 border border-pink-500/30">Sarpras</span>
+                                <span class="text-[9px] font-bold text-emerald-400 mt-2 block">🌱 Karakter Qur'ani</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-pink-300 transition-colors">Sarpras &amp; Inventaris Aset</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Inventarisasi fasilitas gedung, kode QR aset ruangan, jadwal pemeliharaan, dan form peminjaman.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🏢 Pengelola Sarpras</span>
-                            <span class="text-pink-400 font-bold">📦 QR Tracking</span>
-                        </div>
-                    </div>
 
-                    <!-- 19. HRIS & Payroll Pegawai -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'manajemen'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-purple-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    👥
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-teal-500 rounded-2xl p-3.5 flex flex-col justify-between transition-all">
+                                <div class="space-y-2">
+                                    <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center text-xl">📖</div>
+                                    <h4 class="text-xs font-black text-white">Mutabaah &amp; Tahfidz Tracker</h4>
+                                    <p class="text-[11px] text-slate-300 leading-snug">Pantau setoran hafalan Qur'an harian (ziyadah/murajaah) &amp; sholat fardhu.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">SDM</span>
+                                <span class="text-[9px] font-bold text-teal-400 mt-2 block">🕋 Mutqin 30 Juz</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-fuchsia-300 transition-colors">HRIS &amp; Payroll Gaji Pegawai</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Database GTK, tunjangan fungsional, performa kinerja, dan otomasi cetak slip gaji digital.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👥 Pengurus Yayasan &amp; Guru</span>
-                            <span class="text-fuchsia-400 font-bold">💵 Slip Gaji Digital</span>
-                        </div>
-                    </div>
 
-                    <!-- 20. CMS Website & Portal Berita -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'manajemen'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-purple-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🌐
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-rose-500 rounded-2xl p-3.5 flex flex-col justify-between transition-all">
+                                <div class="space-y-2">
+                                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center justify-center text-xl">👥</div>
+                                    <h4 class="text-xs font-black text-white">Bimbingan Konseling &amp; Prestasi</h4>
+                                    <p class="text-[11px] text-slate-300 leading-snug">Konseling santri, catatan pembinaan adab, poin pelanggaran &amp; prestasi.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Publikasi</span>
+                                <span class="text-[9px] font-bold text-rose-400 mt-2 block">🏆 Pembinaan Holistik</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-emerald-300 transition-colors">CMS Website &amp; Profil Unit</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Pengelolaan profil website oleh Staf TU unit, berita per unit, dan integrasi YouTube channel.</p>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>📋 TU Unit &amp; Humas</span>
-                            <span class="text-emerald-400 font-bold">📢 Auto-Kategori</span>
-                        </div>
-                    </div>
 
-                    <!-- 21. SPMB & PPDB Online -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'akademik'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-emerald-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    🎯
+                        <!-- TAB 5: FASILITAS, SDM & PUBLIKASI (6 Cards) -->
+                        <div x-show="activeModuleTab === 'manajemen'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-purple-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center justify-center text-xl shrink-0">📚</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">E-Library &amp; Sirkulasi Buku</h4>
+                                        <span class="text-[9px] font-bold text-purple-400 uppercase">Barcode</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Katalog ribuan buku online, peminjaman &amp; pengembalian via barcode scanner.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">Penerimaan</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-amber-300 transition-colors">SPMB Online Terpadu</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Pendaftaran santri baru 4 unit online, unggah berkas, seleksi wawancara/CBT &amp; pengumuman.</p>
-                        </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>🎯 Panitia PPDB &amp; Calon Santri</span>
-                            <span class="text-amber-400 font-bold">⚡ Pendaftaran Cepat</span>
-                        </div>
-                    </div>
 
-                    <!-- 22. Manajemen 15 Role RBAC -->
-                    <div x-show="activeModuleTab === 'all' || activeModuleTab === 'manajemen'" class="bg-slate-800/60 hover:bg-slate-800/95 border border-slate-700/80 hover:border-purple-500 rounded-3xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-950/60 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-2xl bg-red-500/20 text-red-300 border border-red-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    👑
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-pink-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-pink-500/20 text-pink-300 border border-pink-500/30 flex items-center justify-center text-xl shrink-0">🏢</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Sarpras &amp; Inventaris Aset</h4>
+                                        <span class="text-[9px] font-bold text-pink-400 uppercase">QR Tracking</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Inventarisasi fasilitas gedung, kode QR aset ruangan, &amp; pemeliharaan berkala.</p>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-500/20 text-red-300 border border-red-500/30">Keamanan</span>
                             </div>
-                            <h3 class="text-base font-extrabold text-white group-hover:text-red-300 transition-colors">Manajemen 15 Hak Akses</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed">Keamanan data berlapis untuk 15 peran (Yayasan, Kepsek, TU, Bendahara, Guru, BK, Musyrif, dll).</p>
+
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-fuchsia-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 flex items-center justify-center text-xl shrink-0">👥</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">HRIS &amp; Payroll Gaji Pegawai</h4>
+                                        <span class="text-[9px] font-bold text-fuchsia-400 uppercase">E-Slip Gaji</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Database GTK terpadu, tunjangan fungsional, &amp; otomasi cetak slip gaji digital.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">🌐</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">CMS Website &amp; Profil Unit</h4>
+                                        <span class="text-[9px] font-bold text-emerald-400 uppercase">Publikasi</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Pengelolaan website oleh Staf TU unit, berita per unit, &amp; YouTube channel resmi.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-amber-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-xl shrink-0">🎯</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">SPMB Online Terpadu</h4>
+                                        <span class="text-[9px] font-bold text-amber-400 uppercase">Pendaftaran</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Pendaftaran santri baru 4 unit online, unggah berkas, wawancara &amp; pengumuman.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-red-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-300 border border-red-500/30 flex items-center justify-center text-xl shrink-0">👑</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black text-white truncate">Manajemen 15 Hak Akses</h4>
+                                        <span class="text-[9px] font-bold text-red-400 uppercase">Multi-User</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Keamanan data berlapis untuk 15 peran (Yayasan, Kepsek, TU, Guru, Kasir, dll).</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                            <span>👑 Super Admin IT</span>
-                            <span class="text-red-400 font-bold">🔒 Multi-User RBAC</span>
+
+                        <!-- Bottom Highlight Strip -->
+                        <div class="pt-3 mt-3 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400">
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Semua modul saling terhubung otomatis dalam 1 database</span>
+                            <a href="{{ route('school.profil') }}" class="text-emerald-300 font-bold hover:underline inline-flex items-center gap-1">
+                                <span>Pelajari Tata Kelola Yayasan</span> ➔
+                            </a>
                         </div>
+
                     </div>
 
-                </div>
-
-                <!-- Metrics & Features Summary Ribbon Banner -->
-                <div class="bg-gradient-to-r from-emerald-950/90 via-slate-900/95 to-slate-950 border border-emerald-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6">
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center w-full lg:w-auto">
-                        <div class="space-y-1">
-                            <div class="text-2xl sm:text-4xl font-black text-emerald-400 font-headline">22+</div>
-                            <div class="text-[11px] sm:text-xs text-slate-300 font-bold">Modul Digital Aktif</div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="text-2xl sm:text-4xl font-black text-amber-400 font-headline">4 Unit</div>
-                            <div class="text-[11px] sm:text-xs text-slate-300 font-bold">TKIT, SDIT, SMP, SMA</div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="text-2xl sm:text-4xl font-black text-blue-400 font-headline">15 Role</div>
-                            <div class="text-[11px] sm:text-xs text-slate-300 font-bold">Hak Akses Terisolasi</div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="text-2xl sm:text-4xl font-black text-cyan-400 font-headline">100%</div>
-                            <div class="text-[11px] sm:text-xs text-slate-300 font-bold">Paperless &amp; Realtime</div>
-                        </div>
-                    </div>
-
-                    <div class="shrink-0 flex flex-wrap gap-3 justify-center">
-                        <a href="{{ route('admin.dashboard') }}" class="px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs sm:text-sm rounded-full shadow-lg shadow-emerald-900/60 transform hover:scale-105 transition-all flex items-center gap-2">
-                            <span>🔐 Masuk Portal SmartEdu</span>
-                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                        </a>
-                        <a href="{{ route('school.ppdb') }}" class="px-6 py-3.5 bg-slate-800/90 hover:bg-slate-700 text-amber-300 font-extrabold text-xs sm:text-sm rounded-full border border-amber-500/30 hover:border-amber-400 transition-all flex items-center gap-2">
-                            <span>✨ Info SPMB Online</span>
-                        </a>
-                    </div>
                 </div>
 
             </div>
