@@ -436,8 +436,8 @@
                     <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                 </div>
                 <div>
-                    <label class="font-extrabold text-slate-800 block mb-1">Youtube ID (misal: dQw4w9WgXcQ)</label>
-                    <input type="text" name="youtube_id" value="dQw4w9WgXcQ" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
+                    <label class="font-extrabold text-slate-800 block mb-1">Youtube ID (Contoh: Q-vZ49vP1_c)</label>
+                    <input type="text" name="youtube_id" placeholder="Contoh: Q-vZ49vP1_c atau 8yp0GZL27fU" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>

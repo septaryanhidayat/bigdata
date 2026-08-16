@@ -938,52 +938,100 @@ class SchoolWebsiteController extends Controller
 
         return [
             [
-                'title' => 'Profil Resmi SIT Robbani Ogan Ilir 2026',
+                'title' => 'JINGLE SIT ROBBANI OGAN ILIR',
                 'category' => 'Profil Video',
-                'duration' => '04:25',
-                'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => '/images/mockup_desktop_1.png',
-                'desc' => 'Video sinematik profil Yayasan Generasi Robbani Sumatera Selatan dan 4 unit sekolah unggulan di Ogan Ilir.'
+                'duration' => '03:15',
+                'youtube_id' => 'Q-vZ49vP1_c',
+                'thumbnail' => 'https://img.youtube.com/vi/Q-vZ49vP1_c/hqdefault.jpg',
+                'desc' => 'Jingle resmi Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir - Membangun Generasi Qur\'ani dan Berakhlak Karimah.'
             ],
             [
-                'title' => 'Haflah Akhirussanah & Wisuda Tahfidz Al-Qur’an 2026',
+                'title' => 'After Movie Masa Pengenalan Lingkungan Sekolah (MPLS) SIT Robbani Ogan Ilir 2026',
                 'category' => 'Dokumentasi Acara',
-                'duration' => '08:12',
-                'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => '/images/hero_3d_illustration_1786347707126.png',
-                'desc' => 'Suasana haru dan penuh kebanggaan saat prosesi wisuda tahfidz Al-Qur’an para siswa SIT Robbani.'
+                'duration' => '04:30',
+                'youtube_id' => '8yp0GZL27fU',
+                'thumbnail' => 'https://img.youtube.com/vi/8yp0GZL27fU/hqdefault.jpg',
+                'desc' => 'Keseruan dan antusiasme santri baru dalam rangkaian kegiatan Masa Pengenalan Lingkungan Sekolah (MPLS) 2026.'
             ],
             [
-                'title' => 'Ekosistem Digital ARSI & Pembelajaran LMS Robbani',
-                'category' => 'Teknologi Digital',
-                'duration' => '03:40',
-                'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => '/images/dashboard_admin_3d_1786349842846.png',
-                'desc' => 'Kemudahan akses wali murid memantau presensi, SPP, dan E-Learning di SIT Robbani Ogan Ilir.'
+                'title' => 'Wisuda Tahfidz & Haflah Akhirussanah 2026 | After Movie SIT Robbani Ogan Ilir',
+                'category' => 'Wisuda Tahfidz',
+                'duration' => '06:45',
+                'youtube_id' => 'lhFR6TrEWxY',
+                'thumbnail' => 'https://img.youtube.com/vi/lhFR6TrEWxY/hqdefault.jpg',
+                'desc' => 'Momen khidmat dan haru prosesi wisuda tahfidz Al-Qur’an serta pelepasan santri SIT Robbani Ogan Ilir.'
             ],
             [
-                'title' => 'Kegiatan Pramuka SIT Robbani & Supercamp Tahfidz',
-                'category' => 'Kegiatan Ekstrakurikuler',
-                'duration' => '05:15',
-                'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => '/images/mockup_desktop_2.png',
-                'desc' => 'Dokumentasi kegiatan alam terbuka, kemandirian siswa, dan mabit pembentukan karakter Rabbani.'
+                'title' => 'Tebar Kebahagiaan Idul Adha 1447 H | After Movie Qurban Dompet Sosial Robbani 2026',
+                'category' => 'Kegiatan Sosial',
+                'duration' => '05:10',
+                'youtube_id' => '9gBk0Fss9yw',
+                'thumbnail' => 'https://img.youtube.com/vi/9gBk0Fss9yw/hqdefault.jpg',
+                'desc' => 'Penyembelihan dan pendistribusian hewan qurban bersama Dompet Sosial Robbani Peduli untuk masyarakat.'
             ],
             [
-                'title' => 'Keseruan Belajar Sains & Praktikum Lab Komputer',
-                'category' => 'Pembelajaran Digital',
-                'duration' => '04:10',
-                'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => '/images/mockup_desktop_3.png',
-                'desc' => 'Momen kebersamaan siswa saat eksplorasi sains, robotika, dan pembelajaran interaktif di sekolah.'
+                'title' => '[After Movie] Manasik Haji Anak KB TK IT Robbani Ogan Ilir 2026',
+                'category' => 'KB/TKIT',
+                'duration' => '03:50',
+                'youtube_id' => '5ifsHX2orZ8',
+                'thumbnail' => 'https://img.youtube.com/vi/5ifsHX2orZ8/hqdefault.jpg',
+                'desc' => 'Praktik manasik haji cilik santri KB/TKIT Robbani Ogan Ilir mengenalkan rukun Islam kelima sejak usia dini.'
             ],
             [
-                'title' => 'Pentas Seni & Panggung Aksi Kreativitas Siswa Robbani',
-                'category' => 'Seni & Bakat',
-                'duration' => '06:30',
-                'youtube_id' => 'dQw4w9WgXcQ',
-                'thumbnail' => '/images/mockup_desktop_4.png',
-                'desc' => 'Penampilan bakat nasyid, pidato 3 bahasa, memanah, dan kreasi seni Islami santri SIT Robbani.'
+                'title' => 'Lucunya Kartini Cilik! After Movie Kartini Day KB TK Islam Terpadu Robbani Ogan Ilir 2026',
+                'category' => 'KB/TKIT',
+                'duration' => '04:15',
+                'youtube_id' => 'Vj0e1PCWqJo',
+                'thumbnail' => 'https://img.youtube.com/vi/Vj0e1PCWqJo/hqdefault.jpg',
+                'desc' => 'Pentas seni, fashion show pakaian adat nusantara, dan ekspresi keberanian santri usia dini KB/TKIT Robbani.'
+            ],
+            [
+                'title' => 'After Movie Qur’an Camp 2026 SD IT Robbani | Momen Tak Terlupakan',
+                'category' => 'SDIT',
+                'duration' => '05:40',
+                'youtube_id' => 'ug0lt6LlYSs',
+                'thumbnail' => 'https://img.youtube.com/vi/ug0lt6LlYSs/hqdefault.jpg',
+                'desc' => 'Perkemahan Qur\'an Camp siswa SDIT Robbani mengasah hafalan Al-Qur\'an, kemandirian, dan ukhuwah islamiyah.'
+            ],
+            [
+                'title' => 'Belajar Sambil Wisata Edukasi KB-TKIT Robbani Goes to UNSRI',
+                'category' => 'KB/TKIT',
+                'duration' => '03:45',
+                'youtube_id' => 'tFjiILUphjY',
+                'thumbnail' => 'https://img.youtube.com/vi/tFjiILUphjY/hqdefault.jpg',
+                'desc' => 'Kunjungan field trip edukatif santri cilik KB-TKIT Robbani mengenal kampus dan lingkungan alam terbuka.'
+            ],
+            [
+                'title' => 'Robbani Talent Show Bikin Terpukau | After Movie SMP IT Robbani 2026',
+                'category' => 'SMPIT',
+                'duration' => '06:12',
+                'youtube_id' => 'cCRXQhYNF38',
+                'thumbnail' => 'https://img.youtube.com/vi/cCRXQhYNF38/hqdefault.jpg',
+                'desc' => 'Unjuk bakat seni islami, pidato 3 bahasa, sains robotika, dan kreasi santri SMP IT Robbani Ogan Ilir.'
+            ],
+            [
+                'title' => 'Anak KB-TK IT Robbani Belajar Pesawat di Poltekbang Palembang [After Movie 2026]',
+                'category' => 'KB/TKIT',
+                'duration' => '04:20',
+                'youtube_id' => 'RyVRofyKPP0',
+                'thumbnail' => 'https://img.youtube.com/vi/RyVRofyKPP0/hqdefault.jpg',
+                'desc' => 'Eksplorasi dunia penerbangan dan edukasi cita-cita santri usia dini di Politeknik Penerbangan Palembang.'
+            ],
+            [
+                'title' => 'After Movie Pesantren Ramadhan SD Islam Terpadu Robbani Ogan Ilir 2026',
+                'category' => 'SDIT',
+                'duration' => '05:05',
+                'youtube_id' => 'wWCsYWuLbMI',
+                'thumbnail' => 'https://img.youtube.com/vi/wWCsYWuLbMI/hqdefault.jpg',
+                'desc' => 'Keseruan kegiatan pesantren kilat Ramadhan, tadarus Al-Qur\'an, dan santunan anak yatim SDIT Robbani.'
+            ],
+            [
+                'title' => 'After Movie Pesantren Ramadhan SMP Islam Terpadu Robbani Ogan Ilir 2026',
+                'category' => 'SMPIT',
+                'duration' => '05:30',
+                'youtube_id' => 'oZBAzQdiLK0',
+                'thumbnail' => 'https://img.youtube.com/vi/oZBAzQdiLK0/hqdefault.jpg',
+                'desc' => 'Mabit malam bina iman takwa, kajian fiqih remaja, dan qiyamul lail santri SMP IT Robbani Ogan Ilir.'
             ]
         ];
     }
