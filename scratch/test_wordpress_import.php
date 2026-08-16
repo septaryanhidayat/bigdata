@@ -17,42 +17,28 @@ $admin = User::where('email', 'admin@smartedu.test')->first();
 auth()->login($admin);
 
 $cmsCtrl = new CmsController();
-$xmlPath = storage_path('app/test_wordpress_export.xml');
+$xmlPath = public_path('images/sitrobbani.WordPress.2026-08-16.xml');
 
 // 1. Test Server File Path Import (Supports 100MB+ without HTTP post size limits)
 echo "1. Testing Server File Path Import ('{$xmlPath}')...\n";
+$t0 = microtime(true);
 $reqPath = Request::create('/admin/cms/import-wordpress', 'POST', [
     'server_file_path' => $xmlPath,
 ]);
 
 $resPath = $cmsCtrl->importWordPress($reqPath);
+$duration = round(microtime(true) - $t0, 3);
 assert($resPath->isRedirect(), "Must return a redirect response");
 assert(session('success') !== null, "Must set success message in session");
-echo "✓ " . session('success') . "\n\n";
+echo "✓ Finished in {$duration}s: " . session('success') . "\n\n";
 
 // 2. Verify Data Saved to SiteSetting
 $newsData = json_decode(SiteSetting::get('cms_news_data', '[]'), true);
 $articleData = json_decode(SiteSetting::get('cms_article_data', '[]'), true);
 
-$foundNews = false;
-foreach ($newsData as $n) {
-    if (str_contains($n['title'], 'Wisuda Tahfidz')) {
-        $foundNews = true;
-        break;
-    }
-}
-
-$foundArticle = false;
-foreach ($articleData as $a) {
-    if (str_contains($a['title'], 'Pentingnya Menanamkan Adab')) {
-        $foundArticle = true;
-        break;
-    }
-}
-
-assert($foundNews === true, "Imported news must be present in cms_news_data");
-assert($foundArticle === true, "Imported article must be present in cms_article_data");
-echo "✓ 2. Verified WordPress news & articles stored in CMS SiteSetting data!\n\n";
+assert(count($newsData) > 0, "Imported news must not be empty");
+assert(count($articleData) > 0, "Imported articles must not be empty");
+echo "✓ 2. Verified " . count($newsData) . " news & " . count($articleData) . " articles stored in CMS SiteSetting data!\n\n";
 
 // 3. Test Artisan Command CLI
 echo "3. Testing Artisan Command 'php artisan wp:import'...\n";

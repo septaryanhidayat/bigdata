@@ -222,7 +222,7 @@
         <!-- Forms Container -->
         <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700">
             <!-- Option 1: File Upload -->
-            <form x-show="importMethod === 'upload'" action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-3">
+            <form x-show="importMethod === 'upload'" action="{{ route('admin.cms.import-wordpress') }}" method="POST" enctype="multipart/form-data" onsubmit="if(window.Swal){ Swal.fire({ title: 'Memproses Impor...', html: '<p class=\'text-xs text-slate-300\'>Sedang mengonversi dan memetakan postingan WordPress XML ke database...</p>', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } }); }" class="flex flex-col sm:flex-row items-center gap-3">
                 @csrf
                 <div class="flex-1 w-full">
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Pilih Berkas XML WordPress (.xml / .txt) - Maks. 100MB:</label>
@@ -236,11 +236,11 @@
             </form>
 
             <!-- Option 2: Server File Path -->
-            <form x-show="importMethod === 'path'" x-cloak action="{{ route('admin.cms.import-wordpress') }}" method="POST" class="flex flex-col sm:flex-row items-center gap-3">
+            <form x-show="importMethod === 'path'" x-cloak action="{{ route('admin.cms.import-wordpress') }}" method="POST" onsubmit="if(window.Swal){ Swal.fire({ title: 'Memproses Impor...', html: '<p class=\'text-xs text-slate-300\'>Sedang membaca file server dan memproses konten...</p>', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } }); }" class="flex flex-col sm:flex-row items-center gap-3">
                 @csrf
                 <div class="flex-1 w-full">
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Path Berkas XML di Project / Server (Contoh: <code class="text-indigo-300">storage/app/wordpress.xml</code>):</label>
-                    <input type="text" name="server_file_path" required placeholder="Contoh: storage/app/wordpress_export.xml" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none focus:border-indigo-500">
+                    <input type="text" name="server_file_path" required placeholder="Contoh: public/images/sitrobbani.WordPress.2026-08-16.xml" class="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none focus:border-indigo-500">
                 </div>
                 <div class="sm:self-end w-full sm:w-auto">
                     <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">

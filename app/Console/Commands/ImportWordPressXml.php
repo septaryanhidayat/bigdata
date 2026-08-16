@@ -37,85 +37,137 @@ class ImportWordPressXml extends Command
             return 1;
         }
 
-        $this->info("Memulai proses parsing file WordPress XML: {$filePath}...");
-
-        libxml_use_internal_errors(true);
-        $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_PARSEHUGE);
-
-        if ($xml === false) {
-            $this->error("Gagal membaca file XML. Pastikan format file adalah ekspor resmi WordPress (WXR).");
+        // Streaming XMLReader parser
+        $reader = new \XMLReader();
+        if (!$reader->open($filePath, null, LIBXML_NONET | LIBXML_NOBLANKS | LIBXML_PARSEHUGE)) {
+            $this->error("Gagal membuka file XML. Pastikan format file adalah ekspor resmi WordPress (WXR).");
             return 1;
         }
 
-        $namespaces = $xml->getNamespaces(true);
-        $items = $xml->channel->item;
-
+        $attachmentMap = [];
         $importedNews = [];
         $importedArticles = [];
         $count = 0;
 
-        foreach ($items as $item) {
-            $contentNs = $item->children($namespaces['content'] ?? 'http://purl.org/rss/1.0/modules/content/');
-            $excerptNs = $item->children($namespaces['excerpt'] ?? 'http://wordpress.org/export/1.1/excerpt/');
-            $wpNs = $item->children($namespaces['wp'] ?? 'http://wordpress.org/export/1.1/');
+        libxml_use_internal_errors(true);
 
-            $postType = (string) $wpNs->post_type;
-            $postStatus = (string) $wpNs->status;
+        while ($reader->read()) {
+            if ($reader->nodeType == \XMLReader::ELEMENT && $reader->name == 'item') {
+                $nodeXml = $reader->readOuterXML();
+                $item = simplexml_load_string($nodeXml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_PARSEHUGE);
+                if (!$item) continue;
 
-            if ($postType !== 'post' || $postStatus !== 'publish') {
-                continue;
-            }
+                $namespaces = $item->getNamespaces(true);
+                $wpNs = $item->children($namespaces['wp'] ?? 'http://wordpress.org/export/1.1/');
+                $contentNs = $item->children($namespaces['content'] ?? 'http://purl.org/rss/1.0/modules/content/');
+                $excerptNs = $item->children($namespaces['excerpt'] ?? 'http://wordpress.org/export/1.1/excerpt/');
 
-            $title = (string) $item->title;
-            $content = (string) $contentNs->encoded;
-            $excerpt = (string) $excerptNs->encoded;
-            if (empty($excerpt)) {
-                $excerpt = Str::limit(strip_tags($content), 160);
-            }
+                $postType = (string) $wpNs->post_type;
+                $postId = (int) $wpNs->post_id;
 
-            $postDate = (string) $wpNs->post_date;
-            $formattedDate = !empty($postDate) ? date('d F Y', strtotime($postDate)) : date('d F Y');
-            $slug = (string) $wpNs->post_name;
-            if (empty($slug)) {
-                $slug = Str::slug($title);
-            }
+                // Index attachment URLs
+                if ($postType === 'attachment') {
+                    $attachmentUrl = (string) $wpNs->attachment_url;
+                    if ($attachmentUrl) {
+                        $attachmentMap[$postId] = $attachmentUrl;
+                    }
+                    continue;
+                }
 
-            // Extract Category
-            $category = 'Berita';
-            foreach ($item->category as $cat) {
-                $domain = (string) $cat['domain'];
-                if ($domain === 'category') {
-                    $category = (string) $cat;
-                    break;
+                $postStatus = (string) $wpNs->status;
+                if ($postType === 'post' && $postStatus === 'publish') {
+                    $title = trim((string) $item->title);
+                    if (empty($title)) continue;
+
+                    $content = (string) $contentNs->encoded;
+                    $excerpt = (string) $excerptNs->encoded;
+                    if (empty($excerpt)) {
+                        $excerpt = Str::limit(strip_tags($content), 160);
+                    }
+
+                    $postDate = (string) $wpNs->post_date;
+                    $formattedDate = !empty($postDate) ? date('d F Y', strtotime($postDate)) : date('d F Y');
+                    $slug = (string) $wpNs->post_name;
+                    if (empty($slug)) {
+                        $slug = Str::slug($title);
+                    }
+
+                    // Extract Category
+                    $category = 'Berita';
+                    if (isset($item->category)) {
+                        foreach ($item->category as $cat) {
+                            $domain = (string) $cat['domain'];
+                            if ($domain === 'category') {
+                                $category = (string) $cat;
+                                break;
+                            }
+                        }
+                    }
+
+                    $thumbnailId = null;
+                    if (isset($wpNs->postmeta)) {
+                        foreach ($wpNs->postmeta as $meta) {
+                            if ((string) $meta->meta_key === '_thumbnail_id') {
+                                $thumbnailId = (int) $meta->meta_value;
+                                break;
+                            }
+                        }
+                    }
+
+                    $image = null;
+                    if ($thumbnailId && isset($attachmentMap[$thumbnailId])) {
+                        $image = $attachmentMap[$thumbnailId];
+                    } elseif (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches)) {
+                        $image = $matches[1];
+                    } else {
+                        $image = '/images/mockup_desktop_1.png';
+                    }
+
+                    $postData = [
+                        'title' => $title,
+                        'slug' => $slug,
+                        'category' => $category,
+                        'date' => $formattedDate,
+                        'author' => 'Admin SIT Robbani',
+                        'image' => $image,
+                        'excerpt' => $excerpt,
+                        'content' => $content,
+                        'wp_thumbnail_id' => $thumbnailId,
+                    ];
+
+                    if (Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian'])) {
+                        $importedArticles[] = $postData;
+                    } else {
+                        $importedNews[] = $postData;
+                    }
+
+                    $count++;
+                    $this->line("✔ Berhasil memproses: {$title} [{$category}]");
                 }
             }
-
-            // Search for image in content or default
-            $image = '/images/mockup_desktop_1.png';
-            if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches)) {
-                $image = $matches[1];
-            }
-
-            $postData = [
-                'title' => $title,
-                'slug' => $slug,
-                'category' => $category,
-                'date' => $formattedDate,
-                'author' => 'Admin WordPress',
-                'image' => $image,
-                'excerpt' => $excerpt,
-                'content' => $content,
-            ];
-
-            if (Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian'])) {
-                $importedArticles[] = $postData;
-            } else {
-                $importedNews[] = $postData;
-            }
-
-            $count++;
-            $this->line("✔ Berhasil memproses: {$title} [{$category}]");
         }
+        $reader->close();
+
+        // Resolve thumbnail URLs that were defined after post item
+        foreach ($importedNews as &$pn) {
+            if ((empty($pn['image']) || $pn['image'] === '/images/mockup_desktop_1.png') && !empty($pn['wp_thumbnail_id'])) {
+                if (isset($attachmentMap[$pn['wp_thumbnail_id']])) {
+                    $pn['image'] = $attachmentMap[$pn['wp_thumbnail_id']];
+                }
+            }
+            unset($pn['wp_thumbnail_id']);
+        }
+        unset($pn);
+
+        foreach ($importedArticles as &$pa) {
+            if ((empty($pa['image']) || $pa['image'] === '/images/mockup_desktop_1.png') && !empty($pa['wp_thumbnail_id'])) {
+                if (isset($attachmentMap[$pa['wp_thumbnail_id']])) {
+                    $pa['image'] = $attachmentMap[$pa['wp_thumbnail_id']];
+                }
+            }
+            unset($pa['wp_thumbnail_id']);
+        }
+        unset($pa);
 
         if ($count === 0) {
             $this->warn("Tidak ada postingan bertipe 'post' dengan status 'publish' yang ditemukan.");
