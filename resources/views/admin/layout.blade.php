@@ -402,13 +402,13 @@
                 </div>
                 @endif
 
-                <!-- 4. KATEGORI: LAYANAN SANTRI, KESISWAAN & FASILITAS -->
+                <!-- 4. KATEGORI: LAYANAN SISWA, KESISWAAN & FASILITAS -->
                 @php
                     $canViewStudentServicesGroup = Auth::user()->canAccessModule('attendance') || Auth::user()->canAccessModule('bk') || Auth::user()->canAccessModule('cbt_ppdb') || Auth::user()->canAccessModule('library') || Auth::user()->canAccessModule('sarpras');
                 @endphp
                 @if($canViewStudentServicesGroup)
                 <div onclick="toggleNavGroup('grpStudentServices')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-blue-300 transition-colors">
-                    <span class="text-[10px] {{ $isStudentServicesActive ? 'text-blue-300 font-black' : 'text-blue-400 font-bold' }} uppercase tracking-widest block">4. Layanan Santri & Fasilitas</span>
+                    <span class="text-[10px] {{ $isStudentServicesActive ? 'text-blue-300 font-black' : 'text-blue-400 font-bold' }} uppercase tracking-widest block">4. Layanan Siswa & Fasilitas</span>
                     <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpStudentServices">{{ $isStudentServicesActive ? '▼' : '►' }}</span>
                 </div>
                 <div id="grpStudentServices" class="space-y-0.5 group-content" style="{{ $isStudentServicesActive ? 'display: block;' : 'display: none;' }}">
@@ -424,16 +424,16 @@
                     @endif
 
                     @if(Auth::user()->canAccessModule('bk'))
-                    <a href="{{ route('admin.bk.index') }}" title="BK Online & Poin Santri" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.bk.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <a href="{{ route('admin.bk.index') }}" title="BK Online & Poin Siswa" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.bk.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">💬</span> 
-                        <span class="sidebar-text">BK Online & Poin Santri</span>
+                        <span class="sidebar-text">BK Online & Poin Siswa</span>
                     </a>
                     @endif
 
                     @if(Auth::user()->canAccessModule('cbt_ppdb'))
-                    <a href="{{ route('admin.ppdb-admin.index') }}" title="PPDB & SPMB Santri Baru" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <a href="{{ route('admin.ppdb-admin.index') }}" title="PPDB & SPMB Siswa Baru" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📋</span> 
-                        <span class="sidebar-text">PPDB & SPMB Santri Baru</span>
+                        <span class="sidebar-text">PPDB & SPMB Siswa Baru</span>
                     </a>
                     @endif
 
