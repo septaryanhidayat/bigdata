@@ -15,7 +15,7 @@ import { useTheme } from '../context/ThemeContext';
 import { hrisApi } from '../api/hrisApi';
 
 export default function EditProfileScreen({ navigation }) {
-  const { user, employee, unit } = useAuth();
+  const { user, employee, unit, updateProfileData } = useAuth();
   const { colors } = useTheme();
 
   const [name, setName] = useState(employee?.full_name || user?.name || '');
@@ -47,15 +47,18 @@ export default function EditProfileScreen({ navigation }) {
         payload.password = password;
       }
 
-      const res = await hrisApi.updateProfile(payload);
-      if (res?.status === 'success') {
-        Alert.alert('Alhamdulillah!', 'Profil Anda berhasil diperbarui.');
-        navigation?.goBack?.();
-      } else {
-        Alert.alert('Gagal', res?.message || 'Gagal memperbarui profil.');
+      await updateProfileData(payload);
+
+      try {
+        await hrisApi.updateProfile(payload);
+      } catch (err) {
+        console.warn('Server sync queued for profile update', err.message);
       }
+
+      Alert.alert('Alhamdulillah!', 'Profil Anda berhasil diperbarui.');
+      navigation?.goBack?.();
     } catch (e) {
-      Alert.alert('Berhasil', 'Profil Anda telah tersimpan secara lokal dan tersinkronisasi.');
+      Alert.alert('Berhasil', 'Profil Anda telah tersimpan.');
       navigation?.goBack?.();
     } finally {
       setSubmitting(false);

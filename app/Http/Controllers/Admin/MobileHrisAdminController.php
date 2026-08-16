@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Employee;
 
 class MobileHrisAdminController extends Controller
@@ -26,13 +27,23 @@ class MobileHrisAdminController extends Controller
             ->whereNotNull('face_registered_at')
             ->count();
 
-        $todayAttendance = DB::table('employee_attendance_logs')
-            ->whereDate('date', now()->toDateString())
-            ->count();
+        $todayAttendance = 0;
+        if (Schema::hasTable('employee_attendance_logs')) {
+            $todayAttendance = DB::table('employee_attendance_logs')
+                ->whereDate('date', now()->toDateString())
+                ->count();
+        }
 
-        $todayMutabaah = DB::table('sdm_mutabaah_logs')
-            ->whereDate('date', now()->toDateString())
-            ->count();
+        $todayMutabaah = 0;
+        if (Schema::hasTable('employee_mutabaahs')) {
+            $todayMutabaah = DB::table('employee_mutabaahs')
+                ->whereDate('date', now()->toDateString())
+                ->count();
+        } elseif (Schema::hasTable('bpi_mutabaahs')) {
+            $todayMutabaah = DB::table('bpi_mutabaahs')
+                ->whereDate('date', now()->toDateString())
+                ->count();
+        }
 
         // 2. Log Presensi Mobile Hari Ini (dengan foto selfie & GPS)
         $attendanceLogs = DB::table('employee_attendance_logs')

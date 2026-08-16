@@ -133,6 +133,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfileData = async (newData) => {
+    try {
+      const updatedUser = { ...user, name: newData.name || user?.name };
+      const updatedEmployee = {
+        ...employee,
+        full_name: newData.name || employee?.full_name,
+        phone: newData.phone !== undefined ? newData.phone : employee?.phone,
+        address: newData.address !== undefined ? newData.address : employee?.address,
+      };
+
+      setUser(updatedUser);
+      setEmployee(updatedEmployee);
+
+      await AsyncStorage.setItem('user_data', JSON.stringify(updatedUser));
+      await AsyncStorage.setItem('employee_data', JSON.stringify(updatedEmployee));
+    } catch (e) {
+      console.warn('Error updating local auth data', e);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -143,6 +163,7 @@ export const AuthProvider = ({ children }) => {
         unit,
         login,
         logout,
+        updateProfileData,
       }}
     >
       {children}
