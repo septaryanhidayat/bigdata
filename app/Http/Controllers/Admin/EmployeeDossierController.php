@@ -283,7 +283,7 @@ class EmployeeDossierController extends Controller
             if ($request->filled('email')) $userData['email'] = $request->email;
             if ($request->filled('phone')) $userData['phone'] = $request->phone;
             if (isset($updateData['face_photo_url'])) {
-                $userData['avatar'] = $updateData['face_photo_url'];
+                $userData['avatar_url'] = $updateData['face_photo_url'];
             }
             $user->update($userData);
 

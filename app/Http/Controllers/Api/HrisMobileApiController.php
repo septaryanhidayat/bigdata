@@ -111,7 +111,7 @@ class HrisMobileApiController extends Controller
                 'email' => $user->email,
                 'role' => $user->role,
                 'role_id' => $user->role,
-                'avatar' => $user->avatar ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300',
+                'avatar' => $user->avatar_url ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300',
             ],
             'employee' => $employeeData,
             'unit' => [
@@ -160,7 +160,7 @@ class HrisMobileApiController extends Controller
         $dob = $employee ? ($employee->dob ?? '1990-05-15') : '1990-05-15';
         $dobFormatted = date('d F Y', strtotime($dob));
 
-        $photoRaw = ($employee && $employee->face_photo_url) ? $employee->face_photo_url : ($user ? $user->avatar : null);
+        $photoRaw = ($employee && $employee->face_photo_url) ? $employee->face_photo_url : ($user ? $user->avatar_url : null);
         $photoUrl = $this->formatMediaUrl($photoRaw, request());
 
         return [
@@ -202,7 +202,7 @@ class HrisMobileApiController extends Controller
     /**
      * Helper: Format Media URL agar sesuai dengan host pemanggil (LAN IP / Domain)
      */
-    private function formatMediaUrl(?string $path, Request $request = null): ?string
+    private function formatMediaUrl(?string $path, ?Request $request = null): ?string
     {
         if (empty($path)) return null;
         if (str_starts_with($path, 'data:image')) return $path;
@@ -1111,7 +1111,7 @@ class HrisMobileApiController extends Controller
         ]);
 
         if ($user) {
-            $user->avatar = $facePhotoUrl;
+            $user->avatar_url = $facePhotoUrl;
             $user->save();
         }
 
@@ -1158,7 +1158,7 @@ class HrisMobileApiController extends Controller
             'status' => 'success',
             'data' => [
                 'is_face_registered' => $isRegistered,
-                'face_photo_url' => $this->formatMediaUrl($emp ? $emp->face_photo_url : ($user ? $user->avatar : null), $request),
+                'face_photo_url' => $this->formatMediaUrl($emp ? $emp->face_photo_url : ($user ? $user->avatar_url : null), $request),
                 'face_registered_at' => ($emp && $emp->face_registered_at) ? date('d M Y, H:i', strtotime($emp->face_registered_at)) . ' WIB' : null,
                 'employee_name' => $emp ? $emp->full_name : $user->name,
                 'nip' => $emp ? $emp->nip : '-',
@@ -1196,7 +1196,7 @@ class HrisMobileApiController extends Controller
                 'email' => $user->email,
                 'role' => $user->role,
                 'role_id' => $user->role,
-                'avatar' => $this->formatMediaUrl(($employee && $employee->face_photo_url) ? $employee->face_photo_url : $user->avatar, $request),
+                'avatar' => $this->formatMediaUrl(($employee && $employee->face_photo_url) ? $employee->face_photo_url : $user->avatar_url, $request),
                 'phone' => $employee ? $employee->phone : $user->phone,
                 'address' => $employee ? $employee->address : $user->address,
             ],
@@ -1253,7 +1253,7 @@ class HrisMobileApiController extends Controller
         }
 
         if ($avatarUrl) {
-            $user->avatar = $avatarUrl;
+            $user->avatar_url = $avatarUrl;
         }
 
         $user->save();
@@ -1292,11 +1292,12 @@ class HrisMobileApiController extends Controller
                 'role_id' => $user->role,
                 'phone' => $request->input('phone', $updatedEmployee ? $updatedEmployee->phone : null),
                 'address' => $request->input('address', $updatedEmployee ? $updatedEmployee->address : null),
-                'avatar' => $this->formatMediaUrl($avatarUrl ?: $user->avatar, $request),
+                'avatar' => $this->formatMediaUrl($avatarUrl ?: $user->avatar_url, $request),
             ],
             'employee' => $employeeData,
         ]);
     }
 }
+
 
 
