@@ -1134,6 +1134,42 @@ class HrisMobileApiController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
+        // Handle Photo / Avatar Upload (Base64 or File Upload)
+        $avatarUrl = null;
+        if ($request->filled('photo') || $request->filled('avatar')) {
+            $rawPhoto = $request->input('photo', $request->input('avatar'));
+            if (str_starts_with($rawPhoto, 'data:image')) {
+                @list($type, $rawPhoto) = explode(';', $rawPhoto);
+                @list(, $rawPhoto) = explode(',', $rawPhoto);
+            }
+
+            $decodedImage = base64_decode($rawPhoto);
+            if ($decodedImage !== false && strlen($decodedImage) > 100) {
+                $dirPath = public_path('uploads/avatars');
+                if (!file_exists($dirPath)) {
+                    @mkdir($dirPath, 0777, true);
+                }
+                $filename = 'avatar_user_' . $user->id . '_' . time() . '.jpg';
+                file_put_contents($dirPath . '/' . $filename, $decodedImage);
+                $avatarUrl = '/uploads/avatars/' . $filename;
+            } elseif (filter_var($rawPhoto, FILTER_VALIDATE_URL) || str_starts_with($rawPhoto, '/')) {
+                $avatarUrl = $rawPhoto;
+            }
+        } elseif ($request->hasFile('photo') || $request->hasFile('avatar')) {
+            $file = $request->file('photo') ?? $request->file('avatar');
+            $dirPath = public_path('uploads/avatars');
+            if (!file_exists($dirPath)) {
+                @mkdir($dirPath, 0777, true);
+            }
+            $filename = 'avatar_user_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($dirPath, $filename);
+            $avatarUrl = '/uploads/avatars/' . $filename;
+        }
+
+        if ($avatarUrl) {
+            $user->avatar = $avatarUrl;
+        }
+
         $user->save();
 
         $employee = DB::table('employees')->where('user_id', $user->id)->first()
@@ -1145,6 +1181,10 @@ class HrisMobileApiController extends Controller
             if ($request->filled('name')) $updateData['full_name'] = $request->input('name');
             if ($request->filled('phone')) $updateData['phone'] = $request->input('phone');
             if ($request->filled('address')) $updateData['address'] = $request->input('address');
+            if ($avatarUrl) {
+                $updateData['face_photo_url'] = $avatarUrl;
+                $updateData['face_registered_at'] = now();
+            }
             if (!empty($updateData)) {
                 $updateData['updated_at'] = now();
                 DB::table('employees')->where('id', $employee->id)->update($updateData);

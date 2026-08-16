@@ -148,6 +148,11 @@ class EmployeeDossierController extends Controller
             ['title' => 'Kartu BPJS Kesehatan / TK', 'field' => 'file_bpjs', 'icon' => '🏥', 'val' => $employee->file_bpjs],
         ];
 
+        $uploadedCount = 0;
+        foreach ($dossierFiles as $f) {
+            if (!empty($f['val'])) $uploadedCount++;
+        }
+
         $recentAttendances = $attendanceLogs;
 
         return view('admin.employees.show', compact('employee', 'attendanceLogs', 'recentAttendances', 'dossierFiles', 'uploadedCount'));
