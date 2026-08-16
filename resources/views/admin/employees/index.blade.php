@@ -69,7 +69,7 @@
                 <span class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg font-bold border border-amber-100">📸</span>
             </div>
             <div class="mt-3">
-                <h3 class="text-3xl font-black text-amber-700">{{ $enrolledFaces }} <span class="text-base text-slate-400 font-semibold">/ {{ $totalEmployees }}</span></h3>
+                <h3 class="text-3xl font-black text-amber-700">{{ $enrolledFaces ?? $enrolledFaceCount ?? 0 }} <span class="text-base text-slate-400 font-semibold">/ {{ $totalEmployees ?? 0 }}</span></h3>
                 <p class="text-xs text-slate-500 mt-1 font-medium">Wajah Aktif Presensi Mobile</p>
             </div>
         </div>

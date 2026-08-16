@@ -104,6 +104,7 @@ class EmployeeDossierController extends Controller
             ->whereNotNull('file_ijazah')
             ->count();
         $enrolledFaceCount = Employee::whereNotNull('face_registered_at')->count();
+        $enrolledFaces = $enrolledFaceCount;
 
         return view('admin.employees.index', compact(
             'employees',
@@ -119,7 +120,8 @@ class EmployeeDossierController extends Controller
             'totalTeachers',
             'totalStaff',
             'completeDossierCount',
-            'enrolledFaceCount'
+            'enrolledFaceCount',
+            'enrolledFaces'
         ));
     }
 
