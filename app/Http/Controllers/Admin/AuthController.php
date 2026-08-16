@@ -46,10 +46,15 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
+        $request->session()->flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/admin/login')->with('success', 'Anda telah berhasil keluar dari sistem admin.');
+        $cookie = cookie()->forget('remember_web');
+
+        return redirect()->route('login')
+            ->withCookie($cookie)
+            ->with('success', 'Anda telah berhasil keluar dari sistem admin.');
     }
 }

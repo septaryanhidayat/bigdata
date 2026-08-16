@@ -405,6 +405,10 @@
                     @endif
 
                     @if(Auth::user()->canAccessModule('hris'))
+                    <a href="{{ route('admin.employees.index') }}" title="Database Induk & E-Berkas SDM" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.employees.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <span class="w-5 text-center text-sm shrink-0 opacity-80">📁</span> 
+                        <span class="sidebar-text">Data Induk & E-Berkas SDM</span>
+                    </a>
                     <a href="{{ route('admin.payroll.index') }}" title="HRIS & E-Payroll Pegawai" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.payroll.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">💼</span> 
                         <span class="sidebar-text">HRIS & E-Payroll Pegawai</span>

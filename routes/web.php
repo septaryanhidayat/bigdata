@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\LmsController;
 use App\Http\Controllers\Admin\BkController;
 use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\MobileHrisAdminController;
+use App\Http\Controllers\Admin\EmployeeDossierController;
 use App\Http\Controllers\PublicLetterVerificationController;
 
 // ==========================================================================
@@ -163,8 +164,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/bpi', [BpiController::class, 'store'])->name('bpi.store');
         });
 
-        // 4. Modul 7 & 17: HRIS & E-Payroll Pegawai & Aplikasi Mobile SDM (Super Admin, Ketua Yayasan, Kepala Sekolah, Bendahara)
+        // 4. Modul 7 & 17: HRIS, Database SDM Pegangan Yayasan & Aplikasi Mobile (Super Admin, Ketua Yayasan, Kepala Sekolah, Bendahara, TU)
         Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_KEUANGAN,STAFF_TU')->group(function () {
+            // Database Induk & E-Berkas Lengkap SDM
+            Route::get('/employees', [EmployeeDossierController::class, 'index'])->name('employees.index');
+            Route::get('/employees/{id}', [EmployeeDossierController::class, 'show'])->name('employees.show');
+            Route::get('/employees/{id}/edit', [EmployeeDossierController::class, 'edit'])->name('employees.edit');
+            Route::put('/employees/{id}', [EmployeeDossierController::class, 'update'])->name('employees.update');
+
+            // Payroll & Gaji
             Route::get('/payroll', [HrisPayrollController::class, 'index'])->name('payroll.index');
             Route::post('/payroll/generate', [HrisPayrollController::class, 'generate'])->name('payroll.generate');
             

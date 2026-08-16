@@ -104,6 +104,51 @@ export default function AttendanceScreen({ navigation }) {
           </View>
         </View>
 
+        {/* Live Distance Notification Banner */}
+        <View
+          style={{
+            marginHorizontal: 16,
+            marginBottom: 14,
+            padding: 14,
+            borderRadius: 16,
+            backgroundColor: isWithinRadius ? '#ecfdf5' : '#fef2f2',
+            borderWidth: 1.5,
+            borderColor: isWithinRadius ? '#10b981' : '#ef4444',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 4,
+            elevation: 2,
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <Text style={{ fontSize: 16 }}>{isWithinRadius ? '🎯' : '📍'}</Text>
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: 'bold',
+                color: isWithinRadius ? '#065f46' : '#991b1b',
+              }}
+            >
+              {isWithinRadius
+                ? `Jarak Anda: ${distanceMeters} Meter (Di Dalam Radius)`
+                : `Jarak Anda: ${distanceMeters} Meter (Di Luar Radius)`}
+            </Text>
+          </View>
+          <Text
+            style={{
+              fontSize: 11,
+              lineHeight: 16,
+              color: isWithinRadius ? '#047857' : '#b91c1c',
+              fontWeight: '500',
+            }}
+          >
+            {isWithinRadius
+              ? `✓ Posisi Anda memenuhi syarat geofence (${distanceMeters}m dari batas maks ${schoolRadius}m di ${unit?.name || 'SIT Robbani'}). Presensi siap direkam.`
+              : `⚠️ Anda berada ${distanceMeters} meter dari titik kampus. Batas maksimal yang diizinkan adalah ${schoolRadius} meter. Jika presensi ditolak, silakan mendekat ke lokasi sekolah.`}
+          </Text>
+        </View>
+
         {/* Radar Geofence */}
         <GeofenceRadar
           distanceMeters={distanceMeters}
