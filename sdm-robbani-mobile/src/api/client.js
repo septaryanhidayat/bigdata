@@ -1,12 +1,18 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
-// Base URL Backend SmartEdu (Sesuaikan dengan domain / IP server lokal Anda)
-export const BASE_API_URL = 'http://127.0.0.1:8000/api/v1/mobile';
+// Auto-detect base URL:
+// Di Web: gunakan http://bigdata.test/api/v1/mobile (Herd)
+// Di HP Fisik (Expo Go): gunakan IP LAN Laptop (http://192.168.1.8/api/v1/mobile)
+export const BASE_API_URL =
+  Platform.OS === 'web'
+    ? 'http://bigdata.test/api/v1/mobile'
+    : 'http://192.168.1.8/api/v1/mobile';
 
 const apiClient = axios.create({
   baseURL: BASE_API_URL,
-  timeout: 15000,
+  timeout: 8000,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -26,7 +32,7 @@ apiClient.interceptors.request.use(
         config.headers['X-User-Id'] = userId;
       }
     } catch (e) {
-      console.error('Error reading auth storage', e);
+      console.warn('Error reading auth storage', e);
     }
     return config;
   },
