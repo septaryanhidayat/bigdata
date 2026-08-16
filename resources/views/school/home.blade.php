@@ -530,6 +530,14 @@
             <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
         </a>
         <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+            <button @click="darkMode = !darkMode" class="w-full py-2.5 px-4 rounded-2xl bg-emerald-50 dark:bg-[#071509] text-emerald-800 dark:text-[#c6f634] font-extrabold text-xs border border-emerald-200 dark:border-[#1a3d1e] flex items-center justify-between shadow-xs">
+                <span class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]" x-show="!darkMode">dark_mode</span>
+                    <span class="material-symbols-outlined text-[18px]" x-show="darkMode" x-cloak>light_mode</span>
+                    <span x-text="darkMode ? '☀️ Beralih ke Mode Terang' : '🌙 Beralih ke Mode Gelap'"></span>
+                </span>
+                <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-200/60 dark:bg-[#c6f634]/20" x-text="darkMode ? 'DARK' : 'LIGHT'"></span>
+            </button>
             <a href="{{ route('school.ppdb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
                 <span>✨ Pendaftaran SPMB Online 2026/2027</span> ➔
             </a>
@@ -984,33 +992,33 @@
             </div>
         </section>
 
-        <!-- ========================================================= -->
-        <!-- EKOSISTEM DIGITAL SMARTEDU (KOMPAK & INTERAKTIF)           -->
-        <!-- ========================================================= -->
-        <section id="smartedu-ekosistem" class="py-10 sm:py-14 bg-gradient-to-b from-slate-900 via-[#00281d] to-slate-950 text-white relative overflow-hidden reveal-fade-up">
+        <!-- ========================================================================= -->
+        <!-- EKOSISTEM DIGITAL SMARTEDU (LIGHT: GREEN+ORANGE | DARK: OBSIDIAN+NEON LIME) -->
+        <!-- ========================================================================= -->
+        <section id="smartedu-ekosistem" class="py-10 sm:py-14 bg-gradient-to-b from-emerald-50/80 via-white to-amber-50/60 dark:bg-gradient-to-b dark:from-[#040d06] dark:via-[#07170a] dark:to-[#020703] text-slate-800 dark:text-[#f7fee7] border-y border-emerald-100/80 dark:border-[#1a381d] relative overflow-hidden reveal-fade-up transition-colors duration-300">
             <!-- Background Decorative Ambient Glows -->
-            <div class="absolute -top-32 -left-32 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -top-32 -left-32 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-orange-500/10 dark:bg-[#c6f634]/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="max-w-container-max mx-auto px-gutter relative z-10 space-y-6 sm:space-y-8" x-data="{ activeModuleTab: 'akademik' }">
                 
-                <!-- Section Header (Compact & Punchy) -->
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-5">
-                    <div class="space-y-1 text-center md:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10px] font-black uppercase tracking-wider">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <!-- Section Header (Compact & High Contrast) -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-emerald-200/70 dark:border-[#1c4021] pb-5">
+                    <div class="space-y-1.5 text-center md:text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100/90 dark:bg-[#c6f634]/15 border border-emerald-300 dark:border-[#c6f634]/30 text-emerald-800 dark:text-[#c6f634] text-[10px] font-black uppercase tracking-wider shadow-xs">
+                            <span class="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#c6f634] animate-pulse"></span>
                             <span>✨ EKOSISTEM DIGITAL SMARTEDU TERPADU</span>
                         </div>
-                        <h2 class="text-xl sm:text-3xl font-black font-headline text-white">
-                            Transformasi Digital Sekolah <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-400 bg-clip-text text-transparent">22+ Modul Terintegrasi</span>
+                        <h2 class="text-xl sm:text-3xl font-black font-headline text-slate-900 dark:text-white">
+                            Transformasi Digital Sekolah <span class="bg-gradient-to-r from-emerald-700 via-teal-600 to-orange-600 dark:from-emerald-400 dark:via-teal-300 dark:to-[#c6f634] bg-clip-text text-transparent">22+ Modul Terintegrasi</span>
                         </h2>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">
                         <div class="hidden sm:flex items-center gap-3 text-right">
-                            <div class="text-[11px] text-slate-300 font-medium">Platform 4 Unit Terpadu</div>
-                            <div class="h-6 w-px bg-slate-700"></div>
+                            <div class="text-[11px] text-slate-600 dark:text-slate-300 font-bold">Platform 4 Unit Terpadu</div>
+                            <div class="h-6 w-px bg-emerald-200 dark:bg-slate-700"></div>
                         </div>
-                        <a href="{{ route('admin.dashboard') }}" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs rounded-full shadow-md hover:shadow-emerald-900/50 transition-all flex items-center gap-1.5">
+                        <a href="{{ route('admin.dashboard') }}" class="px-5 py-2.5 bg-gradient-to-r from-emerald-600 via-teal-700 to-emerald-800 hover:from-emerald-700 hover:to-teal-900 dark:from-[#c6f634] dark:via-emerald-400 dark:to-teal-400 text-white dark:text-[#051206] font-extrabold text-xs rounded-full shadow-md hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(198,246,52,0.35)] transition-all flex items-center gap-1.5 transform hover:scale-105">
                             <span>🔐 Masuk Portal</span>
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </a>
@@ -1021,346 +1029,364 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                     
                     <!-- Left Column: Category Navigator & Key Metrics (lg:col-span-4) -->
-                    <div class="lg:col-span-4 flex flex-col justify-between space-y-4 bg-slate-800/50 border border-slate-700/80 rounded-3xl p-4 sm:p-5">
+                    <div class="lg:col-span-4 flex flex-col justify-between space-y-4 bg-white/95 dark:bg-[#071509]/90 border border-emerald-200/80 dark:border-[#1a3d1e] rounded-3xl p-4 sm:p-5 shadow-lg shadow-emerald-950/5 dark:shadow-2xl">
                         
                         <div class="space-y-2">
-                            <span class="text-[11px] font-black uppercase tracking-wider text-emerald-400 block">Pilih Kategori Modul:</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] font-black uppercase tracking-wider text-emerald-800 dark:text-[#c6f634] block">Pilih Kategori Modul:</span>
+                                <span class="text-[10px] font-bold text-orange-600 dark:text-emerald-400">Multi-Tenancy</span>
+                            </div>
                             
                             <!-- 5 Interactive Category Buttons -->
                             <div class="grid grid-cols-1 gap-2">
-                                <button @click="activeModuleTab = 'akademik'" :class="activeModuleTab === 'akademik' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md border-emerald-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                <!-- 1. Akademik & KBM -->
+                                <button @click="activeModuleTab = 'akademik'" 
+                                    :class="activeModuleTab === 'akademik' ? 'bg-gradient-to-r from-emerald-700 to-teal-700 text-white border-emerald-800 shadow-md shadow-emerald-900/20 dark:from-[#c6f634] dark:to-emerald-400 dark:text-[#061107] dark:border-[#c6f634] dark:shadow-[0_0_15px_rgba(198,246,52,0.25)] pl-4' : 'bg-emerald-50/50 text-slate-800 hover:bg-emerald-100/70 border-emerald-200/60 dark:bg-[#0a1d0d]/70 dark:text-slate-200 dark:hover:bg-[#112a15] dark:border-[#17381a]'" 
+                                    class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
                                     <div class="flex items-center gap-2.5">
                                         <span class="text-base">🎓</span>
                                         <div>
                                             <div class="leading-tight">Akademik &amp; KBM</div>
-                                            <div class="text-[10px] font-normal text-slate-300/80">LMS, CBT, E-Rapor, Presensi</div>
+                                            <div class="text-[10px] font-normal" :class="activeModuleTab === 'akademik' ? 'text-emerald-100 dark:text-[#061107]/80' : 'text-slate-500 dark:text-slate-400'">LMS, CBT, E-Rapor, Presensi</div>
                                         </div>
                                     </div>
-                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'akademik' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">5 Modul</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'akademik' ? 'bg-white/20 text-white dark:bg-[#061107]/20 dark:text-[#061107]' : 'bg-emerald-100 text-emerald-800 dark:bg-[#040e06] dark:text-emerald-400'">5 Modul</span>
                                 </button>
 
-                                <button @click="activeModuleTab = 'keuangan'" :class="activeModuleTab === 'keuangan' ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md border-amber-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                <!-- 2. Keuangan & Smart POS (Green + Orange Combo) -->
+                                <button @click="activeModuleTab = 'keuangan'" 
+                                    :class="activeModuleTab === 'keuangan' ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white border-orange-700 shadow-md shadow-orange-900/20 dark:from-amber-400 dark:to-orange-500 dark:text-slate-950 dark:border-amber-400 dark:shadow-[0_0_15px_rgba(251,191,36,0.25)] pl-4' : 'bg-orange-50/50 text-slate-800 hover:bg-orange-100/70 border-orange-200/60 dark:bg-[#0a1d0d]/70 dark:text-slate-200 dark:hover:bg-[#112a15] dark:border-[#17381a]'" 
+                                    class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
                                     <div class="flex items-center gap-2.5">
                                         <span class="text-base">💳</span>
                                         <div>
                                             <div class="leading-tight">Keuangan &amp; Smart POS</div>
-                                            <div class="text-[10px] font-normal text-slate-300/80">SPP, Tabungan, Kantin RFID</div>
+                                            <div class="text-[10px] font-normal" :class="activeModuleTab === 'keuangan' ? 'text-orange-100 dark:text-slate-950/80' : 'text-slate-500 dark:text-slate-400'">SPP, Tabungan, Kantin RFID</div>
                                         </div>
                                     </div>
-                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'keuangan' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">4 Modul</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'keuangan' ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950' : 'bg-orange-100 text-orange-800 dark:bg-[#040e06] dark:text-amber-400'">4 Modul</span>
                                 </button>
 
-                                <button @click="activeModuleTab = 'persuratan'" :class="activeModuleTab === 'persuratan' ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md border-blue-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                <!-- 3. Persuratan & TTE Digital -->
+                                <button @click="activeModuleTab = 'persuratan'" 
+                                    :class="activeModuleTab === 'persuratan' ? 'bg-gradient-to-r from-blue-700 to-indigo-700 text-white border-blue-800 shadow-md shadow-blue-900/20 dark:from-cyan-400 dark:to-blue-500 dark:text-slate-950 dark:border-cyan-400 dark:shadow-[0_0_15px_rgba(34,211,238,0.25)] pl-4' : 'bg-blue-50/50 text-slate-800 hover:bg-blue-100/70 border-blue-200/60 dark:bg-[#0a1d0d]/70 dark:text-slate-200 dark:hover:bg-[#112a15] dark:border-[#17381a]'" 
+                                    class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
                                     <div class="flex items-center gap-2.5">
                                         <span class="text-base">📨</span>
                                         <div>
                                             <div class="leading-tight">Persuratan &amp; TTE Digital</div>
-                                            <div class="text-[10px] font-normal text-slate-300/80">Agenda, TTE QR, Disposisi</div>
+                                            <div class="text-[10px] font-normal" :class="activeModuleTab === 'persuratan' ? 'text-blue-100 dark:text-slate-950/80' : 'text-slate-500 dark:text-slate-400'">Agenda, TTE QR, Disposisi</div>
                                         </div>
                                     </div>
-                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'persuratan' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">4 Modul</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'persuratan' ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950' : 'bg-blue-100 text-blue-800 dark:bg-[#040e06] dark:text-cyan-400'">4 Modul</span>
                                 </button>
 
-                                <button @click="activeModuleTab = 'karakter'" :class="activeModuleTab === 'karakter' ? 'bg-gradient-to-r from-emerald-600 to-cyan-600 text-white shadow-md border-cyan-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                <!-- 4. Karakter & Keislaman -->
+                                <button @click="activeModuleTab = 'karakter'" 
+                                    :class="activeModuleTab === 'karakter' ? 'bg-gradient-to-r from-emerald-800 to-teal-800 text-white border-emerald-900 shadow-md shadow-emerald-900/20 dark:from-teal-400 dark:to-[#c6f634] dark:text-slate-950 dark:border-teal-400 dark:shadow-[0_0_15px_rgba(45,212,191,0.25)] pl-4' : 'bg-emerald-50/50 text-slate-800 hover:bg-emerald-100/70 border-emerald-200/60 dark:bg-[#0a1d0d]/70 dark:text-slate-200 dark:hover:bg-[#112a15] dark:border-[#17381a]'" 
+                                    class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
                                     <div class="flex items-center gap-2.5">
                                         <span class="text-base">🕌</span>
                                         <div>
                                             <div class="leading-tight">Karakter &amp; Keislaman</div>
-                                            <div class="text-[10px] font-normal text-slate-300/80">BPI, Tahfidz Tracker, BK</div>
+                                            <div class="text-[10px] font-normal" :class="activeModuleTab === 'karakter' ? 'text-teal-100 dark:text-slate-950/80' : 'text-slate-500 dark:text-slate-400'">BPI, Tahfidz Tracker, BK</div>
                                         </div>
                                     </div>
-                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'karakter' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">3 Modul</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'karakter' ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950' : 'bg-emerald-100 text-emerald-800 dark:bg-[#040e06] dark:text-teal-400'">3 Modul</span>
                                 </button>
 
-                                <button @click="activeModuleTab = 'manajemen'" :class="activeModuleTab === 'manajemen' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md border-purple-400 pl-4' : 'bg-slate-900/60 text-slate-300 hover:bg-slate-700/60 border-slate-700/60'" class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
+                                <!-- 5. Fasilitas & SDM -->
+                                <button @click="activeModuleTab = 'manajemen'" 
+                                    :class="activeModuleTab === 'manajemen' ? 'bg-gradient-to-r from-purple-700 to-indigo-700 text-white border-purple-800 shadow-md shadow-purple-900/20 dark:from-purple-400 dark:to-pink-500 dark:text-slate-950 dark:border-purple-400 dark:shadow-[0_0_15px_rgba(192,132,252,0.25)] pl-4' : 'bg-purple-50/50 text-slate-800 hover:bg-purple-100/70 border-purple-200/60 dark:bg-[#0a1d0d]/70 dark:text-slate-200 dark:hover:bg-[#112a15] dark:border-[#17381a]'" 
+                                    class="w-full text-left p-2.5 sm:p-3 rounded-2xl font-extrabold text-xs transition-all border flex items-center justify-between group">
                                     <div class="flex items-center gap-2.5">
                                         <span class="text-base">🏢</span>
                                         <div>
                                             <div class="leading-tight">Fasilitas &amp; SDM</div>
-                                            <div class="text-[10px] font-normal text-slate-300/80">E-Library, Sarpras, HRIS, CMS</div>
+                                            <div class="text-[10px] font-normal" :class="activeModuleTab === 'manajemen' ? 'text-purple-100 dark:text-slate-950/80' : 'text-slate-500 dark:text-slate-400'">E-Library, Sarpras, HRIS, CMS</div>
                                         </div>
                                     </div>
-                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'manajemen' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'">6 Modul</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black" :class="activeModuleTab === 'manajemen' ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950' : 'bg-purple-100 text-purple-800 dark:bg-[#040e06] dark:text-purple-400'">6 Modul</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Mini Stats Bar -->
-                        <div class="pt-3 border-t border-slate-700/80 grid grid-cols-3 gap-2 text-center">
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700/60">
-                                <div class="text-base font-black text-emerald-400 font-headline">22+</div>
-                                <div class="text-[9px] text-slate-400 font-bold">Modul</div>
+                        <div class="pt-3 border-t border-emerald-200/70 dark:border-[#1c4021] grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-emerald-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-emerald-200/80 dark:border-[#183a1b]">
+                                <div class="text-base font-black text-emerald-800 dark:text-[#c6f634] font-headline">22+</div>
+                                <div class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">Modul</div>
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700/60">
-                                <div class="text-base font-black text-amber-400 font-headline">4 Unit</div>
-                                <div class="text-[9px] text-slate-400 font-bold">Terpadu</div>
+                            <div class="bg-orange-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-orange-200/80 dark:border-[#183a1b]">
+                                <div class="text-base font-black text-orange-600 dark:text-amber-400 font-headline">4 Unit</div>
+                                <div class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">Terpadu</div>
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-700/60">
-                                <div class="text-base font-black text-cyan-400 font-headline">15 Role</div>
-                                <div class="text-[9px] text-slate-400 font-bold">RBAC</div>
+                            <div class="bg-teal-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-teal-200/80 dark:border-[#183a1b]">
+                                <div class="text-base font-black text-teal-700 dark:text-cyan-400 font-headline">15 Role</div>
+                                <div class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">RBAC</div>
                             </div>
                         </div>
 
                     </div>
 
                     <!-- Right Column: Dynamic Compact Module Cards (lg:col-span-8) -->
-                    <div class="lg:col-span-8 bg-slate-900/60 border border-slate-800 rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
+                    <div class="lg:col-span-8 bg-white/95 dark:bg-[#071509]/90 border border-emerald-200/80 dark:border-[#1a3d1e] rounded-3xl p-4 sm:p-5 flex flex-col justify-between shadow-lg shadow-emerald-950/5 dark:shadow-2xl">
                         
                         <!-- TAB 1: AKADEMIK & KBM (5 Cards) -->
                         <div x-show="activeModuleTab === 'akademik'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity>
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">📚</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-emerald-500 dark:hover:border-[#c6f634]/60 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(198,246,52,0.1)]">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-[#c6f634] border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-xl shrink-0">📚</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">LMS &amp; Kelas Online</h4>
-                                        <span class="text-[9px] font-bold text-emerald-400 uppercase">Interaktif</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">LMS &amp; Kelas Online</h4>
+                                        <span class="text-[9px] font-extrabold text-emerald-700 dark:text-[#c6f634] uppercase">Interaktif</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Materi ajar multimedia, bank soal terstruktur, tugas &amp; kuis online per rombel.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Materi ajar multimedia, bank soal terstruktur, tugas &amp; kuis online per rombel.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-blue-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">📝</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 flex items-center justify-center text-xl shrink-0">📝</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">CBT Ujian &amp; Asesmen</h4>
-                                        <span class="text-[9px] font-bold text-blue-400 uppercase">Anti-Curang</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">CBT Ujian &amp; Asesmen</h4>
+                                        <span class="text-[9px] font-extrabold text-blue-700 dark:text-blue-400 uppercase">Anti-Curang</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Ujian komputer otomatis, acak butir soal &amp; opsi, timer serta analisis nilai instan.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Ujian komputer otomatis, acak butir soal &amp; opsi, timer serta analisis nilai instan.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-indigo-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center text-xl shrink-0">📊</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center text-xl shrink-0">📊</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">E-Rapor Merdeka</h4>
-                                        <span class="text-[9px] font-bold text-indigo-400 uppercase">PDF Resmi</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">E-Rapor Merdeka</h4>
+                                        <span class="text-[9px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase">PDF Resmi</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Leger nilai formatif &amp; sumatif otomatis, capaian kompetensi &amp; cetak rapor standar Diknas.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Leger nilai formatif &amp; sumatif otomatis, capaian kompetensi &amp; cetak rapor standar Diknas.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-teal-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center text-xl shrink-0">⏱️</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-teal-500 dark:hover:border-teal-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-500/20 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-500/30 flex items-center justify-center text-xl shrink-0">⏱️</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Presensi Digital Realtime</h4>
-                                        <span class="text-[9px] font-bold text-teal-400 uppercase">Otomatis</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Presensi Digital Realtime</h4>
+                                        <span class="text-[9px] font-extrabold text-teal-700 dark:text-teal-400 uppercase">Otomatis</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Pencatatan kehadiran siswa &amp; GTK harian dengan rekapitulasi kehadiran akurat.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Pencatatan kehadiran siswa &amp; GTK harian dengan rekapitulasi kehadiran akurat.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-cyan-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all sm:col-span-2">
-                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0">👨‍🏫</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-orange-500 dark:hover:border-orange-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md sm:col-span-2">
+                                <div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-xl shrink-0">👨‍🏫</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Jurnal Mengajar Guru</h4>
-                                        <span class="text-[9px] font-bold text-cyan-400 uppercase">KBM Terstruktur</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Jurnal Mengajar Guru</h4>
+                                        <span class="text-[9px] font-extrabold text-orange-600 dark:text-orange-400 uppercase">KBM Terstruktur</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Agenda tatap muka kelas, capaian materi per pertemuan, &amp; supervisi kepala sekolah.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Agenda tatap muka kelas, capaian materi per pertemuan, &amp; supervisi kepala sekolah.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- TAB 2: KEUANGAN & POS (4 Cards) -->
+                        <!-- TAB 2: KEUANGAN & POS (4 Cards - Hijau + Orange Highlight) -->
                         <div x-show="activeModuleTab === 'keuangan'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-amber-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-xl shrink-0">💳</div>
+                            <div class="bg-orange-50/40 dark:bg-[#0b1c0e]/80 border border-orange-100 dark:border-[#1c4021] hover:border-orange-500 dark:hover:border-orange-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-xl shrink-0">💳</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Tagihan SPP &amp; Pos Bayar</h4>
-                                        <span class="text-[9px] font-bold text-amber-400 uppercase">E-Billing</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Tagihan SPP &amp; Pos Bayar</h4>
+                                        <span class="text-[9px] font-extrabold text-orange-600 dark:text-orange-400 uppercase">E-Billing</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Manajemen pos SPP per unit, tagihan otomatis, kasir, &amp; cetak bukti kuitansi PDF resmi.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Manajemen pos SPP per unit, tagihan otomatis, kasir, &amp; cetak bukti kuitansi PDF resmi.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-orange-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-300 border border-orange-500/30 flex items-center justify-center text-xl shrink-0">💰</div>
+                            <div class="bg-orange-50/40 dark:bg-[#0b1c0e]/80 border border-orange-100 dark:border-[#1c4021] hover:border-amber-500 dark:hover:border-amber-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 flex items-center justify-center text-xl shrink-0">💰</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Tabungan Santri Digital</h4>
-                                        <span class="text-[9px] font-bold text-orange-400 uppercase">Mutasi Realtime</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Tabungan Santri Digital</h4>
+                                        <span class="text-[9px] font-extrabold text-amber-700 dark:text-amber-400 uppercase">Mutasi Realtime</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Buku tabungan digital, transaksi setor/tarik cepat, &amp; transparansi laporan wali.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Buku tabungan digital, transaksi setor/tarik cepat, &amp; transparansi laporan wali.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-yellow-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 flex items-center justify-center text-xl shrink-0">🍽️</div>
+                            <div class="bg-orange-50/40 dark:bg-[#0b1c0e]/80 border border-orange-100 dark:border-[#1c4021] hover:border-yellow-500 dark:hover:border-yellow-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-500/30 flex items-center justify-center text-xl shrink-0">🍽️</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Kantin Smart RFID POS</h4>
-                                        <span class="text-[9px] font-bold text-yellow-400 uppercase">Cashless</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Kantin Smart RFID POS</h4>
+                                        <span class="text-[9px] font-extrabold text-yellow-700 dark:text-yellow-400 uppercase">Cashless</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Belanja non-tunai via kartu santri RFID, batasan limit jajan harian &amp; laporan kasir.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Belanja non-tunai via kartu santri RFID, batasan limit jajan harian &amp; laporan kasir.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">📈</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-emerald-500 dark:hover:border-[#c6f634]/60 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-[#c6f634] border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-xl shrink-0">📈</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Laporan Kas &amp; Audit</h4>
-                                        <span class="text-[9px] font-bold text-emerald-400 uppercase">Konsolidasi</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Laporan Kas &amp; Audit</h4>
+                                        <span class="text-[9px] font-extrabold text-emerald-700 dark:text-[#c6f634] uppercase">Konsolidasi</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Rekapitulasi arus kas 4 unit, kontrol tunggakan, dan audit keuangan yayasan.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Rekapitulasi arus kas 4 unit, kontrol tunggakan, dan audit keuangan yayasan.</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- TAB 3: PERSURATAN & TTE (4 Cards) -->
                         <div x-show="activeModuleTab === 'persuratan'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-blue-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">📨</div>
+                            <div class="bg-blue-50/40 dark:bg-[#0b1c0e]/80 border border-blue-100 dark:border-[#1c4021] hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 flex items-center justify-center text-xl shrink-0">📨</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Persuratan &amp; Agenda</h4>
-                                        <span class="text-[9px] font-bold text-blue-400 uppercase">E-Office</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Persuratan &amp; Agenda</h4>
+                                        <span class="text-[9px] font-extrabold text-blue-700 dark:text-blue-400 uppercase">E-Office</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Buku agenda surat masuk/keluar, draf surat resmi ber-KOP unit, &amp; penomoran otomatis.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Buku agenda surat masuk/keluar, draf surat resmi ber-KOP unit, &amp; penomoran otomatis.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-indigo-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center text-xl shrink-0">🖋️</div>
+                            <div class="bg-indigo-50/40 dark:bg-[#0b1c0e]/80 border border-indigo-100 dark:border-[#1c4021] hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center text-xl shrink-0">🖋️</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">TTE Digital QR &amp; SHA-256</h4>
-                                        <span class="text-[9px] font-bold text-indigo-400 uppercase">Keamanan</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">TTE Digital QR &amp; SHA-256</h4>
+                                        <span class="text-[9px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase">Keamanan</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Tanda tangan elektronik pimpinan ber-QR Code dengan SHA-256 &amp; verifikasi publik.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Tanda tangan elektronik pimpinan ber-QR Code dengan SHA-256 &amp; verifikasi publik.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-violet-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-violet-500/20 text-violet-300 border border-violet-500/30 flex items-center justify-center text-xl shrink-0">📋</div>
+                            <div class="bg-purple-50/40 dark:bg-[#0b1c0e]/80 border border-purple-100 dark:border-[#1c4021] hover:border-purple-500 dark:hover:border-purple-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30 flex items-center justify-center text-xl shrink-0">📋</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Disposisi Instruksi</h4>
-                                        <span class="text-[9px] font-bold text-violet-400 uppercase">Berjenjang</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Disposisi Instruksi</h4>
+                                        <span class="text-[9px] font-extrabold text-purple-700 dark:text-purple-400 uppercase">Berjenjang</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Alur instruksi pimpinan yayasan &amp; kepala sekolah kepada jajaran staf dan guru.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Alur instruksi pimpinan yayasan &amp; kepala sekolah kepada jajaran staf dan guru.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-cyan-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0">🔒</div>
+                            <div class="bg-cyan-50/40 dark:bg-[#0b1c0e]/80 border border-cyan-100 dark:border-[#1c4021] hover:border-cyan-500 dark:hover:border-cyan-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-cyan-500/20 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-500/30 flex items-center justify-center text-xl shrink-0">🔒</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Isolasi Data Per-Unit</h4>
-                                        <span class="text-[9px] font-bold text-cyan-400 uppercase">Multi-Tenancy</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Isolasi Data Per-Unit</h4>
+                                        <span class="text-[9px] font-extrabold text-cyan-700 dark:text-cyan-400 uppercase">Multi-Tenancy</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Isolasi data 4 unit aman; akun TKIT, SDIT, SMPIT, SMAIT mengelola unitnya masing-masing.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Isolasi data 4 unit aman; akun TKIT, SDIT, SMPIT, SMAIT mengelola unitnya masing-masing.</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- TAB 4: KARAKTER & BPI (3 Cards) -->
                         <div x-show="activeModuleTab === 'karakter'" class="grid grid-cols-1 sm:grid-cols-3 gap-3" x-transition.opacity x-cloak>
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex flex-col justify-between transition-all">
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-emerald-500 dark:hover:border-[#c6f634]/60 rounded-2xl p-3.5 flex flex-col justify-between transition-all hover:shadow-md">
                                 <div class="space-y-2">
-                                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl">🕌</div>
-                                    <h4 class="text-xs font-black text-white">Bina Pribadi Islami (BPI)</h4>
-                                    <p class="text-[11px] text-slate-300 leading-snug">Kelompok mentoring halaqah, materi adab, &amp; bimbingan ruhiyah musyrif.</p>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-[#c6f634] border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-xl">🕌</div>
+                                    <h4 class="text-xs font-black text-slate-900 dark:text-white">Bina Pribadi Islami (BPI)</h4>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">Kelompok mentoring halaqah, materi adab, &amp; bimbingan ruhiyah musyrif.</p>
                                 </div>
-                                <span class="text-[9px] font-bold text-emerald-400 mt-2 block">🌱 Karakter Qur'ani</span>
+                                <span class="text-[9px] font-extrabold text-emerald-700 dark:text-[#c6f634] mt-2 block">🌱 Karakter Qur'ani</span>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-teal-500 rounded-2xl p-3.5 flex flex-col justify-between transition-all">
+                            <div class="bg-teal-50/40 dark:bg-[#0b1c0e]/80 border border-teal-100 dark:border-[#1c4021] hover:border-teal-500 dark:hover:border-teal-400 rounded-2xl p-3.5 flex flex-col justify-between transition-all hover:shadow-md">
                                 <div class="space-y-2">
-                                    <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center text-xl">📖</div>
-                                    <h4 class="text-xs font-black text-white">Mutabaah &amp; Tahfidz Tracker</h4>
-                                    <p class="text-[11px] text-slate-300 leading-snug">Pantau setoran hafalan Qur'an harian (ziyadah/murajaah) &amp; sholat fardhu.</p>
+                                    <div class="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-500/20 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-500/30 flex items-center justify-center text-xl">📖</div>
+                                    <h4 class="text-xs font-black text-slate-900 dark:text-white">Mutabaah &amp; Tahfidz Tracker</h4>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">Pantau setoran hafalan Qur'an harian (ziyadah/murajaah) &amp; sholat fardhu.</p>
                                 </div>
-                                <span class="text-[9px] font-bold text-teal-400 mt-2 block">🕋 Mutqin 30 Juz</span>
+                                <span class="text-[9px] font-extrabold text-teal-700 dark:text-teal-400 mt-2 block">🕋 Mutqin 30 Juz</span>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-rose-500 rounded-2xl p-3.5 flex flex-col justify-between transition-all">
+                            <div class="bg-rose-50/40 dark:bg-[#0b1c0e]/80 border border-rose-100 dark:border-[#1c4021] hover:border-rose-500 dark:hover:border-rose-400 rounded-2xl p-3.5 flex flex-col justify-between transition-all hover:shadow-md">
                                 <div class="space-y-2">
-                                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center justify-center text-xl">👥</div>
-                                    <h4 class="text-xs font-black text-white">Bimbingan Konseling &amp; Prestasi</h4>
-                                    <p class="text-[11px] text-slate-300 leading-snug">Konseling santri, catatan pembinaan adab, poin pelanggaran &amp; prestasi.</p>
+                                    <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-500/20 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 flex items-center justify-center text-xl">👥</div>
+                                    <h4 class="text-xs font-black text-slate-900 dark:text-white">Bimbingan Konseling &amp; Prestasi</h4>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">Konseling santri, catatan pembinaan adab, poin pelanggaran &amp; prestasi.</p>
                                 </div>
-                                <span class="text-[9px] font-bold text-rose-400 mt-2 block">🏆 Pembinaan Holistik</span>
+                                <span class="text-[9px] font-extrabold text-rose-700 dark:text-rose-400 mt-2 block">🏆 Pembinaan Holistik</span>
                             </div>
                         </div>
 
                         <!-- TAB 5: FASILITAS, SDM & PUBLIKASI (6 Cards) -->
                         <div x-show="activeModuleTab === 'manajemen'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-purple-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center justify-center text-xl shrink-0">📚</div>
+                            <div class="bg-purple-50/40 dark:bg-[#0b1c0e]/80 border border-purple-100 dark:border-[#1c4021] hover:border-purple-500 dark:hover:border-purple-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30 flex items-center justify-center text-xl shrink-0">📚</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">E-Library &amp; Sirkulasi Buku</h4>
-                                        <span class="text-[9px] font-bold text-purple-400 uppercase">Barcode</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">E-Library &amp; Sirkulasi Buku</h4>
+                                        <span class="text-[9px] font-extrabold text-purple-700 dark:text-purple-400 uppercase">Barcode</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Katalog ribuan buku online, peminjaman &amp; pengembalian via barcode scanner.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Katalog ribuan buku online, peminjaman &amp; pengembalian via barcode scanner.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-pink-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-pink-500/20 text-pink-300 border border-pink-500/30 flex items-center justify-center text-xl shrink-0">🏢</div>
+                            <div class="bg-pink-50/40 dark:bg-[#0b1c0e]/80 border border-pink-100 dark:border-[#1c4021] hover:border-pink-500 dark:hover:border-pink-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-500/20 text-pink-800 dark:text-pink-300 border border-pink-200 dark:border-pink-500/30 flex items-center justify-center text-xl shrink-0">🏢</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Sarpras &amp; Inventaris Aset</h4>
-                                        <span class="text-[9px] font-bold text-pink-400 uppercase">QR Tracking</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Sarpras &amp; Inventaris Aset</h4>
+                                        <span class="text-[9px] font-extrabold text-pink-700 dark:text-pink-400 uppercase">QR Tracking</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Inventarisasi fasilitas gedung, kode QR aset ruangan, &amp; pemeliharaan berkala.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Inventarisasi fasilitas gedung, kode QR aset ruangan, &amp; pemeliharaan berkala.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-fuchsia-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 flex items-center justify-center text-xl shrink-0">👥</div>
+                            <div class="bg-fuchsia-50/40 dark:bg-[#0b1c0e]/80 border border-fuchsia-100 dark:border-[#1c4021] hover:border-fuchsia-500 dark:hover:border-fuchsia-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-200 dark:border-fuchsia-500/30 flex items-center justify-center text-xl shrink-0">👥</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">HRIS &amp; Payroll Gaji Pegawai</h4>
-                                        <span class="text-[9px] font-bold text-fuchsia-400 uppercase">E-Slip Gaji</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">HRIS &amp; Payroll Gaji Pegawai</h4>
+                                        <span class="text-[9px] font-extrabold text-fuchsia-700 dark:text-fuchsia-400 uppercase">E-Slip Gaji</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Database GTK terpadu, tunjangan fungsional, &amp; otomasi cetak slip gaji digital.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Database GTK terpadu, tunjangan fungsional, &amp; otomasi cetak slip gaji digital.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-emerald-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">🌐</div>
+                            <div class="bg-emerald-50/40 dark:bg-[#0b1c0e]/80 border border-emerald-100 dark:border-[#1c4021] hover:border-emerald-500 dark:hover:border-[#c6f634]/60 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-[#c6f634] border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-xl shrink-0">🌐</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">CMS Website &amp; Profil Unit</h4>
-                                        <span class="text-[9px] font-bold text-emerald-400 uppercase">Publikasi</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">CMS Website &amp; Profil Unit</h4>
+                                        <span class="text-[9px] font-extrabold text-emerald-700 dark:text-[#c6f634] uppercase">Publikasi</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Pengelolaan website oleh Staf TU unit, berita per unit, &amp; YouTube channel resmi.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Pengelolaan website oleh Staf TU unit, berita per unit, &amp; YouTube channel resmi.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-amber-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-xl shrink-0">🎯</div>
+                            <div class="bg-amber-50/40 dark:bg-[#0b1c0e]/80 border border-amber-100 dark:border-[#1c4021] hover:border-amber-500 dark:hover:border-amber-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 flex items-center justify-center text-xl shrink-0">🎯</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">SPMB Online Terpadu</h4>
-                                        <span class="text-[9px] font-bold text-amber-400 uppercase">Pendaftaran</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">SPMB Online Terpadu</h4>
+                                        <span class="text-[9px] font-extrabold text-amber-700 dark:text-amber-400 uppercase">Pendaftaran</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Pendaftaran santri baru 4 unit online, unggah berkas, wawancara &amp; pengumuman.</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Pendaftaran santri baru 4 unit online, unggah berkas, wawancara &amp; pengumuman.</p>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-800/80 border border-slate-700/70 hover:border-red-500 rounded-2xl p-3.5 flex items-start gap-3 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-300 border border-red-500/30 flex items-center justify-center text-xl shrink-0">👑</div>
+                            <div class="bg-red-50/40 dark:bg-[#0b1c0e]/80 border border-red-100 dark:border-[#1c4021] hover:border-red-500 dark:hover:border-red-400 rounded-2xl p-3.5 flex items-start gap-3 transition-all hover:shadow-md">
+                                <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-500/20 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-500/30 flex items-center justify-center text-xl shrink-0">👑</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black text-white truncate">Manajemen 15 Hak Akses</h4>
-                                        <span class="text-[9px] font-bold text-red-400 uppercase">Multi-User</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white truncate">Manajemen 15 Hak Akses</h4>
+                                        <span class="text-[9px] font-extrabold text-red-700 dark:text-red-400 uppercase">Multi-User</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-300 leading-snug line-clamp-2">Keamanan data berlapis untuk 15 peran (Yayasan, Kepsek, TU, Guru, Kasir, dll).</p>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">Keamanan data berlapis untuk 15 peran (Yayasan, Kepsek, TU, Guru, Kasir, dll).</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Bottom Highlight Strip -->
-                        <div class="pt-3 mt-3 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400">
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Semua modul saling terhubung otomatis dalam 1 database</span>
-                            <a href="{{ route('school.profil') }}" class="text-emerald-300 font-bold hover:underline inline-flex items-center gap-1">
+                        <div class="pt-3 mt-3 border-t border-emerald-200/70 dark:border-[#1c4021] flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-700 dark:text-[#c6f634] font-black">✓</span> Semua modul saling terhubung otomatis dalam 1 database multi-tenant</span>
+                            <a href="{{ route('school.profil') }}" class="text-emerald-800 dark:text-[#c6f634] hover:text-orange-600 font-extrabold hover:underline inline-flex items-center gap-1">
                                 <span>Pelajari Tata Kelola Yayasan</span> ➔
                             </a>
                         </div>
