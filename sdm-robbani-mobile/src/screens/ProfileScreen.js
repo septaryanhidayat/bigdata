@@ -13,7 +13,7 @@ import HeaderBar from '../components/HeaderBar';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const { user, employee, unit, logout } = useAuth();
   const { colors, isDarkMode, toggleDarkMode } = useTheme();
 
