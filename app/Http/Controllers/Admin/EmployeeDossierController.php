@@ -246,17 +246,21 @@ class EmployeeDossierController extends Controller
         }
 
         $employee->update($updateData);
+        $employee->refresh();
 
         // Sync with users table if account linked
-        if ($employee->user_id) {
-            $user = User::find($employee->user_id);
-            if ($user) {
-                $user->update([
-                    'name' => $request->full_name,
-                    'email' => $request->email ?: $user->email,
-                    'phone' => $request->phone ?: $user->phone,
-                    'school_id' => $updateData['school_id'],
-                ]);
+        $user = $employee->user_id ? User::find($employee->user_id) : User::where('email', $employee->email)->first();
+        if ($user) {
+            $userData = [
+                'name' => $request->full_name,
+                'school_id' => $updateData['school_id'],
+            ];
+            if ($request->filled('email')) $userData['email'] = $request->email;
+            if ($request->filled('phone')) $userData['phone'] = $request->phone;
+            $user->update($userData);
+
+            if (!$employee->user_id) {
+                $employee->update(['user_id' => $user->id]);
             }
         }
 

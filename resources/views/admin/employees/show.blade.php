@@ -4,26 +4,26 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto space-y-6">
-    <!-- Header Back Bar (Clean Light) -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+    <!-- Header Back Bar (Clean Light Design) -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.employees.index') }}" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-base transition-colors border border-slate-200">
+            <a href="{{ route('admin.employees.index') }}" class="w-11 h-11 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-black text-lg transition-all border border-slate-200 shadow-xs">
                 ←
             </a>
             <div>
-                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase">
-                    📁 Profil &amp; Berkas Pegawai
-                </span>
-                <h1 class="text-xl font-black text-slate-900 mt-0.5">{{ $employee->full_name }}</h1>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-black uppercase tracking-wider border border-emerald-200 mb-1">
+                    <span>📁</span> Profil &amp; Berkas Pegawai SDM
+                </div>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight">{{ $employee->full_name }}</h1>
             </div>
         </div>
 
         <div class="flex items-center gap-2">
-            <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-colors shadow-sm flex items-center gap-1.5">
+            <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition-all shadow-md hover:shadow-emerald-500/25 flex items-center gap-1.5">
                 <span>✏️</span> Edit Data &amp; Berkas
             </a>
-            <a href="{{ route('admin.employees.index') }}" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-300 transition-colors">
-                Kembali
+            <a href="{{ route('admin.employees.index') }}" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs border border-slate-300 transition-colors">
+                ← Kembali
             </a>
         </div>
     </div>
@@ -35,46 +35,71 @@
     </div>
     @endif
 
+    @php
+        // Helper Formatting Role Label
+        $roleLabel = match($employee->role_type) {
+            'TEACHER' => 'Tenaga Pendidik (Guru)',
+            'HEADMASTER' => 'Kepala Unit / Sekolah',
+            'STAFF_TU' => 'Staf Tata Usaha (TU)',
+            'STAFF_KEUANGAN' => 'Staf Keuangan / Bendahara',
+            'SUPER_ADMIN' => 'Pimpinan Yayasan',
+            default => 'Tenaga Kependidikan (Staf)',
+        };
+
+        // Helper Formatting Status Label
+        $statusLabel = match($employee->employment_status) {
+            'TETAP' => 'Guru / Pegawai Tetap Yayasan (GTY/PTY)',
+            'KONTRAK' => 'Guru / Pegawai Kontrak (GTT/PKWT)',
+            'HONORER' => 'Guru / Pegawai Honorer',
+            default => $employee->employment_status ?? 'Pegawai Tetap (PTY)',
+        };
+
+        // Photo URL
+        $photoSrc = $employee->face_photo_url 
+            ? (str_starts_with($employee->face_photo_url, 'http') ? $employee->face_photo_url : asset($employee->face_photo_url)) 
+            : ($employee->user && $employee->user->avatar ? (str_starts_with($employee->user->avatar, 'http') ? $employee->user->avatar : asset($employee->user->avatar)) : 'https://ui-avatars.com/api/?name=' . urlencode($employee->full_name) . '&background=059669&color=fff&bold=true&size=200');
+    @endphp
+
     <!-- Main Grid: Left Profile Card, Right Files -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Left: Biodata Pribadi & Info Kepegawaian (2 Cols) -->
         <div class="lg:col-span-2 space-y-6">
             <!-- Profile Hero Card -->
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-6">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-7 space-y-6">
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                    <div class="w-24 h-24 rounded-3xl overflow-hidden border-2 {{ $employee->face_registered_at ? 'border-emerald-500 shadow-md' : 'border-slate-200' }} bg-slate-100 flex items-center justify-center shrink-0">
-                        <img src="{{ $employee->face_photo_url ? (str_starts_with($employee->face_photo_url, 'http') ? $employee->face_photo_url : asset($employee->face_photo_url)) : 'https://ui-avatars.com/api/?name=' . urlencode($employee->full_name) . '&background=059669&color=fff&bold=true&size=200' }}" 
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl overflow-hidden border-2 {{ $employee->face_registered_at ? 'border-emerald-500 shadow-md' : 'border-slate-200' }} bg-slate-100 flex items-center justify-center shrink-0">
+                        <img src="{{ $photoSrc }}" 
                              alt="{{ $employee->full_name }}" 
                              class="w-full h-full object-cover">
                     </div>
 
                     <div class="text-center sm:text-left flex-1">
-                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
                             @if($employee->school)
                                 <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-black border border-blue-200">
-                                    {{ $employee->school->name }} ({{ $employee->school->code }})
+                                    🏫 {{ $employee->school->name }} ({{ $employee->school->code }})
                                 </span>
                             @else
                                 <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black border border-emerald-200">
-                                    🏛️ Yayasan Generasi Robbani
+                                    🏛️ Yayasan Generasi Robbani (Pusat)
                                 </span>
                             @endif
 
-                            <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-black uppercase border border-purple-200">
-                                {{ $employee->role_type ?? 'STAFF' }}
+                            <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-black border border-purple-200">
+                                {{ $roleLabel }}
                             </span>
 
-                            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black uppercase border border-amber-200">
-                                {{ $employee->employment_status ?? 'TETAP' }}
+                            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black border border-amber-200">
+                                {{ $statusLabel }}
                             </span>
                         </div>
 
                         <h2 class="text-2xl font-black text-slate-900">{{ $employee->full_name }}</h2>
-                        <p class="text-xs text-slate-500 font-mono mt-0.5">
-                            NIP: {{ $employee->nip ?? '-' }} • NIK: {{ $employee->nik ?? '-' }}
+                        <p class="text-xs text-slate-500 font-mono mt-1 font-bold">
+                            NIP: {{ $employee->nip ?? '-' }} • NIK: {{ $employee->nik ?? '-' }} • No KK: {{ $employee->kk_number ?? '-' }}
                         </p>
 
-                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-3 text-xs text-slate-600 font-medium">
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-3.5 text-xs text-slate-600 font-semibold">
                             <span class="flex items-center gap-1.5">
                                 <span>📞</span> {{ $employee->phone ?? '-' }}
                             </span>
@@ -88,41 +113,73 @@
                     </div>
                 </div>
 
-                <!-- Info Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100 text-xs">
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                        <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Tempat &amp; Tanggal Lahir</span>
-                        <span class="font-extrabold text-slate-900 text-sm">{{ $employee->pob ?? 'Palembang' }}, {{ $employee->dob ? date('d F Y', strtotime($employee->dob)) : '-' }}</span>
-                    </div>
+                <!-- 1. Biodata Pribadi & Kependudukan -->
+                <div class="border-t border-slate-100 pt-5">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-3">1. Biodata Pribadi &amp; Kependudukan</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Tempat &amp; Tanggal Lahir</span>
+                            <span class="font-black text-slate-900 text-sm">{{ $employee->pob ?? 'Palembang' }}, {{ $employee->dob ? date('d F Y', strtotime($employee->dob)) : '-' }}</span>
+                        </div>
 
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                        <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Agama &amp; Golongan Darah</span>
-                        <span class="font-extrabold text-slate-900 text-sm">{{ $employee->religion ?? 'Islam' }} (Gol. Darah: {{ $employee->blood_type ?? 'O' }})</span>
-                    </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Jenis Kelamin</span>
+                            <span class="font-black text-slate-900 text-sm">{{ ($employee->gender ?? 'M') === 'F' ? 'Perempuan (Akhwat)' : 'Laki-laki (Ikhwan)' }}</span>
+                        </div>
 
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                        <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Status Pernikahan &amp; Anak</span>
-                        <span class="font-extrabold text-slate-900 text-sm">{{ $employee->marital_status ?? 'Menikah' }} ({{ $employee->children_count ?? 0 }} Anak)</span>
-                    </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Agama &amp; Golongan Darah</span>
+                            <span class="font-black text-slate-900 text-sm">{{ $employee->religion ?? 'Islam' }} (Gol. Darah: {{ $employee->blood_type ?? 'O' }})</span>
+                        </div>
 
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                        <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Tanggal Mulai Bergabung</span>
-                        <span class="font-extrabold text-slate-900 text-sm">{{ $employee->join_date ? date('d F Y', strtotime($employee->join_date)) : '1 Juli 2020' }}</span>
-                    </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Status Pernikahan &amp; Tanggungan</span>
+                            <span class="font-black text-slate-900 text-sm">{{ $employee->marital_status ?? 'Menikah' }} ({{ $employee->children_count ?? 0 }} Anak)</span>
+                        </div>
 
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 sm:col-span-2">
-                        <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Pendidikan Terakhir &amp; Almamater</span>
-                        <span class="font-extrabold text-slate-900 text-sm">{{ $employee->last_education ?? 'S1' }} {{ $employee->major ? '— ' . $employee->major : '' }}</span>
-                        <span class="text-xs text-slate-500 block mt-0.5">{{ $employee->university ?? 'Universitas Terdaftar' }} (Lulus: {{ $employee->graduation_year ?? '-' }})</span>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 sm:col-span-2">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Alamat Domisili Lengkap</span>
+                            <span class="font-bold text-slate-900">{{ $employee->address ?? 'Komplek SIT Robbani Indralaya, Ogan Ilir' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Pendidikan Formal & Kepegawaian -->
+                <div class="border-t border-slate-100 pt-5">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-3">2. Riwayat Pendidikan &amp; Penugasan</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 sm:col-span-2">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Pendidikan Terakhir &amp; Almamater</span>
+                            <span class="font-black text-slate-900 text-sm">{{ $employee->last_education ?? 'S1' }} {{ $employee->major ? '— ' . $employee->major : '' }}</span>
+                            <span class="text-xs text-slate-600 block mt-0.5 font-medium">{{ $employee->university ?? 'Universitas Terdaftar' }} (Tahun Kelulusan: {{ $employee->graduation_year ?? '-' }})</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Tanggal Mulai Bergabung</span>
+                            <span class="font-black text-slate-900 text-sm">{{ $employee->join_date ? date('d F Y', strtotime($employee->join_date)) : '1 Juli 2020' }}</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Status Akun Pengguna</span>
+                            <span class="font-black text-emerald-700 text-sm flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 
+                                {{ $employee->user ? 'Akun Login Aktif (' . $employee->user->email . ')' : 'Belum Ditautkan' }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Riwayat Presensi Selfie Terakhir -->
+            <!-- Riwayat Presensi Mobile Terkini -->
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
-                <h3 class="text-base font-black text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-                    <span>📍</span> Rekap Kehadiran Presensi Mobile Terkini
-                </h3>
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>📍</span> Log Presensi Kehadiran Mobile Terkini
+                    </h3>
+                    <a href="{{ route('admin.mobile.index') }}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700">
+                        Monitoring Lengkap →
+                    </a>
+                </div>
 
                 @php
                     $logs = $recentAttendances ?? $attendanceLogs ?? [];
@@ -145,7 +202,7 @@
                                 <td class="px-4 py-3 font-mono text-emerald-700 font-bold">{{ $att->check_in_time ?? '-' }}</td>
                                 <td class="px-4 py-3 font-mono text-slate-500">{{ $att->check_out_time ?? '-' }}</td>
                                 <td class="px-4 py-3">
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase {{ ($att->status ?? '') === 'LATE' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800' }}">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase {{ ($att->status ?? '') === 'LATE' ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-emerald-100 text-emerald-800 border border-emerald-200' }}">
                                         {{ $att->status ?? 'ON_TIME' }}
                                     </span>
                                 </td>
@@ -167,16 +224,16 @@
                 <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
                     <div>
                         <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
-                            <span>📁</span> Dokumen &amp; Berkas SDM
+                            <span>📁</span> 9 Dokumen &amp; Berkas SDM
                         </h3>
                         <p class="text-[11px] text-slate-500 mt-0.5">Status: {{ $uploadedCount ?? 0 }} dari 9 Berkas Terunggah</p>
                     </div>
                     <a href="{{ route('admin.employees.edit', $employee->id) }}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
-                        + Unggah
+                        + Kelola
                     </a>
                 </div>
 
-                <div class="space-y-3 text-xs font-semibold">
+                <div class="space-y-2.5 text-xs font-semibold">
                     @foreach($dossierFiles as $doc)
                     <div class="p-3.5 rounded-2xl border {{ !empty($doc['val']) ? 'bg-emerald-50/50 border-emerald-200' : 'bg-slate-50 border-slate-200' }} flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5 min-w-0">
@@ -208,16 +265,16 @@
                 <h3 class="text-base font-black text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
                     <span>📸</span> Biometrik Face ID Mobile
                 </h3>
-                <div class="text-xs space-y-2">
+                <div class="text-xs space-y-2.5">
                     <div class="flex items-center justify-between">
-                        <span class="text-slate-500">Status Face ID:</span>
+                        <span class="text-slate-500 font-bold">Status Face ID:</span>
                         <span class="font-black {{ $employee->face_registered_at ? 'text-emerald-700' : 'text-rose-600' }}">
                             {{ $employee->face_registered_at ? '✓ Terdaftar Aktif' : 'Belum Didaftarkan' }}
                         </span>
                     </div>
                     @if($employee->face_registered_at)
                     <div class="flex items-center justify-between">
-                        <span class="text-slate-500">Waktu Rekam:</span>
+                        <span class="text-slate-500 font-bold">Waktu Rekam:</span>
                         <span class="font-mono text-slate-700 font-bold">{{ date('d M Y, H:i', strtotime($employee->face_registered_at)) }} WIB</span>
                     </div>
                     @endif
