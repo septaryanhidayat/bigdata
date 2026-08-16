@@ -5,20 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir</title>
     <meta name="description" content="{{ $settings['hero_desc'] }}">
+    <meta name="keywords" content="SIT Robbani Ogan Ilir, Sekolah Islam Terpadu Indralaya, KB TKIT Robbani, SDIT Robbani, SMPIT Robbani, SMAIT Robbani, PPDB SIT Robbani 2026/2027, Yayasan Generasi Robbani, Sekolah Islam Unggulan Sumatera Selatan">
+    <meta name="author" content="SIT Robbani Ogan Ilir">
+    <link rel="canonical" href="{{ url('/') }}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
     <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=2">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir">
     <meta property="og:description" content="{{ $settings['hero_desc'] }}">
     <meta property="og:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
     <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta property="og:locale" content="id_ID">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $settings['school_name'] }} | Website Resmi">
     <meta name="twitter:description" content="{{ $settings['hero_desc'] }}">
     <meta name="twitter:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
+
+    <!-- Schema.org EducationalOrganization & WebSite Structured Data -->
+    <script type="application/ld+json">
+    {!! json_encode([
+      '@context' => 'https://schema.org',
+      '@graph' => [
+        [
+          '@type' => 'EducationalOrganization',
+          '@id' => url('/') . '#organization',
+          'name' => $settings['school_name'] ?? 'SIT Robbani Ogan Ilir',
+          'url' => url('/'),
+          'logo' => asset('images/logo-robbani-official.png'),
+          'description' => $settings['hero_desc'] ?? '',
+          'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => 'Jl. Lintas Timur Km 35 Indralaya',
+            'addressLocality' => 'Indralaya',
+            'addressRegion' => 'Sumatera Selatan',
+            'addressCountry' => 'ID'
+          ],
+          'contactPoint' => [
+            '@type' => 'ContactPoint',
+            'telephone' => '+62811747472',
+            'contactType' => 'customer service'
+          ]
+        ],
+        [
+          '@type' => 'WebSite',
+          '@id' => url('/') . '#website',
+          'url' => url('/'),
+          'name' => 'SIT Robbani Ogan Ilir',
+          'publisher' => [
+            '@id' => url('/') . '#organization'
+          ]
+        ]
+      ]
+    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+    </script>
 
     <!-- Tailwind CSS CDN with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>

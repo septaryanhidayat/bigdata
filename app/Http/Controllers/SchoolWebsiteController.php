@@ -476,6 +476,163 @@ class SchoolWebsiteController extends Controller
         return view('school.berita.show', compact('settings', 'news', 'recentNews', 'announcementList', 'agendaList', 'headerMenus'));
     }
 
+    /**
+     * Dynamic XML Sitemap Generator for Googlebot & Search Engine Crawlers
+     */
+    public function sitemapXml()
+    {
+        $baseUrl = rtrim(config('app.url', url('/')), '/');
+        $newsList = $this->getNewsData();
+        $articleList = $this->getArticleData();
+        $schools = School::where('is_active', true)->get();
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
+
+        // Static core routes
+        $staticRoutes = [
+            ['loc' => $baseUrl . '/', 'priority' => '1.0', 'changefreq' => 'daily'],
+            ['loc' => $baseUrl . '/profil', 'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['loc' => $baseUrl . '/berita', 'priority' => '0.9', 'changefreq' => 'daily'],
+            ['loc' => $baseUrl . '/artikel', 'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['loc' => $baseUrl . '/fasilitas', 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['loc' => $baseUrl . '/ppdb', 'priority' => '0.9', 'changefreq' => 'daily'],
+            ['loc' => $baseUrl . '/e-spp', 'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['loc' => $baseUrl . '/sales', 'priority' => '0.7', 'changefreq' => 'monthly'],
+        ];
+
+        // Unit profile routes
+        foreach (['tkit', 'sdit', 'smpit', 'smait'] as $u) {
+            $staticRoutes[] = [
+                'loc' => $baseUrl . '/unit/' . $u,
+                'priority' => '0.85',
+                'changefreq' => 'weekly'
+            ];
+        }
+
+        foreach ($staticRoutes as $r) {
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>" . htmlspecialchars($r['loc'], ENT_XML1) . "</loc>\n";
+            $xml .= "    <lastmod>" . date('Y-m-d') . "</lastmod>\n";
+            $xml .= "    <changefreq>" . $r['changefreq'] . "</changefreq>\n";
+            $xml .= "    <priority>" . $r['priority'] . "</priority>\n";
+            $xml .= "  </url>\n";
+        }
+
+        // Dynamic News URLs
+        foreach ($newsList as $item) {
+            $slug = $item['slug'] ?? \Illuminate\Support\Str::slug($item['title'] ?? '');
+            if (!$slug) continue;
+            
+            $url = $baseUrl . '/berita/' . $slug;
+            $rawDate = $item['date'] ?? null;
+            $lastmod = date('Y-m-d');
+            if ($rawDate && strtotime($rawDate)) {
+                $lastmod = date('Y-m-d', strtotime($rawDate));
+            }
+
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>" . htmlspecialchars($url, ENT_XML1) . "</loc>\n";
+            $xml .= "    <lastmod>" . $lastmod . "</lastmod>\n";
+            $xml .= "    <changefreq>monthly</changefreq>\n";
+            $xml .= "    <priority>0.80</priority>\n";
+            if (!empty($item['image'])) {
+                $imgUrl = str_starts_with($item['image'], 'http') ? $item['image'] : $baseUrl . $item['image'];
+                $xml .= "    <image:image>\n";
+                $xml .= "      <image:loc>" . htmlspecialchars($imgUrl, ENT_XML1) . "</image:loc>\n";
+                $xml .= "      <image:title>" . htmlspecialchars($item['title'] ?? '', ENT_XML1) . "</image:title>\n";
+                $xml .= "    </image:image>\n";
+            }
+            $xml .= "  </url>\n";
+        }
+
+        // Dynamic Islamic Article URLs
+        foreach ($articleList as $art) {
+            $slug = $art['slug'] ?? \Illuminate\Support\Str::slug($art['title'] ?? '');
+            if (!$slug) continue;
+            
+            $url = $baseUrl . '/artikel/' . $slug;
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>" . htmlspecialchars($url, ENT_XML1) . "</loc>\n";
+            $xml .= "    <lastmod>" . date('Y-m-d') . "</lastmod>\n";
+            $xml .= "    <changefreq>monthly</changefreq>\n";
+            $xml .= "    <priority>0.70</priority>\n";
+            $xml .= "  </url>\n";
+        }
+
+        $xml .= '</urlset>';
+
+        return response($xml, 200, [
+            'Content-Type' => 'application/xml; charset=utf-8',
+            'X-Robots-Tag' => 'noindex'
+        ]);
+    }
+
+    /**
+     * Dynamic Robots.txt Handler
+     */
+    public function robotsTxt()
+    {
+        $baseUrl = rtrim(config('app.url', url('/')), '/');
+        
+        $content = "User-agent: *\n";
+        $content .= "Allow: /\n";
+        $content .= "Disallow: /admin/\n";
+        $content .= "Disallow: /login\n";
+        $content .= "Disallow: /up\n";
+        $content .= "Disallow: /scratch/\n";
+        $content .= "\n";
+        $content .= "Sitemap: {$baseUrl}/sitemap.xml\n";
+
+        return response($content, 200, [
+            'Content-Type' => 'text/plain; charset=utf-8'
+        ]);
+    }
+
+    /**
+     * WordPress Legacy 301 Permanent Redirect Handler to Preserve SEO Traffic
+     */
+    public function handleWordPressLegacyRedirect(Request $request, $p1 = null, $p2 = null, $p3 = null, $p4 = null)
+    {
+        $newsList = $this->getNewsData();
+        
+        // Match slug from any parameter
+        $possibleSlugs = array_filter([$p4, $p3, $p2, $p1]);
+        $slugToMatch = end($possibleSlugs);
+
+        // 1. Check legacy query string `?p=123` or `?page_id=123`
+        if ($request->has('p') || $request->has('page_id')) {
+            $postParam = $request->query('p') ?? $request->query('page_id');
+            // If post matches by ID or title keyword
+            return redirect()->route('school.berita', [], 301);
+        }
+
+        // 2. Check legacy category route `/category/{cat}`
+        if ($p1 === 'category' && $p2) {
+            return redirect()->route('school.berita', ['category' => $p2], 301);
+        }
+
+        // 3. Check legacy tag route `/tag/{tag}`
+        if ($p1 === 'tag' && $p2) {
+            return redirect()->route('school.berita', ['tag' => $p2], 301);
+        }
+
+        // 4. Try matching slug against imported news items
+        if ($slugToMatch) {
+            $cleanSlug = \Illuminate\Support\Str::slug(rtrim($slugToMatch, '/'));
+            $matched = collect($newsList)->first(function($item) use ($cleanSlug) {
+                return ($item['slug'] ?? '') === $cleanSlug || \Illuminate\Support\Str::slug($item['title'] ?? '') === $cleanSlug;
+            });
+
+            if ($matched) {
+                return redirect()->route('school.berita.show', $matched['slug'], 301);
+            }
+        }
+
+        // Fallback to berita index with 301 permanent redirect
+        return redirect()->route('school.berita', [], 301);
+    }
+
     public function artikelIndex()
     {
         $settings = $this->getSettings();

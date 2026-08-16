@@ -4,6 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Berita &amp; Pengumuman | {{ $settings['school_name'] }}</title>
+    <meta name="description" content="Informasi resmi seputar Haflah, Wisuda Tahfidz, Prestasi Santri, dan Kegiatan Belajar Unit KB/TKIT, SDIT, SMPIT, SMAIT Robbani Ogan Ilir.">
+    <meta name="keywords" content="Berita SIT Robbani, Kegiatan Sekolah Islam Ogan Ilir, TKIT SDIT SMPIT SMAIT Robbani, Berita Pendidikan Islam Indralaya">
+    <link rel="canonical" href="{{ url('/berita') }}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/berita') }}">
+    <meta property="og:title" content="Portal Berita Resmi | SIT Robbani Ogan Ilir">
+    <meta property="og:description" content="Kumpulan berita, liputan kegiatan, dan pengumuman resmi SIT Robbani Ogan Ilir.">
+    <meta property="og:image" content="{{ asset('images/logo robbani light.png') }}">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>

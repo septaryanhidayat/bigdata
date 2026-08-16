@@ -300,3 +300,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 });
+
+// ==========================================================================
+// SEARCH ENGINE OPTIMIZATION (SEO) & WORDPRESS 301 MIGRATION ROUTES
+// ==========================================================================
+Route::get('/sitemap.xml', [SchoolWebsiteController::class, 'sitemapXml'])->name('seo.sitemap');
+Route::get('/robots.txt', [SchoolWebsiteController::class, 'robotsTxt'])->name('seo.robots');
+
+// Legacy WordPress category & tag 301 redirects
+Route::get('/category/{category}', [SchoolWebsiteController::class, 'handleWordPressLegacyRedirect'])->name('wp.category');
+Route::get('/tag/{tag}', [SchoolWebsiteController::class, 'handleWordPressLegacyRedirect'])->name('wp.tag');
+
+// Legacy WordPress permalink structures (e.g. /2022/08/16/slug or /2026/08/slug)
+Route::get('/{year}/{month}/{day}/{slug}', [SchoolWebsiteController::class, 'handleWordPressLegacyRedirect'])
+    ->where(['year' => '[0-9]{4}', 'month' => '[0-9]{2}', 'day' => '[0-9]{2}']);
+Route::get('/{year}/{month}/{slug}', [SchoolWebsiteController::class, 'handleWordPressLegacyRedirect'])
+    ->where(['year' => '[0-9]{4}', 'month' => '[0-9]{2}']);
+
