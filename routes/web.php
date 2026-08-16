@@ -176,9 +176,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/payroll', [HrisPayrollController::class, 'index'])->name('payroll.index');
             Route::post('/payroll/generate', [HrisPayrollController::class, 'generate'])->name('payroll.generate');
             
-            // Aplikasi Mobile SDM & Biometrik Wajah
+            // Aplikasi Mobile SDM & Biometrik Wajah & Geofence GPS
             Route::get('/mobile-hris', [MobileHrisAdminController::class, 'index'])->name('mobile.index');
             Route::get('/mobile-hris/faces', [MobileHrisAdminController::class, 'faceBiometrics'])->name('mobile.faces');
+            Route::get('/mobile-hris/geofence', [MobileHrisAdminController::class, 'geofenceSettings'])->name('mobile.geofence');
+            Route::post('/mobile-hris/geofence/{id}', [MobileHrisAdminController::class, 'updateGeofence'])->name('mobile.geofence.update');
         });
 
         // 5. Modul 12 & 13: CBT Ujian & PPDB Manager (Super Admin, Kepala Sekolah, TU, Panitia PPDB)

@@ -80,4 +80,37 @@ class MobileHrisAdminController extends Controller
 
         return view('admin.mobile.faces', compact('employees'));
     }
+
+    /**
+     * Halaman Pengaturan Titik Koordinat GPS & Geofence Unit Sekolah
+     */
+    public function geofenceSettings(Request $request)
+    {
+        $schools = \App\Models\School::orderBy('id', 'asc')->get();
+        return view('admin.mobile.geofence', compact('schools'));
+    }
+
+    /**
+     * Update Titik Koordinat GPS & Radius Presensi Unit
+     */
+    public function updateGeofence(Request $request, $id)
+    {
+        $school = \App\Models\School::findOrFail($id);
+
+        $request->validate([
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'radius_meters' => 'required|integer|min:20|max:5000',
+            'address' => 'nullable|string|max:500',
+        ]);
+
+        $school->update([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'radius_meters' => $request->radius_meters,
+            'address' => $request->address ?? $school->address,
+        ]);
+
+        return redirect()->back()->with('success', "✓ Titik Koordinat Peta & Radius Presensi untuk {$school->name} Berhasil Disimpan!");
+    }
 }
