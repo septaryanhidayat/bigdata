@@ -24,53 +24,128 @@ export default function ProfileScreen({ navigation }) {
     ]);
   };
 
+  const attendanceLoc = employee?.active_attendance_location || {
+    campus_name: unit?.name || 'Kampus Utama Yayasan SIT Robbani',
+    latitude: unit?.latitude || -3.220800,
+    longitude: unit?.longitude || 104.650400,
+    radius_meters: unit?.radius_meters || 150,
+    address: unit?.address || 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir',
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: colors.bg }]}>
-      <HeaderBar title="Profil Pegawai" subtitle="Informasi Akun &amp; Pengaturan" />
+      <HeaderBar title="Profil & Informasi SDM" subtitle="Sinkronisasi Data Real SIT Robbani" />
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
-        {/* Profile Card */}
+        {/* Profile Hero Card */}
         <View style={[styles.profileCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <Image
             source={{ uri: user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}
             style={[styles.avatarBig, { borderColor: colors.primary }]}
           />
-          <Text style={[styles.name, { color: colors.text }]}>{user?.name || 'Ust. Ahmad Dahlan, M.Pd'}</Text>
-          <Text style={[styles.position, { color: colors.primary }]}>{employee?.position || 'Pendidik / Tenaga Kependidikan'}</Text>
-          <Text style={[styles.nipText, { color: colors.textLight }]}>NIP: {employee?.nip || 'NIP-20260012'}</Text>
+          <Text style={[styles.name, { color: colors.text }]}>{employee?.full_name || user?.name || 'Pegawai SIT Robbani'}</Text>
+          <Text style={[styles.position, { color: colors.primary }]}>{employee?.position || 'Tenaga Pendidik (Guru)'}</Text>
+          <Text style={[styles.nipText, { color: colors.textLight }]}>NIP: {employee?.nip || '-'}</Text>
 
           <View style={[styles.unitPill, { backgroundColor: colors.surfaceSub, borderColor: colors.border }]}>
-            <Text style={[styles.unitPillText, { color: colors.text }]}>🏫 {unit?.name || 'Yayasan Generasi Robbani'}</Text>
+            <Text style={[styles.unitPillText, { color: colors.text }]}>🏫 {employee?.unit_name || unit?.name || 'Yayasan Generasi Robbani'}</Text>
           </View>
         </View>
 
-        {/* Account Info Details */}
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>Informasi Kepegawaian</Text>
+        {/* 1. Informasi Kepegawaian */}
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>💼 Informasi Kepegawaian &amp; Tugas</Text>
         <View style={[styles.infoCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <View style={styles.infoRow}>
-            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Email Terdaftar</Text>
-            <Text style={[styles.infoVal, { color: colors.text }]}>{user?.email || '-'}</Text>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Jabatan Utama</Text>
+            <Text style={[styles.infoVal, { color: colors.primary, fontWeight: '800' }]}>{employee?.position || 'Tenaga Pendidik (Guru)'}</Text>
           </View>
+
           <View style={styles.infoRow}>
             <Text style={[styles.infoLabel, { color: colors.textLight }]}>Status Kepegawaian</Text>
-            <Text style={[styles.infoVal, { color: colors.text }]}>{employee?.employment_status || 'TETAP'}</Text>
+            <View style={[styles.statusBadge, { backgroundColor: colors.primary + '18', borderColor: colors.primary }]}>
+              <Text style={[styles.statusBadgeText, { color: colors.primary }]}>{employee?.employment_status || 'Guru Tetap Yayasan (GTY)'}</Text>
+            </View>
           </View>
+
           <View style={styles.infoRow}>
-            <Text style={[styles.infoLabel, { color: colors.textLight }]}>No. WhatsApp / HP</Text>
-            <Text style={[styles.infoVal, { color: colors.text }]}>{employee?.phone || '0812-3456-7890'}</Text>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Unit Penempatan</Text>
+            <Text style={[styles.infoVal, { color: colors.text }]}>{employee?.unit_name || unit?.name || 'Yayasan Generasi Robbani'}</Text>
           </View>
+
           <View style={styles.infoRow}>
-            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Peran Sistem (RBAC)</Text>
-            <Text style={[styles.infoVal, { color: colors.primary, fontWeight: '800' }]}>{user?.role_id || 'GURU'}</Text>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Nomor NIP</Text>
+            <Text style={[styles.infoVal, styles.monoText, { color: colors.text }]}>{employee?.nip || '-'}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Nomor NIK KTP</Text>
+            <Text style={[styles.infoVal, styles.monoText, { color: colors.text }]}>{employee?.nik || '-'}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Pendidikan Terakhir</Text>
+            <Text style={[styles.infoVal, { color: colors.text }]}>{employee?.last_education || 'S1'} — {employee?.major || 'Pendidikan'}</Text>
           </View>
         </View>
 
-        {/* App Settings */}
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>Pengaturan Aplikasi</Text>
+        {/* 2. Informasi Kontak & Biodata Pribadi */}
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>👤 Kontak &amp; Biodata Pribadi</Text>
+        <View style={[styles.infoCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Email Resmi Aktif</Text>
+            <Text style={[styles.infoVal, { color: colors.primary, fontWeight: '700' }]}>{employee?.email || user?.email || '-'}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Nomor WhatsApp / HP</Text>
+            <Text style={[styles.infoVal, styles.monoText, { color: colors.text }]}>{employee?.wa_number || employee?.phone || user?.phone || '-'}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Tempat, Tanggal Lahir</Text>
+            <Text style={[styles.infoVal, { color: colors.text }]}>{employee?.birth_info || 'Palembang, 15 Mei 1990'}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Alamat Domisili</Text>
+            <Text style={[styles.infoVal, { color: colors.text, maxWidth: '60%' }]}>{employee?.address || 'Indralaya, Kab. Ogan Ilir, Sumsel'}</Text>
+          </View>
+        </View>
+
+        {/* 3. Lokasi Absen yang Aktif (Geofencing Detection) */}
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>📍 Lokasi Presensi yang Aktif (Geofence)</Text>
+        <View style={[styles.infoCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Kampus Presensi</Text>
+            <Text style={[styles.infoVal, { color: colors.primary, fontWeight: '800' }]}>{attendanceLoc.campus_name || attendanceLoc.name}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Titik Koordinat GPS</Text>
+            <Text style={[styles.infoVal, styles.monoText, { color: colors.text, fontSize: 11 }]}>
+              {Number(attendanceLoc.latitude).toFixed(6)}, {Number(attendanceLoc.longitude).toFixed(6)}
+            </Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Radius Maksimal</Text>
+            <Text style={[styles.infoVal, { color: '#059669', fontWeight: '800' }]}>{attendanceLoc.radius_meters} Meter dari Titik Pusat</Text>
+          </View>
+
+          <View style={[styles.infoRow, { borderBottomWidth: 0, paddingBottom: 0 }]}>
+            <Text style={[styles.infoLabel, { color: colors.textLight }]}>Alamat Kampus</Text>
+            <Text style={[styles.infoVal, { color: colors.textLight, fontSize: 11, maxWidth: '60%' }]}>
+              {attendanceLoc.address || 'Jl. Lintas Timur KM 35 Indralaya'}
+            </Text>
+          </View>
+        </View>
+
+        {/* 4. Pengaturan Aplikasi & Aksi */}
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>⚙️ Pengaturan &amp; Aksi Akun</Text>
         <View style={[styles.infoCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
           <View style={styles.settingRow}>
-            <Text style={[styles.settingLabel, { color: colors.text }]}>Mode Gelap (Obsidian Theme)</Text>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Mode Gelap (Dark Theme)</Text>
             <Switch
               value={isDarkMode}
               onValueChange={toggleDarkMode}
@@ -78,11 +153,12 @@ export default function ProfileScreen({ navigation }) {
               thumbColor="#ffffff"
             />
           </View>
+
           <TouchableOpacity
             style={styles.settingBtn}
             onPress={() => navigation?.navigate?.('EditProfile')}
           >
-            <Text style={[styles.settingBtnText, { color: colors.text }]}>✏️ Ubah Data Profil &amp; Kata Sandi</Text>
+            <Text style={[styles.settingBtnText, { color: colors.text }]}>✏️ Ubah Kontak &amp; Kata Sandi Akun</Text>
             <Text style={[styles.arrowText, { color: colors.primary }]}>➔</Text>
           </TouchableOpacity>
 
@@ -101,7 +177,7 @@ export default function ProfileScreen({ navigation }) {
         </TouchableOpacity>
 
         <Text style={[styles.versionText, { color: colors.textLight }]}>
-          SDM SIT Robbani Mobile App v1.0.0 (Expo React Native)
+          SDM SIT Robbani Mobile v1.0.0 • Database Real Terintegrasi
         </Text>
 
       </ScrollView>
@@ -125,14 +201,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   avatarBig: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
     borderWidth: 3,
     marginBottom: 12,
   },
   name: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '900',
     textAlign: 'center',
   },
@@ -144,49 +220,72 @@ const styles = StyleSheet.create({
   nipText: {
     fontSize: 11,
     marginTop: 2,
+    fontFamily: 'monospace',
   },
   unitPill: {
     paddingHorizontal: 12,
     paddingVertical: 5,
-    borderRadius: 12,
+    borderRadius: 20,
     borderWidth: 1,
     marginTop: 10,
   },
   unitPillText: {
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   sectionTitle: {
-    fontSize: 14,
-    fontWeight: '800',
+    fontSize: 12,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
     marginBottom: 8,
     marginTop: 8,
   },
   infoCard: {
-    padding: 16,
-    borderRadius: 18,
+    borderRadius: 20,
     borderWidth: 1,
-    marginBottom: 12,
+    padding: 14,
+    marginBottom: 16,
   },
   infoRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgba(0,0,0,0.05)',
+    alignItems: 'center',
+    justifyContent: 'between',
+    paddingVertical: 9,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(150, 150, 150, 0.1)',
   },
   infoLabel: {
     fontSize: 12,
+    fontWeight: '600',
+    flex: 1,
   },
   infoVal: {
     fontSize: 12,
+    fontWeight: '600',
+    textAlign: 'right',
+  },
+  monoText: {
+    fontFamily: 'monospace',
     fontWeight: '700',
+  },
+  statusBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  statusBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 6,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(150, 150, 150, 0.1)',
   },
   settingLabel: {
     fontSize: 13,
@@ -196,33 +295,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 10,
-    marginTop: 6,
-    borderTopWidth: 0.5,
-    borderTopColor: 'rgba(0,0,0,0.05)',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(150, 150, 150, 0.1)',
   },
   settingBtnText: {
     fontSize: 13,
     fontWeight: '700',
   },
   arrowText: {
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: '900',
   },
   logoutBtn: {
-    backgroundColor: '#fee2e2',
+    backgroundColor: '#ef4444',
     paddingVertical: 14,
-    borderRadius: 16,
+    borderRadius: 18,
     alignItems: 'center',
     marginTop: 10,
+    shadowColor: '#ef4444',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 3,
   },
   logoutBtnText: {
-    color: '#b91c1c',
-    fontSize: 13,
+    color: '#ffffff',
+    fontSize: 14,
     fontWeight: '900',
   },
   versionText: {
-    fontSize: 10,
+    fontSize: 11,
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 16,
   },
 });

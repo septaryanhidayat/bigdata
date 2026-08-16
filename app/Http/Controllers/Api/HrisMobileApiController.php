@@ -77,6 +77,8 @@ class HrisMobileApiController extends Controller
         $school = null;
         if ($user->school_id) {
             $school = School::find($user->school_id);
+        } elseif ($employee && $employee->school_id) {
+            $school = School::find($employee->school_id);
         }
 
         // Default Geofence jika Unit Yayasan / Sekolah belum ada koordinat
@@ -97,6 +99,8 @@ class HrisMobileApiController extends Controller
         // Buat Token Sesi API
         $token = 'sdm_' . bin2hex(random_bytes(32));
 
+        $employeeData = $this->formatEmployeeProfile($employee, $user, $school);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Login berhasil. Selamat datang di Portal SDM SIT Robbani.',
@@ -105,26 +109,11 @@ class HrisMobileApiController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'role_id' => $user->role_id,
+                'role' => $user->role,
+                'role_id' => $user->role,
                 'avatar' => $user->avatar ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300',
             ],
-            'employee' => $employee ? [
-                'id' => $employee->id,
-                'nip' => $employee->nip ?? 'NIP-2026' . str_pad($employee->id, 4, '0', STR_PAD_LEFT),
-                'full_name' => $employee->full_name,
-                'position' => $employee->position ?? 'Tenaga Pendidik',
-                'employment_status' => $employee->employment_status ?? 'TETAP',
-                'phone' => $employee->phone ?? $user->phone ?? '-',
-                'join_date' => $employee->created_at ?? '2022-07-01',
-            ] : [
-                'id' => $user->id,
-                'nip' => 'PEG-' . str_pad($user->id, 4, '0', STR_PAD_LEFT),
-                'full_name' => $user->name,
-                'position' => $user->role_id,
-                'employment_status' => 'TETAP',
-                'phone' => $user->phone ?? '-',
-                'join_date' => '2023-01-01',
-            ],
+            'employee' => $employeeData,
             'unit' => [
                 'id' => $school ? $school->id : null,
                 'code' => $unitCode,
@@ -136,6 +125,73 @@ class HrisMobileApiController extends Controller
                 'theme' => $themeColors,
             ]
         ]);
+    }
+
+    /**
+     * Helper Formatter Profil Lengkap Pegawai
+     */
+    private function formatEmployeeProfile($employee, $user, $school)
+    {
+        $schoolLatitude = $school && $school->latitude ? (float)$school->latitude : -3.22080000;
+        $schoolLongitude = $school && $school->longitude ? (float)$school->longitude : 104.65040000;
+        $schoolRadius = $school && $school->radius_meters ? (int)$school->radius_meters : 150;
+        $unitName = $school ? $school->name : 'Yayasan Generasi Robbani (Pusat)';
+        $unitCode = $school ? strtoupper($school->code) : 'YAYASAN';
+
+        $roleType = $employee ? ($employee->role_type ?? 'STAFF') : ($user->role ?? 'STAFF');
+        $position = match($roleType) {
+            'TEACHER' => 'Tenaga Pendidik (Guru)',
+            'HEADMASTER' => 'Kepala Unit / Sekolah',
+            'STAFF_TU' => 'Staf Tata Usaha (TU)',
+            'STAFF_KEUANGAN' => 'Staf Keuangan / Bendahara',
+            'SUPER_ADMIN' => 'Pimpinan Yayasan / Super Admin',
+            default => 'Tenaga Kependidikan (Staf)',
+        };
+
+        $rawStatus = $employee ? ($employee->employment_status ?? 'TETAP') : 'TETAP';
+        $isTeacher = in_array($roleType, ['TEACHER', 'HEADMASTER']);
+        $statusFormatted = match($rawStatus) {
+            'KONTRAK' => $isTeacher ? 'Guru Kontrak (GTT/PKWT)' : 'Pegawai Kontrak (PKWT)',
+            'HONORER' => $isTeacher ? 'Guru Honorer' : 'Pegawai Harian / Honorer',
+            default => $isTeacher ? 'Guru Tetap Yayasan (GTY)' : 'Pegawai Tetap Yayasan (PTY)',
+        };
+
+        $pob = $employee ? ($employee->pob ?? 'Palembang') : 'Palembang';
+        $dob = $employee ? ($employee->dob ?? '1990-05-15') : '1990-05-15';
+        $dobFormatted = date('d F Y', strtotime($dob));
+
+        return [
+            'id' => $employee ? $employee->id : $user->id,
+            'nip' => $employee ? ($employee->nip ?? ('NIP-2026' . str_pad($employee->id, 4, '0', STR_PAD_LEFT))) : ('PEG-' . str_pad($user->id, 4, '0', STR_PAD_LEFT)),
+            'nik' => $employee ? ($employee->nik ?? '-') : '-',
+            'full_name' => $employee ? $employee->full_name : $user->name,
+            'position' => $position,
+            'role_type' => $roleType,
+            'employment_status' => $statusFormatted,
+            'raw_employment_status' => $rawStatus,
+            'email' => $user->email,
+            'phone' => $employee ? ($employee->phone ?? $user->phone ?? '-') : ($user->phone ?? '-'),
+            'wa_number' => $employee ? ($employee->phone ?? $user->phone ?? '-') : ($user->phone ?? '-'),
+            'pob' => $pob,
+            'dob' => $dob,
+            'birth_info' => "{$pob}, {$dobFormatted}",
+            'address' => $employee ? ($employee->address ?? 'Indralaya, Ogan Ilir, Sumatera Selatan') : 'Indralaya, Ogan Ilir, Sumatera Selatan',
+            'unit_name' => $unitName,
+            'unit_code' => $unitCode,
+            'join_date' => $employee ? ($employee->join_date ?? '2020-07-01') : '2020-07-01',
+            'last_education' => $employee ? ($employee->last_education ?? 'S1') : 'S1',
+            'major' => $employee ? ($employee->major ?? 'Pendidikan') : 'Pendidikan',
+            'university' => $employee ? ($employee->university ?? 'Universitas Sriwijaya') : 'Universitas Sriwijaya',
+            'active_attendance_location' => [
+                'name' => $unitName,
+                'campus_name' => $school ? $school->name : 'Kampus Pusat Yayasan SIT Robbani',
+                'latitude' => $schoolLatitude,
+                'longitude' => $schoolLongitude,
+                'radius_meters' => $schoolRadius,
+                'radius_text' => "{$schoolRadius} Meter",
+                'address' => $school ? ($school->address ?? 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir') : 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir',
+            ]
+        ];
     }
 
     /**
@@ -1089,10 +1145,15 @@ class HrisMobileApiController extends Controller
             if ($request->filled('name')) $updateData['full_name'] = $request->input('name');
             if ($request->filled('phone')) $updateData['phone'] = $request->input('phone');
             if ($request->filled('address')) $updateData['address'] = $request->input('address');
-            $updateData['updated_at'] = now();
-
-            DB::table('employees')->where('id', $employee->id)->update($updateData);
+            if (!empty($updateData)) {
+                $updateData['updated_at'] = now();
+                DB::table('employees')->where('id', $employee->id)->update($updateData);
+            }
         }
+
+        $school = $user->school_id ? School::find($user->school_id) : ($employee && $employee->school_id ? School::find($employee->school_id) : null);
+        $updatedEmployee = $employee ? DB::table('employees')->where('id', $employee->id)->first() : null;
+        $employeeData = $this->formatEmployeeProfile($updatedEmployee, $user, $school);
 
         return response()->json([
             'status' => 'success',
@@ -1101,9 +1162,12 @@ class HrisMobileApiController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'phone' => $request->input('phone', $employee ? $employee->phone : null),
-                'address' => $request->input('address', $employee ? $employee->address : null),
-            ]
+                'role' => $user->role,
+                'role_id' => $user->role,
+                'phone' => $request->input('phone', $updatedEmployee ? $updatedEmployee->phone : null),
+                'address' => $request->input('address', $updatedEmployee ? $updatedEmployee->address : null),
+            ],
+            'employee' => $employeeData,
         ]);
     }
 }
