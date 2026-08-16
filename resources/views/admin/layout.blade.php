@@ -611,13 +611,19 @@
                     <button onclick="setAdminTheme('theme-gold')" data-theme="theme-gold" title="Theme 5: Obsidian Gold" class="theme-btn w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all shrink-0 cursor-pointer" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);"></button>
                 </div>
 
-                <!-- User Top Profile Indicator -->
-                <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
+                <!-- User Top Profile Indicator & Logout Action -->
+                <div class="flex items-center gap-2.5 pl-3 border-l border-slate-200">
                     <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Admin') }}&background=ec4899&color=ffffff&bold=true" class="w-9 h-9 rounded-full border-2 border-theme-accent">
                     <div class="hidden sm:block text-left">
                         <span class="block text-xs font-black text-slate-900 leading-tight">{{ Auth::user()->name ?? 'Administrator' }}</span>
                         <span class="block text-[10px] text-theme-accent font-bold">Admin Portal</span>
                     </div>
+                    <form action="{{ route('admin.logout') }}" method="POST" class="inline-block ml-1">
+                        @csrf
+                        <button type="submit" title="Keluar / Logout dari Sistem" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-colors flex items-center gap-1 text-xs font-bold" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                            <span>🚪</span> <span class="hidden md:inline">Keluar</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </header>

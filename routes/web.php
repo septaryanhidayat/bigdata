@@ -90,10 +90,13 @@ Route::get('/verifikasi-surat/{token}', [PublicLetterVerificationController::cla
 // Login Route for Auth Middleware
 Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
 
+// Logout Routes (GET & POST)
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
+
 // Admin Authentication & CMS Routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Protected Admin CMS Dashboard & Feature Manager
     Route::middleware('auth')->group(function () {

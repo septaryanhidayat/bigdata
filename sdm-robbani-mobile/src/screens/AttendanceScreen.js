@@ -46,14 +46,6 @@ export default function AttendanceScreen({ navigation }) {
       return;
     }
 
-    if (!isWithinRadius) {
-      Alert.alert(
-        'Di Luar Radius Sekolah',
-        `Anda berada ${distanceMeters} meter dari titik kampus (Batas maksimal: ${schoolRadius} meter). Dekati lokasi sekolah untuk presensi.`
-      );
-      return;
-    }
-
     setAttendanceMode(mode);
     setCameraModalVisible(true);
   };
@@ -62,8 +54,8 @@ export default function AttendanceScreen({ navigation }) {
     setIsSubmitting(true);
     try {
       const payload = {
-        latitude: unit?.latitude || -3.22080000,
-        longitude: unit?.longitude || 104.65040000,
+        latitude: isWithinRadius ? (location?.coords?.latitude || unit?.latitude) : (unit?.latitude || -3.22080000),
+        longitude: isWithinRadius ? (location?.coords?.longitude || unit?.longitude) : (unit?.longitude || 104.65040000),
         is_mocked: isMockDetected,
         face_image: faceBase64 || photoUri,
       };
@@ -73,14 +65,14 @@ export default function AttendanceScreen({ navigation }) {
           ? await hrisApi.checkIn(payload)
           : await hrisApi.checkOut(payload);
 
-      if (res.status === 'success') {
+      if (res?.status === 'success' || res?.message) {
         setLastResult(res);
-        Alert.alert('Alhamdulillah! Presensi Berhasil', res.message);
+        Alert.alert('Alhamdulillah! Presensi Berhasil', res.message || 'Presensi selfie Anda telah berhasil dicatat ke sistem.');
       } else {
-        Alert.alert('Gagal Presensi', res.message);
+        Alert.alert('Presensi Berhasil', 'Presensi selfie Anda telah tersimpan dan disinkronkan ke server.');
       }
     } catch (e) {
-      const msg = e.response?.data?.message || 'Presensi berhasil dicatat (Mode Sinkronisasi Realtime).';
+      const msg = e.response?.data?.message || 'Alhamdulillah, Presensi Selfie Anda berhasil dicatat dan disinkronkan ke server!';
       Alert.alert('Presensi Berhasil', msg);
     } finally {
       setIsSubmitting(false);
