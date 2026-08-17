@@ -399,7 +399,7 @@
         <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 FLOATING ACTION CARDS) -->
         <section class="-mt-14 sm:-mt-20 relative z-30 px-4 sm:px-6">
             <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
                     
                     <!-- Card 1: Profil Sekolah -->
                     <a href="#sambutan" class="bg-white dark:bg-[#0d1e0f] border-t-4 {{ $uTheme['top_border'] }} dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
@@ -492,7 +492,7 @@
                     </div>
 
                     <!-- Teks Sambutan Resmi -->
-                    <div class="flex-grow w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-[#1a381c] pt-5 md:pt-0 md:pl-8 text-center md:text-left space-y-4 z-10">
+                    <div class="flex-grow w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-[#1a381c] pt-5 md:pt-0 md:pl-8 text-center md:text-left space-y-4 z-10 flex flex-col items-center md:items-start justify-center">
                         <div class="flex items-center justify-center md:justify-start gap-2">
                             <span class="material-symbols-outlined text-[32px] text-emerald-600/40 dark:text-[#c6f634]/40">format_quote</span>
                             <span class="text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-400">KATA SAMBUTAN PIMPINAN SATUAN PENDIDIKAN</span>
@@ -554,7 +554,7 @@
                 <!-- Left: Profil Pembelajaran -->
                 <div class="lg:col-span-6 space-y-6">
                     <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4">
-                        <div class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">
+                        <div class="text-center lg:text-left"><span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">PROFIL PEMBELAJARAN</span></div>
                             PROFIL PEMBELAJARAN
                         </div>
                         <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Keunggulan {{ $info['name'] }}</h2>
@@ -577,9 +577,7 @@
                 <!-- Right: Visi & Misi Unit -->
                 <div class="lg:col-span-6 space-y-6">
                     <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4">
-                        <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">
-                            VISI &amp; MISI SATUAN PENDIDIKAN
-                        </span>
+                        <div class="text-center lg:text-left"><span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">VISI &amp; MISI SATUAN PENDIDIKAN</span></div>
                         <div>
                             <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Visi Unit {{ $info['code'] }}:</h3>
                             <p class="text-sm sm:text-base font-bold text-emerald-900 dark:text-[#c6f634] mt-1 italic font-headline leading-snug">
@@ -1056,7 +1054,7 @@
 
         <!-- 16. SPMB UNIT CALLOUT BANNER -->
         <section class="reveal-fade-up px-4 sm:px-6 pb-8">
-            <div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-[#004532] via-[#065f46] to-[#042817] dark:from-[#06180a] dark:via-[#0a2610] dark:to-[#123616] border border-transparent dark:border-[#1a381c] p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-[#004532] via-[#065f46] to-[#042817] dark:from-[#06180a] dark:via-[#0a2610] dark:to-[#123616] border border-transparent dark:border-[#1a381c] p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
                 <div class="space-y-2 text-center md:text-left">
                     <span class="bg-emerald-500 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-[10px] uppercase px-3.5 py-1 rounded-full shadow-sm">SPMB ONLINE TA 2026/2027</span>
                     <h2 class="text-2xl sm:text-3xl font-black font-headline">Bergabung Bersama {{ $info['name'] }}</h2>

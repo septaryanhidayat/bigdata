@@ -6,27 +6,27 @@
 <div class="p-4 sm:p-6 lg:p-8 space-y-8 max-w-[1600px] mx-auto">
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         1. HERO HEADER: AI COMMAND CENTER STUDIO
+         1. HERO HEADER: AI COMMAND CENTER STUDIO (VIBRANT & FUTURISTIC)
     ═══════════════════════════════════════════════════════════════════════ --}}
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-[#0f172a] to-[#1e1b4b] border border-slate-800 p-6 sm:p-8 text-white shadow-2xl">
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-900 via-indigo-900 to-purple-950 border border-violet-500/30 p-6 sm:p-8 text-white shadow-2xl">
         {{-- Futuristic ambient glow dots --}}
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-fuchsia-500/25 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div class="space-y-2">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-violet-600 to-fuchsia-600 flex items-center justify-center text-2xl shadow-lg shadow-violet-500/30 ring-4 ring-violet-500/20">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-fuchsia-500 via-violet-500 to-cyan-400 flex items-center justify-center text-3xl shadow-xl shadow-violet-500/30 ring-4 ring-white/10 shrink-0">
                         🤖
                     </div>
                     <div>
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex flex-wrap items-center gap-2.5">
                             <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white font-headline">AI Knowledge Studio</h1>
-                            <span class="px-2.5 py-0.5 rounded-full bg-violet-500/20 border border-violet-400/30 text-violet-300 text-[10px] font-black uppercase tracking-wider">
-                                RAG v2.5 Engine
+                            <span class="px-3 py-1 rounded-full bg-gradient-to-r from-fuchsia-500/30 to-violet-500/30 border border-fuchsia-400/40 text-fuchsia-200 text-[10px] font-black uppercase tracking-wider shadow-sm">
+                                RAG v2.5 Neural Engine
                             </span>
                         </div>
-                        <p class="text-xs sm:text-sm text-slate-400 font-medium">Pusat pelatihan kecerdasan buatan &amp; knowledge base interaktif SIT Robbani</p>
+                        <p class="text-xs sm:text-sm text-violet-200 font-medium mt-0.5">Pusat pelatihan kecerdasan buatan &amp; knowledge base interaktif SIT Robbani</p>
                     </div>
                 </div>
             </div>
@@ -34,20 +34,20 @@
             <div class="flex flex-wrap items-center gap-3">
                 {{-- Status Engine Chip --}}
                 @php $geminiActive = !empty(env('GEMINI_API_KEY') ?: env('GOOGLE_API_KEY')); @endphp
-                <div class="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-800/90 border border-slate-700/80 shadow-inner">
+                <div class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-black/40 backdrop-blur-md border border-white/15 shadow-inner">
                     <span class="relative flex h-2.5 w-2.5">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $geminiActive ? 'bg-emerald-400' : 'bg-cyan-400' }} opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 {{ $geminiActive ? 'bg-emerald-500' : 'bg-cyan-500' }}"></span>
                     </span>
-                    <span class="text-xs font-bold text-slate-200">
-                        {{ $geminiActive ? 'Gemini AI Pro Cloud' : 'Neural RAG Local (Fast)' }}
+                    <span class="text-xs font-bold text-white">
+                        {{ $geminiActive ? 'Gemini AI Cloud Aktif' : 'Neural RAG Local (Fast)' }}
                     </span>
                 </div>
 
                 {{-- Auto-Sync Button --}}
-                <button id="btnAutoSync" onclick="doAutoSync()" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-black text-xs shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-95 transition-all border border-violet-400/30 cursor-pointer">
+                <button id="btnAutoSync" onclick="doAutoSync()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs shadow-xl shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all border border-amber-300 cursor-pointer">
                     <span id="syncIcon" class="text-sm">⚡</span>
-                    <span id="syncText">Auto-Sync Data Website</span>
+                    <span id="syncText">Auto-Sync Website</span>
                 </button>
             </div>
         </div>
@@ -55,88 +55,93 @@
 
     {{-- Alerts --}}
     @if(session('success'))
-    <div class="flex items-center gap-3 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-800 text-sm font-bold shadow-sm">
+    <div class="flex items-center gap-3 p-4 bg-emerald-500/10 border-2 border-emerald-500/30 rounded-2xl text-emerald-900 text-sm font-bold shadow-sm">
         <span class="text-lg">✅</span> <span>{{ session('success') }}</span>
     </div>
     @endif
     @if(session('error'))
-    <div class="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-800 text-sm font-bold shadow-sm">
+    <div class="flex items-center gap-3 p-4 bg-red-500/10 border-2 border-red-500/30 rounded-2xl text-red-900 text-sm font-bold shadow-sm">
         <span class="text-lg">❌</span> <span>{{ session('error') }}</span>
     </div>
     @endif
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         2. HIGH-CONTRAST METRIC STATS CARDS
+         2. VIBRANT MODERN METRIC CARDS (RICH GRADIENT TINTS & ACCENT BARS)
     ═══════════════════════════════════════════════════════════════════════ --}}
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
         
-        {{-- Stat 1 --}}
-        <div class="bg-white border-2 border-slate-200 hover:border-violet-500 rounded-3xl p-5 shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[11px] font-black uppercase tracking-wider text-slate-500 group-hover:text-violet-600 transition-colors">Total Dokumen</span>
-                <div class="w-10 h-10 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+        {{-- Card 1: Total Dokumen --}}
+        <div class="bg-gradient-to-br from-violet-50/80 via-white to-purple-50/50 border-2 border-violet-200 hover:border-violet-500 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:shadow-violet-500/10 transition-all group flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 to-purple-600"></div>
+            <div class="flex items-center justify-between mt-1">
+                <span class="text-[11px] font-black uppercase tracking-wider text-violet-700">Total Dokumen</span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-violet-500/20 group-hover:scale-110 transition-transform">
                     📚
                 </div>
             </div>
-            <div class="mt-3">
-                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $totalDocs }}</div>
-                <div class="text-[11px] font-bold text-slate-600 mt-0.5">Basis Pengetahuan AI</div>
+            <div class="mt-4">
+                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-headline">{{ $totalDocs }}</div>
+                <div class="text-[11px] font-bold text-slate-500 mt-0.5">Basis Pengetahuan AI</div>
             </div>
         </div>
 
-        {{-- Stat 2 --}}
-        <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-3xl p-5 shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[11px] font-black uppercase tracking-wider text-slate-500 group-hover:text-emerald-600 transition-colors">Dokumen Aktif</span>
-                <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+        {{-- Card 2: Dokumen Aktif --}}
+        <div class="bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/50 border-2 border-emerald-200 hover:border-emerald-500 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:shadow-emerald-500/10 transition-all group flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+            <div class="flex items-center justify-between mt-1">
+                <span class="text-[11px] font-black uppercase tracking-wider text-emerald-700">Dokumen Aktif</span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-emerald-500/20 group-hover:scale-110 transition-transform">
                     ✨
                 </div>
             </div>
-            <div class="mt-3">
-                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $activeDocs }}</div>
-                <div class="text-[11px] font-bold text-emerald-700 mt-0.5">Digunakan Secara Live</div>
+            <div class="mt-4">
+                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-headline">{{ $activeDocs }}</div>
+                <div class="text-[11px] font-bold text-emerald-700 mt-0.5">Live Digunakan AI</div>
             </div>
         </div>
 
-        {{-- Stat 3 --}}
-        <div class="bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-5 shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[11px] font-black uppercase tracking-wider text-slate-500 group-hover:text-blue-600 transition-colors">File Diunggah</span>
-                <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+        {{-- Card 3: File Diupload --}}
+        <div class="bg-gradient-to-br from-blue-50/80 via-white to-indigo-50/50 border-2 border-blue-200 hover:border-blue-500 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all group flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+            <div class="flex items-center justify-between mt-1">
+                <span class="text-[11px] font-black uppercase tracking-wider text-blue-700">File Diupload</span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-blue-500/20 group-hover:scale-110 transition-transform">
                     📂
                 </div>
             </div>
-            <div class="mt-3">
-                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $uploadedCount }}</div>
-                <div class="text-[11px] font-bold text-slate-600 mt-0.5">PDF · Word · Excel · TXT</div>
+            <div class="mt-4">
+                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-headline">{{ $uploadedCount }}</div>
+                <div class="text-[11px] font-bold text-slate-500 mt-0.5">PDF · Word · Excel · TXT</div>
             </div>
         </div>
 
-        {{-- Stat 4 --}}
-        <div class="bg-white border-2 border-slate-200 hover:border-cyan-500 rounded-3xl p-5 shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[11px] font-black uppercase tracking-wider text-slate-500 group-hover:text-cyan-600 transition-colors">Data Website</span>
-                <div class="w-10 h-10 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+        {{-- Card 4: Data Website --}}
+        <div class="bg-gradient-to-br from-cyan-50/80 via-white to-sky-50/50 border-2 border-cyan-200 hover:border-cyan-500 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:shadow-cyan-500/10 transition-all group flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-500 to-sky-500"></div>
+            <div class="flex items-center justify-between mt-1">
+                <span class="text-[11px] font-black uppercase tracking-wider text-cyan-700">Data Website</span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-cyan-500/20 group-hover:scale-110 transition-transform">
                     🌐
                 </div>
             </div>
-            <div class="mt-3">
-                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $websiteDataCount }}</div>
-                <div class="text-[11px] font-bold text-slate-600 mt-0.5">Berita, Artikel, FAQ, Unit</div>
+            <div class="mt-4">
+                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-headline">{{ $websiteDataCount }}</div>
+                <div class="text-[11px] font-bold text-slate-500 mt-0.5">Berita, Artikel, FAQ, Unit</div>
             </div>
         </div>
 
-        {{-- Stat 5 --}}
-        <div class="bg-white border-2 border-slate-200 hover:border-amber-500 rounded-3xl p-5 shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between col-span-2 lg:col-span-1">
-            <div class="flex items-center justify-between">
-                <span class="text-[11px] font-black uppercase tracking-wider text-slate-500 group-hover:text-amber-600 transition-colors">Total Kata</span>
-                <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition-transform">
+        {{-- Card 5: Total Kata --}}
+        <div class="bg-gradient-to-br from-amber-50/80 via-white to-orange-50/50 border-2 border-amber-200 hover:border-amber-500 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:shadow-amber-500/10 transition-all group flex flex-col justify-between relative overflow-hidden col-span-2 lg:col-span-1">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-500"></div>
+            <div class="flex items-center justify-between mt-1">
+                <span class="text-[11px] font-black uppercase tracking-wider text-amber-700">Total Kata</span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-orange-500/20 group-hover:scale-110 transition-transform">
                     🔤
                 </div>
             </div>
-            <div class="mt-3">
-                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ number_format($totalWords) }}</div>
-                <div class="text-[11px] font-bold text-slate-600 mt-0.5">{{ $lastSync ? 'Sync: '.$lastSync->diffForHumans() : 'Knowledge Siap' }}</div>
+            <div class="mt-4">
+                <div class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-headline">{{ number_format($totalWords) }}</div>
+                <div class="text-[11px] font-bold text-slate-500 mt-0.5">{{ $lastSync ? 'Sync: '.$lastSync->diffForHumans() : 'Knowledge Siap' }}</div>
             </div>
         </div>
 
@@ -147,13 +152,13 @@
     ═══════════════════════════════════════════════════════════════════════ --}}
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
 
-        {{-- ── LEFT PANEL: INGESTION & INTERACTIVE CHAT TESTER (5 Cols) ─────── --}}
+        {{-- ── LEFT PANEL: INTERACTIVE CHAT TESTER & INGESTION (5 Cols) ─────── --}}
         <div class="xl:col-span-5 space-y-6">
 
-            {{-- INTERACTIVE AI TEST CHAT STUDIO (TOP LEFT FOR MAXIMUM VISIBILITY) --}}
-            <div class="bg-white border-2 border-slate-200 rounded-3xl shadow-xl overflow-hidden flex flex-col">
+            {{-- 1. INTERACTIVE AI CHAT STUDIO (STREAMING TYPEWRITER TESTER) --}}
+            <div class="bg-white border-2 border-violet-200 rounded-3xl shadow-xl overflow-hidden flex flex-col">
                 {{-- Chat Header --}}
-                <div class="px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between">
+                <div class="px-6 py-4 bg-gradient-to-r from-violet-900 via-indigo-900 to-slate-900 text-white flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-violet-600/80 border border-violet-400/40 flex items-center justify-center text-base shadow-md">
                             💬
@@ -163,24 +168,24 @@
                             <p class="text-[11px] text-violet-300 font-medium">Streaming Neural Response Tester</p>
                         </div>
                     </div>
-                    <button onclick="clearTestChat()" title="Bersihkan Chat" class="px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 text-xs font-bold transition-all flex items-center gap-1">
+                    <button onclick="clearTestChat()" title="Bersihkan Chat" class="px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer">
                         <span>🧹</span> <span class="hidden sm:inline">Clear</span>
                     </button>
                 </div>
 
                 {{-- Quick Prompt Suggestions --}}
-                <div class="px-5 py-2.5 bg-slate-50 border-b border-slate-200/80 flex items-center gap-2 overflow-x-auto text-[11px] no-scrollbar">
+                <div class="px-5 py-3 bg-gradient-to-r from-slate-50 to-indigo-50/40 border-b border-slate-200/80 flex items-center gap-2 overflow-x-auto text-[11px] no-scrollbar">
                     <span class="text-slate-400 font-bold shrink-0">Contoh:</span>
-                    <button onclick="quickAsk('Siapa kepala sekolah TK dan SD?')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-violet-400 hover:text-violet-700 text-slate-600 font-semibold shrink-0 transition-colors">
+                    <button onclick="quickAsk('Siapa kepala sekolah TK, SD, dan SMP?')" class="px-3 py-1.5 rounded-xl bg-violet-100 hover:bg-violet-600 hover:text-white text-violet-800 font-bold shrink-0 transition-all shadow-xs cursor-pointer">
                         🎓 Kepala Sekolah
                     </button>
-                    <button onclick="quickAsk('Bagaimana cara daftar PPDB dan syaratnya?')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-violet-400 hover:text-violet-700 text-slate-600 font-semibold shrink-0 transition-colors">
+                    <button onclick="quickAsk('Bagaimana cara daftar PPDB dan syaratnya?')" class="px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-600 hover:text-white text-emerald-800 font-bold shrink-0 transition-all shadow-xs cursor-pointer">
                         📝 Syarat PPDB
                     </button>
-                    <button onclick="quickAsk('Berapa biaya SPP dan cara bayarnya?')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-violet-400 hover:text-violet-700 text-slate-600 font-semibold shrink-0 transition-colors">
+                    <button onclick="quickAsk('Berapa biaya SPP dan cara bayarnya?')" class="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-600 hover:text-white text-amber-800 font-bold shrink-0 transition-all shadow-xs cursor-pointer">
                         💳 Info SPP
                     </button>
-                    <button onclick="quickAsk('Target hafalan tahfidz di SMPIT')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-violet-400 hover:text-violet-700 text-slate-600 font-semibold shrink-0 transition-colors">
+                    <button onclick="quickAsk('Target hafalan tahfidz di SMPIT')" class="px-3 py-1.5 rounded-xl bg-blue-100 hover:bg-blue-600 hover:text-white text-blue-800 font-bold shrink-0 transition-all shadow-xs cursor-pointer">
                         📖 Target Tahfidz
                     </button>
                 </div>
@@ -192,7 +197,7 @@
                         <div class="w-8 h-8 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-md">
                             🤖
                         </div>
-                        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-xs sm:text-sm text-slate-800 font-medium max-w-[85%] shadow-xs leading-relaxed space-y-1">
+                        <div class="bg-white border-2 border-slate-200/80 rounded-2xl rounded-tl-none p-4 text-xs sm:text-sm text-slate-800 font-medium max-w-[85%] shadow-xs leading-relaxed space-y-1">
                             <p class="font-bold text-violet-700">Assalamu'alaikum!</p>
                             <p>Saya asisten AI resmi SIT Robbani. Silakan ketik pertanyaan atau klik salah satu topik di atas untuk menguji respon pintar saya.</p>
                         </div>
@@ -211,16 +216,16 @@
                 </div>
             </div>
 
-            {{-- UPLOAD DOKUMEN PANEL --}}
-            <div class="bg-white border-2 border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            {{-- 2. UPLOAD DOKUMEN PANEL --}}
+            <div class="bg-white border-2 border-blue-200 rounded-3xl shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold">
+                        <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-base font-bold shadow-md shadow-blue-500/20">
                             📂
                         </div>
                         <div>
                             <h2 class="font-black text-slate-900 text-sm">Upload Dokumen Knowledge</h2>
-                            <p class="text-[11px] text-slate-500">PDF, DOCX, XLSX, TXT (maks. 20MB)</p>
+                            <p class="text-[11px] text-blue-700 font-semibold">PDF, DOCX, XLSX, TXT (maks. 20MB)</p>
                         </div>
                     </div>
                 </div>
@@ -229,14 +234,14 @@
                     <form action="{{ route('admin.ai-trainer.upload') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
                         @csrf
                         {{-- Drag & Drop Area --}}
-                        <div id="dropZone" class="relative border-2 border-dashed border-slate-300 hover:border-violet-500 bg-slate-50/70 hover:bg-violet-50/30 rounded-3xl p-6 text-center transition-all cursor-pointer mb-5 group" onclick="document.getElementById('fileInput').click()">
+                        <div id="dropZone" class="relative border-2 border-dashed border-blue-300 hover:border-blue-600 bg-gradient-to-br from-blue-50/50 to-indigo-50/30 rounded-3xl p-6 text-center transition-all cursor-pointer mb-5 group" onclick="document.getElementById('fileInput').click()">
                             <input type="file" name="file" id="fileInput" class="hidden" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" onchange="onFileSelect(this)">
                             <div id="dropZoneDefault">
-                                <div class="w-14 h-14 mx-auto rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform">
+                                <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform shadow-xs">
                                     ☁️
                                 </div>
-                                <p class="text-sm font-bold text-slate-700 group-hover:text-violet-700 transition-colors">Klik atau Seret Dokumen ke Sini</p>
-                                <p class="text-[11px] text-slate-400 mt-1">Mendukung file SOP, Panduan SPMB, Kurikulum &amp; Dokumen Sekolah</p>
+                                <p class="text-sm font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Klik atau Seret Dokumen ke Sini</p>
+                                <p class="text-[11px] text-slate-500 mt-1">Mendukung file SOP, Panduan SPMB, Kurikulum &amp; Dokumen Sekolah</p>
                             </div>
                             <div id="dropZoneSelected" class="hidden">
                                 <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mb-2 animate-bounce">
@@ -250,12 +255,12 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">Judul Dokumen <span class="text-slate-400 font-normal lowercase">(opsional)</span></label>
-                                <input type="text" name="title" placeholder="Contoh: Brosur & Panduan SPMB 2026" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all">
+                                <input type="text" name="title" placeholder="Contoh: Brosur & Panduan SPMB 2026" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
                             </div>
 
                             <div>
                                 <label class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">Kategori Dokumen <span class="text-red-500">*</span></label>
-                                <select name="category" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all">
+                                <select name="category" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
                                     <option value="">-- Pilih Kategori --</option>
                                     @foreach($categories as $key => $label)
                                         @if($key !== 'website_data')
@@ -273,16 +278,16 @@
                 </div>
             </div>
 
-            {{-- INPUT MANUAL KNOWLEDGE PANEL --}}
-            <div class="bg-white border-2 border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            {{-- 3. INPUT MANUAL KNOWLEDGE PANEL --}}
+            <div class="bg-white border-2 border-emerald-200 rounded-3xl shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-100 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base font-bold shadow-md shadow-emerald-500/20">
                             ✍️
                         </div>
                         <div>
                             <h2 class="font-black text-slate-900 text-sm">Input Manual Pengetahuan</h2>
-                            <p class="text-[11px] text-slate-500">Tulis informasi kustom langsung ke AI</p>
+                            <p class="text-[11px] text-emerald-700 font-semibold">Tulis informasi kustom langsung ke AI</p>
                         </div>
                     </div>
                 </div>
@@ -335,19 +340,19 @@
                         </div>
 
                         {{-- Bulk Delete Button --}}
-                        <button id="btnBulkDelete" onclick="bulkDelete()" class="hidden items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all">
+                        <button id="btnBulkDelete" onclick="bulkDelete()" class="hidden items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer">
                             <span>🗑️</span> <span>Hapus Terpilih</span>
                         </button>
                     </div>
 
                     {{-- Category Tabs --}}
                     <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
-                        <button onclick="filterCategory('all')" class="cat-tab active px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-violet-600 text-white shadow-sm transition-all" data-category="all">
+                        <button onclick="filterCategory('all')" class="cat-tab active px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-violet-600 text-white shadow-sm transition-all cursor-pointer" data-category="all">
                             Semua ({{ $totalDocs }})
                         </button>
                         @foreach($categories as $key => $label)
                         @php $cnt = $categoryStats[$key] ?? 0; @endphp
-                        <button onclick="filterCategory('{{ $key }}')" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all" data-category="{{ $key }}">
+                        <button onclick="filterCategory('{{ $key }}')" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all cursor-pointer" data-category="{{ $key }}">
                             {{ $label }} ({{ $cnt }})
                         </button>
                         @endforeach
@@ -409,7 +414,7 @@
                             </label>
 
                             {{-- Delete Button --}}
-                            <button onclick="deleteDoc({{ $doc->id }}, '{{ addslashes($doc->title) }}')" title="Hapus Dokumen" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-600 flex items-center justify-center transition-colors">
+                            <button onclick="deleteDoc({{ $doc->id }}, '{{ addslashes($doc->title) }}')" title="Hapus Dokumen" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-600 flex items-center justify-center transition-colors cursor-pointer">
                                 🗑️
                             </button>
                         </div>
@@ -419,7 +424,7 @@
                     <div class="p-12 text-center text-slate-400 space-y-2">
                         <div class="text-4xl">📭</div>
                         <p class="font-bold text-slate-600">Belum ada dokumen knowledge base.</p>
-                        <p class="text-xs text-slate-400">Silakan upload dokumen atau klik tombol Auto-Sync Data Website di atas.</p>
+                        <p class="text-xs text-slate-400">Silakan upload dokumen atau klik tombol Auto-Sync Website di atas.</p>
                     </div>
                     @endforelse
                 </div>
@@ -434,7 +439,7 @@
                 <div class="space-y-1 text-xs">
                     <h4 class="text-sm font-black text-white">Tentang Auto-Sync Website</h4>
                     <p class="text-slate-300 leading-relaxed">
-                        Tombol <strong>Auto-Sync Data Website</strong> akan secara otomatis memindai dan memperbarui data berita terbaru, artikel islami, tanya jawab FAQ, profil unit TKIT, SDIT, SMPIT, SMAIT, serta informasi kontak resmi ke dalam otak AI. Lakukan sinkronisasi setiap kali ada pembaruan konten besar di website.
+                        Tombol <strong>Auto-Sync Website</strong> akan secara otomatis memindai dan memperbarui data berita terbaru, artikel islami, tanya jawab FAQ, profil unit TKIT, SDIT, SMPIT, SMAIT, serta informasi kontak resmi ke dalam otak AI. Lakukan sinkronisasi setiap kali ada pembaruan konten besar di website.
                     </p>
                 </div>
             </div>
@@ -463,9 +468,9 @@ function onFileSelect(input) {
 function filterCategory(cat) {
     document.querySelectorAll('.cat-tab').forEach(b => {
         if (b.dataset.category === cat) {
-            b.className = 'cat-tab active px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-violet-600 text-white shadow-sm transition-all';
+            b.className = 'cat-tab active px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-violet-600 text-white shadow-sm transition-all cursor-pointer';
         } else {
-            b.className = 'cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all';
+            b.className = 'cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all cursor-pointer';
         }
     });
 
@@ -533,7 +538,7 @@ async function deleteDoc(id, title) {
     try {
         const res = await fetch(`/admin/ai-trainer/${id}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         });
         const data = await res.json();
         if (data.success) {
@@ -579,7 +584,7 @@ async function bulkDelete() {
     try {
         const res = await fetch('{{ route("admin.ai-trainer.bulk-delete") }}', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
             body: JSON.stringify({ ids }),
         });
         const data = await res.json();
@@ -605,13 +610,13 @@ async function doAutoSync() {
     try {
         const res = await fetch('{{ route("admin.ai-trainer.auto-sync") }}', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         });
         const data = await res.json();
 
         icon.classList.remove('animate-spin');
         btn.disabled = false;
-        text.textContent = 'Auto-Sync Data Website';
+        text.textContent = 'Auto-Sync Website';
 
         if (data.success) {
             Swal.fire({
@@ -627,7 +632,7 @@ async function doAutoSync() {
     } catch (e) {
         icon.classList.remove('animate-spin');
         btn.disabled = false;
-        text.textContent = 'Auto-Sync Data Website';
+        text.textContent = 'Auto-Sync Website';
         Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal menghubungi server untuk sinkronisasi.' });
     }
 }
@@ -646,7 +651,7 @@ function clearTestChat() {
             <div class="w-8 h-8 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-md">
                 🤖
             </div>
-            <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-xs sm:text-sm text-slate-800 font-medium max-w-[85%] shadow-xs leading-relaxed space-y-1">
+            <div class="bg-white border-2 border-slate-200/80 rounded-2xl rounded-tl-none p-4 text-xs sm:text-sm text-slate-800 font-medium max-w-[85%] shadow-xs leading-relaxed space-y-1">
                 <p class="font-bold text-violet-700">Assalamu'alaikum!</p>
                 <p>Riwayat percakapan telah dibersihkan. Silakan tanyakan hal baru seputar SIT Robbani.</p>
             </div>
@@ -682,9 +687,9 @@ async function sendTestChat() {
             <div class="w-8 h-8 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-md animate-pulse">
                 🤖
             </div>
-            <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 text-xs text-slate-500 font-medium shadow-xs flex items-center gap-2">
+            <div class="bg-white border-2 border-slate-200/80 rounded-2xl rounded-tl-none px-4 py-3 text-xs text-slate-500 font-medium shadow-xs flex items-center gap-2">
                 <span class="inline-flex h-2 w-2 rounded-full bg-violet-600 animate-ping"></span>
-                <span>Robbani AI sedang berpikir...</span>
+                <span>Robbani AI sedang mengetik...</span>
             </div>
         </div>
     `;
@@ -693,7 +698,7 @@ async function sendTestChat() {
     try {
         const res = await fetch('{{ route("admin.ai-trainer.test-chat") }}', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
             body: JSON.stringify({ message: msg }),
         });
         const data = await res.json();
@@ -708,7 +713,7 @@ async function sendTestChat() {
                 <div class="w-8 h-8 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-md">
                     🤖
                 </div>
-                <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-xs sm:text-sm text-slate-800 font-medium max-w-[85%] shadow-xs leading-relaxed" id="${bubbleId}">
+                <div class="bg-white border-2 border-slate-200/80 rounded-2xl rounded-tl-none p-4 text-xs sm:text-sm text-slate-800 font-medium max-w-[85%] shadow-xs leading-relaxed" id="${bubbleId}">
                     <span class="typing-cursor font-mono font-bold text-violet-600 animate-pulse">▋</span>
                 </div>
             </div>
@@ -725,7 +730,7 @@ async function sendTestChat() {
                 <div class="w-8 h-8 rounded-2xl bg-red-500 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-md">
                     ⚠️
                 </div>
-                <div class="bg-red-50 border border-red-200 rounded-2xl rounded-tl-none p-3.5 text-xs text-red-700 font-medium max-w-[85%]">
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl rounded-tl-none p-3.5 text-xs text-red-700 font-medium max-w-[85%]">
                     Terjadi kendala koneksi ke server saat memproses jawaban AI.
                 </div>
             </div>
@@ -741,7 +746,7 @@ function streamTypewriter(elementId, fullText, scrollContainer) {
         if (!el) { resolve(); return; }
 
         let currentIdx = 0;
-        const speed = 12; // ms per character
+        const speed = 12; // ms per tick
 
         function typeNext() {
             if (currentIdx < fullText.length) {
