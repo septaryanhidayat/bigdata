@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#004532">
     <title>{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir</title>
     <meta name="description" content="{{ $settings['hero_desc'] }}">
     <meta name="keywords" content="SIT Robbani Ogan Ilir, Sekolah Islam Terpadu Indralaya, KB TKIT Robbani, SDIT Robbani, SMPIT Robbani, SMAIT Robbani, PPDB SIT Robbani 2026/2027, Yayasan Generasi Robbani, Sekolah Islam Unggulan Sumatera Selatan">
@@ -72,9 +73,12 @@
     <!-- Preload Critical LCP Logo -->
     <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
 
-    <!-- Google Fonts & Material Symbols with display=swap -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts & Material Symbols Non-blocking with display=swap -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
+    </noscript>
 
     <!-- Tailwind CSS CDN with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -918,7 +922,7 @@
                                     </div>
                                     <div class="text-xs sm:text-sm font-black text-white font-headline">Jadwal Sholat Realtime</div>
                                 </div>
-                                <div class="bg-orange-500 dark:bg-[#c6f634] text-white dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-transparent dark:border-[#c6f634] shrink-0">
+                                <div class="bg-emerald-800 dark:bg-[#c6f634] text-white dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-emerald-600 dark:border-[#c6f634] shrink-0">
                                     <span class="material-symbols-outlined text-[12px]">explore</span>
                                     <span class="dark:text-[#061107] font-black whitespace-nowrap" x-text="locations[selectedLoc].qibla"></span>
                                 </div>
@@ -956,9 +960,9 @@
                                     <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Ashar</div>
                                     <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].ashar"></div>
                                 </div>
-                                <div class="bg-orange-600 dark:bg-[#c6f634] p-1.5 sm:p-2.5 rounded-xl text-center shadow-md border border-orange-500 dark:border-[#c6f634] flex flex-col justify-center items-center min-w-0">
-                                    <div class="text-[8px] sm:text-[9px] font-black text-white/90 dark:text-[#061107] uppercase tracking-tight truncate w-full">Maghrib</div>
-                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#061107] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].maghrib"></div>
+                                <div class="bg-amber-400 dark:bg-[#c6f634] text-slate-950 dark:text-[#061107] p-1.5 sm:p-2.5 rounded-xl text-center shadow-md border border-amber-300 dark:border-[#c6f634] flex flex-col justify-center items-center min-w-0">
+                                    <div class="text-[8px] sm:text-[9px] font-black text-slate-950 dark:text-[#061107] uppercase tracking-tight truncate w-full">Maghrib</div>
+                                    <div class="text-[10px] sm:text-xs font-black text-slate-950 dark:text-[#061107] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].maghrib"></div>
                                 </div>
                                 <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
                                     <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Isya</div>
