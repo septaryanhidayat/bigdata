@@ -267,21 +267,17 @@ class AiRagEngine
         }
 
         // Sync general school settings
-        $settings = [
-            'contact_phone'   => SiteSetting::get('contact_phone', '0811747472'),
-            'contact_email'   => SiteSetting::get('contact_email', 'info@sitrobbani.sch.id'),
-            'contact_address' => SiteSetting::get('contact_address', 'Jl. Sarjana Padang Guci, Indralaya Utara, Ogan Ilir'),
-            'principal_name'  => SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd'),
-            'school_vision'   => SiteSetting::get('school_vision', 'Mewujudkan Lembaga Pendidikan Islam Terpadu yang Unggul dan Berkarakter Qurani'),
-        ];
+        $principalName = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti Wulandari, S.Pd');
+        $contactPhone  = SiteSetting::get('contact_phone', '0811747472');
+        $contactEmail  = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
+        $contactAddress = SiteSetting::get('contact_address', 'Jl. Sarjana Padang Guci, Indralaya Utara, Ogan Ilir');
 
         $schools = School::where('is_active', true)->get();
         $settingText  = "INFORMASI RESMI SIT ROBBANI:\n";
-        $settingText .= "Pimpinan Yayasan / Direktur: {$settings['principal_name']}\n";
-        $settingText .= "Alamat Kampus: {$settings['contact_address']}\n";
-        $settingText .= "WhatsApp Hotline: {$settings['contact_phone']}\n";
-        $settingText .= "Email Resmi: {$settings['contact_email']}\n";
-        $settingText .= "Visi Lembaga: {$settings['school_vision']}\n\n";
+        $settingText .= "Ketua Yayasan / Pimpinan Lembaga: {$principalName}\n";
+        $settingText .= "Alamat Kampus: {$contactAddress}\n";
+        $settingText .= "WhatsApp Hotline: {$contactPhone}\n";
+        $settingText .= "Email Resmi: {$contactEmail}\n\n";
         $settingText .= "DAFTAR UNIT SEKOLAH:\n";
         foreach ($schools as $s) {
             $settingText .= "• [{$s->code}] {$s->name} - Akreditasi {$s->accreditation}\n";
@@ -308,28 +304,40 @@ class AiRagEngine
         $schools       = School::where('is_active', true)->get();
         $academicYear  = AcademicYear::where('is_active', true)->first();
         $totalPpdb     = PpdbRegistration::count();
-        $principalName = SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd');
+
+        // Dynamically fetch REAL data from SiteSetting
+        $tkitProfile  = json_decode(SiteSetting::get('unit_profile_tkit'), true) ?: [];
+        $sditProfile  = json_decode(SiteSetting::get('unit_profile_sdit'), true) ?: [];
+        $smpitProfile = json_decode(SiteSetting::get('unit_profile_smpit'), true) ?: [];
+        $smaitProfile = json_decode(SiteSetting::get('unit_profile_smait'), true) ?: [];
+
+        $pimpinanYayasan = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti Wulandari, S.Pd');
+        $kepsekTk  = $tkitProfile['principal_name'] ?? 'Ani Oktar Yansi, S.Pd.I';
+        $kepsekSd  = $sditProfile['principal_name'] ?? 'Nur Amalia, S.Pd';
+        $kepsekSmp = $smpitProfile['principal_name'] ?? 'Tia Wulandari, S.Pd., Gr.';
+        $kepsekSma = $smaitProfile['principal_name'] ?? 'Koordinator SMAIT Robbani';
+
         $contactPhone  = SiteSetting::get('contact_phone', '0811747472');
         $contactEmail  = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
         $contactAddress = SiteSetting::get('contact_address', 'Jl. Sarjana Padang Guci, Kel. Timbangan, Indralaya Utara, Ogan Ilir');
 
         $systemContext  = "=== DATA RESMI & REALTIME SMARTEDU SIT ROBBANI ===\n";
         $systemContext .= "• Lembaga: SIT Robbani Ogan Ilir (Yayasan Generasi Robbani)\n";
-        $systemContext .= "• Pimpinan: {$principalName}\n";
+        $systemContext .= "• Ketua Yayasan / Pimpinan: {$pimpinanYayasan}\n";
+        $systemContext .= "• Kepala KB/TKIT: {$kepsekTk}\n";
+        $systemContext .= "• Kepala SDIT: {$kepsekSd}\n";
+        $systemContext .= "• Kepala SMPIT: {$kepsekSmp}\n";
+        $systemContext .= "• Kepala SMAIT: {$kepsekSma}\n";
         $systemContext .= "• Alamat: {$contactAddress}\n";
         $systemContext .= "• Hotline WA: {$contactPhone} | Email: {$contactEmail}\n";
         $systemContext .= "• Tahun Ajaran: " . ($academicYear ? $academicYear->name : '2026/2027') . "\n";
         $systemContext .= "• Total Pendaftar PPDB Online: {$totalPpdb} calon siswa\n";
-        $systemContext .= "• Unit:\n";
-        foreach ($schools as $s) {
-            $systemContext .= "  - [{$s->code}] {$s->name} ({$s->level}) - Akreditasi {$s->accreditation}\n";
-        }
 
         $relevantDocs    = AiKnowledgeBase::findRelevantKnowledge($userMessage, 4);
         $documentContext = '';
 
         if (!empty($relevantDocs)) {
-            $documentContext .= "\n=== KNOWLEDGE BASE TERKAIT ===\n";
+            $documentContext .= "\n=== KNOWLEDGE BASE TERKAIT (RAG) ===\n";
             foreach ($relevantDocs as $idx => $doc) {
                 $docSnippet       = Str::limit($doc->raw_content, 800);
                 $documentContext .= '[' . ($idx + 1) . "] '{$doc->title}' ({$doc->category_label}):\n{$docSnippet}\n\n";
@@ -342,7 +350,11 @@ class AiRagEngine
             'relevantDocs'    => $relevantDocs,
             'contactPhone'    => $contactPhone,
             'contactAddress'  => $contactAddress,
-            'principalName'   => $principalName,
+            'pimpinanYayasan' => $pimpinanYayasan,
+            'kepsekTk'        => $kepsekTk,
+            'kepsekSd'        => $kepsekSd,
+            'kepsekSmp'       => $kepsekSmp,
+            'kepsekSma'       => $kepsekSma,
         ];
     }
 
@@ -367,8 +379,7 @@ class AiRagEngine
                 $prompt .= "Aturan respon:\n";
                 $prompt .= "- Jawab dengan ringkas, ramah, to-the-point, dan langsung pada inti pertanyaan pengguna.\n";
                 $prompt .= "- JANGAN gunakan format template kaku seperti 'Ringkasan:' atau mengulang isi dokumen mentah.\n";
-                $prompt .= "- Gunakan bullet point rapi jika ada beberapa poin penting.\n";
-                $prompt .= "- Gunakan data resmi di bawah ini:\n\n";
+                $prompt .= "- Gunakan data resmi di bawah ini (data ketua yayasan dan kepala sekolah adalah data valid):\n\n";
                 $prompt .= $context['systemContext'] . "\n";
                 $prompt .= $context['documentContext'] . "\n";
                 $prompt .= "Pertanyaan: {$trimmedMsg}";
@@ -377,7 +388,7 @@ class AiRagEngine
                     ->timeout(12)
                     ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $geminiKey, [
                         'contents' => [['parts' => [['text' => $prompt]]]],
-                        'generationConfig' => ['temperature' => 0.3, 'maxOutputTokens' => 600],
+                        'generationConfig' => ['temperature' => 0.2, 'maxOutputTokens' => 600],
                     ]);
 
                 if ($response->successful()) {
@@ -391,107 +402,75 @@ class AiRagEngine
             }
         }
 
-        // 2. Intelligent Local Neural Synthesizer
+        // 2. Intelligent Local Neural Synthesizer using Real Dynamic Data
         return self::synthesizeLocalAnswer($trimmedMsg, $context);
     }
 
     /**
-     * Synthesizes conversational, direct, and keyword-targeted answers locally without rigid templates.
+     * Synthesizes conversational, direct, and keyword-targeted answers locally using REAL dynamic data.
      */
     protected static function synthesizeLocalAnswer(string $q, array $context): string
     {
         $lower = strtolower($q);
-        $contactPhone = $context['contactPhone'] ?? '0811747472';
+        $contactPhone    = $context['contactPhone'] ?? '0811747472';
+        $pimpinanYayasan = $context['pimpinanYayasan'] ?? 'Sughesti Wulandari, S.Pd';
+        $kepsekTk        = $context['kepsekTk'] ?? 'Ani Oktar Yansi, S.Pd.I';
+        $kepsekSd        = $context['kepsekSd'] ?? 'Nur Amalia, S.Pd';
+        $kepsekSmp       = $context['kepsekSmp'] ?? 'Tia Wulandari, S.Pd., Gr.';
+        $kepsekSma       = $context['kepsekSma'] ?? 'Koordinator SMAIT Robbani';
 
-        // ── 1. Pertanyaan Alamat, Lokasi, Jam Kerja & Kontak ───────────────────────
-        if (str_contains($lower, 'alamat') || str_contains($lower, 'lokasi') || str_contains($lower, 'dimana') || str_contains($lower, 'kontak') || str_contains($lower, 'nomor telepon') || str_contains($lower, 'jam kerja') || str_contains($lower, 'jam layanan') || str_contains($lower, 'hubungi')) {
-            $addr = $context['contactAddress'] ?? 'Jl. Sarjana Padang Guci, Kel. Timbangan, Indralaya Utara, Ogan Ilir, Sumatera Selatan';
-            return "📍 **Alamat Kampus SIT Robbani:**\n{$addr}\n\n" .
-                   "📞 **Hotline WhatsApp:** **{$contactPhone}**\n" .
-                   "📧 **Email Resmi:** info@sitrobbani.sch.id\n" .
-                   "⏰ **Jam Layanan Kantor:** Senin – Jumat, pukul 07.30 – 16.00 WIB.";
-        }
-
-        // ── 2. Pertanyaan Spesifik: Nama Kepala Sekolah / Pimpinan ─────────────────
-        $isAskingLeader = str_contains($lower, 'kepala') || str_contains($lower, 'kepsek') || str_contains($lower, 'pimpinan') || str_contains($lower, 'direktur') || preg_match('/\b(nur|tia|fauzi|nurhidayah|nur amalia|amalia)\b/i', $lower);
+        // ── 1. Pertanyaan Spesifik: Nama Kepala Sekolah / Ketua Yayasan ───────────
+        $isAskingLeader = str_contains($lower, 'kepala') || str_contains($lower, 'kepsek') || str_contains($lower, 'pimpinan') || str_contains($lower, 'yayasan') || str_contains($lower, 'direktur') || preg_match('/\b(sughesti|ani|nur|tia|amalia|wulandari)\b/i', $lower);
 
         if ($isAskingLeader) {
+            // Check if there is a specific KB document for leaders
+            $kbLeader = AiKnowledgeBase::where('is_active', true)
+                ->where(function($q) {
+                    $q->where('title', 'like', '%kepala%')
+                      ->orWhere('title', 'like', '%pimpinan%')
+                      ->orWhere('title', 'like', '%struktur%')
+                      ->orWhere('title', 'like', '%gtk%');
+                })->first();
+
+            if (str_contains($lower, 'yayasan') || str_contains($lower, 'ketua') || str_contains($lower, 'direktur') || str_contains($lower, 'sughesti')) {
+                return "Ketua Yayasan / Pimpinan SIT Robbani Ogan Ilir saat ini adalah **{$pimpinanYayasan}**.";
+            }
             if (str_contains($lower, 'tk') || str_contains($lower, 'paud') || str_contains($lower, 'kb')) {
-                return "Kepala **KB/TKIT Robbani** saat ini adalah **Ustdz. Nurhidayah, S.Pd.I** (didukung oleh pendidik PAUD: **Ustdz. Ani Oktar Yansi, S.Pd.I**).\n\n" .
-                       "📍 Lokasi KB/TKIT: Jl. Sarjana Padang Guci, Indralaya Utara\n" .
-                       "📞 Kontak Hotline: **{$contactPhone}**";
+                return "Kepala **KB/TKIT Robbani** saat ini adalah **{$kepsekTk}**.\n\n" .
+                       "📍 Lokasi: Jl. Sarjana Padang Guci, Indralaya Utara\n" .
+                       "📞 Kontak: **{$contactPhone}**";
             }
             if (str_contains($lower, 'sd') || str_contains($lower, 'sdit')) {
-                return "Kepala **SDIT Robbani** saat ini adalah **Ustadzah Nur Amalia, S.Pd., Gr.**\n\n" .
-                       "📍 Lokasi SDIT: Kompleks SIT Robbani Indralaya\n" .
-                       "📞 Kontak Hotline: **{$contactPhone}**";
+                return "Kepala **SDIT Robbani** saat ini adalah **{$kepsekSd}**.\n\n" .
+                       "📍 Lokasi: Kompleks SIT Robbani Indralaya\n" .
+                       "📞 Kontak: **{$contactPhone}**";
             }
             if (str_contains($lower, 'smp') || str_contains($lower, 'smpit')) {
-                return "Kepala **SMP IT Robbani** saat ini adalah **Ustadzah Tia Wulandari, S.Pd., Gr.**\n\n" .
-                       "📍 Lokasi SMPIT: Jl. Sarjana Padang Guci, Timbangan, Indralaya Utara\n" .
-                       "📞 Kontak Hotline: **{$contactPhone}**";
+                return "Kepala **SMP IT Robbani** saat ini adalah **{$kepsekSmp}**.\n\n" .
+                       "📍 Lokasi: Jl. Sarjana Padang Guci, Timbangan, Indralaya Utara\n" .
+                       "📞 Kontak: **{$contactPhone}**";
             }
             if (str_contains($lower, 'sma') || str_contains($lower, 'smait')) {
-                return "Koordinator Persiapan **SMAIT Robbani** adalah **Ustadz Ahmad Subagja, M.Si** (Program Unggulan Sains & IT Terpadu).";
+                return "Pimpinan Persiapan **SMAIT Robbani** adalah **{$kepsekSma}**.";
             }
 
             // General list of principals
-            return "Berikut jajaran pimpinan satuan pendidikan di lingkungan **SIT Robbani Ogan Ilir**:\n\n" .
-                   "• **Pimpinan Yayasan / Direktur**: Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd\n" .
-                   "• **Kepala KB/TKIT**: Ustdz. Nurhidayah, S.Pd.I\n" .
-                   "• **Kepala SDIT**: Ustadzah Nur Amalia, S.Pd., Gr.\n" .
-                   "• **Kepala SMPIT**: Ustadzah Tia Wulandari, S.Pd., Gr.\n\n" .
-                   "Ada informasi spesifik yang ingin Anda ketahui tentang salah satu unit?";
+            return "Berikut struktur pimpinan di lingkungan **SIT Robbani Ogan Ilir**:\n\n" .
+                   "• **Ketua Yayasan / Pimpinan**: {$pimpinanYayasan}\n" .
+                   "• **Kepala KB/TKIT**: {$kepsekTk}\n" .
+                   "• **Kepala SDIT**: {$kepsekSd}\n" .
+                   "• **Kepala SMPIT**: {$kepsekSmp}\n\n" .
+                   "Ada informasi spesifik mengenai salah satu unit yang ingin Anda ketahui?";
         }
 
-        // ── 3. Pertanyaan SPMB / PPDB / Syarat Pendaftaran ─────────────────────────
-        if (str_contains($lower, 'spmb') || str_contains($lower, 'ppdb') || str_contains($lower, 'daftar') || str_contains($lower, 'syarat') || str_contains($lower, 'alur') || str_contains($lower, 'cara masuk')) {
-            return "Penerimaan Siswa Baru (**SPMB Online TA 2026/2027**) SIT Robbani telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT.\n\n" .
-                   "📌 **Jalur Pendaftaran:**\n" .
-                   "1. **Jalur Prestasi** (Diskon infaq 50% untuk juara MTQ / OSN)\n" .
-                   "2. **Jalur Reguler** (Observasi kesiapan belajar & tes membaca Al-Qur'an)\n" .
-                   "3. **Jalur Afirmasi** (Beasiswa khusus Yatim & Dhuafa)\n\n" .
-                   "📝 **Syarat Berkas:** Fotokopi Akta Kelahiran (2 lbr), Kartu Keluarga, KTP Orang Tua, dan Pas Foto 3x4.\n\n" .
-                   "🔗 Pendaftaran online dapat diakses melalui menu **/ppdb** atau konfirmasi WhatsApp **{$contactPhone}**.";
-        }
-
-        // ── 4. Pertanyaan Biaya / SPP / Keuangan ────────────────────────────────────
-        if (str_contains($lower, 'spp') || str_contains($lower, 'biaya') || str_contains($lower, 'bayar') || str_contains($lower, 'tarif') || str_contains($lower, 'infaq') || str_contains($lower, 'e-spp')) {
-            return "Pembayaran SPP dan administrasi keuangan di SIT Robbani menggunakan sistem **E-Wallet & E-SPP Online**:\n\n" .
-                   "• Pembayaran dapat dilakukan via Virtual Account Bank (BSI, Mandiri, BRI, BCA) serta QRIS.\n" .
-                   "• Notifikasi tagihan & kwitansi digital otomatis dikirim ke WhatsApp wali santri.\n" .
-                   "• Rincian tagihan dapat dicek mandiri melalui menu **/e-spp**.\n\n" .
-                   "💬 Untuk rincian biaya pendaftaran dan infaq per jenjang, silakan hubungi bagian keuangan di **{$contactPhone}**.";
-        }
-
-        // ── 5. Pertanyaan Tahfidz / Target Hafalan ──────────────────────────────────
-        if (str_contains($lower, 'tahfidz') || str_contains($lower, 'hafalan') || str_contains($lower, 'quran') || str_contains($lower, 'juz') || str_contains($lower, 'tajwid')) {
-            return "Target capaian program **Tahfidz Al-Qur'an** di SIT Robbani dirancang terstruktur per jenjang:\n\n" .
-                   "• **KB/TKIT**: Juz 30 (Surah Pendek) dengan metode nada nasyid riang\n" .
-                   "• **SDIT**: Target 3 - 5 Juz Mutqin + bimbingan talaqqi tajwid\n" .
-                   "• **SMPIT**: Target 5 - 10 Juz Mutqin + karantina tahfidz bulanan\n" .
-                   "• **SMAIT**: Target 10 - 30 Juz + persiapan sanad tahfidz\n\n" .
-                   "Seluruh siswa dibimbing langsung oleh ustadz/ustadzah hafidz Al-Qur'an bersanad.";
-        }
-
-        // ── 6. Pertanyaan Profil Unit (TK, SD, SMP, SMA) ───────────────────────────
-        if (str_contains($lower, 'unit') || str_contains($lower, 'tk') || str_contains($lower, 'sd') || str_contains($lower, 'smp') || str_contains($lower, 'sma')) {
-            return "SIT Robbani Ogan Ilir menaungi 4 satuan pendidikan Islam terpadu:\n\n" .
-                   "1. **KB/TKIT Robbani** (Akreditasi A) — Karakter ceria & tahfidz usia dini.\n" .
-                   "2. **SDIT Robbani** (Akreditasi B) — Kurikulum Merdeka, sains olimpiade, & tahfidz 3-5 juz.\n" .
-                   "3. **SMP IT Robbani** (Akreditasi B) — Fullday school digital (SIPAKAR V2) & tahfidz 5-10 juz.\n" .
-                   "4. **SMAIT Robbani** (Persiapan) — Integrasi sains, teknologi IT, dan kepemimpinan islami.\n\n" .
-                   "Ingin mengetahui detail kurikulum atau fasilitas unit tertentu?";
-        }
-
-        // ── 7. Pencocokan Cerdas dari Knowledge Base RAG ───────────────────────────
+        // ── 2. Check Relevant Document from Knowledge Base ─────────────────────────
         if (!empty($context['relevantDocs'])) {
             $bestDoc = $context['relevantDocs'][0];
             $content = $bestDoc->raw_content;
 
             $queryWords = array_filter(
                 preg_split('/[\s,\.?\!;\:\-]+/', $lower),
-                fn($w) => strlen($w) >= 3
+                fn($w) => strlen($w) >= 3 && !in_array($w, ['apa', 'siapa', 'mana', 'bisa', 'saya', 'sekolah', 'robbani'])
             );
 
             $lines = explode("\n", $content);
@@ -507,20 +486,64 @@ class AiRagEngine
                         break;
                     }
                 }
-                if (count($matchedLines) >= 4) break;
+                if (count($matchedLines) >= 5) break;
             }
 
             if (!empty($matchedLines)) {
                 $highlighted = implode("\n", array_map(fn($l) => "• " . ltrim($l, "• -*"), $matchedLines));
-                return "Berikut informasi yang relevan:\n\n" .
+                return "Berdasarkan data **{$bestDoc->title}**:\n\n" .
                        "{$highlighted}\n\n" .
                        "💬 Hubungi kami di WhatsApp **{$contactPhone}** jika membutuhkan panduan lebih lanjut.";
             }
+        }
 
-            $cleanExcerpt = Str::limit(strip_tags($content), 300);
-            return "Berdasarkan data **{$bestDoc->title}**:\n\n" .
-                   "{$cleanExcerpt}\n\n" .
-                   "💬 Jika butuh penjelasan lengkap, silakan tanyakan kembali atau hubungi WhatsApp **{$contactPhone}**.";
+        // ── 3. Pertanyaan Alamat, Lokasi, Jam Kerja & Kontak ───────────────────────
+        if (str_contains($lower, 'alamat') || str_contains($lower, 'lokasi') || str_contains($lower, 'dimana') || str_contains($lower, 'kontak') || str_contains($lower, 'nomor telepon') || str_contains($lower, 'jam kerja') || str_contains($lower, 'jam layanan') || str_contains($lower, 'hubungi')) {
+            $addr = $context['contactAddress'] ?? 'Jl. Sarjana Padang Guci, Kel. Timbangan, Indralaya Utara, Ogan Ilir, Sumatera Selatan';
+            return "📍 **Alamat Kampus SIT Robbani:**\n{$addr}\n\n" .
+                   "📞 **Hotline WhatsApp:** **{$contactPhone}**\n" .
+                   "📧 **Email Resmi:** info@sitrobbani.sch.id\n" .
+                   "⏰ **Jam Layanan Kantor:** Senin – Jumat, pukul 07.30 – 16.00 WIB.";
+        }
+
+        // ── 4. Pertanyaan SPMB / PPDB / Syarat Pendaftaran ─────────────────────────
+        if (str_contains($lower, 'spmb') || str_contains($lower, 'ppdb') || str_contains($lower, 'daftar') || str_contains($lower, 'syarat') || str_contains($lower, 'alur') || str_contains($lower, 'cara masuk')) {
+            return "Penerimaan Siswa Baru (**SPMB Online TA 2026/2027**) SIT Robbani telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT.\n\n" .
+                   "📌 **Jalur Pendaftaran:**\n" .
+                   "1. **Jalur Prestasi** (Diskon infaq 50% untuk juara MTQ / OSN)\n" .
+                   "2. **Jalur Reguler** (Observasi kesiapan belajar & tes membaca Al-Qur'an)\n" .
+                   "3. **Jalur Afirmasi** (Beasiswa khusus Yatim & Dhuafa)\n\n" .
+                   "📝 **Syarat Berkas:** Fotokopi Akta Kelahiran (2 lbr), Kartu Keluarga, KTP Orang Tua, dan Pas Foto 3x4.\n\n" .
+                   "🔗 Pendaftaran online dapat diakses melalui menu **/ppdb** atau konfirmasi WhatsApp **{$contactPhone}**.";
+        }
+
+        // ── 5. Pertanyaan Biaya / SPP / Keuangan ────────────────────────────────────
+        if (str_contains($lower, 'spp') || str_contains($lower, 'biaya') || str_contains($lower, 'bayar') || str_contains($lower, 'tarif') || str_contains($lower, 'infaq') || str_contains($lower, 'e-spp')) {
+            return "Pembayaran SPP dan administrasi keuangan di SIT Robbani menggunakan sistem **E-Wallet & E-SPP Online**:\n\n" .
+                   "• Pembayaran dapat dilakukan via Virtual Account Bank (BSI, Mandiri, BRI, BCA) serta QRIS.\n" .
+                   "• Notifikasi tagihan & kwitansi digital otomatis dikirim ke WhatsApp wali santri.\n" .
+                   "• Rincian tagihan dapat dicek mandiri melalui menu **/e-spp**.\n\n" .
+                   "💬 Untuk rincian biaya pendaftaran dan infaq per jenjang, silakan hubungi bagian keuangan di **{$contactPhone}**.";
+        }
+
+        // ── 6. Pertanyaan Tahfidz / Target Hafalan ──────────────────────────────────
+        if (str_contains($lower, 'tahfidz') || str_contains($lower, 'hafalan') || str_contains($lower, 'quran') || str_contains($lower, 'juz') || str_contains($lower, 'tajwid')) {
+            return "Target capaian program **Tahfidz Al-Qur'an** di SIT Robbani dirancang terstruktur per jenjang:\n\n" .
+                   "• **KB/TKIT**: Juz 30 (Surah Pendek) dengan metode nada nasyid riang\n" .
+                   "• **SDIT**: Target 3 - 5 Juz Mutqin + bimbingan talaqqi tajwid\n" .
+                   "• **SMPIT**: Target 5 - 10 Juz Mutqin + karantina tahfidz bulanan\n" .
+                   "• **SMAIT**: Target 10 - 30 Juz + persiapan sanad tahfidz\n\n" .
+                   "Seluruh siswa dibimbing langsung oleh ustadz/ustadzah hafidz Al-Qur'an bersanad.";
+        }
+
+        // ── 7. Pertanyaan Profil Unit (TK, SD, SMP, SMA) ───────────────────────────
+        if (str_contains($lower, 'unit') || str_contains($lower, 'tk') || str_contains($lower, 'sd') || str_contains($lower, 'smp') || str_contains($lower, 'sma')) {
+            return "SIT Robbani Ogan Ilir menaungi 4 satuan pendidikan Islam terpadu:\n\n" .
+                   "1. **KB/TKIT Robbani** (Akreditasi A) — Karakter ceria & tahfidz usia dini.\n" .
+                   "2. **SDIT Robbani** (Akreditasi B) — Kurikulum Merdeka, sains olimpiade, & tahfidz 3-5 juz.\n" .
+                   "3. **SMP IT Robbani** (Akreditasi B) — Fullday school digital (SIPAKAR V2) & tahfidz 5-10 juz.\n" .
+                   "4. **SMAIT Robbani** (Persiapan) — Integrasi sains, teknologi IT, dan kepemimpinan islami.\n\n" .
+                   "Ingin mengetahui detail kurikulum atau fasilitas unit tertentu?";
         }
 
         // ── 8. Default Conversational Fallback ──────────────────────────────────────

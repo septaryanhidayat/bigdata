@@ -36,14 +36,14 @@ class AiTrainerController extends Controller
         $knowledgeBases = $query->paginate($perPage)->withQueryString();
 
         // Stats
-        $totalDocs      = AiKnowledgeBase::count();
-        $activeDocs     = AiKnowledgeBase::where('is_active', true)->count();
+        $totalDocs        = AiKnowledgeBase::count();
+        $activeDocs       = AiKnowledgeBase::where('is_active', true)->count();
         $websiteDataCount = AiKnowledgeBase::where('source_type', 'website_data')->count();
-        $uploadedCount  = AiKnowledgeBase::whereNotIn('source_type', ['website_data', 'text'])->count();
-        $totalWords     = AiKnowledgeBase::sum('word_count');
-        $lastSync       = AiKnowledgeBase::where('source_type', 'website_data')
-                                         ->latest('processed_at')
-                                         ->value('processed_at');
+        $uploadedCount    = AiKnowledgeBase::whereNotIn('source_type', ['website_data', 'text'])->count();
+        $totalWords       = AiKnowledgeBase::sum('word_count');
+        $lastSync         = AiKnowledgeBase::where('source_type', 'website_data')
+                                           ->latest('processed_at')
+                                           ->value('processed_at');
 
         $categories = [
             'spmb'         => 'SPMB / Pendaftaran',
@@ -73,85 +73,88 @@ class AiTrainerController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'file'     => 'required|file|mimes:pdf,doc,docx,xls,xlsx,txt|max:20480',
+            'file'     => 'required|file|max:20480|mimes:pdf,doc,docx,xls,xlsx,txt',
+            'category' => 'required|string|max:50',
             'title'    => 'nullable|string|max:255',
-            'category' => 'required|string|in:spmb,akademik,keuangan,sop,program,fasilitas,prestasi,umum',
-        ], [
-            'file.mimes' => 'Format file yang didukung: PDF, Word (.docx), Excel (.xlsx), TXT.',
-            'file.max'   => 'Ukuran file maksimal 20 MB.',
         ]);
 
-        $file      = $request->file('file');
-        $extension = strtolower($file->getClientOriginalExtension());
-        $fileName  = $file->getClientOriginalName();
-        $fileSize  = $file->getSize();
-        $title     = $request->get('title') ?: pathinfo($fileName, PATHINFO_FILENAME);
-        $title     = str_replace(['_', '-'], ' ', $title);
+        $file     = $request->file('file');
+        $fileName = $file->getClientOriginalName();
+        $ext      = $file->getClientOriginalExtension();
+        $fileSize = $file->getSize();
+        $title    = $request->filled('title')
+            ? $request->title
+            : pathinfo($fileName, PATHINFO_FILENAME);
 
-        // Store file in ai_knowledge directory
-        $storedPath = $file->store('ai_knowledge', 'public');
+        // Store file in storage/app/public/ai-knowledge
+        $storedPath = $file->store('ai-knowledge', 'public');
         $fullPath   = storage_path('app/public/' . $storedPath);
 
-        // Extract text
-        $rawText = AiRagEngine::extractTextFromFile($fullPath, $extension);
+        // Extract raw text
+        $extractedText = AiRagEngine::extractText($fullPath, $ext);
 
-        if (empty(trim($rawText)) || strlen(trim($rawText)) < 20) {
-            // Cleanup stored file
-            Storage::disk('public')->delete($storedPath);
-            return back()->with('error', "Gagal mengekstrak teks dari file '{$fileName}'. Pastikan file tidak terenkripsi/password-protected.");
+        if (empty(trim($extractedText))) {
+            return back()->with('error', "Gagal mengekstrak teks dari file '{$fileName}'. Pastikan file tidak terkunci password atau berupa scan gambar.");
         }
 
         // Ingest into knowledge base
         AiRagEngine::ingestDocument(
             title:      $title,
-            category:   $request->get('category'),
-            rawText:    $rawText,
+            category:   $request->category,
+            rawText:    $extractedText,
+            sourceType: strtolower($ext),
             filePath:   $storedPath,
             fileName:   $fileName,
-            fileType:   $extension,
+            fileType:   $ext,
             fileSize:   $fileSize,
-            uploadedBy: Auth::user()->name ?? Auth::user()->email,
-            sourceType: $extension,
+            uploadedBy: Auth::user()?->name ?? 'Admin',
         );
 
-        return back()->with('success', "✅ File '{$fileName}' berhasil diproses dan ditambahkan ke Knowledge Base AI!");
+        return back()->with('success', "✅ Dokumen '{$title}' berhasil diupload & diproses ke dalam Knowledge Base AI.");
     }
 
-    // ─── Manual Text Input ──────────────────────────────────────────────────
+    // ─── Manual Input ───────────────────────────────────────────────────────
 
     public function store(Request $request)
     {
         $request->validate([
             'title'    => 'required|string|max:255',
-            'category' => 'required|string|in:spmb,akademik,keuangan,sop,program,fasilitas,prestasi,umum',
-            'content'  => 'required|string|min:30',
+            'category' => 'required|string|max:50',
+            'content'  => 'required|string|min:10',
         ]);
 
         AiRagEngine::ingestDocument(
-            title:      $request->get('title'),
-            category:   $request->get('category'),
-            rawText:    $request->get('content'),
-            uploadedBy: Auth::user()->name ?? Auth::user()->email,
+            title:      $request->title,
+            category:   $request->category,
+            rawText:    $request->content,
             sourceType: 'text',
+            uploadedBy: Auth::user()?->name ?? 'Admin',
         );
 
-        return back()->with('success', "✅ Pengetahuan '{$request->title}' berhasil ditambahkan ke Knowledge Base AI!");
+        return back()->with('success', "✅ Pengetahuan '{$request->title}' berhasil disimpan ke Knowledge Base AI.");
     }
 
     // ─── Delete ─────────────────────────────────────────────────────────────
 
-    public function destroy(int $id)
+    public function destroy(Request $request, int $id)
     {
         $kb = AiKnowledgeBase::findOrFail($id);
 
-        // Delete physical file if exists
         if ($kb->file_path) {
             Storage::disk('public')->delete($kb->file_path);
         }
 
+        $title = $kb->title;
         $kb->delete();
 
-        return back()->with('success', "🗑️ Dokumen '{$kb->title}' berhasil dihapus dari Knowledge Base.");
+        if ($request->expectsJson() || $request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "🗑️ Dokumen '{$title}' berhasil dihapus dari Knowledge Base."
+            ]);
+        }
+
+        return back()->with('success', "🗑️ Dokumen '{$title}' berhasil dihapus dari Knowledge Base.");
     }
 
     // ─── Bulk Delete ────────────────────────────────────────────────────────
