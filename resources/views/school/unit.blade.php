@@ -330,7 +330,7 @@
                     </h1>
 
                     <p class="text-sm sm:text-base text-slate-200 dark:text-emerald-100/90 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                        {{ $info['tagline'] }} — Mendidik santri berprestasi di bidang akademik, sains teknologi, penguasaan Al-Qur'an, dan berakhlak mulia di lingkungan {{ $info['name'] }}.
+                        {{ $info['tagline'] }} — Mendidik siswa berprestasi di bidang akademik, sains teknologi, penguasaan Al-Qur'an, dan berakhlak mulia di lingkungan {{ $info['name'] }}.
                     </p>
 
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
@@ -355,7 +355,7 @@
                         
                         <!-- Main Hero Image Container -->
                         <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 dark:border-[#1a381c] bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4]">
-                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200" alt="Santri Berprestasi {{ $info['name'] }}" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200" alt="Siswa Berprestasi {{ $info['name'] }}" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 dark:from-[#061107]/80 via-transparent to-transparent"></div>
                             
                             <!-- Floating Achievement Badge -->
@@ -409,7 +409,7 @@
                             </div>
                             <div>
                                 <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 dark:group-hover:text-[#c6f634] transition-colors">PPDB 2026/2027</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Pendaftaran santri baru online</p>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Pendaftaran siswa baru online</p>
                             </div>
                         </div>
                         <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-amber-600 dark:group-hover:text-[#c6f634] group-hover:bg-amber-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
@@ -488,7 +488,7 @@
 
                         <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
                             <a href="{{ route('school.ppdb') }}" class="btn-unit-cta px-5 py-2.5 rounded-full bg-emerald-700 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-xs shadow-md hover:scale-105 transition-all flex items-center gap-1.5">
-                                <span>Pendaftaran Santri Baru {{ $info['code'] }}</span>
+                                <span>Pendaftaran Siswa Baru {{ $info['code'] }}</span>
                                 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                             </a>
                             <a href="#guru" class="px-5 py-2.5 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-700 dark:text-slate-200 font-bold text-xs hover:bg-slate-200 transition-all">
@@ -740,7 +740,7 @@
                 
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">MINAT &amp; BAKAT</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Ekstrakurikuler Santri {{ $info['code'] }}</h2>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Ekstrakurikuler Siswa {{ $info['code'] }}</h2>
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Wadah eksplorasi talenta sains, teknologi koding, seni islami, panahan, dan kepanduan.</p>
                 </div>
 
@@ -767,7 +767,7 @@
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">TENAGA PENDIDIK</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Dewan Guru &amp; Tenaga Pendidik {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Guru profesional, berpendidikan linier, hafidz Al-Qur'an, dan berdedikasi tinggi membimbing santri.</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Guru profesional, berpendidikan linier, hafidz Al-Qur'an, dan berdedikasi tinggi membimbing siswa.</p>
                 </div>
 
                 <!-- Grid Guru Format Foto Kotak Pas Foto 3:4 -->
@@ -796,7 +796,7 @@
             </div>
         </section>
 
-        <!-- 11. BERITA & PRESTASI SANTRI KHUSUS UNIT -->
+        <!-- 11. BERITA & PRESTASI SISWA KHUSUS UNIT -->
         <section id="berita" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
@@ -804,7 +804,7 @@
                     <div>
                         <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">KABAR TERBARU</span>
                         <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Berita &amp; Prestasi {{ $info['name'] }}</h2>
-                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Dokumentasi kegiatan, prestasi santri, dan pengumuman resmi unit {{ $info['code'] }}.</p>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Dokumentasi kegiatan, prestasi siswa, dan pengumuman resmi unit {{ $info['code'] }}.</p>
                     </div>
                     <a href="{{ route('school.berita') }}" class="px-5 py-2.5 rounded-full bg-white dark:bg-[#0d1e0f] text-emerald-700 dark:text-[#c6f634] font-black text-xs border border-slate-200/80 dark:border-[#1a381c] shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 shrink-0">
                         <span>Lihat Semua Berita</span> ➔
@@ -857,7 +857,7 @@
                     <div>
                         <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">LITERASI &amp; EDUKASI</span>
                         <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Artikel &amp; Editorial {{ $info['code'] }}</h2>
-                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Wawasan keislaman, parenting, dan tips belajar santri.</p>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Wawasan keislaman, parenting, dan tips belajar siswa.</p>
                     </div>
                     <a href="{{ route('school.artikel') }}" class="px-5 py-2.5 rounded-full bg-white dark:bg-[#0d1e0f] text-orange-600 dark:text-[#c6f634] font-black text-xs border border-slate-200/80 dark:border-[#1a381c] shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 shrink-0">
                         <span>Lihat Semua Artikel</span> ➔
@@ -908,7 +908,7 @@
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">DOKUMENTASI FOTO</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Galeri Foto Kegiatan {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Potret keceriaan santri, perkemahan, kegiatan manasik, dan perlombaan akademik.</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Potret keceriaan siswa, perkemahan, kegiatan manasik, dan perlombaan akademik.</p>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -938,7 +938,7 @@
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-red-100 dark:bg-[#c6f634] text-red-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">DOKUMENTASI VIDEO</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Galeri Video Kegiatan {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Saksikan video aktivitas belajar, wisuda tahfidz, unjuk bakat santri, dan dokumenter sekolah resmi.</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Saksikan video aktivitas belajar, wisuda tahfidz, unjuk bakat siswa, dan dokumenter sekolah resmi.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1098,7 +1098,7 @@
                         <li><a href="#program" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Kurikulum &amp; Program Unggulan</a></li>
                         <li><a href="#fasilitas" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Sarana &amp; Fasilitas Sekolah</a></li>
                         <li><a href="#guru" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Dewan Guru &amp; Tendik</a></li>
-                        <li><a href="#berita" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Berita &amp; Prestasi Santri</a></li>
+                        <li><a href="#berita" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Berita &amp; Prestasi Siswa</a></li>
                     </ul>
                 </div>
 

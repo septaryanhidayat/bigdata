@@ -301,7 +301,7 @@
                         <span class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center justify-center sm:justify-start gap-1.5">
                             <span>📢</span> Bagikan Berita Ini:
                         </span>
-                        <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium">Bantu sebarkan informasi kegiatan santri</span>
+                        <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium">Bantu sebarkan informasi kegiatan siswa</span>
                     </div>
                     <div class="grid grid-cols-3 gap-1.5 sm:flex sm:flex-wrap sm:gap-2">
                         <a href="https://api.whatsapp.com/send?text={{ urlencode($news['title'] . ' ' . request()->fullUrl()) }}" target="_blank" class="px-2.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] sm:text-xs shadow-xs transition-transform hover:scale-105 flex items-center justify-center gap-1">
@@ -327,7 +327,7 @@
                             <span class="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-[#0c2210] text-emerald-800 dark:text-[#c6f634] text-[9px] font-black uppercase">Official Publisher</span>
                         </div>
                         <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                            Dipublikasikan oleh Tim Media &amp; Humas Resmi SIT Robbani Ogan Ilir untuk mengabarkan kegiatan akademik, tahfidz, dan prestasi santri.
+                            Dipublikasikan oleh Tim Media &amp; Humas Resmi SIT Robbani Ogan Ilir untuk mengabarkan kegiatan akademik, tahfidz, dan prestasi siswa.
                         </p>
                     </div>
                 </div>
@@ -402,7 +402,7 @@
                             📖 Tahfidz Al-Qur'an
                         </a>
                         <a href="{{ route('school.berita') }}" class="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-[#0c2210] text-slate-700 dark:text-slate-300 font-bold text-[10px] hover:bg-slate-200">
-                            🏆 Prestasi Santri
+                            🏆 Prestasi Siswa
                         </a>
                         <a href="{{ route('school.ppdb') }}" class="px-2.5 py-1 rounded-xl bg-amber-100 dark:bg-[#0c2210] text-amber-800 dark:text-amber-300 font-extrabold text-[10px] hover:bg-amber-500 hover:text-white">
                             ✨ SPMB Online
@@ -474,9 +474,9 @@
                 <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-emerald-800 via-teal-900 to-slate-950 text-white space-y-3.5 shadow-lg border border-emerald-700/50">
                     <div class="space-y-1.5">
                         <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-black uppercase shadow-xs">SPMB 2026/2027</span>
-                        <h4 class="text-base sm:text-lg font-black font-headline tracking-tight leading-tight">Pendaftaran Santri Baru Telah Dibuka</h4>
+                        <h4 class="text-base sm:text-lg font-black font-headline tracking-tight leading-tight">Pendaftaran Siswa Baru Telah Dibuka</h4>
                         <p class="text-[11px] sm:text-xs text-slate-200 font-medium leading-relaxed">
-                            Penerimaan santri baru KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir tahun ajaran 2026/2027.
+                            Penerimaan siswa baru KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir tahun ajaran 2026/2027.
                         </p>
                     </div>
                     <a href="{{ route('school.ppdb') }}" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs text-center shadow-md block transition-all hover:scale-[1.02]">

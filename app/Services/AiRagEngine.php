@@ -110,7 +110,7 @@ class AiRagEngine
         $systemContext .= "• Alamat Kampus: {$contactAddress}\n";
         $systemContext .= "• Kontak Hotline WA: {$contactPhone} | Email: {$contactEmail}\n";
         $systemContext .= "• Tahun Ajaran Aktif: " . ($academicYear ? $academicYear->name : '2026/2027') . "\n";
-        $systemContext .= "• Total Pendaftar SPMB Online Masuk: {$totalPpdb} calon santri\n";
+        $systemContext .= "• Total Pendaftar SPMB Online Masuk: {$totalPpdb} calon siswa\n";
         $systemContext .= "• Unit Sekolah Aktif:\n";
         foreach ($schools as $s) {
             $systemContext .= "  - [{$s->code}] {$s->name} ({$s->level}) - Akreditasi {$s->accreditation}\n";
@@ -152,7 +152,7 @@ class AiRagEngine
                 $fullPrompt = "Anda adalah 'Robbani SmartEdu AI Assistant', asisten AI cerdas resmi SIT Robbani Ogan Ilir yang didukung oleh Knowledge Base dokumen sekolah dan data realtime SmartEdu.\n\n";
                 $fullPrompt .= "Tugas Anda:\n";
                 $fullPrompt .= "1. Jawab pertanyaan pengunjung secara ramah, santun, islami, dan akurat berdasarkan fakta dokumen dan data sistem di bawah ini.\n";
-                $fullPrompt .= "2. Jika jawaban bersumber dari dokumen yang diberikan, sebutkan nama dokumennya (misal: 'Berdasarkan Panduan SPMB / SOP Santri...').\n";
+                $fullPrompt .= "2. Jika jawaban bersumber dari dokumen yang diberikan, sebutkan nama dokumennya (misal: 'Berdasarkan Panduan SPMB / SOP Siswa...').\n";
                 $fullPrompt .= "3. Format jawaban menggunakan Markdown rapi dengan poin/bullet agar mudah dibaca.\n\n";
                 $fullPrompt .= $context['systemContext'] . "\n";
                 $fullPrompt .= $context['documentContext'] . "\n";
@@ -196,7 +196,7 @@ class AiRagEngine
 
         // Rule-based live system queries
         if (str_contains($q, 'daftar') || str_contains($q, 'spmb') || str_contains($q, 'ppdb') || str_contains($q, 'syarat') || str_contains($q, 'biaya')) {
-            return "Assalamu'alaikum! Pendaftaran Santri Baru (SPMB / PPDB Online) SIT Robbani Ogan Ilir Tahun Ajaran Aktif saat ini telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\n" .
+            return "Assalamu'alaikum! Pendaftaran Siswa Baru (SPMB / PPDB Online) SIT Robbani Ogan Ilir Tahun Ajaran Aktif saat ini telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\n" .
                    "📌 **Layanan Cepat:**\n" .
                    "• **Formulir Online**: Menu **[Pendaftaran SPMB]** (`/ppdb`)\n" .
                    "• **Cek Tagihan / SPP**: Menu **[Portal E-SPP]** (`/e-spp`)\n" .

@@ -296,7 +296,7 @@ const templatePresets = {
     },
     SURAT_UNDANGAN_RAPAT: {
         category: 'UNDANGAN',
-        recipient: 'Bapak/Ibu Orang Tua / Wali Santri Kelas 7 & 8',
+        recipient: 'Bapak/Ibu Orang Tua / Wali Murid Kelas 7 & 8',
         title: 'Undangan Rapat Pleno Parenting & Sosialisasi Program JSIT',
         content: `Assalamu'alaikum Warahmatullahi Wabarakatuh,\n\nDengan hormat, kami mengundang Bapak/Ibu untuk menghadiri agenda Rapat Pleno dan Sosialisasi Program Sekolah yang insya Allah akan dilaksanakan pada:\n\nHari / Tanggal : Sabtu, 22 Agustus 2026\nWaktu / Pukul  : 08.30 WIB s.d Selesai\nTempat         : Aula Utama Yayasan Generasi Robbani\nAgenda         : Sosialisasi Kurikulum JSIT & Evaluasi Tahfidz\nPembicara      : Ustadz Dr. H. Ahmad Fauzi, M.Pd.I\n\nMengingat pentingnya agenda tersebut, kami sangat mengharapkan kehadiran Bapak/Ibu tepat pada waktunya.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.`
     },
@@ -340,7 +340,7 @@ const templatePresets = {
         category: 'LAINNYA',
         recipient: 'Pimpinan Pengelola Gedung Serbaguna Indralaya',
         title: 'Permohonan Izin Pemakaian Gedung Acara Wisuda & Haflah Akhirussanah',
-        content: `Assalamu'alaikum Warahmatullahi Wabarakatuh,\n\nDengan hormat, dalam rangka menyelenggarakan kegiatan Haflah Akhirussanah & Wisuda Tahfidz Al-Qur'an Santri SIT Robbani, kami bermaksud mengajukan permohonan pemakaian Gedung Serbaguna pada:\n\nHari / Tanggal : Ahad, 13 September 2026\nWaktu          : 07.30 s.d 13.00 WIB\nJumlah Peserta : 400 Orang (Santri & Wali Santri)\n\nDemikian permohonan ini kami sampaikan, besar harapan kami permohonan ini dapat disetujui. Atas perhatian Bapak/Ibu kami haturkan jazakumullah khairan katsiran.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.`
+        content: `Assalamu'alaikum Warahmatullahi Wabarakatuh,\n\nDengan hormat, dalam rangka menyelenggarakan kegiatan Haflah Akhirussanah & Wisuda Tahfidz Al-Qur'an Siswa SIT Robbani, kami bermaksud mengajukan permohonan pemakaian Gedung Serbaguna pada:\n\nHari / Tanggal : Ahad, 13 September 2026\nWaktu          : 07.30 s.d 13.00 WIB\nJumlah Peserta : 400 Orang (Siswa & Wali Murid)\n\nDemikian permohonan ini kami sampaikan, besar harapan kami permohonan ini dapat disetujui. Atas perhatian Bapak/Ibu kami haturkan jazakumullah khairan katsiran.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.`
     }
 };
 

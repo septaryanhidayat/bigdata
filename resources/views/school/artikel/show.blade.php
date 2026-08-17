@@ -287,9 +287,9 @@
                 <div class="p-6 rounded-3xl bg-gradient-to-br from-emerald-800 via-teal-900 to-slate-950 text-white space-y-4 shadow-lg border border-emerald-700/50">
                     <div class="space-y-1.5">
                         <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-black uppercase shadow-xs">SPMB 2026/2027</span>
-                        <h4 class="text-lg font-black font-headline tracking-tight">Pendaftaran Santri Baru Telah Dibuka</h4>
+                        <h4 class="text-lg font-black font-headline tracking-tight">Pendaftaran Siswa Baru Telah Dibuka</h4>
                         <p class="text-xs text-slate-200 font-medium leading-relaxed">
-                            Penerimaan santri baru KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir tahun ajaran 2026/2027.
+                            Penerimaan siswa baru KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir tahun ajaran 2026/2027.
                         </p>
                     </div>
                     <a href="{{ route('school.ppdb') }}" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs text-center shadow-md block transition-all hover:scale-[1.02]">

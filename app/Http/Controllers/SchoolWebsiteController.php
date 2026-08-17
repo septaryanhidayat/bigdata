@@ -162,28 +162,28 @@ class SchoolWebsiteController extends Controller
                 'principal_name' => 'Ustdz. Nurhidayah, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
                 'principal_photo' => '/images/mockup_mobile_1.png',
-                'desc' => 'Kelompok Bermain & TK Islam Terpadu berakreditasi unggul.'
+                'desc' => 'Kelompok Bermain & TK Islam Terpadu Terakreditasi A.'
             ],
             'sdit' => [
                 'name' => 'SDIT Robbani',
                 'principal_name' => 'Ustdz. M. Ridwan, S.Pd',
                 'principal_title' => 'Kepala SDIT Robbani',
                 'principal_photo' => '/images/mockup_mobile_2.png',
-                'desc' => 'Sekolah Dasar Islam Terpadu berakreditasi A & Tahfidz.'
+                'desc' => 'Sekolah Dasar Islam Terpadu Terakreditasi B & Program Tahfidz.'
             ],
             'smpit' => [
                 'name' => 'SMPIT Robbani',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMPIT',
-                'principal_photo' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2024/11/WhatsApp-Image-2024-12-03-at-10.45.31-1.jpeg',
-                'desc' => 'Sekolah Menengah Pertama berasrama (boarding) / fullday.'
+                'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'desc' => 'Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).'
             ],
             'smait' => [
                 'name' => 'SMAIT Robbani',
-                'principal_name' => 'Ustdz. Ahmad Subagja, M.Si',
+                'principal_name' => '—',
                 'principal_title' => 'Kepala SMAIT Robbani',
-                'principal_photo' => '/images/mockup_mobile_4.png',
-                'desc' => 'Sekolah Menengah Atas dengan program unggulan sains & IT.'
+                'principal_photo' => '',
+                'desc' => 'Sekolah Menengah Atas dengan program unggulan sains & IT (Coming Soon).'
             ],
         ];
 
@@ -283,13 +283,13 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SDIT Robbani Ogan Ilir',
                 'code' => 'SDIT',
                 'npsn' => '69985678',
-                'akreditasi' => 'Terakreditasi A (Unggul)',
+                'akreditasi' => 'Terakreditasi B',
                 'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
                 'principal_name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd',
                 'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
                 'principal_photo' => '/images/logo-robbani-official.png',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
-                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi A unggulan Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
+                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
                 'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
                 'missions' => [
                     'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.',
@@ -323,12 +323,12 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SMP IT ROBBANI',
                 'code' => 'SMPIT',
                 'npsn' => '69989012',
-                'akreditasi' => 'Terakreditasi A (Unggul)',
+                'akreditasi' => 'Terakreditasi B',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
                 'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap santri (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
                 'vision' => 'Melahirkan Generasi Rabbani yang Beriman dan Bertaqwa, Unggul dalam Ilmu Pengetahuan dan Teknologi serta Berwawasan Global.',
                 'missions' => [
@@ -347,7 +347,7 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi, modul CBT, dan rekam jejak hafalan.'],
                     ['title' => 'Fullday School & Karakter Islami', 'icon' => '🏫', 'desc' => 'Pembiasaan ibadah harian, sholat dhuha & dhuhur berjamaah, mentoring adab, dan kemandirian.'],
                     ['title' => 'Tahfidz Al-Qur\'an 5-10 Juz', 'icon' => '📜', 'desc' => 'Bimbingan tasmi\', murojaah berkala, dan wisuda tahfidz dengan target hafalan mutqin.'],
-                    ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking santri.']
+                    ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking siswa.']
                 ],
                 'teachers' => [
                     ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
@@ -364,22 +364,22 @@ class SchoolWebsiteController extends Controller
                     ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Santri Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
+                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
                     ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Pendidikan di SMPIT Robbani melatih saya mandiri, disiplin ibadah harian, dan hafal Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
-                    ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi santri.', 'avatar' => '/images/mockup_mobile_4.png']
+                    ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi siswa.', 'avatar' => '/images/mockup_mobile_4.png']
                 ]
             ],
             'smait' => [
                 'name' => 'SMAIT Robbani Ogan Ilir',
                 'code' => 'SMAIT',
                 'npsn' => '69983456',
-                'akreditasi' => 'Terakreditasi A (Unggul)',
+                'akreditasi' => 'Dalam Tahap Persiapan',
                 'tagline' => 'Center of Excellence: Science, IT, Tahfidz 10-30 Juz, & Mentoring PTN',
-                'principal_name' => 'Ustadz Syamsul Bahri, M.Sc',
-                'principal_title' => 'Kepala Sekolah SMAIT Robbani Ogan Ilir',
-                'principal_photo' => '/images/logo-robbani-official.png',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. SMAIT Robbani mengantarkan para santri lulusan untuk memimpin dunia, unggul dalam seleksi UTBK PTN ternama (UI, ITB, UGM, UNSRI), serta berjiwa Huffazh Al-Qur\'an yang tangguh.',
-                'description' => 'Sekolah Menengah Atas Islam Terpadu jenjang lanjutan berfokus pada persiapan tembus PTN Favorit & Beasiswa Luar Negeri, Tahfidz Al-Qur\'an 10-30 Juz berijazah sanad, serta Riset Sains & Leadership.',
+                'principal_name' => '—',
+                'principal_title' => 'Kepala Sekolah SMAIT Robbani',
+                'principal_photo' => '',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. SMAIT Robbani dipersiapkan untuk mengantarkan para siswa memimpin masa depan, unggul dalam seleksi UTBK PTN ternama (UI, ITB, UGM, UNSRI), serta berjiwa Huffazh Al-Qur\'an yang tangguh.',
+                'description' => 'Sekolah Menengah Atas Islam Terpadu jenjang lanjutan berfokus pada persiapan tembus PTN Favorit & Beasiswa Luar Negeri, Tahfidz Al-Qur\'an 10-30 Juz berijazah sanad, serta Riset Sains & Leadership (Coming Soon).',
                 'vision' => 'Menjadi SMAIT Unggulan Nasional dalam Melahirkan Ilmuwan Muslim, Huffazh Al-Qur\'an, dan Pemimpin Masa Depan.',
                 'missions' => [
                     'Menyelenggarakan bimbingan intensif UTBK-SNBT dan seleksi PTN / Beasiswa Luar Negeri.',
@@ -388,26 +388,18 @@ class SchoolWebsiteController extends Controller
                     'Membentuk karakter kader dakwah dan pemimpin berintegritas tinggi.'
                 ],
                 'phone' => '0811747472',
-                'students_count' => 190,
-                'employees_count' => 22,
-                'classrooms_count' => 8,
+                'students_count' => 0,
+                'employees_count' => 0,
+                'classrooms_count' => 0,
                 'target_hafalan' => '10 - 30 Juz (Huffazh)',
                 'programs' => [
                     ['title' => 'Bimbingan Intensif PTN & Beasiswa', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan jurusan, dan pendampingan lolos perguruan tinggi ternama.'],
-                    ['title' => 'Tahfidz 10-30 Juz & Sanad', 'icon' => '📖', 'desc' => 'Program khusus santri tahfidz dengan target mutqin dan persiapan pengambilan sanad.'],
+                    ['title' => 'Tahfidz 10-30 Juz & Sanad', 'icon' => '📖', 'desc' => 'Program khusus siswa tahfidz dengan target mutqin dan persiapan pengambilan sanad.'],
                     ['title' => 'Riset Sains & Technology Project', 'icon' => '🧪', 'desc' => 'Penelitian ilmiah remaja, karya tulis ilmiah, dan proyek teknologi buatan siswa.'],
                     ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
                 ],
-                'teachers' => [
-                    ['name' => 'Ustadz Syamsul Bahri, M.Sc', 'role' => 'Kepala Sekolah SMAIT', 'photo' => '/images/mockup_mobile_1.png'],
-                    ['name' => 'Ustadz Dr. H. Burhanuddin, M.A', 'role' => 'Guru Al-Qur\'an & Hadits', 'photo' => '/images/mockup_mobile_2.png'],
-                    ['name' => 'Ustadzah Intan, M.Pd', 'role' => 'Koordinator Bimbingan PTN / Fisika', 'photo' => '/images/mockup_mobile_3.png'],
-                    ['name' => 'Ustadz Ahmad Zaki, S.T', 'role' => 'Pembina Coding & Robotik', 'photo' => '/images/mockup_mobile_4.png']
-                ],
-                'alumni' => [
-                    ['name' => 'Ahmad Rivaldi', 'title' => 'Alumni SMAIT - Mahasiswa ITB', 'text' => 'Didikan di SMAIT Robbani membuat saya siap bersaing di ITB sambil tetap menjaga hafalan Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
-                    ['name' => 'Siti Humaira', 'title' => 'Alumni SMAIT - Kedokteran UNSRI', 'text' => 'Bimbingan sains dan motivasi di SMAIT Robbani sangat membantu kelulusan saya di Kedokteran.', 'avatar' => '/images/logo-robbani-official.png']
-                ]
+                'teachers' => [],
+                'alumni' => []
             ]
         ];
 
@@ -945,14 +937,14 @@ class SchoolWebsiteController extends Controller
 
         return [
             [
-                'title' => 'Puncak Tema & Pentas Seni Cilik Santri KB/TKIT Robbani Ogan Ilir',
-                'slug' => 'puncak-tema-pentas-seni-cilik-santri-kbtkit-robbani-ogan-ilir',
+                'title' => 'Puncak Tema & Pentas Seni Cilik Siswa KB/TKIT Robbani Ogan Ilir',
+                'slug' => 'puncak-tema-pentas-seni-cilik-siswa-kbtkit-robbani-ogan-ilir',
                 'category' => 'KB/TKIT',
                 'date' => '12 Agustus 2026',
                 'author' => 'Humas KB/TKIT Robbani',
                 'image' => '/images/mockup_mobile_1.png',
-                'excerpt' => 'Keceriaan dan kebersamaan santri cilik KB/TKIT Robbani Ogan Ilir saat mengekspresikan bakat hafalan surah pendek, doa harian, & kreasi mewarnai bersama bundanya.',
-                'content' => 'Ogan Ilir — Suasana penuh warna dan keceriaan mewarnai aula KB/TKIT Robbani Ogan Ilir dalam gelaran Puncak Tema & Pentas Seni Cilik Santri Usia Dini Tahun Ajaran 2026/2027.<br><br>Acara ini diselenggarakan sebagai wadah apresiasi tumbuh kembang, keberanian, dan kreativitas santri cilik KB/TKIT Robbani setelah menyelesaikan tema pembelajaran semester ganjil.<br><br>Para santri dengan percaya diri menampilkan unjuk bakat hafalan surah-surah pendek Al-Qur\'an (Juz Amma), perkataan thoyyibah, doa harian, tarian kreasi nusantara islami, serta fashion show pakaian adat.<br><br>Kepala KB/TKIT Robbani, Ustdz. Nurhidayah, S.Pd.I, menyampaikan rasa syukur dan haru atas perkembangan adab dan kemandirian ananda. "Pendidikan usia dini di SIT Robbani dirancang dengan metode belajar seraya bermain yang menyenangkan, menanamkan nilai-nilai keislaman sejak dini, serta membangun ikatan kasih sayang yang erat antara guru, anak, dan orang tua," tutur beliau.'
+                'excerpt' => 'Keceriaan dan kebersamaan siswa cilik KB/TKIT Robbani Ogan Ilir saat mengekspresikan bakat hafalan surah pendek, doa harian, & kreasi mewarnai bersama bundanya.',
+                'content' => 'Ogan Ilir — Suasana penuh warna dan keceriaan mewarnai aula KB/TKIT Robbani Ogan Ilir dalam gelaran Puncak Tema & Pentas Seni Cilik Siswa Usia Dini Tahun Ajaran 2026/2027.<br><br>Acara ini diselenggarakan sebagai wadah apresiasi tumbuh kembang, keberanian, dan kreativitas siswa cilik KB/TKIT Robbani setelah menyelesaikan tema pembelajaran semester ganjil.<br><br>Para siswa dengan percaya diri menampilkan unjuk bakat hafalan surah-surah pendek Al-Qur\'an (Juz Amma), perkataan thoyyibah, doa harian, tarian kreasi nusantara islami, serta fashion show pakaian adat.<br><br>Kepala KB/TKIT Robbani, Ustdz. Nurhidayah, S.Pd.I, menyampaikan rasa syukur dan haru atas perkembangan adab dan kemandirian ananda. "Pendidikan usia dini di SIT Robbani dirancang dengan metode belajar seraya bermain yang menyenangkan, menanamkan nilai-nilai keislaman sejak dini, serta membangun ikatan kasih sayang yang erat antara guru, anak, dan orang tua," tutur beliau.'
             ],
             [
                 'title' => 'Pramuka SIT & Supercamp Karakter Siswa SDIT Robbani 2026',
@@ -961,8 +953,8 @@ class SchoolWebsiteController extends Controller
                 'date' => '08 Agustus 2026',
                 'author' => 'Pembina Pramuka SDIT',
                 'image' => '/images/mockup_mobile_2.png',
-                'excerpt' => 'Pelatihan kemandirian, ketangkasan, dan mabit malam bina iman takwa santri penggalang SDIT Robbani Ogan Ilir.',
-                'content' => 'Ogan Ilir — Ratusan santri penggalang Sekolah Dasar Islam Terpadu (SDIT) Robbani Ogan Ilir antusias mengikuti kegiatan Perkemahan Sabtu-Minggu (Persami) & Supercamp Karakter Pramuka SIT 2026 di Bumi Perkemahan Kampus Terpadu Robbani.<br><br>Kegiatan yang mengusung tema "Tangguh, Mandiri, Berakhlak Karimah, dan Siap Memimpin" ini diisi dengan berbagai materi ketangkasan, sandi morse, pioneering tali temali, penjelajahan alam halang rintang, serta pertunjukan api unggun.<br><br>Selain ketangkasan fisik, peserta diajak memperdalam ruhani melalui sholat qiyamul lail berjamaah, munasabah malam bina iman takwa (MABIT), dan tahfidz bersama di bawah bimbingan ustadz-ustadzah pendamping.<br><br>Kepala SDIT Robbani, Ustdz. M. Ridwan, S.Pd, mengapresiasi tinggi kedisiplinan para santri. Kegiatan outdoor ini merupakan sarana efektif menempa jiwa kepemimpinan, kepedulian sosial, serta rasa ukhuwah antar sesama siswa.'
+                'excerpt' => 'Pelatihan kemandirian, ketangkasan, dan mabit malam bina iman takwa siswa penggalang SDIT Robbani Ogan Ilir.',
+                'content' => 'Ogan Ilir — Ratusan siswa penggalang Sekolah Dasar Islam Terpadu (SDIT) Robbani Ogan Ilir antusias mengikuti kegiatan Perkemahan Sabtu-Minggu (Persami) & Supercamp Karakter Pramuka SIT 2026 di Bumi Perkemahan Kampus Terpadu Robbani.<br><br>Kegiatan yang mengusung tema "Tangguh, Mandiri, Berakhlak Karimah, dan Siap Memimpin" ini diisi dengan berbagai materi ketangkasan, sandi morse, pioneering tali temali, penjelajahan alam halang rintang, serta pertunjukan api unggun.<br><br>Selain ketangkasan fisik, peserta diajak memperdalam ruhani melalui sholat qiyamul lail berjamaah, munasabah malam bina iman takwa (MABIT), dan tahfidz bersama di bawah bimbingan ustadz-ustadzah pendamping.<br><br>Kepala SDIT Robbani, Ustdz. M. Ridwan, S.Pd, mengapresiasi tinggi kedisiplinan para siswa. Kegiatan outdoor ini merupakan sarana efektif menempa jiwa kepemimpinan, kepedulian sosial, serta rasa ukhuwah antar sesama siswa.'
             ],
             [
                 'title' => 'Kepala SMP IT Robbani Ogan Ilir Raih Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah Sumatera Selatan 2026',
@@ -975,24 +967,24 @@ class SchoolWebsiteController extends Controller
                 'content' => 'Ogan Ilir — Sebuah kebanggaan besar kembali diukir oleh keluarga besar Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Ibu Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir, berhasil meraih penghargaan sebagai Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan Tahun 2026.<br><br>Kegiatan diklat ini diselenggarakan oleh Dinas Pendidikan Provinsi Sumatera Selatan sebagai upaya meningkatkan kompetensi kepemimpinan manajerial, kewirausahaan, dan supervisi akademik kepala sekolah di era transformasi digital.<br><br>Dalam kesempatannya, Ibu Tia Wulandari menyampaikan rasa syukur dan dedikasi atas pencapaian ini kepada seluruh jajaran ustadz-ustadzah, siswa, dan orang tua murid di SIT Robbani Ogan Ilir. "Penghargaan ini merupakan motivasi bagi kami untuk terus berinovasi dan menghadirkan tata kelola sekolah Islam terpadu yang profesional, berkarakter, dan berdaya saing tinggi," tutur beliau.'
             ],
             [
-                'title' => 'Santri SMAIT Robbani Lolos Seleksi PTN Favorit & Beasiswa Luar Negeri 2026',
-                'slug' => 'santri-smait-robbani-lolos-seleksi-ptn-favorit-beasiswa-luar-negeri-2026',
+                'title' => 'Siswa SMAIT Robbani Lolos Seleksi PTN Favorit & Beasiswa Luar Negeri 2026',
+                'slug' => 'siswa-smait-robbani-lolos-seleksi-ptn-favorit-beasiswa-luar-negeri-2026',
                 'category' => 'SMAIT',
                 'date' => '20 Juli 2026',
                 'author' => 'Tim Bimbingan Konseling SMAIT',
                 'image' => '/images/mockup_mobile_4.png',
                 'excerpt' => 'Capaian membanggakan alumni SMAIT Robbani tembus jalur SNBP, SNBT, dan beasiswa perguruan tinggi ternama di dalam maupun luar negeri.',
-                'content' => 'Ogan Ilir — Kualitas lulusan Sekolah Menengah Atas Islam Terpadu (SMAIT) Robbani Ogan Ilir kembali terbukti di kancah nasional dan internasional. Berdasarkan pengumuman resmi kelulusan PTN 2026, puluhan alumni SMAIT Robbani berhasil diterima di Perguruan Tinggi Negeri (PTN) favorit seperti Universitas Sriwijaya, ITB, UGM, UNDIP, serta Universitas Al-Azhar Kairo.<br><br>Keberhasilan ini tidak lepas dari kombinasi bimbingan akademik intensif, try out UTBK berkala, serta program matrikulasi tahfidz dan penguasaan Bahasa Arab & Inggris yang menjadi ciri khas SMAIT Robbani.<br><br>Kepala SMAIT Robbani, Ustdz. Ahmad Subagja, M.Si, mengungkapkan rasa bangga atas perjuangan para santri. "Alhamdulillah, keberhasilan ini adalah buah dari kerja keras santri, doa dari orang tua, dan kesabaran dewan guru yang membimbing dengan hati," ungkap beliau.'
+                'content' => 'Ogan Ilir — Kualitas lulusan Sekolah Menengah Atas Islam Terpadu (SMAIT) Robbani Ogan Ilir kembali terbukti di kancah nasional dan internasional. Berdasarkan pengumuman resmi kelulusan PTN 2026, puluhan alumni SMAIT Robbani berhasil diterima di Perguruan Tinggi Negeri (PTN) favorit seperti Universitas Sriwijaya, ITB, UGM, UNDIP, serta Universitas Al-Azhar Kairo.<br><br>Keberhasilan ini tidak lepas dari kombinasi bimbingan akademik intensif, try out UTBK berkala, serta program matrikulasi tahfidz dan penguasaan Bahasa Arab & Inggris yang menjadi ciri khas SMAIT Robbani.<br><br>Kepala SMAIT Robbani, Ustdz. Ahmad Subagja, M.Si, mengungkapkan rasa bangga atas perjuangan para siswa. "Alhamdulillah, keberhasilan ini adalah buah dari kerja keras siswa, doa dari orang tua, dan kesabaran dewan guru yang membimbing dengan hati," ungkap beliau.'
             ],
             [
-                'title' => 'Kegiatan Fun Cooking & Edukasi Gizi Santri Usia Dini TKIT Robbani',
-                'slug' => 'kegiatan-fun-cooking-edukasi-gizi-santri-usia-dini-tkit-robbani',
+                'title' => 'Kegiatan Fun Cooking & Edukasi Gizi Siswa Usia Dini TKIT Robbani',
+                'slug' => 'kegiatan-fun-cooking-edukasi-gizi-siswa-usia-dini-tkit-robbani',
                 'category' => 'KB/TKIT',
                 'date' => '05 Juli 2026',
                 'author' => 'Tim Kurikulum TKIT',
                 'image' => '/images/mockup_desktop_1.png',
-                'excerpt' => 'Mengenalkan makanan sehat halal dan thoyyib sejak dini melalui praktik memasak menyenangkan bersama ustazah dan wali santri.',
-                'content' => 'Ogan Ilir — Para santri cilik KB/TKIT Robbani antusias mengikuti kegiatan Fun Cooking & Edukasi Makanan Sehat Halalan Thoyyiban di halaman sekolah.<br><br>Dengan mengenakan celemek dan topi koki cilik, para santri diajak membuat kreasi bekal sehat berupa bento sayur, salad buah, dan jus buah segar.<br><br>Melalui kegiatan ini, santri belajar mengenalkan jenis sayuran, buah-buahan, serta kebiasaan mencuci tangan dan membaca doa sebelum dan sesudah makan.'
+                'excerpt' => 'Mengenalkan makanan sehat halal dan thoyyib sejak dini melalui praktik memasak menyenangkan bersama ustazah dan wali murid.',
+                'content' => 'Ogan Ilir — Para siswa cilik KB/TKIT Robbani antusias mengikuti kegiatan Fun Cooking & Edukasi Makanan Sehat Halalan Thoyyiban di halaman sekolah.<br><br>Dengan mengenakan celemek dan topi koki cilik, para siswa diajak membuat kreasi bekal sehat berupa bento sayur, salad buah, dan jus buah segar.<br><br>Melalui kegiatan ini, siswa belajar mengenalkan jenis sayuran, buah-buahan, serta kebiasaan mencuci tangan dan membaca doa sebelum dan sesudah makan.'
             ],
             [
                 'title' => 'Munaqosyah Tahfidz Juz 29 & 30 Terbuka SDIT Robbani Ogan Ilir',
@@ -1001,28 +993,28 @@ class SchoolWebsiteController extends Controller
                 'date' => '18 Juni 2026',
                 'author' => 'Tim Al-Qur\'an SDIT',
                 'image' => '/images/mockup_desktop_2.png',
-                'excerpt' => 'Ujian hafalan Al-Qur\'an terbuka siswa SDIT Robbani di hadapan para penguji munaqisy dan orang tua santri.',
-                'content' => 'Ogan Ilir — Puluhan santri SDIT Robbani Ogan Ilir mengikuti ujian Munaqosyah Tahfidz Al-Qur\'an Juz 29 dan 30 secara terbuka di Masjid Kampus Robbani.<br><br>Setiap santri diuji sambung ayat, tajwid, makhraj huruf, dan kelancaran hafalan oleh tim penguji eksternal dari Lembaga Pengembangan Pendidikan Al-Qur\'an.<br><br>Orang tua santri yang hadir dibuat terharu dan meneteskan air mata bahagia menyaksikan kemampuan hafalan ananda yang lancar dan tartil.'
+                'excerpt' => 'Ujian hafalan Al-Qur\'an terbuka siswa SDIT Robbani di hadapan para penguji munaqisy dan orang tua siswa.',
+                'content' => 'Ogan Ilir — Puluhan siswa SDIT Robbani Ogan Ilir mengikuti ujian Munaqosyah Tahfidz Al-Qur\'an Juz 29 dan 30 secara terbuka di Masjid Kampus Robbani.<br><br>Setiap siswa diuji sambung ayat, tajwid, makhraj huruf, dan kelancaran hafalan oleh tim penguji eksternal dari Lembaga Pengembangan Pendidikan Al-Qur\'an.<br><br>Orang tua siswa yang hadir dibuat terharu dan meneteskan air mata bahagia menyaksikan kemampuan hafalan ananda yang lancar dan tartil.'
             ],
             [
-                'title' => 'Olimpiade Sains & Kebumian: Tim Santri SMPIT Robbani Sabet Emas',
-                'slug' => 'olimpiade-sains-kebumian-tim-santri-smpit-robbani-sabet-emas',
+                'title' => 'Olimpiade Sains & Kebumian: Tim Siswa SMPIT Robbani Sabet Emas',
+                'slug' => 'olimpiade-sains-kebumian-tim-siswa-smpit-robbani-sabet-emas',
                 'category' => 'SMPIT',
                 'date' => '10 Juni 2026',
                 'author' => 'Tim Prestasi SMPIT',
                 'image' => '/images/mockup_desktop_3.png',
                 'excerpt' => 'Perjuangan tim olimpiade sains SMPIT Robbani dalam kompetisi akademik tingkat regional Sumatera Selatan.',
-                'content' => 'Ogan Ilir — Tim Sains dan Matematika SMPIT Robbani Ogan Ilir kembali mengukir prestasi gemilang dengan meraih 2 Medali Emas dan 3 Medali Perak dalam Olimpiade Sains Islam & Kebumian 2026.<br><br>Para santri mampu menyelesaikan soal-soal penalaran fisika, biologi, dan matematika terintegrasi nilai-nilai Al-Qur\'an dengan perolehan skor tertinggi.<br><br>Prestasi ini membuktikan bahwa pendidikan Islam Terpadu di SMPIT Robbani mampu melahirkan generasi ahli sains yang tetap memegang teguh akidah islamiyah.'
+                'content' => 'Ogan Ilir — Tim Sains dan Matematika SMPIT Robbani Ogan Ilir kembali mengukir prestasi gemilang dengan meraih 2 Medali Emas dan 3 Medali Perak dalam Olimpiade Sains Islam & Kebumian 2026.<br><br>Para siswa mampu menyelesaikan soal-soal penalaran fisika, biologi, dan matematika terintegrasi nilai-nilai Al-Qur\'an dengan perolehan skor tertinggi.<br><br>Prestasi ini membuktikan bahwa pendidikan Islam Terpadu di SMPIT Robbani mampu melahirkan generasi ahli sains yang tetap memegang teguh akidah islamiyah.'
             ],
             [
-                'title' => 'Workshop IoT & Coding Mobile App Santri SMAIT Robbani 2026',
-                'slug' => 'workshop-iot-coding-mobile-app-santri-smait-robbani-2026',
+                'title' => 'Workshop IoT & Coding Mobile App Siswa SMAIT Robbani 2026',
+                'slug' => 'workshop-iot-coding-mobile-app-siswa-smait-robbani-2026',
                 'category' => 'SMAIT',
                 'date' => '28 Mei 2026',
                 'author' => 'Laboratorium Komputer SMAIT',
                 'image' => '/images/mockup_desktop_4.png',
-                'excerpt' => 'Pelatihan pemrograman aplikasi android dan teknologi internet of things (IoT) berbasis dakwah digital santri SMAIT Robbani.',
-                'content' => 'Ogan Ilir — Dalam rangka membekali santri dengan keterampilan abad 21, SMAIT Robbani Ogan Ilir menggelar Workshop Coding & IoT Development selama 3 hari.<br><br>Para santri diajarkan merancang aplikasi mobile berbasis Android, sistem otomasi sensor cerdas (Internet of Things), serta manajemen database cloud.<br><br>Karya-karya inovasi santri seperti sistem presensi digital dan pengingat waktu sholat otomatis dipresentasikan di hadapan para penguji dan praktisi IT.'
+                'excerpt' => 'Pelatihan pemrograman aplikasi android dan teknologi internet of things (IoT) berbasis dakwah digital siswa SMAIT Robbani.',
+                'content' => 'Ogan Ilir — Dalam rangka membekali siswa dengan keterampilan abad 21, SMAIT Robbani Ogan Ilir menggelar Workshop Coding & IoT Development selama 3 hari.<br><br>Para siswa diajarkan merancang aplikasi mobile berbasis Android, sistem otomasi sensor cerdas (Internet of Things), serta manajemen database cloud.<br><br>Karya-karya inovasi siswa seperti sistem presensi digital dan pengingat waktu sholat otomatis dipresentasikan di hadapan para penguji dan praktisi IT.'
             ]
         ];
     }
@@ -1142,7 +1134,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '04:30',
                 'youtube_id' => '8yp0GZL27fU',
                 'thumbnail' => 'https://img.youtube.com/vi/8yp0GZL27fU/hqdefault.jpg',
-                'desc' => 'Keseruan dan antusiasme santri baru dalam rangkaian kegiatan Masa Pengenalan Lingkungan Sekolah (MPLS) 2026.'
+                'desc' => 'Keseruan dan antusiasme siswa baru dalam rangkaian kegiatan Masa Pengenalan Lingkungan Sekolah (MPLS) 2026.'
             ],
             [
                 'title' => 'Wisuda Tahfidz & Haflah Akhirussanah 2026 | After Movie SIT Robbani Ogan Ilir',
@@ -1150,7 +1142,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '06:45',
                 'youtube_id' => 'lhFR6TrEWxY',
                 'thumbnail' => 'https://img.youtube.com/vi/lhFR6TrEWxY/hqdefault.jpg',
-                'desc' => 'Momen khidmat dan haru prosesi wisuda tahfidz Al-Qur’an serta pelepasan santri SIT Robbani Ogan Ilir.'
+                'desc' => 'Momen khidmat dan haru prosesi wisuda tahfidz Al-Qur’an serta pelepasan siswa SIT Robbani Ogan Ilir.'
             ],
             [
                 'title' => 'Tebar Kebahagiaan Idul Adha 1447 H | After Movie Qurban Dompet Sosial Robbani 2026',
@@ -1166,7 +1158,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '03:50',
                 'youtube_id' => '5ifsHX2orZ8',
                 'thumbnail' => 'https://img.youtube.com/vi/5ifsHX2orZ8/hqdefault.jpg',
-                'desc' => 'Praktik manasik haji cilik santri KB/TKIT Robbani Ogan Ilir mengenalkan rukun Islam kelima sejak usia dini.'
+                'desc' => 'Praktik manasik haji cilik siswa KB/TKIT Robbani Ogan Ilir mengenalkan rukun Islam kelima sejak usia dini.'
             ],
             [
                 'title' => 'Lucunya Kartini Cilik! After Movie Kartini Day KB TK Islam Terpadu Robbani Ogan Ilir 2026',
@@ -1174,7 +1166,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '04:15',
                 'youtube_id' => 'Vj0e1PCWqJo',
                 'thumbnail' => 'https://img.youtube.com/vi/Vj0e1PCWqJo/hqdefault.jpg',
-                'desc' => 'Pentas seni, fashion show pakaian adat nusantara, dan ekspresi keberanian santri usia dini KB/TKIT Robbani.'
+                'desc' => 'Pentas seni, fashion show pakaian adat nusantara, dan ekspresi keberanian siswa usia dini KB/TKIT Robbani.'
             ],
             [
                 'title' => 'After Movie Qur’an Camp 2026 SD IT Robbani | Momen Tak Terlupakan',
@@ -1190,7 +1182,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '03:45',
                 'youtube_id' => 'tFjiILUphjY',
                 'thumbnail' => 'https://img.youtube.com/vi/tFjiILUphjY/hqdefault.jpg',
-                'desc' => 'Kunjungan field trip edukatif santri cilik KB-TKIT Robbani mengenal kampus dan lingkungan alam terbuka.'
+                'desc' => 'Kunjungan field trip edukatif siswa cilik KB-TKIT Robbani mengenal kampus dan lingkungan alam terbuka.'
             ],
             [
                 'title' => 'Robbani Talent Show Bikin Terpukau | After Movie SMP IT Robbani 2026',
@@ -1198,7 +1190,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '06:12',
                 'youtube_id' => 'cCRXQhYNF38',
                 'thumbnail' => 'https://img.youtube.com/vi/cCRXQhYNF38/hqdefault.jpg',
-                'desc' => 'Unjuk bakat seni islami, pidato 3 bahasa, sains robotika, dan kreasi santri SMP IT Robbani Ogan Ilir.'
+                'desc' => 'Unjuk bakat seni islami, pidato 3 bahasa, sains robotika, dan kreasi siswa SMP IT Robbani Ogan Ilir.'
             ],
             [
                 'title' => 'Anak KB-TK IT Robbani Belajar Pesawat di Poltekbang Palembang [After Movie 2026]',
@@ -1206,7 +1198,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '04:20',
                 'youtube_id' => 'RyVRofyKPP0',
                 'thumbnail' => 'https://img.youtube.com/vi/RyVRofyKPP0/hqdefault.jpg',
-                'desc' => 'Eksplorasi dunia penerbangan dan edukasi cita-cita santri usia dini di Politeknik Penerbangan Palembang.'
+                'desc' => 'Eksplorasi dunia penerbangan dan edukasi cita-cita siswa usia dini di Politeknik Penerbangan Palembang.'
             ],
             [
                 'title' => 'After Movie Pesantren Ramadhan SD Islam Terpadu Robbani Ogan Ilir 2026',
@@ -1222,7 +1214,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '05:30',
                 'youtube_id' => 'oZBAzQdiLK0',
                 'thumbnail' => 'https://img.youtube.com/vi/oZBAzQdiLK0/hqdefault.jpg',
-                'desc' => 'Mabit malam bina iman takwa, kajian fiqih remaja, dan qiyamul lail santri SMP IT Robbani Ogan Ilir.'
+                'desc' => 'Mabit malam bina iman takwa, kajian fiqih remaja, dan qiyamul lail siswa SMP IT Robbani Ogan Ilir.'
             ]
         ];
     }
@@ -1347,40 +1339,40 @@ class SchoolWebsiteController extends Controller
 
         return [
             [
-                'title' => 'Prosesi Haflah & Wisuda Tahfidz Al-Qur\'an',
+                'title' => 'Wisuda & Haflah Tahfidz Al-Qur\'an Siswa',
                 'category' => 'Wisuda & Tahfidz',
-                'image' => '/images/hero_3d_illustration_1786347707126.png',
-                'desc' => 'Momen kebanggaan wisudawan tahfidz menerima sertifikat hafalan Al-Qur’an.'
+                'image' => '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg',
+                'desc' => 'Momen khidmat wisuda tahfidz Al-Qur’an dan apresiasi capaian hafalan siswa SIT Robbani.'
             ],
             [
-                'title' => 'Gedung & Lingkungan Asri SIT Robbani',
+                'title' => 'Kompleks & Sarana Belajar SIT Robbani',
                 'category' => 'Fasilitas Kampus',
-                'image' => '/images/mockup_desktop_1.png',
-                'desc' => 'Kompleks persekolahan yang bersih, asri, kondusif, dan dilengkapi fasilitas modern.'
+                'image' => '/uploads/wp_assets/2_7c039504.png',
+                'desc' => 'Kompleks persekolahan yang asri, kondusif, dan dilengkapi sarana pembelajaran modern.'
             ],
             [
-                'title' => 'Pelaksanaan Qurban Dompet Sosial Robbani',
-                'category' => 'Bakti Sosial',
-                'image' => '/images/mockup_desktop_2.png',
-                'desc' => 'Kebersamaan civitas akademika dan masyarakat dalam penyembelihan hewan qurban.'
+                'title' => 'Keceriaan Belajar Siswa KB/TKIT Robbani',
+                'category' => 'KB/TKIT Robbani',
+                'image' => '/uploads/wp_assets/img20220127093650-scaled_e1faddf6.jpg',
+                'desc' => 'Aktivitas belajar motorik ceria, pengenalan adab islami, dan hafalan surah pendek sejak dini.'
             ],
             [
-                'title' => 'Pembelajaran Digital di Lab Komputer',
+                'title' => 'Pembelajaran Digital & Lab Komputer',
                 'category' => 'Sarana & Teknologi',
-                'image' => '/images/mockup_desktop_3.png',
-                'desc' => 'Siswa berlatih koding, literasi digital, dan Asesmen Komputer (ANBK).'
+                'image' => '/uploads/wp_assets/3_0996b3f3.png',
+                'desc' => 'Siswa berlatih koding, literasi digital interaktif, dan simulasi Asesmen Nasional.'
             ],
             [
-                'title' => 'Kegiatan Literasi Perpustakaan Digital',
-                'category' => 'Perpustakaan',
-                'image' => '/images/mockup_desktop_4.png',
-                'desc' => 'Siswa menikmati koleksi buku fisik dan e-library perpustakaan SIT Robbani.'
+                'title' => 'Prestasi & Juara Kompetisi Siswa Robbani',
+                'category' => 'Prestasi Siswa',
+                'image' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg',
+                'desc' => 'Capaian prestasi membanggakan siswa-siswi SIT Robbani di tingkat kabupaten dan provinsi.'
             ],
             [
-                'title' => 'Penghargaan Kepala Sekolah Terbaik III Sumsel',
-                'category' => 'Prestasi Pendidik',
-                'image' => '/images/hero_3d_illustration_1786347707126.png',
-                'desc' => 'Penerimaan sertifikat diklat manajemen kepala sekolah tingkat Provinsi Sumatera Selatan.'
+                'title' => 'Upgrading & Pembinaan Kompetensi Guru',
+                'category' => 'Pendidik & SDM',
+                'image' => '/uploads/wp_assets/5_b3b7f870.jpg',
+                'desc' => 'Peningkatan mutu pedagogik dan ruhiyah berkala seluruh dewan guru dan tenaga kependidikan.'
             ]
         ];
     }

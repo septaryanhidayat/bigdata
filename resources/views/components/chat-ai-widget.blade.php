@@ -179,7 +179,7 @@
                     this.messages.push({
                         sender: 'ai',
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                        text: "Assalamu'alaikum! Terima kasih telah bertanya kepada Robbani AI Assistant.\n\nSIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nUntuk informasi pendaftaran santri baru, silakan kunjungi menu **[Pendaftaran SPMB]** (`/ppdb`) atau WhatsApp Admin **0811747472**."
+                        text: "Assalamu'alaikum! Terima kasih telah bertanya kepada Robbani AI Assistant.\n\nSIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nUntuk informasi pendaftaran siswa baru, silakan kunjungi menu **[Pendaftaran SPMB]** (`/ppdb`) atau WhatsApp Admin **0811747472**."
                     });
                     this.$nextTick(() => { this.scrollToBottom(); });
                 });

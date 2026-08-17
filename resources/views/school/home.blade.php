@@ -1116,11 +1116,9 @@
                                 <img src="/images/logo_tkit.png" alt="Logo KB/TKIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
-                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                </svg>
+                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
+                                <img src="{{ $unitProfiles['tkit']['principal_photo'] ?? '/images/mockup_mobile_1.png' }}" alt="{{ $unitProfiles['tkit']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-orange-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1132,7 +1130,7 @@
                                 <span class="text-[10px] font-bold text-orange-600 dark:text-orange-400 block uppercase truncate">{{ $unitProfiles['tkit']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Kelompok Bermain &amp; TK Islam Terpadu berakreditasi unggul.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Kelompok Bermain &amp; TK Islam Terpadu Terakreditasi A.</p>
                         </div>
                         <a class="inline-flex items-center justify-center px-3 py-2 border border-orange-600 dark:border-orange-500 text-orange-700 dark:text-orange-300 font-bold rounded-full hover:bg-orange-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'tkit') }}">Detail Unit ➔</a>
                     </div>
@@ -1145,11 +1143,9 @@
                                 <img src="/images/logo_sdit.png" alt="Logo SDIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
-                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                </svg>
+                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
+                                <img src="{{ $unitProfiles['sdit']['principal_photo'] ?? '/images/mockup_mobile_2.png' }}" alt="{{ $unitProfiles['sdit']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1161,7 +1157,7 @@
                                 <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 block uppercase truncate">{{ $unitProfiles['sdit']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Dasar Islam Terpadu berakreditasi A &amp; Tahfidz.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Dasar Islam Terpadu Terakreditasi B &amp; Program Tahfidz.</p>
                         </div>
                         <a class="inline-flex items-center justify-center px-3 py-2 border border-emerald-700 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold rounded-full hover:bg-emerald-700 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'sdit') }}">Detail Unit ➔</a>
                     </div>
@@ -1174,11 +1170,9 @@
                                 <img src="/images/logo_smpit.png" alt="Logo SMPIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
-                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                </svg>
+                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
+                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1190,7 +1184,7 @@
                                 <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 block uppercase truncate">{{ $unitProfiles['smpit']['principal_title'] }}</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Pertama berasrama (boarding) / fullday.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).</p>
                         </div>
                         <a class="inline-flex items-center justify-center px-3 py-2 border border-blue-600 dark:border-blue-500 text-blue-700 dark:text-blue-300 font-bold rounded-full hover:bg-blue-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smpit') }}">Detail Unit ➔</a>
                     </div>
@@ -1211,25 +1205,25 @@
                                 <img src="/images/logo_smait.png" alt="Logo SMAIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-purple-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
-                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <!-- Foto Kepala Sekolah: Kosong / Placeholder Siluet -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-dashed border-purple-400/60 shadow-inner bg-slate-100/60 dark:bg-slate-800/60 flex flex-col items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                                <svg class="w-14 h-14 text-slate-300 dark:text-slate-600" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                                 </svg>
-                                <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
+                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 mt-1 uppercase">Belum Ditetapkan</span>
                             </div>
 
                             <div class="flex items-center justify-center gap-1 mb-1">
                                 <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white">SMAIT Robbani</h3>
                             </div>
 
-                            <!-- Box Nama & Jabatan Kepsek -->
+                            <!-- Box Nama & Jabatan Kepsek (Kosong) -->
                             <div class="bg-white dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs mb-3 space-y-0.5">
-                                <span class="text-xs font-black text-slate-900 dark:text-white block truncate">{{ $unitProfiles['smait']['principal_name'] }}</span>
-                                <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 block uppercase truncate">{{ $unitProfiles['smait']['principal_title'] }}</span>
+                                <span class="text-xs font-black text-slate-400 dark:text-slate-500 block truncate">—</span>
+                                <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 block uppercase truncate">Kepala SMAIT Robbani</span>
                             </div>
 
-                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Atas dengan program unggulan sains &amp; IT.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Atas dengan program unggulan sains &amp; IT (Coming Soon).</p>
                         </div>
 
                         @if($isSmaitActive)
@@ -1499,7 +1493,7 @@
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">💰</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black truncate">Tabungan Santri Digital</h4>
+                                        <h4 class="text-xs font-black truncate">Tabungan Siswa Digital</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Mutasi Realtime</span>
                                     </div>
                                     <p class="text-[11px] leading-snug line-clamp-2">Buku tabungan digital, transaksi setor/tarik cepat, &amp; transparansi laporan wali.</p>
@@ -1513,7 +1507,7 @@
                                         <h4 class="text-xs font-black truncate">Kantin Smart RFID POS</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Cashless</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Belanja non-tunai via kartu santri RFID, batasan limit jajan harian &amp; laporan kasir.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Belanja non-tunai via kartu siswa RFID, batasan limit jajan harian &amp; laporan kasir.</p>
                                 </div>
                             </div>
 
@@ -1568,7 +1562,7 @@
                                         <h4 class="text-xs font-black truncate">Infaq, Wakaf &amp; Donasi</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Filantropi</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Manajemen penghimpunan dana sosial keumatan &amp; program wakaf sarana santri terdata.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Manajemen penghimpunan dana sosial keumatan &amp; program wakaf sarana siswa terdata.</p>
                                 </div>
                             </div>
                         </div>
@@ -1637,7 +1631,7 @@
                                         <h4 class="text-xs font-black truncate">Cetak Format KOP Otomatis</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Standard Diknas</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Generator surat keterangan aktif santri &amp; rekomendasi berformat standar resmi.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Generator surat keterangan aktif siswa &amp; rekomendasi berformat standar resmi.</p>
                                 </div>
                             </div>
 
@@ -1648,7 +1642,7 @@
                                         <h4 class="text-xs font-black truncate">Surat Izin &amp; Rekomendasi</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Otomasi</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Pengajuan izin santri/guru, surat tugas dinas luar, &amp; penerbitan e-surat izin kilat.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pengajuan izin siswa/guru, surat tugas dinas luar, &amp; penerbitan e-surat izin kilat.</p>
                                 </div>
                             </div>
 
@@ -1695,7 +1689,7 @@
                                         <h4 class="text-xs font-black truncate">Bimbingan Konseling &amp; Disiplin</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Holistik</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Konseling santri, catatan pembinaan adab, poin pelanggaran &amp; prestasi.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Konseling siswa, catatan pembinaan adab, poin pelanggaran &amp; prestasi.</p>
                                 </div>
                             </div>
 
@@ -1706,7 +1700,7 @@
                                         <h4 class="text-xs font-black truncate">Sholat &amp; Dzikir Harian</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Pembiasaan</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Checklist monitoring sholat dhuha, rawatib berjamaah, dan dzikir ma'tsurat santri.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Checklist monitoring sholat dhuha, rawatib berjamaah, dan dzikir ma'tsurat siswa.</p>
                                 </div>
                             </div>
 
@@ -1717,7 +1711,7 @@
                                         <h4 class="text-xs font-black truncate">Kartu Prestasi &amp; Akhlak</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Apresiasi</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Pencatatan capaian juara lomba, teladan ibadah, dan piagam santri berprestasi.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pencatatan capaian juara lomba, teladan ibadah, dan piagam siswa berprestasi.</p>
                                 </div>
                             </div>
 
@@ -1725,10 +1719,10 @@
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🤝</div>
                                 <div class="space-y-0.5 min-w-0">
                                     <div class="flex items-center justify-between gap-1">
-                                        <h4 class="text-xs font-black truncate">Laporan Terpadu Wali Santri</h4>
+                                        <h4 class="text-xs font-black truncate">Laporan Terpadu Wali Murid</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Parenting</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Transparansi perkembangan karakter &amp; evaluasi capaian hafalan santri ke wali.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Transparansi perkembangan karakter &amp; evaluasi capaian hafalan siswa ke wali.</p>
                                 </div>
                             </div>
 
@@ -1739,7 +1733,7 @@
                                         <h4 class="text-xs font-black truncate">Buku Catatan Yaumiyah</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Target Harian</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Evaluasi target tilawah harian (One Day One Juz) &amp; amalan sunnah santri terstruktur.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Evaluasi target tilawah harian (One Day One Juz) &amp; amalan sunnah siswa terstruktur.</p>
                                 </div>
                             </div>
 
@@ -1750,7 +1744,7 @@
                                         <h4 class="text-xs font-black truncate">Ekstrakurikuler &amp; Bakat</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Potensi</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Pemetaan minat bakat santri (Panahan, Futsal, Pramuka SIT, Robotik, &amp; Pidato 3 Bahasa).</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pemetaan minat bakat siswa (Panahan, Futsal, Pramuka SIT, Robotik, &amp; Pidato 3 Bahasa).</p>
                                 </div>
                             </div>
                         </div>
@@ -1808,7 +1802,7 @@
                                         <h4 class="text-xs font-black truncate">SPMB Online Terpadu</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Pendaftaran</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Pendaftaran santri baru 4 unit online, unggah berkas, wawancara &amp; pengumuman.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pendaftaran siswa baru 4 unit online, unggah berkas, wawancara &amp; pengumuman.</p>
                                 </div>
                             </div>
 
@@ -1841,7 +1835,7 @@
                                         <h4 class="text-xs font-black truncate">Lab IT &amp; Media Pembelajaran</h4>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Smart Lab</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Manajemen aset laboratorium komputer, tablet santri, &amp; jaringan hotspot sekolah.</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Manajemen aset laboratorium komputer, tablet siswa, &amp; jaringan hotspot sekolah.</p>
                                 </div>
                             </div>
                         </div>
@@ -1857,7 +1851,7 @@
                                         </div>
                                         <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Robbani Smart AI Assistant</h4>
                                         <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                                            Chatbot interaktif cerdas yang melayani pertanyaan wali santri &amp; publik seputar SPMB, biaya, profil unit, serta lokasi kampus 24 jam nonstop.
+                                            Chatbot interaktif cerdas yang melayani pertanyaan wali murid &amp; publik seputar SPMB, biaya, profil unit, serta lokasi kampus 24 jam nonstop.
                                         </p>
                                     </div>
                                     <button @click="window.dispatchEvent(new CustomEvent('open-robbani-ai'))" class="mt-3 w-full py-2 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-[11px] shadow-sm flex items-center justify-center gap-1.5 transition-transform hover:scale-105">
@@ -1874,7 +1868,7 @@
                                         </div>
                                         <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Knowledge Base Dokumen &amp; PDF</h4>
                                         <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                                            AI mampu mempelajari berkas PDF (Brosur SPMB, SOP Santri, Kurikulum Tahfidz, Aturan Sekolah) dan menjawab setiap detail pertanyaan secara akurat dengan rujukan dokumen.
+                                            AI mampu mempelajari berkas PDF (Brosur SPMB, SOP Siswa, Kurikulum Tahfidz, Aturan Sekolah) dan menjawab setiap detail pertanyaan secara akurat dengan rujukan dokumen.
                                         </p>
                                     </div>
                                     <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">📚 Ekstraksi Otomatis PDF</span>
@@ -1888,7 +1882,7 @@
                                         </div>
                                         <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Integrasi Database SmartEdu</h4>
                                         <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                                            Tersinkronisasi otomatis dengan database tahun ajaran aktif, jumlah pendaftar SPMB, unit sekolah, dan alur pembayaran E-SPP santri secara aman.
+                                            Tersinkronisasi otomatis dengan database tahun ajaran aktif, jumlah pendaftar SPMB, unit sekolah, dan alur pembayaran E-SPP siswa secara aman.
                                         </p>
                                     </div>
                                     <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">🔐 Sinkronisasi Database Aman</span>
@@ -1899,7 +1893,7 @@
                             <div class="bg-emerald-50/70 dark:bg-[#060f07] p-3.5 rounded-2xl border border-emerald-200/60 dark:border-[#1a381c] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                                 <div class="flex items-center gap-2.5 text-emerald-900 dark:text-[#c6f634]">
                                     <span class="text-lg">💡</span>
-                                    <span><strong>Contoh Pertanyaan Populer:</strong> "Berapa rincian biaya pendaftaran SMPIT Robbani?", "Bagaimana alur pendaftaran santri baru?"</span>
+                                    <span><strong>Contoh Pertanyaan Populer:</strong> "Berapa rincian biaya pendaftaran SMPIT Robbani?", "Bagaimana alur pendaftaran siswa baru?"</span>
                                 </div>
                                 <button @click="window.dispatchEvent(new CustomEvent('open-robbani-ai'))" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-[11px] shrink-0 hover:bg-emerald-700 transition-colors">
                                     Tanya AI ➔
