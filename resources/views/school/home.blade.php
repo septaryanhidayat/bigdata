@@ -1116,9 +1116,11 @@
                                 <img src="/images/logo_tkit.png" alt="Logo KB/TKIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['tkit']['principal_photo'] ?? '/images/mockup_mobile_1.png' }}" alt="{{ $unitProfiles['tkit']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
+                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-orange-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1143,9 +1145,11 @@
                                 <img src="/images/logo_sdit.png" alt="Logo SDIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['sdit']['principal_photo'] ?? '/images/mockup_mobile_2.png' }}" alt="{{ $unitProfiles['sdit']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
+                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1170,9 +1174,11 @@
                                 <img src="/images/logo_smpit.png" alt="Logo SMPIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
+                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1205,9 +1211,11 @@
                                 <img src="/images/logo_smait.png" alt="Logo SMAIT Robbani" class="max-h-9 w-auto object-contain">
                             </div>
 
-                            <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
-                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-purple-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['smait']['principal_photo'] ?? '/images/mockup_mobile_4.png' }}" alt="{{ $unitProfiles['smait']['principal_name'] }}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <!-- Foto Kepala Sekolah: Gambar Siluet Abu-Abu Formal -->
+                            <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-purple-500 shadow-md bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 dark:from-[#0d1e0f] dark:via-[#152e18] dark:to-[#08150a] flex flex-col items-center justify-end group-hover:scale-105 transition-transform duration-300">
+                                <svg class="w-20 h-28 text-slate-400 dark:text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
