@@ -115,11 +115,11 @@
         }
         [x-cloak] { display: none !important; }
 
-        /* Snappy Fast Fade-Up Scroll Animation */
+        /* Smooth & Elegant Executive Fade-Up Scroll Animation */
         .reveal-fade-up {
             opacity: 0;
-            transform: translateY(20px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out;
+            transform: translateY(35px);
+            transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.8s ease-out;
             will-change: transform, opacity;
         }
         .reveal-fade-up.is-visible {
@@ -977,6 +977,7 @@
 
                 <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 sm:gap-3 md:gap-4 pt-2">
                     
+                    <!-- 1. Profil (Hijau) -->
                     <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.profil') }}">
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">person</span>
@@ -984,58 +985,66 @@
                         <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Profil</span>
                     </a>
 
-                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="#unit-sekolah">
+                    <!-- 2. Unit (Orange) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-orange-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="#unit-sekolah">
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">domain</span>
                         </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">4 Unit</span>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-orange-600 text-center leading-tight truncate w-full">Unit</span>
                     </a>
 
-                    <a class="quick-menu-card bg-emerald-500/10 dark:bg-emerald-950/40 border-2 border-emerald-500/40 dark:border-emerald-400/50 rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group relative overflow-hidden" href="#smartedu-ekosistem">
-                        <span class="absolute top-1 right-1 bg-amber-500 text-slate-950 font-black text-[7px] px-1.5 py-0.5 rounded-full uppercase shadow-xs">23+ Modul</span>
-                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
-                            <span class="material-symbols-outlined text-[24px] sm:text-[28px]" data-weight="fill">hub</span>
-                        </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-black text-emerald-800 dark:text-[#c6f634] group-hover:text-emerald-700 text-center leading-tight truncate w-full">SmartEdu</span>
-                    </a>
-
-                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.berita') }}">
+                    <!-- 3. SmartEdu (Hijau - Selaras Pattern & Desain) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group relative" href="#smartedu-ekosistem">
+                        <span class="absolute -top-1 right-1 bg-amber-500 text-slate-950 font-black text-[7px] px-1.5 py-0.5 rounded-full uppercase shadow-xs">23+ Modul</span>
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">hub</span>
+                        </div>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">SmartEdu</span>
+                    </a>
+
+                    <!-- 4. Berita (Orange) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-orange-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.berita') }}">
+                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">newspaper</span>
                         </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Berita</span>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-orange-600 text-center leading-tight truncate w-full">Berita</span>
                     </a>
 
+                    <!-- 5. Artikel (Hijau) -->
                     <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.artikel') }}">
-                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
+                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">article</span>
                         </div>
                         <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Artikel</span>
                     </a>
 
-                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="#sarana-prasarana">
-                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
+                    <!-- 6. Fasilitas (Orange) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-orange-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="#sarana-prasarana">
+                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">home_work</span>
                         </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Fasilitas</span>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-orange-600 text-center leading-tight truncate w-full">Fasilitas</span>
                     </a>
 
-                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.espp') }}">
-                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
-                            <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">payments</span>
-                        </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">E-SPP</span>
-                    </a>
-
-                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.ppdb') }}">
+                    <!-- 7. Agenda (Hijau - Pengganti E-SPP) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="#berita">
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">calendar_month</span>
+                        </div>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Agenda</span>
+                    </a>
+
+                    <!-- 8. PPDB (Orange) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-orange-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.ppdb') }}">
+                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">how_to_reg</span>
                         </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">PPDB</span>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-orange-600 text-center leading-tight truncate w-full">PPDB</span>
                     </a>
 
+                    <!-- 9. Galeri (Hijau) -->
                     <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-emerald-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="#galeri-sekolah">
-                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
+                        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">photo_library</span>
                         </div>
                         <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Galeri</span>
@@ -1180,8 +1189,16 @@
                         <a class="inline-flex items-center justify-center px-3 py-2 border border-blue-600 dark:border-blue-500 text-blue-700 dark:text-blue-300 font-bold rounded-full hover:bg-blue-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smpit') }}">Detail Unit ➔</a>
                     </div>
 
+                    @php
+                        $isSmaitActive = isset($schoolsKeyed['SMAIT']) ? (bool)$schoolsKeyed['SMAIT']->is_active : false;
+                    @endphp
                     <!-- UNIT SMAIT -->
-                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-purple-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between">
+                    <div class="bg-slate-50/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-3.5 sm:p-5 text-center shadow-sm hover:shadow-xl hover:border-purple-500 transition-all duration-300 transform hover:-translate-y-1.5 group flex flex-col justify-between relative overflow-hidden">
+                        @if(!$isSmaitActive)
+                            <div class="absolute top-2.5 right-2.5 z-10">
+                                <span class="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 font-black text-[9px] uppercase tracking-wider shadow-sm animate-pulse">🔒 COMING SOON</span>
+                            </div>
+                        @endif
                         <div>
                             <!-- Logo Unit SMAIT -->
                             <div class="h-10 mb-3 flex items-center justify-center">
@@ -1194,7 +1211,9 @@
                                 <span class="absolute -bottom-1 right-0 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
-                            <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white mb-1">SMAIT Robbani</h3>
+                            <div class="flex items-center justify-center gap-1 mb-1">
+                                <h3 class="text-sm sm:text-base font-extrabold font-headline text-slate-900 dark:text-white">SMAIT Robbani</h3>
+                            </div>
 
                             <!-- Box Nama & Jabatan Kepsek -->
                             <div class="bg-white dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs mb-3 space-y-0.5">
@@ -1204,7 +1223,14 @@
 
                             <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mb-3 sm:mb-4 leading-relaxed line-clamp-2">Sekolah Menengah Atas dengan program unggulan sains &amp; IT.</p>
                         </div>
-                        <a class="inline-flex items-center justify-center px-3 py-2 border border-purple-600 dark:border-purple-500 text-purple-700 dark:text-purple-300 font-bold rounded-full hover:bg-purple-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smait') }}">Detail Unit ➔</a>
+
+                        @if($isSmaitActive)
+                            <a class="inline-flex items-center justify-center px-3 py-2 border border-purple-600 dark:border-purple-500 text-purple-700 dark:text-purple-300 font-bold rounded-full hover:bg-purple-600 hover:text-white transition-colors text-[11px] sm:text-xs w-full" href="{{ route('school.unit', 'smait') }}">Detail Unit ➔</a>
+                        @else
+                            <button type="button" onclick="Swal.fire({icon: 'info', title: '🔒 SMAIT Robbani — Coming Soon', text: 'Mohon maaf, unit SMAIT Robbani Ogan Ilir saat ini belum resmi dibuka (dalam tahap persiapan operasional & fasilitas). Pendaftaran akan segera dibuka!', confirmButtonColor: '#f59e0b', confirmButtonText: 'Siap, Mengerti'})" class="inline-flex items-center justify-center px-3 py-2 border border-amber-500/60 bg-amber-500/10 text-amber-700 dark:text-amber-300 font-extrabold rounded-full text-[11px] sm:text-xs w-full shadow-xs cursor-pointer">
+                                🔒 Coming Soon (Belum Dibuka)
+                            </button>
+                        @endif
                     </div>
 
                 </div>
@@ -1683,7 +1709,7 @@
         <!-- ========================================== -->
         <!-- BERITA & ARTIKEL                           -->
         <!-- ========================================== -->
-        <section id="artikel-berita" class="py-12 sm:py-16 bg-slate-50 reveal-fade-up">
+        <section id="berita" class="py-12 sm:py-16 bg-slate-50 reveal-fade-up">
             <div class="max-w-container-max mx-auto px-gutter space-y-lg">
                 
                 <div class="flex flex-col lg:flex-row justify-between items-center lg:items-end text-center lg:text-left gap-sm border-b border-slate-200 pb-xs">
@@ -1755,7 +1781,7 @@
                 </div>
 
                 <!-- Sub-Section: Berita & Kabar Per Unit Sekolah (TKIT, SDIT, SMPIT, SMAIT) -->
-                <div x-data="{ activeUnitTab: 'all' }" class="pt-8 sm:pt-10 border-t border-slate-200/80 space-y-5">
+                <div id="agenda-sekolah" x-data="{ activeUnitTab: 'all' }" class="pt-8 sm:pt-10 border-t border-slate-200/80 space-y-5">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
                         <div>
                             <span class="site-section-badge mb-1 inline-block">KABAR KHUSUS UNIT</span>

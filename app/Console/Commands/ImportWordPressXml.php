@@ -20,7 +20,7 @@ class ImportWordPressXml extends Command
      *
      * @var string
      */
-    protected $description = 'Import WordPress posts, articles, and news from a WXR XML export file into Laravel CMS';
+    protected $description = 'Import WordPress posts, articles, news, and GTK teachers from a WXR XML export file into Laravel CMS';
 
     /**
      * Execute the console command.
@@ -37,6 +37,19 @@ class ImportWordPressXml extends Command
             return 1;
         }
 
+        // Detect unit code from filename or content
+        $filename = strtolower(basename($filePath));
+        $unitCode = 'smpit';
+        if (str_contains($filename, 'tkit')) {
+            $unitCode = 'tkit';
+        } elseif (str_contains($filename, 'sdit') || str_contains($filename, 'sdislamterpadu')) {
+            $unitCode = 'sdit';
+        } elseif (str_contains($filename, 'smait')) {
+            $unitCode = 'smait';
+        } elseif (str_contains($filename, 'smpit')) {
+            $unitCode = 'smpit';
+        }
+
         // Streaming XMLReader parser
         $reader = new \XMLReader();
         if (!$reader->open($filePath, null, LIBXML_NONET | LIBXML_NOBLANKS | LIBXML_PARSEHUGE)) {
@@ -45,6 +58,7 @@ class ImportWordPressXml extends Command
         }
 
         $attachmentMap = [];
+        $gtkList = [];
         $importedNews = [];
         $importedArticles = [];
         $count = 0;
@@ -64,78 +78,99 @@ class ImportWordPressXml extends Command
 
                 $postType = (string) $wpNs->post_type;
                 $postId = (int) $wpNs->post_id;
+                $title = trim((string) $item->title);
+                $content = (string) $contentNs->encoded;
+                $excerpt = (string) $excerptNs->encoded;
+                $postDate = (string) $wpNs->post_date;
+                $status = (string) $wpNs->status;
 
                 // Index attachment URLs
                 if ($postType === 'attachment') {
                     $attachmentUrl = (string) $wpNs->attachment_url;
                     if ($attachmentUrl) {
-                        $attachmentMap[$postId] = $attachmentUrl;
+                        $attachmentMap[$postId] = [
+                            'url' => $attachmentUrl,
+                            'title' => $title,
+                        ];
                     }
                     continue;
                 }
 
-                $postStatus = (string) $wpNs->status;
-                if ($postType === 'post' && $postStatus === 'publish') {
-                    $title = trim((string) $item->title);
+                $thumbnailId = null;
+                if (isset($wpNs->postmeta)) {
+                    foreach ($wpNs->postmeta as $meta) {
+                        if ((string) $meta->meta_key === '_thumbnail_id') {
+                            $thumbnailId = (int) $meta->meta_value;
+                            break;
+                        }
+                    }
+                }
+
+                $categories = [];
+                $taxonomies = [];
+                if (isset($item->category)) {
+                    foreach ($item->category as $cat) {
+                        $domain = (string) $cat['domain'];
+                        $catVal = (string) $cat;
+                        $taxonomies[$domain][] = $catVal;
+                        if ($domain === 'category' || $domain === 'blog-kat') {
+                            $categories[] = $catVal;
+                        }
+                    }
+                }
+
+                // Handle GTK / Teachers
+                if ($postType === 'gtk') {
+                    $gtkList[] = [
+                        'id' => $postId,
+                        'name' => $title,
+                        'thumbnail_id' => $thumbnailId,
+                        'taxonomies' => $taxonomies,
+                        'bio' => trim(strip_tags($content))
+                    ];
+                    continue;
+                }
+
+                // Handle Posts, Prestasi, Editorial, Blog, Pengumuman
+                if (in_array($postType, ['post', 'prestasi', 'editorial', 'blog', 'pengumuman']) && $status === 'publish') {
                     if (empty($title)) continue;
 
-                    $content = (string) $contentNs->encoded;
-                    $excerpt = (string) $excerptNs->encoded;
                     if (empty($excerpt)) {
                         $excerpt = Str::limit(strip_tags($content), 160);
                     }
 
-                    $postDate = (string) $wpNs->post_date;
                     $formattedDate = !empty($postDate) ? date('d F Y', strtotime($postDate)) : date('d F Y');
+                    $timestamp = !empty($postDate) ? strtotime($postDate) : time();
                     $slug = (string) $wpNs->post_name;
                     if (empty($slug)) {
                         $slug = Str::slug($title);
                     }
 
-                    // Extract Category
-                    $category = 'Berita';
-                    if (isset($item->category)) {
-                        foreach ($item->category as $cat) {
-                            $domain = (string) $cat['domain'];
-                            if ($domain === 'category') {
-                                $category = (string) $cat;
-                                break;
-                            }
-                        }
-                    }
-
-                    $thumbnailId = null;
-                    if (isset($wpNs->postmeta)) {
-                        foreach ($wpNs->postmeta as $meta) {
-                            if ((string) $meta->meta_key === '_thumbnail_id') {
-                                $thumbnailId = (int) $meta->meta_value;
-                                break;
-                            }
-                        }
-                    }
-
-                    $image = null;
-                    if ($thumbnailId && isset($attachmentMap[$thumbnailId])) {
-                        $image = $attachmentMap[$thumbnailId];
-                    } elseif (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches)) {
-                        $image = $matches[1];
-                    } else {
-                        $image = '/images/mockup_desktop_1.png';
+                    $category = strtoupper($unitCode);
+                    if (!empty($categories)) {
+                        $category = $categories[0];
+                    } elseif ($postType === 'prestasi') {
+                        $category = 'Prestasi ' . strtoupper($unitCode);
+                    } elseif ($postType === 'editorial' || $postType === 'blog') {
+                        $category = 'Artikel ' . strtoupper($unitCode);
                     }
 
                     $postData = [
                         'title' => $title,
                         'slug' => $slug,
                         'category' => $category,
+                        'unit' => $unitCode,
                         'date' => $formattedDate,
-                        'author' => 'Admin SIT Robbani',
-                        'image' => $image,
+                        'timestamp' => $timestamp,
+                        'author' => 'Humas ' . strtoupper($unitCode) . ' Robbani',
+                        'image' => null,
                         'excerpt' => $excerpt,
                         'content' => $content,
                         'wp_thumbnail_id' => $thumbnailId,
+                        'post_type' => $postType,
                     ];
 
-                    if (Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian'])) {
+                    if ($postType === 'editorial' || $postType === 'blog' || Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian'])) {
                         $importedArticles[] = $postData;
                     } else {
                         $importedNews[] = $postData;
@@ -148,46 +183,124 @@ class ImportWordPressXml extends Command
         }
         $reader->close();
 
-        // Resolve thumbnail URLs that were defined after post item
-        foreach ($importedNews as &$pn) {
-            if ((empty($pn['image']) || $pn['image'] === '/images/mockup_desktop_1.png') && !empty($pn['wp_thumbnail_id'])) {
-                if (isset($attachmentMap[$pn['wp_thumbnail_id']])) {
-                    $pn['image'] = $attachmentMap[$pn['wp_thumbnail_id']];
+        // Resolve thumbnail URLs
+        $resolveImages = function(&$items) use ($attachmentMap) {
+            foreach ($items as &$p) {
+                $thumbId = $p['wp_thumbnail_id'] ?? null;
+                if ($thumbId && isset($attachmentMap[$thumbId])) {
+                    $p['image'] = $attachmentMap[$thumbId]['url'];
+                } elseif (!empty($p['content']) && preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $p['content'], $matches)) {
+                    $p['image'] = $matches[1];
+                } else {
+                    $p['image'] = '/images/hero_3d_illustration_1786347707126.png';
                 }
+                unset($p['wp_thumbnail_id']);
             }
-            unset($pn['wp_thumbnail_id']);
-        }
-        unset($pn);
+        };
 
-        foreach ($importedArticles as &$pa) {
-            if ((empty($pa['image']) || $pa['image'] === '/images/mockup_desktop_1.png') && !empty($pa['wp_thumbnail_id'])) {
-                if (isset($attachmentMap[$pa['wp_thumbnail_id']])) {
-                    $pa['image'] = $attachmentMap[$pa['wp_thumbnail_id']];
+        $resolveImages($importedNews);
+        $resolveImages($importedArticles);
+
+        // Process GTK & Unit Profile if GTK items found
+        if (count($gtkList) > 0) {
+            $formattedTeachers = [];
+            $principalName = null;
+            $principalPhoto = null;
+            $principalTitle = 'Kepala Sekolah ' . strtoupper($unitCode) . ' Robbani Ogan Ilir';
+
+            foreach ($gtkList as $g) {
+                $photo = isset($attachmentMap[$g['thumbnail_id']]) ? $attachmentMap[$g['thumbnail_id']]['url'] : '/images/logo-robbani-official.png';
+                $roles = $g['taxonomies']['jab'] ?? ['Guru ' . strtoupper($unitCode)];
+                $roleStr = implode(', ', $roles);
+
+                if (stripos($g['name'], 'Tia Wulandari') !== false || stripos($roleStr, 'Kepala Sekolah') !== false || stripos($roleStr, 'Kepsek') !== false) {
+                    $principalName = $g['name'];
+                    $principalPhoto = $photo;
                 }
-            }
-            unset($pa['wp_thumbnail_id']);
-        }
-        unset($pa);
 
-        if ($count === 0) {
-            $this->warn("Tidak ada postingan bertipe 'post' dengan status 'publish' yang ditemukan.");
+                $formattedTeachers[] = [
+                    'name' => $g['name'],
+                    'role' => $roleStr,
+                    'photo' => $photo,
+                    'bio' => $g['bio']
+                ];
+            }
+
+            // Fetch existing unit profile or create
+            $existingProfileJson = SiteSetting::get("unit_profile_{$unitCode}");
+            $profile = $existingProfileJson ? json_decode($existingProfileJson, true) : [];
+            
+            if ($principalName) {
+                $profile['principal_name'] = $principalName;
+                $profile['principal_photo'] = $principalPhoto;
+                $profile['principal_title'] = $principalTitle;
+            }
+            if (count($formattedTeachers) > 0) {
+                $profile['teachers'] = $formattedTeachers;
+                $profile['employees_count'] = count($formattedTeachers);
+            }
+
+            SiteSetting::set("unit_profile_{$unitCode}", json_encode($profile, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $this->info("✔ Data GTK & Kepala Sekolah unit [{$unitCode}] berhasil disinkronkan ({$principalName}).");
+        }
+
+        if ($count === 0 && count($gtkList) === 0) {
+            $this->warn("Tidak ada konten yang dapat diproses.");
             return 0;
         }
 
-        // Merge with existing CMS data if present
-        $existingNewsJson = SiteSetting::get('cms_news_data');
-        $existingNews = $existingNewsJson ? json_decode($existingNewsJson, true) : [];
-        $finalNews = array_merge($importedNews, is_array($existingNews) ? $existingNews : []);
+        // Merge and Deduplicate News Data
+        $existingNews = json_decode(SiteSetting::get('cms_news_data') ?? '[]', true) ?: [];
+        $existingNewsMap = [];
+        foreach ($existingNews as $idx => $item) {
+            $s = $item['slug'] ?? Str::slug($item['title']);
+            $existingNewsMap[$s] = $idx;
+        }
 
-        $existingArticleJson = SiteSetting::get('cms_article_data');
-        $existingArticles = $existingArticleJson ? json_decode($existingArticleJson, true) : [];
-        $finalArticles = array_merge($importedArticles, is_array($existingArticles) ? $existingArticles : []);
+        foreach ($importedNews as $item) {
+            $s = $item['slug'];
+            if (isset($existingNewsMap[$s])) {
+                $existingNews[$existingNewsMap[$s]] = array_merge($existingNews[$existingNewsMap[$s]], $item);
+            } else {
+                $existingNews[] = $item;
+                $existingNewsMap[$s] = count($existingNews) - 1;
+            }
+        }
 
-        SiteSetting::set('cms_news_data', json_encode($finalNews, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        SiteSetting::set('cms_article_data', json_encode($finalArticles, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        usort($existingNews, function($a, $b) {
+            $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+            $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+            return $tB <=> $tA;
+        });
+        SiteSetting::set('cms_news_data', json_encode($existingNews, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
-        $this->info("\n🎉 SUKSES! Total {$count} konten WordPress berhasil di-import ke CMS Laravel.");
-        $this->info("Detail: " . count($importedNews) . " Berita & " . count($importedArticles) . " Artikel.");
+        // Merge and Deduplicate Articles Data
+        $existingArticles = json_decode(SiteSetting::get('cms_article_data') ?? '[]', true) ?: [];
+        $existingArticleMap = [];
+        foreach ($existingArticles as $idx => $art) {
+            $s = $art['slug'] ?? Str::slug($art['title']);
+            $existingArticleMap[$s] = $idx;
+        }
+
+        foreach ($importedArticles as $art) {
+            $s = $art['slug'];
+            if (isset($existingArticleMap[$s])) {
+                $existingArticles[$existingArticleMap[$s]] = array_merge($existingArticles[$existingArticleMap[$s]], $art);
+            } else {
+                $existingArticles[] = $art;
+                $existingArticleMap[$s] = count($existingArticles) - 1;
+            }
+        }
+
+        usort($existingArticles, function($a, $b) {
+            $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+            $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+            return $tB <=> $tA;
+        });
+        SiteSetting::set('cms_article_data', json_encode($existingArticles, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+
+        $this->info("\n🎉 SUKSES! Total {$count} konten dan " . count($gtkList) . " GTK WordPress berhasil di-import ke CMS Laravel.");
+        $this->info("Detail: " . count($importedNews) . " Berita, " . count($importedArticles) . " Artikel, Unit: [{$unitCode}].");
         return 0;
     }
 }

@@ -50,7 +50,7 @@ class MasterDataController extends Controller
     public function switchSchool(Request $request)
     {
         $user = auth()->user();
-        if ($user && $user->school_id) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
             return redirect()->back()->with('error', '⛔ Akun Anda terkunci pada unit ' . ($user->school->name ?? 'sekolah'));
         }
 
@@ -77,7 +77,7 @@ class MasterDataController extends Controller
     public function schools()
     {
         $user = auth()->user();
-        if ($user && $user->school_id) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
             $schools = School::where('id', $user->school_id)->withCount(['classrooms', 'employees', 'students'])->get();
         } else {
             $schools = School::withCount(['classrooms', 'employees', 'students'])->get();
@@ -125,6 +125,7 @@ class MasterDataController extends Controller
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'theme_color' => 'required|string',
+            'is_active' => 'required|boolean',
             'logo' => 'nullable|image|max:5120',
             'kop_letterhead' => 'nullable|image|max:5120',
         ]);
@@ -139,7 +140,8 @@ class MasterDataController extends Controller
 
         $school->update($validated);
 
-        return redirect()->back()->with('success', "Data Unit Sekolah {$school->name} Berhasil Diperbarui!");
+        $statusLabel = $school->is_active ? '🟢 Aktif' : '🔒 Coming Soon (Nonaktif)';
+        return redirect()->back()->with('success', "Data Unit Sekolah {$school->name} Berhasil Diperbarui! (Status: {$statusLabel})");
     }
 
     /**
@@ -195,7 +197,7 @@ class MasterDataController extends Controller
     public function storeClassroom(Request $request)
     {
         $user = auth()->user();
-        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+        $schoolId = ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) ? $user->school_id : $request->school_id;
 
         $validated = $request->validate([
             'school_id' => 'required|exists:schools,id',
@@ -258,7 +260,7 @@ class MasterDataController extends Controller
     public function storeStudent(Request $request)
     {
         $user = auth()->user();
-        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+        $schoolId = ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) ? $user->school_id : $request->school_id;
 
         $request->validate([
             'school_id' => 'required|exists:schools,id',

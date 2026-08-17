@@ -338,7 +338,9 @@
                         <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Unit Sekolah Tujuan *</label>
                         <select name="school_code" id="school_code" onchange="updateUnitFeeInfo()" required class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
                             @foreach($schools as $sc)
-                            <option value="{{ strtolower($sc->code) }}">🏫 {{ $sc->name }} ({{ $sc->code }})</option>
+                            <option value="{{ strtolower($sc->code) }}" {{ !$sc->is_active ? 'disabled' : '' }}>
+                                🏫 {{ $sc->name }} ({{ $sc->code }}) {{ !$sc->is_active ? '— 🔒 COMING SOON (Belum Dibuka)' : '' }}
+                            </option>
                             @endforeach
                         </select>
                     </div>

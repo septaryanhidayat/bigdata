@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="/logo.png" />
+    <title>Mista Eats - Fresh, Healthy Meals Delivered to Your Door</title>
+    <meta name="description" content="Experience home-cooked goodness with Mista Eats. Fresh, hygienically prepared meals delivered daily. Corporate catering, meal subscriptions & more." />
+    <meta name="author" content="Mista Eats" />
+    <meta name="keywords" content="healthy meals, food delivery, meal subscription, corporate catering, home-cooked meals, fresh food delivery" />
+    <link rel="canonical" href="https://mistaeats.com" />
+
+    <meta property="og:title" content="Mista Eats - Fresh, Healthy Meals Delivered to Your Door" />
+    <meta property="og:description" content="Experience home-cooked goodness with Mista Eats. Fresh, hygienically prepared meals delivered daily." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:url" content="https://mistaeats.com" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mista Eats - Fresh, Healthy Meals Delivered" />
+    <meta name="twitter:description" content="Experience home-cooked goodness with Mista Eats. Fresh meals delivered daily." />
+    <meta name="twitter:image" content="background.avif" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FoodEstablishment",
+        "name": "Mista Eats",
+        "description": "Fresh, healthy meals delivered to your door. Home-cooked goodness meets modern convenience.",
+        "url": "https://mistaeats.com",
+        "telephone": "9206884884",
+        "email": "support@mistaeats.com",
+        "servesCuisine": ["Indian", "Healthy", "Home-style"],
+        "priceRange": "$$",
+        "openingHours": ["Mo-Sa 08:00-22:00", "Su 09:00-21:00"],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "15000"
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-DwtRo5_W.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Chia1otS.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

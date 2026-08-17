@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false }" :class="darkMode ? 'dark' : ''">
+<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false, videoModalOpen: false, currentVideoUrl: '', currentVideoTitle: '', currentEmbedId: '' }" :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil {{ $info['name'] }} | Portal Resmi SIT Robbani</title>
+    <title>Profil Resmi {{ $info['name'] }} | Portal Terpadu SIT Robbani</title>
 
-    <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
+    <!-- Favicon & Social Meta Tags -->
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=2">
     <meta property="og:type" content="website">
@@ -38,7 +38,8 @@
                             primary: '#065f46',
                             light: '#10b981',
                             accent: '#fd761a',
-                            orange: '#f97316'
+                            orange: '#f97316',
+                            lime: '#c6f634'
                         }
                     },
                     fontFamily: {
@@ -54,14 +55,13 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
         /* ==========================================================================
-           EXECUTIVE DEEP OBSIDIAN EMERALD & ELECTRIC LIME DARK MODE SYSTEM
+           EXECUTIVE OBSIDIAN EMERALD & ELECTRIC LIME DARK MODE SYSTEM
            ========================================================================== */
         html.dark, html.dark body {
             background-color: #061107 !important;
             color: #f7fee7 !important;
         }
 
-        /* 1. Dark Mode Background Overrides */
         html.dark header,
         html.dark section,
         html.dark footer,
@@ -72,39 +72,27 @@
             background-color: #061107 !important;
         }
 
-        /* 2. Pure White Logo Filter in Dark Mode (NO WHITE CONTAINER BOX) */
+        /* Pure White Logo in Dark Mode */
         .logo-badge-container {
             background-color: transparent !important;
-            padding: 0 !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
             display: inline-flex;
             align-items: center;
-        }
-
-        html.dark .logo-badge-container {
-            background-color: transparent !important;
-            padding: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
         }
 
         html.dark img.official-logo-img {
             filter: brightness(0) invert(1) !important;
         }
 
-        /* 3. Primary Card Surfaces in Dark Mode */
+        /* Card Surfaces */
+        html.dark .card-surface,
         html.dark .bg-white,
-        html.dark .bg-slate-50,
-        html.dark .bg-slate-100,
-        html.dark .card-surface {
+        html.dark .bg-slate-50 {
             background-color: #0d1e0f !important;
             border-color: #1a381c !important;
             color: #f7fee7 !important;
         }
 
-        /* 4. Section Pill Badges in Dark Mode */
+        /* Section Pill Badges */
         html.dark .unit-pill-badge,
         html.dark .site-section-badge {
             background-color: #c6f634 !important;
@@ -119,7 +107,7 @@
             font-weight: 900 !important;
         }
 
-        /* 5. Action CTA Buttons in Dark Mode: Electric Lime (#c6f634) with Obsidian Font (#061107) */
+        /* Action CTA Buttons */
         html.dark a.btn-unit-cta,
         html.dark a[href*="ppdb"] {
             background: #c6f634 !important;
@@ -135,7 +123,7 @@
             font-weight: 900 !important;
         }
 
-        /* 6. Text & Heading Contrast in Dark Mode */
+        /* Text Contrast */
         html.dark .text-slate-900,
         html.dark .text-slate-800,
         html.dark .text-slate-700 {
@@ -153,13 +141,6 @@
         html.dark .text-orange-600 {
             color: #c6f634 !important;
         }
-
-        /* 7. Footer in Dark Mode */
-        html.dark footer {
-            background-color: #040a04 !important;
-            border-top: 1px solid #1a381c !important;
-            color: #d9f99d !important;
-        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
@@ -169,12 +150,12 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <div class="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
                 <span class="bg-orange-500 text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full animate-pulse shrink-0">PORTAL UNIT {{ $info['code'] }}</span>
-                <span class="font-semibold text-[11px] sm:text-xs">🔥 {{ $info['name'] }} - Pendaftaran SPMB Online TA 2026/2027 Telah Resmi Dibuka!</span>
+                <span class="font-semibold text-[11px] sm:text-xs">🔥 {{ $info['name'] }} - Penerimaan Santri Baru TA 2026/2027 Telah Resmi Dibuka!</span>
             </div>
             <div class="hidden sm:flex items-center gap-4 text-[11px] font-bold shrink-0">
-                <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="hover:text-orange-300 transition-colors flex items-center gap-1">
+                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-orange-300 transition-colors flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px]">call</span>
-                    <span>WhatsApp Admin Unit</span>
+                    <span>Admin Unit: {{ $info['phone'] ?? '0811747472' }}</span>
                 </a>
                 <span class="text-emerald-300">•</span>
                 <a href="{{ route('home') }}" class="hover:underline text-emerald-200 flex items-center gap-1">
@@ -188,7 +169,7 @@
     <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#061107]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#1a381c] transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
             
-            <!-- Logo Section (Unit Specific Official Compressed Logo) -->
+            <!-- Logo Section -->
             @php
                 $unitLogoPath = '/images/logo_' . strtolower($info['code'] ?? 'sdit') . '.png';
                 if (!file_exists(public_path($unitLogoPath))) {
@@ -212,15 +193,16 @@
                 </div>
             </a>
 
-            <!-- Desktop Links (Concise, Compact & Never Wrapping) -->
-            <nav class="hidden lg:flex items-center gap-4 text-xs font-extrabold text-slate-700 dark:text-slate-200 shrink-0">
-                <a href="{{ route('home') }}" class="hover:text-orange-500 transition-colors whitespace-nowrap">Beranda</a>
-                <a href="#profil" class="hover:text-orange-500 transition-colors whitespace-nowrap">Profil</a>
-                <a href="#kepsek" class="hover:text-orange-500 transition-colors whitespace-nowrap">Kepsek</a>
-                <a href="#kurikulum" class="hover:text-orange-500 transition-colors whitespace-nowrap">Program</a>
-                <a href="#guru" class="hover:text-orange-500 transition-colors whitespace-nowrap">Guru</a>
+            <!-- Desktop Navigation Menu -->
+            <nav class="hidden xl:flex items-center gap-3.5 text-xs font-extrabold text-slate-700 dark:text-slate-200 shrink-0">
+                <a href="#sambutan" class="hover:text-orange-500 transition-colors whitespace-nowrap">Sambutan</a>
+                <a href="#profil" class="hover:text-orange-500 transition-colors whitespace-nowrap">Profil &amp; Visi</a>
+                <a href="#program" class="hover:text-orange-500 transition-colors whitespace-nowrap">Program</a>
+                <a href="#agenda-pengumuman" class="hover:text-orange-500 transition-colors whitespace-nowrap">Agenda &amp; Info</a>
+                <a href="#fasilitas" class="hover:text-orange-500 transition-colors whitespace-nowrap">Fasilitas</a>
+                <a href="#guru" class="hover:text-orange-500 transition-colors whitespace-nowrap">Dewan Guru</a>
                 <a href="#berita" class="hover:text-orange-500 transition-colors whitespace-nowrap">Berita</a>
-                <a href="#alumni" class="hover:text-orange-500 transition-colors whitespace-nowrap">Testimoni</a>
+                <a href="#galeri" class="hover:text-orange-500 transition-colors whitespace-nowrap">Galeri</a>
 
                 <!-- Dark Mode Toggle Button -->
                 <button @click="darkMode = !darkMode" title="Ganti Mode Gelap/Terang" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-700 dark:text-[#c6f634] hover:bg-slate-200 dark:hover:bg-[#153018] transition-all shadow-sm border border-slate-200 dark:border-[#1a381c] shrink-0">
@@ -235,47 +217,52 @@
             </nav>
 
             <!-- Mobile Controls -->
-            <div class="flex items-center gap-2 lg:hidden shrink-0">
+            <div class="flex items-center gap-2 xl:hidden shrink-0">
                 <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-700 dark:text-[#c6f634] border border-slate-200 dark:border-[#1a381c]">
                     <span x-show="!darkMode">🌙</span>
                     <span x-show="darkMode">☀️</span>
                 </button>
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-xl bg-emerald-700 text-white font-bold text-sm">
-                    <span x-show="!mobileMenuOpen">☰</span>
-                    <span x-show="mobileMenuOpen">✕</span>
+                    <span x-show="!mobileMenuOpen">☰ Menu</span>
+                    <span x-show="mobileMenuOpen">✕ Tutup</span>
                 </button>
             </div>
         </div>
     </header>
 
     <!-- Mobile Navigation Drawer -->
-    <div x-show="mobileMenuOpen" x-cloak x-transition class="lg:hidden bg-white dark:bg-[#0d1e0f] border-b border-slate-200 dark:border-[#1a381c] px-6 py-4 space-y-3 font-bold text-xs">
+    <div x-show="mobileMenuOpen" x-cloak x-transition class="xl:hidden bg-white dark:bg-[#0d1e0f] border-b border-slate-200 dark:border-[#1a381c] px-6 py-4 space-y-3 font-bold text-xs">
         <a href="{{ route('home') }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏠 Beranda Utama Portal</a>
+        <a href="#sambutan" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👤 Sambutan Kepala Sekolah</a>
         <a href="#profil" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏫 Profil &amp; Visi Misi</a>
-        <a href="#kepsek" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👤 Sambutan Kepala Sekolah</a>
-        <a href="#kurikulum" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🌟 Program Unggulan &amp; Kurikulum</a>
+        <a href="#program" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🌟 Program Unggulan &amp; Kurikulum</a>
+        <a href="#agenda-pengumuman" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📅 Agenda &amp; Pengumuman</a>
+        <a href="#fasilitas" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏢 Sarana &amp; Fasilitas Sekolah</a>
         <a href="#guru" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👨‍🏫 Dewan Guru &amp; Tendik</a>
-        <a href="#alumni" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🎓 Kisah Alumni &amp; Testimoni</a>
+        <a href="#berita" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📰 Berita &amp; Prestasi</a>
+        <a href="#galeri" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📸 Galeri Foto &amp; Video</a>
         <a href="{{ route('school.ppdb') }}" class="block py-3 text-center bg-orange-600 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black rounded-xl shadow-md">Daftar SPMB Online Unit {{ $info['code'] }} ➔</a>
     </div>
 
     <!-- Main Content Container -->
-    <main class="flex-grow">
+    <main class="flex-grow space-y-8 sm:space-y-12">
         
-        <!-- 1. HERO UNIT GLASSMORPHISM BANNER (MOSQUE & CAMPUS BACKGROUND PHOTO) -->
-        <section class="relative py-8 sm:py-14 px-4 sm:px-6 overflow-hidden">
+        <!-- 1. HERO UNIT GLASSMORPHISM BANNER -->
+        <section class="relative pt-6 sm:pt-10 px-4 sm:px-6 overflow-hidden">
             <div class="max-w-7xl mx-auto">
                 <div class="relative rounded-3xl p-6 sm:p-12 overflow-hidden shadow-2xl bg-cover bg-center border border-emerald-900/30 dark:border-[#1a381c]" style="background-image: url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600');">
                     
-                    <!-- Glassmorphism Dark Emerald Overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#004532]/90 via-[#065f46]/85 to-[#061107]/95 dark:from-[#061107]/95 dark:to-[#0d1e0f]/95 backdrop-blur-md"></div>
+                    <!-- Dark Emerald Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#004532]/95 via-[#065f46]/90 to-[#061107]/95 dark:from-[#061107]/95 dark:to-[#0d1e0f]/95 backdrop-blur-md"></div>
 
                     <div class="relative z-10 max-w-3xl space-y-4 sm:space-y-6 text-white">
                         <div class="inline-flex flex-wrap items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full">
-                            <span class="w-2 h-2 rounded-full bg-[#c6f634] animate-ping"></span>
-                            <span class="text-[#c6f634] font-black text-[11px] uppercase tracking-wider">PROFIL RESMI UNIT {{ $info['code'] }} ROBBANI</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#c6f634] animate-ping"></span>
+                            <span class="text-[#c6f634] font-black text-[11px] uppercase tracking-wider">PORTAL RESMI UNIT {{ $info['code'] }} ROBBANI</span>
                             <span class="text-white/60">•</span>
                             <span class="text-white text-[11px] font-bold">NPSN: {{ $info['npsn'] }}</span>
+                            <span class="text-white/60">•</span>
+                            <span class="text-amber-300 font-bold text-[11px]">{{ $info['akreditasi'] }}</span>
                         </div>
 
                         <h1 class="text-2xl sm:text-5xl font-black text-white leading-tight drop-shadow-md font-headline">
@@ -283,17 +270,17 @@
                         </h1>
 
                         <p class="text-xs sm:text-base text-emerald-100 dark:text-slate-200 font-medium leading-relaxed drop-shadow">
-                            {{ $info['description'] }}
+                            {{ $info['tagline'] }}
                         </p>
 
                         <div class="flex flex-wrap gap-3 sm:gap-4 pt-2">
                             <a href="{{ route('school.ppdb') }}" class="btn-unit-cta px-6 py-3.5 rounded-full bg-orange-600 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-xs sm:text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                                <span>Daftar SPMB Online Unit {{ $info['code'] }}</span>
+                                <span>Daftar SPMB Online {{ $info['code'] }}</span>
                                 <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </a>
-                            <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="px-6 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm hover:bg-white/20 transition-all flex items-center gap-2">
+                            <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="px-6 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm hover:bg-white/20 transition-all flex items-center gap-2">
                                 <span class="material-symbols-outlined text-[18px]">call</span>
-                                <span>Hubungi Admin WhatsApp</span>
+                                <span>Konsultasi PPDB WhatsApp</span>
                             </a>
                         </div>
                     </div>
@@ -301,28 +288,76 @@
             </div>
         </section>
 
-        <!-- 2. METRICS & STATISTIK UNIT -->
-        <section id="statistik" class="py-4 px-4 sm:px-6">
+        <!-- 2. SAMBUTAN KEPALA SEKOLAH UNIT (POSISI TERATAS, FOTO FORMAT KOTAK / PORTRAIT CARD SESUAI ASSET ASLI) -->
+        <section id="sambutan" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-10 shadow-xl flex flex-col md:flex-row gap-6 sm:gap-10 items-center relative overflow-hidden">
+                    
+                    <!-- Background Accent Watermark -->
+                    <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none text-emerald-900 dark:text-white">
+                        <span class="material-symbols-outlined text-[260px]">school</span>
+                    </div>
+
+                    <!-- Foto Kepala Sekolah (FORMAT KOTAK / PORTRAIT PAS FOTO DENGAN ROUNDED CORNER) -->
+                    <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-1/3 z-10">
+                        <div class="w-48 sm:w-56 h-64 sm:h-72 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] p-1 mb-4 shadow-2xl bg-white dark:bg-slate-900 ring-4 ring-emerald-500/20">
+                            <img src="{{ $info['principal_photo'] }}" alt="Foto {{ $info['principal_name'] }}" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                        </div>
+                        <span class="unit-pill-badge mb-1.5 px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-emerald-900 dark:text-[#061107] text-[10px] font-black uppercase tracking-wider shadow-sm">
+                            KEPALA SEKOLAH
+                        </span>
+                        <h3 class="text-base sm:text-xl font-black font-headline text-slate-900 dark:text-white">{{ $info['principal_name'] }}</h3>
+                        <p class="text-xs font-semibold text-emerald-700 dark:text-[#c6f634] max-w-[260px] mt-0.5">{{ $info['principal_title'] }}</p>
+                    </div>
+
+                    <!-- Teks Sambutan Resmi -->
+                    <div class="flex-grow w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-[#1a381c] pt-5 md:pt-0 md:pl-8 text-center md:text-left space-y-4 z-10">
+                        <div class="flex items-center justify-center md:justify-start gap-2">
+                            <span class="material-symbols-outlined text-[32px] text-emerald-600/40 dark:text-[#c6f634]/40">format_quote</span>
+                            <span class="text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-400">KATA SAMBUTAN PIMPINAN SATUAN PENDIDIKAN</span>
+                        </div>
+                        
+                        <p class="text-xs sm:text-base font-semibold italic text-slate-800 dark:text-slate-200 leading-relaxed">
+                            "{{ $info['principal_greeting'] }}"
+                        </p>
+
+                        <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
+                            <a href="{{ route('school.ppdb') }}" class="btn-unit-cta px-5 py-2.5 rounded-full bg-emerald-700 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-xs shadow-md hover:scale-105 transition-all flex items-center gap-1.5">
+                                <span>Pendaftaran Santri Baru {{ $info['code'] }}</span>
+                                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            </a>
+                            <a href="#guru" class="px-5 py-2.5 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-700 dark:text-slate-200 font-bold text-xs hover:bg-slate-200 transition-all">
+                                <span>Lihat Profil Dewan Guru ({{ count($info['teachers'] ?? []) }} GTK)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. METRICS & STATISTIK UNIT -->
+        <section id="statistik" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1">
+                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1 hover:border-emerald-500 transition-all">
                     <span class="text-3xl sm:text-4xl font-black text-emerald-700 dark:text-[#c6f634] block font-headline">
                         {{ $info['students_count'] }}
                     </span>
                     <span class="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Siswa Aktif Terdaftar</span>
                 </div>
-                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1">
+                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1 hover:border-orange-500 transition-all">
                     <span class="text-3xl sm:text-4xl font-black text-orange-600 dark:text-[#c6f634] block font-headline">
                         {{ $info['employees_count'] }}
                     </span>
                     <span class="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Guru &amp; Tenaga Pendidik</span>
                 </div>
-                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1">
+                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1 hover:border-emerald-500 transition-all">
                     <span class="text-3xl sm:text-4xl font-black text-emerald-700 dark:text-[#c6f634] block font-headline">
                         {{ $info['classrooms_count'] }}
                     </span>
                     <span class="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Rombongan Belajar</span>
                 </div>
-                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1">
+                <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1 hover:border-emerald-500 transition-all">
                     <span class="text-xl sm:text-2xl font-black text-emerald-800 dark:text-[#c6f634] block font-headline py-1">
                         {{ $info['target_hafalan'] }}
                     </span>
@@ -331,38 +366,38 @@
             </div>
         </section>
 
-        <!-- 3. PROFIL & VISI MISI UNIT -->
-        <section id="profil" class="py-10 sm:py-14 px-4 sm:px-6">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- 4. PROFIL & VISI MISI UNIT -->
+        <section id="profil" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                 
-                <!-- Left: Profil & Sejarah Singkat -->
+                <!-- Left: Profil Pembelajaran -->
                 <div class="lg:col-span-6 space-y-6">
                     <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4">
                         <div class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">
-                            KEUNGGULAN UTAMA
+                            PROFIL PEMBELAJARAN
                         </div>
-                        <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Profil Pembelajaran {{ $info['name'] }}</h2>
+                        <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Keunggulan {{ $info['name'] }}</h2>
                         <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                             {{ $info['description'] }}
                         </p>
-                        <div class="pt-2 border-t border-slate-100 dark:border-[#1a381c] grid grid-cols-2 gap-4 text-xs font-bold text-slate-700 dark:text-slate-300">
+                        <div class="pt-3 border-t border-slate-100 dark:border-[#1a381c] grid grid-cols-2 gap-4 text-xs font-bold text-slate-700 dark:text-slate-300">
                             <div class="flex items-center gap-2">
                                 <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634]">verified</span>
                                 <span>Akreditasi: {{ $info['akreditasi'] }}</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634]">menu_book</span>
-                                <span>Kurikulum Merdeka + JSIT</span>
+                                <span>Kurikulum: Merdeka + JSIT</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Visi & Misi Poin-Poin -->
+                <!-- Right: Visi & Misi Unit -->
                 <div class="lg:col-span-6 space-y-6">
                     <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4">
                         <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">
-                            VISI &amp; MISI SEKOLAH
+                            VISI &amp; MISI SATUAN PENDIDIKAN
                         </span>
                         <div>
                             <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Visi Unit {{ $info['code'] }}:</h3>
@@ -387,45 +422,14 @@
             </div>
         </section>
 
-        <!-- 4. SAMBUTAN KEPALA SEKOLAH UNIT (FEATURED VISUAL CARD) -->
-        <section id="kepsek" class="py-10 sm:py-14 px-4 sm:px-6 bg-slate-100/60 dark:bg-[#040a04]">
-            <div class="max-w-7xl mx-auto">
-                <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-10 shadow-md flex flex-col md:flex-row gap-6 sm:gap-10 items-center">
-                    
-                    <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-1/3">
-                        <div class="w-32 h-32 sm:w-44 sm:h-44 mx-auto rounded-full border-4 border-emerald-600 p-1 mb-3 shadow-lg overflow-hidden bg-white">
-                            <img src="{{ $info['principal_photo'] }}" alt="{{ $info['principal_name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                        </div>
-                        <span class="unit-pill-badge mb-1 px-3 py-0.5 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-emerald-900 dark:text-[#061107] text-[10px] font-black uppercase">KEPALA SEKOLAH</span>
-                        <h3 class="text-base sm:text-lg font-bold font-headline text-slate-900 dark:text-white">{{ $info['principal_name'] }}</h3>
-                        <p class="text-[11px] font-semibold text-emerald-700 dark:text-[#c6f634] max-w-[240px]">{{ $info['principal_title'] }}</p>
-                    </div>
-
-                    <div class="flex-grow w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-[#1a381c] pt-4 md:pt-0 md:pl-8 text-center md:text-left space-y-3">
-                        <span class="material-symbols-outlined text-[40px] text-emerald-600/30 block md:inline-block">format_quote</span>
-                        <p class="text-xs sm:text-base font-semibold italic text-slate-800 dark:text-slate-200 leading-relaxed">
-                            "{{ $info['principal_greeting'] }}"
-                        </p>
-                        <div class="pt-2">
-                            <a href="{{ route('school.ppdb') }}" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-[#c6f634] hover:underline">
-                                <span>Konsultasi PPDB Unit {{ $info['code'] }}</span>
-                                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
         <!-- 5. STRUKTUR KURIKULUM & PROGRAM UNGGULAN -->
-        <section id="kurikulum" class="py-10 sm:py-16 px-4 sm:px-6">
+        <section id="program" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">KURIKULUM UNGGULAN</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Program Pembelajaran {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengembangan potensi akademis, hafalan Al-Qur'an, dan karakter islami terpadu.</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengembangan potensi akademis, hafalan Al-Qur'an, koding digital, dan pembiasaan adab islami.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -443,39 +447,182 @@
             </div>
         </section>
 
-        <!-- 6. DEWAN GURU & TENAGA PENDIDIK UNIT -->
-        <section id="guru" class="py-10 sm:py-16 px-4 sm:px-6 bg-slate-50 dark:bg-[#040a04] border-t border-slate-200/60 dark:border-[#1a381c]">
+        <!-- 6 & 7. AGENDA & PENGUMUMAN SEBELAHAN (SIDE-BY-SIDE SEPERTI WEB UTAMA) -->
+        <section id="agenda-pengumuman" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+                
+                <!-- Left: Agenda Sekolah Unit (Col 7) -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">AGENDA UNIT</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Jadwal &amp; Kalender Kegiatan</h2>
+                        </div>
+                    </div>
+
+                    @if(isset($unitAgendas) && count($unitAgendas) > 0)
+                    <div class="space-y-3">
+                        @foreach(array_slice($unitAgendas, 0, 5) as $ag)
+                        <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-4 sm:p-5 shadow-sm hover:border-emerald-500 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-start sm:items-center gap-4">
+                                <div class="bg-emerald-50 dark:bg-[#153018] text-emerald-800 dark:text-[#c6f634] p-3 rounded-2xl text-center min-w-[75px] shrink-0 border border-emerald-200 dark:border-[#1a381c]">
+                                    <span class="material-symbols-outlined text-[20px] block mx-auto">calendar_month</span>
+                                    <span class="text-[10px] font-black uppercase tracking-wider block mt-0.5">{{ $ag['date'] ?? 'Agenda' }}</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <h3 class="text-sm sm:text-base font-bold font-headline text-slate-900 dark:text-white">{{ $ag['title'] }}</h3>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2">{{ $ag['desc'] }}</p>
+                                    <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-400 dark:text-slate-400 pt-1">
+                                        <span>📍 {{ $ag['location'] ?? 'Kampus Robbani' }}</span>
+                                        <span>•</span>
+                                        <span>⏰ {{ $ag['time'] ?? '08:00 WIB' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    @else
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-6 text-center text-xs text-slate-500">
+                        Belum ada agenda terdekat untuk unit ini.
+                    </div>
+                    @endif
+                </div>
+
+                <!-- Right: Pengumuman Resmi Unit (Col 5) -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">INFORMASI RESMI</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Pengumuman Unit</h2>
+                        </div>
+                    </div>
+
+                    @if(isset($unitAnnouncements) && count($unitAnnouncements) > 0)
+                    <div class="space-y-3">
+                        @foreach(array_slice($unitAnnouncements, 0, 4) as $ann)
+                        <div class="bg-white dark:bg-[#0d1e0f] border-l-4 border-orange-500 dark:border-[#c6f634] rounded-2xl p-4 shadow-sm space-y-2 border-y border-r border-slate-200 dark:border-[#1a381c]">
+                            <div class="flex items-center justify-between text-xs text-slate-400">
+                                <span class="font-bold text-orange-600 dark:text-[#c6f634]">🗓️ {{ $ann['date'] ?? 'Pengumuman' }}</span>
+                                <span class="bg-orange-100 dark:bg-[#c6f634]/20 text-orange-800 dark:text-[#c6f634] px-2 py-0.5 rounded text-[10px] font-black uppercase">PENGUMUMAN</span>
+                            </div>
+                            <h3 class="text-sm font-bold font-headline text-slate-900 dark:text-white">{{ $ann['title'] }}</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{{ $ann['excerpt'] ?? strip_tags($ann['content'] ?? '') }}</p>
+                        </div>
+                        @endforeach
+                    </div>
+                    @else
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-6 text-center text-xs text-slate-500">
+                        Belum ada pengumuman baru untuk unit ini.
+                    </div>
+                    @endif
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 8. SARANA & FASILITAS SEKOLAH UNIT -->
+        @if(isset($unitFacilities) && count($unitFacilities) > 0)
+        <section id="fasilitas" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="text-center space-y-1">
+                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">SARANA PRASARANA</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Fasilitas Unggulan {{ $info['code'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Sarana penunjang kenyamanan belajar, ibadah, olahraga, dan laboratorium modern.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($unitFacilities as $fac)
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all group">
+                        <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900">
+                            <img src="{{ $fac['image'] }}" alt="{{ $fac['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <span class="absolute bottom-3 left-3 bg-emerald-700/90 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full backdrop-blur-sm">Fasilitas Terpadu</span>
+                        </div>
+                        <div class="p-5 sm:p-6 space-y-2">
+                            <h3 class="text-base font-bold font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $fac['title'] }}</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{{ $fac['desc'] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+        @endif
+
+        <!-- 9. EKSTRAKURIKULER & MINAT BAKAT -->
+        @if(isset($unitEkskul) && count($unitEkskul) > 0)
+        <section id="ekskul" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="text-center space-y-1">
+                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">MINAT &amp; BAKAT</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Ekstrakurikuler Santri {{ $info['code'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Wadah eksplorasi talenta sains, teknologi koding, seni islami, panahan, dan kepanduan.</p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    @foreach($unitEkskul as $ek)
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 text-center space-y-2.5 shadow-sm hover:border-orange-500 hover:shadow-md transition-all">
+                        <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-50 dark:bg-[#153018] text-orange-600 dark:text-[#c6f634] flex items-center justify-center text-xl font-bold shadow-xs">
+                            🎯
+                        </div>
+                        <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug">{{ $ek['title'] }}</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">{{ $ek['desc'] }}</p>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+        @endif
+
+        <!-- 10. DEWAN GURU & TENAGA PENDIDIK (GTK) (FORMAT FOTO KOTAK 3:4 RAPI & SERAGAM) -->
+        <section id="guru" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">TENAGA PENDIDIK</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Dewan Guru &amp; Ustadz / Ustadzah {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Guru profesional, berpendidikan linier, hafidz Al-Qur'an, dan berdedikasi tinggi.</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Dewan Guru &amp; Tenaga Pendidik {{ $info['code'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Guru profesional, berpendidikan linier, hafidz Al-Qur'an, dan berdedikasi tinggi membimbing santri.</p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Grid Guru Format Foto Kotak Pas Foto 3:4 -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                     @foreach($info['teachers'] as $t)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-4 sm:p-5 text-center space-y-3 shadow-sm hover:shadow-md transition-all">
-                        <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden border-2 border-emerald-500 p-0.5 bg-white">
-                            <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-4 sm:p-5 text-center space-y-3 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between group">
+                        <div class="space-y-3">
+                            <!-- Foto Pendidik Format Kotak 3:4 -->
+                            <div class="w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#1a381c] bg-slate-100 dark:bg-slate-800 shadow-sm group-hover:scale-[1.02] transition-transform duration-300">
+                                <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            </div>
+                            <div>
+                                <h4 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h4>
+                                <span class="text-[10px] sm:text-[11px] font-semibold text-emerald-700 dark:text-[#c6f634] block mt-1">{{ $t['role'] }}</span>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug">{{ $t['name'] }}</h4>
-                            <span class="text-[10px] sm:text-[11px] font-semibold text-emerald-700 dark:text-[#c6f634] block mt-1">{{ $t['role'] }}</span>
-                        </div>
+                        @if(!empty($t['bio']))
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 italic pt-2 border-t border-slate-100 dark:border-[#1a381c]">
+                            "{{ $t['bio'] }}"
+                        </p>
+                        @endif
                     </div>
                     @endforeach
+                </div>
+
             </div>
         </section>
 
-        <!-- 6.5 BERITA & KEGIATAN KHUSUS UNIT -->
-        <section id="berita" class="py-12 sm:py-16 px-4 sm:px-6 bg-slate-50 dark:bg-[#081709] border-y border-slate-200/80 dark:border-[#1a381c]">
+        <!-- 11. BERITA & PRESTASI SANTRI KHUSUS UNIT -->
+        <section id="berita" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
                     <div>
                         <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">KABAR TERBARU</span>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Berita &amp; Kegiatan {{ $info['name'] }}</h2>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Berita &amp; Prestasi {{ $info['name'] }}</h2>
                         <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Dokumentasi kegiatan, prestasi santri, dan pengumuman resmi unit {{ $info['code'] }}.</p>
                     </div>
                     <a href="{{ route('school.berita') }}" class="px-5 py-2.5 rounded-full bg-white dark:bg-[#0d1e0f] text-emerald-700 dark:text-[#c6f634] font-black text-xs border border-slate-200/80 dark:border-[#1a381c] shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 shrink-0">
@@ -515,39 +662,168 @@
                     </div>
                     @endforeach
                 </div>
-                @else
-                <div class="text-center py-12 bg-white dark:bg-[#0d1e0f] rounded-3xl border border-slate-200/80 dark:border-[#1a381c] p-6 space-y-2">
-                    <span class="text-3xl block">📰</span>
-                    <h4 class="text-sm font-bold text-slate-900 dark:text-white">Belum Ada Berita Khusus Unit {{ $info['code'] }}</h4>
-                    <p class="text-xs text-slate-500">Berita dan kegiatan unit akan segera diperbarui secara berkala.</p>
-                </div>
                 @endif
 
             </div>
         </section>
 
-        <!-- 7. KISAH ALUMNI & TESTIMONI -->
-        <section id="alumni" class="py-10 sm:py-16 px-4 sm:px-6">
+        <!-- 12. ARTIKEL & EDITORIAL EDUKASI UNIT -->
+        @if(isset($unitArticles) && count($unitArticles) > 0)
+        <section id="artikel" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                    <div>
+                        <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">LITERASI &amp; EDUKASI</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Artikel &amp; Editorial {{ $info['code'] }}</h2>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Wawasan keislaman, parenting, dan tips belajar santri.</p>
+                    </div>
+                    <a href="{{ route('school.artikel') }}" class="px-5 py-2.5 rounded-full bg-white dark:bg-[#0d1e0f] text-orange-600 dark:text-[#c6f634] font-black text-xs border border-slate-200/80 dark:border-[#1a381c] shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 shrink-0">
+                        <span>Lihat Semua Artikel</span> ➔
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($unitArticles as $art)
+                    @php
+                        $artSlug = $art['slug'] ?? \Illuminate\Support\Str::slug($art['title']);
+                    @endphp
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500 transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-44 sm:h-48 overflow-hidden bg-slate-900">
+                                <img src="{{ $art['image'] }}" alt="{{ $art['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_2.png';">
+                                <span class="absolute top-3 left-3 bg-orange-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-md">
+                                    {{ $art['category'] ?? 'Artikel' }}
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <span class="text-[11px] font-bold text-slate-400 block">🗓️ {{ $art['date'] }}</span>
+                                <h3 class="text-sm sm:text-base font-black font-headline text-slate-900 dark:text-white line-clamp-2 group-hover:text-orange-600 dark:group-hover:text-[#c6f634] transition-colors leading-snug">
+                                    {{ $art['title'] }}
+                                </h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed font-medium">
+                                    {{ $art['excerpt'] }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <a href="{{ route('school.artikel.show', $artSlug) }}" class="text-orange-600 dark:text-[#c6f634] font-black text-xs flex items-center gap-1 group-hover:underline">
+                                <span>Baca Artikel</span> ➔
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+        @endif
+
+        <!-- 13. GALERI FOTO & DOKUMENTASI KEGIATAN UNIT -->
+        @if(isset($unitGallery) && count($unitGallery) > 0)
+        <section id="galeri" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="text-center space-y-1">
+                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">DOKUMENTASI FOTO</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Galeri Foto Kegiatan {{ $info['code'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Potret keceriaan santri, perkemahan, kegiatan manasik, dan perlombaan akademik.</p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    @foreach(array_slice($unitGallery, 0, 8) as $gal)
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all group relative">
+                        <div class="h-44 sm:h-52 overflow-hidden bg-slate-900 relative">
+                            <img src="{{ $gal['image'] }}" alt="{{ $gal['title'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_3.png';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                            <div class="absolute bottom-3 left-3 right-3 text-white space-y-1">
+                                <span class="text-[10px] font-bold text-amber-300 block">🗓️ {{ $gal['date'] ?? 'Kegiatan' }}</span>
+                                <h3 class="text-xs sm:text-sm font-bold font-headline leading-tight line-clamp-2">{{ $gal['title'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+        @endif
+
+        <!-- 14. GALERI VIDEO KEGIATAN UNIT -->
+        @if(isset($unitVideos) && count($unitVideos) > 0)
+        <section id="video" class="px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="text-center space-y-1">
+                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-red-100 dark:bg-[#c6f634] text-red-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">DOKUMENTASI VIDEO</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Galeri Video Kegiatan {{ $info['code'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Saksikan video aktivitas belajar, wisuda tahfidz, unjuk bakat santri, dan dokumenter sekolah resmi.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach(array_slice($unitVideos, 0, 9) as $vid)
+                    @php
+                        $embedId = $vid['embed_id'] ?? '';
+                    @endphp
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between cursor-pointer"
+                         @click="currentEmbedId = '{{ $embedId }}'; currentVideoUrl = '{{ $vid['url'] }}'; currentVideoTitle = '{{ addslashes($vid['title']) }}'; videoModalOpen = true">
+                        <div>
+                            <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900 flex items-center justify-center">
+                                <img src="{{ $vid['image'] }}" alt="{{ $vid['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_4.png';">
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+                                <!-- Red YouTube Play Button Icon -->
+                                <div class="absolute w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:bg-red-600 transition-all ring-4 ring-white/30">
+                                    <span class="material-symbols-outlined text-[32px] ml-1">play_arrow</span>
+                                </div>
+                                <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full shadow-md">
+                                    YouTube Video
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <span class="text-[10px] font-bold text-slate-400 block">🗓️ {{ $vid['date'] ?? 'Dokumentasi Video' }}</span>
+                                <h3 class="text-sm sm:text-base font-bold font-headline text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-[#c6f634] transition-colors">{{ $vid['title'] }}</h3>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <span class="text-red-600 dark:text-[#c6f634] font-black text-xs flex items-center gap-1 group-hover:underline">
+                                <span>Putar Video</span> ▶
+                            </span>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+        @endif
+
+        <!-- 15. KISAH ALUMNI & TESTIMONI -->
+        <section id="alumni" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
                     <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">KISAH SUKSES</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Kesan Alumni &amp; Orang Tua Unit</h2>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Kesan Alumni &amp; Orang Tua {{ $info['code'] }}</h2>
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengalaman berharga mempercayakan pendidikan putra-putri di {{ $info['name'] }}.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @foreach($info['alumni'] as $al)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm space-y-4">
-                        <span class="material-symbols-outlined text-[32px] text-amber-500 block">format_quote</span>
-                        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 italic leading-relaxed">
-                            "{{ $al['text'] }}"
-                        </p>
-                        <div class="flex items-center gap-3 pt-2 border-t border-slate-100 dark:border-[#1a381c]">
-                            <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <span class="material-symbols-outlined text-[32px] text-amber-500 block">format_quote</span>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 italic leading-relaxed">
+                                "{{ $al['text'] }}"
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-[#1a381c]">
+                            <!-- Foto Alumni Kotak Rounded -->
+                            <div class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-white shrink-0">
+                                <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            </div>
                             <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h4>
-                                <span class="text-[10px] text-emerald-700 dark:text-[#c6f634] font-semibold block">{{ $al['title'] }}</span>
+                                <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h4>
+                                <span class="text-[10px] sm:text-xs text-emerald-700 dark:text-[#c6f634] font-semibold block">{{ $al['title'] }}</span>
                             </div>
                         </div>
                     </div>
@@ -557,8 +833,8 @@
             </div>
         </section>
 
-        <!-- 8. SPMB UNIT CALLOUT BANNER -->
-        <section class="py-10 px-4 sm:px-6">
+        <!-- 16. SPMB UNIT CALLOUT BANNER -->
+        <section class="px-4 sm:px-6 pb-8">
             <div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-[#004532] via-[#065f46] to-[#fd761a] p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-2 text-center md:text-left">
                     <span class="bg-orange-500 text-white font-black text-[10px] uppercase px-3 py-1 rounded-full">SPMB ONLINE TA 2026/2027</span>
@@ -573,6 +849,29 @@
         </section>
 
     </main>
+
+    <!-- YouTube Video Modal Player -->
+    <div x-show="videoModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md" @keydown.escape.window="videoModalOpen = false; currentEmbedId = ''; currentVideoUrl = ''">
+        <div class="relative w-full max-w-4xl bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700" @click.away="videoModalOpen = false; currentEmbedId = ''; currentVideoUrl = ''">
+            <div class="p-4 bg-slate-950 flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                    <span class="bg-red-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded">YOUTUBE</span>
+                    <h4 class="text-xs sm:text-sm font-bold text-white line-clamp-1" x-text="currentVideoTitle"></h4>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a :href="currentVideoUrl" target="_blank" class="text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
+                        <span>Buka di YouTube</span> ➔
+                    </a>
+                    <button @click="videoModalOpen = false; currentEmbedId = ''; currentVideoUrl = ''" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-black transition-all">✕</button>
+                </div>
+            </div>
+            <div class="aspect-video w-full bg-black">
+                <template x-if="videoModalOpen && currentEmbedId">
+                    <iframe :src="'https://www.youtube-nocookie.com/embed/' + currentEmbedId + '?autoplay=1&rel=0'" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </template>
+            </div>
+        </div>
+    </div>
 
     <!-- Unit Footer -->
     <footer class="bg-slate-950 text-slate-400 text-xs py-10 px-4 sm:px-6 border-t border-slate-800 mt-auto">

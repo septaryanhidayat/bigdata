@@ -24,3 +24,9 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Agent / AI rules (added by Eevee Tokens Visualizer)
+.eevee/
+.agent/
+.claude/
+scratch/

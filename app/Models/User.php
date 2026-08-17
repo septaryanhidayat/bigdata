@@ -210,6 +210,11 @@ class User extends Authenticatable
      */
     public function getEffectiveSchoolId(): ?int
     {
+        if ($this->isSuperAdmin() || $this->role === self::ROLE_YAYASAN_CHAIRMAN) {
+            $sessionVal = session('dashboard_school_id', 'all');
+            return ($sessionVal === 'all' || empty($sessionVal)) ? null : (int)$sessionVal;
+        }
+
         if ($this->school_id) {
             return (int)$this->school_id;
         }

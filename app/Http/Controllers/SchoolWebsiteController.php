@@ -38,6 +38,8 @@ class SchoolWebsiteController extends Controller
         ];
 
         $schools = School::withCount(['students', 'employees', 'classrooms'])->where('is_active', true)->get();
+        $allSchoolsList = School::all();
+        $schoolsKeyed = $allSchoolsList->keyBy(fn($s) => strtoupper($s->code));
         $totalStudents = Student::count();
         $totalEmployees = Employee::count();
         $totalClassrooms = Classroom::count();
@@ -171,9 +173,9 @@ class SchoolWebsiteController extends Controller
             ],
             'smpit' => [
                 'name' => 'SMPIT Robbani',
-                'principal_name' => 'Ustdz. Tia Wulandari, S.Pd',
-                'principal_title' => 'Kepala SMPIT Robbani',
-                'principal_photo' => '/images/hero_3d_illustration_1786347707126.png',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
+                'principal_title' => 'Kepala Sekolah SMPIT',
+                'principal_photo' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2024/11/WhatsApp-Image-2024-12-03-at-10.45.31-1.jpeg',
                 'desc' => 'Sekolah Menengah Pertama berasrama (boarding) / fullday.'
             ],
             'smait' => [
@@ -208,7 +210,8 @@ class SchoolWebsiteController extends Controller
             'announcementList',
             'galleryList',
             'headerMenus',
-            'unitProfiles'
+            'unitProfiles',
+            'schoolsKeyed'
         ));
     }
 
@@ -322,39 +325,48 @@ class SchoolWebsiteController extends Controller
                 'npsn' => '69989012',
                 'akreditasi' => 'Terakreditasi A (Unggul)',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
-                'principal_name' => 'Ustadz Muhammad Ridwan, S.Si, M.Pd',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/images/logo-robbani-official.png',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SMP IT Robbani. Kami memadukan kecerdasan digital (SIPAKAR V2) dan kemuliaan akhlak pada santri untuk melahirkan generasi Rabbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
-                'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu yang memadukan kecerdasan digital, kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter mandiri (Boarding & Fullday). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
+                'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap santri (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
+                'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
                 'vision' => 'Melahirkan Generasi Rabbani yang Beriman dan Bertaqwa, Unggul dalam Ilmu Pengetahuan dan Teknologi serta Berwawasan Global.',
                 'missions' => [
                     'Mengadakan kegiatan keagamaan secara rutin dan teratur untuk menumbuhkan penghayatan dan pengamalan nilai-nilai ajaran agama Islam.',
-                    'Membina dan menumbuhkan budaya disiplin dan berkarakter.',
+                    'Membina dan menumbuhkan budaya disiplin dan berkarakter islami.',
                     'Melaksanakan pengajaran secara efektif dan menyenangkan dengan penerapan teknologi pendidikan (SIPAKAR V2).',
                     'Membimbing dan mengarahkan setiap murid untuk mengenali potensi diri, sehingga dapat mengembangkan talenta sebagai kecakapan hidupnya.',
                     'Menumbuhkan daya juang serta semangat yang tinggi dalam belajar dan bekerja keras untuk meraih prestasi dan peduli terhadap lingkungan.'
                 ],
                 'phone' => '085377193977',
                 'students_count' => 280,
-                'employees_count' => 26,
+                'employees_count' => 12,
                 'classrooms_count' => 10,
                 'target_hafalan' => '5 - 10 Juz Mutqin',
                 'programs' => [
                     ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi, modul CBT, dan rekam jejak hafalan.'],
-                    ['title' => 'Boarding & Fullday System', 'icon' => '🏫', 'desc' => 'Pengasuhan 24 jam dengan pembiasaan tahajud, subuh berjamaah, dan disiplin tinggi.'],
-                    ['title' => 'Tahfidz Intensive 5-10 Juz', 'icon' => '📜', 'desc' => 'Karantina tahfidz berkala dengan target hafalan mutqin dan pemahaman Al-Qur\'an.'],
-                    ['title' => 'English & Arabic Active Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan lomba public speaking.']
+                    ['title' => 'Fullday School & Karakter Islami', 'icon' => '🏫', 'desc' => 'Pembiasaan ibadah harian, sholat dhuha & dhuhur berjamaah, mentoring adab, dan kemandirian.'],
+                    ['title' => 'Tahfidz Al-Qur\'an 5-10 Juz', 'icon' => '📜', 'desc' => 'Bimbingan tasmi\', murojaah berkala, dan wisuda tahfidz dengan target hafalan mutqin.'],
+                    ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking santri.']
                 ],
                 'teachers' => [
-                    ['name' => 'Ustadz M. Ridwan, S.Si, M.Pd', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/images/mockup_mobile_1.png'],
-                    ['name' => 'Ustadz Farhan, Lc', 'role' => 'Guru Bahasa Arab & Musyrif', 'photo' => '/images/mockup_mobile_2.png'],
-                    ['name' => 'Ustadzah Syifa, S.Pd', 'role' => 'Guru Matematika & Pembina OSN', 'photo' => '/images/mockup_mobile_3.png'],
-                    ['name' => 'Ustadz Abdullah, S.Pd.I', 'role' => 'Pembina Tahfidz & Keasramaan', 'photo' => '/images/mockup_mobile_4.png']
+                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-110541_b299e525.jpeg'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530_30ee68d0.jpeg'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104532_3126be1f.jpeg'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-2_2f796280.jpeg'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-1_2c9bcfe7.jpeg'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-2_065e94be.jpeg'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531_eb838cb9.jpeg'],
+                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104527_df1d1872.jpeg'],
+                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141746_0000_c5eaee11.png'],
+                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250811_094836_0002_09c00b0d.png'],
+                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Kehidupan di asrama SMPIT melatih saya mandiri, disiplin ibadah malam, dan hafal 7 juz Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
-                    ['name' => 'Calvin', 'title' => 'Siswa Boarding SMPIT', 'text' => 'Fasilitas asramanya lengkap, gurunya ramah dan selalu mendampingi saat belajar malam.', 'avatar' => '/images/mockup_mobile_4.png']
+                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Santri Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
+                    ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Pendidikan di SMPIT Robbani melatih saya mandiri, disiplin ibadah harian, dan hafal Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
+                    ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi santri.', 'avatar' => '/images/mockup_mobile_4.png']
                 ]
             ],
             'smait' => [
@@ -434,7 +446,7 @@ class SchoolWebsiteController extends Controller
         $settings = $this->getSettings();
         $headerMenus = $this->getHeaderMenus();
 
-        // Get news strictly relevant to this unit or general news
+        // Filter unit news strictly relevant to this unit
         $allNews = $this->getNewsData();
         $unitNews = collect($allNews)->filter(function($item) use ($cleanCode) {
             $u = strtolower($item['unit'] ?? '');
@@ -446,7 +458,29 @@ class SchoolWebsiteController extends Controller
             $unitNews = collect($allNews)->take(6);
         }
 
-        return view('school.unit', compact('school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus', 'unitNews'));
+        // Filter unit articles strictly relevant to this unit
+        $allArticles = $this->getArticleData();
+        $unitArticles = collect($allArticles)->filter(function($item) use ($cleanCode) {
+            $u = strtolower($item['unit'] ?? '');
+            $cat = strtolower($item['category'] ?? '');
+            return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
+        })->values()->take(6);
+
+        if ($unitArticles->isEmpty()) {
+            $unitArticles = collect($allArticles)->take(6);
+        }
+
+        $unitFacilities = $info['facilities'] ?? [];
+        $unitEkskul = $info['ekskul'] ?? [];
+        $unitGallery = $info['gallery'] ?? [];
+        $unitVideos = $info['videos'] ?? [];
+        $unitAgendas = $info['agenda'] ?? [];
+        $unitAnnouncements = $info['announcements'] ?? [];
+
+        return view('school.unit', compact(
+            'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
+            'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements'
+        ));
     }
 
     public function beritaIndex()

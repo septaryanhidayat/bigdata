@@ -328,7 +328,7 @@ class CmsController extends Controller
     public function settingsUnits()
     {
         $user = auth()->user();
-        if ($user && $user->school_id) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
             $schools = School::where('id', $user->school_id)->withCount(['students', 'employees', 'classrooms'])->get();
         } else {
             $schools = School::withCount(['students', 'employees', 'classrooms'])->get();
@@ -342,7 +342,7 @@ class CmsController extends Controller
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
         
         $user = auth()->user();
-        if ($user && $user->school_id && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
@@ -358,7 +358,7 @@ class CmsController extends Controller
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
 
         $user = auth()->user();
-        if ($user && $user->school_id && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 

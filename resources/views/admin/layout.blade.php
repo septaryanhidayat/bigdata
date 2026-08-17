@@ -183,7 +183,7 @@
                 $sidebarSchools = \App\Models\School::all();
             @endphp
 
-            @if(Auth::user()->school_id)
+            @if(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
             <!-- Locked Unit Badge for Unit Specific Accounts -->
             <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-2 sidebar-text">
                 <div class="flex items-center justify-between text-[9px] font-black text-slate-400">
@@ -504,7 +504,7 @@
                     <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpCms">{{ $isCmsActive ? '▼' : '►' }}</span>
                 </div>
                 <div id="grpCms" class="space-y-0.5 group-content" style="{{ $isCmsActive ? 'display: block;' : 'display: none;' }}">
-                    @if(Auth::user()->school_id)
+                    @if(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
                         @php
                             $userSchoolCode = strtolower(Auth::user()->school->code ?? 'sdit');
                         @endphp

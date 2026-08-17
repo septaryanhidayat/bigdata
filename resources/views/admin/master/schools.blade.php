@@ -45,7 +45,14 @@
                         {{ $sc->code }}
                     </span>
                 </div>
-                <span class="text-xs text-slate-400 font-bold">ID: #{{ $sc->id }}</span>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-400 font-bold">ID: #{{ $sc->id }}</span>
+                    @if($sc->is_active)
+                        <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-extrabold text-[10px]">🟢 Aktif</span>
+                    @else
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-extrabold text-[10px]">🔒 Coming Soon</span>
+                    @endif
+                </div>
             </div>
 
             <div>
@@ -95,6 +102,14 @@
                             <label class="block text-slate-700 mb-1">Warna Tema</label>
                             <input type="color" name="theme_color" value="{{ $sc->theme_color }}" class="w-full h-9 rounded-xl border border-slate-300 cursor-pointer">
                         </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-700 mb-1">Status Operasional Unit</label>
+                        <select name="is_active" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-extrabold">
+                            <option value="1" {{ $sc->is_active ? 'selected' : '' }}>🟢 Aktif (Beroperasi & Buka PPDB)</option>
+                            <option value="0" {{ !$sc->is_active ? 'selected' : '' }}>🔒 Coming Soon / Tutup Akses (Sedang Persiapan)</option>
+                        </select>
                     </div>
 
                     <div>
