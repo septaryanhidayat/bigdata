@@ -157,6 +157,30 @@
             transform: translateY(0);
         }
 
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-hero-float {
+            animation: heroFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.1); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-6px) scale(1.02); }
+        }
+        .animate-badge-float {
+            animation: badgeFloat 4s ease-in-out infinite;
+        }
+
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
@@ -310,9 +334,9 @@
         
         <!-- 1. BANNER HERO SECTION (Warna Unit di Light Mode & Obsidian Green + Neon Lime di Dark Mode) -->
         <section class="relative bg-gradient-to-r {{ $uTheme['hero_gradient'] }} dark:from-[#061107] dark:via-[#0d1e0f] dark:to-[#04200c] text-white pt-12 sm:pt-16 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden border-b border-black/10 dark:border-[#1a381c] transition-colors duration-500">
-            <!-- Ambient Background Glow & Geometric Accents -->
-            <div class="absolute -top-24 -left-24 w-96 h-96 {{ $uTheme['glow_1'] }} dark:bg-[#c6f634]/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-96 h-96 {{ $uTheme['glow_2'] }} dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <!-- Ambient Background Glow & Geometric Accents with Pulse Glow Animation -->
+            <div class="absolute -top-24 -left-24 w-96 h-96 {{ $uTheme['glow_1'] }} dark:bg-[#c6f634]/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 {{ $uTheme['glow_2'] }} dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 2.5s;"></div>
             
             <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
@@ -345,19 +369,19 @@
                     </div>
                 </div>
 
-                <!-- Right: High Resolution Student Visual -->
-                <div class="lg:col-span-5 relative flex justify-center">
+                <!-- Right: High Resolution Student Visual with Floating & Glowing Animation -->
+                <div class="lg:col-span-5 relative flex justify-center animate-hero-float">
                     <div class="relative w-full max-w-md lg:max-w-none">
-                        <!-- Background Frame Decor -->
-                        <div class="absolute inset-0 bg-gradient-to-tr from-emerald-600 to-amber-400 dark:from-[#c6f634] dark:to-emerald-500 rounded-3xl transform rotate-2 scale-105 opacity-30 blur-sm"></div>
+                        <!-- Background Frame Decor with subtle pulse -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-emerald-600 to-amber-400 dark:from-[#c6f634] dark:to-emerald-500 rounded-3xl transform rotate-2 scale-105 opacity-40 blur-md animate-pulse-glow"></div>
                         
-                        <!-- Main Hero Image Container -->
-                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 dark:border-[#1a381c] bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4]">
-                            <img src="{{ !empty($info['hero_image']) ? $info['hero_image'] : '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg' }}" alt="Siswa Berprestasi {{ $info['name'] }}" width="600" height="450" fetchpriority="high" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 dark:from-[#061107]/80 via-transparent to-transparent"></div>
+                        <!-- Main Hero Image Container with 3D Hover Lift -->
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/30 dark:border-[#1a381c] bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4] group">
+                            <img src="{{ !empty($info['hero_image']) ? $info['hero_image'] : '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg' }}" alt="Siswa Berprestasi {{ $info['name'] }}" width="600" height="450" fetchpriority="high" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 dark:from-[#061107]/90 via-transparent to-transparent"></div>
                             
-                            <!-- Floating Achievement Badge -->
-                            <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-[#0d1e0f]/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/30 dark:border-[#1a381c] shadow-lg flex items-center justify-between">
+                            <!-- Floating Achievement Badge with Interactive Float & Glow -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-[#0d1e0f]/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/40 dark:border-[#1a381c] shadow-2xl flex items-center justify-between animate-badge-float hover:scale-105 transition-transform">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-xl bg-emerald-600 dark:bg-[#c6f634] text-white dark:text-[#061107] flex items-center justify-center font-black shrink-0 shadow-md">
                                         <span class="material-symbols-outlined text-[22px]">verified</span>
@@ -367,7 +391,7 @@
                                         <h4 class="text-xs font-black text-slate-900 dark:text-white">{{ $info['name'] }}</h4>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-[#c6f634]/20 text-amber-800 dark:text-[#c6f634] font-black text-[11px] border border-transparent dark:border-[#1a381c]">
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-[#c6f634]/20 text-amber-800 dark:text-[#c6f634] font-black text-[11px] border border-transparent dark:border-[#1a381c] shadow-xs">
                                     {{ $info['akreditasi'] }}
                                 </span>
                             </div>
