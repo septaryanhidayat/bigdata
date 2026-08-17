@@ -242,24 +242,24 @@ class SchoolWebsiteController extends Controller
             'tkit' => [
                 'name' => 'KB & TKIT Robbani Ogan Ilir',
                 'code' => 'TKIT',
-                'npsn' => '69981234',
+                'npsn' => '69888765',
                 'akreditasi' => 'Terakreditasi Unggul (A)',
                 'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
-                'principal_name' => 'Bunda Hj. Nurhayati, S.Pd.AUD',
-                'principal_title' => 'Kepala Sekolah KB/TKIT Robbani Ogan Ilir',
-                'principal_photo' => '/images/logo-robbani-official.png',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Periode emas anak usia dini adalah masa terpenting pembentukan karakter dan kecintaan pada Al-Qur\'an. Kami menghadirkan suasana belajar yang gembira, bernilai islami, dan mengedukasi motorik anak secara optimal.',
-                'description' => 'Kelompok Bermain dan Taman Kanak-Kanak Islam Terpadu unggulan di Ogan Ilir. Fokus pada pembentukan adab islami, pembiasaan hafalan Al-Qur\'an Juz 30 sejak dini melalui metode fun-learning, pengembangan motorik ceria, serta literasi sosial dalam lingkungan islami yang hangat dan aman.',
-                'vision' => 'Menjadi Lembaga Pendidikan Anak Usia Dini Islam Terpadu Rujukan dalam Pembentukan Adab, Karakter Qur\'ani, dan Keceriaan Belajar.',
+                'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
+                'principal_title' => 'Kepala KB/TKIT Robbani',
+                'principal_photo' => '/uploads/wp_assets/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di KB/TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an melalui suasana bermain yang edukatif dan menggembirakan.',
+                'description' => 'Kelompok Bermain & Taman Kanak-Kanak Islam Terpadu Terakreditasi A di Ogan Ilir. Membina fitrah anak sejak dini dengan pendekatan sentra, pembiasaan hafalan surat-surat pendek Juz 30, doa harian, kemandirian, dan stimulasi motorik terpadu.',
+                'vision' => 'Menjadi Lembaga PAUD Islam Terpadu Unggulan dalam Membentuk Karakter Anak Sholeh, Ceria, dan Berakhlak Qur\'ani.',
                 'missions' => [
-                    'Menanamkan aqidah islami dan kecintaan pada Al-Qur\'an sejak usia dini.',
-                    'Membiasakan adab islami harian, doa-doa sunnah, dan gerakan sholat secara mandiri.',
-                    'Mengembangkan potensi motorik, sensorik, dan kreativitas anak melalui pembelajaran berbasis sentra.',
-                    'Membangun sinergi kemitraan yang hangat dan komunikatif antara sekolah dan orang tua.'
+                    'Menanamkan aqidah yang lurus dan pembiasaan ibadah harian sejak usia dini.',
+                    'Membimbing hafalan Al-Qur\'an Juz 30 dengan metode nasyid yang menyenangkan.',
+                    'Mengembangkan potensi kecerdasan majemuk (multiple intelligences) dan motorik anak melalui bermain berbasis sentra.',
+                    'Membangun sinergi harmonis antara sekolah dan keluarga dalam mendampingi tumbuh kembang ananda.'
                 ],
                 'phone' => '0811747472',
                 'students_count' => 120,
-                'employees_count' => 15,
+                'employees_count' => 14,
                 'classrooms_count' => 6,
                 'target_hafalan' => 'Juz 30 (Surah Pendek)',
                 'programs' => [
@@ -269,14 +269,18 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Billingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
                 ],
                 'teachers' => [
-                    ['name' => 'Bunda Hj. Nurhayati, S.Pd.AUD', 'role' => 'Kepala Sekolah TKIT', 'photo' => '/images/mockup_mobile_1.png'],
-                    ['name' => 'Bunda Siti Aminah, S.Pd', 'role' => 'Guru Wali Kelas TK-B1', 'photo' => '/images/mockup_mobile_2.png'],
-                    ['name' => 'Bunda Rina Marlina, S.Pd.I', 'role' => 'Guru Tahfidz Cilik', 'photo' => '/images/mockup_mobile_3.png'],
-                    ['name' => 'Bunda Khadijah, A.Md', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/images/mockup_mobile_4.png']
+                    ['name' => 'Ustdz. Dia, S.Pd', 'role' => 'Guru Sentra Balok & Kreativitas', 'photo' => '/uploads/wp_assets/gtk_tk_dia_9992b8e6.jpeg', 'bio' => 'Membimbing kecerdasan spasial dan motorik halus ananda.'],
+                    ['name' => 'Ustdz. Ocha, S.Pd', 'role' => 'Guru Sentra Persiapan & Literasi', 'photo' => '/uploads/wp_assets/gtk_tk_ocha_ce0626c2.jpeg', 'bio' => 'Mengenalkan literasi dasar dan kemandirian anak usia dini.'],
+                    ['name' => 'Ustdz. Susan, S.Pd.I', 'role' => 'Guru Tahfidz Cilik & Doa Harian', 'photo' => '/uploads/wp_assets/gtk_tk_susan_5fcc63ea.jpeg', 'bio' => 'Membimbing hafalan surat pendek Juz 30 dengan nasyid riang.'],
+                    ['name' => 'Ustdz. Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Seni', 'photo' => '/uploads/wp_assets/gtk_tk_yunisa_2de7f85f.jpeg', 'bio' => 'Melatih kemampuan sosialisasi dan adab islami anak.'],
+                    ['name' => 'Ustdz. Zahro, S.Pd.I', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/wp_assets/gtk_tk_zahro_5e0084ad.jpeg', 'bio' => 'Mengenalkan ciptaan Allah dan pembiasaan sholat sejak dini.'],
+                    ['name' => 'Ustdz. Rina, S.Pd', 'role' => 'Pendidik PAUD & Motorik Anak', 'photo' => '/uploads/wp_assets/gtk_tk_4-scaled_640e548f.jpg', 'bio' => 'Mengembangkan ketangkasan gerak dan motorik anak.'],
+                    ['name' => 'Ustdz. Maya, S.Pd', 'role' => 'Pendidik PAUD & Karakter Islami', 'photo' => '/uploads/wp_assets/gtk_tk_5-scaled_67583fbf.jpg', 'bio' => 'Penanaman nilai akhlak karimah anak sejak dini.'],
+                    ['name' => 'Ustdz. Lisa, S.Pd', 'role' => 'Pendidik PAUD & Bilingual Kids', 'photo' => '/uploads/wp_assets/gtk_tk_6-scaled_b4639f16.jpg', 'bio' => 'Pengenalan kosakata dasar bahasa Arab dan Inggris ceria.']
                 ],
                 'alumni' => [
-                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/images/mockup_mobile_3.png'],
-                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/images/mockup_mobile_2.png']
+                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
+                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-102111_3544c740.jpeg']
                 ]
             ],
             'sdit' => [

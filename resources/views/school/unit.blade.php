@@ -161,30 +161,23 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
 
-    <!-- Top Utility Header Ribbon (WPSchool Pro Reference Style) -->
+    <!-- Top Utility Header Ribbon (Clean & Single-Line on Mobile) -->
     <div class="bg-[#0b1f3a] dark:bg-[#040d06] text-slate-300 text-xs py-2 px-4 sm:px-6 border-b border-slate-800/80 dark:border-[#1a381c] relative z-50">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5">
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-[11px] font-medium text-slate-300">
-                <span class="flex items-center gap-1.5 text-slate-300">
-                    <span class="material-symbols-outlined text-[14px] text-amber-400 dark:text-[#c6f634]">location_on</span>
-                    <span>Jl. Raya Lintas Timur KM. 35 Indralaya, Kab. Ogan Ilir</span>
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2 sm:gap-4 text-[11px] font-medium text-slate-300 truncate">
+                <span class="px-2.5 py-0.5 rounded bg-amber-400/20 text-amber-300 dark:bg-[#c6f634]/20 dark:text-[#c6f634] border border-amber-400/30 dark:border-[#c6f634]/40 text-[10px] font-extrabold uppercase tracking-wider shrink-0">
+                    ✨ {{ $info['akreditasi'] }}
                 </span>
-                <span class="text-slate-600 dark:text-slate-700 hidden sm:inline">•</span>
-                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-amber-300 dark:hover:text-[#c6f634] transition-colors flex items-center gap-1">
+                <span class="hidden sm:inline-flex items-center gap-1.5 text-slate-300 truncate">
+                    <span class="material-symbols-outlined text-[14px] text-amber-400 dark:text-[#c6f634]">location_on</span>
+                    <span class="truncate">Jl. Raya Lintas Timur KM. 35 Indralaya</span>
+                </span>
+                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hidden md:inline-flex hover:text-amber-300 dark:hover:text-[#c6f634] transition-colors items-center gap-1 shrink-0">
                     <span class="material-symbols-outlined text-[14px] text-emerald-400 dark:text-[#c6f634]">call</span>
                     <span>{{ $info['phone'] ?? '0811-7474-72' }}</span>
                 </a>
-                <span class="text-slate-600 dark:text-slate-700 hidden sm:inline">•</span>
-                <span class="flex items-center gap-1 text-slate-300 hidden lg:inline-flex">
-                    <span class="material-symbols-outlined text-[14px] text-cyan-400 dark:text-[#c6f634]">mail</span>
-                    <span>{{ $info['email'] ?? strtolower($info['code']) . '@sitrobbani.sch.id' }}</span>
-                </span>
             </div>
-            <div class="flex items-center gap-3 text-[11px] font-bold">
-                <span class="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 dark:bg-[#c6f634]/20 dark:text-[#c6f634] border border-amber-400/30 dark:border-[#c6f634]/40 text-[10px] uppercase tracking-wider">
-                    ✨ {{ $info['akreditasi'] }}
-                </span>
-                <span class="text-slate-600 dark:text-slate-700">•</span>
+            <div class="flex items-center gap-2 text-[11px] font-bold shrink-0">
                 <a href="{{ route('home') }}" class="hover:text-amber-300 dark:hover:text-[#c6f634] text-slate-200 transition-colors flex items-center gap-1">
                     <span>Portal SIT Robbani</span> ➔
                 </a>
@@ -1071,21 +1064,21 @@
         </div>
     </div>
 
-    <!-- Modern 4-Column Footer (WPSchool Pro Reference Style) -->
+    <!-- Modern 4-Column Footer (Rata Tengah Sempurna di Mobile & Bersih) -->
     <footer class="bg-[#07182c] text-slate-300 text-xs border-t border-slate-800/80 mt-auto">
         <!-- Top Footer Columns -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
                 
-                <!-- Col 1: Logo & School Identity (Clean Centered Logo Only) -->
+                <!-- Col 1: Logo & School Identity (Logo Only, Centered) -->
                 <div class="lg:col-span-4 space-y-4 flex flex-col items-center text-center">
                     <div class="inline-flex items-center justify-center bg-white p-3 rounded-2xl shadow-md border border-slate-200">
-                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="150" height="44" loading="lazy" decoding="async" class="h-10 sm:h-11 w-auto object-contain">
+                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="150" height="44" loading="lazy" decoding="async" class="h-10 sm:h-12 w-auto object-contain">
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
                         Lembaga Pendidikan Islam Terpadu unggulan di Kabupaten Ogan Ilir yang mengintegrasikan pembinaan aqidah, tahfidz Al-Qur'an, sains modern, dan kepemimpinan Qur'ani.
                     </p>
-                    <div class="flex items-center justify-center gap-2.5 pt-1">
+                    <div class="flex items-center justify-center gap-3 pt-1">
                         <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="WhatsApp">
                             <span class="material-symbols-outlined text-[18px]">chat</span>
                         </a>
@@ -1099,65 +1092,59 @@
                 </div>
 
                 <!-- Col 2: Navigasi Utama (3 cols) -->
-                <div class="lg:col-span-3 space-y-3 text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                        <span>Navigasi Utama</span>
+                <div class="lg:col-span-3 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
+                    <h4 class="text-sm font-black text-white font-headline pb-1">
+                        Navigasi Utama
                     </h4>
                     <ul class="space-y-2 text-xs font-semibold text-slate-400">
-                        <li><a href="#" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Beranda {{ $info['code'] }}</a></li>
-                        <li><a href="#sambutan" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Sambutan Kepala Sekolah</a></li>
-                        <li><a href="#profil" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Profil &amp; Visi Misi</a></li>
-                        <li><a href="#program" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Kurikulum &amp; Program Unggulan</a></li>
-                        <li><a href="#fasilitas" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Sarana &amp; Fasilitas Sekolah</a></li>
-                        <li><a href="#guru" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Dewan Guru &amp; Tendik</a></li>
-                        <li><a href="#berita" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Berita &amp; Prestasi Siswa</a></li>
+                        <li><a href="#" class="hover:text-amber-300 transition-colors block py-0.5">Beranda {{ $info['code'] }}</a></li>
+                        <li><a href="#sambutan" class="hover:text-amber-300 transition-colors block py-0.5">Sambutan Kepala Sekolah</a></li>
+                        <li><a href="#profil" class="hover:text-amber-300 transition-colors block py-0.5">Profil &amp; Visi Misi</a></li>
+                        <li><a href="#program" class="hover:text-amber-300 transition-colors block py-0.5">Kurikulum &amp; Program Unggulan</a></li>
+                        <li><a href="#fasilitas" class="hover:text-amber-300 transition-colors block py-0.5">Sarana &amp; Fasilitas Sekolah</a></li>
+                        <li><a href="#guru" class="hover:text-amber-300 transition-colors block py-0.5">Dewan Guru &amp; Tendik</a></li>
+                        <li><a href="#berita" class="hover:text-amber-300 transition-colors block py-0.5">Berita &amp; Prestasi Siswa</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 3: Informasi Sekolah (2 cols) -->
-                <div class="lg:col-span-2 space-y-3 text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                        <span>Informasi Sekolah</span>
+                <div class="lg:col-span-2 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
+                    <h4 class="text-sm font-black text-white font-headline pb-1">
+                        Informasi Sekolah
                     </h4>
                     <ul class="space-y-2 text-xs font-semibold text-slate-400">
-                        <li><a href="{{ route('school.ppdb') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all text-amber-300/90 font-bold">• PPDB Online 2026</a></li>
-                        <li><a href="#agenda-pengumuman" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Agenda &amp; Info</a></li>
-                        <li><a href="#galeri" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Galeri Foto</a></li>
-                        <li><a href="#video" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Galeri Video</a></li>
-                        <li><a href="#alumni" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Testimoni Alumni</a></li>
-                        <li><a href="{{ route('home') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all text-cyan-400">• Portal SIT Robbani</a></li>
+                        <li><a href="{{ route('school.ppdb') }}" class="hover:text-amber-300 transition-colors block py-0.5 text-amber-300 font-bold">PPDB Online 2026</a></li>
+                        <li><a href="#agenda-pengumuman" class="hover:text-amber-300 transition-colors block py-0.5">Agenda &amp; Info</a></li>
+                        <li><a href="#galeri" class="hover:text-amber-300 transition-colors block py-0.5">Galeri Foto</a></li>
+                        <li><a href="#video" class="hover:text-amber-300 transition-colors block py-0.5">Galeri Video</a></li>
+                        <li><a href="#alumni" class="hover:text-amber-300 transition-colors block py-0.5">Testimoni Alumni</a></li>
+                        <li><a href="{{ route('home') }}" class="hover:text-cyan-300 transition-colors block py-0.5 text-cyan-400">Portal SIT Robbani</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 4: Hubungi Kami (3 cols) -->
-                <div class="lg:col-span-3 space-y-3 text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        <span>Hubungi Kami</span>
+                <div class="lg:col-span-3 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
+                    <h4 class="text-sm font-black text-white font-headline pb-1">
+                        Hubungi Kami
                     </h4>
                     <div class="space-y-2.5 text-xs text-slate-400">
-                        <div class="flex items-start gap-2.5">
-                            <span class="material-symbols-outlined text-[16px] text-amber-400 shrink-0 mt-0.5">location_on</span>
-                            <span>Jl. Raya Lintas Timur KM. 35 Indralaya, Kab. Ogan Ilir, Sumatera Selatan</span>
+                        <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 text-center sm:text-left">
+                            <span class="material-symbols-outlined text-[16px] text-amber-400 shrink-0">location_on</span>
+                            <span>Jl. Raya Lintas Timur KM. 35 Indralaya, Ogan Ilir</span>
                         </div>
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 text-center sm:text-left">
                             <span class="material-symbols-outlined text-[16px] text-emerald-400 shrink-0">call</span>
-                            <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-white transition-colors">
+                            <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-white font-bold transition-colors">
                                 {{ $info['phone'] ?? '0811-7474-72' }}
                             </a>
                         </div>
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 text-center sm:text-left">
                             <span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0">mail</span>
                             <span>{{ $info['email'] ?? strtolower($info['code']) . '@sitrobbani.sch.id' }}</span>
                         </div>
-                        <div class="flex items-start gap-2.5 pt-1 border-t border-slate-800/80">
-                            <span class="material-symbols-outlined text-[16px] text-indigo-400 shrink-0 mt-0.5">schedule</span>
-                            <div>
-                                <strong class="text-white block font-bold">Jam Layanan:</strong>
-                                <span>Senin – Jumat: 07.30 – 16.00 WIB</span>
-                            </div>
+                        <div class="pt-2 border-t border-slate-800/80 text-[11px] text-center sm:text-left">
+                            <strong class="text-white block font-bold">Jam Layanan Kantor:</strong>
+                            <span>Senin – Jumat: 07.30 – 16.00 WIB</span>
                         </div>
                     </div>
                 </div>
@@ -1171,7 +1158,7 @@
                 <div>
                     <span>© {{ date('Y') }} <strong>{{ $info['name'] }}</strong>. Yayasan Generasi Robbani Ogan Ilir.</span>
                 </div>
-                <div class="flex items-center gap-4 text-slate-400">
+                <div class="flex items-center justify-center gap-4 text-slate-400">
                     <a href="{{ route('home') }}" class="hover:text-white transition-colors">Portal Utama</a>
                     <span>•</span>
                     <a href="{{ route('school.ppdb') }}" class="hover:text-white transition-colors">SPMB Online</a>
