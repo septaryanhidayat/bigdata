@@ -293,9 +293,9 @@ class SchoolWebsiteController extends Controller
                 'npsn' => '69985678',
                 'akreditasi' => 'Terakreditasi B',
                 'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
-                'principal_name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd',
+                'principal_name' => 'Nur Amalia, S.Pd',
                 'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
-                'principal_photo' => '/images/logo-robbani-official.png',
+                'principal_photo' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
                 'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
                 'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
@@ -317,14 +317,31 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
                 ],
                 'teachers' => [
-                    ['name' => 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd', 'role' => 'Kepala Sekolah SDIT', 'photo' => '/images/mockup_mobile_1.png'],
-                    ['name' => 'Ustadz M. Yusuf, S.Pd.I', 'role' => 'Waka Kesiswaan & Guru Tahfidz', 'photo' => '/images/mockup_mobile_2.png'],
-                    ['name' => 'Ustadzah Fatimah, S.Si', 'role' => 'Guru Wali Kelas 5 & Pembina Sains', 'photo' => '/images/mockup_mobile_3.png'],
-                    ['name' => 'Ustadz Rizky Pratama, S.Kom', 'role' => 'Guru IT & Koding Digital', 'photo' => '/images/mockup_mobile_4.png']
+                    ['name' => 'Nur Amalia, S.Pd', 'role' => 'Kepala Sekolah SDIT', 'photo' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
+                    ['name' => 'Ranti Saputri, S.TP', 'role' => 'Waka Kurikulum', 'photo' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png'],
+                    ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Guru Kelas & Wali Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_dian-kemala-astuti-spd_e347e53e.png'],
+                    ['name' => 'Dita Irfaul Khasanah, S.Si', 'role' => 'Guru IPA & Science Club', 'photo' => '/uploads/wp_assets/gtk_sd_dita-irfaul-khasanah-ssi_57bffe6b.png'],
+                    ['name' => 'Dwi Misgiyati, S.Pd', 'role' => 'Guru Matematika', 'photo' => '/uploads/wp_assets/gtk_sd_dwi-misgiyati-spd-1_e732e7cf.png'],
+                    ['name' => 'Marisa, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/wp_assets/gtk_sd_marisa-spd_130e5322.png'],
+                    ['name' => 'Anisa, S.Pd', 'role' => 'Guru PAI & Tahfidz', 'photo' => '/uploads/wp_assets/gtk_sd_anisa-spd_c33d9a96.png'],
+                    ['name' => 'Annisa Fatihah Salsabila, S.Pd', 'role' => 'Guru Kelas & BPI', 'photo' => '/uploads/wp_assets/gtk_sd_annisa-fatihah-salsabila-spd_44fd8f4a.png'],
+                    ['name' => 'Reni Zahara, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/wp_assets/gtk_sd_reni-zahara-s-pd_bab4d1d8.png'],
+                    ['name' => 'Rika Damayanti, S.Pd', 'role' => 'Guru Kelas & Seni Budaya', 'photo' => '/uploads/wp_assets/gtk_sd_rika-damayanti-spd-1_7a98d317.png'],
+                    ['name' => 'Rini Nur Aisyah, S.Pd', 'role' => 'Guru Kelas & Wali Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_rini-nur-aisyah-spd_62500a42.png'],
+                    ['name' => 'Risfina Ayu Rochmayani, S.Pd', 'role' => 'Guru Kelas & Tahfidz', 'photo' => '/uploads/wp_assets/gtk_sd_risfina-ayu-rochmayani-spd_3791bc4c.png'],
+                    ['name' => 'Risma Nia, S.Sos', 'role' => 'Staff Tata Usaha & Administrasi', 'photo' => '/uploads/wp_assets/gtk_sd_risma-nia-ssos_5f30d015.png'],
+                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru Kelas & BPI', 'photo' => '/uploads/wp_assets/gtk_sd_sarah-salsabilah-spd-1_f536c3f5.png'],
+                    ['name' => 'Sholahudin Gultom, S.Pd', 'role' => 'Guru PJOK & Pramuka', 'photo' => '/uploads/wp_assets/gtk_sd_sholahudin-gultom-spd_b287c1f1.png'],
+                    ['name' => 'Verda Novita Sari, S.Pd', 'role' => 'Guru Kelas & Wali Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_verda-novita-sari-spd_ad452dad.png'],
+                    ['name' => 'Veti Susanti, S.Pd', 'role' => 'Guru Kelas & Tahfidz', 'photo' => '/uploads/wp_assets/gtk_sd_veti-susanti-spd-1_59757bcc.png'],
+                    ['name' => 'Yara Dwinadia, S.Pd', 'role' => 'Guru Kelas & BPI', 'photo' => '/uploads/wp_assets/gtk_sd_yara-dwinadia-spd_3fc4a612.png'],
+                    ['name' => 'Ahmad Firdaus', 'role' => 'Guru Tahfidz Al-Qur\'an', 'photo' => '/uploads/wp_assets/gtk_sd_ahmad-firdaus_265113a5.png'],
+                    ['name' => 'Hamdan Naaimiin', 'role' => 'Guru Tahfidz Al-Qur\'an', 'photo' => '/uploads/wp_assets/gtk_sd_hamdan-naaimiin_760bb8a1.png'],
+                    ['name' => 'Fredy Kurniawan', 'role' => 'Guru PJOK & Kepanduan', 'photo' => '/uploads/wp_assets/gtk_sd_fredy-kurniawan_977beb19.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/images/mockup_mobile_1.png'],
-                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/images/logo-robbani-official.png']
+                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
+                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png']
                 ]
             ],
             'smpit' => [
