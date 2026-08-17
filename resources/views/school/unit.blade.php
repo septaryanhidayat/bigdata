@@ -3,6 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <title>Profil Resmi {{ $info['name'] }} | Portal Terpadu SIT Robbani</title>
 
     <!-- Favicon & Social Meta Tags -->
@@ -241,7 +245,7 @@
             <!-- Logo Section -->
             <a href="{{ route('home') }}" class="flex items-center gap-3 group shrink-0">
                 <div class="logo-badge-container shrink-0 p-1.5 rounded-2xl bg-slate-50 dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-xs">
-                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 sm:h-11 w-auto object-contain transition-all group-hover:scale-105">
+                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="140" height="44" fetchpriority="high" class="h-10 sm:h-11 w-auto object-contain transition-all group-hover:scale-105">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
@@ -355,7 +359,7 @@
                         
                         <!-- Main Hero Image Container -->
                         <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 dark:border-[#1a381c] bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4]">
-                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200" alt="Siswa Berprestasi {{ $info['name'] }}" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <img src="{{ !empty($info['hero_image']) ? $info['hero_image'] : '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg' }}" alt="Siswa Berprestasi {{ $info['name'] }}" width="600" height="450" fetchpriority="high" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 dark:from-[#061107]/80 via-transparent to-transparent"></div>
                             
                             <!-- Floating Achievement Badge -->
@@ -466,7 +470,7 @@
                     <!-- Foto Kepala Sekolah (FORMAT KOTAK / PORTRAIT PAS FOTO DENGAN ROUNDED CORNER) -->
                     <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-1/3 z-10">
                         <div class="w-48 sm:w-56 h-64 sm:h-72 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] p-1 mb-4 shadow-2xl bg-white dark:bg-slate-900 ring-4 ring-emerald-500/20">
-                            <img src="{{ $info['principal_photo'] }}" alt="Foto {{ $info['principal_name'] }}" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <img src="{{ $info['principal_photo'] }}" alt="Foto {{ $info['principal_name'] }}" width="224" height="288" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                         </div>
                         <span class="unit-pill-badge mb-1.5 px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-emerald-900 dark:text-[#061107] text-[10px] font-black uppercase tracking-wider shadow-sm">
                             KEPALA SEKOLAH
@@ -717,7 +721,7 @@
                     @foreach($unitFacilities as $fac)
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all group">
                         <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900">
-                            <img src="{{ $fac['image'] }}" alt="{{ $fac['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <img src="{{ $fac['image'] }}" alt="{{ $fac['title'] }}" width="380" height="240" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                             <span class="absolute bottom-3 left-3 bg-emerald-700/90 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full backdrop-blur-sm">Fasilitas Terpadu</span>
                         </div>
@@ -777,10 +781,10 @@
                         <div class="space-y-3">
                             <!-- Foto Pendidik Format Kotak 3:4 -->
                             <div class="w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#1a381c] bg-slate-100 dark:bg-slate-800 shadow-sm group-hover:scale-[1.02] transition-transform duration-300">
-                                <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" width="128" height="128" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                             </div>
                             <div>
-                                <h4 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h4>
+                                <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h3>
                                 <span class="text-[10px] sm:text-[11px] font-semibold text-emerald-700 dark:text-[#c6f634] block mt-1">{{ $t['role'] }}</span>
                             </div>
                         </div>
@@ -820,7 +824,7 @@
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between group">
                         <div>
                             <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900">
-                                <img src="{{ $un['image'] }}" alt="{{ $un['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-4 bg-white';">
+                                <img src="{{ $un['image'] }}" alt="{{ $un['title'] }}" width="380" height="200" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-4 bg-white';">
                                 <span class="absolute top-3 left-3 bg-emerald-700 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-md">
                                     {{ $un['category'] ?? ('Berita ' . $info['code']) }}
                                 </span>
@@ -872,7 +876,7 @@
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500 transition-all flex flex-col justify-between group">
                         <div>
                             <div class="relative h-44 sm:h-48 overflow-hidden bg-slate-900">
-                                <img src="{{ $art['image'] }}" alt="{{ $art['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_2.png';">
+                                <img src="{{ $art['image'] }}" alt="{{ $art['title'] }}" width="380" height="200" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_2.png';">
                                 <span class="absolute top-3 left-3 bg-orange-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-md">
                                     {{ $art['category'] ?? 'Artikel' }}
                                 </span>
@@ -915,7 +919,7 @@
                     @foreach(array_slice($unitGallery, 0, 8) as $gal)
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all group relative">
                         <div class="h-44 sm:h-52 overflow-hidden bg-slate-900 relative">
-                            <img src="{{ $gal['image'] }}" alt="{{ $gal['title'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_3.png';">
+                            <img src="{{ $gal['image'] }}" alt="{{ $gal['title'] }}" width="380" height="250" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_3.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
                             <div class="absolute bottom-3 left-3 right-3 text-white space-y-1">
                                 <span class="text-[10px] font-bold text-amber-300 block">🗓️ {{ $gal['date'] ?? 'Kegiatan' }}</span>
@@ -950,7 +954,7 @@
                          @click="currentEmbedId = '{{ $embedId }}'; currentVideoUrl = '{{ $vid['url'] }}'; currentVideoTitle = '{{ addslashes($vid['title']) }}'; videoModalOpen = true">
                         <div>
                             <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900 flex items-center justify-center">
-                                <img src="{{ $vid['image'] }}" alt="{{ $vid['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_4.png';">
+                                <img src="{{ $vid['image'] }}" alt="{{ $vid['title'] }}" width="400" height="225" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_4.png';">
                                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
                                 <!-- Red YouTube Play Button Icon -->
                                 <div class="absolute w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:bg-red-600 transition-all ring-4 ring-white/30">
@@ -1000,10 +1004,10 @@
                         <div class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-[#1a381c]">
                             <!-- Foto Alumni Kotak Rounded -->
                             <div class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-white shrink-0">
-                                <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" width="56" height="56" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                             </div>
                             <div>
-                                <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h4>
+                                <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h3>
                                 <span class="text-[10px] sm:text-xs text-emerald-700 dark:text-[#c6f634] font-semibold block">{{ $al['title'] }}</span>
                             </div>
                         </div>
@@ -1063,7 +1067,7 @@
                 <!-- Col 1: Logo & School Identity (4 cols) -->
                 <div class="lg:col-span-4 space-y-4">
                     <div class="inline-flex items-center gap-3 bg-white p-2.5 rounded-2xl shadow-md border border-slate-200">
-                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 w-auto object-contain">
+                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="140" height="40" loading="lazy" decoding="async" class="h-10 w-auto object-contain">
                         <div>
                             <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block">SIT ROBBANI</span>
                             <span class="text-xs font-black text-slate-900 leading-tight block">{{ $info['name'] }}</span>

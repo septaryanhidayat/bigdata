@@ -2,7 +2,7 @@
 <div x-data="robbaniAiChat" class="fixed bottom-5 right-5 z-50 font-sans">
 
     <!-- Floating Trigger Button -->
-    <button @click="isOpen = !isOpen" class="group relative px-4 py-3.5 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 text-white font-extrabold text-xs shadow-2xl flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 border-2 border-white/20">
+    <button @click="isOpen = !isOpen" aria-label="Buka Chat AI Assistant" class="group relative px-4 py-3.5 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 text-white font-extrabold text-xs shadow-2xl flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 border-2 border-white/20">
         <div class="relative flex items-center justify-center">
             <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-lg animate-pulse">🤖</span>
             <span class="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-[#a3e635] border-2 border-emerald-800"></span>
@@ -38,7 +38,7 @@
                     <span class="text-[10px] text-emerald-200 font-semibold block">Asisten Cerdas SIT Robbani Ogan Ilir</span>
                 </div>
             </div>
-            <button @click="isOpen = false" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs font-bold transition-colors">
+            <button @click="isOpen = false" aria-label="Tutup Chat AI" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs font-bold transition-colors">
                 ✕
             </button>
         </div>
@@ -95,9 +95,11 @@
             <form @submit.prevent="sendMessage()" class="flex items-center gap-2">
                 <input type="text" 
                        x-model="inputMessage" 
+                       aria-label="Ketik pertanyaan untuk AI Assistant"
                        placeholder="Ketik pertanyaan seputar SIT Robbani..." 
                        class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-[#142c17] text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600 border border-slate-200 dark:border-[#224d26]">
                 <button type="submit" 
+                        aria-label="Kirim Pesan ke AI"
                         :disabled="isLoading || !inputMessage.trim()"
                         class="p-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-bold text-xs shadow-sm transition-all shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
