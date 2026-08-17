@@ -462,12 +462,54 @@ class SchoolWebsiteController extends Controller
             $unitArticles = collect($allArticles)->take(6);
         }
 
-        $unitFacilities = $info['facilities'] ?? [];
+        $unitFacilities = $info['facilities'] ?? $this->getFacilityData();
         $unitEkskul = $info['ekskul'] ?? [];
-        $unitGallery = $info['gallery'] ?? [];
+        $unitGallery = $info['gallery'] ?? $this->getGalleryData();
+
+        // Unit Videos: fallback to global video list if empty
         $unitVideos = $info['videos'] ?? [];
+        if (empty($unitVideos)) {
+            $globalVideos = $this->getVideoData();
+            $unitVideos = array_map(function($v) {
+                return [
+                    'title' => $v['title'],
+                    'url' => 'https://www.youtube.com/watch?v=' . ($v['youtube_id'] ?? ''),
+                    'embed_id' => $v['youtube_id'] ?? '',
+                    'image' => $v['thumbnail'] ?? '/images/mockup_desktop_4.png',
+                    'date' => 'Dokumentasi Video Resmi',
+                    'desc' => $v['desc'] ?? $v['title']
+                ];
+            }, $globalVideos);
+        }
+
+        // Unit Agendas: fallback to global agendas if empty
         $unitAgendas = $info['agenda'] ?? [];
+        if (empty($unitAgendas)) {
+            $allAgendas = $this->getAgendaData();
+            $unitAgendas = array_map(function($ag) {
+                return [
+                    'title' => $ag['title'],
+                    'date' => ($ag['date_day'] ?? '25') . ' ' . ($ag['date_month'] ?? 'AGU') . ' ' . ($ag['year'] ?? '2026'),
+                    'time' => $ag['time'] ?? '08:00 WIB',
+                    'location' => $ag['location'] ?? 'Kampus SIT Robbani',
+                    'desc' => $ag['category'] ?? 'Kegiatan Terjadwal Unit'
+                ];
+            }, $allAgendas);
+        }
+
+        // Unit Announcements: fallback to global announcements if empty
         $unitAnnouncements = $info['announcements'] ?? [];
+        if (empty($unitAnnouncements)) {
+            $allAnnouncements = $this->getAnnouncementData();
+            $unitAnnouncements = array_map(function($an) {
+                return [
+                    'title' => $an['title'],
+                    'date' => $an['date'] ?? '17 Agustus 2026',
+                    'summary' => $an['summary'] ?? '',
+                    'link' => $an['link'] ?? route('school.berita')
+                ];
+            }, $allAnnouncements);
+        }
 
         return view('school.unit', compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',

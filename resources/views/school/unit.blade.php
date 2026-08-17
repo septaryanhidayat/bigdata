@@ -146,6 +146,19 @@
         html.dark .text-orange-600 {
             color: #c6f634 !important;
         }
+    
+        /* Smooth & Elegant Executive Fade-Up Scroll Animation */
+        .reveal-fade-up {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.8s ease-out;
+            will-change: transform, opacity;
+        }
+        .reveal-fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
@@ -459,7 +472,7 @@
         </section>
 
         <!-- 3. SAMBUTAN KEPALA SEKOLAH UNIT (POSISI TERATAS, FOTO FORMAT KOTAK / PORTRAIT CARD SESUAI ASSET ASLI) -->
-        <section id="sambutan" class="px-4 sm:px-6">
+        <section id="sambutan" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto">
                 <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-10 shadow-xl flex flex-col md:flex-row gap-6 sm:gap-10 items-center relative overflow-hidden">
                     
@@ -507,7 +520,7 @@
         </section>
 
         <!-- 3. METRICS & STATISTIK UNIT -->
-        <section id="statistik" class="px-4 sm:px-6">
+        <section id="statistik" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                 <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-sm text-center space-y-1 hover:border-emerald-500 transition-all">
                     <span class="text-3xl sm:text-4xl font-black text-emerald-700 dark:text-[#c6f634] block font-headline">
@@ -537,7 +550,7 @@
         </section>
 
         <!-- 4. PROFIL & VISI MISI UNIT -->
-        <section id="profil" class="px-4 sm:px-6">
+        <section id="profil" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                 
                 <!-- Left: Profil Pembelajaran -->
@@ -593,7 +606,7 @@
         </section>
 
         <!-- 5. STRUKTUR KURIKULUM & PROGRAM UNGGULAN -->
-        <section id="program" class="px-4 sm:px-6">
+        <section id="program" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -618,7 +631,7 @@
         </section>
 
         <!-- 6 & 7. AGENDA & PENGUMUMAN SEBELAHAN (SIMETRIS & RAPI SEPERTI WEB UTAMA) -->
-        <section id="agenda-pengumuman" class="px-4 sm:px-6">
+        <section id="agenda-pengumuman" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
                 
                 <!-- Left: Agenda Sekolah Unit (50% Symmetrical Column) -->
@@ -709,7 +722,7 @@
 
         <!-- 8. SARANA & FASILITAS SEKOLAH UNIT -->
         @if(isset($unitFacilities) && count($unitFacilities) > 0)
-        <section id="fasilitas" class="px-4 sm:px-6">
+        <section id="fasilitas" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -740,7 +753,7 @@
 
         <!-- 9. EKSTRAKURIKULER & MINAT BAKAT -->
         @if(isset($unitEkskul) && count($unitEkskul) > 0)
-        <section id="ekskul" class="px-4 sm:px-6">
+        <section id="ekskul" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -766,7 +779,7 @@
         @endif
 
         <!-- 10. DEWAN GURU & TENAGA PENDIDIK (GTK) (FORMAT FOTO KOTAK 3:4 RAPI & SERAGAM) -->
-        <section id="guru" class="px-4 sm:px-6">
+        <section id="guru" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -775,9 +788,24 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Guru profesional, berpendidikan linier, hafidz Al-Qur'an, dan berdedikasi tinggi membimbing siswa.</p>
                 </div>
 
+                @php
+                    $pName = strtolower(trim($info['principal_name'] ?? ''));
+                    $teachersList = collect($info['teachers'] ?? [])->filter(function($t) use ($pName) {
+                        $tRole = strtolower($t['role'] ?? '');
+                        $tName = strtolower($t['name'] ?? '');
+                        if (str_contains($tRole, 'kepala sekolah') || str_contains($tRole, 'kepala kb') || str_contains($tRole, 'kepala tkit') || str_contains($tRole, 'kepala sdit') || str_contains($tRole, 'kepala smp') || str_contains($tRole, 'kepala sma')) {
+                            return false;
+                        }
+                        if ($pName && (str_contains($tName, $pName) || str_contains($pName, $tName))) {
+                            return false;
+                        }
+                        return true;
+                    })->values()->all();
+                @endphp
+
                 <!-- Grid Guru Format Foto Kotak Pas Foto 3:4 -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                    @foreach($info['teachers'] as $t)
+                    @foreach($teachersList as $t)
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-4 sm:p-5 text-center space-y-3 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between group">
                         <div class="space-y-3">
                             <!-- Foto Pendidik Format Kotak 3:4 -->
@@ -802,7 +830,7 @@
         </section>
 
         <!-- 11. BERITA & PRESTASI SISWA KHUSUS UNIT -->
-        <section id="berita" class="px-4 sm:px-6">
+        <section id="berita" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
@@ -855,7 +883,7 @@
 
         <!-- 12. ARTIKEL & EDITORIAL EDUKASI UNIT -->
         @if(isset($unitArticles) && count($unitArticles) > 0)
-        <section id="artikel" class="px-4 sm:px-6">
+        <section id="artikel" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
@@ -907,7 +935,7 @@
 
         <!-- 13. GALERI FOTO & DOKUMENTASI KEGIATAN UNIT -->
         @if(isset($unitGallery) && count($unitGallery) > 0)
-        <section id="galeri" class="px-4 sm:px-6">
+        <section id="galeri" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -937,7 +965,7 @@
 
         <!-- 14. GALERI VIDEO KEGIATAN UNIT -->
         @if(isset($unitVideos) && count($unitVideos) > 0)
-        <section id="video" class="px-4 sm:px-6">
+        <section id="video" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -984,7 +1012,7 @@
         @endif
 
         <!-- 15. KISAH ALUMNI & TESTIMONI -->
-        <section id="alumni" class="px-4 sm:px-6">
+        <section id="alumni" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
@@ -1020,7 +1048,7 @@
         </section>
 
         <!-- 16. SPMB UNIT CALLOUT BANNER -->
-        <section class="px-4 sm:px-6 pb-8">
+        <section class="reveal-fade-up px-4 sm:px-6 pb-8">
             <div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-[#004532] via-[#065f46] to-[#fd761a] p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-2 text-center md:text-left">
                     <span class="bg-orange-500 text-white font-black text-[10px] uppercase px-3 py-1 rounded-full">SPMB ONLINE TA 2026/2027</span>
@@ -1174,5 +1202,24 @@
         </div>
     </footer>
 
+    <!-- Executive Scroll Reveal Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                    }
+                });
+            }, {
+                threshold: 0.08,
+                rootMargin: "0px 0px -40px 0px"
+            });
+
+            document.querySelectorAll(".reveal-fade-up").forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>
