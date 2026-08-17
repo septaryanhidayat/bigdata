@@ -44,33 +44,48 @@
     @endif
 
     {{-- ═══════════════════════════════════════════════
-         STATS CARDS
+         STATS CARDS (HIGH-CONTRAST & CRYSTAL CLEAR)
     ═══════════════════════════════════════════════ --}}
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div class="bg-gradient-to-br from-violet-600 to-purple-700 rounded-2xl p-4 text-white shadow-lg col-span-1">
-            <div class="text-3xl font-black">{{ $totalDocs }}</div>
-            <div class="text-xs font-bold opacity-90 mt-1">Total Dokumen</div>
-            <div class="text-[10px] opacity-70 mt-0.5">Knowledge Base</div>
+        <div class="bg-white border-2 border-violet-200 rounded-2xl p-4.5 shadow-sm col-span-1 hover:border-violet-500 transition-all">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-black uppercase text-violet-700 tracking-wider">Total Dokumen</span>
+                <span class="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center text-sm font-bold">📚</span>
+            </div>
+            <div class="text-3xl font-black text-slate-900">{{ $totalDocs }}</div>
+            <div class="text-[11px] font-bold text-slate-500 mt-1">Knowledge Base Aktif</div>
         </div>
-        <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-4 text-white shadow-lg col-span-1">
-            <div class="text-3xl font-black">{{ $activeDocs }}</div>
-            <div class="text-xs font-bold opacity-90 mt-1">Dokumen Aktif</div>
-            <div class="text-[10px] opacity-70 mt-0.5">Digunakan AI</div>
+        <div class="bg-white border-2 border-emerald-200 rounded-2xl p-4.5 shadow-sm col-span-1 hover:border-emerald-500 transition-all">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-black uppercase text-emerald-700 tracking-wider">Dokumen Aktif</span>
+                <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-bold">✅</span>
+            </div>
+            <div class="text-3xl font-black text-slate-900">{{ $activeDocs }}</div>
+            <div class="text-[11px] font-bold text-slate-500 mt-1">Siap Digunakan AI</div>
         </div>
-        <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-4 text-white shadow-lg col-span-1">
-            <div class="text-3xl font-black">{{ $uploadedCount }}</div>
-            <div class="text-xs font-bold opacity-90 mt-1">File Diupload</div>
-            <div class="text-[10px] opacity-70 mt-0.5">PDF/Word/Excel</div>
+        <div class="bg-white border-2 border-blue-200 rounded-2xl p-4.5 shadow-sm col-span-1 hover:border-blue-500 transition-all">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-black uppercase text-blue-700 tracking-wider">File Diupload</span>
+                <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">📁</span>
+            </div>
+            <div class="text-3xl font-black text-slate-900">{{ $uploadedCount }}</div>
+            <div class="text-[11px] font-bold text-slate-500 mt-1">PDF / Word / Excel / TXT</div>
         </div>
-        <div class="bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl p-4 text-white shadow-lg col-span-1">
-            <div class="text-3xl font-black">{{ $websiteDataCount }}</div>
-            <div class="text-xs font-bold opacity-90 mt-1">Data Website</div>
-            <div class="text-[10px] opacity-70 mt-0.5">Berita, Artikel, FAQ</div>
+        <div class="bg-white border-2 border-cyan-200 rounded-2xl p-4.5 shadow-sm col-span-1 hover:border-cyan-500 transition-all">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-black uppercase text-cyan-700 tracking-wider">Data Website</span>
+                <span class="w-8 h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm font-bold">🌐</span>
+            </div>
+            <div class="text-3xl font-black text-slate-900">{{ $websiteDataCount }}</div>
+            <div class="text-[11px] font-bold text-slate-500 mt-1">Berita, Artikel, FAQ, Unit</div>
         </div>
-        <div class="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-4 text-white shadow-lg col-span-2 lg:col-span-1">
-            <div class="text-3xl font-black">{{ number_format($totalWords) }}</div>
-            <div class="text-xs font-bold opacity-90 mt-1">Total Kata</div>
-            <div class="text-[10px] opacity-70 mt-0.5">{{ $lastSync ? 'Sync: '.($lastSync->diffForHumans()) : 'Belum pernah sync' }}</div>
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4.5 shadow-sm col-span-2 lg:col-span-1 hover:border-amber-500 transition-all">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-black uppercase text-amber-700 tracking-wider">Total Kata</span>
+                <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold">🔤</span>
+            </div>
+            <div class="text-3xl font-black text-slate-900">{{ number_format($totalWords) }}</div>
+            <div class="text-[11px] font-bold text-slate-500 mt-1">{{ $lastSync ? 'Sync: '.($lastSync->diffForHumans()) : 'Knowledge Base Siap' }}</div>
         </div>
     </div>
 

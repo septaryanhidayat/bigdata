@@ -113,17 +113,15 @@
         }
 
         /* Action CTA Buttons */
-        html.dark a.btn-unit-cta,
-        html.dark a[href*="ppdb"] {
+        html.dark .btn-unit-cta {
             background: #c6f634 !important;
             color: #061107 !important;
             border-color: #c6f634 !important;
             font-weight: 900 !important;
-            box-shadow: 0 10px 25px -5px rgba(198, 246, 52, 0.4) !important;
+            box-shadow: 0 10px 25px -5px rgba(198, 246, 52, 0.3) !important;
         }
 
-        html.dark a.btn-unit-cta *,
-        html.dark a[href*="ppdb"] * {
+        html.dark .btn-unit-cta * {
             color: #061107 !important;
             font-weight: 900 !important;
         }
@@ -720,28 +718,37 @@
             </div>
         </section>
 
-        <!-- 8. SARANA & FASILITAS SEKOLAH UNIT -->
+        <!-- 8. SARANA & FASILITAS SEKOLAH UNIT (MODERN ICON-BASED CARDS WITH LIGHT/DARK MODE) -->
         @if(isset($unitFacilities) && count($unitFacilities) > 0)
         <section id="fasilitas" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
-                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">SARANA PRASARANA</span>
+                    <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">SARANA PRASARANA</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Fasilitas Unggulan {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Sarana penunjang kenyamanan belajar, ibadah, olahraga, dan laboratorium modern.</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Sarana penunjang kenyamanan belajar, pembinaan karakter islami, dan aktivitas terpadu siswa.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                     @foreach($unitFacilities as $fac)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all group">
-                        <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-900">
-                            <img src="{{ $fac['image'] }}" alt="{{ $fac['title'] }}" width="380" height="240" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <span class="absolute bottom-3 left-3 bg-emerald-700/90 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full backdrop-blur-sm">Fasilitas Terpadu</span>
-                        </div>
-                        <div class="p-5 sm:p-6 space-y-2">
-                            <h3 class="text-base font-bold font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $fac['title'] }}</h3>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{{ $fac['desc'] }}</p>
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between space-y-4">
+                        <div class="space-y-3.5">
+                            <div class="flex items-center justify-between">
+                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-700 dark:text-[#c6f634] flex items-center justify-center text-3xl font-bold shadow-xs group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white dark:group-hover:bg-[#c6f634] dark:group-hover:text-[#061107] transition-all">
+                                    {{ $fac['icon'] ?? '🏫' }}
+                                </div>
+                                <span class="bg-emerald-50 dark:bg-[#c6f634]/15 text-emerald-800 dark:text-[#c6f634] text-[10px] font-black uppercase px-3 py-1 rounded-full border border-emerald-200/60 dark:border-[#c6f634]/30">
+                                    {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
+                                </span>
+                            </div>
+                            <div>
+                                <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">
+                                    {{ $fac['title'] }}
+                                </h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium mt-1.5">
+                                    {{ $fac['desc'] }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -1049,9 +1056,9 @@
 
         <!-- 16. SPMB UNIT CALLOUT BANNER -->
         <section class="reveal-fade-up px-4 sm:px-6 pb-8">
-            <div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-[#004532] via-[#065f46] to-[#fd761a] p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-[#004532] via-[#065f46] to-[#042817] dark:from-[#06180a] dark:via-[#0a2610] dark:to-[#123616] border border-transparent dark:border-[#1a381c] p-8 sm:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-2 text-center md:text-left">
-                    <span class="bg-orange-500 text-white font-black text-[10px] uppercase px-3 py-1 rounded-full">SPMB ONLINE TA 2026/2027</span>
+                    <span class="bg-emerald-500 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-[10px] uppercase px-3.5 py-1 rounded-full shadow-sm">SPMB ONLINE TA 2026/2027</span>
                     <h2 class="text-2xl sm:text-3xl font-black font-headline">Bergabung Bersama {{ $info['name'] }}</h2>
                     <p class="text-xs sm:text-sm text-emerald-100 font-medium max-w-xl">Kuota pendaftaran terbatas untuk setiap rombongan belajar. Daftarkan putra-putri Anda secara online dengan cepat dan praktis.</p>
                 </div>
