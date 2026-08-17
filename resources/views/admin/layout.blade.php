@@ -251,7 +251,7 @@
                     $isStudentServicesActive = request()->routeIs('admin.attendance.*') || request()->routeIs('admin.bk.*') || request()->routeIs('admin.ppdb-admin.*') || request()->routeIs('admin.library.*') || request()->routeIs('admin.sarpras.*');
                     $isFinanceActive = request()->routeIs('admin.finance.*') || request()->routeIs('admin.savings.*') || request()->routeIs('admin.canteen.*');
                     $isLettersActive = request()->routeIs('admin.letters.*');
-                    $isCmsActive = request()->routeIs('admin.settings.*') || request()->routeIs('admin.cms.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.faqs.*') || request()->routeIs('admin.users.*');
+                    $isCmsActive = request()->routeIs('admin.settings.*') || request()->routeIs('admin.cms.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.faqs.*') || request()->routeIs('admin.users.*') || request()->routeIs('admin.ai-trainer.*');
                 @endphp
 
                 <!-- 1. KATEGORI: MASTER DATA YAYASAN & SEKOLAH -->
@@ -544,6 +544,10 @@
                         <a href="{{ route('admin.faqs.index') }}" title="Kelola FAQ Tanya Jawab" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.faqs.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">❓</span> 
                             <span class="sidebar-text">Kelola FAQ Tanya Jawab</span>
+                        </a>
+                        <a href="{{ route('admin.ai-trainer.index') }}" title="AI Knowledge Base Trainer" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ai-trainer.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🤖</span> 
+                            <span class="sidebar-text">AI Knowledge Trainer</span>
                         </a>
                     @endif
                 </div>

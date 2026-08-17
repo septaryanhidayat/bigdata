@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\MobileHrisAdminController;
 use App\Http\Controllers\Admin\EmployeeDossierController;
 use App\Http\Controllers\PublicLetterVerificationController;
+use App\Http\Controllers\Admin\AiTrainerController;
 
 // ==========================================================================
 // SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
@@ -316,6 +317,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/archive', [LetterController::class, 'archive'])->name('archive');
             Route::get('/preview-pdf/{id}', [LetterController::class, 'previewPdf'])->name('preview-pdf');
             Route::get('/tracking/{id}', [LetterController::class, 'tracking'])->name('tracking');
+        });
+
+        // 17. AI Knowledge Base Trainer (Super Admin, Ketua Yayasan, Kepala Sekolah)
+        Route::prefix('ai-trainer')->name('ai-trainer.')->middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER')->group(function () {
+            Route::get('/', [AiTrainerController::class, 'index'])->name('index');
+            Route::post('/upload', [AiTrainerController::class, 'upload'])->name('upload');
+            Route::post('/store', [AiTrainerController::class, 'store'])->name('store');
+            Route::delete('/{id}', [AiTrainerController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/toggle', [AiTrainerController::class, 'toggle'])->name('toggle');
+            Route::post('/auto-sync', [AiTrainerController::class, 'autoSync'])->name('auto-sync');
+            Route::post('/test-chat', [AiTrainerController::class, 'testChat'])->name('test-chat');
+            Route::post('/bulk-delete', [AiTrainerController::class, 'bulkDelete'])->name('bulk-delete');
         });
     });
 });
