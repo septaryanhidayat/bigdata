@@ -76,19 +76,18 @@
 
     <!-- Google Fonts & Material Symbols Non-blocking with display=swap -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
+    </noscript>
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
     </noscript>
 
-    <!-- Tailwind CSS CDN with Plugins -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+    <!-- Pre-define Tailwind Config -->
     <script id="tailwind-config">
-      tailwind.config = {
+      window.tailwind = {
+        config: {
         darkMode: "class",
         theme: {
           extend: {
@@ -118,8 +117,10 @@
             }
           }
         }
-      }
+      };
     </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
