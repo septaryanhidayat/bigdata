@@ -146,59 +146,111 @@
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
 
     <!-- Top Utility Header Ribbon (WPSchool Pro Reference Style) -->
-    <div class="bg-[#0b1f3a] text-slate-300 text-xs py-2 px-4 sm:px-6 border-b border-slate-800/80 relative z-50">
+    <div class="bg-[#0b1f3a] dark:bg-[#040d06] text-slate-300 text-xs py-2 px-4 sm:px-6 border-b border-slate-800/80 dark:border-[#1a381c] relative z-50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5">
             <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-[11px] font-medium text-slate-300">
                 <span class="flex items-center gap-1.5 text-slate-300">
-                    <span class="material-symbols-outlined text-[14px] text-amber-400">location_on</span>
+                    <span class="material-symbols-outlined text-[14px] text-amber-400 dark:text-[#c6f634]">location_on</span>
                     <span>Jl. Raya Lintas Timur KM. 35 Indralaya, Kab. Ogan Ilir</span>
                 </span>
-                <span class="text-slate-600 hidden sm:inline">•</span>
-                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-amber-300 transition-colors flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px] text-emerald-400">call</span>
+                <span class="text-slate-600 dark:text-slate-700 hidden sm:inline">•</span>
+                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-amber-300 dark:hover:text-[#c6f634] transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-emerald-400 dark:text-[#c6f634]">call</span>
                     <span>{{ $info['phone'] ?? '0811-7474-72' }}</span>
                 </a>
-                <span class="text-slate-600 hidden sm:inline">•</span>
+                <span class="text-slate-600 dark:text-slate-700 hidden sm:inline">•</span>
                 <span class="flex items-center gap-1 text-slate-300 hidden lg:inline-flex">
-                    <span class="material-symbols-outlined text-[14px] text-cyan-400">mail</span>
+                    <span class="material-symbols-outlined text-[14px] text-cyan-400 dark:text-[#c6f634]">mail</span>
                     <span>{{ $info['email'] ?? strtolower($info['code']) . '@sitrobbani.sch.id' }}</span>
                 </span>
             </div>
             <div class="flex items-center gap-3 text-[11px] font-bold">
-                <span class="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] uppercase tracking-wider">
+                <span class="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 dark:bg-[#c6f634]/20 dark:text-[#c6f634] border border-amber-400/30 dark:border-[#c6f634]/40 text-[10px] uppercase tracking-wider">
                     ✨ {{ $info['akreditasi'] }}
                 </span>
-                <span class="text-slate-600">•</span>
-                <a href="{{ route('home') }}" class="hover:text-amber-300 text-slate-200 transition-colors flex items-center gap-1">
+                <span class="text-slate-600 dark:text-slate-700">•</span>
+                <a href="{{ route('home') }}" class="hover:text-amber-300 dark:hover:text-[#c6f634] text-slate-200 transition-colors flex items-center gap-1">
                     <span>Portal SIT Robbani</span> ➔
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Main Navigation Header (Clean White Floating Navbar) -->
-    <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#071322]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
+    @php
+        $unitCodeLower = strtolower($info['code'] ?? 'sdit');
+        if ($unitCodeLower === 'kbtkit') $unitCodeLower = 'tkit';
+
+        $themeConfig = [
+            'tkit' => [
+                'hero_gradient' => 'from-[#78350f] via-[#b45309] to-[#d97706]',
+                'badge_bg' => 'bg-amber-400/20 text-amber-300 border-amber-400/40',
+                'accent_text' => 'text-amber-600 dark:text-[#c6f634]',
+                'btn_action' => 'bg-amber-600 hover:bg-amber-700 text-white dark:bg-[#c6f634] dark:text-[#061107]',
+                'top_border' => 'border-t-amber-500',
+                'glow_1' => 'bg-amber-500/20',
+                'glow_2' => 'bg-orange-500/15',
+                'tag_pill' => 'bg-amber-100 dark:bg-[#c6f634]/20 text-amber-800 dark:text-[#c6f634]',
+                'brand_name' => 'KB/TKIT Robbani',
+            ],
+            'sdit' => [
+                'hero_gradient' => 'from-[#071b34] via-[#0d2e5c] to-[#124285]',
+                'badge_bg' => 'bg-blue-400/20 text-blue-300 border-blue-400/40',
+                'accent_text' => 'text-blue-600 dark:text-[#c6f634]',
+                'btn_action' => 'bg-[#1a56db] hover:bg-[#1e429f] text-white dark:bg-[#c6f634] dark:text-[#061107]',
+                'top_border' => 'border-t-blue-600',
+                'glow_1' => 'bg-blue-500/20',
+                'glow_2' => 'bg-cyan-500/15',
+                'tag_pill' => 'bg-blue-100 dark:bg-[#c6f634]/20 text-blue-800 dark:text-[#c6f634]',
+                'brand_name' => 'SDIT Robbani',
+            ],
+            'smpit' => [
+                'hero_gradient' => 'from-[#003828] via-[#065f46] to-[#047857]',
+                'badge_bg' => 'bg-emerald-400/20 text-emerald-300 border-emerald-400/40',
+                'accent_text' => 'text-emerald-600 dark:text-[#c6f634]',
+                'btn_action' => 'bg-emerald-700 hover:bg-emerald-800 text-white dark:bg-[#c6f634] dark:text-[#061107]',
+                'top_border' => 'border-t-emerald-600',
+                'glow_1' => 'bg-emerald-500/20',
+                'glow_2' => 'bg-teal-500/15',
+                'tag_pill' => 'bg-emerald-100 dark:bg-[#c6f634]/20 text-emerald-800 dark:text-[#c6f634]',
+                'brand_name' => 'SMPIT Robbani',
+            ],
+            'smait' => [
+                'hero_gradient' => 'from-[#1e1b4b] via-[#4c1d95] to-[#6d28d9]',
+                'badge_bg' => 'bg-purple-400/20 text-purple-300 border-purple-400/40',
+                'accent_text' => 'text-purple-600 dark:text-[#c6f634]',
+                'btn_action' => 'bg-purple-700 hover:bg-purple-800 text-white dark:bg-[#c6f634] dark:text-[#061107]',
+                'top_border' => 'border-t-purple-600',
+                'glow_1' => 'bg-purple-500/20',
+                'glow_2' => 'bg-indigo-500/15',
+                'tag_pill' => 'bg-purple-100 dark:bg-[#c6f634]/20 text-purple-800 dark:text-[#c6f634]',
+                'brand_name' => 'SMAIT Robbani',
+            ],
+        ];
+
+        $uTheme = $themeConfig[$unitCodeLower] ?? $themeConfig['sdit'];
+        $unitLogoPath = '/images/logo_' . $unitCodeLower . '.png';
+        if (!file_exists(public_path($unitLogoPath))) {
+            $unitLogoPath = \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png');
+        }
+    @endphp
+
+    <!-- Main Navigation Header (Clean Floating Navbar) -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#07170a]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#1a381c] shadow-sm transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
             
             <!-- Logo Section -->
-            @php
-                $unitLogoPath = '/images/logo_' . strtolower($info['code'] ?? 'sdit') . '.png';
-                if (!file_exists(public_path($unitLogoPath))) {
-                    $unitLogoPath = \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png');
-                }
-            @endphp
             <a href="{{ route('home') }}" class="flex items-center gap-3 group shrink-0">
-                <div class="logo-badge-container shrink-0 p-1.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs">
+                <div class="logo-badge-container shrink-0 p-1.5 rounded-2xl bg-slate-50 dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-xs">
                     <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 sm:h-11 w-auto object-contain transition-all group-hover:scale-105">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-black text-[10px] tracking-wider uppercase">
+                        <span class="px-2 py-0.5 rounded {{ $uTheme['tag_pill'] }} border border-transparent dark:border-[#1a381c] font-black text-[10px] tracking-wider uppercase">
                             UNIT {{ $info['code'] }}
                         </span>
                         <span class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 hidden sm:inline-block">• SIT ROBBANI</span>
                     </div>
-                    <span class="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight block group-hover:text-blue-600 transition-colors font-headline">
+                    <span class="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight block group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors font-headline">
                         {{ $info['name'] }}
                     </span>
                 </div>
@@ -206,23 +258,23 @@
 
             <!-- Desktop Navigation Menu -->
             <nav class="hidden xl:flex items-center gap-4 text-xs font-bold text-slate-700 dark:text-slate-200 shrink-0">
-                <a href="#" class="text-blue-600 dark:text-blue-400 font-black hover:text-blue-700 transition-colors">Beranda</a>
-                <a href="#sambutan" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Profil Sekolah</a>
-                <a href="#program" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Akademik</a>
-                <a href="#fasilitas" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Fasilitas</a>
-                <a href="#guru" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Guru &amp; Staf</a>
-                <a href="#agenda-pengumuman" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Agenda</a>
-                <a href="#galeri" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Galeri</a>
-                <a href="#berita" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Berita</a>
+                <a href="#" class="{{ $uTheme['accent_text'] }} font-black transition-colors">Beranda</a>
+                <a href="#sambutan" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Profil Sekolah</a>
+                <a href="#program" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Akademik</a>
+                <a href="#agenda-pengumuman" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Agenda</a>
+                <a href="#fasilitas" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Fasilitas</a>
+                <a href="#guru" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Guru &amp; Staf</a>
+                <a href="#berita" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Berita</a>
+                <a href="#galeri" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Galeri</a>
 
                 <!-- Dark Mode Toggle Button -->
-                <button @click="darkMode = !darkMode" title="Ganti Mode Gelap/Terang" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-xs border border-slate-200 dark:border-slate-700 shrink-0">
+                <button @click="darkMode = !darkMode" title="Ganti Mode Gelap/Terang" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-700 dark:text-[#c6f634] hover:bg-slate-200 dark:hover:bg-[#16361a] transition-all shadow-xs border border-slate-200 dark:border-[#1a381c] shrink-0">
                     <span x-show="!darkMode" class="text-xs">🌙</span>
                     <span x-show="darkMode" class="text-xs">☀️</span>
                 </button>
 
-                <!-- Action Button: DAFTAR SISWA (WPSchool Pro Royal Blue) -->
-                <a href="{{ route('school.ppdb') }}" class="px-5 py-2.5 rounded-xl bg-[#1a56db] hover:bg-[#1e429f] text-white font-black text-xs shadow-md hover:shadow-lg hover:scale-105 transition-all flex items-center gap-2 shrink-0 whitespace-nowrap">
+                <!-- Action Button: DAFTAR SISWA -->
+                <a href="{{ route('school.ppdb') }}" class="px-5 py-2.5 rounded-xl {{ $uTheme['btn_action'] }} font-black text-xs shadow-md hover:shadow-lg hover:scale-105 transition-all flex items-center gap-2 shrink-0 whitespace-nowrap">
                     <span>Daftar Siswa</span>
                     <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </a>
@@ -230,11 +282,11 @@
 
             <!-- Mobile Controls -->
             <div class="flex items-center gap-2 xl:hidden shrink-0">
-                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700">
+                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-700 dark:text-[#c6f634] border border-slate-200 dark:border-[#1a381c]">
                     <span x-show="!darkMode">🌙</span>
                     <span x-show="darkMode">☀️</span>
                 </button>
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-xl bg-[#1a56db] text-white font-bold text-sm flex items-center gap-1">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-xl {{ $uTheme['btn_action'] }} font-bold text-sm flex items-center gap-1">
                     <span x-show="!mobileMenuOpen">☰ Menu</span>
                     <span x-show="mobileMenuOpen">✕ Tutup</span>
                 </button>
@@ -243,81 +295,81 @@
     </header>
 
     <!-- Mobile Navigation Drawer -->
-    <div x-show="mobileMenuOpen" x-cloak x-transition class="xl:hidden bg-white dark:bg-[#071322] border-b border-slate-200 dark:border-slate-800 px-6 py-4 space-y-3 font-bold text-xs">
-        <a href="{{ route('home') }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">🏠 Beranda Utama SIT Robbani</a>
-        <a href="#sambutan" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">👤 Profil &amp; Sambutan Kepala Sekolah</a>
-        <a href="#program" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">🌟 Program Unggulan &amp; Kurikulum</a>
-        <a href="#agenda-pengumuman" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">📅 Agenda &amp; Pengumuman</a>
-        <a href="#fasilitas" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">🏢 Sarana &amp; Fasilitas Sekolah</a>
-        <a href="#guru" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">👨‍🏫 Dewan Guru &amp; Tendik</a>
-        <a href="#berita" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">📰 Berita &amp; Prestasi</a>
-        <a href="#galeri" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">📸 Galeri Foto &amp; Video</a>
-        <a href="{{ route('school.ppdb') }}" class="block py-3 text-center bg-[#1a56db] text-white font-black rounded-xl shadow-md">Daftar Siswa Online Unit {{ $info['code'] }} ➔</a>
+    <div x-show="mobileMenuOpen" x-cloak x-transition class="xl:hidden bg-white dark:bg-[#061107] border-b border-slate-200 dark:border-[#1a381c] px-6 py-4 space-y-3 font-bold text-xs">
+        <a href="{{ route('home') }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏠 Beranda Utama SIT Robbani</a>
+        <a href="#sambutan" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👤 Profil &amp; Sambutan Kepala Sekolah</a>
+        <a href="#program" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🌟 Program Unggulan &amp; Kurikulum</a>
+        <a href="#agenda-pengumuman" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📅 Agenda &amp; Pengumuman</a>
+        <a href="#fasilitas" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏢 Sarana &amp; Fasilitas Sekolah</a>
+        <a href="#guru" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👨‍🏫 Dewan Guru &amp; Tendik</a>
+        <a href="#berita" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📰 Berita &amp; Prestasi</a>
+        <a href="#galeri" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📸 Galeri Foto &amp; Video</a>
+        <a href="{{ route('school.ppdb') }}" class="block py-3 text-center {{ $uTheme['btn_action'] }} font-black rounded-xl shadow-md">Daftar Siswa Online Unit {{ $info['code'] }} ➔</a>
     </div>
 
     <!-- Main Content Container -->
     <main class="flex-grow space-y-12 sm:space-y-16">
         
-        <!-- 1. BANNER HERO SECTION (WPSchool Pro Reference Design) -->
-        <section class="relative bg-gradient-to-r from-[#071b34] via-[#0d2e5c] to-[#124285] text-white pt-12 sm:pt-16 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden">
+        <!-- 1. BANNER HERO SECTION (Warna Unit di Light Mode & Obsidian Green + Neon Lime di Dark Mode) -->
+        <section class="relative bg-gradient-to-r {{ $uTheme['hero_gradient'] }} dark:from-[#061107] dark:via-[#0d1e0f] dark:to-[#04200c] text-white pt-12 sm:pt-16 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden border-b border-black/10 dark:border-[#1a381c] transition-colors duration-500">
             <!-- Ambient Background Glow & Geometric Accents -->
-            <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -top-24 -left-24 w-96 h-96 {{ $uTheme['glow_1'] }} dark:bg-[#c6f634]/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 {{ $uTheme['glow_2'] }} dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
             <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
                 <!-- Left: Headline & Actions -->
                 <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 border border-amber-400/40 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-sm">
-                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <div class="inline-flex items-center gap-2 {{ $uTheme['badge_bg'] }} dark:bg-[#c6f634]/20 dark:text-[#c6f634] dark:border-[#c6f634]/40 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 dark:bg-[#c6f634] animate-ping"></span>
                         <span>✨ TAHFIDZ &amp; SAINS TERPADU ROBBANI</span>
                     </div>
 
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black font-headline text-white leading-tight tracking-tight drop-shadow-md">
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black font-headline text-white dark:text-[#f7fee7] leading-tight tracking-tight drop-shadow-md">
                         Membentuk Generasi Cerdas untuk Masa Depan
                     </h1>
 
-                    <p class="text-sm sm:text-base text-slate-200 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                    <p class="text-sm sm:text-base text-slate-200 dark:text-emerald-100/90 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
                         {{ $info['tagline'] }} — Mendidik santri berprestasi di bidang akademik, sains teknologi, penguasaan Al-Qur'an, dan berakhlak mulia di lingkungan {{ $info['name'] }}.
                     </p>
 
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-                        <!-- Yellow/Amber CTA Button (WPSchool Pro Reference) -->
-                        <a href="{{ route('school.ppdb') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-xl hover:shadow-amber-500/30 hover:scale-105 transition-all flex items-center gap-2">
+                        <!-- Amber CTA Button in Light Mode / Neon Lime in Dark Mode -->
+                        <a href="{{ route('school.ppdb') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 dark:from-[#c6f634] dark:to-[#a3e635] dark:text-[#061107] font-black text-xs sm:text-sm shadow-xl hover:shadow-amber-500/30 dark:hover:shadow-[#c6f634]/30 hover:scale-105 transition-all flex items-center gap-2">
                             <span>Daftar Sekarang</span>
                             <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                         </a>
                         <!-- Secondary WhatsApp Consultation Button -->
-                        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-bold text-xs sm:text-sm transition-all flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[18px] text-emerald-400">call</span>
+                        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 dark:bg-[#153018]/80 dark:hover:bg-[#1c4021] backdrop-blur-md border border-white/25 dark:border-[#1a381c] text-white dark:text-[#f7fee7] font-bold text-xs sm:text-sm transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px] text-emerald-400 dark:text-[#c6f634]">call</span>
                             <span>Konsultasi PPDB</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Right: High Resolution Student Visual (Matching Reference) -->
+                <!-- Right: High Resolution Student Visual -->
                 <div class="lg:col-span-5 relative flex justify-center">
                     <div class="relative w-full max-w-md lg:max-w-none">
                         <!-- Background Frame Decor -->
-                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-600 to-amber-400 rounded-3xl transform rotate-2 scale-105 opacity-30 blur-sm"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-emerald-600 to-amber-400 dark:from-[#c6f634] dark:to-emerald-500 rounded-3xl transform rotate-2 scale-105 opacity-30 blur-sm"></div>
                         
                         <!-- Main Hero Image Container -->
-                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4]">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 dark:border-[#1a381c] bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4]">
                             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200" alt="Santri Berprestasi {{ $info['name'] }}" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 dark:from-[#061107]/80 via-transparent to-transparent"></div>
                             
-                            <!-- Floating Floating Achievement Badge -->
-                            <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/30 shadow-lg flex items-center justify-between">
+                            <!-- Floating Achievement Badge -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-[#0d1e0f]/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/30 dark:border-[#1a381c] shadow-lg flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shrink-0 shadow-md">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-600 dark:bg-[#c6f634] text-white dark:text-[#061107] flex items-center justify-center font-black shrink-0 shadow-md">
                                         <span class="material-symbols-outlined text-[22px]">verified</span>
                                     </div>
                                     <div>
-                                        <span class="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 block tracking-wider">UNIT RESMI AKREDITASI</span>
+                                        <span class="text-[10px] font-black uppercase text-emerald-700 dark:text-[#c6f634] block tracking-wider">UNIT RESMI AKREDITASI</span>
                                         <h4 class="text-xs font-black text-slate-900 dark:text-white">{{ $info['name'] }}</h4>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-black text-[11px]">
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-[#c6f634]/20 text-amber-800 dark:text-[#c6f634] font-black text-[11px] border border-transparent dark:border-[#1a381c]">
                                     {{ $info['akreditasi'] }}
                                 </span>
                             </div>
@@ -328,71 +380,71 @@
             </div>
         </section>
 
-        <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 FLOATING ACTION CARDS - WPSCHOOL PRO REFERENCE) -->
+        <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 FLOATING ACTION CARDS) -->
         <section class="-mt-14 sm:-mt-20 relative z-30 px-4 sm:px-6">
             <div class="max-w-7xl mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                     
                     <!-- Card 1: Profil Sekolah -->
-                    <a href="#sambutan" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-blue-600 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                    <a href="#sambutan" class="bg-white dark:bg-[#0d1e0f] border-t-4 {{ $uTheme['top_border'] }} dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-xs">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-emerald-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
                                 <span class="material-symbols-outlined text-[26px]">school</span>
                             </div>
                             <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-blue-600 transition-colors">Profil Sekolah</h3>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors">Profil Sekolah</h3>
                                 <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Visi misi &amp; sambutan kepala sekolah</p>
                             </div>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50 flex items-center justify-center shrink-0 transition-colors">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] group-hover:bg-emerald-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </span>
                     </a>
 
                     <!-- Card 2: PPDB 2026/2027 -->
-                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-amber-500 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-amber-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors shadow-xs">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-[#153018] text-amber-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-amber-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
                                 <span class="material-symbols-outlined text-[26px]">how_to_reg</span>
                             </div>
                             <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 transition-colors">PPDB 2026/2027</h3>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 dark:group-hover:text-[#c6f634] transition-colors">PPDB 2026/2027</h3>
                                 <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Pendaftaran santri baru online</p>
                             </div>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-amber-600 group-hover:bg-amber-50 flex items-center justify-center shrink-0 transition-colors">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-amber-600 dark:group-hover:text-[#c6f634] group-hover:bg-amber-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </span>
                     </a>
 
                     <!-- Card 3: Program Unggulan -->
-                    <a href="#program" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-cyan-500 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                    <a href="#program" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-cyan-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0 group-hover:bg-cyan-500 group-hover:text-white transition-colors shadow-xs">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-[#153018] text-cyan-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-cyan-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
                                 <span class="material-symbols-outlined text-[26px]">menu_book</span>
                             </div>
                             <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 transition-colors">Program Unggulan</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Tahfidz Qur'an, sains, &amp; bilingual</p>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] transition-colors">Program Unggulan</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Tahfidz, sains, koding &amp; bilingual</p>
                             </div>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-cyan-600 group-hover:bg-cyan-50 flex items-center justify-center shrink-0 transition-colors">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] group-hover:bg-cyan-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </span>
                     </a>
 
                     <!-- Card 4: Agenda Sekolah -->
-                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-indigo-600 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-indigo-600 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-xs">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-[#153018] text-indigo-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-indigo-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
                                 <span class="material-symbols-outlined text-[26px]">calendar_month</span>
                             </div>
                             <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 transition-colors">Agenda Sekolah</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Jadwal kegiatan &amp; pengumuman</p>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] transition-colors">Agenda Sekolah</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Jadwal kegiatan &amp; pengumuman resmi</p>
                             </div>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-indigo-600 group-hover:bg-indigo-50 flex items-center justify-center shrink-0 transition-colors">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] group-hover:bg-indigo-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </span>
                     </a>
@@ -560,73 +612,89 @@
             </div>
         </section>
 
-        <!-- 6 & 7. AGENDA & PENGUMUMAN SEBELAHAN (SIDE-BY-SIDE SEPERTI WEB UTAMA) -->
+        <!-- 6 & 7. AGENDA & PENGUMUMAN SEBELAHAN (SIMETRIS & RAPI SEPERTI WEB UTAMA) -->
         <section id="agenda-pengumuman" class="px-4 sm:px-6">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
                 
-                <!-- Left: Agenda Sekolah Unit (Col 7) -->
-                <div class="lg:col-span-7 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">AGENDA UNIT</span>
-                            <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Jadwal &amp; Kalender Kegiatan</h2>
+                <!-- Left: Agenda Sekolah Unit (50% Symmetrical Column) -->
+                <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-[#1a381c] pb-4">
+                        <div class="space-y-1">
+                            <span class="unit-pill-badge inline-block px-3 py-0.5 rounded-full bg-emerald-100 dark:bg-[#c6f634]/20 text-emerald-800 dark:text-[#c6f634] text-[11px] font-black uppercase tracking-wider">
+                                ✨ AGENDA UNIT {{ $info['code'] }}
+                            </span>
+                            <h2 class="text-lg sm:text-xl font-black font-headline text-slate-900 dark:text-white">Jadwal &amp; Kalender Kegiatan</h2>
                         </div>
+                        <span class="text-xs text-slate-400 font-bold hidden sm:inline-block">Terjadwal</span>
                     </div>
 
                     @if(isset($unitAgendas) && count($unitAgendas) > 0)
-                    <div class="space-y-3">
-                        @foreach(array_slice($unitAgendas, 0, 5) as $ag)
-                        <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-4 sm:p-5 shadow-sm hover:border-emerald-500 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                            <div class="flex items-start sm:items-center gap-4">
-                                <div class="bg-emerald-50 dark:bg-[#153018] text-emerald-800 dark:text-[#c6f634] p-3 rounded-2xl text-center min-w-[75px] shrink-0 border border-emerald-200 dark:border-[#1a381c]">
-                                    <span class="material-symbols-outlined text-[20px] block mx-auto">calendar_month</span>
-                                    <span class="text-[10px] font-black uppercase tracking-wider block mt-0.5">{{ $ag['date'] ?? 'Agenda' }}</span>
-                                </div>
-                                <div class="space-y-1">
-                                    <h3 class="text-sm sm:text-base font-bold font-headline text-slate-900 dark:text-white">{{ $ag['title'] }}</h3>
-                                    <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2">{{ $ag['desc'] }}</p>
-                                    <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-400 dark:text-slate-400 pt-1">
-                                        <span>📍 {{ $ag['location'] ?? 'Kampus Robbani' }}</span>
-                                        <span>•</span>
-                                        <span>⏰ {{ $ag['time'] ?? '08:00 WIB' }}</span>
-                                    </div>
+                    <div class="space-y-3.5">
+                        @foreach(array_slice($unitAgendas, 0, 3) as $ag)
+                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#061107] border border-slate-200/70 dark:border-[#1a381c] hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all flex items-start gap-3.5 group">
+                            <!-- Date Box -->
+                            <div class="w-12 h-12 rounded-xl bg-emerald-700 dark:bg-[#153018] text-white dark:text-[#c6f634] flex flex-col items-center justify-center font-black shrink-0 shadow-xs border border-transparent dark:border-[#1a381c]">
+                                <span class="text-sm leading-none font-headline">{{ preg_match('/\d+/', $ag['date'] ?? '', $m) ? $m[0] : '25' }}</span>
+                                <span class="text-[9px] uppercase tracking-wider mt-0.5">{{ strtoupper(substr(preg_replace('/[^a-zA-Z]/', '', $ag['date'] ?? 'AGU'), 0, 3)) ?: 'AGU' }}</span>
+                            </div>
+                            <!-- Agenda Details -->
+                            <div class="space-y-1 min-w-0 flex-1">
+                                <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors line-clamp-1">
+                                    {{ $ag['title'] }}
+                                </h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 leading-snug">{{ $ag['desc'] }}</p>
+                                <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400 dark:text-slate-400 pt-0.5">
+                                    <span class="flex items-center gap-1">📍 {{ $ag['location'] ?? 'Kampus SIT Robbani' }}</span>
+                                    <span>•</span>
+                                    <span class="flex items-center gap-1">⏰ {{ $ag['time'] ?? '08:00 WIB' }}</span>
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
                     @else
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-6 text-center text-xs text-slate-500">
-                        Belum ada agenda terdekat untuk unit ini.
+                    <div class="p-8 text-center bg-slate-50 dark:bg-[#061107] rounded-2xl border border-slate-200/70 dark:border-[#1a381c] text-xs text-slate-500 dark:text-slate-400 space-y-1">
+                        <span class="text-2xl block mb-1">📅</span>
+                        <p class="font-bold">Belum ada agenda terdekat untuk unit ini.</p>
+                        <p class="text-[11px] text-slate-400">Jadwal kegiatan berkala akan diperbarui oleh admin unit.</p>
                     </div>
                     @endif
                 </div>
 
-                <!-- Right: Pengumuman Resmi Unit (Col 5) -->
-                <div class="lg:col-span-5 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">INFORMASI RESMI</span>
-                            <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Pengumuman Unit</h2>
+                <!-- Right: Pengumuman Resmi Unit (50% Symmetrical Column) -->
+                <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-[#1a381c] pb-4">
+                        <div class="space-y-1">
+                            <span class="unit-pill-badge inline-block px-3 py-0.5 rounded-full bg-orange-100 dark:bg-[#c6f634]/20 text-orange-800 dark:text-[#c6f634] text-[11px] font-black uppercase tracking-wider">
+                                📢 INFORMASI RESMI
+                            </span>
+                            <h2 class="text-lg sm:text-xl font-black font-headline text-slate-900 dark:text-white">Pengumuman &amp; Edaran Unit</h2>
                         </div>
+                        <span class="text-xs text-slate-400 font-bold hidden sm:inline-block">Terbaru</span>
                     </div>
 
                     @if(isset($unitAnnouncements) && count($unitAnnouncements) > 0)
-                    <div class="space-y-3">
-                        @foreach(array_slice($unitAnnouncements, 0, 4) as $ann)
-                        <div class="bg-white dark:bg-[#0d1e0f] border-l-4 border-orange-500 dark:border-[#c6f634] rounded-2xl p-4 shadow-sm space-y-2 border-y border-r border-slate-200 dark:border-[#1a381c]">
-                            <div class="flex items-center justify-between text-xs text-slate-400">
-                                <span class="font-bold text-orange-600 dark:text-[#c6f634]">🗓️ {{ $ann['date'] ?? 'Pengumuman' }}</span>
-                                <span class="bg-orange-100 dark:bg-[#c6f634]/20 text-orange-800 dark:text-[#c6f634] px-2 py-0.5 rounded text-[10px] font-black uppercase">PENGUMUMAN</span>
+                    <div class="space-y-3.5">
+                        @foreach(array_slice($unitAnnouncements, 0, 3) as $ann)
+                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#061107] border-l-4 border-l-orange-500 dark:border-l-[#c6f634] border-y border-r border-slate-200/70 dark:border-y-[#1a381c] dark:border-r-[#1a381c] hover:border-orange-500 dark:hover:border-[#c6f634] transition-all space-y-1.5 group">
+                            <div class="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-400">
+                                <span class="font-bold text-orange-600 dark:text-[#c6f634] flex items-center gap-1">🗓️ {{ $ann['date'] ?? '17 Agustus 2026' }}</span>
+                                <span class="bg-orange-100 dark:bg-[#c6f634]/20 text-orange-800 dark:text-[#c6f634] px-2 py-0.5 rounded font-black uppercase text-[9px]">PENGUMUMAN</span>
                             </div>
-                            <h3 class="text-sm font-bold font-headline text-slate-900 dark:text-white">{{ $ann['title'] }}</h3>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{{ $ann['excerpt'] ?? strip_tags($ann['content'] ?? '') }}</p>
+                            <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-[#c6f634] transition-colors line-clamp-1">
+                                {{ $ann['title'] }}
+                            </h3>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 leading-snug">
+                                {{ $ann['summary'] ?? $ann['excerpt'] ?? strip_tags($ann['content'] ?? '') }}
+                            </p>
                         </div>
                         @endforeach
                     </div>
                     @else
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-6 text-center text-xs text-slate-500">
-                        Belum ada pengumuman baru untuk unit ini.
+                    <div class="p-8 text-center bg-slate-50 dark:bg-[#061107] rounded-2xl border border-slate-200/70 dark:border-[#1a381c] text-xs text-slate-500 dark:text-slate-400 space-y-1">
+                        <span class="text-2xl block mb-1">📢</span>
+                        <p class="font-bold">Belum ada pengumuman baru untuk unit ini.</p>
+                        <p class="text-[11px] text-slate-400">Pengumuman dan edaran wali murid akan ditampilkan di sini.</p>
                     </div>
                     @endif
                 </div>
