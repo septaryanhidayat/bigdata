@@ -1287,7 +1287,7 @@
                                             <div class="smartedu-tab-sub text-[10px]">LMS, CBT, E-Rapor, Presensi</div>
                                         </div>
                                     </div>
-                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">6 Modul</span>
+                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">8 Modul</span>
                                 </button>
 
                                 <!-- 2. Keuangan & Smart POS -->
@@ -1301,7 +1301,7 @@
                                             <div class="smartedu-tab-sub text-[10px]">SPP, Tabungan, Kantin RFID</div>
                                         </div>
                                     </div>
-                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">6 Modul</span>
+                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">8 Modul</span>
                                 </button>
 
                                 <!-- 3. Persuratan & TTE Digital -->
@@ -1315,7 +1315,7 @@
                                             <div class="smartedu-tab-sub text-[10px]">Agenda, TTE QR, Disposisi</div>
                                         </div>
                                     </div>
-                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">6 Modul</span>
+                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">8 Modul</span>
                                 </button>
 
                                 <!-- 4. Karakter & Keislaman -->
@@ -1329,7 +1329,7 @@
                                             <div class="smartedu-tab-sub text-[10px]">BPI, Tahfidz Tracker, BK</div>
                                         </div>
                                     </div>
-                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">6 Modul</span>
+                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">8 Modul</span>
                                 </button>
 
                                 <!-- 5. Fasilitas & SDM -->
@@ -1343,7 +1343,7 @@
                                             <div class="smartedu-tab-sub text-[10px]">E-Library, Sarpras, HRIS, CMS</div>
                                         </div>
                                     </div>
-                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">6 Modul</span>
+                                    <span class="smartedu-badge-count px-2 py-0.5 rounded-full text-[9px]">8 Modul</span>
                                 </button>
 
                                 <!-- 6. Smart AI Assistant & Dokumen RAG -->
@@ -1365,7 +1365,7 @@
                         <!-- Mini Stats Bar -->
                         <div class="pt-3 border-t border-emerald-200/70 dark:border-[#1c4021] grid grid-cols-3 gap-2 text-center">
                             <div class="bg-emerald-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-emerald-200/80 dark:border-[#183a1b]">
-                                <div class="text-base font-black text-emerald-800 dark:text-[#c6f634] font-headline">30+</div>
+                                <div class="text-base font-black text-emerald-800 dark:text-[#c6f634] font-headline">40+</div>
                                 <div class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">Modul</div>
                             </div>
                             <div class="bg-orange-50/80 dark:bg-[#060f07] p-2 rounded-xl border border-orange-200/80 dark:border-[#183a1b]">
@@ -1383,7 +1383,7 @@
                     <!-- Right Column: Dynamic Module Cards (lg:col-span-8) -->
                     <div class="smartedu-panel-right lg:col-span-8 rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
                         
-                        <!-- TAB 1: AKADEMIK & KBM (6 Cards Full 2x3 Grid) -->
+                        <!-- TAB 1: AKADEMIK & KBM (8 Cards Full 2x4 Grid) -->
                         <div x-show="activeModuleTab === 'akademik'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity>
                             <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">📚</div>
@@ -1450,9 +1450,31 @@
                                     <p class="text-[11px] leading-snug line-clamp-2">Plotting jam mengajar guru, jadwal roling kelas, &amp; kalender akademik terpadu.</p>
                                 </div>
                             </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">📋</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Silabus &amp; Modul Ajar</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Kurikulum</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Distribusi RPP &amp; modul ajar digital, capaian pembelajaran (CP), serta verifikasi dokumen.</p>
+                                </div>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🗂️</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Bank Soal &amp; Kisi-Kisi</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Arsip Soal</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Repository ribuan butir soal standar AKM, HOTS, &amp; ujian kenaikan kelas multi-mata pelajaran.</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- TAB 2: KEUANGAN & POS (6 Cards Full 2x3 Grid) -->
+                        <!-- TAB 2: KEUANGAN & POS (8 Cards Full 2x4 Grid) -->
                         <div x-show="activeModuleTab === 'keuangan'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
                             <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">💳</div>
@@ -1519,9 +1541,31 @@
                                     <p class="text-[11px] leading-snug line-clamp-2">Kemudahan bayar via Virtual Account BSI/Mandiri &amp; QRIS statis/dinamis terverifikasi.</p>
                                 </div>
                             </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">💵</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Honor &amp; Penggajian Guru</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">E-Slip Gaji</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Kalkulasi tunjangan mengajar, kehadiran, &amp; otomasi cetak slip gaji digital terenkripsi.</p>
+                                </div>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🎁</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Infaq, Wakaf &amp; Donasi</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Filantropi</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Manajemen penghimpunan dana sosial keumatan &amp; program wakaf sarana santri terdata.</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- TAB 3: PERSURATAN & TTE (6 Cards Full 2x3 Grid) -->
+                        <!-- TAB 3: PERSURATAN & TTE (8 Cards Full 2x4 Grid) -->
                         <div x-show="activeModuleTab === 'persuratan'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
                             <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">📨</div>
@@ -1588,9 +1632,31 @@
                                     <p class="text-[11px] leading-snug line-clamp-2">Generator surat keterangan aktif santri &amp; rekomendasi berformat standar resmi.</p>
                                 </div>
                             </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">📜</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Surat Izin &amp; Rekomendasi</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Otomasi</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pengajuan izin santri/guru, surat tugas dinas luar, &amp; penerbitan e-surat izin kilat.</p>
+                                </div>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🛡️</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Audit Trail &amp; Log Surat</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Keamanan</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Rekam jejak setiap pembacaan surat, persetujuan disposisi, &amp; pengunduhan naskah dinas.</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- TAB 4: KARAKTER & BPI (6 Cards Full 2x3 Grid) -->
+                        <!-- TAB 4: KARAKTER & BPI (8 Cards Full 2x4 Grid) -->
                         <div x-show="activeModuleTab === 'karakter'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
                             <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🕌</div>
@@ -1657,9 +1723,31 @@
                                     <p class="text-[11px] leading-snug line-clamp-2">Transparansi perkembangan karakter &amp; evaluasi capaian hafalan santri ke wali.</p>
                                 </div>
                             </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">📅</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Buku Catatan Yaumiyah</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Target Harian</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Evaluasi target tilawah harian (One Day One Juz) &amp; amalan sunnah santri terstruktur.</p>
+                                </div>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🥋</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Ekstrakurikuler &amp; Bakat</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Potensi</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pemetaan minat bakat santri (Panahan, Futsal, Pramuka SIT, Robotik, &amp; Pidato 3 Bahasa).</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- TAB 5: FASILITAS, SDM & PUBLIKASI (6 Cards) -->
+                        <!-- TAB 5: FASILITAS, SDM & PUBLIKASI (8 Cards Full 2x4 Grid) -->
                         <div x-show="activeModuleTab === 'manajemen'" class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-transition.opacity x-cloak>
                             <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
                                 <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">📚</div>
@@ -1726,53 +1814,88 @@
                                     <p class="text-[11px] leading-snug line-clamp-2">Keamanan data berlapis untuk 15 peran (Yayasan, Kepsek, TU, Guru, Kasir, dll).</p>
                                 </div>
                             </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">🛠️</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Pemeliharaan &amp; Maintenance</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Ticketing</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Laporan kerusakan fasilitas, jadwal servis rutin AC/listrik, &amp; monitoring perbaikan.</p>
+                                </div>
+                            </div>
+
+                            <div class="smartedu-card rounded-2xl p-3.5 flex items-start gap-3 transition-all">
+                                <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">💻</div>
+                                <div class="space-y-0.5 min-w-0">
+                                    <div class="flex items-center justify-between gap-1">
+                                        <h4 class="text-xs font-black truncate">Lab IT &amp; Media Pembelajaran</h4>
+                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Smart Lab</span>
+                                    </div>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Manajemen aset laboratorium komputer, tablet santri, &amp; jaringan hotspot sekolah.</p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- TAB 6: SMART AI ASSISTANT & KNOWLEDGE RAG -->
-                        <div x-show="activeModuleTab === 'ai_assistant'" class="grid grid-cols-1 sm:grid-cols-3 gap-3" x-transition.opacity x-cloak>
-                            <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-[#0c2410] dark:to-[#07170a] border-2 border-emerald-300 dark:border-emerald-700/60">
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">🤖</div>
-                                        <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-black text-[9px] uppercase">24/7 AI Realtime</span>
+                        <div x-show="activeModuleTab === 'ai_assistant'" class="space-y-3" x-transition.opacity x-cloak>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-[#0c2410] dark:to-[#07170a] border-2 border-emerald-300 dark:border-emerald-700/60">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">🤖</div>
+                                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-black text-[9px] uppercase">24/7 AI Realtime</span>
+                                        </div>
+                                        <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Robbani Smart AI Assistant</h4>
+                                        <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                            Chatbot interaktif cerdas yang melayani pertanyaan wali santri &amp; publik seputar SPMB, biaya, profil unit, serta lokasi kampus 24 jam nonstop.
+                                        </p>
                                     </div>
-                                    <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Robbani Smart AI Assistant</h4>
-                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        Chatbot interaktif cerdas yang melayani pertanyaan wali santri &amp; publik seputar SPMB, biaya, profil unit, serta lokasi kampus 24 jam nonstop.
-                                    </p>
+                                    <button @click="window.dispatchEvent(new CustomEvent('open-robbani-ai'))" class="mt-3 w-full py-2 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-[11px] shadow-sm flex items-center justify-center gap-1.5 transition-transform hover:scale-105">
+                                        <span>💬 Coba Chatbot AI Sekarang</span>
+                                        <span>➔</span>
+                                    </button>
                                 </div>
-                                <button @click="window.dispatchEvent(new CustomEvent('open-robbani-ai'))" class="mt-3 w-full py-2 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-[11px] shadow-sm flex items-center justify-center gap-1.5 transition-transform hover:scale-105">
-                                    <span>💬 Coba Chatbot AI Sekarang</span>
-                                    <span>➔</span>
+
+                                <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">📄</div>
+                                            <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">RAG Engine</span>
+                                        </div>
+                                        <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Knowledge Base Dokumen &amp; PDF</h4>
+                                        <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                            AI mampu mempelajari berkas PDF (Brosur SPMB, SOP Santri, Kurikulum Tahfidz, Aturan Sekolah) dan menjawab setiap detail pertanyaan secara akurat dengan rujukan dokumen.
+                                        </p>
+                                    </div>
+                                    <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">📚 Ekstraksi Otomatis PDF</span>
+                                </div>
+
+                                <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">⚡</div>
+                                            <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Live Sync</span>
+                                        </div>
+                                        <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Integrasi Database SmartEdu</h4>
+                                        <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                            Tersinkronisasi otomatis dengan database tahun ajaran aktif, jumlah pendaftar SPMB, unit sekolah, dan alur pembayaran E-SPP santri secara aman.
+                                        </p>
+                                    </div>
+                                    <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">🔐 Sinkronisasi Database Aman</span>
+                                </div>
+                            </div>
+
+                            <!-- Showcase AI prompt tester -->
+                            <div class="bg-emerald-50/70 dark:bg-[#060f07] p-3.5 rounded-2xl border border-emerald-200/60 dark:border-[#1a381c] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                                <div class="flex items-center gap-2.5 text-emerald-900 dark:text-[#c6f634]">
+                                    <span class="text-lg">💡</span>
+                                    <span><strong>Contoh Pertanyaan Populer:</strong> "Berapa rincian biaya pendaftaran SMPIT Robbani?", "Bagaimana alur pendaftaran santri baru?"</span>
+                                </div>
+                                <button @click="window.dispatchEvent(new CustomEvent('open-robbani-ai'))" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-[11px] shrink-0 hover:bg-emerald-700 transition-colors">
+                                    Tanya AI ➔
                                 </button>
-                            </div>
-
-                            <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all">
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">📄</div>
-                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">RAG Engine</span>
-                                    </div>
-                                    <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Knowledge Base Dokumen &amp; PDF</h4>
-                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        AI mampu mempelajari berkas PDF (Brosur SPMB, SOP Santri, Kurikulum Tahfidz, Aturan Sekolah) dan menjawab setiap detail pertanyaan secara akurat dengan rujukan dokumen.
-                                    </p>
-                                </div>
-                                <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">📚 Ekstraksi Otomatis PDF</span>
-                            </div>
-
-                            <div class="smartedu-card rounded-2xl p-4 flex flex-col justify-between transition-all">
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <div class="smartedu-icon-box w-10 h-10 rounded-xl flex items-center justify-center text-xl">⚡</div>
-                                        <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Live Sync</span>
-                                    </div>
-                                    <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white">Integrasi Database SmartEdu</h4>
-                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        Tersinkronisasi otomatis dengan database tahun ajaran aktif, jumlah pendaftar SPMB, unit sekolah, dan alur pembayaran E-SPP santri secara aman.
-                                    </p>
-                                </div>
-                                <span class="smartedu-micro-badge px-2.5 py-1 rounded-xl text-[10px] text-center font-bold">🔐 Sinkronisasi Database Aman</span>
                             </div>
                         </div>
 
@@ -1797,7 +1920,7 @@
                                 </div>
                             </div>
                             <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-600 dark:text-slate-300">
-                                <span class="flex items-center gap-1.5"><span class="text-emerald-700 dark:text-[#c6f634] font-black">✓</span> Seluruh 30+ modul digital terhubung otomatis dalam 1 database terpadu</span>
+                                <span class="flex items-center gap-1.5"><span class="text-emerald-700 dark:text-[#c6f634] font-black">✓</span> Seluruh 40+ modul digital terhubung otomatis dalam 1 database terpadu</span>
                                 <a href="{{ route('school.profil') }}" class="text-emerald-800 dark:text-[#c6f634] hover:text-orange-600 font-extrabold hover:underline inline-flex items-center gap-1">
                                     <span>Pelajari Tata Kelola Yayasan</span> ➔
                                 </a>
