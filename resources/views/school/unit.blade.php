@@ -145,28 +145,39 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#fd761a] text-white text-xs py-2 px-4 shadow-sm relative z-50">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div class="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
-                <span class="bg-orange-500 text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full animate-pulse shrink-0">PORTAL UNIT {{ $info['code'] }}</span>
-                <span class="font-semibold text-[11px] sm:text-xs">🔥 {{ $info['name'] }} - Penerimaan Santri Baru TA 2026/2027 Telah Resmi Dibuka!</span>
-            </div>
-            <div class="hidden sm:flex items-center gap-4 text-[11px] font-bold shrink-0">
-                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-orange-300 transition-colors flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">call</span>
-                    <span>Admin Unit: {{ $info['phone'] ?? '0811747472' }}</span>
+    <!-- Top Utility Header Ribbon (WPSchool Pro Reference Style) -->
+    <div class="bg-[#0b1f3a] text-slate-300 text-xs py-2 px-4 sm:px-6 border-b border-slate-800/80 relative z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-[11px] font-medium text-slate-300">
+                <span class="flex items-center gap-1.5 text-slate-300">
+                    <span class="material-symbols-outlined text-[14px] text-amber-400">location_on</span>
+                    <span>Jl. Raya Lintas Timur KM. 35 Indralaya, Kab. Ogan Ilir</span>
+                </span>
+                <span class="text-slate-600 hidden sm:inline">•</span>
+                <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-amber-300 transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-emerald-400">call</span>
+                    <span>{{ $info['phone'] ?? '0811-7474-72' }}</span>
                 </a>
-                <span class="text-emerald-300">•</span>
-                <a href="{{ route('home') }}" class="hover:underline text-emerald-200 flex items-center gap-1">
-                    <span>Portal Utama</span> ➔
+                <span class="text-slate-600 hidden sm:inline">•</span>
+                <span class="flex items-center gap-1 text-slate-300 hidden lg:inline-flex">
+                    <span class="material-symbols-outlined text-[14px] text-cyan-400">mail</span>
+                    <span>{{ $info['email'] ?? strtolower($info['code']) . '@sitrobbani.sch.id' }}</span>
+                </span>
+            </div>
+            <div class="flex items-center gap-3 text-[11px] font-bold">
+                <span class="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] uppercase tracking-wider">
+                    ✨ {{ $info['akreditasi'] }}
+                </span>
+                <span class="text-slate-600">•</span>
+                <a href="{{ route('home') }}" class="hover:text-amber-300 text-slate-200 transition-colors flex items-center gap-1">
+                    <span>Portal SIT Robbani</span> ➔
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#061107]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#1a381c] transition-colors">
+    <!-- Main Navigation Header (Clean White Floating Navbar) -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#071322]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
             
             <!-- Logo Section -->
@@ -176,53 +187,54 @@
                     $unitLogoPath = \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png');
                 }
             @endphp
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                <div class="logo-badge-container shrink-0">
-                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 sm:h-12 w-auto object-contain transition-all">
+            <a href="{{ route('home') }}" class="flex items-center gap-3 group shrink-0">
+                <div class="logo-badge-container shrink-0 p-1.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs">
+                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 sm:h-11 w-auto object-contain transition-all group-hover:scale-105">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="unit-pill-badge px-2 py-0.5 rounded bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] font-black text-[10px] tracking-wider uppercase">
+                        <span class="px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-black text-[10px] tracking-wider uppercase">
                             UNIT {{ $info['code'] }}
                         </span>
-                        <span class="text-[10px] font-extrabold text-amber-600 dark:text-[#c6f634] hidden lg:inline-block">• {{ $info['akreditasi'] }}</span>
+                        <span class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 hidden sm:inline-block">• SIT ROBBANI</span>
                     </div>
-                    <span class="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight block group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">
+                    <span class="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight block group-hover:text-blue-600 transition-colors font-headline">
                         {{ $info['name'] }}
                     </span>
                 </div>
             </a>
 
             <!-- Desktop Navigation Menu -->
-            <nav class="hidden xl:flex items-center gap-3.5 text-xs font-extrabold text-slate-700 dark:text-slate-200 shrink-0">
-                <a href="#sambutan" class="hover:text-orange-500 transition-colors whitespace-nowrap">Sambutan</a>
-                <a href="#profil" class="hover:text-orange-500 transition-colors whitespace-nowrap">Profil &amp; Visi</a>
-                <a href="#program" class="hover:text-orange-500 transition-colors whitespace-nowrap">Program</a>
-                <a href="#agenda-pengumuman" class="hover:text-orange-500 transition-colors whitespace-nowrap">Agenda &amp; Info</a>
-                <a href="#fasilitas" class="hover:text-orange-500 transition-colors whitespace-nowrap">Fasilitas</a>
-                <a href="#guru" class="hover:text-orange-500 transition-colors whitespace-nowrap">Dewan Guru</a>
-                <a href="#berita" class="hover:text-orange-500 transition-colors whitespace-nowrap">Berita</a>
-                <a href="#galeri" class="hover:text-orange-500 transition-colors whitespace-nowrap">Galeri</a>
+            <nav class="hidden xl:flex items-center gap-4 text-xs font-bold text-slate-700 dark:text-slate-200 shrink-0">
+                <a href="#" class="text-blue-600 dark:text-blue-400 font-black hover:text-blue-700 transition-colors">Beranda</a>
+                <a href="#sambutan" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Profil Sekolah</a>
+                <a href="#program" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Akademik</a>
+                <a href="#fasilitas" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Fasilitas</a>
+                <a href="#guru" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Guru &amp; Staf</a>
+                <a href="#agenda-pengumuman" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Agenda</a>
+                <a href="#galeri" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Galeri</a>
+                <a href="#berita" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Berita</a>
 
                 <!-- Dark Mode Toggle Button -->
-                <button @click="darkMode = !darkMode" title="Ganti Mode Gelap/Terang" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-700 dark:text-[#c6f634] hover:bg-slate-200 dark:hover:bg-[#153018] transition-all shadow-sm border border-slate-200 dark:border-[#1a381c] shrink-0">
+                <button @click="darkMode = !darkMode" title="Ganti Mode Gelap/Terang" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-xs border border-slate-200 dark:border-slate-700 shrink-0">
                     <span x-show="!darkMode" class="text-xs">🌙</span>
                     <span x-show="darkMode" class="text-xs">☀️</span>
                 </button>
 
-                <a href="{{ route('school.ppdb') }}" class="btn-unit-cta px-4 py-2 rounded-full bg-orange-600 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-xs shadow-md hover:scale-105 transition-all flex items-center gap-1 shrink-0 whitespace-nowrap">
-                    <span>Daftar SPMB</span>
-                    <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+                <!-- Action Button: DAFTAR SISWA (WPSchool Pro Royal Blue) -->
+                <a href="{{ route('school.ppdb') }}" class="px-5 py-2.5 rounded-xl bg-[#1a56db] hover:bg-[#1e429f] text-white font-black text-xs shadow-md hover:shadow-lg hover:scale-105 transition-all flex items-center gap-2 shrink-0 whitespace-nowrap">
+                    <span>Daftar Siswa</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </a>
             </nav>
 
             <!-- Mobile Controls -->
             <div class="flex items-center gap-2 xl:hidden shrink-0">
-                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-700 dark:text-[#c6f634] border border-slate-200 dark:border-[#1a381c]">
+                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700">
                     <span x-show="!darkMode">🌙</span>
                     <span x-show="darkMode">☀️</span>
                 </button>
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-xl bg-emerald-700 text-white font-bold text-sm">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-xl bg-[#1a56db] text-white font-bold text-sm flex items-center gap-1">
                     <span x-show="!mobileMenuOpen">☰ Menu</span>
                     <span x-show="mobileMenuOpen">✕ Tutup</span>
                 </button>
@@ -231,64 +243,165 @@
     </header>
 
     <!-- Mobile Navigation Drawer -->
-    <div x-show="mobileMenuOpen" x-cloak x-transition class="xl:hidden bg-white dark:bg-[#0d1e0f] border-b border-slate-200 dark:border-[#1a381c] px-6 py-4 space-y-3 font-bold text-xs">
-        <a href="{{ route('home') }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏠 Beranda Utama Portal</a>
-        <a href="#sambutan" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👤 Sambutan Kepala Sekolah</a>
-        <a href="#profil" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏫 Profil &amp; Visi Misi</a>
-        <a href="#program" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🌟 Program Unggulan &amp; Kurikulum</a>
-        <a href="#agenda-pengumuman" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📅 Agenda &amp; Pengumuman</a>
-        <a href="#fasilitas" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏢 Sarana &amp; Fasilitas Sekolah</a>
-        <a href="#guru" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👨‍🏫 Dewan Guru &amp; Tendik</a>
-        <a href="#berita" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📰 Berita &amp; Prestasi</a>
-        <a href="#galeri" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📸 Galeri Foto &amp; Video</a>
-        <a href="{{ route('school.ppdb') }}" class="block py-3 text-center bg-orange-600 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black rounded-xl shadow-md">Daftar SPMB Online Unit {{ $info['code'] }} ➔</a>
+    <div x-show="mobileMenuOpen" x-cloak x-transition class="xl:hidden bg-white dark:bg-[#071322] border-b border-slate-200 dark:border-slate-800 px-6 py-4 space-y-3 font-bold text-xs">
+        <a href="{{ route('home') }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">🏠 Beranda Utama SIT Robbani</a>
+        <a href="#sambutan" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">👤 Profil &amp; Sambutan Kepala Sekolah</a>
+        <a href="#program" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">🌟 Program Unggulan &amp; Kurikulum</a>
+        <a href="#agenda-pengumuman" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">📅 Agenda &amp; Pengumuman</a>
+        <a href="#fasilitas" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">🏢 Sarana &amp; Fasilitas Sekolah</a>
+        <a href="#guru" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">👨‍🏫 Dewan Guru &amp; Tendik</a>
+        <a href="#berita" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">📰 Berita &amp; Prestasi</a>
+        <a href="#galeri" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800">📸 Galeri Foto &amp; Video</a>
+        <a href="{{ route('school.ppdb') }}" class="block py-3 text-center bg-[#1a56db] text-white font-black rounded-xl shadow-md">Daftar Siswa Online Unit {{ $info['code'] }} ➔</a>
     </div>
 
     <!-- Main Content Container -->
-    <main class="flex-grow space-y-8 sm:space-y-12">
+    <main class="flex-grow space-y-12 sm:space-y-16">
         
-        <!-- 1. HERO UNIT GLASSMORPHISM BANNER -->
-        <section class="relative pt-6 sm:pt-10 px-4 sm:px-6 overflow-hidden">
-            <div class="max-w-7xl mx-auto">
-                <div class="relative rounded-3xl p-6 sm:p-12 overflow-hidden shadow-2xl bg-cover bg-center border border-emerald-900/30 dark:border-[#1a381c]" style="background-image: url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600');">
-                    
-                    <!-- Dark Emerald Overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#004532]/95 via-[#065f46]/90 to-[#061107]/95 dark:from-[#061107]/95 dark:to-[#0d1e0f]/95 backdrop-blur-md"></div>
+        <!-- 1. BANNER HERO SECTION (WPSchool Pro Reference Design) -->
+        <section class="relative bg-gradient-to-r from-[#071b34] via-[#0d2e5c] to-[#124285] text-white pt-12 sm:pt-16 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden">
+            <!-- Ambient Background Glow & Geometric Accents -->
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                <!-- Left: Headline & Actions -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 border border-amber-400/40 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                        <span>✨ TAHFIDZ &amp; SAINS TERPADU ROBBANI</span>
+                    </div>
 
-                    <div class="relative z-10 max-w-3xl space-y-4 sm:space-y-6 text-white">
-                        <div class="inline-flex flex-wrap items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#c6f634] animate-ping"></span>
-                            <span class="text-[#c6f634] font-black text-[11px] uppercase tracking-wider">PORTAL RESMI UNIT {{ $info['code'] }} ROBBANI</span>
-                            <span class="text-white/60">•</span>
-                            <span class="text-white text-[11px] font-bold">NPSN: {{ $info['npsn'] }}</span>
-                            <span class="text-white/60">•</span>
-                            <span class="text-amber-300 font-bold text-[11px]">{{ $info['akreditasi'] }}</span>
-                        </div>
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black font-headline text-white leading-tight tracking-tight drop-shadow-md">
+                        Membentuk Generasi Cerdas untuk Masa Depan
+                    </h1>
 
-                        <h1 class="text-2xl sm:text-5xl font-black text-white leading-tight drop-shadow-md font-headline">
-                            {{ $info['name'] }}
-                        </h1>
+                    <p class="text-sm sm:text-base text-slate-200 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        {{ $info['tagline'] }} — Mendidik santri berprestasi di bidang akademik, sains teknologi, penguasaan Al-Qur'an, dan berakhlak mulia di lingkungan {{ $info['name'] }}.
+                    </p>
 
-                        <p class="text-xs sm:text-base text-emerald-100 dark:text-slate-200 font-medium leading-relaxed drop-shadow">
-                            {{ $info['tagline'] }}
-                        </p>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <!-- Yellow/Amber CTA Button (WPSchool Pro Reference) -->
+                        <a href="{{ route('school.ppdb') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-xl hover:shadow-amber-500/30 hover:scale-105 transition-all flex items-center gap-2">
+                            <span>Daftar Sekarang</span>
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </a>
+                        <!-- Secondary WhatsApp Consultation Button -->
+                        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-bold text-xs sm:text-sm transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px] text-emerald-400">call</span>
+                            <span>Konsultasi PPDB</span>
+                        </a>
+                    </div>
+                </div>
 
-                        <div class="flex flex-wrap gap-3 sm:gap-4 pt-2">
-                            <a href="{{ route('school.ppdb') }}" class="btn-unit-cta px-6 py-3.5 rounded-full bg-orange-600 dark:bg-[#c6f634] text-white dark:text-[#061107] font-black text-xs sm:text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                                <span>Daftar SPMB Online {{ $info['code'] }}</span>
-                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                            </a>
-                            <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="px-6 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm hover:bg-white/20 transition-all flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[18px]">call</span>
-                                <span>Konsultasi PPDB WhatsApp</span>
-                            </a>
+                <!-- Right: High Resolution Student Visual (Matching Reference) -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-md lg:max-w-none">
+                        <!-- Background Frame Decor -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-600 to-amber-400 rounded-3xl transform rotate-2 scale-105 opacity-30 blur-sm"></div>
+                        
+                        <!-- Main Hero Image Container -->
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4]">
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200" alt="Santri Berprestasi {{ $info['name'] }}" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                            
+                            <!-- Floating Floating Achievement Badge -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/30 shadow-lg flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shrink-0 shadow-md">
+                                        <span class="material-symbols-outlined text-[22px]">verified</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 block tracking-wider">UNIT RESMI AKREDITASI</span>
+                                        <h4 class="text-xs font-black text-slate-900 dark:text-white">{{ $info['name'] }}</h4>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-black text-[11px]">
+                                    {{ $info['akreditasi'] }}
+                                </span>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 FLOATING ACTION CARDS - WPSCHOOL PRO REFERENCE) -->
+        <section class="-mt-14 sm:-mt-20 relative z-30 px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                    
+                    <!-- Card 1: Profil Sekolah -->
+                    <a href="#sambutan" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-blue-600 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-xs">
+                                <span class="material-symbols-outlined text-[26px]">school</span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-blue-600 transition-colors">Profil Sekolah</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Visi misi &amp; sambutan kepala sekolah</p>
+                            </div>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50 flex items-center justify-center shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </span>
+                    </a>
+
+                    <!-- Card 2: PPDB 2026/2027 -->
+                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-amber-500 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors shadow-xs">
+                                <span class="material-symbols-outlined text-[26px]">how_to_reg</span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 transition-colors">PPDB 2026/2027</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Pendaftaran santri baru online</p>
+                            </div>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-amber-600 group-hover:bg-amber-50 flex items-center justify-center shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </span>
+                    </a>
+
+                    <!-- Card 3: Program Unggulan -->
+                    <a href="#program" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-cyan-500 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0 group-hover:bg-cyan-500 group-hover:text-white transition-colors shadow-xs">
+                                <span class="material-symbols-outlined text-[26px]">menu_book</span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 transition-colors">Program Unggulan</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Tahfidz Qur'an, sains, &amp; bilingual</p>
+                            </div>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-cyan-600 group-hover:bg-cyan-50 flex items-center justify-center shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </span>
+                    </a>
+
+                    <!-- Card 4: Agenda Sekolah -->
+                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0c1e33] border-t-4 border-t-indigo-600 border-x border-b border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-xs">
+                                <span class="material-symbols-outlined text-[26px]">calendar_month</span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 transition-colors">Agenda Sekolah</h3>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Jadwal kegiatan &amp; pengumuman</p>
+                            </div>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 group-hover:text-indigo-600 group-hover:bg-indigo-50 flex items-center justify-center shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </span>
+                    </a>
+
                 </div>
             </div>
         </section>
 
-        <!-- 2. SAMBUTAN KEPALA SEKOLAH UNIT (POSISI TERATAS, FOTO FORMAT KOTAK / PORTRAIT CARD SESUAI ASSET ASLI) -->
+        <!-- 3. SAMBUTAN KEPALA SEKOLAH UNIT (POSISI TERATAS, FOTO FORMAT KOTAK / PORTRAIT CARD SESUAI ASSET ASLI) -->
         <section id="sambutan" class="px-4 sm:px-6">
             <div class="max-w-7xl mx-auto">
                 <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-10 shadow-xl flex flex-col md:flex-row gap-6 sm:gap-10 items-center relative overflow-hidden">
@@ -873,16 +986,118 @@
         </div>
     </div>
 
-    <!-- Unit Footer -->
-    <footer class="bg-slate-950 text-slate-400 text-xs py-10 px-4 sm:px-6 border-t border-slate-800 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div>
-                <p class="font-bold text-slate-300">© {{ date('Y') }} {{ $info['name'] }}</p>
-                <p class="text-[11px] text-slate-500 mt-1">Yayasan Generasi Robbani Ogan Ilir Sumatera Selatan.</p>
+    <!-- Modern 4-Column Footer (WPSchool Pro Reference Style) -->
+    <footer class="bg-[#07182c] text-slate-300 text-xs border-t border-slate-800/80 mt-auto">
+        <!-- Top Footer Columns -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+                
+                <!-- Col 1: Logo & School Identity (4 cols) -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="inline-flex items-center gap-3 bg-white p-2.5 rounded-2xl shadow-md border border-slate-200">
+                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" class="h-10 w-auto object-contain">
+                        <div>
+                            <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block">SIT ROBBANI</span>
+                            <span class="text-xs font-black text-slate-900 leading-tight block">{{ $info['name'] }}</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Lembaga Pendidikan Islam Terpadu unggulan di Kabupaten Ogan Ilir yang mengintegrasikan pembinaan aqidah, tahfidz Al-Qur'an, sains modern, dan karakter kepemimpinan Qur'ani.
+                    </p>
+                    <div class="flex items-center gap-2 pt-2">
+                        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="WhatsApp">
+                            <span class="material-symbols-outlined text-[18px]">chat</span>
+                        </a>
+                        <a href="{{ route('home') }}" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="Portal Utama">
+                            <span class="material-symbols-outlined text-[18px]">language</span>
+                        </a>
+                        <a href="#video" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="YouTube">
+                            <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigasi Utama (3 cols) -->
+                <div class="lg:col-span-3 space-y-3">
+                    <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>Navigasi Utama</span>
+                    </h4>
+                    <ul class="space-y-2 text-xs font-semibold text-slate-400">
+                        <li><a href="#" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Beranda {{ $info['code'] }}</a></li>
+                        <li><a href="#sambutan" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Sambutan Kepala Sekolah</a></li>
+                        <li><a href="#profil" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Profil &amp; Visi Misi</a></li>
+                        <li><a href="#program" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Kurikulum &amp; Program Unggulan</a></li>
+                        <li><a href="#fasilitas" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Sarana &amp; Fasilitas Sekolah</a></li>
+                        <li><a href="#guru" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Dewan Guru &amp; Tendik</a></li>
+                        <li><a href="#berita" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Berita &amp; Prestasi Santri</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Informasi Sekolah (2 cols) -->
+                <div class="lg:col-span-2 space-y-3">
+                    <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                        <span>Informasi Sekolah</span>
+                    </h4>
+                    <ul class="space-y-2 text-xs font-semibold text-slate-400">
+                        <li><a href="{{ route('school.ppdb') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all text-amber-300/90 font-bold">• PPDB Online 2026</a></li>
+                        <li><a href="#agenda-pengumuman" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Agenda &amp; Info</a></li>
+                        <li><a href="#galeri" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Galeri Foto</a></li>
+                        <li><a href="#video" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Galeri Video</a></li>
+                        <li><a href="#alumni" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">• Testimoni Alumni</a></li>
+                        <li><a href="{{ route('home') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all text-cyan-400">• Portal SIT Robbani</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Hubungi Kami (3 cols) -->
+                <div class="lg:col-span-3 space-y-3">
+                    <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span>Hubungi Kami</span>
+                    </h4>
+                    <div class="space-y-2.5 text-xs text-slate-400">
+                        <div class="flex items-start gap-2.5">
+                            <span class="material-symbols-outlined text-[16px] text-amber-400 shrink-0 mt-0.5">location_on</span>
+                            <span>Jl. Raya Lintas Timur KM. 35 Indralaya, Kab. Ogan Ilir, Sumatera Selatan</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="material-symbols-outlined text-[16px] text-emerald-400 shrink-0">call</span>
+                            <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="hover:text-white transition-colors">
+                                {{ $info['phone'] ?? '0811-7474-72' }}
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="material-symbols-outlined text-[16px] text-cyan-400 shrink-0">mail</span>
+                            <span>{{ $info['email'] ?? strtolower($info['code']) . '@sitrobbani.sch.id' }}</span>
+                        </div>
+                        <div class="flex items-start gap-2.5 pt-1 border-t border-slate-800/80">
+                            <span class="material-symbols-outlined text-[16px] text-indigo-400 shrink-0 mt-0.5">schedule</span>
+                            <div>
+                                <strong class="text-white block font-bold">Jam Layanan:</strong>
+                                <span>Senin – Jumat: 07.30 – 16.00 WIB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <a href="{{ route('home') }}" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1">
-                <span>← Kembali ke Portal Utama</span>
-            </a>
+        </div>
+
+        <!-- Bottom Copyright Sub-Footer -->
+        <div class="bg-[#051120] py-5 px-4 sm:px-6 border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px] text-slate-500 font-medium">
+                <div>
+                    <span>© {{ date('Y') }} <strong>{{ $info['name'] }}</strong>. Yayasan Generasi Robbani Ogan Ilir.</span>
+                </div>
+                <div class="flex items-center gap-4 text-slate-400">
+                    <a href="{{ route('home') }}" class="hover:text-white transition-colors">Portal Utama</a>
+                    <span>•</span>
+                    <a href="{{ route('school.ppdb') }}" class="hover:text-white transition-colors">SPMB Online</a>
+                    <span>•</span>
+                    <a href="#sambutan" class="hover:text-white transition-colors">Ke Atas ↑</a>
+                </div>
+            </div>
         </div>
     </footer>
 

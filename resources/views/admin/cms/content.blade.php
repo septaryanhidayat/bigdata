@@ -398,19 +398,48 @@
             </form>
         </div>
 
-        <!-- List Berita Existing -->
-        <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-base text-slate-900 flex items-center justify-between border-b border-slate-200 pb-3">
+        <!-- List Berita Existing with Bulk Selection Checklist & SweetAlert2 -->
+        <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4" x-data="{ 
+            selectedItems: [],
+            allSlugs: {{ json_encode(array_map(fn($item) => $item['slug'] ?? \Illuminate\Support\Str::slug($item['title'] ?? ''), $newsList)) }},
+            toggleSelectAll(checked) {
+                this.selectedItems = checked ? [...this.allSlugs] : [];
+            }
+        }">
+            <!-- Header & Bulk Action Toolbar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
-                    <span>Daftar Berita ({{ count($newsList) }})</span>
+                    <h3 class="font-black text-base text-slate-900">Daftar Berita ({{ count($newsList) }})</h3>
                     @if(!empty($selectedUnit) && $selectedUnit !== 'all')
                         <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[11px] uppercase">
                             Unit: {{ strtoupper($selectedUnit) }}
                         </span>
                     @endif
                 </div>
-                <span class="text-xs text-slate-500 font-bold">Edit &amp; Ganti Foto Langsung di Bawah</span>
-            </h3>
+
+                <!-- Bulk Selection Controls -->
+                <div class="flex items-center gap-3">
+                    <label class="flex items-center gap-1.5 text-xs font-black text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl cursor-pointer transition-all border border-slate-200">
+                        <input type="checkbox" @change="toggleSelectAll($event.target.checked)" :checked="selectedItems.length > 0 && selectedItems.length === allSlugs.length" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer">
+                        <span>Pilih Semua</span>
+                    </label>
+
+                    <template x-if="selectedItems.length > 0">
+                        <button type="button" @click="confirmDeleteBulk('news', selectedItems)" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer animate-bounce">
+                            <span>🗑️ Hapus <span x-text="selectedItems.length"></span> Berita Terpilih</span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Floating Selected Counter -->
+            <div x-show="selectedItems.length > 0" x-cloak class="p-3 bg-rose-50 border border-rose-200 rounded-2xl flex items-center justify-between gap-2 text-xs">
+                <span class="font-black text-rose-900 flex items-center gap-1.5">
+                    <span>📌</span>
+                    <span><strong x-text="selectedItems.length"></strong> dari {{ count($newsList) }} berita dipilih untuk dihapus massal.</span>
+                </span>
+                <button type="button" @click="selectedItems = []" class="text-rose-700 font-bold hover:underline">Batalkan Pilihan</button>
+            </div>
             
             <form action="{{ route('admin.cms.content.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
@@ -419,9 +448,16 @@
                 
                 <div class="space-y-4 max-h-[700px] overflow-y-auto pr-2">
                     @forelse($newsList as $idx => $news)
-                    <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3 hover:shadow-md transition-all" x-data="{ expanded: false, previewSrc: '{{ $news['image'] }}' }">
+                    @php
+                        $itemSlug = $news['slug'] ?? \Illuminate\Support\Str::slug($news['title'] ?? '');
+                    @endphp
+                    <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3 hover:shadow-md transition-all" :class="selectedItems.includes('{{ $itemSlug }}') ? 'ring-2 ring-rose-500 bg-rose-50/40' : ''" x-data="{ expanded: false, previewSrc: '{{ $news['image'] }}' }">
                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2.5">
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <!-- Individual Checklist Checkbox -->
+                                <label class="flex items-center gap-1.5 cursor-pointer" title="Centang untuk pilih hapus sekaligus">
+                                    <input type="checkbox" value="{{ $itemSlug }}" x-model="selectedItems" class="w-4 h-4 text-rose-600 rounded border-slate-300 focus:ring-rose-500 cursor-pointer">
+                                </label>
                                 <span class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-black text-xs uppercase shadow-xs">
                                     #{{ $idx+1 }} {{ $idx === 0 ? '🏆 HEADLINE' : 'BERITA' }}
                                 </span>
@@ -433,7 +469,10 @@
                                 <button type="button" @click="expanded = !expanded" class="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-xl text-xs font-black border border-blue-200 flex items-center gap-1 cursor-pointer">
                                     <span x-text="expanded ? '▲ Tutup Isi Lengkap' : '✏️ Buka Isi Lengkap'"></span>
                                 </button>
-                                <button type="submit" form="delete-news-{{ $idx }}" onclick="return confirm('Apakah Anda yakin ingin menghapus berita ini?')" class="px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-xl text-xs font-black border border-rose-200 cursor-pointer">🗑️ Hapus</button>
+                                <!-- SweetAlert2 Single Delete Trigger -->
+                                <button type="button" @click="confirmDeleteSingle('delete-news-{{ $idx }}', '{{ addslashes($news['title']) }}')" class="px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-xl text-xs font-black border border-rose-200 cursor-pointer flex items-center gap-1">
+                                    <span>🗑️ Hapus</span>
+                                </button>
                             </div>
                         </div>
 
@@ -582,7 +621,7 @@
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="font-black text-xs bg-purple-700 text-white px-2.5 py-1 rounded-lg uppercase shadow-xs">Video #{{ $idx+1 }}</span>
-                            <button type="submit" form="delete-video-{{ $idx }}" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold">🗑️ Hapus</button>
+                            <button type="button" @click="confirmDeleteSingle('delete-video-{{ $idx }}', '{{ addslashes($vid['title']) }}')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">🗑️ Hapus</button>
                         </div>
                         <div class="space-y-2 text-xs">
                             <div>
@@ -703,7 +742,7 @@
                                 <input type="hidden" name="items[{{ $idx }}][date_month]" value="{{ $ag['date_month'] }}">
                             </div>
                         </div>
-                        <button type="submit" form="delete-agenda-{{ $idx }}" onclick="return confirm('Apakah Anda yakin ingin menghapus agenda ini?')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold shrink-0 cursor-pointer">Hapus</button>
+                        <button type="button" @click="confirmDeleteSingle('delete-agenda-{{ $idx }}', '{{ addslashes($ag['title']) }}')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold shrink-0 cursor-pointer">Hapus</button>
                     </div>
                     @endforeach
                 </div>
@@ -768,7 +807,7 @@
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-black text-[10px] uppercase">Pengumuman #{{ $idx+1 }}</span>
-                            <button type="submit" form="delete-ann-{{ $idx }}" onclick="return confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">Hapus</button>
+                            <button type="button" @click="confirmDeleteSingle('delete-ann-{{ $idx }}', '{{ addslashes($ann['title']) }}')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">Hapus</button>
                         </div>
                         <div class="space-y-2 text-xs">
                             <input type="text" name="items[{{ $idx }}][title]" value="{{ $ann['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold">
@@ -833,7 +872,7 @@
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="font-black text-lg">{{ $fac['icon'] }}</span>
-                            <button type="submit" form="delete-fac-{{ $idx }}" onclick="return confirm('Apakah Anda yakin ingin menghapus fasilitas ini?')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">Hapus</button>
+                            <button type="button" @click="confirmDeleteSingle('delete-fac-{{ $idx }}', '{{ addslashes($fac['title']) }}')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">Hapus</button>
                         </div>
                         <div class="space-y-2 text-xs">
                             <input type="text" name="items[{{ $idx }}][title]" value="{{ $fac['title'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold">
@@ -899,7 +938,7 @@
                     <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="font-black text-xs bg-emerald-700 text-white px-2.5 py-1 rounded-lg uppercase shadow-xs">Foto #{{ $idx+1 }}</span>
-                            <button type="submit" form="delete-gal-{{ $idx }}" onclick="return confirm('Apakah Anda yakin ingin menghapus foto ini?')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">🗑️ Hapus</button>
+                            <button type="button" @click="confirmDeleteSingle('delete-gal-{{ $idx }}', '{{ addslashes($gal['title']) }}')" class="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold cursor-pointer">🗑️ Hapus</button>
                         </div>
                         <div class="space-y-2 text-xs">
                             <div>
@@ -945,5 +984,119 @@
     </div>
     @endif
 
+    <!-- Global Hidden Bulk Delete Form -->
+    <form id="bulk-delete-form" action="{{ route('admin.cms.content.delete') }}" method="POST" class="hidden">
+        @csrf
+        @method('DELETE')
+        <input type="hidden" name="module" id="bulk-delete-module" value="news">
+        <input type="hidden" name="selected_items" id="bulk-delete-items" value="">
+        <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
+    </form>
+
 </div>
+
+@push('scripts')
+<script>
+/**
+ * SweetAlert2 Single Delete Confirmation
+ */
+function confirmDeleteSingle(formId, title) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Hapus Konten Ini?',
+            text: title ? `"${title}" akan dihapus permanen dari sistem.` : 'Konten yang dihapus tidak dapat dikembalikan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Ya, Hapus Sekarang!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'rounded-3xl shadow-2xl p-6',
+                title: 'font-black text-slate-900',
+                confirmButton: 'rounded-xl font-black text-xs px-5 py-2.5 shadow-md',
+                cancelButton: 'rounded-xl font-bold text-xs px-5 py-2.5'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Menghapus...',
+                    text: 'Sedang memproses penghapusan konten...',
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+                document.getElementById(formId).submit();
+            }
+        });
+    } else {
+        if (confirm('Apakah Anda yakin ingin menghapus konten ini?')) {
+            document.getElementById(formId).submit();
+        }
+    }
+}
+
+/**
+ * SweetAlert2 Bulk Delete Confirmation (Pilih Banyak Checklist)
+ */
+function confirmDeleteBulk(moduleName, items) {
+    if (!items || items.length === 0) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: 'info',
+                title: 'Belum Ada Item Dipilih',
+                text: 'Silakan centang satu atau beberapa checklist terlebih dahulu.',
+                confirmButtonColor: '#059669',
+                customClass: {
+                    popup: 'rounded-3xl shadow-xl'
+                }
+            });
+        } else {
+            alert('Silakan pilih setidaknya satu item.');
+        }
+        return;
+    }
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: `Hapus ${items.length} Konten Sekaligus?`,
+            text: `Sebanyak ${items.length} item yang Anda centang akan dihapus permanen dari sistem.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: `Ya, Hapus ${items.length} Item!`,
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'rounded-3xl shadow-2xl p-6',
+                title: 'font-black text-slate-900',
+                confirmButton: 'rounded-xl font-black text-xs px-5 py-2.5 shadow-md',
+                cancelButton: 'rounded-xl font-bold text-xs px-5 py-2.5'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Menghapus Konten Terpilih...',
+                    text: `Sedang memproses penghapusan massal ${items.length} item...`,
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+                const form = document.getElementById('bulk-delete-form');
+                document.getElementById('bulk-delete-module').value = moduleName;
+                document.getElementById('bulk-delete-items').value = items.join(',');
+                form.submit();
+            }
+        });
+    } else {
+        if (confirm(`Apakah Anda yakin ingin menghapus ${items.length} item sekaligus?`)) {
+            const form = document.getElementById('bulk-delete-form');
+            document.getElementById('bulk-delete-module').value = moduleName;
+            document.getElementById('bulk-delete-items').value = items.join(',');
+            form.submit();
+        }
+    }
+}
+</script>
+@endpush
 @endsection

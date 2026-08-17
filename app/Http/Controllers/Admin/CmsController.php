@@ -1009,6 +1009,68 @@ class CmsController extends Controller
         $module = $request->input('module');
         $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
 
+        // 1. BULK DELETION SUPPORT (Pilih Banyak Checklist)
+        $selectedItems = $request->input('selected_items', []);
+        if (is_string($selectedItems)) {
+            $selectedItems = array_filter(explode(',', $selectedItems));
+        }
+
+        if (!empty($selectedItems) && is_array($selectedItems)) {
+            if ($module === 'news') {
+                $masterData = $schoolWebsiteCtrl->getNewsData();
+                $deletedCount = 0;
+
+                $filteredData = array_values(array_filter($masterData, function($item) use ($selectedItems, $userUnit, &$deletedCount) {
+                    $itemSlug = $item['slug'] ?? \Illuminate\Support\Str::slug($item['title'] ?? '');
+                    $itemTitle = $item['title'] ?? '';
+
+                    // Check if this item is selected for deletion
+                    $isSelected = in_array($itemSlug, $selectedItems) || in_array($itemTitle, $selectedItems);
+                    if ($isSelected) {
+                        // Check unit ownership if unit admin
+                        if ($userUnit) {
+                            $u = strtolower($item['unit'] ?? '');
+                            $cat = strtolower($item['category'] ?? '');
+                            $isAllowed = ($u === $userUnit) || ($userUnit === 'smpit' && str_contains($cat, 'smp')) || ($userUnit === 'sdit' && str_contains($cat, 'sd')) || ($userUnit === 'tkit' && str_contains($cat, 'tk')) || ($userUnit === 'smait' && str_contains($cat, 'sma'));
+                            if (!$isAllowed) {
+                                return true; // Do not delete item of other unit
+                            }
+                        }
+                        $deletedCount++;
+                        return false; // Remove item
+                    }
+                    return true; // Keep item
+                }));
+
+                SiteSetting::set('cms_news_data', json_encode(array_values($filteredData)));
+                return redirect()->route('admin.cms.content', ['tab' => 'news', 'unit_filter' => $userUnit ?? $request->input('unit_filter', 'all')])
+                    ->with('success', "Sebanyak {$deletedCount} berita berhasil dihapus sekaligus!");
+            }
+
+            // Bulk delete for other modules
+            $currentData = [];
+            if ($module === 'video') $currentData = $schoolWebsiteCtrl->getVideoData();
+            elseif ($module === 'agenda') $currentData = $schoolWebsiteCtrl->getAgendaData();
+            elseif ($module === 'announcement') $currentData = $schoolWebsiteCtrl->getAnnouncementData();
+            elseif ($module === 'facility') $currentData = $schoolWebsiteCtrl->getFacilityData();
+            elseif ($module === 'gallery') $currentData = $schoolWebsiteCtrl->getGalleryData();
+
+            $deletedCount = 0;
+            $filteredData = [];
+            foreach ($currentData as $idx => $item) {
+                if (in_array((string)$idx, $selectedItems) || in_array($item['title'] ?? '', $selectedItems)) {
+                    $deletedCount++;
+                } else {
+                    $filteredData[] = $item;
+                }
+            }
+
+            SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($filteredData)));
+            return redirect()->route('admin.cms.content', ['tab' => $module])
+                ->with('success', "Sebanyak {$deletedCount} item {$module} berhasil dihapus sekaligus!");
+        }
+
+        // 2. SINGLE ITEM DELETION
         if ($module === 'menu') {
             $currentData = $schoolWebsiteCtrl->getHeaderMenus();
             $index = (int) $request->input('index');
@@ -1410,21 +1472,29 @@ class CmsController extends Controller
             return redirect()->back()->with('error', 'Tidak ada postingan WordPress bertipe "post" dengan status "publish" dalam berkas XML ini.');
         }
 
-        // SORT DESCENDING BY TIMESTAMP (Latest 2026 posts first, oldest 2021 last)
-        usort($allItems, fn($a, $b) => $b['timestamp'] <=> $a['timestamp']);
+        // Merge with existing items (deduplicated by slug)
+        $existingNews = json_decode(SiteSetting::get('cms_news_data', '[]'), true) ?: [];
+        $existingArticles = json_decode(SiteSetting::get('cms_article_data', '[]'), true) ?: [];
+        $existingAll = array_merge($existingNews, $existingArticles);
 
-        // De-duplicate by slug
+        $mergedAll = array_merge($allItems, $existingAll);
+
+        // SORT DESCENDING BY TIMESTAMP (Latest 2026 posts first, oldest 2021 last)
+        usort($mergedAll, fn($a, $b) => ($b['timestamp'] ?? 0) <=> ($a['timestamp'] ?? 0));
+
+        // De-duplicate by slug & title
         $unique = [];
         $deduped = [];
-        foreach ($allItems as $it) {
-            if (!isset($unique[$it['slug']])) {
-                $unique[$it['slug']] = true;
+        foreach ($mergedAll as $it) {
+            $slugKey = $it['slug'] ?? \Illuminate\Support\Str::slug($it['title'] ?? '');
+            if (!empty($slugKey) && !isset($unique[$slugKey])) {
+                $unique[$slugKey] = true;
                 $deduped[] = $it;
             }
         }
 
-        $newsList = array_values(array_filter($deduped, fn($x) => !$x['is_article']));
-        $articleList = array_values(array_filter($deduped, fn($x) => $x['is_article']));
+        $newsList = array_values(array_filter($deduped, fn($x) => empty($x['is_article'])));
+        $articleList = array_values(array_filter($deduped, fn($x) => !empty($x['is_article'])));
 
         SiteSetting::set('cms_news_data', json_encode($newsList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         SiteSetting::set('cms_article_data', json_encode($articleList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
