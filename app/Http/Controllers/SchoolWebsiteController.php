@@ -269,15 +269,18 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Billingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
                 ],
                 'teachers' => [
-                    ['name' => 'Dia Octaviani, S.Pd', 'role' => 'Guru Sentra Balok & Seni', 'photo' => '/uploads/wp_assets/gtk_tk_dia_9992b8e6.jpeg', 'bio' => 'Membimbing kecerdasan spasial dan motorik halus ananda.'],
-                    ['name' => 'Ocha Rosalina, S.Pd', 'role' => 'Guru Sentra Persiapan & Calistung Ceria', 'photo' => '/uploads/wp_assets/gtk_tk_ocha_ce0626c2.jpeg', 'bio' => 'Mengenalkan literasi dasar, berhitung riang, dan kemandirian anak.'],
-                    ['name' => 'Susanti, S.Pd.I', 'role' => 'Guru Tahfidz Al-Qur\'an & Doa Harian', 'photo' => '/uploads/wp_assets/gtk_tk_susan_5fcc63ea.jpeg', 'bio' => 'Membimbing hafalan surat pendek Juz 30 dengan metode nasyid riang.'],
-                    ['name' => 'Yunisa Mardiana, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/wp_assets/gtk_tk_yunisa_2de7f85f.jpeg', 'bio' => 'Melatih kemampuan sosialisasi, adab islami, dan bermain peran.'],
-                    ['name' => 'Fatimah Zahro, S.Pd.I', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/wp_assets/gtk_tk_zahro_5e0084ad.jpeg', 'bio' => 'Mengenalkan ciptaan Allah dan pembiasaan wudhu serta sholat.'],
-                    ['name' => 'Aprilia Kartini, S.Pd', 'role' => 'Guru Wali Kelas TK-A (Kelompok Bermain)', 'photo' => '/uploads/wp_assets/gtk_tk_4-scaled_640e548f.jpg', 'bio' => 'Mengembangkan ketangkasan gerak dan motorik anak di outdoor playground.'],
-                    ['name' => 'Maya Sartika, S.Pd', 'role' => 'Guru Wali Kelas TK-B (Persiapan Dasar)', 'photo' => '/uploads/wp_assets/gtk_tk_5-scaled_67583fbf.jpg', 'bio' => 'Penanaman nilai akhlak karimah dan keteladanan kisah rasul.'],
-                    ['name' => 'Rina Agustina, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/wp_assets/gtk_tk_6-scaled_b4639f16.jpg', 'bio' => 'Pengenalan kosakata dasar bahasa Arab dan Inggris ceria.'],
-                    ['name' => 'Sri Marwiyah, S.E', 'role' => 'Staff Administrasi & Tata Usaha', 'photo' => '/uploads/wp_assets/gtk_tk_7-scaled_b0b5f4cd.jpg', 'bio' => 'Pelayanan administrasi, persuratan, dan layanan wali santri.']
+                    ['name' => 'Dia Fitri Yani, S.Pd', 'role' => 'Guru Sentra Balok & Motorik', 'photo' => '/uploads/wp_assets/gtk_tk_dia_9992b8e6.jpeg'],
+                    ['name' => 'Nopitri Rosah, S.Pd', 'role' => 'Guru Sentra Persiapan & Literasi', 'photo' => '/uploads/wp_assets/gtk_tk_ocha_ce0626c2.jpeg'],
+                    ['name' => 'Susanti, S.Pd.I', 'role' => 'Guru Tahfidz Al-Qur\'an & PAI', 'photo' => '/uploads/wp_assets/gtk_tk_susan_5fcc63ea.jpeg'],
+                    ['name' => 'Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/wp_assets/gtk_tk_yunisa_2de7f85f.jpeg'],
+                    ['name' => 'Zahrotun Jannati, S.Pd', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/wp_assets/gtk_tk_zahro_5e0084ad.jpeg'],
+                    ['name' => 'Rojanah, S.E', 'role' => 'Staff Keuangan & Tata Usaha', 'photo' => '/uploads/wp_assets/gtk_tk_4-scaled_640e548f.jpg'],
+                    ['name' => 'Minarti, S.Pd', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/uploads/wp_assets/gtk_tk_5-scaled_67583fbf.jpg'],
+                    ['name' => 'Neli Wati, S.Pd', 'role' => 'Guru Kelas Kelompok Bermain (KB)', 'photo' => '/uploads/wp_assets/gtk_tk_6-scaled_b4639f16.jpg'],
+                    ['name' => 'Putri Nabila, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/wp_assets/gtk_tk_7-scaled_b0b5f4cd.jpg'],
+                    ['name' => 'Rhodotun Nikmah, S.Pd', 'role' => 'Guru Sentra Imtaq & Doa Harian', 'photo' => '/uploads/wp_assets/gtk_tk_8-scaled_d8ee33e6.jpg'],
+                    ['name' => 'Rizqy Maharani B. P., S.Pd', 'role' => 'Guru Bilingual Basic Kids', 'photo' => '/uploads/wp_assets/gtk_tk_9-scaled_6b8397e4.jpg'],
+                    ['name' => 'Aisyah Enjelita, S.Pd', 'role' => 'Staff Administrasi & Layanan Siswa', 'photo' => '/uploads/wp_assets/gtk_tk_whatsapp-image-2025-10-08-at-085210_5e9ab9e6.jpeg']
                 ],
                 'alumni' => [
                     ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],

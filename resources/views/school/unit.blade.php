@@ -333,7 +333,7 @@
     <main class="flex-grow space-y-12 sm:space-y-16">
         
         <!-- 1. BANNER HERO SECTION (Warna Unit di Light Mode & Obsidian Green + Neon Lime di Dark Mode) -->
-        <section class="relative bg-gradient-to-r {{ $uTheme['hero_gradient'] }} dark:from-[#061107] dark:via-[#0d1e0f] dark:to-[#04200c] text-white pt-12 sm:pt-16 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden border-b border-black/10 dark:border-[#1a381c] transition-colors duration-500">
+        <section class="relative bg-gradient-to-r {{ $uTheme['hero_gradient'] }} dark:from-[#061107] dark:via-[#0d1e0f] dark:to-[#04200c] text-white pt-8 sm:pt-14 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden border-b border-black/10 dark:border-[#1a381c] transition-colors duration-500">
             <!-- Ambient Background Glow & Geometric Accents with Pulse Glow Animation -->
             <div class="absolute -top-24 -left-24 w-96 h-96 {{ $uTheme['glow_1'] }} dark:bg-[#c6f634]/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
             <div class="absolute -bottom-24 -right-24 w-96 h-96 {{ $uTheme['glow_2'] }} dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 2.5s;"></div>
@@ -380,18 +380,18 @@
                             <img src="{{ !empty($info['hero_image']) ? $info['hero_image'] : '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg' }}" alt="Siswa Berprestasi {{ $info['name'] }}" width="600" height="450" fetchpriority="high" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 dark:from-[#061107]/90 via-transparent to-transparent"></div>
                             
-                            <!-- Floating Achievement Badge with Interactive Float & Glow -->
-                            <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-[#0d1e0f]/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/40 dark:border-[#1a381c] shadow-2xl flex items-center justify-between animate-badge-float hover:scale-105 transition-transform">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-emerald-600 dark:bg-[#c6f634] text-white dark:text-[#061107] flex items-center justify-center font-black shrink-0 shadow-md">
-                                        <span class="material-symbols-outlined text-[22px]">verified</span>
+                            <!-- Floating Achievement Badge (Clean & Fitted on Mobile) -->
+                            <div class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 bg-white/95 dark:bg-[#0d1e0f]/95 backdrop-blur-md p-2.5 sm:p-3.5 rounded-2xl border border-white/40 dark:border-[#1a381c] shadow-2xl flex items-center justify-between animate-badge-float hover:scale-105 transition-transform">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-600 dark:bg-[#c6f634] text-white dark:text-[#061107] flex items-center justify-center font-black shrink-0 shadow-md">
+                                        <span class="material-symbols-outlined text-[18px] sm:text-[22px]">verified</span>
                                     </div>
                                     <div>
-                                        <span class="text-[10px] font-black uppercase text-emerald-700 dark:text-[#c6f634] block tracking-wider">UNIT RESMI AKREDITASI</span>
-                                        <h4 class="text-xs font-black text-slate-900 dark:text-white">{{ $info['name'] }}</h4>
+                                        <span class="text-[9px] sm:text-[10px] font-black uppercase text-emerald-700 dark:text-[#c6f634] block tracking-wider leading-none mb-0.5">UNIT RESMI AKREDITASI</span>
+                                        <h4 class="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white leading-tight">{{ $info['name'] }}</h4>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-[#c6f634]/20 text-amber-800 dark:text-[#c6f634] font-black text-[11px] border border-transparent dark:border-[#1a381c] shadow-xs">
+                                <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-100 dark:bg-[#c6f634]/20 text-amber-800 dark:text-[#c6f634] font-black text-[10px] sm:text-[11px] border border-transparent dark:border-[#1a381c] shadow-xs shrink-0">
                                     {{ $info['akreditasi'] }}
                                 </span>
                             </div>
@@ -814,15 +814,10 @@
                                 <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" width="128" height="128" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                             </div>
                             <div>
-                                <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h3>
-                                <span class="text-[10px] sm:text-[11px] font-semibold text-emerald-700 dark:text-[#c6f634] block mt-1">{{ $t['role'] }}</span>
+                                <h3 class="text-xs sm:text-sm font-black font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h3>
+                                <span class="text-[10px] sm:text-[11px] font-bold text-emerald-700 dark:text-[#c6f634] block mt-1">{{ $t['role'] }}</span>
                             </div>
                         </div>
-                        @if(!empty($t['bio']))
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 italic pt-2 border-t border-slate-100 dark:border-[#1a381c]">
-                            "{{ $t['bio'] }}"
-                        </p>
-                        @endif
                     </div>
                     @endforeach
                 </div>
