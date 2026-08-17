@@ -25,6 +25,13 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
+# Database lokal (jangan push ke GitHub)
+database/database.sqlite
+database/*.sqlite
+
+# CPanel deployment (ini boleh di-push karena dibutuhkan server)
+# public/build/ -- SENGAJA TIDAK di-exclude agar cPanel tidak perlu Node.js
+
 # Agent / AI rules (added by Eevee Tokens Visualizer)
 .eevee/
 .agent/
