@@ -732,9 +732,50 @@ class CmsController extends Controller
 
     public function contentIndex(Request $request)
     {
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $selectedUnit = $request->get('unit_filter', $isGlobalAdmin ? 'all' : ($userUnit ?? 'all'));
+        if (!$isGlobalAdmin && $userUnit) {
+            $selectedUnit = $userUnit;
+        }
+
         $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+        $rawNewsList = $schoolWebsiteCtrl->getNewsData();
         
-        $newsList = $schoolWebsiteCtrl->getNewsData();
+        $unitCounts = [
+            'all' => count($rawNewsList),
+            'tkit' => 0,
+            'sdit' => 0,
+            'smpit' => 0,
+            'smait' => 0,
+            'yayasan' => 0,
+        ];
+        foreach ($rawNewsList as $n) {
+            $u = strtolower($n['unit'] ?? '');
+            $c = strtolower($n['category'] ?? '');
+            if ($u === 'tkit' || str_contains($c, 'tkit') || str_contains($c, 'tk')) $unitCounts['tkit']++;
+            elseif ($u === 'sdit' || str_contains($c, 'sdit') || str_contains($c, 'sd')) $unitCounts['sdit']++;
+            elseif ($u === 'smpit' || str_contains($c, 'smpit') || str_contains($c, 'smp')) $unitCounts['smpit']++;
+            elseif ($u === 'smait' || str_contains($c, 'smait') || str_contains($c, 'sma')) $unitCounts['smait']++;
+            else $unitCounts['yayasan']++;
+        }
+
+        if ($selectedUnit !== 'all') {
+            $newsList = array_values(array_filter($rawNewsList, function($item) use ($selectedUnit) {
+                $u = strtolower($item['unit'] ?? '');
+                $c = strtolower($item['category'] ?? '');
+                if ($selectedUnit === 'tkit') return $u === 'tkit' || str_contains($c, 'tkit') || str_contains($c, 'tk');
+                if ($selectedUnit === 'sdit') return $u === 'sdit' || str_contains($c, 'sdit') || str_contains($c, 'sd');
+                if ($selectedUnit === 'smpit') return $u === 'smpit' || str_contains($c, 'smpit') || str_contains($c, 'smp');
+                if ($selectedUnit === 'smait') return $u === 'smait' || str_contains($c, 'smait') || str_contains($c, 'sma');
+                return $u === $selectedUnit || str_contains($c, $selectedUnit);
+            }));
+        } else {
+            $newsList = $rawNewsList;
+        }
+
         $videoList = $schoolWebsiteCtrl->getVideoData();
         $agendaList = $schoolWebsiteCtrl->getAgendaData();
         $announcementList = $schoolWebsiteCtrl->getAnnouncementData();
@@ -752,12 +793,16 @@ class CmsController extends Controller
         $activeTab = $request->get('tab', 'hero');
 
         return view('admin.cms.content', compact(
-            'newsList', 'videoList', 'agendaList', 'announcementList', 'facilityList', 'galleryList', 'headerMenus', 'heroSettings', 'activeTab'
+            'newsList', 'videoList', 'agendaList', 'announcementList', 'facilityList', 'galleryList', 'headerMenus', 'heroSettings', 'activeTab', 'isGlobalAdmin', 'userUnit', 'selectedUnit', 'unitCounts'
         ));
     }
 
     public function updateCmsContent(Request $request)
     {
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
         $module = $request->input('module');
 
         if ($module === 'hero') {
@@ -793,6 +838,73 @@ class CmsController extends Controller
             return redirect()->route('admin.cms.content', ['tab' => 'menu'])->with('success', 'Pengaturan Menu Header berhasil diperbarui!');
         }
 
+        if ($module === 'news') {
+            $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+            $masterData = $schoolWebsiteCtrl->getNewsData();
+            $postedItems = $request->input('items', []);
+
+            // Process image file uploads if any
+            if ($request->hasFile('items')) {
+                $fileItems = $request->file('items');
+                foreach ($fileItems as $idx => $files) {
+                    if (isset($files['image_file']) && $files['image_file']->isValid()) {
+                        $file = $files['image_file'];
+                        $filename = 'news_' . time() . '_' . $idx . '_' . \Illuminate\Support\Str::random(6) . '.' . $file->getClientOriginalExtension();
+                        $file->move(public_path('uploads/cms'), $filename);
+                        $postedItems[$idx]['image'] = '/uploads/cms/' . $filename;
+                    }
+                }
+            }
+
+            foreach ($postedItems as &$p) {
+                if ($userUnit) {
+                    $p['unit'] = $userUnit;
+                }
+                if (empty($p['slug']) && !empty($p['title'])) {
+                    $p['slug'] = \Illuminate\Support\Str::slug($p['title']);
+                }
+                if (empty($p['image'])) {
+                    $p['image'] = '/images/mockup_desktop_1.png';
+                }
+            }
+            unset($p);
+
+            if ($userUnit) {
+                // Keep other units' items, replace this unit's items
+                $otherUnitItems = array_values(array_filter($masterData, function($item) use ($userUnit) {
+                    $u = strtolower($item['unit'] ?? '');
+                    $cat = strtolower($item['category'] ?? '');
+                    if ($userUnit === 'smpit') return $u !== 'smpit' && !str_contains($cat, 'smp');
+                    if ($userUnit === 'sdit') return $u !== 'sdit' && !str_contains($cat, 'sd');
+                    if ($userUnit === 'tkit') return $u !== 'tkit' && !str_contains($cat, 'tk');
+                    if ($userUnit === 'smait') return $u !== 'smait' && !str_contains($cat, 'sma');
+                    return $u !== $userUnit;
+                }));
+
+                $finalList = array_merge($postedItems, $otherUnitItems);
+                SiteSetting::set('cms_news_data', json_encode(array_values($finalList)));
+            } else {
+                $unitFilter = $request->input('unit_filter', 'all');
+                if ($unitFilter !== 'all') {
+                    $otherUnitItems = array_values(array_filter($masterData, function($item) use ($unitFilter) {
+                        $u = strtolower($item['unit'] ?? '');
+                        $cat = strtolower($item['category'] ?? '');
+                        if ($unitFilter === 'smpit') return $u !== 'smpit' && !str_contains($cat, 'smp');
+                        if ($unitFilter === 'sdit') return $u !== 'sdit' && !str_contains($cat, 'sd');
+                        if ($unitFilter === 'tkit') return $u !== 'tkit' && !str_contains($cat, 'tk');
+                        if ($unitFilter === 'smait') return $u !== 'smait' && !str_contains($cat, 'sma');
+                        return $u !== $unitFilter;
+                    }));
+                    $finalList = array_merge($postedItems, $otherUnitItems);
+                    SiteSetting::set('cms_news_data', json_encode(array_values($finalList)));
+                } else {
+                    SiteSetting::set('cms_news_data', json_encode(array_values($postedItems)));
+                }
+            }
+
+            return redirect()->route('admin.cms.content', ['tab' => 'news', 'unit_filter' => $request->input('unit_filter', $userUnit ?? 'all')])->with('success', 'Data Berita berhasil diperbarui!');
+        }
+
         $jsonItems = $request->input('items');
 
         if ($module && is_array($jsonItems)) {
@@ -824,6 +936,10 @@ class CmsController extends Controller
 
     public function addCmsItem(Request $request)
     {
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
         $module = $request->input('module');
         $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
 
@@ -849,11 +965,26 @@ class CmsController extends Controller
 
         $newItem = $request->except(['_token', 'module', 'image_file', 'thumbnail_file']);
 
+        if ($module === 'news') {
+            if ($userUnit) {
+                $newItem['unit'] = $userUnit;
+                $newItem['category'] = strtoupper($userUnit);
+            } else {
+                $newItem['unit'] = $request->input('unit', 'yayasan');
+            }
+            if (!empty($newItem['title'])) {
+                $newItem['slug'] = \Illuminate\Support\Str::slug($newItem['title']);
+            }
+            $newItem['timestamp'] = time();
+        }
+
         if ($request->hasFile('image_file')) {
             $file = $request->file('image_file');
             $filename = $module . '_' . time() . '_' . \Illuminate\Support\Str::random(6) . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/cms'), $filename);
             $newItem['image'] = '/uploads/cms/' . $filename;
+        } elseif (empty($newItem['image'])) {
+            $newItem['image'] = '/images/mockup_desktop_1.png';
         }
 
         if ($request->hasFile('thumbnail_file')) {
@@ -862,27 +993,25 @@ class CmsController extends Controller
             $file->move(public_path('uploads/cms'), $filename);
             $newItem['thumbnail'] = '/uploads/cms/' . $filename;
         }
-        
-        // Auto-generate slug if news
-        if ($module === 'news' && !empty($newItem['title'])) {
-            $newItem['slug'] = \Illuminate\Support\Str::slug($newItem['title']);
-        }
 
         array_unshift($currentData, $newItem);
         SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($currentData)));
 
-        return redirect()->route('admin.cms.content', ['tab' => $module])->with('success', 'Item baru berhasil ditambahkan!');
+        return redirect()->route('admin.cms.content', ['tab' => $module, 'unit_filter' => $userUnit ?? $request->input('unit_filter', 'all')])->with('success', 'Item baru berhasil ditambahkan!');
     }
 
     public function deleteCmsItem(Request $request)
     {
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
         $module = $request->input('module');
-        $index = (int) $request->input('index');
-        
         $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
 
         if ($module === 'menu') {
             $currentData = $schoolWebsiteCtrl->getHeaderMenus();
+            $index = (int) $request->input('index');
             if (isset($currentData[$index])) {
                 array_splice($currentData, $index, 1);
                 SiteSetting::set('cms_header_menus', json_encode(array_values($currentData)));
@@ -890,14 +1019,85 @@ class CmsController extends Controller
             }
         }
 
+        if ($module === 'news') {
+            $masterData = $schoolWebsiteCtrl->getNewsData();
+            $targetIndex = -1;
+
+            if ($request->filled('slug')) {
+                $slug = $request->input('slug');
+                foreach ($masterData as $i => $item) {
+                    if (($item['slug'] ?? '') === $slug) {
+                        $targetIndex = $i;
+                        break;
+                    }
+                }
+            }
+
+            if ($targetIndex === -1 && $request->filled('title')) {
+                $targetTitle = $request->input('title');
+                foreach ($masterData as $i => $item) {
+                    if (($item['title'] ?? '') === $targetTitle) {
+                        $targetIndex = $i;
+                        break;
+                    }
+                }
+            }
+
+            if ($targetIndex === -1 && is_numeric($request->input('index'))) {
+                $idx = (int) $request->input('index');
+                if ($userUnit) {
+                    $unitItems = array_values(array_filter($masterData, function($item) use ($userUnit) {
+                        $u = strtolower($item['unit'] ?? '');
+                        $cat = strtolower($item['category'] ?? '');
+                        if ($userUnit === 'smpit') return $u === 'smpit' || str_contains($cat, 'smp');
+                        if ($userUnit === 'sdit') return $u === 'sdit' || str_contains($cat, 'sd');
+                        if ($userUnit === 'tkit') return $u === 'tkit' || str_contains($cat, 'tk');
+                        if ($userUnit === 'smait') return $u === 'smait' || str_contains($cat, 'sma');
+                        return $u === $userUnit;
+                    }));
+                    if (isset($unitItems[$idx])) {
+                        $targetSlug = $unitItems[$idx]['slug'] ?? null;
+                        $targetTitle = $unitItems[$idx]['title'] ?? null;
+                        foreach ($masterData as $mI => $mItem) {
+                            if (($targetSlug && ($mItem['slug'] ?? '') === $targetSlug) || ($targetTitle && ($mItem['title'] ?? '') === $targetTitle)) {
+                                $targetIndex = $mI;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    $targetIndex = $idx;
+                }
+            }
+
+            if ($targetIndex >= 0 && isset($masterData[$targetIndex])) {
+                // Verify ownership if unit admin
+                if ($userUnit) {
+                    $item = $masterData[$targetIndex];
+                    $u = strtolower($item['unit'] ?? '');
+                    $cat = strtolower($item['category'] ?? '');
+                    $isAllowed = ($u === $userUnit) || ($userUnit === 'smpit' && str_contains($cat, 'smp')) || ($userUnit === 'sdit' && str_contains($cat, 'sd')) || ($userUnit === 'tkit' && str_contains($cat, 'tk')) || ($userUnit === 'smait' && str_contains($cat, 'sma'));
+                    if (!$isAllowed) {
+                        return redirect()->back()->with('error', 'Anda tidak memiliki izin menghapus konten unit lain.');
+                    }
+                }
+
+                array_splice($masterData, $targetIndex, 1);
+                SiteSetting::set('cms_news_data', json_encode(array_values($masterData)));
+                return redirect()->route('admin.cms.content', ['tab' => 'news', 'unit_filter' => $userUnit ?? $request->input('unit_filter', 'all')])->with('success', 'Berita berhasil dihapus!');
+            }
+
+            return redirect()->back()->with('error', 'Berita tidak ditemukan.');
+        }
+
         $currentData = [];
-        if ($module === 'news') $currentData = $schoolWebsiteCtrl->getNewsData();
-        elseif ($module === 'video') $currentData = $schoolWebsiteCtrl->getVideoData();
+        if ($module === 'video') $currentData = $schoolWebsiteCtrl->getVideoData();
         elseif ($module === 'agenda') $currentData = $schoolWebsiteCtrl->getAgendaData();
         elseif ($module === 'announcement') $currentData = $schoolWebsiteCtrl->getAnnouncementData();
         elseif ($module === 'facility') $currentData = $schoolWebsiteCtrl->getFacilityData();
         elseif ($module === 'gallery') $currentData = $schoolWebsiteCtrl->getGalleryData();
 
+        $index = (int) $request->input('index');
         if (isset($currentData[$index])) {
             array_splice($currentData, $index, 1);
             SiteSetting::set('cms_' . $module . '_data', json_encode(array_values($currentData)));
