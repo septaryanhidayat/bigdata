@@ -1,134 +1,142 @@
-# 🏫 SmartEdu - Platform Ekosistem Digital & Sistem Informasi Manajemen Sekolah Islam Terpadu
+# 🏫 SmartEdu SIT Robbani — Ekosistem Digital & SIM Sekolah Islam Terpadu
 
-![SmartEdu Banner](public/images/og_share_image.png)
-
-[![Laravel Version](https://img.shields.io/badge/Laravel-13.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
-[![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Security Status](https://img.shields.io/badge/Security-7--Layer%20Protected-emerald?style=for-the-badge)](#-keamanan--audit-sistem)
-
-**SmartEdu** adalah platform ekosistem digital terpadu dan sistem informasi manajemen sekolah yang dirancang khusus untuk **Sekolah Islam Terpadu (SIT Robbani Ogan Ilir)**. Platform ini mengintegrasikan **21 Modul Digital Terpadu** yang menghubungkan tata kelola akademik, keuangan E-SPP, kurikulum Merdeka & JSIT, pembentukan karakter Islami (BPI Mutabaah), portal SPMB Online integratif, hingga sistem perlindungan keamanan data 7-lapis.
+> **Platform Tata Kelola Pendidikan Terpadu, Web Portal Multi-Unit, Aplikasi Mobile SDM & Smart AI RAG Assistant**  
+> **Yayasan Generasi Robbani Ogan Ilir, Sumatera Selatan**  
+> *Versi: 3.0 — Pre-Production (Tahun Ajaran 2026/2027)*
 
 ---
 
-## 🌟 Fitur Utama & 21 Modul Digital Terpadu
+## 🌟 Tentang SmartEdu SIT Robbani
 
-SmartEdu mencakup 21 modul operasional yang saling terhubung secara *real-time*:
+**SmartEdu SIT Robbani** adalah platform ekosistem digital terpadu (*All-in-One Educational ERP, Multi-Unit Web Portal & Mobile SDM App*) yang dirancang khusus untuk memenuhi standar mutu **Jaringan Sekolah Islam Terpadu (JSIT)** dan **Kurikulum Merdeka**.
 
-### 📚 1. Akademik, CBT & Kurikulum Adaptif
-1. **Modul 1: Presensi RFID Real-Time (Siswa & Guru)**: Realtime Tap RFID, pencatatan jam masuk & keluar, rekapitulasi presensi bulanan.
-2. **Modul 4: E-Rapor Kurikulum Merdeka & JSIT**: Penilaian Formatif/Sumatif, Capaian Proyek P5, & Karakter JSIT dengan cetak Rapor PDF Resmi.
-3. **Modul 5: CBT Online (Ujian & Asesmen Digital)**: Pembuat Soal Pilihan Ganda & Essay, Timer Ujian, Acak Soal, Nilai Otomatis, & Analisis Butir Soal.
-4. **Modul 10: Perpustakaan Digital (E-Library & QR Sirkulasi)**: Katalog ISBN, pinjam/kembali buku via QR-Code, denda keterlambatan, & PDF e-book reader.
-5. **Modul 11: E-Learning LMS**: Modul materi (Video/PDF), pengumpulan tugas siswa, forum diskusi KBM, & link Live Class.
-6. **Modul 13: Jurnal Mengajar & Absensi Guru**: Pengisian jurnal KBM harian, topik pembelajaran, & absensi jam mengajar.
+Platform ini mengintegrasikan **23+ Modul Digital Terpadu** yang menghubungkan seluruh tata kelola akademik, keuangan E-SPP, persuratan digital ber-TTE resmi, pembentukan karakter Islami (BPI Mutabaah), portal SPMB Online integratif, aplikasi mobile SDM (React Native Expo), dan Chatbot AI cerdas berbasis Retrieval-Augmented Generation (RAG).
+
+---
+
+## 🏛️ Struktur Multi-Tenancy (4 Unit Sekolah + Yayasan)
+
+| Unit Sekolah / Lembaga | Kode | school_id | Pimpinan Lembaga |
+| :--- | :---: | :---: | :--- |
+| **Yayasan Generasi Robbani** | `YAYASAN` | *Global (null)* | **Sughesti Wulandari, S.Pd** *(Ketua Yayasan)* |
+| **KB / TKIT Robbani** | `TKIT` | `1` | **Ani Oktar Yansi, S.Pd.I** *(Kepala Sekolah)* |
+| **SDIT Robbani** | `SDIT` | `2` | **Nur Amalia, S.Pd** *(Kepala Sekolah)* |
+| **SMPIT Robbani** | `SMPIT` | `3` | **Tia Wulandari, S.Pd., Gr.** *(Kepala Sekolah)* |
+| **SMAIT Robbani** | `SMAIT` | `4` | *(Persiapan Program Sains & IT)* |
+
+---
+
+## 📦 Ekosistem 23+ Modul Digital Terpadu
+
+### 📚 1. Akademik, Kurikulum & E-Learning
+1. **Master Data Multi-Unit**: Pengelolaan data Siswa, Guru, Kelas, dan Rombongan Belajar (Rombel).
+2. **E-Rapor Kurikulum Merdeka & JSIT**: Penilaian Formatif/Sumatif, Capaian P5, & Cetak Rapor PDF Resmi.
+3. **CBT Ujian & Asesmen Digital**: Pembuat Soal Pilihan Ganda & Essay, Timer, Acak Soal, dan Penilaian Otomatis.
+4. **E-Learning LMS**: Materi pelajaran (Video/PDF), tugas siswa, & forum diskusi KBM.
+5. **Jurnal Mengajar & Absensi Kelas**: Pengisian jurnal KBM harian guru & rekapitulasi kehadiran siswa.
+6. **Tahfidz Tracker**: Monitoring halaqah, ziyadah, & murajaah Al-Qur'an siswa.
 
 ### 💰 2. Keuangan, POS & Cashless School
-7. **Modul 2: E-SPP & Keuangan Sekolah**: Penagihan SPP bulanan otomatis, cetak kuitansi PDF, Akuntansi COA Kas & Bank, & Laporan Jurnal Keuangan.
-8. **Modul 3: Tabungan Siswa & Kantin Cashless (SmartCard)**: Setor/Tarik tabungan siswa, top-up saldo SmartCard, & transaksi kantin tanpa uang tunai (potong saldo RFID).
-9. **Modul 15: Penggajian & HRD Guru/Staf (Payroll)**: Perhitungan gaji pokok, tunjangan jabatan, potongan absensi, & Slip Gaji PDF.
+7. **E-SPP & Billing Otomatis**: Penagihan SPP bulanan otomatis, cetak kuitansi PDF resmi ber-QR, & akuntansi COA.
+8. **Tabungan Siswa & Kantin Digital**: Setor/tarik tabungan siswa & transaksi non-tunai kantin sekolah.
+9. **Penggajian & HRIS SDM (Payroll)**: Perhitungan gaji pokok, tunjangan, potongan absensi, & cetak Slip Gaji PDF.
 
-### 🌙 3. Character Building, BK & Layanan Sekolah
-10. **Modul 7: Bina Pribadi Islami (BPI Mutabaah Yaumiyah)**: Tracking ibadah harian (Sholat 5 Waktu, Tilawah, Dhuha, Puasa Sunnah) & skor nilai BPI.
-11. **Modul 8: Bimbingan Konseling (BK Online)**: Recording poin pelanggaran & prestasi siswa, booking sesi konseling guru BK, & log foto home visit.
-12. **Modul 9: Sarana Prasarana (Sarpras Barcode & Floorplan)**: Pencatatan aset sekolah, barcode generator aset, mutasi ruang, & status fisik barang.
-13. **Modul 14: Manajemen Ekstrakurikuler & Prestasi**: Pendaftaran ekskul, absensi ekskul, input prestasi lomba (Juara 1/2/3), & sertifikat digital.
-14. **Modul 19: Inventaris Alat Laboratorium**: Pencatatan alat praktikum IPA/TIK & status kelayakan pakai.
-15. **Modul 21: Layanan Sewa Fasilitas & Kunjungan Tamu**: Buku tamu digital & permohonan pinjam/sewa aula & lapangan olahraga.
+### 🌙 3. Pembentukan Karakter & Layanan Sekolah
+10. **Bina Pribadi Islam (BPI Mutabaah Yaumiyah)**: Pencatatan ibadah harian (Sholat 5 Waktu, Tilawah, Dhuha, Tahajjud).
+11. **Bimbingan Konseling (BK Online)**: Pencatatan poin prestasi & pelanggaran siswa, booking konseling.
+12. **Sarana Prasarana (Sarpras Barcode)**: Inventarisasi aset ruangan, barcode generator, & pemeliharaan barang.
+13. **E-Library & Sirkulasi QR**: Katalog buku perpustakaan & peminjaman/pengembalian buku via QR.
+14. **Asrama & Kepesantrenan**: Manajemen kamar santri boarding, perizinan keluar, & monitoring asrama.
+15. **Klinik UKS & Rekam Medis**: Pencatatan riwayat kesehatan & penanganan medis siswa.
+16. **Layanan Sewa Fasilitas & Kerjasama**: Formulir permohonan kunjungan & sewa gedung/lapangan.
 
-### 🚀 4. SPMB Online, Parent Portal & Gateway Integration
-16. **Modul 6: Portal SPMB Online Integratif**: 
-    - **Multi-Step Stepper Wizard**: 5 Langkah pendaftaran interaktif dengan indikator persentase & auto-save draft (`localStorage`).
-    - **Upload File Berkas Persyaratan**: Upload Pas Foto, KTP Ortu, Kartu Keluarga (KK), & Bukti Transfer Pembayaran.
-    - **Ringkasan Pratinjau Final**: Step 5 summary grid untuk pemeriksaan data sebelum submit.
-    - **QR Code Dinamis & Re-Download PDF (`/spmb/verify/{regNumber}`)**: Scan QR Code untuk verifikasi & download ulang dokumen PDF kapan saja.
-    - **Integrasi Akun Wali (Sibling Linkage)**: Menghubungkan pendaftaran ananda baru ke 1 akun Wali Murid (Parent Portal).
-    - **Strict Input Regex Validation**: Format nama (huruf), NIK (16 digit), WA (10-15 digit), Email, & Biaya Pendaftaran Otomatis per unit (TKIT: 200k, SDIT: 250k, SMPIT: 300k, SMAIT: 350k).
-17. **Modul 12: Portal Wali Murid (Parent Mobile App Simulator)**: Pemantauan multi-anak (sibling linkage), laporan nilai, presensi, & pembayaran SPP.
-18. **Modul 16: Pengumuman & Broadcast WhatsApp Gateway**: Kirim pengumuman massal & notifikasi SPP/SPMB ke WhatsApp Orang Tua.
-19. **Modul 20: Portal Alumni & Tracer Study**: Direktori kelulusan alumni, jejaring PTN, & dudi.
+### 🚀 4. Portal Publik, SPMB Online & Persuratan TTE
+17. **Website Publik & Profil 4 Unit**: Portal resmi dengan dual logo, dark mode Obsidian/Neon Lime, jadwal sholat 16 kecamatan, & berita asli.
+18. **Portal SPMB Online Integratif**: Formulir pendaftaran multi-step wizard, upload berkas, kartu ujian, & verifikasi QR.
+19. **Persuratan Digital & QR TTE**: Draf surat keluar KOP resmi, disposisi pimpinan, hash SHA-256 & verifikasi publik (`/verifikasi-surat/{token}`).
+20. **Portal Alumni & Tracer Study**: Direktori kelulusan alumni dan jejaring kampus.
+21. **Portal Eksekutif Yayasan**: Dashboard konsolidasi metrik statistik 4 unit sekolah secara terpusat.
 
-### ⚙️ 5. Manajemen Yayasan, RBAC & Security Audit
-20. **Modul 17: Pengaturan Hak Akses (RBAC & Multi-Role)**: Manajemen akun Admin, Kepsek, Guru, Bendahara, BK, & Ortu.
-21. **Modul 18: Executive Summary & Audit Logs**: Dashboard eksekutif statistik yayasan, log perubahan data, & otomatisasi penanganan error log (`SystemErrorLog`).
-
----
-
-## 🔄 Otomatisasi Alur Kerja Cross-Module
-
-Saat Panitia SPMB mengubah status pendaftar menjadi **`LULUS` (`PASSED`)** pada Admin Portal (`/admin/ppdb-admin`):
-1. **Otomatisasi Master Data Siswa**: Menerbitkan data `Student` baru (NIS, NISN, Tag RFID, Saldo Awal SmartCard Rp 100.000).
-2. **Otomatisasi Parent Portal**: Menghubungkan akun Wali Murid (`ParentModel`) sesuai nomor HP/Email pendaftar.
-3. **Otomatisasi Keuangan E-SPP**: Menerbitkan Tagihan SPP Awal (`SppBill`) bulan berjalan secara otomatis di Modul Keuangan.
+### 🤖 5. Layanan Cerdas & Mobile SDM
+22. **Smart AI Assistant & Knowledge Base RAG (Modul 23)**: Chatbot AI cerdas 24/7 dengan Retrieval-Augmented Generation dari dokumen PDF resmi & live database SmartEdu.
+23. **Aplikasi Mobile SDM SIT Robbani (Expo React Native)**: Presensi GPS & biometrik wajah, pengajuan cuti, slip gaji mobile, mutabaah SDM, & autentikasi aman Laravel Sanctum.
 
 ---
 
 ## 🛠️ Spesifikasi Teknologi (Tech Stack)
 
-* **Framework Core**: Laravel 13.x
-* **Bahasa Pemrograman**: PHP 8.4+ / PHP 8.3
-* **Frontend UI/UX**: Vanilla HTML5, TailwindCSS, Alpine.js (Light Mode High-Contrast & Obsidian Neon Lime Dark Mode)
-* **Asset Bundler**: Vite
-* **Database**: MySQL 8.0+ / MariaDB / SQLite
-* **Branding Assets**: Dynamic Dual-Logo (`logo_light` & `logo_dark`) tanpa terpotong (`object-contain`).
+| Komponen | Spesifikasi / Pustaka | Keterangan |
+| :--- | :--- | :--- |
+| **Backend Framework** | **Laravel 13.x** | PHP 8.4 (cPanel) / PHP 8.2+ (Lokal) |
+| **Frontend Styling** | **Tailwind CSS & Vanilla CSS** | Mode Gelap Obsidian Emerald (`#061107`) & Neon Lime (`#c6f634`) |
+| **Interaktivitas UI** | **Alpine.js 3.x & SweetAlert2** | State management reaktif tanpa library JS berat |
+| **Asset Bundler** | **Vite 6.x** | Pre-built di `public/build/` siap produksi |
+| **Basis Data** | **MySQL 5.7+ / MariaDB 10.3+** | 58 Tabel terstruktur InnoDB UTF-8 MB4 |
+| **Mobile App** | **React Native (Expo SDK 52)** | Folder `sdm-robbani-mobile/` |
+| **REST API Security** | **Laravel Sanctum Token** | Perlindungan Bearer Token pada seluruh endpoint `/api/v1/mobile/*` |
+| **AI LLM Engine** | **Google Gemini 1.5 Flash API** | Mesin RAG dengan semantic document retrieval |
+| **PDF & QR Engine** | **DomPDF & Simple QrCode** | Cetak Kuitansi SPP, Slip Gaji, Kartu Ujian, & Surat TTE |
 
 ---
 
-## 🛡️ Keamanan & Audit Sistem
+## 🛡️ 7 Lapisan Keamanan Sistem (Cybersecurity Hardening)
 
-Sistem diproteksi oleh **7 Lapisan Keamanan (Security Guard)**:
-1. **Auth & RBAC Guard**: Proteksi middleware `auth` pada seluruh rute administratif `/admin/*`.
-2. **SQL Injection Guard**: Parameter binding PDO via Eloquent ORM & Query Builder.
-3. **Cross-Site Scripting (XSS) Guard**: Encoding entitas HTML Blade `{{ }}` & regex sanitization input.
-4. **CSRF Protection**: Token `@csrf` & middleware `ValidateCsrfToken` aktif di seluruh formulir.
-5. **File Upload Security**: Pembatasan MIME (`jpg,jpeg,png,pdf`), Max Size 5MB, & Random Filename.
-6. **IDOR Security**: String acak unik pendaftaran (`SPMB-2026-SDIT-XXXXX`) pada QR Code & PDF.
-7. **System Error Mitigation**: Capturing log error terotomatisasi (`SystemErrorLog`).
+1. **Auth & RBAC Guard**: Proteksi middleware `auth` dan pemisahan 15 hak akses pengguna.
+2. **REST API Sanctum Guard**: Semua endpoint API mobile diproteksi `auth:sanctum` (kecuali login publik).
+3. **Multi-Tenancy Scoping**: Strict isolation `school_id` mencegah akses silang data antar unit.
+4. **SQL Injection Defense**: Parameter binding PDO via Eloquent ORM pada seluruh query.
+5. **Cross-Site Scripting (XSS) & CSRF Defense**: Blade escaping, sanitasi input, & token CSRF wajib.
+6. **Global Security Headers**: `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection`, `Referrer-Policy`.
+7. **TTE Cryptographic Integrity**: Hash digital SHA-256 dan token UUID publik untuk verifikasi keaslian surat.
 
 ---
 
-## 🚀 Panduan Instalasi Lokal (Development)
+## 🚀 Panduan Deployment ke cPanel
 
-1. **Clone Repository**:
-   ```bash
-   git clone https://github.com/username/smartedu.git
-   cd smartedu
-   ```
+Panduan lengkap deployment ke server cPanel tersedia pada dokumen:
+📖 **[`DEPLOY_CPANEL.md`](./DEPLOY_CPANEL.md)**
 
-2. **Install Dependensi Composer & NPM**:
+### Ringkasan Langkah Cepat:
+1. **Export Database MySQL Final**:
+   Gunakan file: **[`scratch/mysql_FINAL_sitrobbani.sql`](./scratch/mysql_FINAL_sitrobbani.sql)** (58 tabel lengkap).
+2. **Import Database di cPanel**:
+   Buat database MySQL baru di cPanel $\rightarrow$ Buka **phpMyAdmin** $\rightarrow$ **Import** file `mysql_FINAL_sitrobbani.sql`.
+3. **Deploy via Git Version Control cPanel**:
+   Clone repository `https://github.com/septaryanhidayat/bigdata.git` ke folder `~/bigdata`.
+4. **Konfigurasi DocumentRoot**:
+   Arahkan DocumentRoot domain utama `sitrobbani.sch.id` ke subfolder: `public_html/` atau `~/bigdata/public`.
+5. **Konfigurasi `.env`**:
+   Salin template `.env.cpanel` menjadi `.env`, isi koneksi database MySQL cPanel.
+6. **Jalankan Skrip Deploy Otomatis**:
    ```bash
-   composer install
-   npm install
-   ```
-
-3. **Pengaturan File `.env`**:
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Migrasi & Seed Database**:
-   ```bash
-   php artisan migrate --seed
-   ```
-
-5. **Build Aset & Jalankan Server**:
-   ```bash
-   npm run build
-   php artisan serve
+   bash deploy.sh
    ```
 
 ---
 
-## 🔑 Kredensial Default Portal Admin CMS
+## 🧪 Pengujian Otomatis (Automated Test Suite)
 
-* **URL Login**: `http://localhost:8000/admin/login` *(atau `https://domainanda.com/admin/login`)*
-* **Username / Email**: `admin` *(atau `admin@smartedu.test`)*
-* **Password**: `p4l3mb4ng`
+Sebelum setiap rilis, jalankan test suite otomatis berikut:
+
+```bash
+# 1. Uji seluruh fungsionalitas 14 modul inti
+php scratch/test_all_features.php
+
+# 2. Uji mesin AI RAG & integrasi Chatbot
+php scratch/test_ai_rag_chatbot.php
+```
 
 ---
 
-## 📄 Lisensi & Pengembang
+## 🔑 Kredensial Pengujian Awal
 
-Didukung dan Dikembangkan untuk **[SIT Robbani Ogan Ilir](https://sitrobbani.sch.id)** oleh **[Beranda Teknologi Digital](https://berandadigital.net)**.
-© 2026 SmartEdu. Hak Cipta Dilindungi Undang-Undang.
+* **URL Login Admin**: `https://sitrobbani.sch.id/admin/login` *(atau `http://localhost:8000/admin/login`)*
+* **Email Super Admin**: `admin@smartedu.id` *(atau `ryan@sitrobbani.sch.id`)*
+* **Kata Sandi**: `p4l3mb4ng`
+
+---
+
+## 📄 Lisensi & Hak Cipta
+
+Didukung dan dikembangkan untuk **[SIT Robbani Ogan Ilir](https://sitrobbani.sch.id)** oleh **[Beranda Teknologi Digital](https://berandadigital.net)**.  
+© 2026 SmartEdu SIT Robbani. Hak Cipta Dilindungi Undang-Undang.

@@ -1,17 +1,18 @@
 # SmartEdu SIT Robbani — Database Schema (DATABASE_SCHEMA.md)
 
-> **Skema Lengkap 57 Tabel Database Aktual**
+> **Skema Lengkap 58 Tabel Database Aktual**
 > *Terakhir diperbarui: 17 Agustus 2026 | DB Engine: SQLite (dev) / MySQL (prod)*
 
 ---
 
-## 📊 Daftar Lengkap 57 Tabel
+## 📊 Daftar Lengkap 58 Tabel
 
-### 🏛️ Core — Yayasan & Multi-Tenancy
+### 🏛️ Core — Yayasan, Auth & Multi-Tenancy
 | Tabel | Deskripsi |
 |-------|-----------|
 | `schools` | Data 4 unit sekolah (TKIT, SDIT, SMPIT, SMAIT) + Yayasan — `school_id` adalah anchor multi-tenancy |
 | `users` | Akun pengguna (15 role RBAC), kolom `school_id`, `role`, `avatar` |
+| `personal_access_tokens` | Token otentikasi REST API Mobile (Laravel Sanctum) |
 | `academic_years` | Tahun ajaran aktif per unit sekolah |
 | `site_settings` | Pengaturan global sistem (nama sekolah, logo, warna tema, dll) |
 | `feature_modules` | Toggle on/off fitur modul per unit |
