@@ -96,8 +96,11 @@ class HrisMobileApiController extends Controller
             default => ['primary' => '#061107', 'secondary' => '#c6f634', 'accent' => '#0e2010', 'name' => 'Yayasan Generasi Robbani'],
         };
 
-        // Buat Token Sesi API
-        $token = 'sdm_' . bin2hex(random_bytes(32));
+        // Buat Token Sanctum Resmi (disimpan di personal_access_tokens)
+        $tokenName = 'sdm-mobile-' . ($school ? strtolower($school->code) : 'yayasan');
+        $tokenResult = $user->createToken($tokenName, ['*']);
+        $token = $tokenResult->plainTextToken;
+
 
         $employeeData = $this->formatEmployeeProfile($employee, $user, $school);
 

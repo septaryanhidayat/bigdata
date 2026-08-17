@@ -1,6 +1,7 @@
 # SmartEdu SIT Robbani — Roadmap & Milestones (ROADMAP.md)
 
 > **Rencana Pengembangan, Status Rilis Fitur, dan Rencana Masa Depan Sistem SmartEdu**
+> *Terakhir diperbarui: 17 Agustus 2026*
 
 ---
 
@@ -31,16 +32,25 @@
 - Pembagian layout berita 2-kolom desktop (konten lebar di kiri, widget pencarian & navigasi di kanan).
 - Dynamic XML Sitemap (`/sitemap.xml`) dengan Google Image tags & priority.
 - Dynamic `robots.txt` (`/robots.txt`).
-- Handler 301 Permanent Redirect untuk seluruh URL warisan WordPress (`/{year}/{month}/{day}/{slug}`, `/category/{cat}`, `/tag/{tag}`).
+- Handler 301 Permanent Redirect untuk seluruh URL warisan WordPress.
 - Structured data Schema.org JSON-LD (`NewsArticle` dan `EducationalOrganization`).
 - Global Security Headers Middleware (`X-Frame-Options`, `X-Content-Type-Options`, `X-XSS-Protection`, `Referrer-Policy`).
 
 ### ✅ Fase 6: Modul 23 AI Chatbot RAG, Perbaikan Mobile & Animasi Fast Fade-Up
 - Penambahan Kategori 6: **Smart AI & RAG Dokumen** di showcase digital web utama.
-- Ekstraksi otomatis teks dokumen PDF resmi (Brosur SPMB, SOP Santri, Kurikulum Tahfidz) ke tabel `ai_knowledge_bases`.
-- RAG (Retrieval-Augmented Generation) terintegrasi data realtime database SmartEdu.
+- Ekstraksi otomatis teks dokumen PDF resmi ke tabel `ai_knowledge_bases`.
+- RAG terintegrasi data realtime database SmartEdu.
 - Perbaikan layout mobile widget jadwal sholat 5-kolom simetris bebas tumpang-tindih.
 - Animasi scroll cepat dan halus (`.reveal-fade-up` durasi 0.4s).
+- Chatbot AI dengan typing animation (karakter per karakter).
+
+### ✅ Fase 7: Perbaikan Data Real & Hardening Keamanan Pre-Production
+- Data guru semua unit (TKIT, SDIT, SMPIT) diperbarui dari backup XML WordPress dengan nama, jabatan, dan foto real.
+- **Fix keamanan kritis:** Seluruh endpoint API mobile dilindungi `auth:sanctum` middleware.
+- Kepala sekolah semua unit diperbarui ke data kepemimpinan real (Nur Amalia, Tia Wulandari, Ani Oktar Yansi).
+- Build Vite asset produksi (`public/build/`) disiapkan untuk deployment cPanel tanpa Node.js.
+- Template `.env.cpanel`, `deploy.sh`, dan `cpanel_setup.php` disiapkan.
+- Export database MySQL dari SQLite: `scratch/mysql_FINAL_sitrobbani.sql` (57 tabel, 1133+ rows).
 
 ---
 
@@ -49,17 +59,22 @@
 ```mermaid
 timeline
     title Peta Jalan Pengembangan Lanjutan SmartEdu SIT Robbani
+    Q3 2026 : Deployment cPanel Production : Domain sitrobbani.sch.id Live
     Q4 2026 : Otomasi WhatsApp Gateway Notifikasi Tagihan SPP : Integrasi Payment Gateway Midtrans / Xendit
-    Q1 2027 : Peluncuran Mobile App Android / iOS (Flutter Portal Santri) : Presensi Geolocation & Face Recognition
-    Q2 2027 : Smart Dashboard Business Intelligence (BI) Eksekutif : AI Analytics Prediksi Prestasi & Minat Santri
+    Q1 2027 : Peluncuran Mobile App Android / iOS (Portal Siswa) : Presensi Geolocation & Face Recognition
+    Q2 2027 : Smart Dashboard Business Intelligence (BI) Eksekutif : AI Analytics Prediksi Prestasi & Minat Siswa
 ```
 
 ### Rincian Rencana:
-1. **Otomasi Notifikasi Tagihan SPP via WhatsApp Gateway:**
-   - Kirim pengingat tagihan bulanan otomatis ke nomor WhatsApp wali santri setiap tanggal 1.
-2. **Integrasi Virtual Account & QRIS Payment Gateway:**
+1. **Deployment cPanel Production (Q3 2026):**
+   - Upload ke cPanel via Git Version Control.
+   - Import MySQL database final.
+   - Konfigurasi DocumentRoot ke `/public`, PHP 8.4, SSL aktif.
+2. **Otomasi Notifikasi Tagihan SPP via WhatsApp Gateway:**
+   - Kirim pengingat tagihan bulanan otomatis ke nomor WhatsApp wali murid setiap tanggal 1.
+3. **Integrasi Virtual Account & QRIS Payment Gateway:**
    - Pembayaran SPP instan via BCA, Mandiri, BSI, dan QRIS dengan notifikasi webhook lunas realtime.
-3. **Mobile App Portal Santri & Wali (Flutter):**
-   - Aplikasi mobile native untuk wali santri memantau mutabaah harian, presensi, hafalan tahfidz, dan saldo saku santri.
-4. **AI Smart Assessment & Student Analytics:**
-   - Rekomendasi program peningkatan minat bakat santri berdasarkan data mutabaah, rapor, dan catatan konseling BK.
+4. **Mobile App Portal Siswa & Wali (v2):**
+   - Aplikasi mobile native untuk wali murid memantau mutabaah harian, presensi, hafalan tahfidz, dan saldo saku siswa.
+5. **AI Smart Assessment & Student Analytics:**
+   - Rekomendasi program peningkatan minat bakat siswa berdasarkan data mutabaah, rapor, dan catatan konseling BK.

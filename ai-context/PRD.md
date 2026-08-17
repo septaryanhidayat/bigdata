@@ -1,14 +1,15 @@
 # SmartEdu SIT Robbani — Product Requirements Document (PRD)
 
-> **Document Version:** 2.5  
-> **Status:** Implemented & Verified (Production Ready)  
-> **Scope:** Web Portal, Mobile Web, Admin ERP, Multi-Tenancy Subsystems, AI Engine
+> **Document Version:** 3.0  
+> **Status:** Pre-Production — Deployment cPanel Pending  
+> **Scope:** Web Portal, Mobile Web, Admin ERP, Mobile App API, Multi-Tenancy Subsystems, AI Engine  
+> *Terakhir diperbarui: 17 Agustus 2026*
 
 ---
 
 ## 🎯 1. Tujuan Produk (*Product Goals*)
 1. **Mengintegrasikan 4 Unit Sekolah:** Menghilangkan silo data antara TKIT, SDIT, SMPIT, dan SMAIT dalam satu naungan database terpadu.
-2. **Transformasi Layanan Publik:** Memberikan pengalaman modern, cepat, dan terpercaya bagi calon wali santri melalui website responsif, registrasi SPMB instan, dan asisten AI 24/7.
+2. **Transformasi Layanan Publik:** Memberikan pengalaman modern, cepat, dan terpercaya bagi calon wali murid melalui website responsif, registrasi SPMB instan, dan asisten AI 24/7.
 3. **Efisiensi Administrasi 100% Digital:** Mengotomatiskan persuratan ber-KOP resmi, Tanda Tangan Elektronik (TTE) ber-QR publik, penagihan E-SPP, kuitansi digital, dan rapor kurikulum merdeka.
 4. **Keamanan & Kedaulatan Data:** Perlindungan dari ancaman siber (SQL Injection, CSRF, XSS, Clickjacking) dan penguncian data multi-tenancy.
 
@@ -30,7 +31,7 @@
 | `GURU_BK` | Guru Bimbingan Konseling | Catatan konseling pribadi siswa, rekap poin pelanggaran dan poin prestasi santri. |
 | `MUSYRIF` | Pembina Asrama / BPI | Mutabaah yaumiyah (sholat, tilawah), monitoring halaqah tahfidz asrama, perizinan santri. |
 | `PUSTAKAWAN` | Pustakawan | Katalog buku E-Library, sirkulasi peminjaman/pengembalian RFID, denda keterlambatan. |
-| `KASIR_KANTIN` | Kasir Kantin RFID | Transaksi POS kantin non-tunai, pengecekan saldo dompet digital santri. |
+| `KASIR_KANTIN` | Kasir Kantin RFID | Transaksi POS kantin non-tunai, pengecekan saldo dompet digital siswa. |
 | `PANITIA_PPDB` | Panitia PPDB & CBT | Verifikasi berkas pendaftar baru, jadwal tes CBT, pengumuman hasil seleksi online. |
 | `SARPRAS` | Petugas Sarpras & Aset | Inventarisasi aset ruangan, jadwal pemeliharaan barang, permohonan sewa fasilitas. |
 
@@ -52,18 +53,25 @@
 ### FR-03: Keuangan E-SPP & Kuitansi PDF
 - Tagihan multi-pos (SPP, Uang Gedung, Uang Makan, Kegiatan).
 - Cetak Kuitansi Resmi PDF dengan barcode/QR verifikasi status lunas.
-- Integrasi riwayat pembayaran untuk wali santri.
+- Integrasi riwayat pembayaran untuk wali murid.
 
 ### FR-04: Persuratan Resmi & Tanda Tangan Elektronik (TTE)
 - Pembuatan draf surat keluar ber-KOP resmi unit sekolah / yayasan.
 - Alur disposisi dan verifikasi pimpinan.
 - Penandatanganan digital dengan pembentukan SHA-256 secure hash dan token UUID publik (`/verifikasi-surat/{token}`).
 
-### FR-05: Smart AI Chatbot RAG (Modul 23)
+### FR-05: API Mobile SDM (Sanctum Auth)
+- Endpoint `/api/v1/mobile/auth/login` untuk autentikasi pegawai dengan token Sanctum.
+- Semua endpoint non-login di-protect `auth:sanctum` middleware.
+- Fitur: presensi GPS/face, payroll, BPI mutabaah, kantin, KPI, pengumuman.
+- Response format JSON konsisten dengan field `success`, `data`, `message`.
+
+### FR-06: Smart AI Chatbot RAG (Modul 23)
 - Ekstraksi teks dari file PDF (Brosur, SOP, Kurikulum) ke tabel `ai_knowledge_bases`.
 - Algoritma pencarian semantik (*Retrieval-Augmented Generation*) untuk menyertakan cuplikan dokumen asli saat menjawab.
 - Integrasi data live database SmartEdu (Tahun Ajaran, Unit, kontak admin).
 - Widget chat melayang dengan quick suggestion chips.
+- Respon AI ditampilkan dengan typing animation karakter per karakter.
 
 ---
 
@@ -73,6 +81,8 @@
    - Perlindungan SQL Injection via Eloquent Parameterized Query / PDO Prepared Statements.
    - Global Security Headers (`X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection`, `Referrer-Policy`).
    - Proteksi CSRF pada semua form dan endpoint state-changing.
+   - **API Mobile:** Semua endpoint `/api/v1/mobile/*` (kecuali `/auth/login`) dilindungi `auth:sanctum` middleware.
+   - Upload file: validasi tipe MIME dan ukuran, simpan di `storage/app/public/`.
 2. **SEO & Kemudahan Indeks Google:**
    - Dynamic XML Sitemap (`/sitemap.xml`) dengan tag Google Image, lastmod, dan priority.
    - Dynamic `robots.txt` (`/robots.txt`).

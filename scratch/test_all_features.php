@@ -39,9 +39,9 @@ echo "=== STARTING COMPREHENSIVE CODEBASE & FEATURE VERIFICATION ===\n\n";
 $tests = [];
 
 // 1. Auth Admin
-$admin = User::where('email', 'admin@smartedu.test')->first();
+$admin = User::where('role', User::ROLE_SUPER_ADMIN)->first() ?? User::first();
 auth()->login($admin);
-echo "✓ Authenticated as: " . $admin->name . "\n";
+echo "✓ Authenticated as: " . $admin->name . " (" . $admin->email . ")\n";
 
 // 2. Master Data Controller
 try {

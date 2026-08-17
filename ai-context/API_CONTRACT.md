@@ -1,162 +1,197 @@
-# SmartEdu SIT Robbani — API & Integration Contract (API_CONTRACT.md)
+# SmartEdu SIT Robbani — API Contract (API_CONTRACT.md)
 
-> **Spesifikasi Teknis Endpoint Internal, Webhook Callback, dan Integrasi Pihak Ketiga**
+> **Kontrak Lengkap REST API Mobile, Webhook Payment, dan Integrasi Eksternal**
+> *Terakhir diperbarui: 17 Agustus 2026*
 
 ---
 
-## 💳 1. Integrasi Payment Gateway (E-SPP & Tagihan Santri)
+## 🔐 1. Autentikasi API Mobile (Laravel Sanctum)
 
-Sistem mendukung dua gateway pembayaran utama: **Midtrans** (Snap / Core API) dan **Xendit** (Invoices).
+**Base URL:** `https://sitrobbani.sch.id/api/v1/mobile`
 
-### 1.1. Flow Pembayaran Online E-SPP
+> **PENTING:** Semua endpoint kecuali `/auth/login` memerlukan header `Authorization: Bearer {token}`.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Wali as Wali Santri / Siswa
-    participant Web as Portal SmartEdu
-    participant PG as Payment Gateway (Midtrans/Xendit)
-    participant DB as Basis Data SmartEdu
-
-    Wali->>Web: Pilih Tagihan SPP & Klik "Bayar Online"
-    Web->>PG: Request Snap Token / Invoice URL (Payload Invoice)
-    PG-->>Web: Return snap_token / invoice_url
-    Web-->>Wali: Buka Payment Popup (QRIS, VA BCA/Mandiri/BSI)
-    Wali->>PG: Selesaikan Pembayaran di M-Banking / E-Wallet
-    PG->>Web: Kirim HTTP POST Webhook Callback
-    Web->>Web: Verifikasi Signature Hash (Anti-Spoofing)
-    Web->>DB: Update Invoice status = 'paid' & Buat Record Payment
-    Web->>Wali: Notifikasi WhatsApp Kuitansi Lunas Ber-QR
+### POST `/auth/login`
+**Request:**
+```json
+{
+  "email": "guru@sitrobbani.sch.id",
+  "password": "password123",
+  "device_name": "Samsung Galaxy A54"
+}
+```
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "token": "1|aBcDeFgHiJkLmNoPqRsTuVwXyZ...",
+  "user": {
+    "id": 5,
+    "name": "Nur Amalia, S.Pd",
+    "email": "nur.amalia@sitrobbani.sch.id",
+    "role": "HEADMASTER",
+    "school_id": 2,
+    "school_name": "SDIT Robbani"
+  }
+}
+```
+**Response (401 Unauthorized):**
+```json
+{
+  "success": false,
+  "message": "Email atau password salah."
+}
 ```
 
 ---
 
-### 1.2. Midtrans Webhook Callback Contract
+## 📱 2. Endpoint API Mobile (auth:sanctum required)
 
-- **Endpoint:** `POST /api/v1/webhook/midtrans`
-- **Headers:**
-  - `Content-Type: application/json`
-  - `User-Agent: Midtrans-Webhook/1.0`
+> Header wajib: `Authorization: Bearer {token}` + `Accept: application/json`
 
-#### Payload Schema (JSON Inbound):
+### GET `/dashboard`
+Mengembalikan ringkasan data dashboard pegawai (presensi hari ini, notifikasi, saldo kantin).
+
+### GET `/profile`
+Mengembalikan data lengkap profil pengguna yang sedang login.
+
+### POST `/profile/update`
+**Request:**
 ```json
 {
-  "transaction_time": "2026-08-16 18:30:00",
+  "phone": "0812-3456-7890",
+  "address": "Indralaya, Ogan Ilir"
+}
+```
+
+### POST `/attendance/check-in`
+**Request:**
+```json
+{
+  "latitude": -3.2345678,
+  "longitude": 104.5678901,
+  "face_image": "base64_encoded_image_data"
+}
+```
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Check-in berhasil pada 07:30 WIB",
+  "attendance_id": 123
+}
+```
+
+### POST `/attendance/check-out`
+Sama dengan check-in, untuk merekam jam pulang.
+
+### GET `/attendance/history`
+Mengembalikan riwayat 30 hari presensi pengguna.
+
+### GET `/payroll`
+Mengembalikan daftar slip gaji bulanan.
+
+### GET `/payroll/{id}/slip`
+Mengembalikan detail slip gaji dalam format JSON (untuk render di app).
+
+### GET `/bpi/mutabaah/today`
+Mengembalikan form mutabaah yaumiyah hari ini beserta status pengisian.
+
+### POST `/bpi/mutabaah/save`
+**Request:**
+```json
+{
+  "date": "2026-08-17",
+  "sholat_subuh": true,
+  "sholat_dhuha": true,
+  "sholat_dzuhur": true,
+  "sholat_ashar": true,
+  "sholat_maghrib": true,
+  "sholat_isya": true,
+  "tilawah_pages": 2,
+  "tahajjud": false,
+  "notes": "Alhamdulillah"
+}
+```
+
+### POST `/face/enroll`
+**Request:**
+```json
+{
+  "face_images": ["base64_img_1", "base64_img_2", "base64_img_3"]
+}
+```
+
+---
+
+## 💳 3. Payment Gateway (Coming Soon)
+
+### Midtrans Snap — Pembayaran SPP
+```json
+// Webhook payload dari Midtrans
+{
   "transaction_status": "settlement",
-  "transaction_id": "8b9e6f21-72da-4b8c-8f92-9e909a3c9b12",
-  "status_message": "Midtrans payment notification",
-  "status_code": "200",
-  "signature_key": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-  "payment_type": "bank_transfer",
-  "order_id": "INV-202608-SDIT-0042",
-  "gross_amount": "450000.00",
-  "fraud_status": "accept",
-  "currency": "IDR"
+  "order_id": "SPP-2026-002-001",
+  "gross_amount": "350000.00",
+  "payment_type": "qris",
+  "signature_key": "SHA512_HASH"
 }
 ```
 
-#### Rumus Verifikasi Signature Key (PHP):
-```php
-$signatureKey = hash('sha512', $orderId . $statusCode . $grossAmount . config('services.midtrans.server_key'));
-if ($signatureKey !== $request->signature_key) {
-    return response()->json(['message' => 'Invalid signature'], 403);
+### Xendit — Virtual Account
+```json
+// Webhook payload dari Xendit
+{
+  "id": "5f213443c324d506a...",
+  "external_id": "SPP-2026-002-001",
+  "amount": 350000,
+  "status": "PAID"
 }
 ```
-
-#### Pemetaan Status Transaksi (*Status Mapping*):
-| `transaction_status` | `fraud_status` | Status SmartEdu Invoice | Aksi Sistem |
-| :--- | :--- | :--- | :--- |
-| `capture` / `settlement` | `accept` | `paid` | Buat record `payments`, update invoice, kirim kuitansi WA |
-| `pending` | any | `unpaid` | Menunggu pembayaran santri |
-| `deny` / `cancel` / `expire`| any | `unpaid` | Batalkan transaksi terkait |
 
 ---
 
-## 📲 2. Integrasi WhatsApp Gateway (Notifikasi & Pengingat Tagihan)
+## 📲 4. WhatsApp Gateway (Coming Soon)
 
-Menggunakan provider WhatsApp API Gateway (Fonnte / Wablas / Waha / Baileys Bridge).
+**Provider:** Fonnte / Wablas / WAHA API
 
-### 2.1. Format Permintaan Pengiriman Pesan (*Outbound Message Payload*)
+```json
+// Request kirim notifikasi tagihan
+POST https://api.fonnte.com/send
+{
+  "target": "62812345678",
+  "message": "Yth. Wali Murid Ahmad,\nTagihan SPP Agustus 2026 sebesar Rp 350.000 belum dibayar.\nBayar via: [link QR]"
+}
+```
 
-- **Layanan:** `App\Services\WhatsAppService::sendMessage($phone, $message)`
-- **Format Nomor:** Wajib diawali format internasional `628xxxxxxxxxx` (tanpa tanda `+` atau `0`).
+---
 
-#### Payload Standar Tagihan SPP:
+## 🔄 5. RFID Gate Terminal
+
+### POST `/api/v1/attendance/tap-rfid`
+**Request (dari hardware RFID reader):**
 ```json
 {
-  "target": "6281234567890",
-  "message": "Assalamu'alaikum Wr. Wb.\n\nBpk/Ibu *Ahmad Fauzi*,\nBerikut rincian tagihan SPP Bulan *Agustus 2026* untuk ananda *Muhammad Zaky* (SDIT Robbani):\n\n- No Faktur: *INV-202608-SDIT-0042*\n- Total: *Rp 450.000*\n- Jatuh Tempo: *10 Agustus 2026*\n\nPembayaran dapat dilakukan online melalui tautan:\nhttps://sitrobbani.sch.id/espp\n\nJazakumullah Khairan Katsiran.\n_SmartEdu SIT Robbani Ogan Ilir_"
+  "rfid_uid": "A1B2C3D4",
+  "terminal_id": "GATE-SMPIT-01",
+  "timestamp": "2026-08-17T07:30:00+07:00"
+}
+```
+**Response:**
+```json
+{
+  "success": true,
+  "employee_name": "Tia Wulandari, S.Pd., Gr.",
+  "action": "CHECK_IN",
+  "time": "07:30"
 }
 ```
 
 ---
 
-## 🔌 3. Endpoint Internal REST API SmartEdu
+## ⚠️ 6. Catatan Keamanan API
 
-Seluruh endpoint internal berada di bawah prefix `/api/v1/` dengan respons standar JSON.
-
-### 3.1. Autentikasi Pengguna & Mobile
-- **`POST /api/v1/auth/login`**
-  - **Request:** `{ "email": "guru@sitrobbani.sch.id", "password": "secretpassword" }`
-  - **Response Success (200):**
-    ```json
-    {
-      "status": "success",
-      "token": "1|q98w7e6r5t4y3u2i1o...",
-      "user": {
-        "id": 12,
-        "name": "Ust. Abdullah, S.Pd.I",
-        "role_id": "GURU",
-        "school_id": 2,
-        "school_name": "SDIT Robbani"
-      }
-    }
-    ```
-
-### 3.2. Presensi RFID Tap (Terminal Hardware IoT)
-- **`POST /api/v1/attendance/rfid-tap`**
-  - **Headers:** `X-Device-Key: <SECRET_DEVICE_TOKEN>`
-  - **Request:** `{ "rfid_tag": "E280116060000204", "terminal_id": "GATE-SDIT-01" }`
-  - **Response (200):**
-    ```json
-    {
-      "status": "success",
-      "type": "check_in",
-      "student": {
-        "nis": "2627001",
-        "name": "Muhammad Zaky",
-        "class": "7A Abu Bakar"
-      },
-      "time": "06:45:12 WIB",
-      "message": "Presensi masuk berhasil dicatat"
-    }
-    ```
-
-### 3.3. Transaksi Kasir Kantin RFID POS
-- **`POST /api/v1/canteen/rfid-charge`**
-  - **Request:** `{ "rfid_tag": "E280116060000204", "amount": 15000, "pin": "123456" }`
-  - **Response Success (200):**
-    ```json
-    {
-      "status": "success",
-      "student_name": "Muhammad Zaky",
-      "amount_charged": 15000,
-      "remaining_balance": 85000,
-      "receipt_number": "POS-20260816-012"
-    }
-    ```
-
-### 3.4. Chatbot AI RAG (Public & Mobile)
-- **`POST /chat-ai`** atau **`POST /api/v1/chat-ai`**
-  - **Request:** `{ "message": "Berapa biaya pendaftaran dan syarat masuk SDIT Robbani?" }`
-  - **Response (200):**
-    ```json
-    {
-      "status": "success",
-      "answer": "Assalamu'alaikum Wr. Wb. Berdasarkan dokumen *Brosur & Panduan SPMB 2026/2027*, biaya pendaftaran SDIT adalah Rp 250.000...",
-      "sources": [
-        "Brosur & Panduan Pendaftaran SPMB 2026/2027 SIT Robbani",
-        "Data Realtime SIT Robbani Ogan Ilir (TA 2026/2027)"
-      ]
-    }
-    ```
+1. **Rate Limiting:** API endpoint dibatasi 60 request/menit per IP (default Laravel Sanctum).
+2. **Token Expiry:** Token tidak expired otomatis, tapi bisa di-revoke via `DELETE /auth/logout`.
+3. **HTTPS Only:** Semua API harus diakses via HTTPS di produksi.
+4. **CORS:** Konfigurasi `CORS` di `config/cors.php` harus membatasi origin yang diizinkan.
