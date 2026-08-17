@@ -12,8 +12,8 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
     <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=2">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=10">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=10">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir">
@@ -70,8 +70,9 @@
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
-    <!-- Preload Critical LCP Logo -->
+    <!-- Preload Critical LCP Logo & Hero Background -->
     <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}" fetchpriority="high">
 
     <!-- Google Fonts & Material Symbols Non-blocking with display=swap -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">

@@ -11,8 +11,8 @@
     <title>Profil Resmi {{ $info['name'] }} | Portal Terpadu SIT Robbani</title>
 
     <!-- Favicon & Social Meta Tags -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=2">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=10">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=10">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="Profil {{ $info['name'] }} | Portal Resmi SIT Robbani">
