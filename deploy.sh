@@ -20,9 +20,22 @@ echo -e "${BLUE}========================================${NC}"
 echo -e "${BLUE}  SIT Robbani SmartEdu - Auto Deploy${NC}"
 echo -e "${BLUE}========================================${NC}"
 
-# Tentukan PHP binary (override 8.1 di cPanel)
+# Tentukan PHP binary (override 8.1 di cPanel - EasyApache4, CloudLinux alt-php, native paths)
 PHP_BIN=""
-for bin in /usr/local/php84/bin/php /opt/cpanel/ea-php84/root/usr/bin/php /usr/bin/php8.4 /usr/local/bin/php8.4; do
+for bin in \
+    /opt/cpanel/ea-php84/root/usr/bin/php \
+    /opt/alt/php84/usr/bin/php \
+    /usr/local/php84/bin/php \
+    /usr/local/bin/ea-php84 \
+    /usr/bin/ea-php84 \
+    /usr/bin/php84 \
+    /usr/bin/php8.4 \
+    /usr/local/bin/php8.4 \
+    /usr/local/bin/php84 \
+    /opt/cpanel/ea-php83/root/usr/bin/php \
+    /opt/alt/php83/usr/bin/php \
+    /usr/local/php83/bin/php \
+    /usr/bin/php8.3; do
     if [ -f "$bin" ]; then
         PHP_BIN="$bin"
         break
