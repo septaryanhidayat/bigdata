@@ -96,6 +96,7 @@ Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->nam
 
 // Admin Authentication & CMS Routes
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
     Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
