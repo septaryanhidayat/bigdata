@@ -255,20 +255,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
             
             <!-- Logo Section -->
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group shrink-0">
-                <div class="logo-badge-container shrink-0 p-1.5 rounded-2xl bg-slate-50 dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] shadow-xs">
-                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="140" height="44" fetchpriority="high" class="h-10 sm:h-11 w-auto object-contain transition-all group-hover:scale-105">
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="px-2 py-0.5 rounded {{ $uTheme['tag_pill'] }} border border-transparent dark:border-[#1a381c] font-black text-[10px] tracking-wider uppercase">
-                            UNIT {{ $info['code'] }}
-                        </span>
-                        <span class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 hidden sm:inline-block">• SIT ROBBANI</span>
-                    </div>
-                    <span class="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight block group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors font-headline">
-                        {{ $info['name'] }}
-                    </span>
+            <a href="{{ route('home') }}" class="flex items-center group shrink-0" title="Beranda SIT Robbani">
+                <div class="logo-badge-container shrink-0 p-1.5 sm:p-2 rounded-2xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-xs hover:shadow-md transition-all">
+                    <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="150" height="46" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
                 </div>
             </a>
 
@@ -396,73 +385,53 @@
             </div>
         </section>
 
-        <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 FLOATING ACTION CARDS) -->
-        <section class="-mt-14 sm:-mt-20 relative z-30 px-4 sm:px-6">
+        <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 COMPACT ACTION CARDS 2x2 DI MOBILE) -->
+        <section class="-mt-12 sm:-mt-20 relative z-30 px-4 sm:px-6">
             <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
                     
                     <!-- Card 1: Profil Sekolah -->
-                    <a href="#sambutan" class="bg-white dark:bg-[#0d1e0f] border-t-4 {{ $uTheme['top_border'] }} dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-emerald-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                                <span class="material-symbols-outlined text-[26px]">school</span>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors">Profil Sekolah</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Visi misi &amp; sambutan kepala sekolah</p>
-                            </div>
+                    <a href="#sambutan" class="bg-white dark:bg-[#0d1e0f] border-t-4 {{ $uTheme['top_border'] }} dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
+                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-emerald-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">school</span>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] group-hover:bg-emerald-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
-                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </span>
+                        <div class="min-w-0">
+                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Profil Sekolah</h3>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Visi misi &amp; sambutan</p>
+                        </div>
                     </a>
 
                     <!-- Card 2: PPDB 2026/2027 -->
-                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-amber-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-[#153018] text-amber-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-amber-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                                <span class="material-symbols-outlined text-[26px]">how_to_reg</span>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 dark:group-hover:text-[#c6f634] transition-colors">PPDB 2026/2027</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Pendaftaran siswa baru online</p>
-                            </div>
+                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-amber-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
+                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-amber-50 dark:bg-[#153018] text-amber-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-amber-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">how_to_reg</span>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-amber-600 dark:group-hover:text-[#c6f634] group-hover:bg-amber-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
-                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </span>
+                        <div class="min-w-0">
+                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">PPDB 2026</h3>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Pendaftaran online</p>
+                        </div>
                     </a>
 
                     <!-- Card 3: Program Unggulan -->
-                    <a href="#program" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-cyan-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-[#153018] text-cyan-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-cyan-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                                <span class="material-symbols-outlined text-[26px]">menu_book</span>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] transition-colors">Program Unggulan</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Tahfidz, sains, koding &amp; bilingual</p>
-                            </div>
+                    <a href="#program" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-cyan-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
+                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-cyan-50 dark:bg-[#153018] text-cyan-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-cyan-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">menu_book</span>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] group-hover:bg-cyan-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
-                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </span>
+                        <div class="min-w-0">
+                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Program Unggulan</h3>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Tahfidz &amp; kurikulum</p>
+                        </div>
                     </a>
 
                     <!-- Card 4: Agenda Sekolah -->
-                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-indigo-600 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-[#153018] text-indigo-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-indigo-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                                <span class="material-symbols-outlined text-[26px]">calendar_month</span>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] transition-colors">Agenda Sekolah</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1">Jadwal kegiatan &amp; pengumuman resmi</p>
-                            </div>
+                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-indigo-600 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
+                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-indigo-50 dark:bg-[#153018] text-indigo-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-indigo-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">calendar_month</span>
                         </div>
-                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#153018] text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] group-hover:bg-indigo-50 dark:group-hover:bg-[#1c4021] flex items-center justify-center shrink-0 transition-colors">
-                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                        </span>
+                        <div class="min-w-0">
+                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Agenda Sekolah</h3>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Jadwal &amp; info resmi</p>
+                        </div>
                     </a>
 
                 </div>
@@ -547,53 +516,63 @@
             </div>
         </section>
 
-        <!-- 4. PROFIL & VISI MISI UNIT -->
+        <!-- 4. PROFIL & VISI MISI UNIT (RATA TENGAH & SIMETRIS DI MOBILE) -->
         <section id="profil" class="reveal-fade-up px-4 sm:px-6">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-stretch">
                 
                 <!-- Left: Profil Pembelajaran -->
-                <div class="lg:col-span-6 space-y-6">
-                    <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4">
-                        <div class="text-center lg:text-left"><span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">PROFIL PEMBELAJARAN</span></div>
-                            PROFIL PEMBELAJARAN
-                        </div>
-                        <h2 class="text-xl sm:text-2xl font-extrabold font-headline text-slate-900 dark:text-white">Keunggulan {{ $info['name'] }}</h2>
-                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                            {{ $info['description'] }}
-                        </p>
-                        <div class="pt-3 border-t border-slate-100 dark:border-[#1a381c] grid grid-cols-2 gap-4 text-xs font-bold text-slate-700 dark:text-slate-300">
-                            <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634]">verified</span>
-                                <span>Akreditasi: {{ $info['akreditasi'] }}</span>
+                <div class="lg:col-span-6 flex">
+                    <div class="w-full p-5 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4 flex flex-col justify-between text-center lg:text-left items-center lg:items-start">
+                        <div class="space-y-3 w-full">
+                            <div>
+                                <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-[11px] font-black uppercase tracking-wider shadow-sm">
+                                    PROFIL PEMBELAJARAN
+                                </span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634]">menu_book</span>
-                                <span>Kurikulum: Merdeka + JSIT</span>
+                            <h2 class="text-xl sm:text-2xl font-black font-headline text-slate-900 dark:text-white">Keunggulan {{ $info['name'] }}</h2>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                                {{ $info['description'] }}
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 dark:border-[#1a381c] grid grid-cols-2 gap-3 text-xs font-bold text-slate-700 dark:text-slate-300 w-full text-center sm:text-left">
+                            <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                                <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634] text-[18px]">verified</span>
+                                <span>Akreditasi: <strong>{{ $info['akreditasi'] }}</strong></span>
+                            </div>
+                            <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                                <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634] text-[18px]">menu_book</span>
+                                <span>Kurikulum: <strong>Merdeka</strong></span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right: Visi & Misi Unit -->
-                <div class="lg:col-span-6 space-y-6">
-                    <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4">
-                        <div class="text-center lg:text-left"><span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">VISI &amp; MISI SATUAN PENDIDIKAN</span></div>
-                        <div>
-                            <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Visi Unit {{ $info['code'] }}:</h3>
-                            <p class="text-sm sm:text-base font-bold text-emerald-900 dark:text-[#c6f634] mt-1 italic font-headline leading-snug">
-                                "{{ $info['vision'] }}"
-                            </p>
-                        </div>
-                        <div class="space-y-2 pt-2">
-                            <h4 class="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">Misi Utama Unit:</h4>
-                            <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300">
-                                @foreach($info['missions'] as $misi)
-                                <li class="flex items-start gap-2">
-                                    <span class="material-symbols-outlined text-[16px] text-emerald-600 dark:text-[#c6f634] shrink-0 mt-0.5">check_circle</span>
-                                    <span>{{ $misi }}</span>
-                                </li>
-                                @endforeach
-                            </ul>
+                <div class="lg:col-span-6 flex">
+                    <div class="w-full p-5 sm:p-8 rounded-3xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-sm space-y-4 flex flex-col justify-between text-center lg:text-left items-center lg:items-start">
+                        <div class="space-y-3 w-full">
+                            <div>
+                                <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-[11px] font-black uppercase tracking-wider shadow-sm">
+                                    VISI &amp; MISI UNIT
+                                </span>
+                            </div>
+                            <div>
+                                <h3 class="text-[11px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Visi Satuan Pendidikan:</h3>
+                                <p class="text-sm sm:text-base font-bold text-emerald-900 dark:text-[#c6f634] mt-1 italic font-headline leading-snug">
+                                    "{{ $info['vision'] }}"
+                                </p>
+                            </div>
+                            <div class="space-y-2 pt-2 text-left">
+                                <h4 class="text-[11px] font-extrabold text-slate-800 dark:text-white uppercase tracking-wider text-center lg:text-left">Misi Utama:</h4>
+                                <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300">
+                                    @foreach($info['missions'] as $misi)
+                                    <li class="flex items-start gap-2">
+                                        <span class="material-symbols-outlined text-[16px] text-emerald-600 dark:text-[#c6f634] shrink-0 mt-0.5">check_circle</span>
+                                        <span>{{ $misi }}</span>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -611,9 +590,9 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengembangan potensi akademis, hafalan Al-Qur'an, koding digital, dan pembiasaan adab islami.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     @foreach($info['programs'] as $prog)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm space-y-3 hover:border-emerald-500 hover:shadow-lg transition-all">
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm flex flex-col items-center text-center space-y-2.5 hover:border-emerald-500 hover:shadow-lg transition-all">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center text-2xl font-bold shadow-xs">
                             {{ $prog['icon'] }}
                         </div>
@@ -1098,19 +1077,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
                 
-                <!-- Col 1: Logo & School Identity (4 cols) -->
-                <div class="lg:col-span-4 space-y-4">
-                    <div class="inline-flex items-center gap-3 bg-white p-2.5 rounded-2xl shadow-md border border-slate-200">
-                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="140" height="40" loading="lazy" decoding="async" class="h-10 w-auto object-contain">
-                        <div>
-                            <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block">SIT ROBBANI</span>
-                            <span class="text-xs font-black text-slate-900 leading-tight block">{{ $info['name'] }}</span>
-                        </div>
+                <!-- Col 1: Logo & School Identity (Clean Centered Logo Only) -->
+                <div class="lg:col-span-4 space-y-4 flex flex-col items-center text-center">
+                    <div class="inline-flex items-center justify-center bg-white p-3 rounded-2xl shadow-md border border-slate-200">
+                        <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="150" height="44" loading="lazy" decoding="async" class="h-10 sm:h-11 w-auto object-contain">
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Lembaga Pendidikan Islam Terpadu unggulan di Kabupaten Ogan Ilir yang mengintegrasikan pembinaan aqidah, tahfidz Al-Qur'an, sains modern, dan karakter kepemimpinan Qur'ani.
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+                        Lembaga Pendidikan Islam Terpadu unggulan di Kabupaten Ogan Ilir yang mengintegrasikan pembinaan aqidah, tahfidz Al-Qur'an, sains modern, dan kepemimpinan Qur'ani.
                     </p>
-                    <div class="flex items-center gap-2 pt-2">
+                    <div class="flex items-center justify-center gap-2.5 pt-1">
                         <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="WhatsApp">
                             <span class="material-symbols-outlined text-[18px]">chat</span>
                         </a>
@@ -1124,7 +1099,7 @@
                 </div>
 
                 <!-- Col 2: Navigasi Utama (3 cols) -->
-                <div class="lg:col-span-3 space-y-3">
+                <div class="lg:col-span-3 space-y-3 text-center sm:text-left flex flex-col items-center sm:items-start">
                     <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                         <span>Navigasi Utama</span>
@@ -1141,7 +1116,7 @@
                 </div>
 
                 <!-- Col 3: Informasi Sekolah (2 cols) -->
-                <div class="lg:col-span-2 space-y-3">
+                <div class="lg:col-span-2 space-y-3 text-center sm:text-left flex flex-col items-center sm:items-start">
                     <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-amber-400"></span>
                         <span>Informasi Sekolah</span>
@@ -1157,7 +1132,7 @@
                 </div>
 
                 <!-- Col 4: Hubungi Kami (3 cols) -->
-                <div class="lg:col-span-3 space-y-3">
+                <div class="lg:col-span-3 space-y-3 text-center sm:text-left flex flex-col items-center sm:items-start">
                     <h4 class="text-sm font-black text-white font-headline border-b border-slate-800 pb-2 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         <span>Hubungi Kami</span>
