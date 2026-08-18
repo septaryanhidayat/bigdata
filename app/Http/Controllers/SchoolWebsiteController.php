@@ -19,7 +19,7 @@ class SchoolWebsiteController extends Controller
             'hero_badge' => SiteSetting::get('hero_badge', '✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027'),
             'hero_title' => SiteSetting::get('hero_title', 'Taman Pendidikan & Sekolah Islam Terpadu Robbani'),
             'hero_desc' => SiteSetting::get('hero_desc', 'Mencetak Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Berprestasi Nasional di Kabupaten Ogan Ilir, Sumatera Selatan.'),
-            'hero_bg_image' => SiteSetting::get('hero_bg_image', '/uploads/media/banner-hero.webp'),
+            'hero_bg_image' => SiteSetting::get('hero_bg_image', '/uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp'),
             'hero_banner_opacity' => SiteSetting::get('hero_banner_opacity', '70'),
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
             'principal_name' => SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd'),
