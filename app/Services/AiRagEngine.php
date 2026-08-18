@@ -542,6 +542,85 @@ class AiRagEngine
         $kepsekSmp       = $context['kepsekSmp'] ?? 'Tia Wulandari, S.Pd., Gr.';
         $kepsekSma       = $context['kepsekSma'] ?? 'Koordinator SMAIT Robbani';
 
+        $defaults = [
+            'tkit' => [
+                'name' => 'KB/TKIT Robbani',
+                'facilities' => [
+                    ['title' => 'Loker di Setiap Kelas', 'badge' => 'Kemandirian Anak', 'desc' => 'Setiap anak mempunyai loker pribadi masing-masing di kelasnya.'],
+                    ['title' => 'Permainan Outdoor', 'badge' => 'Motorik Kasar', 'desc' => 'Tempat Permainan Outdoor yang nyaman, bersih dan dilengkapi oleh CCTV.'],
+                    ['title' => 'Tempat Wudhu Anti-Slip', 'badge' => 'Pembiasaan Ibadah', 'desc' => 'Tempat wudhu yang bersih dan alas lantai anti slip dan dilengkapi dengan CCTV.'],
+                    ['title' => 'Teras Bersih & CCTV', 'badge' => 'Area Bermain', 'desc' => 'Teras yang bersih dan dilengkapi CCTV, tempat anak main diluar ruangan yang nyaman.']
+                ],
+                'programs' => [
+                    ['title' => 'Tahfidz Al-Qur\'an Juz 30', 'desc' => 'Pembiasaan hafalan Al-Qur\'an Juz 30 dengan metode nasyid yang menyenangkan.'],
+                    ['title' => 'Pembelajaran Sentra & APE', 'desc' => 'Mengembangkan kecerdasan majemuk melalui alat peraga edukatif terpadu.']
+                ],
+                'teachers' => [
+                    ['name' => 'Ani Oktar Yansi, S.Pd.I', 'role' => 'Kepala KB/TKIT Robbani']
+                ]
+            ],
+            'sdit' => [
+                'name' => 'SDIT Robbani Ogan Ilir',
+                'facilities' => [
+                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang yang rutin dilaksanakan.'],
+                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin melalui penyediaan fasilitas AC dan penerangan.'],
+                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik sehingga siswa terasa nyaman ketika beribadah.'],
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event, seminar, atau kegiatan upacara sekolah.'],
+                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka sebagai pelataran aktivitas fisik siswa.']
+                ],
+                'programs' => [
+                    ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
+                    ['title' => 'Bina Pribadi Islam (BPI)', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah, karakter, dan kepemimpinan islami.'],
+                    ['title' => 'Koding & Science Club', 'desc' => 'Pembelajaran dasar pemograman, robotik sederhana, dan eksperimen sains sekolah.'],
+                    ['title' => 'Pramuka SIT & Archery', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
+                ],
+                'teachers' => [
+                    ['name' => 'Nur Amalia, S.Pd', 'role' => 'Kepala Sekolah SDIT'],
+                    ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Wakil Kepala Sekolah SDIT']
+                ]
+            ],
+            'smpit' => [
+                'name' => 'SMP IT ROBBANI',
+                'facilities' => [
+                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.'],
+                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca.'],
+                    ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.'],
+                    ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital.'],
+                    ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.'],
+                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri.']
+                ],
+                'programs' => [
+                    ['title' => 'SIPAKAR V2 Digital Learning', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi, modul CBT, dan rekam jejak hafalan.'],
+                    ['title' => 'Fullday School & Karakter Islami', 'desc' => 'Pembiasaan ibadah harian, sholat dhuha & dhuhur berjamaah, mentoring adab, dan kemandirian.'],
+                    ['title' => 'Tahfidz Al-Qur\'an 5-10 Juz', 'desc' => 'Bimbingan tasmi\', murojaah berkala, dan wisuda tahfidz dengan target hafalan mutqin.'],
+                    ['title' => 'Bilingual Club (Arab & Inggris)', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking siswa.']
+                ],
+                'teachers' => [
+                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist & PAI'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK'],
+                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa']
+                ]
+            ],
+            'smait' => [
+                'name' => 'SMAIT Robbani Ogan Ilir',
+                'facilities' => [
+                    ['title' => 'Gedung Utama SMAIT', 'badge' => 'Gedung Sekolah', 'desc' => 'Gedung sekolah modern berlantai 2 dengan fasilitas penunjang riset sains dan IT.'],
+                    ['title' => 'Laboratorium Komputer & Koding', 'badge' => 'Laboratorium IT', 'desc' => 'Fasilitas perangkat komputer spesifikasi tinggi untuk pembelajaran pemrograman dan sains digital.']
+                ],
+                'programs' => [
+                    ['title' => 'Tahfidz Al-Qur\'an 10-30 Juz', 'desc' => 'Program tahfidz intensif berijazah sanad resmi.'],
+                    ['title' => 'Mentoring Tembus PTN Favorit', 'desc' => 'Bimbingan intensif UTBK-SNBT dan seleksi PTN (UI, ITB, UGM, UNSRI) serta Beasiswa Luar Negeri.']
+                ],
+                'teachers' => []
+            ]
+        ];
+
         // ── 0. Pertanyaan Spesifik: Dewan Guru / Pendidik / Ustadz / GTK ──────────────
         $isAskingTeachers = str_contains($lower, 'guru') || str_contains($lower, 'pendidik') || str_contains($lower, 'ustadz') || str_contains($lower, 'ustadzah') || str_contains($lower, 'pengajar') || str_contains($lower, 'gtk') || str_contains($lower, 'staf');
 
@@ -553,10 +632,10 @@ class AiRagEngine
 
             $profileJson = SiteSetting::get("unit_profile_{$unitCode}");
             $p = $profileJson ? json_decode($profileJson, true) : [];
-            $teachers = $p['teachers'] ?? [];
+            $teachers = !empty($p['teachers']) ? $p['teachers'] : ($defaults[$unitCode]['teachers'] ?? []);
 
             if (!empty($teachers)) {
-                $unitName = $p['name'] ?? strtoupper($unitCode);
+                $unitName = $p['name'] ?? $defaults[$unitCode]['name'] ?? strtoupper($unitCode);
                 $listStr = "Berikut dewan guru dan tenaga pendidik (GTK) **{$unitName}**:\n\n";
                 foreach ($teachers as $t) {
                     $listStr .= "• **" . ($t['name'] ?? '') . "** — " . ($t['role'] ?? 'Tenaga Pendidik') . "\n";
@@ -577,10 +656,10 @@ class AiRagEngine
 
             $profileJson = SiteSetting::get("unit_profile_{$unitCode}");
             $p = $profileJson ? json_decode($profileJson, true) : [];
-            $facs = $p['facilities'] ?? [];
+            $facs = !empty($p['facilities']) ? $p['facilities'] : ($defaults[$unitCode]['facilities'] ?? []);
 
             if (!empty($facs)) {
-                $unitName = $p['name'] ?? strtoupper($unitCode);
+                $unitName = $p['name'] ?? $defaults[$unitCode]['name'] ?? strtoupper($unitCode);
                 $listStr = "Berikut sarana dan fasilitas unggulan **{$unitName}**:\n\n";
                 foreach ($facs as $f) {
                     $listStr .= "• **" . ($f['title'] ?? '') . "** (" . ($f['badge'] ?? 'Fasilitas') . "): " . ($f['desc'] ?? '') . "\n";
@@ -601,10 +680,10 @@ class AiRagEngine
 
             $profileJson = SiteSetting::get("unit_profile_{$unitCode}");
             $p = $profileJson ? json_decode($profileJson, true) : [];
-            $progs = $p['programs'] ?? [];
+            $progs = !empty($p['programs']) ? $p['programs'] : ($defaults[$unitCode]['programs'] ?? []);
 
             if (!empty($progs)) {
-                $unitName = $p['name'] ?? strtoupper($unitCode);
+                $unitName = $p['name'] ?? $defaults[$unitCode]['name'] ?? strtoupper($unitCode);
                 $listStr = "Berikut program unggulan & kegiatan siswa **{$unitName}**:\n\n";
                 foreach ($progs as $pr) {
                     $listStr .= "• **" . ($pr['title'] ?? '') . "**: " . ($pr['desc'] ?? '') . "\n";
