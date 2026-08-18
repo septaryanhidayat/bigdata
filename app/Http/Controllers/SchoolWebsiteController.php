@@ -1559,6 +1559,21 @@ class SchoolWebsiteController extends Controller
     public function chatAi(Request $request)
     {
         try {
+            $ip = $request->ip();
+            $executed = \Illuminate\Support\Facades\RateLimiter::attempt(
+                'chat-ai:' . $ip,
+                $perMinute = 15,
+                function() {},
+                $decaySeconds = 60
+            );
+
+            if (!$executed) {
+                return response()->json([
+                    'status' => 'error',
+                    'answer' => 'Mohon maaf, Anda mengirim terlalu banyak pesan dalam waktu singkat. Silakan tunggu 1 menit lagi untuk melanjutkan pertanyaan.'
+                ]);
+            }
+
             $message = trim($request->input('message', ''));
             if (empty($message)) {
                 return response()->json([
@@ -1581,4 +1596,3 @@ class SchoolWebsiteController extends Controller
         }
     }
 }
-
