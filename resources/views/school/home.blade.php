@@ -64,11 +64,13 @@
     ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>
 
-    <!-- Preconnect & DNS-Prefetch for Fast CDN Resources -->
+    <!-- Preconnect & DNS-Prefetch for Fast CDN Resources & External Hero Background -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
 
     <!-- Preload Critical LCP Logo & Hero Background -->
     <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
