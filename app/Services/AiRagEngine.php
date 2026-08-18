@@ -311,10 +311,10 @@ class AiRagEngine
         $smpitProfile = json_decode(SiteSetting::get('unit_profile_smpit'), true) ?: [];
         $smaitProfile = json_decode(SiteSetting::get('unit_profile_smait'), true) ?: [];
 
-        $pimpinanYayasan = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti Wulandari, S.Pd');
+        $pimpinanYayasan = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti wulandari, S.Pd');
         $kepsekTk  = $tkitProfile['principal_name'] ?? 'Ani Oktar Yansi, S.Pd.I';
-        $kepsekSd  = $sditProfile['principal_name'] ?? 'Nur Amalia, S.Pd';
-        $kepsekSmp = $smpitProfile['principal_name'] ?? 'Tia Wulandari, S.Pd., Gr.';
+        $kepsekSd  = $sditProfile['principal_name'] ?? 'Nur Amalia, S.Pd.,Gr';
+        $kepsekSmp = $smpitProfile['principal_name'] ?? 'Tia Wulandari, S.Pd';
         $kepsekSma = $smaitProfile['principal_name'] ?? 'Koordinator SMAIT Robbani';
 
         $contactPhone  = SiteSetting::get('contact_phone', '0811747472');
@@ -413,10 +413,10 @@ class AiRagEngine
     {
         $lower = strtolower($q);
         $contactPhone    = $context['contactPhone'] ?? '0811747472';
-        $pimpinanYayasan = $context['pimpinanYayasan'] ?? 'Sughesti Wulandari, S.Pd';
+        $pimpinanYayasan = $context['pimpinanYayasan'] ?? 'Sughesti wulandari, S.Pd';
         $kepsekTk        = $context['kepsekTk'] ?? 'Ani Oktar Yansi, S.Pd.I';
-        $kepsekSd        = $context['kepsekSd'] ?? 'Nur Amalia, S.Pd';
-        $kepsekSmp       = $context['kepsekSmp'] ?? 'Tia Wulandari, S.Pd., Gr.';
+        $kepsekSd        = $context['kepsekSd'] ?? 'Nur Amalia, S.Pd.,Gr';
+        $kepsekSmp       = $context['kepsekSmp'] ?? 'Tia Wulandari, S.Pd';
         $kepsekSma       = $context['kepsekSma'] ?? 'Koordinator SMAIT Robbani';
 
         // ── 1. Pertanyaan Spesifik: Nama Kepala Sekolah / Ketua Yayasan ───────────

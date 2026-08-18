@@ -187,7 +187,7 @@
                 <div class="pt-1">
                     @if(!$letter->school_id || !$letter->school)
                         <p class="font-extrabold text-xs text-slate-950 underline">
-                            {{ $letter->digitalSignature?->signer?->full_name ?? 'Ustadz H. Mukhtarom, Lc., M.H.I' }}
+                            {{ $letter->digitalSignature?->signer?->full_name ?? 'Sughesti wulandari, S.Pd' }}
                         </p>
                         <p class="text-[10px] text-slate-500 font-mono">
                             {{ $letter->digitalSignature?->signer?->nip ? 'NIY. ' . $letter->digitalSignature?->signer?->nip : 'NIY. 197808122010011001' }}
