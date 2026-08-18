@@ -18,6 +18,19 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Multi-Unit Legacy SIABS Silent Rewrite Rules (Tanpa Mengubah URL Pengunjung)
+    RewriteCond %{HTTP_HOST} ^(www\.)?sd(it)?\.sitrobbani\.sch\.id$ [NC]
+    RewriteCond %{REQUEST_URI} ^/siabs [NC]
+    RewriteRule ^siabs/?(.*)$ siabs-sd/$1 [L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?tk(it)?\.sitrobbani\.sch\.id$ [NC]
+    RewriteCond %{REQUEST_URI} ^/siabs [NC]
+    RewriteRule ^siabs/?(.*)$ siabs-tk/$1 [L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?smp(it)?\.sitrobbani\.sch\.id$ [NC]
+    RewriteCond %{REQUEST_URI} ^/siabs [NC]
+    RewriteRule ^siabs/?(.*)$ siabs-smp/$1 [L]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
