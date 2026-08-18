@@ -843,9 +843,9 @@
 
                         <!-- Highlights Feature Badges -->
                         <div class="flex flex-wrap justify-center lg:justify-start gap-md text-xs font-semibold text-slate-700 dark:text-slate-300 pt-3 border-t border-slate-200/80 dark:border-slate-800">
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Tahfidz Al-Qur'an</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Sekolah Digital</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Pendidikan Karakter</span>
                             <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum Merdeka & JSIT</span>
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Akreditasi Unggul</span>
                         </div>
                     </div>
 
