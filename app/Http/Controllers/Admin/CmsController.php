@@ -1783,6 +1783,11 @@ class CmsController extends Controller
             $excerpt = \Illuminate\Support\Str::limit(strip_tags($content), 160);
         }
 
+        // AUTOMATED SAFETY FILTER (Anti-Judol, Anti-Pinjol, Anti-SARA, Anti-Pornography, Anti-LGBT, etc.)
+        if (!\App\Services\ContentFilterService::isSafe($title, $excerpt, $content, $category)) {
+            return back()->with('error', '⚠️ Konten mengandung kata terlarang (Judi Online / Pinjol / SARA / Konten Terlarang). Publikasi dibatalkan secara otomatis.')->withInput();
+        }
+
         // Image Handling
         $imagePath = $request->input('existing_image', '/images/mockup_desktop_1.png');
         if ($request->hasFile('image_file')) {

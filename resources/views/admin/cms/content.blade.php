@@ -417,8 +417,13 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons: EDIT & HAPUS -->
+                <!-- Action Buttons: LIHAT DI WEBSITE, EDIT & HAPUS -->
                 <div class="flex items-center gap-2 self-end md:self-center shrink-0">
+                    <!-- LIHAT DI WEBSITE Button -->
+                    <a href="{{ route('school.berita.show', $itemSlug) }}" target="_blank" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-black text-xs rounded-xl border border-emerald-200 hover:border-emerald-600 transition-all flex items-center gap-1.5 shadow-xs" title="Lihat tampilan berita di website">
+                        <span>🌐 Lihat Berita</span>
+                    </a>
+
                     <!-- EDIT Button (Navigates to dedicated WordPress-style rich editor page) -->
                     <a href="{{ route('admin.cms.post.edit', ['slug' => $itemSlug, 'index' => $idx]) }}" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-black text-xs rounded-xl border border-indigo-200 hover:border-indigo-600 transition-all flex items-center gap-1.5 shadow-xs">
                         <span>✏️ Edit Post</span>

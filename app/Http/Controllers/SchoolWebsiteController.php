@@ -1113,46 +1113,56 @@ class SchoolWebsiteController extends Controller
                 'content' => 'Ogan Ilir — Dalam rangka membekali siswa dengan keterampilan abad 21, SMAIT Robbani Ogan Ilir menggelar Workshop Coding & IoT Development selama 3 hari.<br><br>Para siswa diajarkan merancang aplikasi mobile berbasis Android, sistem otomasi sensor cerdas (Internet of Things), serta manajemen database cloud.<br><br>Karya-karya inovasi siswa seperti sistem presensi digital dan pengingat waktu sholat otomatis dipresentasikan di hadapan para penguji dan praktisi IT.'
             ]
         ];
+
+        // AUTOMATED SAFETY FILTER: Remove judol, pinjol, SARA, pornography, etc.
+        return \App\Services\ContentFilterService::filterCollection($newsList);
     }
 
     public function getArticleData()
     {
         $cmsJson = SiteSetting::get('cms_article_data');
+        $data = [];
         if ($cmsJson) {
-            $data = json_decode($cmsJson, true);
-            if (is_array($data) && count($data) > 0) {
-                // Ensure always sorted by date timestamp DESC (newest 2026 first)
-                usort($data, function($a, $b) {
-                    $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
-                    $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
-                    return $tB <=> $tA;
-                });
-                return $data;
+            $parsed = json_decode($cmsJson, true);
+            if (is_array($parsed) && count($parsed) > 0) {
+                $data = $parsed;
             }
         }
 
-        return [
-            [
-                'title' => 'Tata Cara Sholat Tasbih dan Keutamaannya',
-                'slug' => 'tata-cara-sholat-tasbih-dan-keutamaannya',
-                'category' => 'Artikel Keislaman',
-                'date' => '06 Maret 2026',
-                'author' => 'Tim Bina Pribadi Islami',
-                'image' => '/images/hero_3d_illustration_1786347707126.png',
-                'excerpt' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam. Sholat ini memiliki keistimewaan karena di dalamnya dipenuhi kalimat tasbih.',
-                'content' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam, baik dilaksanakan pada siang hari maupun malam hari.<br><br><strong>Keutamaan Sholat Tasbih:</strong><br>1. Menggugurkan dosa-dosa kecil maupun besar.<br>2. Menjadikan hati lebih tenang dan dekat dengan Allah SWT.<br>3. Meneladani sunnah Rasulullah SAW dan arahan kepada Sayyidina Abbas RA.<br><br><strong>Tata Cara Pelaksanaan:</strong><br>Sholat Tasbih dikerjakan sebanyak 4 rakaat. Dalam setiap rakaatnya, dibaca kalimat tasbih <i>"Subhanallah walhamdulillah wala ilaha illallah wallahu akbar"</i> sebanyak 75 kali (total 300 kali tasbih dalam 4 rakaat).'
-            ],
-            [
-                'title' => 'Membangun Karakter Rabbani Melalui Pembiasaan Mutabaah Yaumiyah & Bina Pribadi Islami',
-                'slug' => 'membangun-karakter-rabbani-melalui-mutabaah-yaumiyah-bpi',
-                'category' => 'Artikel Edukasi',
-                'date' => '18 Februari 2026',
-                'author' => 'Tim Kurikulum JSIT',
-                'image' => '/images/bpi_mutabaah_3d_1786347836635.png',
-                'excerpt' => 'Pembentukan karakter generasi Rabbani diawali dengan pembiasaan sholat 5 waktu tepat waktu, tilawah Al-Qur\'an, hafalan ziyadah, dan keterlibatan aktif wali murid.',
-                'content' => 'Pembentukan karakter siswa tidak hanya cukup dilakukan melalui teori di dalam kelas, namun membutuhkan pembiasaan (amaliyah yaumiyah) yang konsisten.<br><br>Melalui modul Bina Pribadi Islami (BPI) dan Mutabaah Yaumiyah di SIT Robbani Ogan Ilir, siswa dibimbing untuk melatih kedisiplinan ibadah mandiri: Sholat Fardhu tepat waktu, Sholat Dhuha, Tahajud, Tilawah harian, hafalan ayat Al-Qur\'an, serta bakti kepada orang tua.'
-            ]
-        ];
+        if (empty($data)) {
+            $data = [
+                [
+                    'title' => 'Tata Cara Sholat Tasbih dan Keutamaannya',
+                    'slug' => 'tata-cara-sholat-tasbih-dan-keutamaannya',
+                    'category' => 'Artikel Keislaman',
+                    'date' => '06 Maret 2026',
+                    'author' => 'Tim Bina Pribadi Islami',
+                    'image' => '/images/hero_3d_illustration_1786347707126.png',
+                    'excerpt' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam. Sholat ini memiliki keistimewaan karena di dalamnya dipenuhi kalimat tasbih.',
+                    'content' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam, baik dilaksanakan pada siang hari maupun malam hari.<br><br><strong>Keutamaan Sholat Tasbih:</strong><br>1. Menggugurkan dosa-dosa kecil maupun besar.<br>2. Menjadikan hati lebih tenang dan dekat dengan Allah SWT.<br>3. Meneladani sunnah Rasulullah SAW dan arahan kepada Sayyidina Abbas RA.<br><br><strong>Tata Cara Pelaksanaan:</strong><br>Sholat Tasbih dikerjakan sebanyak 4 rakaat. Dalam setiap rakaatnya, dibaca kalimat tasbih <i>"Subhanallah walhamdulillah wala ilaha illallah wallahu akbar"</i> sebanyak 75 kali (total 300 kali tasbih dalam 4 rakaat).'
+                ],
+                [
+                    'title' => 'Membangun Karakter Rabbani Melalui Pembiasaan Mutabaah Yaumiyah & Bina Pribadi Islami',
+                    'slug' => 'membangun-karakter-rabbani-melalui-mutabaah-yaumiyah-bpi',
+                    'category' => 'Artikel Edukasi',
+                    'date' => '18 Februari 2026',
+                    'author' => 'Tim Kurikulum JSIT',
+                    'image' => '/images/bpi_mutabaah_3d_1786347836635.png',
+                    'excerpt' => 'Pembentukan karakter generasi Rabbani diawali dengan pembiasaan sholat 5 waktu tepat waktu, tilawah Al-Qur\'an, hafalan ziyadah, dan keterlibatan aktif wali murid.',
+                    'content' => 'Pembentukan karakter siswa tidak hanya cukup dilakukan melalui teori di dalam kelas, namun membutuhkan pembiasaan (amaliyah yaumiyah) yang konsisten.<br><br>Melalui modul Bina Pribadi Islami (BPI) dan Mutabaah Yaumiyah di SIT Robbani Ogan Ilir, siswa dibimbing untuk melatih kedisiplinan ibadah mandiri: Sholat Fardhu tepat waktu, Sholat Dhuha, Tahajud, Tilawah harian, hafalan ayat Al-Qur\'an, serta bakti kepada orang tua.'
+                ]
+            ];
+        }
+
+        // Sort DESC by date/timestamp
+        usort($data, function($a, $b) {
+            $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+            $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+            return $tB <=> $tA;
+        });
+
+        // AUTOMATED SAFETY FILTER: Remove judol, pinjol, SARA, pornography, etc.
+        return \App\Services\ContentFilterService::filterCollection($data);
     }
 
     public function getFacilityData()
