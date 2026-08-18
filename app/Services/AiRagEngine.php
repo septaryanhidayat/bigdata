@@ -240,51 +240,95 @@ class AiRagEngine
         }
 
         // Sync Unit Profiles
-        $unitKeys = ['unit_profile_tkit', 'unit_profile_sdit', 'unit_profile_smpit', 'unit_profile_smait'];
+        $unitKeys  = ['unit_profile_tkit', 'unit_profile_sdit', 'unit_profile_smpit', 'unit_profile_smait'];
+        $unitCodes = ['tkit', 'sdit', 'smpit', 'smait'];
         $unitNames = ['KB/TKIT Robbani', 'SDIT Robbani', 'SMPIT Robbani', 'SMAIT Robbani'];
-        foreach ($unitKeys as $idx => $key) {
-            $profileJson = SiteSetting::get($key);
-            if ($profileJson) {
-                $p = json_decode($profileJson, true) ?: [];
-                $text  = "PROFIL UNIT: {$unitNames[$idx]}\n";
-                $text .= "Kepala Sekolah: " . ($p['principal_name'] ?? '-') . "\n";
-                $text .= "Jabatan: " . ($p['principal_title'] ?? '-') . "\n";
-                $text .= "Akreditasi: " . ($p['akreditasi'] ?? '-') . "\n";
-                $text .= "Tagline: " . ($p['tagline'] ?? '-') . "\n";
-                $text .= "Visi: " . ($p['vision'] ?? '-') . "\n";
-                $text .= "Misi: " . (is_array($p['missions'] ?? null) ? implode('; ', $p['missions']) : ($p['mission'] ?? '-')) . "\n";
-                $text .= "Target Hafalan: " . ($p['target_hafalan'] ?? '-') . "\n";
 
-                self::ingestDocument(
-                    title:      "Profil Unit: {$unitNames[$idx]}",
-                    category:   'website_data',
-                    rawText:    $text,
-                    sourceType: 'website_data',
-                    uploadedBy: 'System Auto-Sync',
-                );
-                $synced['profiles']++;
+        // Fallback array if DB JSON is partial
+        $ctrl = new \App\Http\Controllers\SchoolWebsiteController();
+
+        foreach ($unitKeys as $idx => $key) {
+            $code = $unitCodes[$idx];
+            $profileJson = SiteSetting::get($key);
+            $p = $profileJson ? json_decode($profileJson, true) : null;
+
+            if (empty($p)) {
+                // Generate from controller fallback
+                $p = [
+                    'name' => $unitNames[$idx],
+                    'code' => strtoupper($code),
+                    'akreditasi' => 'Unggul',
+                    'description' => 'Unit Pendidikan SIT Robbani',
+                ];
             }
+
+            $text  = "PROFIL UNIT LENGKAP: {$unitNames[$idx]} (" . strtoupper($code) . ")\n";
+            $text .= "Nama Resmi: " . ($p['name'] ?? $unitNames[$idx]) . "\n";
+            $text .= "Kepala Sekolah: " . ($p['principal_name'] ?? '-') . "\n";
+            $text .= "Jabatan: " . ($p['principal_title'] ?? '-') . "\n";
+            $text .= "Akreditasi: " . ($p['akreditasi'] ?? '-') . "\n";
+            $text .= "Kurikulum: " . ($p['kurikulum'] ?? 'Merdeka & Kekhasan JSIT') . "\n";
+            $text .= "Tagline: " . ($p['tagline'] ?? '-') . "\n";
+            $text .= "Target Hafalan Al-Qur'an: " . ($p['target_hafalan'] ?? '-') . "\n";
+            $text .= "Deskripsi: " . ($p['description'] ?? '-') . "\n\n";
+
+            $text .= "VISI:\n" . ($p['vision'] ?? '-') . "\n\n";
+            $text .= "MISI:\n" . (is_array($p['missions'] ?? null) ? implode("\n• ", $p['missions']) : ($p['mission'] ?? '-')) . "\n\n";
+
+            if (!empty($p['programs']) && is_array($p['programs'])) {
+                $text .= "PROGRAM UNGGULAN & KEGIATAN SISWA:\n";
+                foreach ($p['programs'] as $prog) {
+                    $text .= "• " . ($prog['title'] ?? '') . ": " . ($prog['desc'] ?? '') . "\n";
+                }
+                $text .= "\n";
+            }
+
+            if (!empty($p['facilities']) && is_array($p['facilities'])) {
+                $text .= "SARANA & FASILITAS SEKOLAH:\n";
+                foreach ($p['facilities'] as $fac) {
+                    $text .= "• " . ($fac['title'] ?? '') . ": " . ($fac['desc'] ?? '') . "\n";
+                }
+                $text .= "\n";
+            }
+
+            if (!empty($p['teachers']) && is_array($p['teachers'])) {
+                $text .= "DEWAN GURU & TENAGA PENDIDIK (GTK):\n";
+                foreach ($p['teachers'] as $t) {
+                    $text .= "• " . ($t['name'] ?? '') . " (" . ($t['role'] ?? '') . ")\n";
+                }
+                $text .= "\n";
+            }
+
+            self::ingestDocument(
+                title:      "Profil & Kegiatan Lengkap: {$unitNames[$idx]}",
+                category:   'website_data',
+                rawText:    $text,
+                sourceType: 'website_data',
+                uploadedBy: 'System Auto-Sync',
+            );
+            $synced['profiles']++;
         }
 
         // Sync general school settings
-        $principalName = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti Wulandari, S.Pd');
-        $contactPhone  = SiteSetting::get('contact_phone', '0811747472');
-        $contactEmail  = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
+        $principalName  = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti Wulandari, S.Pd');
+        $contactPhone   = SiteSetting::get('contact_phone', '0811747472');
+        $contactEmail   = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
         $contactAddress = SiteSetting::get('contact_address', 'Jl. Sarjana Padang Guci, Indralaya Utara, Ogan Ilir');
 
         $schools = School::where('is_active', true)->get();
-        $settingText  = "INFORMASI RESMI SIT ROBBANI:\n";
+        $settingText  = "INFORMASI RESMI & PENDAFTARAN SIT ROBBANI:\n";
         $settingText .= "Ketua Yayasan / Pimpinan Lembaga: {$principalName}\n";
-        $settingText .= "Alamat Kampus: {$contactAddress}\n";
+        $settingText .= "Alamat Kampus Utama: {$contactAddress}\n";
         $settingText .= "WhatsApp Hotline: {$contactPhone}\n";
-        $settingText .= "Email Resmi: {$contactEmail}\n\n";
-        $settingText .= "DAFTAR UNIT SEKOLAH:\n";
+        $settingText .= "Email Resmi: {$contactEmail}\n";
+        $settingText .= "Pendaftaran SPMB Online: Akses menu /ppdb atau WhatsApp 0811747472\n\n";
+        $settingText .= "DAFTAR 4 UNIT SEKOLAH ISLAM TERPADU:\n";
         foreach ($schools as $s) {
             $settingText .= "• [{$s->code}] {$s->name} - Akreditasi {$s->accreditation}\n";
         }
 
         self::ingestDocument(
-            title:      'Informasi Resmi & Kontak SIT Robbani',
+            title:      'Informasi Resmi, SPMB & Kontak SIT Robbani',
             category:   'umum',
             rawText:    $settingText,
             sourceType: 'website_data',
@@ -317,8 +361,8 @@ class AiRagEngine
         $kepsekSmp = $smpitProfile['principal_name'] ?? 'Tia Wulandari, S.Pd., Gr.';
         $kepsekSma = $smaitProfile['principal_name'] ?? 'Koordinator SMAIT Robbani';
 
-        $contactPhone  = SiteSetting::get('contact_phone', '0811747472');
-        $contactEmail  = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
+        $contactPhone   = SiteSetting::get('contact_phone', '0811747472');
+        $contactEmail   = SiteSetting::get('contact_email', 'info@sitrobbani.sch.id');
         $contactAddress = SiteSetting::get('contact_address', 'Jl. Sarjana Padang Guci, Kel. Timbangan, Indralaya Utara, Ogan Ilir');
 
         $systemContext  = "=== DATA RESMI & REALTIME SMARTEDU SIT ROBBANI ===\n";
@@ -331,7 +375,13 @@ class AiRagEngine
         $systemContext .= "• Alamat: {$contactAddress}\n";
         $systemContext .= "• Hotline WA: {$contactPhone} | Email: {$contactEmail}\n";
         $systemContext .= "• Tahun Ajaran: " . ($academicYear ? $academicYear->name : '2026/2027') . "\n";
-        $systemContext .= "• Total Pendaftar PPDB Online: {$totalPpdb} calon siswa\n";
+        $systemContext .= "• Total Pendaftar PPDB Online: {$totalPpdb} calon siswa\n\n";
+
+        $systemContext .= "=== SUMMARY RINGKASAN KEGIATAN & FASILITAS PER UNIT ===\n";
+        $systemContext .= "1. KB/TKIT: Karakter Ceria, Hafalan Juz 30, Pembiasaan Wudhu Anti-Slip, Sentra Bermain, Permainan Outdoor CCTV, Loker Pribadi.\n";
+        $systemContext .= "2. SDIT: Tahfidz 3-5 Juz Mutqin, Science Club, Koding Digital, Archery Panahan, Pramuka SIT, Bina Pribadi Islam (BPI), Kolam Renang Sekolah, Kelas Ber-AC, Saung Ibadah, Aula, Lapangan Olahraga.\n";
+        $systemContext .= "3. SMPIT: Tahfidz 5-10 Juz Mutqin, Pembelajaran Digital (SIPAKAR V2), Tablet Digital Siswa, Fullday School, Bilingual Club (Arab-Inggris), Gedung Representatif, Kelas Digital AC, Toilet Higienis, Kantin Sehat, Lapangan Futsal/Basket.\n";
+        $systemContext .= "4. SMAIT: Center of Excellence Science & IT, Tahfidz 10-30 Juz Ijazah Sanad, Mentoring UTBK-SNBT Tembus PTN Favorit.\n";
 
         $relevantDocs    = AiKnowledgeBase::findRelevantKnowledge($userMessage, 4);
         $documentContext = '';
