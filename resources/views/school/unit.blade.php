@@ -728,10 +728,13 @@
 
                 <div class="flex flex-wrap justify-center gap-5 sm:gap-6">
                     @foreach($unitFacilities as $fac)
+                    @php
+                        $facImg = !empty($fac['image']) ? (str_starts_with($fac['image'], 'http') ? $fac['image'] : asset($fac['image'])) : null;
+                    @endphp
                     <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
-                        @if(!empty($fac['image']))
-                        <div class="w-full h-44 overflow-hidden relative bg-slate-900 shrink-0">
-                            <img src="{{ asset($fac['image']) }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.parentElement.style.display='none';">
+                        @if($facImg)
+                        <div class="w-full h-48 overflow-hidden relative bg-slate-900 shrink-0">
+                            <img src="{{ $facImg }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                             <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/20 shadow-md">
                                 {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
                             </span>
@@ -740,16 +743,16 @@
 
                         <div class="p-6 space-y-3.5 flex-1 flex flex-col justify-between">
                             <div class="space-y-2.5">
-                                @if(empty($fac['image']))
                                 <div class="flex items-center justify-between">
                                     <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-700 dark:text-[#c6f634] flex items-center justify-center text-2xl font-bold shadow-xs group-hover:scale-110 transition-all">
                                         {{ $fac['icon'] ?? '🏫' }}
                                     </div>
+                                    @if(!$facImg)
                                     <span class="bg-emerald-50 dark:bg-[#c6f634]/15 text-emerald-800 dark:text-[#c6f634] text-[10px] font-black uppercase px-3 py-1 rounded-full border border-emerald-200/60 dark:border-[#c6f634]/30">
                                         {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
                                     </span>
+                                    @endif
                                 </div>
-                                @endif
                                 <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">
                                     {{ $fac['title'] }}
                                 </h3>
@@ -1065,9 +1068,9 @@
                             </p>
                         </div>
                         <div class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-[#1a381c]">
-                            <!-- Foto Alumni Kotak Rounded -->
-                            <div class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-slate-200 shrink-0">
-                                <img src="{{ str_starts_with($al['avatar'] ?? '', 'http') ? $al['avatar'] : asset($al['avatar'] ?? '/images/avatar-gray-person.svg') }}" alt="{{ $al['name'] }}" width="56" height="56" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/avatar-gray-person.svg';">
+                            <!-- Foto Alumni Kotak Rounded (Orang Abu-Abu) -->
+                            <div class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-slate-100 shrink-0 flex items-center justify-center p-1">
+                                <img src="{{ asset('/images/avatar-gray-person.svg') }}" alt="{{ $al['name'] }}" width="56" height="56" loading="lazy" decoding="async" class="w-full h-full object-contain">
                             </div>
                             <div>
                                 <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h3>
