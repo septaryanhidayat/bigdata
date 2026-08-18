@@ -362,6 +362,36 @@ class AiRagEngine
     // INTELLIGENT DIRECT ANSWER GENERATOR
     // =========================================================================
 
+    /**
+     * Test Gemini API Connection Status
+     */
+    public static function testGeminiConnection(): string
+    {
+        $geminiKey = env('GEMINI_API_KEY') ?: env('GOOGLE_API_KEY');
+        if (empty($geminiKey)) {
+            return "❌ GEMINI_API_KEY belum diisi di file .env!";
+        }
+
+        try {
+            $response = Http::withHeaders(['Content-Type' => 'application/json'])
+                ->timeout(8)
+                ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $geminiKey, [
+                    'contents' => [['parts' => [['text' => 'Tes koneksi AI SIT Robbani']]]],
+                    'generationConfig' => ['maxOutputTokens' => 50],
+                ]);
+
+            if ($response->successful()) {
+                $text = trim($response->json()['candidates'][0]['content']['parts'][0]['text'] ?? 'OK');
+                return "✅ GEMINI API BERHASIL KONEK TERHUBUNG! (Respon: {$text})";
+            }
+
+            $err = $response->json()['error']['message'] ?? $response->body();
+            return "❌ KONEKSI GAGAL! Status HTTP {$response->status()}: {$err}";
+        } catch (\Throwable $e) {
+            return "❌ ERROR SYSTEM: " . $e->getMessage();
+        }
+    }
+
     public static function answer(string $userMessage): string
     {
         $trimmedMsg = trim($userMessage);
