@@ -522,8 +522,8 @@ class SchoolWebsiteController extends Controller
             ];
         }
 
-        $students = Student::where('school_id', $school->id ?? 1)->where('status', 'aktif')->take(10)->get();
-        $teachers = Employee::where('school_id', $school->id ?? 1)->where('status', 'aktif')->take(8)->get();
+        $students = Student::where('school_id', $school->id ?? 1)->where(function($q) { $q->where('status', 'aktif')->orWhere('status', 'ACTIVE'); })->take(10)->get();
+        $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
         $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
 
         $settings = $this->getSettings();
