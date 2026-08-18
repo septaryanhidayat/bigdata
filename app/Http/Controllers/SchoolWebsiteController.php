@@ -215,11 +215,51 @@ class SchoolWebsiteController extends Controller
         ));
     }
 
+    public function getFoundationProfile()
+    {
+        $cmsJson = SiteSetting::get('foundation_profile_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data)) return $data;
+        }
+
+        return [
+            'name' => 'Yayasan Generasi Robbani Sumatera Selatan',
+            'tagline' => 'Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, & SMAIT Robbani Ogan Ilir)',
+            'founded_year' => '2014',
+            'chairman_name' => 'Sughesti Wulandari, S.Pd',
+            'chairman_title' => 'Ketua Yayasan Generasi Robbani Sumatera Selatan',
+            'chairman_photo' => '/images/logo-robbani-official.png',
+            'chairman_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh.<br><br>Alhamdulillah, puji dan syukur senantiasa kita panjatkan ke hadirat Allah SWT yang telah melimpahkan rahmat, hidayah, dan inayah-Nya kepada kita semua. Sholawat serta salam semoga senantiasa tercurah kepada junjungan kita Nabi Besar Muhammad SAW, keluarga, sahabat, dan para pengikutnya hingga akhir zaman.<br><br>Yayasan Generasi Robbani Sumatera Selatan berkomitmen penuh menghadirkan ekosistem pendidikan Islam Terpadu yang unggul, berkarakter Qur\'ani, dan adaptif terhadap perkembangan sains teknologi digital di Kabupaten Ogan Ilir.',
+            'vision' => 'Menjadi Lembaga Pendidikan Islam Terpadu Pilihan Utama di Sumatera Selatan yang Mencetak Generasi Rabbani Beriman, Hafidz Al-Qur\'an, Berakhlak Karimah, Unggul Akademik, dan Siap Memimpin di Era Digital.',
+            'missions' => [
+                'Menyelenggarakan pendidikan Islam Terpadu berstandar JSIT dari usia dini (TK) hingga jenjang menengah atas (SMA).',
+                'Membina kecintaan terhadap Al-Qur\'an melalui target hafalan bertahap dan pendampingan adab islami.',
+                'Mengembangkan kecerdasan digital, kepemimpinan, dan kemandirian berprestasi secara berkelanjutan.',
+                'Membangun sinergi kokoh antara sekolah, wali murid, dan masyarakat dalam membentuk karakter anak.'
+            ],
+            'pillars' => [
+                ['title' => 'Pembiasaan & Tahfidz Al-Qur\'an', 'desc' => 'Target hafalan mutqin Juz 30 & Juz 1–5 dengan bimbingan ustadz-ustadzah teruji.', 'icon' => '📖'],
+                ['title' => 'Bina Pribadi Islami (BPI)', 'desc' => 'Pembinaan akhlak, adab harian, mabit, dan mutabaah yaumiyah secara terukur.', 'icon' => '🤲'],
+                ['title' => 'Integrasi Kurikulum JSIT & Merdeka', 'desc' => 'Perpaduan standar akademis nasional Kurikulum Merdeka dengan kekhasan JSIT.', 'icon' => '🎓'],
+                ['title' => 'Ekosistem Digital SmartEdu', 'desc' => 'Presensi RFID gate, E-SPP cashless, dan portal belajar digital modern.', 'icon' => '💻'],
+                ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
+            ],
+            'executives' => [
+                ['name' => 'Sughesti Wulandari, S.Pd', 'role' => 'Ketua Yayasan', 'photo' => '/images/logo-robbani-official.png'],
+                ['name' => 'Ustadz H. Ahmad Fauzi, M.Pd', 'role' => 'Pembina & Pengawas Mutu', 'photo' => '/images/logo-robbani-official.png'],
+                ['name' => 'Ahmad Subagja, M.Si', 'role' => 'Direktur Pendidikan & Akademik', 'photo' => '/images/logo-robbani-official.png'],
+                ['name' => 'Tia Wulandari, S.Pd', 'role' => 'Kepala Manajerial Unit', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg']
+            ]
+        ];
+    }
+
     public function profil()
     {
         $settings = $this->getSettings();
         $schools = School::where('is_active', true)->get();
-        return view('school.profil', compact('settings', 'schools'));
+        $foundationProfile = $this->getFoundationProfile();
+        return view('school.profil', compact('settings', 'schools', 'foundationProfile'));
     }
 
     public function unitProfile($code)

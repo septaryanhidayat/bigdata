@@ -328,7 +328,29 @@
 
     <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6" x-data="{ 
         selectedItems: [],
-        allSlugs: {{ json_encode(array_map(fn($item) => $item['slug'] ?? \Illuminate\Support\Str::slug($item['title'] ?? ''), $newsList)) }},
+        searchQuery: '',
+        selectedUnit: 'semua',
+        currentPage: 1,
+        perPage: 10,
+        items: {{ json_encode($newsList) }},
+        get filteredItems() {
+            return this.items.filter(item => {
+                const matchesSearch = !this.searchQuery || item.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+                const itemUnit = (item.unit || 'yayasan').toLowerCase();
+                const matchesUnit = this.selectedUnit === 'semua' || itemUnit === this.selectedUnit.toLowerCase();
+                return matchesSearch && matchesUnit;
+            });
+        },
+        get totalPages() {
+            return Math.ceil(this.filteredItems.length / this.perPage) || 1;
+        },
+        get paginatedItems() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filteredItems.slice(start, start + this.perPage);
+        },
+        get allSlugs() {
+            return this.filteredItems.map(item => item.slug || item.title);
+        },
         toggleSelectAll(checked) {
             this.selectedItems = checked ? [...this.allSlugs] : [];
         }
@@ -344,15 +366,46 @@
                         Total {{ count($newsList) }} Konten
                     </span>
                 </div>
-                <p class="text-xs text-slate-500 font-medium">Kelola artikel dan berita website dengan tampilan bersih. Klik <strong>Edit</strong> untuk membuka visual editor gaya WordPress.</p>
+                <p class="text-xs text-slate-500 font-medium">Kelola artikel dan berita website dengan tampilan bersih. Gunakan filter unit di bawah untuk memilah berita per unit sekolah.</p>
             </div>
 
             <div class="flex flex-wrap items-center gap-3 shrink-0">
-                <!-- Action Button: TAMBAH BERITA / ARTIKEL BARU -->
-                <a href="{{ route('admin.cms.post.create') }}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-xs shadow-md hover:shadow-lg transition-all flex items-center gap-2 shrink-0 cursor-pointer">
+                <!-- Action Button: TAMBAH BERITA / ARTIKEL BARU (Jelas & Kontras Tinggi) -->
+                <a href="{{ route('admin.cms.post.create') }}" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 border-2 border-emerald-500 shrink-0 cursor-pointer">
                     <span class="text-base">➕</span>
-                    <span>Tulis Berita / Artikel Baru</span>
+                    <span class="whitespace-nowrap font-black">Tulis Berita / Artikel Baru</span>
                 </a>
+            </div>
+        </div>
+
+        <!-- Filter Unit & Search Controls Bar -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <!-- Filter Pills Unit Sekolah -->
+            <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-xs font-black text-slate-700 mr-1">Filter Unit:</span>
+                <button type="button" @click="selectedUnit = 'semua'; currentPage = 1" :class="selectedUnit === 'semua' ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    Semua Unit
+                </button>
+                <button type="button" @click="selectedUnit = 'tkit'; currentPage = 1" :class="selectedUnit === 'tkit' ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    KB/TKIT
+                </button>
+                <button type="button" @click="selectedUnit = 'sdit'; currentPage = 1" :class="selectedUnit === 'sdit' ? 'bg-orange-600 text-white border-orange-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    SDIT
+                </button>
+                <button type="button" @click="selectedUnit = 'smpit'; currentPage = 1" :class="selectedUnit === 'smpit' ? 'bg-blue-600 text-white border-blue-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    SMPIT
+                </button>
+                <button type="button" @click="selectedUnit = 'smait'; currentPage = 1" :class="selectedUnit === 'smait' ? 'bg-purple-600 text-white border-purple-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    SMAIT
+                </button>
+                <button type="button" @click="selectedUnit = 'yayasan'; currentPage = 1" :class="selectedUnit === 'yayasan' ? 'bg-teal-700 text-white border-teal-700 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    Yayasan
+                </button>
+            </div>
+
+            <!-- Search Input Bar -->
+            <div class="relative min-w-[240px]">
+                <input type="text" x-model="searchQuery" @input="currentPage = 1" placeholder="🔍 Cari judul berita..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
             </div>
         </div>
 
@@ -377,75 +430,87 @@
             </template>
         </div>
 
-        <!-- Clean Data List of News & Articles -->
+        <!-- Clean Data List of News & Articles (Paginated & Filterable) -->
         <div class="space-y-3.5">
-            @forelse($newsList as $idx => $news)
-            @php
-                $itemSlug = $news['slug'] ?? \Illuminate\Support\Str::slug($news['title'] ?? '');
-            @endphp
-            <div class="p-4 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50/80 hover:border-emerald-300 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs hover:shadow-md" :class="selectedItems.includes('{{ $itemSlug }}') ? 'ring-2 ring-rose-500 bg-rose-50/40' : ''">
-                
-                <div class="flex items-start md:items-center gap-3.5 min-w-0 flex-1">
-                    <!-- Checkbox -->
-                    <input type="checkbox" value="{{ $itemSlug }}" x-model="selectedItems" class="w-4 h-4 text-rose-600 rounded border-slate-300 focus:ring-rose-500 cursor-pointer mt-1 md:mt-0 shrink-0">
+            <template x-for="(news, idx) in paginatedItems" :key="news.slug || idx">
+                <div class="p-4 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50/80 hover:border-emerald-300 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs hover:shadow-md" :class="selectedItems.includes(news.slug || news.title) ? 'ring-2 ring-rose-500 bg-rose-50/40' : ''">
+                    
+                    <div class="flex items-start md:items-center gap-3.5 min-w-0 flex-1">
+                        <!-- Checkbox -->
+                        <input type="checkbox" :value="news.slug || news.title" x-model="selectedItems" class="w-4 h-4 text-rose-600 rounded border-slate-300 focus:ring-rose-500 cursor-pointer mt-1 md:mt-0 shrink-0">
 
-                    <!-- Thumbnail Image -->
-                    <div class="w-20 h-16 sm:w-24 sm:h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 shrink-0 relative">
-                        <img src="{{ asset(!empty($news['image']) ? $news['image'] : '/images/mockup_desktop_1.png') }}" alt="{{ $news['title'] }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                    </div>
-
-                    <!-- Title, Unit & Meta -->
-                    <div class="min-w-0 flex-1 space-y-1">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-extrabold text-[10px] uppercase border border-emerald-200">
-                                {{ $news['category'] ?? 'Berita' }}
-                            </span>
-                            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[10px] uppercase">
-                                Unit: {{ strtoupper($news['unit'] ?? 'Yayasan') }}
-                            </span>
-                            <span class="text-[11px] text-slate-400 font-medium">📅 {{ $news['date'] ?? '-' }}</span>
-                            <span class="text-[11px] text-slate-400 font-medium">✍️ {{ $news['author'] ?? 'Admin' }}</span>
+                        <!-- Thumbnail Image -->
+                        <div class="w-20 h-16 sm:w-24 sm:h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 shrink-0 relative">
+                            <img :src="news.image || '/images/mockup_desktop_1.png'" :alt="news.title" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                         </div>
 
-                        <h4 class="text-sm font-black text-slate-900 line-clamp-1 hover:text-emerald-700 transition-colors">
-                            {{ $news['title'] }}
-                        </h4>
+                        <!-- Title, Unit & Meta -->
+                        <div class="min-w-0 flex-1 space-y-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-extrabold text-[10px] uppercase border border-emerald-200" x-text="news.category || 'Berita'"></span>
+                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[10px] uppercase" x-text="'UNIT: ' + (news.unit || 'YAYASAN').toUpperCase()"></span>
+                                <span class="text-[11px] text-slate-400 font-medium" x-text="'📅 ' + (news.date || '-')"></span>
+                                <span class="text-[11px] text-slate-400 font-medium" x-text="'✍️ ' + (news.author || 'Admin')"></span>
+                            </div>
 
-                        <p class="text-xs text-slate-500 font-medium line-clamp-1">
-                            {{ Str::limit(strip_tags($news['excerpt'] ?? $news['content'] ?? ''), 120) }}
-                        </p>
+                            <h4 class="text-sm font-black text-slate-900 line-clamp-1 hover:text-emerald-700 transition-colors" x-text="news.title"></h4>
+
+                            <p class="text-xs text-slate-500 font-medium line-clamp-1" x-text="news.excerpt || news.content ? news.content.replace(/<[^>]*>?/gm, '').substring(0, 120) : ''"></p>
+                        </div>
                     </div>
+
+                    <!-- Action Buttons: LIHAT DI WEBSITE, EDIT & HAPUS -->
+                    <div class="flex items-center gap-2 self-end md:self-center shrink-0">
+                        <!-- LIHAT DI WEBSITE Button -->
+                        <a :href="'/berita/' + (news.slug || '')" target="_blank" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-black text-xs rounded-xl border border-emerald-200 hover:border-emerald-600 transition-all flex items-center gap-1.5 shadow-xs" title="Lihat tampilan berita di website">
+                            <span>🌐 Lihat Berita</span>
+                        </a>
+
+                        <!-- EDIT Button (Navigates to dedicated WordPress-style rich editor page) -->
+                        <a :href="'/admin/cms/post/edit?slug=' + encodeURIComponent(news.slug || '')" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-black text-xs rounded-xl border border-indigo-200 hover:border-indigo-600 transition-all flex items-center gap-1.5 shadow-xs">
+                            <span>✏️ Edit Post</span>
+                        </a>
+
+                        <!-- HAPUS Button -->
+                        <button type="button" @click="confirmDeleteSingle('delete-news-' + idx, news.title)" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-black text-xs rounded-xl border border-rose-200 hover:border-rose-600 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer">
+                            <span>🗑️ Hapus</span>
+                        </button>
+                    </div>
+
+                </div>
+            </template>
+
+            <!-- Empty State when filtered result is zero -->
+            <template x-if="filteredItems.length === 0">
+                <div class="p-12 text-center bg-slate-50 rounded-3xl border border-slate-200 text-slate-500 space-y-3">
+                    <span class="text-4xl block">🔍</span>
+                    <h4 class="font-black text-base text-slate-800">Tidak ada berita atau artikel yang cocok.</h4>
+                    <p class="text-xs text-slate-400 max-w-md mx-auto">Coba ubah kata kunci pencarian atau pilih filter unit yang lain.</p>
+                </div>
+            </template>
+        </div>
+
+        <!-- Pagination Controls Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200 text-xs font-bold text-slate-600">
+            <div>
+                Menampilkan halaman <strong x-text="currentPage"></strong> dari <strong x-text="totalPages"></strong> (<span x-text="filteredItems.length"></span> total berita)
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button type="button" @click="if (currentPage > 1) currentPage--" :disabled="currentPage === 1" class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-600 hover:text-white transition-colors">
+                    ← Sebelumnya
+                </button>
+
+                <div class="flex items-center gap-1">
+                    <template x-for="p in totalPages" :key="p">
+                        <button type="button" @click="currentPage = p" :class="currentPage === p ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors" x-text="p"></button>
+                    </template>
                 </div>
 
-                <!-- Action Buttons: LIHAT DI WEBSITE, EDIT & HAPUS -->
-                <div class="flex items-center gap-2 self-end md:self-center shrink-0">
-                    <!-- LIHAT DI WEBSITE Button -->
-                    <a href="{{ route('school.berita.show', $itemSlug) }}" target="_blank" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-black text-xs rounded-xl border border-emerald-200 hover:border-emerald-600 transition-all flex items-center gap-1.5 shadow-xs" title="Lihat tampilan berita di website">
-                        <span>🌐 Lihat Berita</span>
-                    </a>
-
-                    <!-- EDIT Button (Navigates to dedicated WordPress-style rich editor page) -->
-                    <a href="{{ route('admin.cms.post.edit', ['slug' => $itemSlug, 'index' => $idx]) }}" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-black text-xs rounded-xl border border-indigo-200 hover:border-indigo-600 transition-all flex items-center gap-1.5 shadow-xs">
-                        <span>✏️ Edit Post</span>
-                    </a>
-
-                    <!-- HAPUS Button (Triggers SweetAlert confirmation) -->
-                    <button type="button" @click="confirmDeleteSingle('delete-news-{{ $idx }}', '{{ addslashes($news['title']) }}')" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-black text-xs rounded-xl border border-rose-200 hover:border-rose-600 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer">
-                        <span>🗑️ Hapus</span>
-                    </button>
-                </div>
-
+                <button type="button" @click="if (currentPage < totalPages) currentPage++" :disabled="currentPage === totalPages" class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-600 hover:text-white transition-colors">
+                    Selanjutnya →
+                </button>
             </div>
-            @empty
-            <div class="p-12 text-center bg-slate-50 rounded-3xl border border-slate-200 text-slate-500 space-y-3">
-                <span class="text-4xl block">📭</span>
-                <h4 class="font-black text-base text-slate-800">Belum ada berita atau artikel yang diterbitkan.</h4>
-                <p class="text-xs text-slate-400 max-w-md mx-auto">Klik tombol di bawah untuk mulai menulis artikel pertama Anda dengan visual editor.</p>
-                <a href="{{ route('admin.cms.post.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white font-black text-xs rounded-xl shadow-md hover:bg-emerald-700 transition-all">
-                    <span>➕ Tulis Berita Pertama Sekarang</span>
-                </a>
-            </div>
-            @endforelse
         </div>
 
         @foreach($newsList as $idx => $news)

@@ -1,29 +1,56 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false }" :class="darkMode ? 'dark' : ''">
+<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false, activeTab: 'sambutan' }" :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sambutan Ketua Yayasan &amp; Profil Resmi | {{ $settings['school_name'] }}</title>
-    <meta name="description" content="Profil Resmi dan Sambutan Lengkap Ketua Yayasan Generasi Robbani Sumatera Selatan. Penyelenggara KB/TKIT, SDIT, SMPIT, &amp; SMAIT Robbani Ogan Ilir.">
+    <title>Profil Resmi & Sambutan Pimpinan | {{ $foundationProfile['name'] ?? $settings['school_name'] }}</title>
+    <meta name="description" content="Profil Resmi, Sambutan Pimpinan, Visi Misi, dan 5 Pilar Utama Pendidikan Yayasan Generasi Robbani Sumatera Selatan.">
 
     <!-- Favicon & Social Sharing Meta Tags -->
     <link rel="icon" type="image/png" href="{{ !empty($settings['website_favicon']) ? $settings['website_favicon'] : '/favicon.png' }}?v=2">
     <link rel="apple-touch-icon" href="{{ !empty($settings['website_favicon']) ? $settings['website_favicon'] : '/favicon.png' }}?v=2">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Sambutan Pimpinan &amp; Profil Yayasan Generasi Robbani">
-    <meta property="og:description" content="Profil Resmi dan Sambutan Lengkap Ketua Yayasan Generasi Robbani Sumatera Selatan.">
+    <meta property="og:title" content="Profil Resmi &amp; Sambutan Pimpinan Yayasan Generasi Robbani">
+    <meta property="og:description" content="Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, &amp; SMAIT Robbani Ogan Ilir).">
     <meta property="og:image" content="{{ !empty($settings['social_share_image']) ? $settings['social_share_image'] : '/images/logo robbani light.png' }}">
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN with Custom Color Extensions -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
+            colors: {
+              emerald: {
+                950: '#040d06',
+                900: '#07170a',
+                800: '#0d1e0f',
+                700: '#004532',
+                600: '#059669',
+              },
+              neon: {
+                lime: '#c6f634',
+                bright: '#a3e635'
+              }
+            },
             fontFamily: {
               body: ["Plus Jakarta Sans", "sans-serif"],
               headline: ["Plus Jakarta Sans", "sans-serif"]
+            },
+            keyframes: {
+              'pulse-slow': {
+                '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                '50%': { opacity: '0.8', transform: 'scale(1.05)' }
+              },
+              'float': {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-8px)' }
+              }
+            },
+            animation: {
+              'pulse-glow': 'pulse-slow 4s infinite ease-in-out',
+              'float-badge': 'float 3s infinite ease-in-out'
             }
           }
         }
@@ -33,16 +60,28 @@
     <!-- Google Fonts & Alpine.js -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
         [x-cloak] { display: none !important; }
+        
+        .tab-btn-active {
+            background-color: #004532;
+            color: #ffffff !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 69, 50, 0.3);
+        }
+        .dark .tab-btn-active {
+            background-color: #c6f634;
+            color: #040d06 !important;
+            box-shadow: 0 10px 25px -5px rgba(198, 246, 52, 0.25);
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-[#050d06] text-slate-900 dark:text-[#f0fdf4] antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-[#040d06] text-slate-900 dark:text-[#f0fdf4] antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
 
-    <!-- Full-Width Navigation Header -->
-    <header class="bg-white/95 dark:bg-[#050d06]/95 backdrop-blur-xl py-3.5 px-4 sm:px-8 lg:px-12 sticky top-0 z-50 border-b border-slate-200/90 dark:border-[#163619] shadow-xs transition-colors">
+    <!-- Full-Width Sticky Navigation Header -->
+    <header class="bg-white/95 dark:bg-[#07170a]/95 backdrop-blur-xl py-3.5 px-4 sm:px-8 lg:px-12 sticky top-0 z-50 border-b border-slate-200/90 dark:border-[#1a381c] shadow-xs transition-colors">
         <div class="w-full max-w-[1400px] mx-auto flex items-center justify-between gap-4">
             
             <!-- Logo Header -->
@@ -50,296 +89,297 @@
                 <img src="{{ !empty($settings['logo_light']) ? $settings['logo_light'] : '/images/logo-robbani-official.png' }}" class="h-9 sm:h-11 w-auto object-contain dark:hidden" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 <img src="{{ !empty($settings['logo_dark']) ? $settings['logo_dark'] : '/images/logo-robbani-official.png' }}" class="h-9 sm:h-11 w-auto object-contain hidden dark:block" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 <div>
-                    <span class="font-black text-xs block text-emerald-800 dark:text-[#a3e635] uppercase tracking-wider">PROFIL YAYASAN</span>
-                    <span class="text-[10px] text-slate-500 dark:text-slate-300 font-bold block">SIT ROBBANI OGAN ILIR</span>
+                    <span class="font-black text-xs block text-[#004532] dark:text-[#c6f634] uppercase tracking-wider">PROFIL YAYASAN</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold block">SIT ROBBANI OGAN ILIR</span>
                 </div>
             </a>
 
-            <!-- Desktop Header Controls -->
-            <div class="hidden md:flex items-center gap-3 text-xs font-extrabold">
-                <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#a3e635] transition-colors">🏠 Beranda</a>
-                <a href="{{ route('school.profil') }}" class="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[#142c17] text-emerald-800 dark:text-[#a3e635] font-black border border-emerald-300 dark:border-[#224d26]">👤 Profil</a>
-                <a href="{{ route('school.berita') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#a3e635] transition-colors">📰 Berita</a>
-                <a href="{{ route('school.artikel') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#a3e635] transition-colors">📖 Artikel</a>
-                <a href="{{ route('school.fasilitas') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#a3e635] transition-colors">🏢 Fasilitas</a>
+            <!-- Desktop Header Navigation Controls -->
+            <div class="hidden md:flex items-center gap-2 lg:gap-3 text-xs font-extrabold">
+                <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">🏠 Beranda</a>
+                <a href="{{ route('school.profil') }}" class="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[#0d1e0f] text-[#004532] dark:text-[#c6f634] font-black border border-emerald-300 dark:border-[#1a381c]">👤 Profil Yayasan</a>
+                <a href="{{ route('school.berita') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📰 Berita</a>
+                <a href="{{ route('school.artikel') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📖 Artikel</a>
+                <a href="{{ route('school.fasilitas') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">🏢 Fasilitas</a>
                 
                 <!-- Dark Mode Toggle Button (Alpine JS) -->
-                <button @click="darkMode = !darkMode" class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#142c17] text-slate-800 dark:text-[#a3e635] border border-slate-200/90 dark:border-[#224d26] transition-all hover:scale-105 flex items-center gap-1.5 cursor-pointer shadow-xs">
+                <button @click="darkMode = !darkMode" class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-800 dark:text-[#c6f634] border border-slate-200/90 dark:border-[#1a381c] transition-all hover:scale-105 flex items-center gap-1.5 cursor-pointer shadow-xs" title="Ganti Mode Terang / Malam">
                     <span x-show="!darkMode">🌙 Mode Malam</span>
                     <span x-show="darkMode" x-cloak>☀️ Mode Terang</span>
                 </button>
 
-                <a href="{{ route('school.ppdb') }}" class="px-4 py-2 rounded-xl bg-[#004532] dark:bg-[#a3e635] text-white dark:text-[#050d06] font-black text-xs shadow-sm hover:scale-105 transition-transform">Daftar PPDB ➔</a>
+                <a href="{{ route('school.ppdb') }}" class="px-5 py-2.5 rounded-xl bg-[#004532] hover:bg-emerald-800 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1">
+                    <span>Daftar PPDB</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
             </div>
 
-            <!-- Mobile Hamburger Control Buttons -->
+            <!-- Mobile Controls -->
             <div class="flex items-center gap-2 md:hidden">
-                <!-- Dark Mode Toggle Mobile -->
-                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-[#142c17] text-slate-800 dark:text-[#a3e635] border border-slate-200 dark:border-[#224d26] text-xs font-bold">
+                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-800 dark:text-[#c6f634] border border-slate-200 dark:border-[#1a381c] text-xs font-bold">
                     <span x-show="!darkMode">🌙</span>
                     <span x-show="darkMode" x-cloak>☀️</span>
                 </button>
-
-                <!-- Hamburger Menu Button with Interactive Animation -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="px-3 py-2 rounded-xl bg-emerald-700 text-white font-extrabold text-xs shadow-sm border border-emerald-600 flex items-center gap-1.5 transition-all active:scale-95">
-                    <span x-show="!mobileMenuOpen" class="flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                        <span>Menu</span>
-                    </span>
-                    <span x-show="mobileMenuOpen" x-cloak class="flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span>Tutup</span>
-                    </span>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="px-3.5 py-2 rounded-xl bg-[#004532] text-white font-extrabold text-xs shadow-sm border border-emerald-600 flex items-center gap-1.5">
+                    <span x-show="!mobileMenuOpen">Menu ☰</span>
+                    <span x-show="mobileMenuOpen" x-cloak>Tutup ✕</span>
                 </button>
             </div>
-
         </div>
 
-        <!-- Mobile Navigation Menu Modal Overlay & Dropdown -->
-        <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden pt-3 pb-2 border-t border-slate-200 dark:border-[#163619] mt-3 space-y-1.5 transition-all">
-            <div class="bg-white dark:bg-[#0c1a0e] border border-slate-200 dark:border-[#1c401f] rounded-2xl p-3 shadow-xl space-y-1">
-                
-                <a href="{{ route('home') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('home') ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700' }}">
-                    <span class="flex items-center gap-2"><span>🏠</span> <span>Beranda Utama</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1">➔</span>
-                </a>
-
-                <a href="{{ route('school.profil') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('school.profil') ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700' }}">
-                    <span class="flex items-center gap-2"><span>👤</span> <span>Profil &amp; Sambutan Pimpinan</span></span>
-                    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-[#a3e635] dark:text-[#050d06]">Aktif</span>
-                </a>
-
-                <a href="{{ route('home') }}#unit-sekolah" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700">
-                    <span class="flex items-center gap-2"><span>🏫</span> <span>4 Unit Sekolah (TK/SD/SMP/SMA)</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1">➔</span>
-                </a>
-
-                <a href="{{ route('school.berita') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('school.berita*') ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700' }}">
-                    <span class="flex items-center gap-2"><span>📰</span> <span>Berita &amp; Kabar Kampus</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1">➔</span>
-                </a>
-
-                <a href="{{ route('school.artikel') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('school.artikel*') ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700' }}">
-                    <span class="flex items-center gap-2"><span>📖</span> <span>Artikel &amp; Edukasi Islam</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1">➔</span>
-                </a>
-
-                <a href="{{ route('school.fasilitas') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('school.fasilitas') ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700' }}">
-                    <span class="flex items-center gap-2"><span>🏢</span> <span>Fasilitas &amp; Sarana Prasarana</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1">➔</span>
-                </a>
-
-                <a href="{{ route('school.espp') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('school.espp') ? 'bg-emerald-700 text-white shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-700' }}">
-                    <span class="flex items-center gap-2"><span>💳</span> <span>Portal E-SPP Online</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1">➔</span>
-                </a>
-
-                <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
-                    <a href="{{ route('school.ppdb') }}" class="w-full py-2.5 text-center rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-black text-xs shadow-sm flex items-center justify-center gap-1.5">
-                        <span>✨ Formulir PPDB Online 2026/2027</span> ➔
-                    </a>
-                    <a href="{{ route('admin.dashboard') }}" class="w-full py-2.5 text-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-xs border border-slate-200 dark:border-slate-700">
-                        ⚙️ Portal Admin Sekolah
-                    </a>
-                </div>
-
-            </div>
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden pt-3 pb-2 border-t border-slate-200 dark:border-[#1a381c] mt-3 space-y-1">
+            <a href="{{ route('home') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">🏠 Beranda Utama</a>
+            <a href="{{ route('school.profil') }}" class="block px-4 py-2.5 rounded-xl font-black text-xs bg-emerald-100 dark:bg-[#0d1e0f] text-[#004532] dark:text-[#c6f634]">👤 Profil Yayasan</a>
+            <a href="{{ route('school.berita') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">📰 Berita &amp; Kegiatan</a>
+            <a href="{{ route('school.artikel') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">📖 Artikel Keislaman</a>
+            <a href="{{ route('school.fasilitas') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">🏢 Fasilitas Sekolah</a>
+            <a href="{{ route('school.ppdb') }}" class="block px-4 py-2.5 rounded-xl font-black text-xs bg-orange-600 text-white text-center mt-2">✨ Pendaftaran PPDB Online</a>
         </div>
     </header>
 
-    <!-- Full-Width Responsive Main Container -->
-    <main class="py-6 sm:py-12 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 space-y-8 sm:space-y-14 flex-1">
+    <!-- Main Hero Header Showcase Section -->
+    <main class="flex-grow space-y-12 sm:space-y-16 pb-16">
         
-        <!-- Header Title Banner -->
-        <div class="text-center space-y-2 sm:space-y-3 max-w-4xl mx-auto px-2">
-            <span class="px-3.5 py-1.5 rounded-full bg-emerald-100 dark:bg-[#a3e635] text-emerald-950 dark:text-[#050d06] font-black text-[10px] sm:text-xs uppercase tracking-widest inline-block border border-emerald-300 dark:border-[#a3e635] shadow-xs">
-                ✨ SAMBUTAN PIMPINAN &amp; PROFIL RESMI
-            </span>
-            <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight">
-                Yayasan Generasi Robbani Sumatera Selatan
-            </h1>
-            <p class="text-xs sm:text-base text-slate-600 dark:text-[#a3e635] font-semibold max-w-2xl mx-auto leading-relaxed">
-                Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, &amp; SMAIT Robbani) Berpusat di Indralaya Utara, Kabupaten Ogan Ilir.
-            </p>
-        </div>
+        <section class="relative py-12 sm:py-16 overflow-hidden bg-gradient-to-b from-emerald-900/90 via-[#004532] to-[#040d06] text-white">
+            <!-- Glowing Halos & Geometric Ornaments -->
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/20 dark:bg-[#c6f634]/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-400/20 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 2s;"></div>
 
-        <!-- 1. Sambutan Lengkap Ketua Yayasan Full-Width Box (Mobile Optimized) -->
-        <div class="bg-white dark:bg-[#0c1a0e] rounded-3xl p-5 sm:p-10 lg:p-12 border border-slate-200/90 dark:border-[#1b3d1f] shadow-lg space-y-6 sm:space-y-8 transition-colors">
-            <div class="flex flex-col lg:flex-row gap-6 sm:gap-8 items-center lg:items-start border-b border-slate-200 dark:border-[#1b3d1f] pb-6 sm:pb-8">
-                
-                <!-- Foto Ketua Yayasan -->
-                <div class="shrink-0 flex flex-col items-center text-center w-full lg:w-auto">
-                    <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full border-4 border-emerald-600 dark:border-[#a3e635] p-1 shadow-xl bg-white overflow-hidden relative mx-auto">
-                        <img src="{{ !empty($settings['principal_photo']) ? $settings['principal_photo'] : '/images/logo-robbani-official.png' }}" alt="{{ $settings['principal_name'] }}" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                    </div>
-                    <span class="mt-3 px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#a3e635] text-emerald-950 dark:text-[#050d06] text-[10px] font-black uppercase tracking-wider shadow-xs">
-                        KETUA YAYASAN
-                    </span>
-                    <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-1.5 text-center">{{ $settings['principal_name'] }}</h3>
-                    <p class="text-xs text-emerald-800 dark:text-[#a3e635] font-bold max-w-[240px] text-center">{{ $settings['principal_title'] }}</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-6">
+                <!-- Floating Badge -->
+                <div class="inline-flex items-center gap-2 bg-white/10 dark:bg-[#c6f634]/20 border border-white/20 dark:border-[#c6f634]/40 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-amber-300 dark:text-[#c6f634] shadow-md animate-float-badge">
+                    <span class="w-2 h-2 rounded-full bg-orange-400 dark:bg-[#c6f634] animate-ping"></span>
+                    <span>✨ SAMBUTAN PIMPINAN &amp; PROFIL RESMI YAYASAN</span>
                 </div>
 
-                <!-- Isi Teks Sambutan Lengkap -->
-                <div class="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-medium flex-1 text-justify sm:text-left">
-                    <h2 class="text-lg sm:text-2xl font-black text-emerald-800 dark:text-[#a3e635] border-b border-emerald-500/20 pb-2 leading-snug">
-                        Assalamu'alaikum Warahmatullahi Wabarakatuh
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black font-headline tracking-tight text-white dark:text-[#f0fdf4] drop-shadow-md max-w-4xl mx-auto leading-tight">
+                    {{ $foundationProfile['name'] ?? $settings['school_name'] }}
+                </h1>
+
+                <p class="text-slate-200 dark:text-emerald-100 font-medium text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                    {{ $foundationProfile['tagline'] }} — Didirikan tahun {{ $foundationProfile['founded_year'] ?? '2014' }} di Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan.
+                </p>
+
+                <!-- Navigation Tabs (Interactive Alpine.js Tab Switcher) -->
+                <div class="flex flex-wrap items-center justify-center gap-2 pt-4">
+                    <button @click="activeTab = 'sambutan'" :class="activeTab === 'sambutan' ? 'tab-btn-active font-black' : 'bg-white/10 hover:bg-white/20 text-white font-bold'" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>🎙️ Sambutan Ketua</span>
+                    </button>
+                    <button @click="activeTab = 'visimisi'" :class="activeTab === 'visimisi' ? 'tab-btn-active font-black' : 'bg-white/10 hover:bg-white/20 text-white font-bold'" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>🎯 Visi &amp; Misi</span>
+                    </button>
+                    <button @click="activeTab = 'pilar'" :class="activeTab === 'pilar' ? 'tab-btn-active font-black' : 'bg-white/10 hover:bg-white/20 text-white font-bold'" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>⭐ 5 Pilar Kurikulum</span>
+                    </button>
+                    <button @click="activeTab = 'pengurus'" :class="activeTab === 'pengurus' ? 'tab-btn-active font-black' : 'bg-white/10 hover:bg-white/20 text-white font-bold'" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>👥 Struktur Pengurus</span>
+                    </button>
+                    <button @click="activeTab = 'unit'" :class="activeTab === 'unit' ? 'tab-btn-active font-black' : 'bg-white/10 hover:bg-white/20 text-white font-bold'" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>🏫 4 Unit Sekolah</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Sambutan Ketua Yayasan Card -->
+        <section x-show="activeTab === 'sambutan'" class="max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-500">
+            <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left: Chairman Photo Frame -->
+                <div class="lg:col-span-4 text-center space-y-4">
+                    <div class="relative w-48 sm:w-56 h-48 sm:h-56 mx-auto rounded-3xl overflow-hidden border-4 border-orange-500 dark:border-[#c6f634] shadow-2xl bg-slate-900 group">
+                        <img src="{{ asset($foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $foundationProfile['chairman_name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-lg sm:text-xl font-black font-headline text-slate-900 dark:text-white">{{ $foundationProfile['chairman_name'] }}</h3>
+                        <span class="text-xs font-bold text-emerald-700 dark:text-[#c6f634] bg-emerald-100 dark:bg-[#0d1e0f] px-3 py-1 rounded-full inline-block border border-emerald-200 dark:border-[#1a381c]">{{ $foundationProfile['chairman_title'] }}</span>
+                    </div>
+                </div>
+
+                <!-- Right: Speech Text -->
+                <div class="lg:col-span-8 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634]/20 text-orange-700 dark:text-[#c6f634] text-xs font-black uppercase">
+                        <span>💬</span> <span>KATA SAMBUTAN RESMI</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white leading-tight">
+                        Membangun Peradaban Rabbani Berbasis Al-Qur'an &amp; Teknologi
                     </h2>
-
-                    <p>
-                        Alhamdulillah, puji dan syukur senantiasa kita panjatkan ke hadirat Allah SWT yang telah melimpahkan rahmat, hidayah, dan inayah-Nya kepada kita semua. Sholawat beserta salam semoga senantiasa tercurah kepada junjungan kita Nabi Besar Muhammad SAW, keluarga, sahabat, dan para pengikutnya hingga akhir zaman.
-                    </p>
-
-                    <p>
-                        Selamat datang di portal resmi **Yayasan Generasi Robbani Sumatera Selatan**. Kami menyadari betul bahwa dunia pendidikan hari ini dihadapkan pada tantangan yang sangat dinamis. Era digitalisasi membawa kemajuan pesat, namun di sisi lain menuntut benteng moral dan karakter yang semakin kokoh bagi anak-anak kita.
-                    </p>
-
-                    <p>
-                        Oleh karena itu, Yayasan Generasi Robbani hadir di Kabupaten Ogan Ilir membawa visi besar: **membentuk generasi rabbani yang tidak hanya cerdas secara akademik dan menguasai teknologi digital, tetapi juga kokoh aqidahnya, hafidz Al-Qur'an, dan berakhlak mulia.**
-                    </p>
-
-                    <!-- 5 Pilar Pendidikan Box -->
-                    <div class="bg-emerald-50 dark:bg-[#142c17] p-4 sm:p-6 rounded-2xl border border-emerald-200 dark:border-[#224d26] space-y-3 my-4">
-                        <h4 class="font-black text-emerald-950 dark:text-[#a3e635] text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
-                            <span>🏛️</span> <span>5 PILAR UTAMA KURIKULUM &amp; PENDIDIKAN SIT ROBBANI:</span>
-                        </h4>
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-bold text-slate-800 dark:text-slate-200">
-                            <li class="flex items-center gap-2">
-                                <span class="text-emerald-700 dark:text-[#a3e635] font-black shrink-0">✔</span> <span>1. Pembiasaan &amp; Tahfidz Al-Qur'an (Juz 30 &amp; Juz 1-5)</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="text-emerald-700 dark:text-[#a3e635] font-black shrink-0">✔</span> <span>2. Bina Pribadi Islami (BPI) &amp; Penanaman Adab</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="text-emerald-700 dark:text-[#a3e635] font-black shrink-0">✔</span> <span>3. Integration Kurikulum Merdeka &amp; Standar JSIT</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <span class="text-emerald-700 dark:text-[#a3e635] font-black shrink-0">✔</span> <span>4. Ekosistem Digital SmartEdu (RFID Gate &amp; Cashless)</span>
-                            </li>
-                            <li class="flex items-center gap-2 md:col-span-2">
-                                <span class="text-emerald-700 dark:text-[#a3e635] font-black shrink-0">✔</span> <span>5. Sinergi Komunikasi Erat Antara Sekolah &amp; Orang Tua</span>
-                            </li>
-                        </ul>
+                    <div class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-4 border-l-4 border-emerald-600 dark:border-[#c6f634] pl-4 italic bg-slate-50 dark:bg-[#0d1e0f]/50 p-4 rounded-r-2xl">
+                        {!! $foundationProfile['chairman_greeting'] !!}
                     </div>
-
-                    <p>
-                        Melalui pengelolaan empat unit pendidikan terpadu dari **KB/TKIT, SDIT, SMPIT, hingga SMAIT Robbani**, kami berkomitmen memberikan pengasuhan yang hangat, profesional, dan menyenangkan (*Because, Every Child is Unique*). Semoga Allah SWT meridhoi niat tulus kita bersama.
-                    </p>
-
-                    <div class="pt-3 text-right border-t border-slate-100 dark:border-[#1b3d1f]">
-                        <p class="font-bold text-slate-900 dark:text-white">Wassalamu'alaikum Warahmatullahi Wabarakatuh,</p>
-                        <p class="font-black text-emerald-800 dark:text-[#a3e635] text-sm sm:text-base mt-1">{{ $settings['principal_name'] }}</p>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 font-semibold">{{ $settings['principal_title'] }}</p>
+                    <div class="pt-2 flex flex-wrap items-center gap-4">
+                        <a href="{{ route('school.ppdb') }}" class="px-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-black text-xs shadow-md transition-transform hover:scale-105 flex items-center gap-1.5">
+                            <span>Daftar Putra-Putri Anda</span> ➔
+                        </a>
+                        <a href="{{ route('school.berita') }}" class="px-5 py-3 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-800 dark:text-[#c6f634] font-extrabold text-xs border border-slate-200 dark:border-[#1a381c] hover:border-emerald-500 transition-colors">
+                            Lihat Berita Kegiatan Yayasan 📰
+                        </a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Visi, Misi, & Nilai Utama -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 pt-2">
-                
-                <!-- Visi Card -->
-                <div class="bg-gradient-to-br from-[#004532] via-[#065f46] to-[#0f172a] text-white p-5 sm:p-8 rounded-3xl space-y-3 shadow-lg border border-emerald-700/50">
-                    <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-xl shadow-inner">🎯</div>
-                    <h3 class="text-base sm:text-xl font-black text-amber-300 dark:text-[#a3e635]">Visi Utama Yayasan</h3>
-                    <p class="text-xs sm:text-sm leading-relaxed font-semibold text-emerald-50">
-                        "Menjadi Lembaga Pendidikan Islam Terpadu Pilihan Utama di Sumatera Selatan yang Mencetak Generasi Rabbani Beriman, Hafidz Al-Qur'an, Berakhlak Karimah, Unggul Akademik, dan Siap Memimpin di Era Digital."
-                    </p>
+            </div>
+        </section>
+
+        <!-- Section 2: Visi & Misi Card -->
+        <section x-show="activeTab === 'visimisi'" class="max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-500">
+            <div class="space-y-8">
+                <!-- Vision Card -->
+                <div class="bg-gradient-to-r from-[#004532] to-emerald-800 dark:from-[#0d1e0f] dark:to-[#07170a] text-white p-8 sm:p-12 rounded-3xl border border-emerald-700 dark:border-[#1a381c] shadow-2xl relative overflow-hidden text-center space-y-4">
+                    <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-orange-500/20 dark:bg-[#c6f634]/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-orange-500 dark:bg-[#c6f634] text-white dark:text-[#040d06] text-xs font-black uppercase tracking-wider">VISI UTAMA YAYASAN</span>
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold leading-snug max-w-4xl mx-auto italic">
+                        "{{ $foundationProfile['vision'] }}"
+                    </h2>
                 </div>
 
-                <!-- Misi Card -->
-                <div class="bg-slate-50 dark:bg-[#122615] border border-slate-200 dark:border-[#204724] p-5 sm:p-8 rounded-3xl space-y-3">
-                    <div class="w-10 h-10 rounded-2xl bg-emerald-100 dark:bg-[#142c17] flex items-center justify-center text-xl shadow-inner">🚀</div>
-                    <h3 class="text-base sm:text-xl font-black text-slate-900 dark:text-white">Misi Strategis</h3>
-                    <ul class="space-y-2.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-700 dark:bg-[#a3e635] text-white dark:text-[#050d06] font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
-                            <span>Menyediakan pendidikan terpadu berstandar JSIT dari usia dini (TK) hingga jenjang menengah atas (SMA).</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-700 dark:bg-[#a3e635] text-white dark:text-[#050d06] font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
-                            <span>Membina kecintaan terhadap Al-Qur'an melalui target hafalan bertahap dan pendampingan adab islami.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-700 dark:bg-[#a3e635] text-white dark:text-[#050d06] font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
-                            <span>Mengembangkan kecerdasan digital, kepemimpinan, dan kemandirian berprestasi secara berkelanjutan.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. Unit Sekolah Under Yayasan (4 Unit Full Width) -->
-        <div class="space-y-5">
-            <div class="text-center space-y-1.5 max-w-2xl mx-auto px-2">
-                <span class="text-emerald-800 dark:text-[#a3e635] font-black text-xs uppercase tracking-widest">UNIT PENDIDIKAN INTEGRASI</span>
-                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">4 Unit Sekolah Unggulan SIT Robbani</h2>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">Layanan pendidikan terpadu berjenjang dari usia dini hingga jenjang menengah atas di Kabupaten Ogan Ilir.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                @foreach($schools as $sc)
-                <div class="bg-white dark:bg-[#0c1a0e] border border-slate-200 dark:border-[#1b3d1f] p-5 rounded-3xl space-y-3 shadow-md hover:shadow-xl transition-all flex flex-col justify-between">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="px-3 py-1 rounded-lg bg-[#004532] dark:bg-[#a3e635] text-white dark:text-[#050d06] text-xs font-black">
-                                {{ $sc->code }}
-                            </span>
-                            <span class="text-[10px] text-slate-400 font-bold">OGAN ILIR</span>
+                <!-- Mission Grid Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    @foreach($foundationProfile['missions'] as $idx => $m)
+                    <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-orange-500 transition-all flex items-start gap-4 group">
+                        <div class="w-12 h-12 rounded-2xl bg-orange-500 dark:bg-[#c6f634] text-white dark:text-[#040d06] font-black text-lg flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform">
+                            {{ $idx + 1 }}
                         </div>
-                        <h4 class="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white leading-snug">{{ $sc->name }}</h4>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 font-medium">Kepsek: <span class="font-bold text-emerald-800 dark:text-[#a3e635]">{{ $sc->principal_name }}</span></p>
+                        <div class="space-y-1">
+                            <h3 class="text-xs font-black text-orange-600 dark:text-[#c6f634] uppercase tracking-wider">MISI YAYASAN #{{ $idx + 1 }}</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">{{ $m }}</p>
+                        </div>
                     </div>
-                    <a href="{{ route('school.unit', strtolower($sc->code)) }}" class="inline-flex items-center gap-1.5 text-xs font-black text-emerald-800 dark:text-[#a3e635] hover:underline pt-3">
-                        <span>Lihat Profil Unit</span> <span>➔</span>
-                    </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 5 Pilar Utama Kurikulum -->
+        <section x-show="activeTab === 'pilar'" class="max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-500 space-y-8">
+            <div class="text-center space-y-2">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-[#c6f634]/20 text-[#004532] dark:text-[#c6f634] text-xs font-black uppercase">KEKHASAN JSIT &amp; SAINS DIGITAL</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">5 Pilar Utama Kurikulum SIT Robbani</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Fondasi pendidikan karakter, ilmu keislaman, dan penguasaan teknologi abad 21.</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6">
+                @foreach($foundationProfile['pillars'] as $p)
+                <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 space-y-3 group">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-[#0d1e0f] text-2xl flex items-center justify-center shadow-xs border border-emerald-200 dark:border-[#1a381c] group-hover:scale-110 transition-transform">
+                        {{ $p['icon'] }}
+                    </div>
+                    <h3 class="text-base font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $p['title'] }}</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">{{ $p['desc'] }}</p>
                 </div>
                 @endforeach
             </div>
-        </div>
+        </section>
 
-        <!-- 3. Informasi Sekretariat Pusat -->
-        <div class="bg-slate-900 text-white rounded-3xl p-5 sm:p-10 border border-slate-800 space-y-5 shadow-2xl">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-5">
-                <div>
-                    <span class="text-[10px] text-[#a3e635] font-black uppercase tracking-widest block">SEKRETARIAT PUSAT</span>
-                    <h3 class="text-lg sm:text-2xl font-black text-white">Yayasan Generasi Robbani Sumatera Selatan</h3>
-                    <p class="text-xs text-slate-400 font-semibold mt-0.5">Pusat Administrasi &amp; Kampus Pendidikan SIT Robbani Ogan Ilir</p>
-                </div>
-                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings['contact_phone']) }}" target="_blank" class="w-full sm:w-auto text-center px-5 py-3 rounded-xl bg-[#a3e635] text-[#050d06] font-black text-xs hover:scale-105 transition-transform shadow-md shrink-0">
-                    💬 Hubungi WhatsApp Sekretariat ➔
-                </a>
+        <!-- Section 4: Struktur Pengurus Yayasan -->
+        <section x-show="activeTab === 'pengurus'" class="max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-500 space-y-8">
+            <div class="text-center space-y-2">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-orange-100 dark:bg-[#c6f634]/20 text-orange-700 dark:text-[#c6f634] text-xs font-black uppercase">STRUKTUR ORGANISASI</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Jajaran Pengurus &amp; Pembina Yayasan</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Tokoh pendidik dan pengelola yang berdedikasi memajukan pendidikan Islam Terpadu.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs sm:text-sm font-medium">
-                <div class="space-y-1">
-                    <span class="text-slate-400 font-bold block text-[10px] uppercase">📌 Kantor Pusat:</span>
-                    <p class="text-slate-200 leading-relaxed font-semibold">Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                @foreach($foundationProfile['executives'] as $ex)
+                <div class="w-[calc(50%-12px)] sm:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 text-center space-y-3 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all group">
+                    <div class="w-full aspect-square rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-slate-900 shadow-md">
+                        <img src="{{ asset($ex['photo']) }}" alt="{{ $ex['name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/avatar-gray-person.svg';">
+                    </div>
+                    <div>
+                        <h3 class="text-xs sm:text-sm font-black font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $ex['name'] }}</h3>
+                        <span class="text-[10px] sm:text-[11px] font-bold text-orange-600 dark:text-[#c6f634] block mt-1">{{ $ex['role'] }}</span>
+                    </div>
                 </div>
-                <div class="space-y-1">
-                    <span class="text-slate-400 font-bold block text-[10px] uppercase">📞 Layanan Telepon / WA:</span>
-                    <p class="text-slate-200 font-semibold">{{ $settings['contact_phone'] }}</p>
+                @endforeach
+            </div>
+        </section>
+
+        <!-- Section 5: 4 Unit Sekolah Integration Showcase -->
+        <section x-show="activeTab === 'unit'" class="max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-500 space-y-8">
+            <div class="text-center space-y-2">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-[#c6f634]/20 text-[#004532] dark:text-[#c6f634] text-xs font-black uppercase">UNIT PENDIDIKAN INTEGRASI</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">4 Unit Sekolah Unggulan SIT Robbani</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Layanan pendidikan terpadu berjenjang dari usia dini hingga jenjang menengah atas.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- KB/TKIT -->
+                <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between space-y-4 group">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#0d1e0f] text-emerald-800 dark:text-[#c6f634] font-black text-xs">KB / TKIT</span>
+                            <span class="text-[10px] font-bold text-slate-400">Akreditasi A</span>
+                        </div>
+                        <h3 class="text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">KB/TKIT Robbani</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Tumbuh Ceria, Berakhlak Mulia, &amp; Hafiz Juz 30 Cilik berbasis sentra.</p>
+                    </div>
+                    <a href="{{ route('school.unit', 'tkit') }}" class="w-full py-2.5 rounded-xl bg-emerald-50 dark:bg-[#0d1e0f] hover:bg-emerald-700 hover:text-white text-emerald-700 dark:text-[#c6f634] font-black text-xs text-center border border-emerald-200 dark:border-[#1a381c] transition-colors block">
+                        Lihat Profil Unit ➔
+                    </a>
                 </div>
-                <div class="space-y-1">
-                    <span class="text-slate-400 font-bold block text-[10px] uppercase">✉️ Email Resmi:</span>
-                    <p class="text-slate-200 font-semibold">{{ $settings['contact_email'] }}</p>
+
+                <!-- SDIT -->
+                <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-orange-500 transition-all flex flex-col justify-between space-y-4 group">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-950/40 text-orange-800 dark:text-orange-400 font-black text-xs">SDIT</span>
+                            <span class="text-[10px] font-bold text-slate-400">Akreditasi B</span>
+                        </div>
+                        <h3 class="text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">SDIT Robbani</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Mencetak Generasi Qur'ani, Berkarakter Karimah, &amp; Cerdas Sains.</p>
+                    </div>
+                    <a href="{{ route('school.unit', 'sdit') }}" class="w-full py-2.5 rounded-xl bg-orange-50 dark:bg-[#0d1e0f] hover:bg-orange-600 hover:text-white text-orange-700 dark:text-orange-400 font-black text-xs text-center border border-orange-200 dark:border-[#1a381c] transition-colors block">
+                        Lihat Profil Unit ➔
+                    </a>
+                </div>
+
+                <!-- SMPIT -->
+                <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-500 transition-all flex flex-col justify-between space-y-4 group">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/40 text-blue-800 dark:text-blue-400 font-black text-xs">SMPIT</span>
+                            <span class="text-[10px] font-bold text-slate-400">Akreditasi B</span>
+                        </div>
+                        <h3 class="text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">SMPIT Robbani</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Menjadi Sekolah Menengah Pertama Terbaik di Indonesia 2032.</p>
+                    </div>
+                    <a href="{{ route('school.unit', 'smpit') }}" class="w-full py-2.5 rounded-xl bg-blue-50 dark:bg-[#0d1e0f] hover:bg-blue-600 hover:text-white text-blue-700 dark:text-blue-400 font-black text-xs text-center border border-blue-200 dark:border-[#1a381c] transition-colors block">
+                        Lihat Profil Unit ➔
+                    </a>
+                </div>
+
+                <!-- SMAIT -->
+                <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-purple-500 transition-all flex flex-col justify-between space-y-4 group">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-950/40 text-purple-800 dark:text-purple-400 font-black text-xs">SMAIT</span>
+                            <span class="text-[10px] font-bold text-slate-400">Pengembangan</span>
+                        </div>
+                        <h3 class="text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">SMAIT Robbani</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Persiapan Tembus PTN Favorit, Beasiswa Luar Negeri &amp; Sanad Tahfidz.</p>
+                    </div>
+                    <a href="{{ route('school.unit', 'smait') }}" class="w-full py-2.5 rounded-xl bg-purple-50 dark:bg-[#0d1e0f] hover:bg-purple-600 hover:text-white text-purple-700 dark:text-purple-400 font-black text-xs text-center border border-purple-200 dark:border-[#1a381c] transition-colors block">
+                        Lihat Profil Unit ➔
+                    </a>
                 </div>
             </div>
-        </div>
+        </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 text-xs py-8 transition-colors">
-        <div class="w-full max-w-[1400px] mx-auto px-4 text-center space-y-3">
-            <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
-            <a href="https://berandadigital.net" target="_blank" class="text-emerald-400 dark:text-[#a3e635] hover:underline inline-flex items-center gap-1 font-bold">
-                <span>Powered by Beranda Teknologi Digital</span>
-                <span>➔</span>
+    <!-- Footer Showcase Banner -->
+    <footer class="bg-[#004532] dark:bg-[#07170a] text-white border-t border-emerald-800 dark:border-[#1a381c] py-10 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div class="space-y-1">
+                <h3 class="font-black text-base text-white dark:text-[#c6f634]">{{ $foundationProfile['name'] ?? $settings['school_name'] }}</h3>
+                <p class="text-xs text-slate-200 dark:text-slate-400">Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan | WhatsApp: 0811747472</p>
+            </div>
+            <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md transition-transform hover:scale-105 shrink-0 flex items-center gap-2">
+                <span>Hubungi Sekretariat Yayasan</span> ➔
             </a>
         </div>
     </footer>
-
-    <!-- Robbani AI Assistant Chat Widget -->
-    @include('components.chat-ai-widget')
 
 </body>
 </html>
