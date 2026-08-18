@@ -851,9 +851,9 @@ class HrisMobileApiController extends Controller
                 'is_mentor' => $isMentor,
                 'mentor' => [
                     'id' => $mentor ? $mentor->id : 1,
-                    'name' => $mentor ? $mentor->full_name : 'Sughesti wulandari, S.Pd',
+                    'name' => $mentor ? $mentor->full_name : 'Ustadz H. Mukhtarom, Lc',
                     'title' => 'Pembina (Murabbi) Halaqah SDM',
-                    'avatar' => '/uploads/wp_assets/press-release-employee-10-scaled_b06e4c83.webp',
+                    'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200',
                 ],
                 'members' => $members,
                 'total_members' => $members->count(),

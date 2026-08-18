@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             // 2. Ketua Yayasan Generasi Robbani
             [
                 'email' => 'ketua.yayasan@robbani.sch.id',
-                'name' => 'Sughesti wulandari, S.Pd',
+                'name' => 'Ustadz H. Mukhtarom, Lc., M.H.I',
                 'role' => User::ROLE_YAYASAN_CHAIRMAN,
                 'school_id' => null,
                 'password' => $defaultPassword,
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             // 3. Kepala KB / TKIT Robbani
             [
                 'email' => 'kepala.tkit@robbani.sch.id',
-                'name' => 'Ani Oktar Yansi, S.Pd.I',
+                'name' => 'Ustadzah Eliyana, S.Pd',
                 'role' => User::ROLE_HEADMASTER,
                 'school_id' => $tkit?->id,
                 'password' => $defaultPassword,
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             // 4. Kepala SDIT Robbani
             [
                 'email' => 'kepala.sdit@robbani.sch.id',
-                'name' => 'Nur Amalia, S.Pd.,Gr',
+                'name' => 'Ustadz Ahmad Fauzi, S.Pd.I, M.Pd',
                 'role' => User::ROLE_HEADMASTER,
                 'school_id' => $sdit?->id,
                 'password' => $defaultPassword,
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
             // 5. Kepala SMPIT Robbani
             [
                 'email' => 'kepala.smpit@robbani.sch.id',
-                'name' => 'Tia Wulandari, S.Pd',
+                'name' => 'Ustadzah Tia Wulandari, S.Pd',
                 'role' => User::ROLE_HEADMASTER,
                 'school_id' => $smpit?->id,
                 'password' => $defaultPassword,

@@ -72,7 +72,7 @@
 
     <!-- Preload Critical LCP Logo & Hero Background -->
     <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : '/uploads/wp_assets/2_7c039504.png' }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}" fetchpriority="high">
 
     <!-- Google Fonts & Material Symbols -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
@@ -794,7 +794,7 @@
         <!-- ========================================== -->
         <!-- HERO SECTION (CENTER ALIGNED MOBILE/TABLET) -->
         <!-- ========================================== -->
-        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : '/uploads/wp_assets/2_7c039504.png' }}');">
+        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}');">
             <div class="absolute inset-0 bg-gradient-to-r from-emerald-950 via-slate-950 to-orange-950 backdrop-blur-[2px]" style="opacity: {{ ((float) (!empty($settings['hero_banner_opacity']) ? $settings['hero_banner_opacity'] : 70)) / 100 }};"></div>
             
             <div class="max-w-container-max mx-auto px-gutter relative z-10">
@@ -1140,7 +1140,7 @@
 
                             <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
                             <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['tkit']['principal_photo'] ?? '/images/logo-robbani-official.png' }}" alt="{{ $unitProfiles['tkit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ $unitProfiles['tkit']['principal_photo'] ?? '/images/mockup_mobile_1.png' }}" alt="{{ $unitProfiles['tkit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-orange-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -1167,7 +1167,7 @@
 
                             <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
                             <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['sdit']['principal_photo'] ?? '/images/logo-robbani-official.png' }}" alt="{{ $unitProfiles['sdit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ $unitProfiles['sdit']['principal_photo'] ?? '/images/mockup_mobile_2.png' }}" alt="{{ $unitProfiles['sdit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
