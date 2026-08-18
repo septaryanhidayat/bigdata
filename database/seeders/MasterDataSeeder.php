@@ -32,7 +32,7 @@ class MasterDataSeeder extends Seeder
             [
                 'name' => 'KB / TKIT Robbani',
                 'npsn' => '20198031',
-                'principal_name' => 'Ustadzah Eliyana, S.Pd',
+                'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
                 'phone' => '0811747472',
                 'email' => 'tk@sitrobbani.sch.id',
@@ -46,7 +46,7 @@ class MasterDataSeeder extends Seeder
             [
                 'name' => 'SDIT Robbani',
                 'npsn' => '20198032',
-                'principal_name' => 'Ustadz Ahmad Fauzi, S.Pd.I, M.Pd',
+                'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'address' => 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan',
                 'phone' => '0811747472',
                 'email' => 'sd@sitrobbani.sch.id',
@@ -104,10 +104,10 @@ class MasterDataSeeder extends Seeder
 
         // 4. Employees (Pimpinan Yayasan, Kepala Unit & Dewan Guru)
         $teachersData = [
-            ['nip' => '197808122010011001', 'school' => null, 'name' => 'Ustadz H. Mukhtarom Lc M.H.I', 'role' => 'HEADMASTER', 'gender' => 'M'],
-            ['nip' => '198204152012012001', 'school' => $tkit, 'name' => 'Ustadzah Eliyana S.Pd', 'role' => 'HEADMASTER', 'gender' => 'F'],
-            ['nip' => '198406122014011002', 'school' => $sdit, 'name' => 'Ustadz Ahmad Fauzi S.Pd.I M.Pd', 'role' => 'HEADMASTER', 'gender' => 'M'],
-            ['nip' => '198609202016012003', 'school' => $smpit, 'name' => 'Ustadzah Tia Wulandari S.Pd', 'role' => 'HEADMASTER', 'gender' => 'F'],
+            ['nip' => '197808122010011001', 'school' => null, 'name' => 'Sughesti wulandari, S.Pd', 'role' => 'HEADMASTER', 'gender' => 'F'],
+            ['nip' => '198204152012012001', 'school' => $tkit, 'name' => 'Ani Oktar Yansi, S.Pd.I', 'role' => 'HEADMASTER', 'gender' => 'F'],
+            ['nip' => '198406122014011002', 'school' => $sdit, 'name' => 'Nur Amalia, S.Pd.,Gr', 'role' => 'HEADMASTER', 'gender' => 'F'],
+            ['nip' => '198609202016012003', 'school' => $smpit, 'name' => 'Tia Wulandari, S.Pd', 'role' => 'HEADMASTER', 'gender' => 'F'],
             ['nip' => '198003102011011004', 'school' => $smait, 'name' => 'Ustadz Drs. H. Ridwan M.Ag', 'role' => 'HEADMASTER', 'gender' => 'M'],
             ['nip' => '198505122026011001', 'school' => $smpit, 'name' => 'Ustadz Rizky S.Pd.I', 'role' => 'TEACHER', 'gender' => 'M'],
             ['nip' => '198807152026012002', 'school' => $smpit, 'name' => 'Ustadzah Siti Nurhaliza M.Pd', 'role' => 'TEACHER', 'gender' => 'F'],

@@ -19,10 +19,10 @@ class SchoolWebsiteController extends Controller
             'hero_badge' => SiteSetting::get('hero_badge', '✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027'),
             'hero_title' => SiteSetting::get('hero_title', 'Taman Pendidikan & Sekolah Islam Terpadu Robbani'),
             'hero_desc' => SiteSetting::get('hero_desc', 'Mencetak Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Berprestasi Nasional di Kabupaten Ogan Ilir, Sumatera Selatan.'),
-            'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600'),
+            'hero_bg_image' => SiteSetting::get('hero_bg_image', '/images/hero_3d_illustration_1786347707126.png'),
             'hero_banner_opacity' => SiteSetting::get('hero_banner_opacity', '70'),
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
-            'principal_name' => SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd'),
+            'principal_name' => SiteSetting::get('principal_name', 'Sughesti wulandari, S.Pd'),
             'principal_title' => SiteSetting::get('principal_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
             'ppdb_status' => SiteSetting::get('ppdb_status', 'SPMB / PPDB TELAH DIBUKA!'),
             'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT.'),
@@ -34,7 +34,7 @@ class SchoolWebsiteController extends Controller
             'logo_dark' => SiteSetting::get('logo_dark', '/images/logo robbani dark.png'),
             'website_favicon' => SiteSetting::get('website_favicon', '/favicon.png'),
             'social_share_image' => SiteSetting::get('social_share_image', '/images/logo robbani light.png'),
-            'principal_photo' => SiteSetting::get('principal_photo', '/images/logo robbani light.png'),
+            'principal_photo' => SiteSetting::get('principal_photo', '/uploads/wp_assets/press-release-employee-10-scaled_b06e4c83.webp'),
         ];
 
         $schools = School::withCount(['students', 'employees', 'classrooms'])->where('is_active', true)->get();
@@ -159,23 +159,23 @@ class SchoolWebsiteController extends Controller
         $unitDefaults = [
             'tkit' => [
                 'name' => 'KB/TKIT Robbani',
-                'principal_name' => 'Ustdz. Nurhidayah, S.Pd.I',
+                'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
-                'principal_photo' => '/images/mockup_mobile_1.png',
+                'principal_photo' => '/uploads/wp_assets/kepsek_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
                 'desc' => 'Kelompok Bermain & TK Islam Terpadu Terakreditasi A.'
             ],
             'sdit' => [
                 'name' => 'SDIT Robbani',
-                'principal_name' => 'Ustdz. M. Ridwan, S.Pd',
+                'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'principal_title' => 'Kepala SDIT Robbani',
-                'principal_photo' => '/images/mockup_mobile_2.png',
+                'principal_photo' => '/uploads/wp_assets/kepsek_sd_nur-amalia-s-pd_99acbccf.png',
                 'desc' => 'Sekolah Dasar Islam Terpadu Terakreditasi B & Program Tahfidz.'
             ],
             'smpit' => [
                 'name' => 'SMPIT Robbani',
-                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
+                'principal_name' => 'Tia Wulandari, S.Pd',
                 'principal_title' => 'Kepala Sekolah SMPIT',
-                'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
                 'desc' => 'Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).'
             ],
             'smait' => [
@@ -293,9 +293,9 @@ class SchoolWebsiteController extends Controller
                 'npsn' => '69985678',
                 'akreditasi' => 'Terakreditasi B',
                 'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
-                'principal_name' => 'Nur Amalia, S.Pd',
+                'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_photo' => '/uploads/wp_assets/kepsek_sd_nur-amalia-s-pd_99acbccf.png',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
                 'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
                 'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
@@ -350,9 +350,9 @@ class SchoolWebsiteController extends Controller
                 'npsn' => '69989012',
                 'akreditasi' => 'Terakreditasi B',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
-                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
+                'principal_name' => 'Tia Wulandari, S.Pd',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
                 'vision' => 'Melahirkan Generasi Rabbani yang Beriman dan Bertaqwa, Unggul dalam Ilmu Pengetahuan dan Teknologi serta Berwawasan Global.',
