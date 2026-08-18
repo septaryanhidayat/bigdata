@@ -28,52 +28,78 @@
     
     <!-- Google Fonts & Alpine.js -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
         [x-cloak] { display: none !important; }
 
-        /* Typography & Spacing in Article Content */
+        /* Typography & Clean Justified Paragraphs in Article Content */
         .prose-content {
-            font-size: 1rem;
-            line-height: 1.85;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.95;
             word-break: break-word;
+            text-align: justify !important;
+            text-justify: inter-word;
+            letter-spacing: -0.011em;
         }
-        .prose-content p {
-            margin-bottom: 1.35rem;
-            line-height: 1.85;
+        @media (min-width: 640px) {
+            .prose-content {
+                font-size: 1.125rem;
+                line-height: 2.0;
+            }
+        }
+        .prose-content p, 
+        .prose-content div:not(.wp-block-columns):not(.row) {
+            margin-bottom: 1.5rem;
+            line-height: 1.95;
+            text-align: justify !important;
+            text-justify: inter-word;
         }
         .prose-content h2 {
-            font-size: 1.35rem;
+            font-size: 1.45rem;
             font-weight: 900;
-            margin-top: 2rem;
+            margin-top: 2.25rem;
             margin-bottom: 1rem;
-            line-height: 1.3;
+            line-height: 1.35;
+            text-align: left !important;
+            color: #0f172a;
         }
+        .dark .prose-content h2 { color: #f8fafc; }
         .prose-content h3 {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.85rem;
+            text-align: left !important;
+            color: #1e293b;
         }
+        .dark .prose-content h3 { color: #f1f5f9; }
         .prose-content strong {
             font-weight: 800;
+            color: #0f172a;
         }
+        .dark .prose-content strong { color: #ffffff; }
         .prose-content ul, .prose-content ol {
-            margin-bottom: 1.35rem;
-            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-left: 1.35rem;
+            text-align: justify !important;
         }
         .prose-content ul { list-style-type: disc; }
         .prose-content ol { list-style-type: decimal; }
-        .prose-content li { margin-bottom: 0.5rem; }
+        .prose-content li { margin-bottom: 0.6rem; line-height: 1.8; }
         .prose-content blockquote {
             border-left: 4px solid #059669;
-            padding: 0.75rem 1.25rem;
-            margin: 1.5rem 0;
-            background: rgba(5, 150, 105, 0.06);
-            border-radius: 0 1rem 1rem 0;
+            padding: 1rem 1.35rem;
+            margin: 1.75rem 0;
+            background: rgba(5, 150, 105, 0.07);
+            border-radius: 0 1.25rem 1.25rem 0;
             font-style: italic;
+            font-family: 'Lora', Georgia, serif;
+            font-size: 1.1rem;
+            text-align: justify !important;
         }
 
         /* Responsive Article Images Fix */
@@ -200,20 +226,55 @@
                     {!! $article['content'] !!}
                 </div>
 
-                <!-- Social Share Bar -->
-                <div class="p-5 sm:p-6 rounded-3xl bg-emerald-50/80 dark:bg-[#07170a] border border-emerald-200 dark:border-[#1a3d1e] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+                <!-- Interactive Social Share Action Bar (WA, FB, IG, Telegram, TikTok, Threads, X, Copy Link) -->
+                <div class="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-slate-50 dark:bg-[#07170a] border border-slate-200 dark:border-[#1a3d1e] space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-4 shadow-xs">
                     <div class="space-y-0.5 text-center sm:text-left">
                         <span class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center justify-center sm:justify-start gap-1.5">
-                            <span>📢</span> Bagikan Artikel Ini:
+                            <span>🚀</span> <span>Bagikan Artikel Ini:</span>
                         </span>
-                        <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Tebarkan ilmu yang bermanfaat untuk sesama</span>
+                        <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium block">Tebarkan ilmu dan kebaikan artikel SIT Robbani ke media sosial</span>
                     </div>
-                    <div class="flex flex-wrap items-center justify-center gap-2">
-                        <a href="https://api.whatsapp.com/send?text={{ urlencode($article['title'] . ' ' . request()->fullUrl()) }}" target="_blank" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xs transition-transform hover:scale-105 flex items-center gap-1.5">
-                            <span>💬 WhatsApp</span>
+                    
+                    <!-- Icon Social Buttons -->
+                    <div class="flex flex-wrap items-center justify-center sm:justify-end gap-2 shrink-0">
+                        <!-- WhatsApp -->
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode($article['title'] . ' ' . request()->fullUrl()) }}" target="_blank" title="Bagikan ke WhatsApp" class="w-10 h-10 rounded-xl bg-[#25D366] hover:bg-[#1fa951] text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.157 4.228 4.278-1.121z"/></svg>
                         </a>
-                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link artikel berhasil disalin ke clipboard!');" class="px-4 py-2.5 rounded-xl bg-slate-800 dark:bg-[#0c2210] hover:bg-slate-900 dark:hover:bg-[#143319] text-white dark:text-[#c6f634] border border-slate-700 dark:border-[#1a3d1e] font-extrabold text-xs shadow-xs transition-transform hover:scale-105 flex items-center gap-1.5">
-                            <span>🔗 Salin Link</span>
+
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" title="Bagikan ke Facebook" class="w-10 h-10 rounded-xl bg-[#1877F2] hover:bg-[#145dbb] text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+
+                        <!-- Instagram (Open Web / Copy Direct Link) -->
+                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link disalin! Buka Instagram dan tempel di Story / Bio Anda.');" title="Bagikan ke Instagram" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </button>
+
+                        <!-- Telegram -->
+                        <a href="https://t.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($article['title']) }}" target="_blank" title="Bagikan ke Telegram" class="w-10 h-10 rounded-xl bg-[#229ED9] hover:bg-[#1c80b0] text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.196 1.006.128.832.941z"/></svg>
+                        </a>
+
+                        <!-- TikTok -->
+                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link disalin! Buka TikTok dan bagikan ke teman Anda.');" title="Bagikan ke TikTok" class="w-10 h-10 rounded-xl bg-[#000000] hover:bg-slate-900 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all border border-slate-800">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.67 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.57-1.31 1.56-1.3 2.56.02 1.03.58 1.98 1.46 2.47.88.5 2 .48 2.85-.02.77-.47 1.25-1.35 1.26-2.25.02-4.8.01-9.6.01-14.4z"/></svg>
+                        </button>
+
+                        <!-- Threads -->
+                        <a href="https://www.threads.net/intent/post?text={{ urlencode($article['title'] . ' ' . request()->fullUrl()) }}" target="_blank" title="Bagikan ke Threads" class="w-10 h-10 rounded-xl bg-[#000000] hover:bg-slate-900 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all border border-slate-800">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.582-.024-6.333-1.254-8.176-3.657C2.295 18.2 1.5 15.244 1.5 11.83 1.5 8.397 2.292 5.43 3.988 3.321 5.82 1.034 8.57 0 12.18 0c3.55 0 6.275 1.01 8.098 3.003 1.706 1.865 2.522 4.478 2.522 7.842v1.272c0 2.27-.584 4.093-1.737 5.418-1.127 1.295-2.73 1.986-4.762 1.986-1.748 0-3.178-.54-4.25-1.605-1.074-1.066-1.62-2.527-1.62-4.342 0-1.808.544-3.267 1.616-4.337 1.07-1.068 2.497-1.61 4.24-1.61 1.294 0 2.428.32 3.37.952.126-1.716-.277-3.012-1.198-3.854-.925-.845-2.355-1.273-4.25-1.273-2.617 0-4.526.688-5.674 2.046-1.07 1.266-1.583 3.19-1.583 5.717 0 2.54.512 4.47 1.583 5.736 1.15 1.358 3.057 2.046 5.674 2.046 1.702 0 3.177-.32 4.382-.952.164 1.344.02 2.378-.426 3.076-.59.92-1.652 1.386-3.16 1.386-1.505 0-2.564-.466-3.15-1.386-.184-.288-.337-.645-.457-1.07l-2.072.563c.204.815.516 1.5.934 2.054 1.026 1.36 2.68 2.05 4.917 2.05 2.235 0 3.89-.69 4.918-2.05.772-.888 1.168-2.18 1.168-3.84v-1.27c0-2.774-.63-4.887-1.874-6.28C17.387 2.87 15.116 2.04 12.18 2.04c-2.935 0-5.206.83-6.748 2.467-1.42 1.507-2.13 3.738-2.13 6.63 0 2.893.71 5.124 2.13 6.63 1.542 1.637 3.813 2.467 6.748 2.467 1.688 0 3.167-.325 4.394-.966.19 1.378.026 2.443-.492 3.166-.69 1.07-1.92 1.614-3.656 1.614-1.737 0-2.966-.544-3.656-1.614-.23-.357-.403-.787-.517-1.29l-2.07.562c.204.872.548 1.603 1.032 2.193z"/></svg>
+                        </a>
+
+                        <!-- X / Twitter -->
+                        <a href="https://twitter.com/intent/tweet?text={{ urlencode($article['title']) }}&url={{ urlencode(request()->fullUrl()) }}" target="_blank" title="Bagikan ke X (Twitter)" class="w-10 h-10 rounded-xl bg-[#000000] hover:bg-slate-900 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all border border-slate-800">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+
+                        <!-- Copy Direct Link -->
+                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Tautan artikel berhasil disalin ke clipboard!');" title="Salin Tautan" class="w-10 h-10 rounded-xl bg-slate-700 hover:bg-slate-800 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-all">
+                            <span class="material-symbols-outlined text-[20px]">content_copy</span>
                         </button>
                     </div>
                 </div>
