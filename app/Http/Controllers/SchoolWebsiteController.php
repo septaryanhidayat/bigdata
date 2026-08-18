@@ -246,10 +246,7 @@ class SchoolWebsiteController extends Controller
                 ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
             ],
             'executives' => [
-                ['name' => 'Sughesti Wulandari, S.Pd', 'role' => 'Ketua Yayasan', 'photo' => '/images/logo-robbani-official.png'],
-                ['name' => 'Ustadz H. Ahmad Fauzi, M.Pd', 'role' => 'Pembina & Pengawas Mutu', 'photo' => '/images/logo-robbani-official.png'],
-                ['name' => 'Ahmad Subagja, M.Si', 'role' => 'Direktur Pendidikan & Akademik', 'photo' => '/images/logo-robbani-official.png'],
-                ['name' => 'Tia Wulandari, S.Pd', 'role' => 'Kepala Manajerial Unit', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg']
+                ['name' => 'Sughesti Wulandari, S.Pd', 'role' => 'Ketua Yayasan', 'photo' => '/images/logo-robbani-official.png']
             ]
         ];
     }

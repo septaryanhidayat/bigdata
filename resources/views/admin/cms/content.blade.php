@@ -23,6 +23,9 @@
 
     <!-- Tab Navigation -->
     <div class="flex overflow-x-auto gap-2 border-b border-slate-200 pb-3 w-full">
+        <a href="{{ route('admin.cms.content', ['tab' => 'foundation']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'foundation' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
+            <span>🏛️</span> <span>Profil Yayasan</span>
+        </a>
         <a href="{{ route('admin.cms.content', ['tab' => 'hero']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'hero' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>🎨</span> <span>Banner &amp; Background</span>
         </a>
@@ -947,6 +950,87 @@
         <input type="hidden" name="selected_items" id="bulk-delete-items" value="">
         <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
     </form>
+
+    {{-- TAB 0: PENGATURAN PROFIL YAYASAN --}}
+    @if($activeTab === 'foundation')
+    @php
+        $foundationProfile = (new App\Http\Controllers\SchoolWebsiteController())->getFoundationProfile();
+    @endphp
+    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+            <h3 class="font-black text-lg text-slate-900 flex items-center gap-2">
+                <span>🏛️</span> <span>Pengaturan Profil Resmi Yayasan Generasi Robbani</span>
+            </h3>
+            <p class="text-xs text-slate-500 font-medium">Kelola informasi umum, nama pimpinan, kata sambutan, visi, misi, dan pilar pendidikan yayasan yang tampil pada halaman website profil depan.</p>
+        </div>
+
+        <form action="{{ route('admin.cms.foundation-profile.update') }}" method="POST" class="space-y-6">
+            @csrf
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama & Tagline -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Nama Resmi Yayasan</label>
+                        <input type="text" name="name" value="{{ $foundationProfile['name'] ?? '' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Tagline / Subtitle Deskripsi</label>
+                        <input type="text" name="tagline" value="{{ $foundationProfile['tagline'] ?? '' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Tahun Berdiri Yayasan</label>
+                        <input type="text" name="founded_year" value="{{ $foundationProfile['founded_year'] ?? '2014' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <!-- Ketua Yayasan & Foto -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Nama Ketua Yayasan</label>
+                        <input type="text" name="chairman_name" value="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Jabatan / Gelar Resmi</label>
+                        <input type="text" name="chairman_title" value="{{ $foundationProfile['chairman_title'] ?? 'Ketua Yayasan Generasi Robbani Sumatera Selatan' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">URL Foto Ketua Yayasan</label>
+                        <input type="text" name="chairman_photo" value="{{ $foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sambutan & Visi -->
+            <div class="space-y-4 border-t border-slate-200 pt-5">
+                <div>
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Teks Kata Sambutan Resmi Ketua Yayasan (HTML didukung)</label>
+                    <textarea name="chairman_greeting" rows="5" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium focus:ring-2 focus:ring-emerald-500">{{ $foundationProfile['chairman_greeting'] ?? '' }}</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Visi Utama Yayasan</label>
+                    <textarea name="vision" rows="3" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">{{ $foundationProfile['vision'] ?? '' }}</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Misi-Misi Yayasan (Pisahkan dengan Baris Baru / Enter)</label>
+                    <textarea name="missions" rows="5" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium focus:ring-2 focus:ring-emerald-500">{{ implode("\n", $foundationProfile['missions'] ?? []) }}</textarea>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 flex justify-end">
+                <button type="submit" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer">
+                    <span>💾 Simpan Perubahan Profil Yayasan</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    @endif
 
 </div>
 

@@ -1856,6 +1856,35 @@ class CmsController extends Controller
         return redirect()->route('admin.cms.content', ['tab' => 'news', 'unit_filter' => $userUnit ?? 'all'])
             ->with('success', "✓ Berita/Artikel '{$title}' berhasil disimpan!");
     }
+
+    public function updateFoundationProfile(Request $request)
+    {
+        $data = [
+            'name' => $request->input('name', 'Yayasan Generasi Robbani Sumatera Selatan'),
+            'tagline' => $request->input('tagline', 'Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, & SMAIT Robbani Ogan Ilir)'),
+            'founded_year' => $request->input('founded_year', '2014'),
+            'chairman_name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'),
+            'chairman_title' => $request->input('chairman_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
+            'chairman_photo' => $request->input('chairman_photo', '/images/logo-robbani-official.png'),
+            'chairman_greeting' => $request->input('chairman_greeting', ''),
+            'vision' => $request->input('vision', ''),
+            'missions' => array_filter(array_map('trim', explode("\n", $request->input('missions', '')))),
+            'pillars' => [
+                ['title' => 'Pembiasaan & Tahfidz Al-Qur\'an', 'desc' => 'Target hafalan mutqin Juz 30 & Juz 1–5 dengan bimbingan ustadz-ustadzah teruji.', 'icon' => '📖'],
+                ['title' => 'Bina Pribadi Islami (BPI)', 'desc' => 'Pembinaan akhlak, adab harian, mabit, dan mutabaah yaumiyah secara terukur.', 'icon' => '🤲'],
+                ['title' => 'Integrasi Kurikulum JSIT & Merdeka', 'desc' => 'Perpaduan standar akademis nasional Kurikulum Merdeka dengan kekhasan JSIT.', 'icon' => '🎓'],
+                ['title' => 'Ekosistem Digital SmartEdu', 'desc' => 'Presensi RFID gate, E-SPP cashless, dan portal belajar digital modern.', 'icon' => '💻'],
+                ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
+            ],
+            'executives' => [
+                ['name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'), 'role' => 'Ketua Yayasan', 'photo' => $request->input('chairman_photo', '/images/logo-robbani-official.png')]
+            ]
+        ];
+
+        SiteSetting::set('foundation_profile_data', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->back()->with('success', '✨ Pengaturan Profil Yayasan berhasil disimpan & diperbarui!');
+    }
 }
 
 
