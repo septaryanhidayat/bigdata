@@ -226,7 +226,7 @@ class AiRagEngine
         }
 
         // Sync FAQ
-        $faqs = FaqItem::where('is_active', true)->get();
+        $faqs = FaqItem::all();
         foreach ($faqs as $faq) {
             $text  = "PERTANYAAN UMUM (FAQ): {$faq->question}\n\nJAWABAN:\n{$faq->answer}";
             self::ingestDocument(
