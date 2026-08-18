@@ -375,18 +375,18 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking siswa.']
                 ],
                 'teachers' => [
-                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
-                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-110541_b299e525.jpeg'],
-                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530_30ee68d0.jpeg'],
-                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104532_3126be1f.jpeg'],
-                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-2_2f796280.jpeg'],
-                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-1_2c9bcfe7.jpeg'],
-                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-2_065e94be.jpeg'],
-                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531_eb838cb9.jpeg'],
-                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104527_df1d1872.jpeg'],
-                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141746_0000_c5eaee11.png'],
-                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250811_094836_0002_09c00b0d.png'],
-                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
+                    ['name' => 'Tia Wulandari, S.Pd', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-110541_b2c738bc.jpeg'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530_54a2d99a.jpeg'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104532_d3e51bd5.jpeg'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-2_1a306591.jpeg'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-1_1ab1778a.jpeg'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-2_8a9b894e.jpeg'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531_594dd006.jpeg'],
+                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104527_83f5cdfe.jpeg'],
+                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/wp_assets/smpit_post_GURU-SMP-3_4_20250930_141746_0000_b839d8b3.png'],
+                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/wp_assets/smpit_post_GURU-SMP-3_4_20250811_094836_0002_3c2fedb6.png'],
+                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/wp_assets/smpit_post_GURU-SMP-3_4_20250930_141708_0000_105be986.png']
                 ],
                 'alumni' => [
                     ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
@@ -992,7 +992,15 @@ class SchoolWebsiteController extends Controller
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
-                // Ensure always sorted by date timestamp DESC (newest 2026 first)
+                // Deduplicate by title slug & sort newest first
+                $uniqueMap = [];
+                foreach ($data as $item) {
+                    $key = \Illuminate\Support\Str::slug($item['title'] ?? '');
+                    if (!empty($key) && !isset($uniqueMap[$key])) {
+                        $uniqueMap[$key] = $item;
+                    }
+                }
+                $data = array_values($uniqueMap);
                 usort($data, function($a, $b) {
                     $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
                     $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
@@ -1009,9 +1017,9 @@ class SchoolWebsiteController extends Controller
                 'category' => 'KB/TKIT',
                 'date' => '12 Agustus 2026',
                 'author' => 'Humas KB/TKIT Robbani',
-                'image' => '/images/mockup_mobile_1.png',
+                'image' => '/uploads/wp_assets/img20220127093650-scaled_e1faddf6.jpg',
                 'excerpt' => 'Keceriaan dan kebersamaan siswa cilik KB/TKIT Robbani Ogan Ilir saat mengekspresikan bakat hafalan surah pendek, doa harian, & kreasi mewarnai bersama bundanya.',
-                'content' => 'Ogan Ilir — Suasana penuh warna dan keceriaan mewarnai aula KB/TKIT Robbani Ogan Ilir dalam gelaran Puncak Tema & Pentas Seni Cilik Siswa Usia Dini Tahun Ajaran 2026/2027.<br><br>Acara ini diselenggarakan sebagai wadah apresiasi tumbuh kembang, keberanian, dan kreativitas siswa cilik KB/TKIT Robbani setelah menyelesaikan tema pembelajaran semester ganjil.<br><br>Para siswa dengan percaya diri menampilkan unjuk bakat hafalan surah-surah pendek Al-Qur\'an (Juz Amma), perkataan thoyyibah, doa harian, tarian kreasi nusantara islami, serta fashion show pakaian adat.<br><br>Kepala KB/TKIT Robbani, Ustdz. Nurhidayah, S.Pd.I, menyampaikan rasa syukur dan haru atas perkembangan adab dan kemandirian ananda. "Pendidikan usia dini di SIT Robbani dirancang dengan metode belajar seraya bermain yang menyenangkan, menanamkan nilai-nilai keislaman sejak dini, serta membangun ikatan kasih sayang yang erat antara guru, anak, dan orang tua," tutur beliau.'
+                'content' => 'Ogan Ilir — Suasana penuh warna dan keceriaan mewarnai aula KB/TKIT Robbani Ogan Ilir dalam gelaran Puncak Tema & Pentas Seni Cilik Siswa Usia Dini Tahun Ajaran 2026/2027.<br><br>Acara ini diselenggarakan sebagai wadah apresiasi tumbuh kembang, keberanian, dan kreativitas siswa cilik KB/TKIT Robbani setelah menyelesaikan tema pembelajaran semester ganjil.<br><br>Para siswa dengan percaya diri menampilkan unjuk bakat hafalan surah-surah pendek Al-Qur\'an (Juz Amma), perkataan thoyyibah, doa harian, tarian kreasi nusantara islami, serta fashion show pakaian adat.<br><br>Kepala KB/TKIT Robbani, Ani Oktar Yansi, S.Pd.I, menyampaikan rasa syukur dan haru atas perkembangan adab dan kemandirian ananda.'
             ],
             [
                 'title' => 'Pramuka SIT & Supercamp Karakter Siswa SDIT Robbani 2026',
@@ -1019,9 +1027,9 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SDIT',
                 'date' => '08 Agustus 2026',
                 'author' => 'Pembina Pramuka SDIT',
-                'image' => '/images/mockup_mobile_2.png',
+                'image' => '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg',
                 'excerpt' => 'Pelatihan kemandirian, ketangkasan, dan mabit malam bina iman takwa siswa penggalang SDIT Robbani Ogan Ilir.',
-                'content' => 'Ogan Ilir — Ratusan siswa penggalang Sekolah Dasar Islam Terpadu (SDIT) Robbani Ogan Ilir antusias mengikuti kegiatan Perkemahan Sabtu-Minggu (Persami) & Supercamp Karakter Pramuka SIT 2026 di Bumi Perkemahan Kampus Terpadu Robbani.<br><br>Kegiatan yang mengusung tema "Tangguh, Mandiri, Berakhlak Karimah, dan Siap Memimpin" ini diisi dengan berbagai materi ketangkasan, sandi morse, pioneering tali temali, penjelajahan alam halang rintang, serta pertunjukan api unggun.<br><br>Selain ketangkasan fisik, peserta diajak memperdalam ruhani melalui sholat qiyamul lail berjamaah, munasabah malam bina iman takwa (MABIT), dan tahfidz bersama di bawah bimbingan ustadz-ustadzah pendamping.<br><br>Kepala SDIT Robbani, Ustdz. M. Ridwan, S.Pd, mengapresiasi tinggi kedisiplinan para siswa. Kegiatan outdoor ini merupakan sarana efektif menempa jiwa kepemimpinan, kepedulian sosial, serta rasa ukhuwah antar sesama siswa.'
+                'content' => 'Ogan Ilir — Ratusan siswa penggalang Sekolah Dasar Islam Terpadu (SDIT) Robbani Ogan Ilir antusias mengikuti kegiatan Perkemahan Sabtu-Minggu (Persami) & Supercamp Karakter Pramuka SIT 2026 di Bumi Perkemahan Kampus Terpadu Robbani.<br><br>Kegiatan yang mengusung tema "Tangguh, Mandiri, Berakhlak Karimah, dan Siap Memimpin" ini diisi dengan berbagai materi ketangkasan, sandi morse, pioneering tali temali, penjelajahan alam halang rintang, serta pertunjukan api unggun.'
             ],
             [
                 'title' => 'Kepala SMP IT Robbani Ogan Ilir Raih Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah Sumatera Selatan 2026',
@@ -1029,9 +1037,9 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SMPIT',
                 'date' => '31 Juli 2026',
                 'author' => 'Humas SIT Robbani',
-                'image' => '/images/hero_3d_illustration_1786347707126.png',
+                'image' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg',
                 'excerpt' => 'Alhamdulillah, Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir berhasil meraih Penghargaan Peserta Terbaik III dalam Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan.',
-                'content' => 'Ogan Ilir — Sebuah kebanggaan besar kembali diukir oleh keluarga besar Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Ibu Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir, berhasil meraih penghargaan sebagai Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan Tahun 2026.<br><br>Kegiatan diklat ini diselenggarakan oleh Dinas Pendidikan Provinsi Sumatera Selatan sebagai upaya meningkatkan kompetensi kepemimpinan manajerial, kewirausahaan, dan supervisi akademik kepala sekolah di era transformasi digital.<br><br>Dalam kesempatannya, Ibu Tia Wulandari menyampaikan rasa syukur dan dedikasi atas pencapaian ini kepada seluruh jajaran ustadz-ustadzah, siswa, dan orang tua murid di SIT Robbani Ogan Ilir. "Penghargaan ini merupakan motivasi bagi kami untuk terus berinovasi dan menghadirkan tata kelola sekolah Islam terpadu yang profesional, berkarakter, dan berdaya saing tinggi," tutur beliau.'
+                'content' => 'Ogan Ilir — Sebuah kebanggaan besar kembali diukir oleh keluarga besar Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Ibu Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir, berhasil meraih penghargaan sebagai Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan Tahun 2026.'
             ],
             [
                 'title' => 'Siswa SMAIT Robbani Lolos Seleksi PTN Favorit & Beasiswa Luar Negeri 2026',
@@ -1039,9 +1047,9 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SMAIT',
                 'date' => '20 Juli 2026',
                 'author' => 'Tim Bimbingan Konseling SMAIT',
-                'image' => '/images/mockup_mobile_4.png',
+                'image' => '/uploads/wp_assets/5_b3b7f870.jpg',
                 'excerpt' => 'Capaian membanggakan alumni SMAIT Robbani tembus jalur SNBP, SNBT, dan beasiswa perguruan tinggi ternama di dalam maupun luar negeri.',
-                'content' => 'Ogan Ilir — Kualitas lulusan Sekolah Menengah Atas Islam Terpadu (SMAIT) Robbani Ogan Ilir kembali terbukti di kancah nasional dan internasional. Berdasarkan pengumuman resmi kelulusan PTN 2026, puluhan alumni SMAIT Robbani berhasil diterima di Perguruan Tinggi Negeri (PTN) favorit seperti Universitas Sriwijaya, ITB, UGM, UNDIP, serta Universitas Al-Azhar Kairo.<br><br>Keberhasilan ini tidak lepas dari kombinasi bimbingan akademik intensif, try out UTBK berkala, serta program matrikulasi tahfidz dan penguasaan Bahasa Arab & Inggris yang menjadi ciri khas SMAIT Robbani.<br><br>Kepala SMAIT Robbani, Ustdz. Ahmad Subagja, M.Si, mengungkapkan rasa bangga atas perjuangan para siswa. "Alhamdulillah, keberhasilan ini adalah buah dari kerja keras siswa, doa dari orang tua, dan kesabaran dewan guru yang membimbing dengan hati," ungkap beliau.'
+                'content' => 'Ogan Ilir — Kualitas lulusan Sekolah Menengah Atas Islam Terpadu (SMAIT) Robbani Ogan Ilir kembali terbukti di kancah nasional dan internasional. Berdasarkan pengumuman resmi kelulusan PTN 2026, puluhan alumni SMAIT Robbani berhasil diterima di Perguruan Tinggi Negeri (PTN) favorit seperti Universitas Sriwijaya, ITB, UGM, UNDIP, serta Universitas Al-Azhar Kairo.'
             ],
             [
                 'title' => 'Kegiatan Fun Cooking & Edukasi Gizi Siswa Usia Dini TKIT Robbani',
@@ -1049,9 +1057,9 @@ class SchoolWebsiteController extends Controller
                 'category' => 'KB/TKIT',
                 'date' => '05 Juli 2026',
                 'author' => 'Tim Kurikulum TKIT',
-                'image' => '/images/mockup_desktop_1.png',
+                'image' => '/uploads/wp_assets/3_0996b3f3.png',
                 'excerpt' => 'Mengenalkan makanan sehat halal dan thoyyib sejak dini melalui praktik memasak menyenangkan bersama ustazah dan wali murid.',
-                'content' => 'Ogan Ilir — Para siswa cilik KB/TKIT Robbani antusias mengikuti kegiatan Fun Cooking & Edukasi Makanan Sehat Halalan Thoyyiban di halaman sekolah.<br><br>Dengan mengenakan celemek dan topi koki cilik, para siswa diajak membuat kreasi bekal sehat berupa bento sayur, salad buah, dan jus buah segar.<br><br>Melalui kegiatan ini, siswa belajar mengenalkan jenis sayuran, buah-buahan, serta kebiasaan mencuci tangan dan membaca doa sebelum dan sesudah makan.'
+                'content' => 'Ogan Ilir — Para siswa cilik KB/TKIT Robbani antusias mengikuti kegiatan Fun Cooking & Edukasi Makanan Sehat Halalan Thoyyiban di halaman sekolah.'
             ],
             [
                 'title' => 'Munaqosyah Tahfidz Juz 29 & 30 Terbuka SDIT Robbani Ogan Ilir',
@@ -1059,29 +1067,9 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SDIT',
                 'date' => '18 Juni 2026',
                 'author' => 'Tim Al-Qur\'an SDIT',
-                'image' => '/images/mockup_desktop_2.png',
+                'image' => '/uploads/wp_assets/2_7c039504.png',
                 'excerpt' => 'Ujian hafalan Al-Qur\'an terbuka siswa SDIT Robbani di hadapan para penguji munaqisy dan orang tua siswa.',
-                'content' => 'Ogan Ilir — Puluhan siswa SDIT Robbani Ogan Ilir mengikuti ujian Munaqosyah Tahfidz Al-Qur\'an Juz 29 dan 30 secara terbuka di Masjid Kampus Robbani.<br><br>Setiap siswa diuji sambung ayat, tajwid, makhraj huruf, dan kelancaran hafalan oleh tim penguji eksternal dari Lembaga Pengembangan Pendidikan Al-Qur\'an.<br><br>Orang tua siswa yang hadir dibuat terharu dan meneteskan air mata bahagia menyaksikan kemampuan hafalan ananda yang lancar dan tartil.'
-            ],
-            [
-                'title' => 'Olimpiade Sains & Kebumian: Tim Siswa SMPIT Robbani Sabet Emas',
-                'slug' => 'olimpiade-sains-kebumian-tim-siswa-smpit-robbani-sabet-emas',
-                'category' => 'SMPIT',
-                'date' => '10 Juni 2026',
-                'author' => 'Tim Prestasi SMPIT',
-                'image' => '/images/mockup_desktop_3.png',
-                'excerpt' => 'Perjuangan tim olimpiade sains SMPIT Robbani dalam kompetisi akademik tingkat regional Sumatera Selatan.',
-                'content' => 'Ogan Ilir — Tim Sains dan Matematika SMPIT Robbani Ogan Ilir kembali mengukir prestasi gemilang dengan meraih 2 Medali Emas dan 3 Medali Perak dalam Olimpiade Sains Islam & Kebumian 2026.<br><br>Para siswa mampu menyelesaikan soal-soal penalaran fisika, biologi, dan matematika terintegrasi nilai-nilai Al-Qur\'an dengan perolehan skor tertinggi.<br><br>Prestasi ini membuktikan bahwa pendidikan Islam Terpadu di SMPIT Robbani mampu melahirkan generasi ahli sains yang tetap memegang teguh akidah islamiyah.'
-            ],
-            [
-                'title' => 'Workshop IoT & Coding Mobile App Siswa SMAIT Robbani 2026',
-                'slug' => 'workshop-iot-coding-mobile-app-siswa-smait-robbani-2026',
-                'category' => 'SMAIT',
-                'date' => '28 Mei 2026',
-                'author' => 'Laboratorium Komputer SMAIT',
-                'image' => '/images/mockup_desktop_4.png',
-                'excerpt' => 'Pelatihan pemrograman aplikasi android dan teknologi internet of things (IoT) berbasis dakwah digital siswa SMAIT Robbani.',
-                'content' => 'Ogan Ilir — Dalam rangka membekali siswa dengan keterampilan abad 21, SMAIT Robbani Ogan Ilir menggelar Workshop Coding & IoT Development selama 3 hari.<br><br>Para siswa diajarkan merancang aplikasi mobile berbasis Android, sistem otomasi sensor cerdas (Internet of Things), serta manajemen database cloud.<br><br>Karya-karya inovasi siswa seperti sistem presensi digital dan pengingat waktu sholat otomatis dipresentasikan di hadapan para penguji dan praktisi IT.'
+                'content' => 'Ogan Ilir — Puluhan siswa SDIT Robbani Ogan Ilir mengikuti ujian Munaqosyah Tahfidz Al-Qur\'an Juz 29 dan 30 secara terbuka di Masjid Kampus Robbani.'
             ]
         ];
     }
@@ -1092,7 +1080,15 @@ class SchoolWebsiteController extends Controller
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
-                // Ensure always sorted by date timestamp DESC (newest 2026 first)
+                // Deduplicate by title slug & sort newest first
+                $uniqueMap = [];
+                foreach ($data as $item) {
+                    $key = \Illuminate\Support\Str::slug($item['title'] ?? '');
+                    if (!empty($key) && !isset($uniqueMap[$key])) {
+                        $uniqueMap[$key] = $item;
+                    }
+                }
+                $data = array_values($uniqueMap);
                 usort($data, function($a, $b) {
                     $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
                     $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');

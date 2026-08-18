@@ -106,8 +106,8 @@
                 "xs": "4px",
                 "lg": "24px",
                 "xl": "48px",
-                "container-max": "1280px",
-                "gutter": "24px"
+                "container-max": "1200px",
+                "gutter": "32px"
             },
             "fontFamily": {
                 "body": ["Inter", "sans-serif"],
