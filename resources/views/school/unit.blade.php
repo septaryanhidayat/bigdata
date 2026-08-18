@@ -471,7 +471,7 @@
                     <!-- Foto Kepala Sekolah (FORMAT KOTAK / PORTRAIT PAS FOTO DENGAN ROUNDED CORNER) -->
                     <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-1/3 z-10">
                         <div class="w-48 sm:w-56 h-64 sm:h-72 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] p-1 mb-4 shadow-2xl bg-white dark:bg-slate-900 ring-4 ring-emerald-500/20">
-                            <img src="{{ $info['principal_photo'] }}" alt="Foto {{ $info['principal_name'] }}" width="224" height="288" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <img src="{{ str_starts_with($info['principal_photo'] ?? '', 'http') ? $info['principal_photo'] : asset($info['principal_photo'] ?? '') }}" alt="Foto {{ $info['principal_name'] }}" width="224" height="288" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                         </div>
                         <span class="unit-pill-badge mb-1.5 px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-emerald-900 dark:text-[#061107] text-[10px] font-black uppercase tracking-wider shadow-sm">
                             KEPALA SEKOLAH
@@ -845,7 +845,7 @@
                         <div class="space-y-3">
                             <!-- Foto Pendidik Format Kotak 3:4 -->
                             <div class="w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#1a381c] bg-slate-100 dark:bg-slate-800 shadow-sm group-hover:scale-[1.02] transition-transform duration-300">
-                                <img src="{{ $t['photo'] }}" alt="{{ $t['name'] }}" width="128" height="128" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ str_starts_with($t['photo'] ?? '', 'http') ? $t['photo'] : asset($t['photo'] ?? '') }}" alt="{{ $t['name'] }}" width="128" height="128" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                             </div>
                             <div>
                                 <h3 class="text-xs sm:text-sm font-black font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h3>
@@ -969,20 +969,24 @@
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
-                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">DOKUMENTASI FOTO</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Galeri Foto Kegiatan {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Potret keceriaan siswa, perkemahan, kegiatan manasik, dan perlombaan akademik.</p>
+                    <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">DOKUMENTASI FOTO KHUSUS {{ $info['code'] }}</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Galeri Foto Kegiatan {{ $info['name'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Dokumentasi momen kegiatan santri, perkemahan, BPI, perlombaan, dan kebersamaan di {{ $info['code'] }}.</p>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                    @foreach(array_slice($unitGallery, 0, 8) as $gal)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all group relative">
-                        <div class="h-44 sm:h-52 overflow-hidden bg-slate-900 relative">
-                            <img src="{{ $gal['image'] }}" alt="{{ $gal['title'] }}" width="380" height="250" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_3.png';">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
-                            <div class="absolute bottom-3 left-3 right-3 text-white space-y-1">
-                                <span class="text-[10px] font-bold text-amber-300 block">🗓️ {{ $gal['date'] ?? 'Kegiatan' }}</span>
-                                <h3 class="text-xs sm:text-sm font-bold font-headline leading-tight line-clamp-2">{{ $gal['title'] }}</h3>
+                    @foreach($unitGallery as $gal)
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group relative">
+                        <div class="h-44 sm:h-56 overflow-hidden bg-slate-900 relative">
+                            <img src="{{ str_starts_with($gal['image'] ?? '', 'http') ? $gal['image'] : asset($gal['image'] ?? '') }}" alt="{{ $gal['title'] ?? 'Galeri Foto Kegiatan' }}" width="380" height="250" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100" onerror="this.onerror=null; this.src='/images/mockup_desktop_3.png';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-85 group-hover:opacity-100 transition-opacity"></div>
+                            <div class="absolute bottom-3 left-3 right-3 text-white space-y-1 z-10">
+                                <span class="text-[10px] font-black uppercase tracking-wider text-[#c6f634] block drop-shadow-xs">
+                                    📍 {{ $gal['category'] ?? ('Kegiatan ' . $info['code']) }}
+                                </span>
+                                <h3 class="text-xs sm:text-sm font-black font-headline leading-snug line-clamp-2 drop-shadow-md">
+                                    {{ $gal['title'] }}
+                                </h3>
                             </div>
                         </div>
                     </div>
