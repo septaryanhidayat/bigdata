@@ -82,18 +82,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
     </noscript>
 
-    <!-- Compiled Vite Production CSS (Instant Rendering for 90+ Mobile Lighthouse Score) -->
-    @if (file_exists(public_path('build/manifest.json')))
-        @php
-            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
-            $appCss = $manifest['resources/css/app.css']['file'] ?? null;
-        @endphp
-        @if ($appCss)
-            <link rel="stylesheet" href="{{ asset('build/' . $appCss) }}">
-        @endif
-    @endif
-
-    <!-- Tailwind CSS CDN (Guarantees 100% Full Rich Styling & Themes) -->
+    <!-- Tailwind CSS CDN with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <!-- Alpine.js -->
