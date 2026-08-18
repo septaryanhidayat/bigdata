@@ -566,6 +566,55 @@ class AiRagEngine
             }
         }
 
+        // ── 0b. Pertanyaan Spesifik: Fasilitas / Sarana Prasarana Sekolah ──────────
+        $isAskingFacilities = str_contains($lower, 'fasilitas') || str_contains($lower, 'sarana') || str_contains($lower, 'prasarana') || str_contains($lower, 'gedung') || str_contains($lower, 'ruang') || str_contains($lower, 'kolam') || str_contains($lower, 'lapangan') || str_contains($lower, 'cctv') || str_contains($lower, 'loker') || str_contains($lower, 'kantin') || str_contains($lower, 'tablet');
+
+        if ($isAskingFacilities) {
+            $unitCode = 'smpit';
+            if (str_contains($lower, 'sd') || str_contains($lower, 'sdit')) $unitCode = 'sdit';
+            elseif (str_contains($lower, 'tk') || str_contains($lower, 'paud') || str_contains($lower, 'tkit')) $unitCode = 'tkit';
+            elseif (str_contains($lower, 'sma') || str_contains($lower, 'smait')) $unitCode = 'smait';
+
+            $profileJson = SiteSetting::get("unit_profile_{$unitCode}");
+            $p = $profileJson ? json_decode($profileJson, true) : [];
+            $facs = $p['facilities'] ?? [];
+
+            if (!empty($facs)) {
+                $unitName = $p['name'] ?? strtoupper($unitCode);
+                $listStr = "Berikut sarana dan fasilitas unggulan **{$unitName}**:\n\n";
+                foreach ($facs as $f) {
+                    $listStr .= "• **" . ($f['title'] ?? '') . "** (" . ($f['badge'] ?? 'Fasilitas') . "): " . ($f['desc'] ?? '') . "\n";
+                }
+                $listStr .= "\n💬 Hubungi hotline **{$contactPhone}** untuk informasi pendaftaran & survey lokasi sekolah.";
+                return $listStr;
+            }
+        }
+
+        // ── 0c. Pertanyaan Spesifik: Program Pembelajaran & Kegiatan Siswa ──────────
+        $isAskingPrograms = str_contains($lower, 'kegiatan') || str_contains($lower, 'program') || str_contains($lower, 'ekskul') || str_contains($lower, 'ekstrakurikuler') || str_contains($lower, 'kurikulum') || str_contains($lower, 'pembelajaran') || str_contains($lower, 'tahfidz') || str_contains($lower, 'bpi') || str_contains($lower, 'klub') || str_contains($lower, 'club');
+
+        if ($isAskingPrograms) {
+            $unitCode = 'smpit';
+            if (str_contains($lower, 'sd') || str_contains($lower, 'sdit')) $unitCode = 'sdit';
+            elseif (str_contains($lower, 'tk') || str_contains($lower, 'paud') || str_contains($lower, 'tkit')) $unitCode = 'tkit';
+            elseif (str_contains($lower, 'sma') || str_contains($lower, 'smait')) $unitCode = 'smait';
+
+            $profileJson = SiteSetting::get("unit_profile_{$unitCode}");
+            $p = $profileJson ? json_decode($profileJson, true) : [];
+            $progs = $p['programs'] ?? [];
+
+            if (!empty($progs)) {
+                $unitName = $p['name'] ?? strtoupper($unitCode);
+                $listStr = "Berikut program unggulan & kegiatan siswa **{$unitName}**:\n\n";
+                foreach ($progs as $pr) {
+                    $listStr .= "• **" . ($pr['title'] ?? '') . "**: " . ($pr['desc'] ?? '') . "\n";
+                }
+                $listStr .= "\n📖 Target Hafalan Al-Qur'an: **" . ($p['target_hafalan'] ?? 'Mutqin') . "**\n";
+                $listStr .= "💬 Hubungi hotline **{$contactPhone}** untuk informasi pendaftaran.";
+                return $listStr;
+            }
+        }
+
         // ── 1. Pertanyaan Spesifik: Nama Kepala Sekolah / Ketua Yayasan ───────────
         $isAskingLeader = str_contains($lower, 'kepala') || str_contains($lower, 'kepsek') || str_contains($lower, 'pimpinan') || str_contains($lower, 'yayasan') || str_contains($lower, 'direktur') || preg_match('/\b(sughesti|ani|nur|tia|amalia|wulandari)\b/i', $lower);
 
