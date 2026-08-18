@@ -561,7 +561,7 @@
                             </div>
                             <div class="flex items-center justify-center sm:justify-start gap-1.5">
                                 <span class="material-symbols-outlined text-emerald-600 dark:text-[#c6f634] text-[18px]">menu_book</span>
-                                <span>Kurikulum: <strong>Merdeka</strong></span>
+                                <span>Kurikulum: <strong>{{ $info['kurikulum'] ?? 'Merdeka & Kekhasan JSIT' }}</strong></span>
                             </div>
                         </div>
                     </div>
