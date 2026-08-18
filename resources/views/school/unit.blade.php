@@ -726,9 +726,9 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Sarana penunjang kenyamanan belajar, pembinaan karakter islami, dan aktivitas terpadu siswa.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                <div class="flex flex-wrap justify-center gap-5 sm:gap-6">
                     @foreach($unitFacilities as $fac)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
+                    <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
                         @if(!empty($fac['image']))
                         <div class="w-full h-44 overflow-hidden relative bg-slate-900 shrink-0">
                             <img src="{{ asset($fac['image']) }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.parentElement.style.display='none';">
@@ -777,9 +777,9 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Wadah eksplorasi talenta sains, koding digital, seni islami, panahan sunnah, dan kepanduan.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="flex flex-wrap justify-center gap-6">
                     @foreach($unitEkskul as $ek)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500 transition-all group flex flex-col justify-between">
+                    <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500 transition-all group flex flex-col justify-between">
                         @if(!empty($ek['image']))
                         <div class="w-full h-48 overflow-hidden relative bg-slate-900 shrink-0">
                             <img src="{{ asset($ek['image']) }}" alt="{{ $ek['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.parentElement.style.display='none';">
@@ -838,10 +838,10 @@
                     })->values()->all();
                 @endphp
 
-                <!-- Grid Guru Format Foto Kotak Pas Foto 3:4 -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Grid Guru Format Foto Kotak Pas Foto 3:4 (Centered Leftover Items) -->
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
                     @foreach($teachersList as $t)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-4 sm:p-5 text-center space-y-3 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between group">
+                    <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-4 sm:p-5 text-center space-y-3 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all flex flex-col justify-between group">
                         <div class="space-y-3">
                             <!-- Foto Pendidik Format Kotak 3:4 -->
                             <div class="w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#1a381c] bg-slate-100 dark:bg-slate-800 shadow-sm group-hover:scale-[1.02] transition-transform duration-300">
@@ -974,9 +974,9 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Dokumentasi momen kegiatan santri, perkemahan, BPI, perlombaan, dan kebersamaan di {{ $info['code'] }}.</p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
                     @foreach($unitGallery as $gal)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group relative">
+                    <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group relative">
                         <div class="h-44 sm:h-56 overflow-hidden bg-slate-900 relative">
                             <img src="{{ str_starts_with($gal['image'] ?? '', 'http') ? $gal['image'] : asset($gal['image'] ?? '') }}" alt="{{ $gal['title'] ?? 'Galeri Foto Kegiatan' }}" width="380" height="250" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100" onerror="this.onerror=null; this.src='/images/mockup_desktop_3.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-85 group-hover:opacity-100 transition-opacity"></div>
@@ -1055,9 +1055,9 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengalaman berharga mempercayakan pendidikan putra-putri di {{ $info['name'] }}.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-wrap justify-center gap-6">
                     @foreach($info['alumni'] as $al)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div class="w-full md:w-[calc(50%-12px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm space-y-4 flex flex-col justify-between">
                         <div class="space-y-3">
                             <span class="material-symbols-outlined text-[32px] text-amber-500 block">format_quote</span>
                             <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 italic leading-relaxed">
@@ -1066,8 +1066,8 @@
                         </div>
                         <div class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-[#1a381c]">
                             <!-- Foto Alumni Kotak Rounded -->
-                            <div class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-white shrink-0">
-                                <img src="{{ $al['avatar'] }}" alt="{{ $al['name'] }}" width="56" height="56" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <div class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-emerald-600 dark:border-[#c6f634] bg-slate-200 shrink-0">
+                                <img src="{{ str_starts_with($al['avatar'] ?? '', 'http') ? $al['avatar'] : asset($al['avatar'] ?? '/images/avatar-gray-person.svg') }}" alt="{{ $al['name'] }}" width="56" height="56" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/avatar-gray-person.svg';">
                             </div>
                             <div>
                                 <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ $al['name'] }}</h3>

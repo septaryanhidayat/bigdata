@@ -55,37 +55,37 @@ class SchoolWebsiteController extends Controller
                 'name' => 'ECILIA OKTARINA, SE., MM.',
                 'title' => 'Bapenda Provinsi Sumsel',
                 'text' => 'Tenaga pendidik profesional dan berkompeten sangat menunjang pembelajaran. Terjalinnya kedekatan antara guru, anak, dan orang tua. Pelajaran ilmu agama serta sopan santun yang diajarkan sangat menonjol. Sekolah Robbani adalah pilihan tepat di masa globalisasi.',
-                'avatar' => '/images/mockup_mobile_1.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'RENNI SUSANTI, A.Md. Kep.',
                 'title' => 'Perawat RSUD Ogan Ilir',
                 'text' => 'Sekolah Robbani merupakan sekolah pilihan terbaik saat ini. Pembelajarannya sangat bagus, gurunya muda dan berkompeten, serta fondasi agamanya sangat kuat. Hubungan silaturahmi antara guru, siswa, dan ortu sangat erat.',
-                'avatar' => '/images/mockup_mobile_2.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Bunda Mazaya',
                 'title' => 'Wali Murid Alumni SDIT Robbani',
                 'text' => 'Alhamdulillah selama anak saya Mazaya bersekolah di sini, banyak ilmu yang didapat terutama pengetahuan Agama, hafalan Al-Qur\'an bertambah, dan sering ikut perlombaan sehingga bertambah percaya dirinya.',
-                'avatar' => '/images/mockup_mobile_3.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Calvin',
                 'title' => 'Siswa SDIT Robbani',
                 'text' => 'Sekolah di Robbani enak, punya banyak teman, sekolahnya nyaman, fasilitasnya bagus, gurunya baik dan ramah, ada satpam yang stay terus jadi sekolahnya aman.',
-                'avatar' => '/images/mockup_mobile_4.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Faiz',
                 'title' => 'Siswa SDIT Robbani',
                 'text' => 'Sekolahnya menyenangkan, gurunya ramah, ruang kelas ber-AC jadi sangat nyaman saat belajar.',
-                'avatar' => '/images/mockup_mobile_5.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Anaya Tahta',
                 'title' => 'Alumni SIT Robbani TA 2020/2021',
                 'text' => 'Selama sekolah di ROBBANI saya mendapatkan banyak ilmu bermanfaat, dapat menyelesaikan hafalan beberapa juz, serta diajarkan disiplin dan bertanggung jawab. Terimakasih ustadz dan bunda atas bimbingannya.',
-                'avatar' => '/images/logo-robbani-official.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ]
         ];
 
@@ -1426,11 +1426,33 @@ class SchoolWebsiteController extends Controller
     public function getGalleryData()
     {
         $cmsJson = SiteSetting::get('cms_gallery_data');
+        $merged = [];
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
-                return $data;
+                $merged = $data;
             }
+        }
+
+        // Merge authentic galleries from unit profiles (TKIT, SDIT, SMPIT, SMAIT)
+        $units = ['tkit', 'sdit', 'smpit', 'smait'];
+        foreach ($units as $u) {
+            $profileJson = SiteSetting::get('unit_profile_' . $u);
+            if ($profileJson) {
+                $prof = json_decode($profileJson, true);
+                if (isset($prof['gallery']) && is_array($prof['gallery'])) {
+                    foreach ($prof['gallery'] as $g) {
+                        if (!isset($g['desc']) || empty($g['desc'])) {
+                            $g['desc'] = "Dokumentasi kegiatan " . strtoupper($u) . " SIT Robbani Ogan Ilir.";
+                        }
+                        $merged[] = $g;
+                    }
+                }
+            }
+        }
+
+        if (count($merged) > 0) {
+            return array_values($merged);
         }
 
         return [
@@ -1457,18 +1479,6 @@ class SchoolWebsiteController extends Controller
                 'category' => 'Sarana & Teknologi',
                 'image' => '/uploads/wp_assets/3_0996b3f3.png',
                 'desc' => 'Siswa berlatih koding, literasi digital interaktif, dan simulasi Asesmen Nasional.'
-            ],
-            [
-                'title' => 'Prestasi & Juara Kompetisi Siswa Robbani',
-                'category' => 'Prestasi Siswa',
-                'image' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg',
-                'desc' => 'Capaian prestasi membanggakan siswa-siswi SIT Robbani di tingkat kabupaten dan provinsi.'
-            ],
-            [
-                'title' => 'Upgrading & Pembinaan Kompetensi Guru',
-                'category' => 'Pendidik & SDM',
-                'image' => '/uploads/wp_assets/5_b3b7f870.jpg',
-                'desc' => 'Peningkatan mutu pedagogik dan ruhiyah berkala seluruh dewan guru dan tenaga kependidikan.'
             ]
         ];
     }

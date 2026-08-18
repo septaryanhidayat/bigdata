@@ -2389,15 +2389,15 @@
                     <p class="text-xs sm:text-sm text-slate-600">Kepercayaan dan apresiasi wali murid &amp; alumni terhadap pendidikan SIT Robbani Ogan Ilir.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-md text-left pt-2">
+                <div class="flex flex-wrap justify-center gap-md text-left pt-2">
                     @foreach($testimonialList as $testi)
-                    <div class="bg-white border border-slate-200/80 p-md sm:p-lg rounded-3xl shadow-sm flex flex-col justify-between space-y-md hover:border-emerald-500 hover:shadow-xl transition-all duration-300">
+                    <div class="w-full md:w-[calc(33.333%-16px)] bg-white border border-slate-200/80 p-md sm:p-lg rounded-3xl shadow-sm flex flex-col justify-between space-y-md hover:border-emerald-500 hover:shadow-xl transition-all duration-300">
                         <div class="space-y-sm">
                             <div class="text-amber-400 text-sm font-black">⭐⭐⭐⭐⭐</div>
                             <p class="text-xs italic text-slate-700 leading-relaxed font-medium">"{{ $testi['text'] }}"</p>
                         </div>
                         <div class="flex items-center gap-sm pt-sm border-t border-slate-200">
-                            <img src="{{ $testi['avatar'] }}" alt="{{ $testi['name'] }}" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <img src="{{ str_starts_with($testi['avatar'] ?? '', 'http') ? $testi['avatar'] : asset($testi['avatar'] ?? '/images/avatar-gray-person.svg') }}" alt="{{ $testi['name'] }}" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600 bg-slate-200" onerror="this.onerror=null; this.src='/images/avatar-gray-person.svg';">
                             <div>
                                 <h3 class="text-xs font-bold text-slate-900 leading-tight">{{ $testi['name'] }}</h3>
                                 <span class="text-[10px] text-emerald-700 font-semibold block leading-tight">{{ $testi['title'] }}</span>
