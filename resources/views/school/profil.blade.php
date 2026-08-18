@@ -353,5 +353,7 @@
         </div>
     </footer>
 
+    @include('components.chat-ai-widget')
+
 </body>
 </html>

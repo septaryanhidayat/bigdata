@@ -907,5 +907,7 @@
             }
         });
     </script>
+    @include('components.chat-ai-widget')
+
 </body>
 </html>

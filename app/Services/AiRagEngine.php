@@ -622,7 +622,7 @@ class AiRagEngine
         ];
 
         // ── 0. Pertanyaan Spesifik: Dewan Guru / Pendidik / Ustadz / GTK ──────────────
-        $isAskingTeachers = str_contains($lower, 'guru') || str_contains($lower, 'pendidik') || str_contains($lower, 'ustadz') || str_contains($lower, 'ustadzah') || str_contains($lower, 'pengajar') || str_contains($lower, 'gtk') || str_contains($lower, 'staf');
+        $isAskingTeachers = str_contains($lower, 'guru') || str_contains($lower, 'gur') || str_contains($lower, 'pendidik') || str_contains($lower, 'ustadz') || str_contains($lower, 'ustadzah') || str_contains($lower, 'pengajar') || str_contains($lower, 'gtk') || str_contains($lower, 'staf');
 
         if ($isAskingTeachers) {
             $unitCode = 'smpit';
@@ -646,7 +646,7 @@ class AiRagEngine
         }
 
         // ── 0b. Pertanyaan Spesifik: Fasilitas / Sarana Prasarana Sekolah ──────────
-        $isAskingFacilities = str_contains($lower, 'fasilitas') || str_contains($lower, 'sarana') || str_contains($lower, 'prasarana') || str_contains($lower, 'gedung') || str_contains($lower, 'ruang') || str_contains($lower, 'kolam') || str_contains($lower, 'lapangan') || str_contains($lower, 'cctv') || str_contains($lower, 'loker') || str_contains($lower, 'kantin') || str_contains($lower, 'tablet');
+        $isAskingFacilities = str_contains($lower, 'fasilitas') || str_contains($lower, 'failitas') || str_contains($lower, 'fasiltas') || str_contains($lower, 'fasilita') || str_contains($lower, 'sarana') || str_contains($lower, 'prasarana') || str_contains($lower, 'gedung') || str_contains($lower, 'ruang') || str_contains($lower, 'kolam') || str_contains($lower, 'lapangan') || str_contains($lower, 'cctv') || str_contains($lower, 'loker') || str_contains($lower, 'kantin') || str_contains($lower, 'tablet');
 
         if ($isAskingFacilities) {
             $unitCode = 'smpit';
@@ -670,7 +670,7 @@ class AiRagEngine
         }
 
         // ── 0c. Pertanyaan Spesifik: Program Pembelajaran & Kegiatan Siswa ──────────
-        $isAskingPrograms = str_contains($lower, 'kegiatan') || str_contains($lower, 'program') || str_contains($lower, 'ekskul') || str_contains($lower, 'ekstrakurikuler') || str_contains($lower, 'kurikulum') || str_contains($lower, 'pembelajaran') || str_contains($lower, 'tahfidz') || str_contains($lower, 'bpi') || str_contains($lower, 'klub') || str_contains($lower, 'club');
+        $isAskingPrograms = str_contains($lower, 'kegiatan') || str_contains($lower, 'kgiatan') || str_contains($lower, 'program') || str_contains($lower, 'ekskul') || str_contains($lower, 'ekstrakurikuler') || str_contains($lower, 'kurikulum') || str_contains($lower, 'pembelajaran') || str_contains($lower, 'tahfidz') || str_contains($lower, 'bpi') || str_contains($lower, 'klub') || str_contains($lower, 'club');
 
         if ($isAskingPrograms) {
             $unitCode = 'smpit';

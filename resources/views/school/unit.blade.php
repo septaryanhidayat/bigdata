@@ -1229,6 +1229,8 @@
         </div>
     </footer>
 
+    @include('components.chat-ai-widget')
+
     <!-- Executive Scroll Reveal Animation Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
