@@ -207,7 +207,7 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Ganti Foto Background Banner (Pilih Foto dari Komputer):</label>
                         <div class="mb-2 h-32 rounded-xl overflow-hidden border border-slate-300 relative bg-slate-100 shadow-inner">
-                            <img id="heroBgPreview" src="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}" alt="Current Hero Banner" class="w-full h-full object-cover">
+                            <img id="heroBgPreview" src="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : asset('uploads/media/banner hero.webp') }}" alt="Current Hero Banner" class="w-full h-full object-cover">
                             <span id="previewBadge" class="hidden absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-md animate-pulse">PRATINJAU FOTO BARU (SIAP DISIMPAN)</span>
                         </div>
                         <input type="file" id="heroBgFileInput" name="hero_bg_file" accept="image/*" class="text-xs text-slate-600 border border-slate-300 rounded-xl p-2 w-full cursor-pointer bg-white hover:bg-slate-50 transition-colors" onchange="processHeroBgFile(this)">

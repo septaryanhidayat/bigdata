@@ -74,7 +74,7 @@
 
     <!-- Preload Critical LCP Logo & Hero Background -->
     <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : asset('uploads/media/banner hero.webp') }}" fetchpriority="high">
 
     <!-- Google Fonts & Material Symbols (Asynchronous & Display Swap for 90+ Lighthouse FCP/LCP) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">
@@ -800,7 +800,7 @@
         <!-- ========================================== -->
         <!-- HERO SECTION (CENTER ALIGNED MOBILE/TABLET) -->
         <!-- ========================================== -->
-        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1600' }}');">
+        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : asset('uploads/media/banner hero.webp') }}');">
             <div class="absolute inset-0 bg-gradient-to-r from-emerald-950 via-slate-950 to-orange-950 backdrop-blur-[2px]" style="opacity: {{ ((float) (!empty($settings['hero_banner_opacity']) ? $settings['hero_banner_opacity'] : 70)) / 100 }};"></div>
             
             <div class="max-w-container-max mx-auto px-gutter relative z-10">
