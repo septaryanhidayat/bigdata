@@ -372,7 +372,28 @@ class AiRagEngine
             return "❌ GEMINI_API_KEY belum diisi di file .env!";
         }
 
-        $models = ['gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-2.0-flash-exp', 'gemini-1.5-pro'];
+        // 1. Try dynamic model discovery via ListModels API
+        try {
+            $listResp = Http::timeout(8)->get("https://generativelanguage.googleapis.com/v1beta/models?key=" . $geminiKey);
+            if ($listResp->successful()) {
+                $availableModels = [];
+                $json = $listResp->json();
+                foreach ($json['models'] ?? [] as $mod) {
+                    $methods = $mod['supportedGenerationMethods'] ?? [];
+                    if (in_array('generateContent', $methods)) {
+                        // Extract model name without 'models/' prefix
+                        $availableModels[] = str_replace('models/', '', $mod['name']);
+                    }
+                }
+                if (!empty($availableModels)) {
+                    $models = $availableModels;
+                }
+            }
+        } catch (\Throwable $e) {
+            // fallback to default list below
+        }
+
+        $models = array_unique(array_merge($models ?? [], ['gemini-2.0-flash', 'gemini-1.5-flash-8b', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro']));
         $lastErr = '';
 
         foreach ($models as $m) {
@@ -410,8 +431,24 @@ class AiRagEngine
 
         // 1. If Gemini API key is available, use Gemini with strict conversational guidelines & context guardrails
         if (!empty($geminiKey)) {
-            $models = ['gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-2.0-flash-exp', 'gemini-1.5-pro'];
-            
+            $models = ['gemini-2.0-flash', 'gemini-1.5-flash-8b', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+
+            // Dynamic model discovery
+            try {
+                $listResp = Http::timeout(6)->get("https://generativelanguage.googleapis.com/v1beta/models?key=" . $geminiKey);
+                if ($listResp->successful()) {
+                    $found = [];
+                    foreach ($listResp->json()['models'] ?? [] as $mod) {
+                        if (in_array('generateContent', $mod['supportedGenerationMethods'] ?? [])) {
+                            $found[] = str_replace('models/', '', $mod['name']);
+                        }
+                    }
+                    if (!empty($found)) {
+                        $models = array_unique(array_merge($found, $models));
+                    }
+                }
+            } catch (\Throwable $e) {}
+
             // Truncate user message to 500 chars to prevent prompt injection / abuse overload
             $safeMsg = mb_substr($trimmedMsg, 0, 500);
 
