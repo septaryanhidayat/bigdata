@@ -334,6 +334,9 @@
         
         <!-- 1. BANNER HERO SECTION (Warna Unit di Light Mode & Obsidian Green + Neon Lime di Dark Mode) -->
         <section class="relative bg-gradient-to-r {{ $uTheme['hero_gradient'] }} dark:from-[#061107] dark:via-[#0d1e0f] dark:to-[#04200c] text-white pt-8 sm:pt-14 pb-20 sm:pb-28 px-4 sm:px-6 overflow-hidden border-b border-black/10 dark:border-[#1a381c] transition-colors duration-500">
+            @if(!empty($info['hero_bg_image']))
+                <div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay pointer-events-none" style="background-image: url('{{ asset($info['hero_bg_image']) }}');"></div>
+            @endif
             <!-- Ambient Background Glow & Geometric Accents with Pulse Glow Animation -->
             <div class="absolute -top-24 -left-24 w-96 h-96 {{ $uTheme['glow_1'] }} dark:bg-[#c6f634]/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
             <div class="absolute -bottom-24 -right-24 w-96 h-96 {{ $uTheme['glow_2'] }} dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 2.5s;"></div>
@@ -725,21 +728,32 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                     @foreach($unitFacilities as $fac)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between space-y-4">
-                        <div class="space-y-3.5">
-                            <div class="flex items-center justify-between">
-                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-700 dark:text-[#c6f634] flex items-center justify-center text-3xl font-bold shadow-xs group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white dark:group-hover:bg-[#c6f634] dark:group-hover:text-[#061107] transition-all">
-                                    {{ $fac['icon'] ?? '🏫' }}
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
+                        @if(!empty($fac['image']))
+                        <div class="w-full h-44 overflow-hidden relative bg-slate-900 shrink-0">
+                            <img src="{{ asset($fac['image']) }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.parentElement.style.display='none';">
+                            <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/20 shadow-md">
+                                {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
+                            </span>
+                        </div>
+                        @endif
+
+                        <div class="p-6 space-y-3.5 flex-1 flex flex-col justify-between">
+                            <div class="space-y-2.5">
+                                @if(empty($fac['image']))
+                                <div class="flex items-center justify-between">
+                                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-700 dark:text-[#c6f634] flex items-center justify-center text-2xl font-bold shadow-xs group-hover:scale-110 transition-all">
+                                        {{ $fac['icon'] ?? '🏫' }}
+                                    </div>
+                                    <span class="bg-emerald-50 dark:bg-[#c6f634]/15 text-emerald-800 dark:text-[#c6f634] text-[10px] font-black uppercase px-3 py-1 rounded-full border border-emerald-200/60 dark:border-[#c6f634]/30">
+                                        {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
+                                    </span>
                                 </div>
-                                <span class="bg-emerald-50 dark:bg-[#c6f634]/15 text-emerald-800 dark:text-[#c6f634] text-[10px] font-black uppercase px-3 py-1 rounded-full border border-emerald-200/60 dark:border-[#c6f634]/30">
-                                    {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
-                                </span>
-                            </div>
-                            <div>
+                                @endif
                                 <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">
                                     {{ $fac['title'] }}
                                 </h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium mt-1.5">
+                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                                     {{ $fac['desc'] }}
                                 </p>
                             </div>
@@ -752,25 +766,45 @@
         </section>
         @endif
 
-        <!-- 9. EKSTRAKURIKULER & MINAT BAKAT -->
+        <!-- 9. EKSTRAKURIKULER & KEGIATAN SISWA (NEW STRUCTURE WITH PHOTO THUMBNAILS) -->
         @if(isset($unitEkskul) && count($unitEkskul) > 0)
         <section id="ekskul" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
-                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-800 dark:text-[#061107] text-xs font-black uppercase tracking-wider">MINAT &amp; BAKAT</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Ekstrakurikuler Siswa {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Wadah eksplorasi talenta sains, teknologi koding, seni islami, panahan, dan kepanduan.</p>
+                    <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-900 dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">MINAT, BAKAT &amp; EKSKUL</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Ekstrakurikuler &amp; Kegiatan Siswa {{ $info['code'] }}</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Wadah eksplorasi talenta sains, koding digital, seni islami, panahan sunnah, dan kepanduan.</p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($unitEkskul as $ek)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 text-center space-y-2.5 shadow-sm hover:border-orange-500 hover:shadow-md transition-all">
-                        <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-50 dark:bg-[#153018] text-orange-600 dark:text-[#c6f634] flex items-center justify-center text-xl font-bold shadow-xs">
-                            🎯
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500 transition-all group flex flex-col justify-between">
+                        @if(!empty($ek['image']))
+                        <div class="w-full h-48 overflow-hidden relative bg-slate-900 shrink-0">
+                            <img src="{{ asset($ek['image']) }}" alt="{{ $ek['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.parentElement.style.display='none';">
+                            <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/20 shadow-md">
+                                {{ $ek['badge'] ?? 'Ekskul & Kegiatan' }}
+                            </span>
                         </div>
-                        <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white leading-snug">{{ $ek['title'] }}</h3>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">{{ $ek['desc'] }}</p>
+                        @endif
+
+                        <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-9 h-9 rounded-xl bg-orange-50 dark:bg-[#153018] text-orange-600 dark:text-[#c6f634] flex items-center justify-center text-lg font-bold shadow-xs shrink-0">
+                                        {{ $ek['icon'] ?? '🎯' }}
+                                    </span>
+                                    <h3 class="text-base font-black font-headline text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-[#c6f634] transition-colors leading-snug">
+                                        {{ $ek['title'] }}
+                                    </h3>
+                                </div>
+
+                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium pt-1">
+                                    {{ $ek['desc'] }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>

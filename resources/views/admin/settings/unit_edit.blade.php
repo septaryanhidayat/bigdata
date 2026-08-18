@@ -57,6 +57,62 @@
             </div>
         </div>
 
+        <!-- Section 1.5: Banner Hero & Visual Unit (Background Sekolah/Masjid & Foto Hero) -->
+        <div class="space-y-4 pb-6 border-b border-slate-200 bg-slate-50/80 p-4 sm:p-5 rounded-2xl border border-slate-200">
+            <h3 class="text-sm font-black text-emerald-900 uppercase tracking-wider flex items-center gap-2">
+                <span>🎨</span> <span>Kustomisasi Visual Banner Hero Unit {{ strtoupper($cleanCode) }}</span>
+            </h3>
+            <p class="text-xs text-slate-500 font-medium">Ubah gambar latar belakang gedung/masjid dan foto utama siswa pada banner hero web unit ini.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 1. Background Hero Image (Sekolah / Masjid) -->
+                <div class="space-y-3 p-4 bg-white rounded-xl border border-slate-200 shadow-xs">
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">🏛️ Gambar Latar Belakang Hero (Gedung Sekolah / Masjid):</label>
+                    <div class="h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 relative flex items-center justify-center">
+                        @if(!empty($unitData['hero_bg_image']))
+                            <img src="{{ $unitData['hero_bg_image'] }}" alt="Hero Background Preview" class="w-full h-full object-cover opacity-75">
+                        @else
+                            <div class="text-center p-3 text-slate-400 text-xs">
+                                <span class="text-2xl block mb-1">🕌</span>
+                                <span>Default Theme Gradient</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Upload Foto Baru (Gedung/Masjid):</label>
+                        <input type="file" name="hero_bg_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">atau Tempelkan URL Gambar Custom:</label>
+                        <input type="text" name="hero_bg_image" value="{{ old('hero_bg_image', $unitData['hero_bg_image'] ?? '') }}" placeholder="e.g. /uploads/cms/masjid_sdit.jpg" class="w-full text-xs font-medium rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <!-- 2. Main Hero Photo (Siswa / Visual Utama) -->
+                <div class="space-y-3 p-4 bg-white rounded-xl border border-slate-200 shadow-xs">
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">🎓 Foto Utama Banner Hero (Siswa Berprestasi / Visual):</label>
+                    <div class="h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 relative flex items-center justify-center">
+                        @if(!empty($unitData['hero_image']))
+                            <img src="{{ $unitData['hero_image'] }}" alt="Hero Main Image Preview" class="w-full h-full object-cover">
+                        @else
+                            <div class="text-center p-3 text-slate-400 text-xs">
+                                <span class="text-2xl block mb-1">📸</span>
+                                <span>Foto Default Unit {{ strtoupper($cleanCode) }}</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Upload Foto Utama Baru:</label>
+                        <input type="file" name="hero_image_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">atau Tempelkan URL Gambar Custom:</label>
+                        <input type="text" name="hero_image" value="{{ old('hero_image', $unitData['hero_image'] ?? '') }}" placeholder="e.g. /uploads/cms/siswa_sdit.jpg" class="w-full text-xs font-medium rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Section 2: Kepala Sekolah & Sambutan -->
         <div class="space-y-4 pb-6 border-b border-slate-200">
             <h3 class="text-sm font-black text-emerald-900 uppercase tracking-wider flex items-center gap-2">

@@ -362,6 +362,9 @@ class CmsController extends Controller
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
+        $existingSetting = SiteSetting::get("unit_profile_{$cleanCode}");
+        $exData = $existingSetting ? (json_decode($existingSetting, true) ?: []) : [];
+
         $data = [
             'name' => $request->input('name'),
             'code' => strtoupper($cleanCode),
@@ -381,25 +384,48 @@ class CmsController extends Controller
             'target_hafalan' => $request->input('target_hafalan'),
         ];
 
-        // Handle Kepsek Photo upload if present
+        // Preserve teachers list if present
+        if (!empty($exData['teachers'])) {
+            $data['teachers'] = $exData['teachers'];
+        }
+
+        // Handle Kepsek Photo upload
         if ($request->hasFile('principal_photo')) {
             $compressedPhoto = \App\Services\ImageOptimizer::compress($request->file('principal_photo'), 'uploads/cms', 'kepsek_' . $cleanCode . '_' . uniqid());
             if ($compressedPhoto) {
                 $data['principal_photo'] = $compressedPhoto . '?v=' . time();
             }
-        } else {
-            $existing = SiteSetting::get("unit_profile_{$cleanCode}");
-            if ($existing) {
-                $exData = json_decode($existing, true);
-                if (isset($exData['principal_photo'])) {
-                    $data['principal_photo'] = $exData['principal_photo'];
-                }
-            }
+        } elseif (isset($exData['principal_photo'])) {
+            $data['principal_photo'] = $exData['principal_photo'];
         }
 
-        SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data));
+        // Handle Hero BG Image (Foto Sekolah / Masjid)
+        if ($request->hasFile('hero_bg_file')) {
+            $compressedBg = \App\Services\ImageOptimizer::compress($request->file('hero_bg_file'), 'uploads/cms', 'herobg_' . $cleanCode . '_' . uniqid());
+            if ($compressedBg) {
+                $data['hero_bg_image'] = $compressedBg . '?v=' . time();
+            }
+        } elseif ($request->filled('hero_bg_image')) {
+            $data['hero_bg_image'] = $request->input('hero_bg_image');
+        } elseif (isset($exData['hero_bg_image'])) {
+            $data['hero_bg_image'] = $exData['hero_bg_image'];
+        }
 
-        return redirect()->route('admin.settings.units')->with('success', "Profil Unit " . strtoupper($cleanCode) . " berhasil diperbarui secara mandiri!");
+        // Handle Hero Main Photo (Foto Siswa / Visual Hero)
+        if ($request->hasFile('hero_image_file')) {
+            $compressedHero = \App\Services\ImageOptimizer::compress($request->file('hero_image_file'), 'uploads/cms', 'hero_' . $cleanCode . '_' . uniqid());
+            if ($compressedHero) {
+                $data['hero_image'] = $compressedHero . '?v=' . time();
+            }
+        } elseif ($request->filled('hero_image')) {
+            $data['hero_image'] = $request->input('hero_image');
+        } elseif (isset($exData['hero_image'])) {
+            $data['hero_image'] = $exData['hero_image'];
+        }
+
+        SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->route('admin.settings.units')->with('success', "Profil & Banner Hero Unit " . strtoupper($cleanCode) . " berhasil diperbarui secara mandiri!");
     }
 
     public function updateSettings(Request $request)
@@ -1610,6 +1636,220 @@ class CmsController extends Controller
             'success',
             "✨ AUTO-KATEGORISASI SELESAI! " . count($deduped) . " berita & artikel berhasil dikelompokkan ke unit masing-masing dan diurutkan dari tahun 2026 terbaru: TKIT ({$unitCounts['TKIT']}), SDIT ({$unitCounts['SDIT']}), SMPIT ({$unitCounts['SMPIT']}), SMAIT ({$unitCounts['SMAIT']}), Yayasan ({$unitCounts['YAYASAN']})."
         );
+    }
+
+    public function createPost(Request $request)
+    {
+        $type = $request->input('type', 'news');
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $post = [
+            'title' => '',
+            'slug' => '',
+            'category' => $userUnit ? strtoupper($userUnit) : 'Berita Yayasan',
+            'unit' => $userUnit ?? 'yayasan',
+            'date' => date('d F Y'),
+            'author' => $user ? $user->name : 'Admin Website',
+            'image' => '/images/mockup_desktop_1.png',
+            'excerpt' => '',
+            'content' => '',
+        ];
+
+        return view('admin.cms.post_edit', [
+            'post' => $post,
+            'index' => null,
+            'type' => $type,
+            'userUnit' => $userUnit,
+            'isNew' => true,
+        ]);
+    }
+
+    public function editPost(Request $request)
+    {
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+        $newsData = $schoolWebsiteCtrl->getNewsData();
+        $articleData = $schoolWebsiteCtrl->getArticleData();
+
+        $allPosts = array_merge($newsData, $articleData);
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $targetSlug = $request->input('slug');
+        $targetTitle = $request->input('title');
+        $idx = $request->input('index');
+
+        $foundPost = null;
+        $foundIndex = -1;
+        $postSource = 'news'; // 'news' or 'article'
+
+        if (!empty($targetSlug)) {
+            foreach ($newsData as $i => $item) {
+                if (($item['slug'] ?? '') === $targetSlug) {
+                    $foundPost = $item;
+                    $foundIndex = $i;
+                    $postSource = 'news';
+                    break;
+                }
+            }
+            if (!$foundPost) {
+                foreach ($articleData as $i => $item) {
+                    if (($item['slug'] ?? '') === $targetSlug) {
+                        $foundPost = $item;
+                        $foundIndex = $i;
+                        $postSource = 'article';
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!$foundPost && !empty($targetTitle)) {
+            foreach ($newsData as $i => $item) {
+                if (($item['title'] ?? '') === $targetTitle) {
+                    $foundPost = $item;
+                    $foundIndex = $i;
+                    $postSource = 'news';
+                    break;
+                }
+            }
+            if (!$foundPost) {
+                foreach ($articleData as $i => $item) {
+                    if (($item['title'] ?? '') === $targetTitle) {
+                        $foundPost = $item;
+                        $foundIndex = $i;
+                        $postSource = 'article';
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!$foundPost && is_numeric($idx)) {
+            $numericIdx = (int) $idx;
+            if (isset($newsData[$numericIdx])) {
+                $foundPost = $newsData[$numericIdx];
+                $foundIndex = $numericIdx;
+                $postSource = 'news';
+            } elseif (isset($articleData[$numericIdx])) {
+                $foundPost = $articleData[$numericIdx];
+                $foundIndex = $numericIdx;
+                $postSource = 'article';
+            }
+        }
+
+        if (!$foundPost) {
+            return redirect()->route('admin.cms.content', ['tab' => 'news'])->with('error', 'Post / Artikel tidak ditemukan.');
+        }
+
+        return view('admin.cms.post_edit', [
+            'post' => $foundPost,
+            'index' => $foundIndex,
+            'type' => $postSource,
+            'userUnit' => $userUnit,
+            'isNew' => false,
+        ]);
+    }
+
+    public function savePost(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $isNew = $request->input('is_new', '1') == '1';
+        $originalSlug = $request->input('original_slug');
+        $originalTitle = $request->input('original_title');
+        $index = $request->input('index');
+
+        $title = trim($request->input('title'));
+        $slug = \Illuminate\Support\Str::slug($title);
+        $category = $request->input('category', 'Berita');
+        $unit = $userUnit ?? $request->input('unit', 'yayasan');
+        $date = $request->input('date', date('d F Y'));
+        $author = $request->input('author', $user ? $user->name : 'Admin');
+        $excerpt = $request->input('excerpt');
+        $content = $request->input('content');
+
+        if (empty($excerpt)) {
+            $excerpt = \Illuminate\Support\Str::limit(strip_tags($content), 160);
+        }
+
+        // Image Handling
+        $imagePath = $request->input('existing_image', '/images/mockup_desktop_1.png');
+        if ($request->hasFile('image_file')) {
+            $compressed = \App\Services\ImageOptimizer::compress($request->file('image_file'), 'uploads/cms', 'post_' . time() . '_' . \Illuminate\Support\Str::random(6));
+            if ($compressed) {
+                $imagePath = $compressed . '?v=' . time();
+            }
+        } elseif ($request->filled('image_url')) {
+            $imagePath = $request->input('image_url');
+        }
+
+        $postItem = [
+            'title' => $title,
+            'slug' => $slug,
+            'category' => $category,
+            'unit' => $unit,
+            'date' => $date,
+            'author' => $author,
+            'image' => $imagePath,
+            'excerpt' => $excerpt,
+            'content' => $content,
+            'timestamp' => time(),
+        ];
+
+        // Determine if article or news based on category
+        $isArticle = \Illuminate\Support\Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian']);
+        $targetSettingKey = $isArticle ? 'cms_article_data' : 'cms_news_data';
+
+        $currentJson = SiteSetting::get($targetSettingKey);
+        $currentList = $currentJson ? (json_decode($currentJson, true) ?: []) : [];
+
+        if ($isNew) {
+            array_unshift($currentList, $postItem);
+        } else {
+            // Find and update item
+            $updatedIndex = -1;
+            if (!empty($originalSlug)) {
+                foreach ($currentList as $i => $item) {
+                    if (($item['slug'] ?? '') === $originalSlug) {
+                        $updatedIndex = $i;
+                        break;
+                    }
+                }
+            }
+            if ($updatedIndex === -1 && !empty($originalTitle)) {
+                foreach ($currentList as $i => $item) {
+                    if (($item['title'] ?? '') === $originalTitle) {
+                        $updatedIndex = $i;
+                        break;
+                    }
+                }
+            }
+            if ($updatedIndex === -1 && is_numeric($index) && isset($currentList[(int)$index])) {
+                $updatedIndex = (int)$index;
+            }
+
+            if ($updatedIndex >= 0) {
+                $currentList[$updatedIndex] = $postItem;
+            } else {
+                array_unshift($currentList, $postItem);
+            }
+        }
+
+        SiteSetting::set($targetSettingKey, json_encode(array_values($currentList), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->route('admin.cms.content', ['tab' => 'news', 'unit_filter' => $userUnit ?? 'all'])
+            ->with('success', "✓ Berita/Artikel '{$title}' berhasil disimpan!");
     }
 }
 

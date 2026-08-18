@@ -285,6 +285,15 @@ class SchoolWebsiteController extends Controller
                 'alumni' => [
                     ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
                     ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-102111_3544c740.jpeg']
+                ],
+                'facilities' => [
+                    ['title' => 'AC dan Kipas Angin', 'badge' => 'Ruang Sentra', 'icon' => '❄️', 'desc' => 'Setiap ruang kelas difasilitasi AC dan 1 Kipas Angin untuk kenyamanan putra-putri.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/05/Musholah-scaled.jpeg'],
+                    ['title' => 'CCTV SafeSchool', 'badge' => 'Keamanan 24 Jam', 'icon' => '📹', 'desc' => 'Ada CCTV pengawasan di Ruang Musholah dan teras depan sekolah KB-TKIT Robbani.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/05/cctv-teras-scaled.jpeg'],
+                    ['title' => 'Mainan Edukasi (APE)', 'badge' => 'Alat Peraga Edukatif', 'icon' => '🧩', 'desc' => 'Tersedianya Mainan Edukasi yang telah ditempatkan pada boxnya masing-masing.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/05/Box-Mainan-scaled.jpeg'],
+                    ['title' => 'Loker di Setiap Kelas', 'badge' => 'Kemandirian Anak', 'icon' => '🎒', 'desc' => 'Setiap anak mempunyai loker pribadi masing-masing di kelasnya.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/05/Loker-scaled.jpeg'],
+                    ['title' => 'Permainan Outdoor', 'badge' => 'Motorik Kasar', 'icon' => '🛝', 'desc' => 'Tempat Permainan Outdoor yang nyaman, bersih dan dilengkapi oleh CCTV.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-04-at-09.52.32.jpeg'],
+                    ['title' => 'Tempat Wudhu Anti-Slip', 'badge' => 'Pembiasaan Ibadah', 'icon' => '💧', 'desc' => 'Tempat wudhu yang bersih dan alas lantai anti slip dan dilengkapi dengan CCTV.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-05-at-10.00.04.jpeg'],
+                    ['title' => 'Teras Bersih & CCTV', 'badge' => 'Area Bermain', 'icon' => '🌿', 'desc' => 'Teras yang bersih dan dilengkapi CCTV, tempat anak main diluar ruangan yang nyaman.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-05-at-10.07.55.jpeg']
                 ]
             ],
             'sdit' => [
@@ -342,6 +351,13 @@ class SchoolWebsiteController extends Controller
                 'alumni' => [
                     ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
                     ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png']
+                ],
+                'facilities' => [
+                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang yang rutin dilaksanakan.', 'image' => 'https://sd.sitrobbani.sch.id/wp-content/uploads/2024/11/IMG-20250117-WA0010-scaled.jpg'],
+                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin melalui penyediaan fasilitas AC dan penerangan.', 'image' => 'https://sd.sitrobbani.sch.id/wp-content/uploads/2024/11/ruang-kls.jpg'],
+                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik sehingga siswa terasa nyaman ketika beribadah.', 'image' => 'https://sd.sitrobbani.sch.id/wp-content/uploads/2024/11/saung.jpg'],
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event, seminar, atau kegiatan upacara sekolah.', 'image' => 'https://sd.sitrobbani.sch.id/wp-content/uploads/2024/11/IMG-20250719-WA0064-scaled.jpg'],
+                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka sebagai pelataran aktivitas fisik siswa.', 'image' => 'https://sd.sitrobbani.sch.id/wp-content/uploads/2024/11/IMG_20241105_110318-scaled.jpg']
                 ]
             ],
             'smpit' => [
@@ -355,13 +371,12 @@ class SchoolWebsiteController extends Controller
                 'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
-                'vision' => 'Melahirkan Generasi Rabbani yang Beriman dan Bertaqwa, Unggul dalam Ilmu Pengetahuan dan Teknologi serta Berwawasan Global.',
+                'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
                 'missions' => [
-                    'Mengadakan kegiatan keagamaan secara rutin dan teratur untuk menumbuhkan penghayatan dan pengamalan nilai-nilai ajaran agama Islam.',
-                    'Membina dan menumbuhkan budaya disiplin dan berkarakter islami.',
-                    'Melaksanakan pengajaran secara efektif dan menyenangkan dengan penerapan teknologi pendidikan (SIPAKAR V2).',
-                    'Membimbing dan mengarahkan setiap murid untuk mengenali potensi diri, sehingga dapat mengembangkan talenta sebagai kecakapan hidupnya.',
-                    'Menumbuhkan daya juang serta semangat yang tinggi dalam belajar dan bekerja keras untuk meraih prestasi dan peduli terhadap lingkungan.'
+                    'Membentuk Peserta Didik yang cerdas, kreatif dan terpuji berdasarkan nilai Islam dan pendidikan Karakter',
+                    'Membentuk Guru dan Tenaga Kependidikan yang handal dan Profesional',
+                    'Menjadi lembaga Pendidikan yang Kokoh dan terkelola secara Optimal',
+                    'Membangun kerjasama dengan orang tua Peserta Didik, masyarakat dan stake holder lainnya'
                 ],
                 'phone' => '085377193977',
                 'students_count' => 280,
@@ -392,6 +407,14 @@ class SchoolWebsiteController extends Controller
                     ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
                     ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Pendidikan di SMPIT Robbani melatih saya mandiri, disiplin ibadah harian, dan hafal Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
                     ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi siswa.', 'avatar' => '/images/mockup_mobile_4.png']
+                ],
+                'facilities' => [
+                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2024/12/IMG20241017130510-scaled.jpg'],
+                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca.', 'image' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-02-at-07.19.34.jpeg'],
+                    ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-02-at-07.33.22.jpeg'],
+                    ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital.', 'image' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-03-at-10.49.00.jpeg'],
+                    ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2025/08/IMG20250811095348-scaled.jpg'],
+                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri.', 'image' => 'https://smp.sitrobbani.sch.id/wp-content/uploads/2025/08/IMG20250827110303-scaled.jpg']
                 ]
             ],
             'smait' => [
@@ -424,7 +447,13 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
                 ],
                 'teachers' => [],
-                'alumni' => []
+                'alumni' => [],
+                'facilities' => [
+                    ['title' => 'Laboratorium Komputer & Coding', 'badge' => 'Laboratorium Digital', 'icon' => '💻', 'desc' => 'Fasilitas komputer berspesifikasi tinggi untuk simulasi UTBK, koding, dan karya digital.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Laboratorium Sains Terpadu', 'badge' => 'Riset & Eksperimen', 'icon' => '🔬', 'desc' => 'Ruang praktikum Kimia, Fisika, dan Biologi lengkap untuk persiapan Olimpiade Sains.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Perpustakaan Digital & Riset', 'badge' => 'Pusat Belajar', 'icon' => '📚', 'desc' => 'Akses e-book internasional, jurnal sains, serta area riset privat seleksi PTN.', 'image' => '/images/mockup_desktop_3.png'],
+                    ['title' => 'Ruang Kelas Multimedia Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '🏫', 'desc' => 'Ruang kelas modern ber-AC dilengkapi proyektor smart board & internet cepat.', 'image' => '/images/mockup_desktop_4.png']
+                ]
             ]
         ];
 

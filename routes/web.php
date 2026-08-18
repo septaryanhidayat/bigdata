@@ -117,6 +117,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/cms/content/update', [CmsController::class, 'updateCmsContent'])->name('cms.content.update');
             Route::post('/cms/content/item/add', [CmsController::class, 'addCmsItem'])->name('cms.content.add');
             Route::match(['post', 'delete'], '/cms/content/item/delete', [CmsController::class, 'deleteCmsItem'])->name('cms.content.delete');
+            Route::get('/cms/post/create', [CmsController::class, 'createPost'])->name('cms.post.create');
+            Route::get('/cms/post/edit', [CmsController::class, 'editPost'])->name('cms.post.edit');
+            Route::post('/cms/post/save', [CmsController::class, 'savePost'])->name('cms.post.save');
         });
 
         // 2b. Pengaturan Global Portal Yayasan, Manajemen Akun, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
