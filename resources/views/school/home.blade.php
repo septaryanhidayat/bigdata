@@ -77,12 +77,8 @@
     <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? str_replace(' ', '%20', $settings['hero_bg_image']) : asset('uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp') }}" fetchpriority="high">
 
     <!-- Google Fonts & Material Symbols (Asynchronous & Display Swap for 90+ Lighthouse FCP/LCP) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
-    </noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
 
     <!-- Tailwind CSS CDN with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -835,7 +831,7 @@
                         <!-- Highlights Feature Badges -->
                         <div class="flex flex-wrap justify-center lg:justify-start gap-md text-xs font-semibold text-slate-700 dark:text-slate-300 pt-3 border-t border-slate-200/80 dark:border-slate-800">
                             <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Tahfidz Al-Qur'an</span>
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum Merdeka</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum Merdeka & JSIT</span>
                             <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Akreditasi Unggul</span>
                         </div>
                     </div>
