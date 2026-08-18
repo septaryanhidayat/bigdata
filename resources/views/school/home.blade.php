@@ -1194,7 +1194,7 @@
 
                             <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
                             <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 

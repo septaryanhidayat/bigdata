@@ -380,7 +380,7 @@
                         
                         <!-- Main Hero Image Container with 3D Hover Lift -->
                         <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/30 dark:border-[#1a381c] bg-slate-900 aspect-[4/3] sm:aspect-[4/3] lg:aspect-[5/4] group">
-                            <img src="{{ !empty($info['hero_image']) ? $info['hero_image'] : '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg' }}" alt="Siswa Berprestasi {{ $info['name'] }}" width="600" height="450" fetchpriority="high" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <img src="{{ !empty($info['hero_image']) ? $info['hero_image'] : '/uploads/media/1-e1643012044561_a09877b7.jpeg' }}" alt="Siswa Berprestasi {{ $info['name'] }}" width="600" height="450" fetchpriority="high" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 dark:from-[#061107]/90 via-transparent to-transparent"></div>
                             
                             <!-- Floating Achievement Badge (Clean & Fitted on Mobile) -->

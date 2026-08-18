@@ -175,7 +175,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SMPIT Robbani',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMPIT',
-                'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
                 'desc' => 'Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).'
             ],
             'smait' => [
@@ -284,7 +284,7 @@ class SchoolWebsiteController extends Controller
                 'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
                 'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
-                'principal_photo' => '/uploads/wp_assets/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_photo' => '/uploads/media/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di KB/TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an melalui suasana bermain yang edukatif dan menggembirakan.',
                 'description' => 'Kelompok Bermain & Taman Kanak-Kanak Islam Terpadu Terakreditasi A di Ogan Ilir. Membina fitrah anak sejak dini dengan pendekatan sentra, pembiasaan hafalan surat-surat pendek Juz 30, doa harian, kemandirian, dan stimulasi motorik terpadu.',
                 'vision' => 'Menjadi Lembaga PAUD Islam Terpadu Unggulan dalam Membentuk Karakter Anak Sholeh, Ceria, dan Berakhlak Qur\'ani.',
@@ -306,22 +306,22 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Billingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
                 ],
                 'teachers' => [
-                    ['name' => 'Dia Fitri Yani, S.Pd', 'role' => 'Guru Sentra Balok & Motorik', 'photo' => '/uploads/wp_assets/gtk_tk_dia_9992b8e6.jpeg'],
-                    ['name' => 'Nopitri Rosah, S.Pd', 'role' => 'Guru Sentra Persiapan & Literasi', 'photo' => '/uploads/wp_assets/gtk_tk_ocha_ce0626c2.jpeg'],
-                    ['name' => 'Susanti, S.Pd.I', 'role' => 'Guru Tahfidz Al-Qur\'an & PAI', 'photo' => '/uploads/wp_assets/gtk_tk_susan_5fcc63ea.jpeg'],
-                    ['name' => 'Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/wp_assets/gtk_tk_yunisa_2de7f85f.jpeg'],
-                    ['name' => 'Zahrotun Jannati, S.Pd', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/wp_assets/gtk_tk_zahro_5e0084ad.jpeg'],
-                    ['name' => 'Rojanah, S.E', 'role' => 'Staff Keuangan & Tata Usaha', 'photo' => '/uploads/wp_assets/gtk_tk_4-scaled_640e548f.jpg'],
-                    ['name' => 'Minarti, S.Pd', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/uploads/wp_assets/gtk_tk_5-scaled_67583fbf.jpg'],
-                    ['name' => 'Neli Wati, S.Pd', 'role' => 'Guru Kelas Kelompok Bermain (KB)', 'photo' => '/uploads/wp_assets/gtk_tk_6-scaled_b4639f16.jpg'],
-                    ['name' => 'Putri Nabila, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/wp_assets/gtk_tk_7-scaled_b0b5f4cd.jpg'],
-                    ['name' => 'Rhodotun Nikmah, S.Pd', 'role' => 'Guru Sentra Imtaq & Doa Harian', 'photo' => '/uploads/wp_assets/gtk_tk_8-scaled_d8ee33e6.jpg'],
-                    ['name' => 'Rizqy Maharani B. P., S.Pd', 'role' => 'Guru Bilingual Basic Kids', 'photo' => '/uploads/wp_assets/gtk_tk_9-scaled_6b8397e4.jpg'],
-                    ['name' => 'Aisyah Enjelita, S.Pd', 'role' => 'Staff Administrasi & Layanan Siswa', 'photo' => '/uploads/wp_assets/gtk_tk_whatsapp-image-2025-10-08-at-085210_5e9ab9e6.jpeg']
+                    ['name' => 'Dia Fitri Yani, S.Pd', 'role' => 'Guru Sentra Balok & Motorik', 'photo' => '/uploads/media/gtk_tk_dia_9992b8e6.jpeg'],
+                    ['name' => 'Nopitri Rosah, S.Pd', 'role' => 'Guru Sentra Persiapan & Literasi', 'photo' => '/uploads/media/gtk_tk_ocha_ce0626c2.jpeg'],
+                    ['name' => 'Susanti, S.Pd.I', 'role' => 'Guru Tahfidz Al-Qur\'an & PAI', 'photo' => '/uploads/media/gtk_tk_susan_5fcc63ea.jpeg'],
+                    ['name' => 'Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/media/gtk_tk_yunisa_2de7f85f.jpeg'],
+                    ['name' => 'Zahrotun Jannati, S.Pd', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/media/gtk_tk_zahro_5e0084ad.jpeg'],
+                    ['name' => 'Rojanah, S.E', 'role' => 'Staff Keuangan & Tata Usaha', 'photo' => '/uploads/media/gtk_tk_4-scaled_640e548f.jpg'],
+                    ['name' => 'Minarti, S.Pd', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/uploads/media/gtk_tk_5-scaled_67583fbf.jpg'],
+                    ['name' => 'Neli Wati, S.Pd', 'role' => 'Guru Kelas Kelompok Bermain (KB)', 'photo' => '/uploads/media/gtk_tk_6-scaled_b4639f16.jpg'],
+                    ['name' => 'Putri Nabila, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/media/gtk_tk_7-scaled_b0b5f4cd.jpg'],
+                    ['name' => 'Rhodotun Nikmah, S.Pd', 'role' => 'Guru Sentra Imtaq & Doa Harian', 'photo' => '/uploads/media/gtk_tk_8-scaled_d8ee33e6.jpg'],
+                    ['name' => 'Rizqy Maharani B. P., S.Pd', 'role' => 'Guru Bilingual Basic Kids', 'photo' => '/uploads/media/gtk_tk_9-scaled_6b8397e4.jpg'],
+                    ['name' => 'Aisyah Enjelita, S.Pd', 'role' => 'Staff Administrasi & Layanan Siswa', 'photo' => '/uploads/media/gtk_tk_whatsapp-image-2025-10-08-at-085210_5e9ab9e6.jpeg']
                 ],
                 'alumni' => [
-                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
-                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-102111_3544c740.jpeg']
+                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/media/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
+                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/uploads/media/galeri_tk_whatsapp-image-2025-11-24-at-102111_3544c740.jpeg']
                 ],
                 'facilities' => [
                     ['title' => 'AC dan Kipas Angin', 'badge' => 'Ruang Sentra', 'icon' => '❄️', 'desc' => 'Setiap ruang kelas difasilitasi AC dan 1 Kipas Angin untuk kenyamanan putra-putri.', 'image' => 'https://tk.sitrobbani.sch.id/wp-content/uploads/2025/05/Musholah-scaled.jpeg'],
@@ -341,7 +341,7 @@ class SchoolWebsiteController extends Controller
                 'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
                 'principal_name' => 'Nur Amalia, S.Pd',
                 'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
                 'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
                 'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
@@ -363,31 +363,31 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
                 ],
                 'teachers' => [
-                    ['name' => 'Nur Amalia, S.Pd', 'role' => 'Kepala Sekolah', 'photo' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
-                    ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Wakil Kepala Sekolah', 'photo' => '/uploads/wp_assets/gtk_sd_dian-kemala-astuti-spd_e347e53e.png'],
-                    ['name' => 'Ranti Saputri, S.TP', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png'],
-                    ['name' => 'Rini Nur Aisyah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_rini-nur-aisyah-spd_62500a42.png'],
-                    ['name' => 'Verda Novita Sari, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_verda-novita-sari-spd_ad452dad.png'],
-                    ['name' => 'Dwi Misgiyati, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_dwi-misgiyati-spd-1_e732e7cf.png'],
-                    ['name' => 'Marisa, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_marisa-spd_130e5322.png'],
-                    ['name' => 'Veti Susanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_veti-susanti-spd-1_59757bcc.png'],
-                    ['name' => 'Annisa Fatihah Salsabila, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_annisa-fatihah-salsabila-spd_44fd8f4a.png'],
-                    ['name' => 'Risfina Ayu Rochmayani, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_risfina-ayu-rochmayani-spd_3791bc4c.png'],
-                    ['name' => 'Yara Dwinadia, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_yara-dwinadia-spd_3fc4a612.png'],
-                    ['name' => 'Rika Damayanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_rika-damayanti-spd-1_7a98d317.png'],
-                    ['name' => 'Reni Zahara, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_reni-zahara-s-pd_bab4d1d8.png'],
-                    ['name' => 'Dita Irfaul Khasanah, S.Si', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_dita-irfaul-khasanah-ssi_57bffe6b.png'],
-                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_sarah-salsabilah-spd-1_f536c3f5.png'],
-                    ['name' => 'Anisa, S.Pd', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/wp_assets/gtk_sd_anisa-spd_c33d9a96.png'],
-                    ['name' => 'Apriliah, S.Ag', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/wp_assets/gtk_sd_annisa-fatihah-salsabila-spd-2_d59d918b.png'],
-                    ['name' => 'Sholahuddin Gultom, S.Pd', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/wp_assets/gtk_sd_sholahudin-gultom-spd_b287c1f1.png'],
-                    ['name' => 'Ahmad Firdaus', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/wp_assets/gtk_sd_ahmad-firdaus_265113a5.png'],
-                    ['name' => 'Risma Nia, S.Sos', 'role' => 'Staff TU', 'photo' => '/uploads/wp_assets/gtk_sd_risma-nia-ssos_5f30d015.png'],
-                    ['name' => 'Fredy Kurniawan', 'role' => 'Security', 'photo' => '/uploads/wp_assets/gtk_sd_fredy-kurniawan_977beb19.png'],
+                    ['name' => 'Nur Amalia, S.Pd', 'role' => 'Kepala Sekolah', 'photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
+                    ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Wakil Kepala Sekolah', 'photo' => '/uploads/media/gtk_sd_dian-kemala-astuti-spd_e347e53e.png'],
+                    ['name' => 'Ranti Saputri, S.TP', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_ranti-saputri-s-tp_5199b18b.png'],
+                    ['name' => 'Rini Nur Aisyah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_rini-nur-aisyah-spd_62500a42.png'],
+                    ['name' => 'Verda Novita Sari, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_verda-novita-sari-spd_ad452dad.png'],
+                    ['name' => 'Dwi Misgiyati, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_dwi-misgiyati-spd-1_e732e7cf.png'],
+                    ['name' => 'Marisa, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_marisa-spd_130e5322.png'],
+                    ['name' => 'Veti Susanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_veti-susanti-spd-1_59757bcc.png'],
+                    ['name' => 'Annisa Fatihah Salsabila, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_annisa-fatihah-salsabila-spd_44fd8f4a.png'],
+                    ['name' => 'Risfina Ayu Rochmayani, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_risfina-ayu-rochmayani-spd_3791bc4c.png'],
+                    ['name' => 'Yara Dwinadia, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_yara-dwinadia-spd_3fc4a612.png'],
+                    ['name' => 'Rika Damayanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_rika-damayanti-spd-1_7a98d317.png'],
+                    ['name' => 'Reni Zahara, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_reni-zahara-s-pd_bab4d1d8.png'],
+                    ['name' => 'Dita Irfaul Khasanah, S.Si', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_dita-irfaul-khasanah-ssi_57bffe6b.png'],
+                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_sarah-salsabilah-spd-1_f536c3f5.png'],
+                    ['name' => 'Anisa, S.Pd', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/media/gtk_sd_anisa-spd_c33d9a96.png'],
+                    ['name' => 'Apriliah, S.Ag', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/media/gtk_sd_annisa-fatihah-salsabila-spd-2_d59d918b.png'],
+                    ['name' => 'Sholahuddin Gultom, S.Pd', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/media/gtk_sd_sholahudin-gultom-spd_b287c1f1.png'],
+                    ['name' => 'Ahmad Firdaus', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/media/gtk_sd_ahmad-firdaus_265113a5.png'],
+                    ['name' => 'Risma Nia, S.Sos', 'role' => 'Staff TU', 'photo' => '/uploads/media/gtk_sd_risma-nia-ssos_5f30d015.png'],
+                    ['name' => 'Fredy Kurniawan', 'role' => 'Security', 'photo' => '/uploads/media/gtk_sd_fredy-kurniawan_977beb19.png'],
                 ],
                 'alumni' => [
-                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
-                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png']
+                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
+                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/uploads/media/gtk_sd_ranti-saputri-s-tp_5199b18b.png']
                 ],
                 'facilities' => [
                     ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang yang rutin dilaksanakan.', 'image' => 'https://sd.sitrobbani.sch.id/wp-content/uploads/2024/11/IMG-20250117-WA0010-scaled.jpg'],
@@ -405,7 +405,7 @@ class SchoolWebsiteController extends Controller
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
                 'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
@@ -427,21 +427,21 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking siswa.']
                 ],
                 'teachers' => [
-                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
-                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-110541_b299e525.jpeg'],
-                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530_30ee68d0.jpeg'],
-                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104532_3126be1f.jpeg'],
-                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-2_2f796280.jpeg'],
-                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-1_2c9bcfe7.jpeg'],
-                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-2_065e94be.jpeg'],
-                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531_eb838cb9.jpeg'],
-                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104527_df1d1872.jpeg'],
-                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141746_0000_c5eaee11.png'],
-                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250811_094836_0002_09c00b0d.png'],
-                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/wp_assets/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
+                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-110541_b299e525.jpeg'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530_30ee68d0.jpeg'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104532_3126be1f.jpeg'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-2_2f796280.jpeg'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530-1_2c9bcfe7.jpeg'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530-2_065e94be.jpeg'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531_eb838cb9.jpeg'],
+                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104527_df1d1872.jpeg'],
+                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/guru-smp-3_4_20250930_141746_0000_c5eaee11.png'],
+                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/guru-smp-3_4_20250811_094836_0002_09c00b0d.png'],
+                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
+                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/media/img20251124075603-scaled_0267776a.jpg'],
                     ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Pendidikan di SMPIT Robbani melatih saya mandiri, disiplin ibadah harian, dan hafal Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
                     ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi siswa.', 'avatar' => '/images/mockup_mobile_4.png']
                 ],
@@ -1506,25 +1506,25 @@ class SchoolWebsiteController extends Controller
             [
                 'title' => 'Wisuda & Haflah Tahfidz Al-Qur\'an Siswa',
                 'category' => 'Wisuda & Tahfidz',
-                'image' => '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg',
+                'image' => '/uploads/media/1-e1643012044561_a09877b7.jpeg',
                 'desc' => 'Momen khidmat wisuda tahfidz Al-Qur’an dan apresiasi capaian hafalan siswa SIT Robbani.'
             ],
             [
                 'title' => 'Kompleks & Sarana Belajar SIT Robbani',
                 'category' => 'Fasilitas Kampus',
-                'image' => '/uploads/wp_assets/2_7c039504.png',
+                'image' => '/uploads/media/2_7c039504.png',
                 'desc' => 'Kompleks persekolahan yang asri, kondusif, dan dilengkapi sarana pembelajaran modern.'
             ],
             [
                 'title' => 'Keceriaan Belajar Siswa KB/TKIT Robbani',
                 'category' => 'KB/TKIT Robbani',
-                'image' => '/uploads/wp_assets/img20220127093650-scaled_e1faddf6.jpg',
+                'image' => '/uploads/media/img20220127093650-scaled_e1faddf6.jpg',
                 'desc' => 'Aktivitas belajar motorik ceria, pengenalan adab islami, dan hafalan surah pendek sejak dini.'
             ],
             [
                 'title' => 'Pembelajaran Digital & Lab Komputer',
                 'category' => 'Sarana & Teknologi',
-                'image' => '/uploads/wp_assets/3_0996b3f3.png',
+                'image' => '/uploads/media/3_0996b3f3.png',
                 'desc' => 'Siswa berlatih koding, literasi digital interaktif, dan simulasi Asesmen Nasional.'
             ]
         ];
