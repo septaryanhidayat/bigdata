@@ -2,7 +2,7 @@
 -- SmartEdu SIT Robbani — Database Produksi MySQL
 -- ==============================================================
 -- File  : smartedu_FINAL_sitrobbani.sql
--- Dibuat: 2026-08-18 16:51:39
+-- Dibuat: 2026-08-18 17:04:06
 -- Versi : 3.0 Final — Pre-Production (TA 2026/2027)
 -- Engine: MySQL 5.7+ / MariaDB 10.3+
 -- Charset: utf8mb4 / COLLATE utf8mb4_unicode_ci
@@ -2289,5 +2289,5 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 
 SET FOREIGN_KEY_CHECKS=1;
 
--- EXPORT SELESAI: 2026-08-18 16:51:39
+-- EXPORT SELESAI: 2026-08-18 17:04:06
 -- SmartEdu SIT Robbani v3.0 (c) 2026 Beranda Teknologi Digital
