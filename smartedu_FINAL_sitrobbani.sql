@@ -2,7 +2,7 @@
 -- SmartEdu SIT Robbani — Database Produksi MySQL
 -- ==============================================================
 -- File  : smartedu_FINAL_sitrobbani.sql
--- Dibuat: 2026-08-18 15:04:00
+-- Dibuat: 2026-08-18 16:08:10
 -- Versi : 3.0 Final — Pre-Production (TA 2026/2027)
 -- Engine: MySQL 5.7+ / MariaDB 10.3+
 -- Charset: utf8mb4 / COLLATE utf8mb4_unicode_ci
@@ -297,7 +297,8 @@ DROP TABLE IF EXISTS `cache`;
 CREATE TABLE `cache` (
   `key` VARCHAR(255) NOT NULL,
   `value` LONGTEXT,
-  `expiration` BIGINT
+  `expiration` BIGINT,
+  PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -306,7 +307,8 @@ DROP TABLE IF EXISTS `cache_locks`;
 CREATE TABLE `cache_locks` (
   `key` VARCHAR(255) NOT NULL,
   `owner` VARCHAR(255) NOT NULL,
-  `expiration` BIGINT
+  `expiration` BIGINT,
+  PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -1405,7 +1407,8 @@ DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
   `email` VARCHAR(255) NOT NULL,
   `token` VARCHAR(255) NOT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NULL
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -1694,7 +1697,7 @@ INSERT INTO `schools` (`id`, `code`, `name`, `npsn`, `principal_name`, `address`
 -- Table: `sessions`
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` VARCHAR(255) NOT NULL,
   `user_id` BIGINT UNSIGNED NULL,
   `ip_address` VARCHAR(255) NULL,
   `user_agent` LONGTEXT NULL,
@@ -1703,17 +1706,6 @@ CREATE TABLE `sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('eCSf0QJ9qK52MDJjdrD0Vca2buwgS1iX3jthfJHr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Herd/1.29.0 Chrome/120.0.6099.291 Electron/28.2.5 Safari/537.36', 'eyJfdG9rZW4iOiJhZnRVSW5iRUpkemZOSTlwMjgxQlJ0b3Z2S0dhZXo3b3pBT3dyT1hpIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2JpZ2RhdGEudGVzdFwvP2hlcmQ9cHJldmlldyIsInJvdXRlIjoiaG9tZSJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1787058411),
-('HkCx5ygwBo6P9W6fn3M87LhDXzWPMBlRd3eJcjJS', 1, '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1', 'eyJfdG9rZW4iOiJJdUdiU3F3N0YxYU14S2dOQ3NpVTczTXRaQXluODRtaUdnN1pZeFJLIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2JpZ2RhdGEudGVzdCIsInJvdXRlIjoiaG9tZSJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxfQ==', 1787064992),
-('qIy5JPQcatVlQQ9BEBuLR22lr1QJDylSIpbDGpcl', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJMTEIwdGlJaEJCSXRSbkFYWGtWUUM4MWdsOFpFU1paSGhwaEJTUUdiIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50P3RhYj1nYWxsZXJ5In0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL2NvbnRlbnQ/dGFiPWdhbGxlcnkiLCJyb3V0ZSI6ImFkbWluLmNtcy5jb250ZW50In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', 1787059856),
-('kurr0Xu2bEr4MRyqFmi4Bju7m8Ci5De5mJnNV3pr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJlZEkzV21tTUhxQW5za2JqWlQ1MzBZYTg0TFBiUmozVnJSeGpKbnNvIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50In0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL2NvbnRlbnQiLCJyb3V0ZSI6ImFkbWluLmNtcy5jb250ZW50In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', 1787059857),
-('AaBCDNGUkdr9IKvZggwuqTnkdi7jrKcTmQXkbV8w', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJLQUJWRVpkUDhLaUVWWmRGWkZoWmlyc3VzSUNJczNIYnhTMklVMFhPIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50P3RhYj1uZXdzIn0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL2NvbnRlbnQ/dGFiPW5ld3MiLCJyb3V0ZSI6ImFkbWluLmNtcy5jb250ZW50In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', 1787060114),
-('CFCZx1vyZh6Z3D7PjMlWnbw0bpbhRgAHKUlqbS4E', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJhcnJGakRyMmFtbnUwQ0VnUVFQZGNTM1lJUmtNY2RkOW9RYnJ1Yk81IiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9wb3N0XC9lZGl0In0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL3Bvc3RcL2VkaXQiLCJyb3V0ZSI6ImFkbWluLmNtcy5wb3N0LmVkaXQifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', 1787060114),
-('snfQDmbemcTF5oT6BBUbbDsHDVLI2n3JmxHlcxGS', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiI2Vk5ndGpjMmkzZzhJVXZvdTVNMFY2eEFUT0U2eld6VXAyZ2lHWFBEIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50P3RhYj1uZXdzIn0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL2NvbnRlbnQ/dGFiPW5ld3MiLCJyb3V0ZSI6ImFkbWluLmNtcy5jb250ZW50In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', 1787060289),
-('55QXqJVexOfv9OUsc0zemkdTU91IMUx6KorZBCck', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJtYlFUWGNwYlhVemFSWm9XRTMxaVRIWVJvbTJ4cnY5ekhiV3hoTGpLIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9wb3N0XC9lZGl0In0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL3Bvc3RcL2VkaXQiLCJyb3V0ZSI6ImFkbWluLmNtcy5wb3N0LmVkaXQifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', 1787060289),
-('fvuwhbYsWuEZKyduUMRdKEsaAeREVubVnC6KxJDp', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJxTzBKdUhxSnl2SkhRVzRZUFc5aWszVFJEQ0wxQ3VyTEFCNlRRVnJjIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50P3RhYj1mYWNpbGl0eSJ9LCJfcHJldmlvdXMiOnsidXJsIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50P3RhYj1mYWNpbGl0eSIsInJvdXRlIjoiYWRtaW4uY21zLmNvbnRlbnQifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', 1787064508),
-('MYjhoRTq6AbpN2eh3ISg34rB3pXmyTQMxBMOOzKD', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko', 'eyJfdG9rZW4iOiJVY0xFSG5DVk9EUmpteWZaOXFEWkpyVGlwTjFPOVRVUGNHWXpmQm9zIiwidXJsIjp7ImludGVuZGVkIjoiaHR0cDpcL1wvYmlnZGF0YS50ZXN0XC9hZG1pblwvY21zXC9jb250ZW50In0sIl9wcmV2aW91cyI6eyJ1cmwiOiJodHRwOlwvXC9iaWdkYXRhLnRlc3RcL2FkbWluXC9jbXNcL2NvbnRlbnQiLCJyb3V0ZSI6ImFkbWluLmNtcy5jb250ZW50In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', 1787064508);
 
 -- Table: `site_settings`
 DROP TABLE IF EXISTS `site_settings`;
@@ -2296,5 +2288,5 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 
 SET FOREIGN_KEY_CHECKS=1;
 
--- EXPORT SELESAI: 2026-08-18 15:04:00
+-- EXPORT SELESAI: 2026-08-18 16:08:10
 -- SmartEdu SIT Robbani v3.0 (c) 2026 Beranda Teknologi Digital
