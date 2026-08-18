@@ -845,7 +845,7 @@
                         <div class="space-y-3">
                             <!-- Foto Pendidik Format Kotak 3:4 -->
                             <div class="w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#1a381c] bg-slate-100 dark:bg-slate-800 shadow-sm group-hover:scale-[1.02] transition-transform duration-300">
-                                <img src="{{ str_starts_with($t['photo'] ?? '', 'http') ? $t['photo'] : asset($t['photo'] ?? '') }}" alt="{{ $t['name'] }}" width="128" height="128" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ (!empty($t['photo']) && !str_contains($t['photo'], 'SmartEdu') && !str_contains($t['photo'], 'logo-robbani')) ? (str_starts_with($t['photo'], 'http') ? $t['photo'] : asset($t['photo'])) : asset('/images/avatar-gray-person.svg') }}" alt="{{ $t['name'] }}" width="128" height="128" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/avatar-gray-person.svg';">
                             </div>
                             <div>
                                 <h3 class="text-xs sm:text-sm font-black font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $t['name'] }}</h3>
