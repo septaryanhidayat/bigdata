@@ -542,11 +542,12 @@ class SchoolWebsiteController extends Controller
         ));
     }
 
-    public function beritaIndex()
+    public function beritaIndex(\Illuminate\Http\Request $request)
     {
         $settings = $this->getSettings();
         $newsList = $this->getNewsData();
-        return view('school.berita.index', compact('settings', 'newsList'));
+        $activeCategory = strtolower($request->query('category') ?? $request->query('unit') ?? 'all');
+        return view('school.berita.index', compact('settings', 'newsList', 'activeCategory'));
     }
 
     public function beritaShow($slug)

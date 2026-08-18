@@ -126,7 +126,7 @@
     </header>
 
     <!-- Main Content Grid with Unit Category Filter -->
-    <main class="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 space-y-8 flex-1" x-data="{ activeCategory: 'all' }">
+    <main class="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 space-y-8 flex-1" x-data="{ activeCategory: '{{ $activeCategory ?? 'all' }}' }">
         <div class="text-center max-w-2xl mx-auto space-y-3">
             <span class="px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-slate-800 border border-emerald-300 dark:border-slate-700 text-emerald-800 dark:text-emerald-400 font-black text-xs uppercase shadow-xs">
                 KABAR KAMPUS SIT ROBBANI
