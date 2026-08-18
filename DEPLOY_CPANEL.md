@@ -41,7 +41,7 @@ Sebelum menghapus folder-folder cPanel lama, amankan folder `siabs` masing-masin
    ```
 4. Install dependency composer & generate app key:
    ```bash
-   composer install --no-dev --optimize-autoloader
+   composer install --no-dev --optimize-autoloader --ignore-platform-req=php
    php artisan key:generate
    php artisan storage:link
    ```
