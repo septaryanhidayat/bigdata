@@ -211,15 +211,15 @@
                 <div class="pt-4 grid grid-cols-3 gap-2.5 sm:gap-4 border-t border-slate-200">
                     <div class="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 text-center shadow-sm">
                         <h3 class="text-xl sm:text-3xl font-black text-teal-700">{{ count($modules) }}</h3>
-                        <p class="text-[10px] sm:text-xs text-slate-500 font-semibold mt-0.5 leading-tight">Modul Terintegrasi</p>
+                        <p class="text-[10px] sm:text-xs text-slate-800 font-extrabold mt-0.5 leading-tight">25 Modul Terintegrasi</p>
                     </div>
                     <div class="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 text-center shadow-sm">
                         <h3 class="text-xl sm:text-3xl font-black text-teal-700">100%</h3>
-                        <p class="text-[10px] sm:text-xs text-slate-500 font-semibold mt-0.5 leading-tight">Real-Time Sync</p>
+                        <p class="text-[10px] sm:text-xs text-slate-800 font-extrabold mt-0.5 leading-tight">Real-Time Sync</p>
                     </div>
                     <div class="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 text-center shadow-sm">
                         <h3 class="text-xl sm:text-3xl font-black text-amber-600">Multi</h3>
-                        <p class="text-[10px] sm:text-xs text-slate-500 font-semibold mt-0.5 leading-tight">Unit Sekolah</p>
+                        <p class="text-[10px] sm:text-xs text-slate-800 font-extrabold mt-0.5 leading-tight">Unit Sekolah</p>
                     </div>
                 </div>
             </div>
@@ -227,10 +227,11 @@
             <!-- Right Visual Illustration: Clean Dual Device Hero Mockup -->
             <div class="lg:col-span-5 flex justify-center scroll-reveal delay-1">
                 <div class="w-full max-w-lg bg-white p-3 sm:p-4 rounded-3xl border border-slate-200 shadow-xl hover:shadow-2xl transition-all">
-                    <div class="relative overflow-hidden rounded-2xl border border-slate-100 bg-slate-50">
+                    <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 min-h-[260px] flex items-center justify-center">
                         <img src="/images/hero_dual_device_mockup.png" 
                              alt="SmartEdu App Mockup Preview" 
-                             class="w-full h-auto object-cover">
+                             class="w-full h-auto object-cover rounded-2xl"
+                             onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
                     </div>
                 </div>
             </div>
@@ -238,18 +239,18 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- KATALOG 21 MODUL FITUR LENGKAP             -->
+    <!-- KATALOG 25 MODUL FITUR LENGKAP             -->
     <!-- ========================================== -->
     <section id="fitur" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6">
         
         <div class="text-center max-w-3xl mx-auto space-y-3 mb-8 sm:mb-10 scroll-reveal">
             <div class="inline-block">
-                <span class="px-3.5 py-1.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-                    Katalog Produk Digital
+                <span class="px-3.5 py-1.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80 text-[11px] sm:text-xs font-black uppercase tracking-wider">
+                    Katalog 25 Produk Digital Enterprise
                 </span>
             </div>
             <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                Preview Semua Modul Fitur SmartEdu
+                Preview Semua 25 Modul Fitur SmartEdu
             </h2>
             <p class="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
                 Solusi lengkap dari manajemen data dasar, kurikulum akademik, keuangan, hingga pembentukan karakter dan keamanan siswa.
@@ -282,12 +283,12 @@
                 <button @click="activeCategory = 'operasional'" 
                         :class="{ 'bg-teal-700 text-white shadow-md font-extrabold': activeCategory === 'operasional', 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 font-bold': activeCategory !== 'operasional' }"
                         class="px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition-all flex-shrink-0">
-                    HRIS & Staff
+                    HRIS, Persuratan & Layanan
                 </button>
             </div>
         </div>
 
-        <!-- 21 Cards Grid with Scroll Reveal -->
+        <!-- 25 Cards Grid with Scroll Reveal -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($modules as $mod)
             <div x-show="activeCategory === 'all' || activeCategory === '{{ $mod->category }}'" 
@@ -339,277 +340,386 @@
     <!-- HANDHELD SMARTPHONE & LAPTOP PHOTO MOCKUPS -->
     <!-- 5 DESAIN PER TAB, TAMPIL 3 CARDS SIDE-BY-SIDE, CONTINUOUS AUTO SLIDE -->
     <!-- ========================================== -->
-    <section id="konsep-aplikasi" class="py-16 sm:py-20 bg-slate-100 border-t border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-10">
+    <section id="konsep-aplikasi" class="py-16 sm:py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
             
+            <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto space-y-3 scroll-reveal">
                 <div class="inline-block">
-                    <span class="px-3.5 py-1.5 rounded-full bg-teal-100 text-teal-900 border border-teal-300 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-                        Simulasi Antarmuka Realistis
+                    <span class="px-3.5 py-1.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/40 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
+                        Tampilan Layar Mobile & Desktop
                     </span>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
-                    Mockup Device Realistis HP Smartphone & Laptop Desktop
+                <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white">
+                    Mockup Device Realistik HP Smartphone &amp; Laptop Desktop
                 </h2>
-                <p class="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
-                    Menampilkan 5 foto mockup realistis smartphone genggam & laptop PC untuk siswa <strong class="text-teal-800 font-bold">Septa Ryan Hidayat (Siswa Putera - Kelas 8A)</strong> yang bergeser secara otomatis 3 desain bersisian.
+                <p class="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+                    Desain antarmuka modern yang nyaman digunakan oleh Admin, Guru, Siswa, Orang Tua, dan Kasir POS.
                 </p>
             </div>
 
-            <!-- Modern Segmented Toggle Bar for Device Tabs (Super Clean on Mobile) -->
-            <div class="scroll-reveal delay-1">
-                <div class="bg-slate-200/80 p-1.5 rounded-2xl flex max-w-md mx-auto shadow-inner text-xs font-bold">
+            <!-- Tab Toggle Button for Mobile vs Laptop Preview -->
+            <div class="flex justify-center scroll-reveal">
+                <div class="inline-flex bg-slate-800 p-1.5 rounded-2xl border border-slate-700 text-xs font-bold">
                     <button @click="activeConceptTab = 'hp'" 
-                            :class="{ 'bg-teal-700 text-white shadow-md': activeConceptTab === 'hp', 'text-slate-700 hover:text-slate-900': activeConceptTab !== 'hp' }"
-                            class="flex-1 py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5">
-                        <span>📱 Smartphone HP (5 Foto)</span>
+                            :class="{ 'bg-teal-700 text-white shadow-md': activeConceptTab === 'hp', 'text-slate-300 hover:text-white': activeConceptTab !== 'hp' }"
+                            class="px-5 py-2.5 rounded-xl transition-all">
+                        📱 Smartphone Mobile App
                     </button>
-                    <button @click="activeConceptTab = 'desktop'" 
-                            :class="{ 'bg-teal-700 text-white shadow-md': activeConceptTab === 'desktop', 'text-slate-700 hover:text-slate-900': activeConceptTab !== 'desktop' }"
-                            class="flex-1 py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5">
-                        <span>💻 Laptop Desktop (5 Foto)</span>
+                    <button @click="activeConceptTab = 'laptop'" 
+                            :class="{ 'bg-teal-700 text-white shadow-md': activeConceptTab === 'laptop', 'text-slate-300 hover:text-white': activeConceptTab !== 'laptop' }"
+                            class="px-5 py-2.5 rounded-xl transition-all">
+                        💻 Laptop Desktop Admin
                     </button>
                 </div>
             </div>
 
-            <!-- ======================================================= -->
-            <!-- 1. MOBILE SMARTPHONE REALISTIC PHOTO CAROUSEL (5 DESAIN)-->
-            <!-- ======================================================= -->
-            <div x-show="activeConceptTab === 'hp'" class="space-y-6 scroll-reveal delay-1">
-                
-                <!-- Controls Bar -->
-                <div class="flex items-center justify-between max-w-5xl mx-auto px-2 sm:px-4">
-                    <button @click="prevMobile()" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-200 shadow-sm transition-all flex items-center gap-1">
-                        <span>◀ Prev</span>
-                    </button>
-                    <div class="flex items-center gap-1.5 sm:gap-2">
-                        <template x-for="i in 5" :key="i">
-                            <button @click="mobileIndex = i - 1" 
-                                    :class="mobileIndex === (i - 1) ? 'bg-teal-700 w-6 sm:w-8' : 'bg-slate-300 w-2.5 sm:w-3'"
-                                    class="h-2.5 sm:h-3 rounded-full transition-all duration-300"></button>
+            <!-- SMARTPHONE MOBILE APP CAROUSEL CONTAINER (SHOWS 3 CARDS SIDE-BY-SIDE) -->
+            <div x-show="activeConceptTab === 'hp'" x-transition class="relative scroll-reveal">
+                <div class="overflow-hidden py-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 ease-in-out">
+                        
+                        <template x-for="slotOffset in [0, 1, 2]" :key="slotOffset">
+                            <div class="bg-white rounded-3xl border border-slate-800 shadow-xl overflow-hidden text-slate-900 flex flex-col justify-between h-[540px] transform hover:-translate-y-1 transition-transform duration-300">
+                                
+                                <!-- MOBILE PHOTO 1: Portal Ortu & Student Mobile App -->
+                                <div x-show="((mobileIndex + slotOffset) % 5) === 0" class="h-full flex flex-col justify-between">
+                                    <div class="p-3 bg-teal-900 text-white flex items-center justify-between text-xs font-bold">
+                                        <span>Parent &amp; Student App</span>
+                                        <span class="text-[10px] bg-teal-800 px-2 py-0.5 rounded-full">Active</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_mobile_1.png" alt="Mobile Photo Mockup Parent App" class="w-full h-[410px] object-cover rounded-2xl shadow-md" onerror="this.onerror=null; this.src='/images/hero_mobile_mockup_3d.png';">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">1. Portal Ortu &amp; Student App 📱</h4>
+                                        <p class="text-[11px] text-slate-600">Presensi realtime, jadwal pelajaran, nilai, &amp; pengumuman.</p>
+                                    </div>
+                                </div>
+
+                                <!-- MOBILE PHOTO 2: Gate RFID & QR Code Scanner -->
+                                <div x-show="((mobileIndex + slotOffset) % 5) === 1" class="h-full flex flex-col justify-between">
+                                    <div class="p-3 bg-emerald-900 text-white flex items-center justify-between text-xs font-bold">
+                                        <span>Presensi RFID / QR Gate</span>
+                                        <span class="text-[10px] bg-emerald-800 px-2 py-0.5 rounded-full">Scan Gate</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_mobile_2.png" alt="Mobile Photo Mockup RFID Gate Scanner" class="w-full h-[410px] object-cover rounded-2xl shadow-md" onerror="this.onerror=null; this.src='/images/hero_mobile_mockup_3d.png';">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">2. Gate Presensi Scanner ⏱️</h4>
+                                        <p class="text-[11px] text-slate-600">Absensi gerbang cepat RFID &amp; QR Code dengan notifikasi WA.</p>
+                                    </div>
+                                </div>
+
+                                <!-- MOBILE PHOTO 3: SafeSchool Panic Alarm & Anti-Bullying App -->
+                                <div x-show="((mobileIndex + slotOffset) % 5) === 2" class="h-full flex flex-col justify-between">
+                                    <div class="p-3 bg-rose-900 text-white flex items-center justify-between text-xs font-bold">
+                                        <span>SafeSchool Alarm App</span>
+                                        <span class="text-[10px] bg-rose-800 px-2 py-0.5 rounded-full">SOS Active</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_mobile_3.png" alt="Mobile Photo Mockup SafeSchool App" class="w-full h-[410px] object-cover rounded-2xl shadow-md" onerror="this.onerror=null; this.src='/images/hero_mobile_mockup_3d.png';">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-rose-900">3. SafeSchool Anti-Bullying 🚨</h4>
+                                        <p class="text-[11px] text-slate-600">Tombol panic alarm darurat siswa &amp; laporan insiden rahasia.</p>
+                                    </div>
+                                </div>
+
+                                <!-- MOBILE PHOTO 4: Mobile POS Kantin Cashless -->
+                                <div x-show="((mobileIndex + slotOffset) % 5) === 3" class="h-full flex flex-col justify-between">
+                                    <div class="p-3 bg-amber-900 text-white flex items-center justify-between text-xs font-bold">
+                                        <span>POS Kantin Kiosk App</span>
+                                        <span class="text-[10px] bg-amber-800 px-2 py-0.5 rounded-full">Cashless</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_mobile_4.png" alt="Mobile Photo Mockup POS Kantin" class="w-full h-[410px] object-cover rounded-2xl shadow-md" onerror="this.onerror=null; this.src='/images/hero_mobile_mockup_3d.png';">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">4. POS Kantin Cashless Kiosk 🛒</h4>
+                                        <p class="text-[11px] text-slate-600">Transaksi jajan saldo kartu RFID &amp; batasan limit harian ortu.</p>
+                                    </div>
+                                </div>
+
+                                <!-- MOBILE PHOTO 5: Mutaba'ah Yaumiyah BPI App -->
+                                <div x-show="((mobileIndex + slotOffset) % 5) === 4" class="h-full flex flex-col justify-between">
+                                    <div class="p-3 bg-purple-900 text-white flex items-center justify-between text-xs font-bold">
+                                        <span>Mutaba'ah Yaumiyah App</span>
+                                        <span class="text-[10px] bg-purple-800 px-2 py-0.5 rounded-full">BPI Character</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_mobile_5.png" alt="Mobile Photo Mockup Mutabaah BPI" class="w-full h-[410px] object-cover rounded-2xl shadow-md" onerror="this.onerror=null; this.src='/images/hero_mobile_mockup_3d.png';">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-purple-900">5. Mutaba'ah BPI &amp; Karakter 📖</h4>
+                                        <p class="text-[11px] text-slate-600">Jurnal ibadah harian (Sholat 5 waktu, Dhuha, Tilawah, &amp; Hafalan).</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAPTOP DESKTOP ADMIN CAROUSEL CONTAINER (SHOWS 3 CARDS SIDE-BY-SIDE) -->
+            <div x-show="activeConceptTab === 'laptop'" x-cloak x-transition class="relative scroll-reveal">
+                <div class="overflow-hidden py-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 ease-in-out">
+                        
+                        <template x-for="slotOffset in [0, 1, 2]" :key="slotOffset">
+                            <div class="bg-white rounded-3xl border border-slate-800 shadow-xl overflow-hidden text-slate-900 flex flex-col justify-between h-[480px] transform hover:-translate-y-1 transition-transform duration-300">
+                                
+                                <!-- DESKTOP PHOTO 1: Executive Dashboard Laptop -->
+                                <div x-show="((desktopIndex + slotOffset) % 5) === 0" class="h-full flex flex-col justify-between">
+                                    <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
+                                        <div class="flex items-center gap-1.5">
+                                            <img src="/images/logo-robbani-official.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
+                                            <span>Executive Dashboard</span>
+                                        </div>
+                                        <span class="text-[9px] bg-teal-600 text-white px-2 py-0.5 rounded-full font-bold">Multi-Unit</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_desktop_1.png" alt="Laptop Photo Mockup Executive Dashboard" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">1. Executive Dashboard Multi-Unit 🏢</h4>
+                                        <p class="text-[11px] text-slate-600">Statistik realtime siswa, guru, SPP, tabungan, &amp; presensi gate.</p>
+                                    </div>
+                                </div>
+
+                                <!-- DESKTOP PHOTO 2: Financial Management SPP Laptop -->
+                                <div x-show="((desktopIndex + slotOffset) % 5) === 1" class="h-full flex flex-col justify-between">
+                                    <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
+                                        <div class="flex items-center gap-1.5">
+                                            <img src="/images/logo-robbani-official.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
+                                            <span>Laptop Keuangan SPP</span>
+                                        </div>
+                                        <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">Auto COA</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_desktop_2.png" alt="Laptop Photo Mockup Keuangan SPP" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">2. Keuangan SPP &amp; Akuntansi COA 💳</h4>
+                                        <p class="text-[11px] text-slate-600">Tagihan otomatis, kwitansi PDF, &amp; laporan keuangan sekolah.</p>
+                                    </div>
+                                </div>
+
+                                <!-- DESKTOP PHOTO 3: Academic E-Rapor K13 & Merdeka Laptop -->
+                                <div x-show="((desktopIndex + slotOffset) % 5) === 2" class="h-full flex flex-col justify-between">
+                                    <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
+                                        <div class="flex items-center gap-1.5">
+                                            <img src="/images/logo-robbani-official.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
+                                            <span>Laptop Academic E-Rapor</span>
+                                        </div>
+                                        <span class="text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">K13 &amp; Merdeka</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_desktop_3.png" alt="Laptop Photo Mockup Academic E-Rapor" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">3. Akademik &amp; E-Rapor Merdeka 🎓</h4>
+                                        <p class="text-[11px] text-slate-600">Input nilai guru, leger nilai, &amp; pencetakan rapor PDF terstruktur.</p>
+                                    </div>
+                                </div>
+
+                                <!-- DESKTOP PHOTO 4: SafeSchool Command Center Laptop -->
+                                <div x-show="((desktopIndex + slotOffset) % 5) === 3" class="h-full flex flex-col justify-between">
+                                    <div class="p-2.5 bg-rose-900 text-white flex items-center justify-between text-[11px] font-bold">
+                                        <div class="flex items-center gap-1.5">
+                                            <img src="/images/logo-robbani-official.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
+                                            <span>Laptop SafeSchool</span>
+                                        </div>
+                                        <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">Satgas Alert</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_desktop_4.png" alt="Laptop Photo Mockup Anti-Bullying" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-rose-900">4. Satgas Anti-Bullying Control 🚨</h4>
+                                        <p class="text-[11px] text-slate-600">Command Center geolokasi panic alarm &amp; alur investigasi insiden.</p>
+                                    </div>
+                                </div>
+
+                                <!-- DESKTOP PHOTO 5: Tracer Study Alumni Laptop -->
+                                <div x-show="((desktopIndex + slotOffset) % 5) === 4" class="h-full flex flex-col justify-between">
+                                    <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
+                                        <div class="flex items-center gap-1.5">
+                                            <img src="/images/logo-robbani-official.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
+                                            <span>Laptop Alumni View</span>
+                                        </div>
+                                        <span class="text-[9px] bg-cyan-600 text-white px-2 py-0.5 rounded-full font-bold">Tracer Study</span>
+                                    </div>
+                                    <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
+                                        <img src="/images/mockup_desktop_5.png" alt="Laptop Photo Mockup Alumni" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
+                                    </div>
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <h4 class="font-bold text-xs text-slate-900">5. Alumni &amp; Tracer Study 🎓</h4>
+                                        <p class="text-[11px] text-slate-600">Direktori alumni, tracer study PTN, &amp; legalisir e-ijazah QR Code.</p>
+                                    </div>
+                                </div>
+
+                            </div>
                         </template>
                     </div>
-                    <button @click="nextMobile()" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-200 shadow-sm transition-all flex items-center gap-1">
-                        <span>Next ▶</span>
-                    </button>
                 </div>
+            </div>
 
-                <!-- 3 Visible Mobile Photo Mockups Grid (Auto Shifts continuously through 5 Mobile Mockups) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                    
-                    <template x-for="slotOffset in [0, 1, 2]" :key="slotOffset">
-                        <div class="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-102">
-                            
-                            <!-- MOBILE PHOTO 1: Mutabaah BPI -->
-                            <div x-show="((mobileIndex + slotOffset) % 5) === 0" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Mutabaah BPI</span>
-                                    </div>
-                                    <span class="text-[9px] bg-teal-600 px-2 py-0.5 rounded-full font-bold">Siswa: Septa Ryan H.</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_mobile_1.png" alt="Smartphone Mockup Mutabaah BPI" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-slate-900">1. Mutabaah Ibadah & Habit Tracker</h4>
-                                    <p class="text-[11px] text-slate-600">Septa Ryan Hidayat (8A): Checklist ibadah harian Sholat 5 waktu & PIN Ortu.</p>
-                                </div>
-                            </div>
+        </div>
+    </section>
 
-                            <!-- MOBILE PHOTO 2: SafeSchool Anti-Bullying -->
-                            <div x-show="((mobileIndex + slotOffset) % 5) === 1" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>SafeSchool Alarm</span>
-                                    </div>
-                                    <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">Panic Alarm</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_mobile_2.png" alt="Smartphone Mockup Panic Alarm" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-rose-900">2. SafeSchool Anti-Bullying 🚨</h4>
-                                    <p class="text-[11px] text-slate-600">Panic Alarm darurat dengan geolokasi aktif Kelas 8A ke HP Satgas Keamanan.</p>
-                                </div>
-                            </div>
+    @if(($settings['show_sales_section'] ?? '1') === '1')
+    <!-- ========================================== -->
+    <!-- SALES & PRICING SECTION (ULTRA HIGH CONTRAST) -->
+    <!-- ========================================== -->
+    <section id="harga" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16 scroll-reveal">
+            <div class="inline-block">
+                <span class="px-4 py-1.5 rounded-full bg-teal-100 text-teal-900 border border-teal-200 text-xs font-black uppercase tracking-wider shadow-xs">
+                    {{ $settings['sales_badge'] }}
+                </span>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                {{ $settings['sales_title'] }}
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                {{ $settings['sales_desc'] }}
+            </p>
+        </div>
 
-                            <!-- MOBILE PHOTO 3: Wallet & POS Kantin -->
-                            <div x-show="((mobileIndex + slotOffset) % 5) === 2" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Wallet & POS Kantin</span>
-                                    </div>
-                                    <span class="text-[9px] bg-emerald-600 px-2 py-0.5 rounded-full font-bold">Cashless RFID</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_mobile_3.png" alt="Smartphone Mockup Wallet & SPP" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-slate-900">3. Tabungan & POS Kantin Cashless</h4>
-                                    <p class="text-[11px] text-slate-600">Saldo tabungan Rp 1.250.000, limit harian ortu Rp 25.000, & kwitansi SPP PDF.</p>
-                                </div>
-                            </div>
+        <!-- Pricing Cards Grid (3 Options with Ultra Readability & High Contrast) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            
+            <!-- PAKET 1: Source Code Only -->
+            <div class="scroll-reveal bg-white rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                <div class="space-y-6">
+                    <div class="space-y-2 border-b border-slate-100 pb-4">
+                        <span class="px-3.5 py-1 rounded-full bg-slate-100 text-slate-800 text-[10px] font-black uppercase tracking-wider">Single License</span>
+                        <h3 class="text-xl font-black text-slate-900 mt-2">{{ $settings['pkg1_title'] }}</h3>
+                        <p class="text-xs text-slate-600 font-medium leading-relaxed">{{ $settings['pkg1_desc'] }}</p>
+                    </div>
 
-                            <!-- MOBILE PHOTO 4: E-Rapor & CBT Exam -->
-                            <div x-show="((mobileIndex + slotOffset) % 5) === 3" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>E-Rapor & CBT Exam</span>
-                                    </div>
-                                    <span class="text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">Nilai 92.5</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_mobile_4.png" alt="Smartphone Mockup E-Rapor" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-slate-900">4. E-Rapor & Hasil Ujian CBT 📊</h4>
-                                    <p class="text-[11px] text-slate-600">Rangkuman nilai hasil ujian CBT online dan proyek P5 kurikulum.</p>
-                                </div>
-                            </div>
-
-                            <!-- MOBILE PHOTO 5: SmartBot AI Assistant -->
-                            <div x-show="((mobileIndex + slotOffset) % 5) === 4" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>SmartBot AI Chat</span>
-                                    </div>
-                                    <span class="text-[9px] bg-indigo-600 text-white px-2 py-0.5 rounded-full font-bold">AI 24/7</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_mobile_5.png" alt="Smartphone Mockup AI Chatbot" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-indigo-900">5. SmartBot AI Assistant 🤖</h4>
-                                    <p class="text-[11px] text-slate-600">Asisten virtual AI 24/7 via portal dan WhatsApp Gateway sekolah.</p>
-                                </div>
-                            </div>
-
+                    <div class="py-4 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-500 block mb-1">Investasi Sekali Bayar:</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl sm:text-4xl font-black text-slate-900">{{ $settings['pkg1_price'] }}</span>
+                            <span class="text-xs font-bold text-slate-500">/ selamanya</span>
                         </div>
-                    </template>
+                    </div>
+
+                    <ul class="space-y-3 text-xs text-slate-800 font-bold">
+                        @foreach(explode("\n", $settings['pkg1_features']) as $feat)
+                            @if(trim($feat))
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-black text-xs flex items-center justify-center shrink-0">✓</span>
+                                <span>{{ trim($feat) }}</span>
+                            </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="pt-8">
+                    <a href="{{ $settings['pkg1_link'] }}" 
+                       target="_blank" 
+                       class="w-full py-4 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs text-center block shadow-md hover:scale-[1.02] transition-all">
+                        Pesan {{ $settings['pkg1_title'] }} ➔
+                    </a>
                 </div>
             </div>
 
-            <!-- ======================================================= -->
-            <!-- 2. LAPTOP PC DESKTOP REALISTIC PHOTO CAROUSEL (5 DESAIN)-->
-            <!-- BALANCED IN SIZE EQUAL TO MOBILE SECTION                -->
-            <!-- ======================================================= -->
-            <div x-show="activeConceptTab === 'desktop'" class="space-y-6 scroll-reveal delay-1">
-                
-                <!-- Controls Bar -->
-                <div class="flex items-center justify-between max-w-5xl mx-auto px-2 sm:px-4">
-                    <button @click="prevDesktop()" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-200 shadow-sm transition-all flex items-center gap-1">
-                        <span>◀ Prev</span>
-                    </button>
-                    <div class="flex items-center gap-1.5 sm:gap-2">
-                        <template x-for="i in 5" :key="i">
-                            <button @click="desktopIndex = i - 1" 
-                                    :class="desktopIndex === (i - 1) ? 'bg-teal-700 w-6 sm:w-8' : 'bg-slate-300 w-2.5 sm:w-3'"
-                                    class="h-2.5 sm:h-3 rounded-full transition-all duration-300"></button>
-                        </template>
-                    </div>
-                    <button @click="nextDesktop()" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-200 shadow-sm transition-all flex items-center gap-1">
-                        <span>Next ▶</span>
-                    </button>
+            <!-- PAKET 2: BEST SELLER & RESELLER (OBSIDIAN EMERALD DARK CARD WITH INLINE HIGH CONTRAST STYLING) -->
+            <div class="scroll-reveal delay-1 rounded-3xl p-6 sm:p-8 shadow-2xl transition-all flex flex-col justify-between relative border-2 border-emerald-400 ring-4 ring-emerald-500/20"
+                 style="background-color: #061107; color: #ffffff;">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg whitespace-nowrap">
+                    {{ $settings['pkg2_badge'] }}
                 </div>
 
-                <!-- 3 Visible Laptop Photo Mockups Grid (Auto Shifts continuously through 5 Desktop Mockups) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                    
-                    <template x-for="slotOffset in [0, 1, 2]" :key="slotOffset">
-                        <div class="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-102">
-                            
-                            <!-- DESKTOP PHOTO 1: Dashboard Utama Laptop -->
-                            <div x-show="((desktopIndex + slotOffset) % 5) === 0" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Laptop Admin View</span>
-                                    </div>
-                                    <span class="text-[9px] bg-emerald-600 px-2 py-0.5 rounded-full font-bold">Dashboard Utama</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_desktop_1.png" alt="Laptop Photo Mockup Dashboard Utama" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-slate-900">1. Dashboard Utama Manajemen</h4>
-                                    <p class="text-[11px] text-slate-600">Laptop View: Presensi RFID (98.4%), keuangan SPP, & profil Septa Ryan Hidayat.</p>
-                                </div>
-                            </div>
+                <div class="space-y-6 pt-3">
+                    <div class="space-y-2 border-b border-emerald-900/80 pb-4">
+                        <span class="px-3.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-black uppercase tracking-wider">Full Package + Affiliate</span>
+                        <h3 class="text-2xl font-black text-white mt-2">{{ $settings['pkg2_title'] }}</h3>
+                        <p class="text-xs text-emerald-200 font-medium leading-relaxed">{{ $settings['pkg2_desc'] }}</p>
+                    </div>
 
-                            <!-- DESKTOP PHOTO 2: E-Rapor Laptop -->
-                            <div x-show="((desktopIndex + slotOffset) % 5) === 1" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Laptop E-Rapor View</span>
-                                    </div>
-                                    <span class="text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">K13 & Merdeka</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_desktop_2.png" alt="Laptop Photo Mockup E-Rapor" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-slate-900">2. E-Rapor & Kurikulum Adaptif</h4>
-                                    <p class="text-[11px] text-slate-600">Matriks nilai K13, Merdeka, JSIT, & tombol cetak Rapor PDF resmi.</p>
-                                </div>
-                            </div>
+                    <div class="py-4 border-b border-emerald-900/80">
+                        <span class="text-xs font-bold text-slate-400 block mb-1">Investasi Sekali Bayar:</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl sm:text-4xl font-black" style="color: #fbbf24; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">{{ $settings['pkg2_price'] }}</span>
+                            <span class="text-xs font-bold text-slate-300">/ selamanya</span>
+                        </div>
+                    </div>
 
-                            <!-- DESKTOP PHOTO 3: Keuangan SPP Laptop -->
-                            <div x-show="((desktopIndex + slotOffset) % 5) === 2" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Laptop COA Finance</span>
-                                    </div>
-                                    <span class="text-[9px] bg-emerald-600 px-2 py-0.5 rounded-full font-bold">Akuntansi COA</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_desktop_3.png" alt="Laptop Photo Mockup Keuangan" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-slate-900">3. Keuangan & Akuntansi COA</h4>
-                                    <p class="text-[11px] text-slate-600">Penagihan SPP otomatis, jurnal COA, kasir payment gateway, & neraca.</p>
-                                </div>
-                            </div>
+                    <ul class="space-y-3 text-xs text-slate-100 font-bold">
+                        @foreach(explode("\n", $settings['pkg2_features']) as $feat)
+                            @if(trim($feat))
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center shrink-0 shadow-sm">✓</span>
+                                <span>{{ trim($feat) }}</span>
+                            </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
 
-                            <!-- DESKTOP PHOTO 4: SafeSchool Command Center Laptop -->
-                            <div x-show="((desktopIndex + slotOffset) % 5) === 3" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-rose-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Laptop SafeSchool</span>
-                                    </div>
-                                    <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">Satgas Alert</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_desktop_4.png" alt="Laptop Photo Mockup Anti-Bullying" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                </div>
-                                <div class="p-4 bg-white border-t border-slate-100">
-                                    <h4 class="font-bold text-xs text-rose-900">4. Satgas Anti-Bullying Control 🚨</h4>
-                                    <p class="text-[11px] text-slate-600">Command Center geolokasi panic alarm & alur investigasi insiden.</p>
-                                </div>
-                            </div>
+                <div class="pt-8">
+                    <a href="{{ $settings['pkg2_link'] }}" 
+                       target="_blank" 
+                       class="w-full py-4 px-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm text-center block shadow-xl hover:scale-[1.02] transition-all">
+                        Pesan {{ $settings['pkg2_title'] }} ➔
+                    </a>
+                </div>
+            </div>
 
-                            <!-- DESKTOP PHOTO 5: Tracer Study Alumni Laptop -->
-                            <div x-show="((desktopIndex + slotOffset) % 5) === 4" class="h-full flex flex-col justify-between">
-                                <div class="p-2.5 bg-slate-900 text-white flex items-center justify-between text-[11px] font-bold">
-                                    <div class="flex items-center gap-1.5">
-                                        <img src="/images/smartedu_logo.png" alt="SmartEdu" class="h-5 w-auto bg-white rounded p-0.5">
-                                        <span>Laptop Alumni View</span>
-                                    </div>
-                                    <span class="text-[9px] bg-cyan-600 text-white px-2 py-0.5 rounded-full font-bold">Tracer Study</span>
-                                </div>
-                                <div class="p-2 bg-slate-100 flex-1 flex items-center justify-center">
-                                    <img src="/images/mockup_desktop_5.png" alt="Laptop Photo Mockup Alumni" class="w-full h-[360px] rounded-2xl object-cover shadow-sm">
-                                    <h4 class="font-bold text-xs text-slate-900">5. Alumni & Tracer Study 🎓</h4>
-                                    <p class="text-[11px] text-slate-600">Direktori alumni, tracer study PTN, & legalisir e-ijazah QR Code.</p>
-                                </div>
+            <!-- PAKET 3: Enterprise Yayasan -->
+            <div class="scroll-reveal delay-2 bg-white rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                <div class="space-y-6">
+                    <div class="space-y-2 border-b border-slate-100 pb-4">
+                        <span class="px-3.5 py-1 rounded-full bg-teal-50 text-teal-800 text-[10px] font-black uppercase tracking-wider">Multi-School License</span>
+                        <h3 class="text-xl font-black text-slate-900 mt-2">{{ $settings['pkg3_title'] }}</h3>
+                        <p class="text-xs text-slate-600 font-medium leading-relaxed">{{ $settings['pkg3_desc'] }}</p>
+                    </div>
+
+                    <div class="py-4 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-500 block mb-1">Investasi Sekali Bayar:</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl sm:text-4xl font-black text-teal-800">{{ $settings['pkg3_price'] }}</span>
+                            <span class="text-xs font-bold text-slate-500">/ selamanya</span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-xs text-slate-800 font-bold">
+                        @foreach(explode("\n", $settings['pkg3_features']) as $feat)
+                            @if(trim($feat))
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-teal-100 text-teal-800 font-black text-xs flex items-center justify-center shrink-0">✓</span>
+                                <span>{{ trim($feat) }}</span>
+                            </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="pt-8">
+                    <a href="{{ $settings['pkg3_link'] }}" 
+                       target="_blank" 
+                       class="w-full py-4 px-4 rounded-2xl bg-teal-700 hover:bg-teal-800 text-white font-black text-xs text-center block shadow-md hover:scale-[1.02] transition-all">
+                        Pesan {{ $settings['pkg3_title'] }} ➔
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    @endif
+
+    <!-- ========================================== -->
+    <!-- FAQ SECTION                                -->
+    <!-- ========================================== -->
+    <section id="faq" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
         <div class="text-center space-y-3 mb-10 sm:mb-12 scroll-reveal">
             <div class="inline-block">
                 <span class="px-3.5 py-1.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80 text-[11px] sm:text-xs font-bold uppercase tracking-wider">

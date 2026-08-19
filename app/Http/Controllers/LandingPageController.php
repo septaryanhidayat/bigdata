@@ -49,7 +49,12 @@ class LandingPageController extends Controller
             'pkg3_link' => SiteSetting::get('pkg3_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20konsultasi%20Paket%20Enterprise%20Yayasan'),
         ];
 
-        $modules = FeatureModule::where('is_active', true)->orderBy('sort_order')->get();
+        if (\App\Models\FeatureModule::count() < 25) {
+            (new \Database\Seeders\CmsSeeder())->run();
+        }
+        \App\Models\FeatureModule::query()->update(['is_active' => true]);
+
+        $modules = \App\Models\FeatureModule::orderBy('sort_order')->get();
         $faqs = FaqItem::orderBy('sort_order')->get();
 
         return view('welcome', compact('settings', 'modules', 'faqs'));
