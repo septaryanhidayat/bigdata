@@ -536,5 +536,23 @@ class CmsSeeder extends Seeder
         foreach ($modules as $mod) {
             FeatureModule::create($mod);
         }
+
+        // Seed Unit Profiles from XML Backups (SMPIT, SDIT, TKIT, SMAIT)
+        $smpitData = json_decode(SiteSetting::get('unit_profile_smpit') ?: '{}', true) ?: [];
+        $smpitData['programs'] = [
+            ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
+            ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
+            ['title' => 'Program Unggulan Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.'],
+            ['title' => 'Bilingual & Public Speaking Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.']
+        ];
+        $smpitData['facilities'] = [
+            ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => '/uploads/media/smpit_post_IMG20241017130510-scaled_9f90cc01.jpg'],
+            ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca untuk menunjang pembelajaran dan kenyamanan pada saat proses pembelajaran siswa.', 'image' => '/uploads/media/smpit_post_WhatsApp-Image-2024-12-02-at-07_19__829cf6ca.jpeg'],
+            ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => '/uploads/media/smpit_post_WhatsApp-Image-2024-12-02-at-07_33__9d557901.jpeg'],
+            ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital anak.', 'image' => '/uploads/media/smpit_post_WhatsApp-Image-2024-12-03-at-10_49__3ee84d3e.jpeg'],
+            ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => '/uploads/media/smpit_post_IMG20250811095348-scaled_6c4155a3.jpg'],
+            ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri SMPIT.', 'image' => '/uploads/media/smpit_post_IMG20250827110303-scaled_7c511924.jpg']
+        ];
+        SiteSetting::set('unit_profile_smpit', json_encode($smpitData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }
