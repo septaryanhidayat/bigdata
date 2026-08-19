@@ -626,7 +626,7 @@
                     @php
                         $rawProgImg = $prog['image'] ?? '';
                         if (!empty($rawProgImg) && !str_contains($rawProgImg, 'mockup_desktop')) {
-                            $progImg = str_starts_with($rawProgImg, 'http') ? $rawProgImg : asset(ltrim($rawProgImg, '/'));
+                            $progImg = str_starts_with($rawProgImg, 'http') ? $rawProgImg : '/' . ltrim($rawProgImg, '/');
                         } else {
                             $progImg = null;
                         }
@@ -675,7 +675,7 @@
                     @php
                         $rawFacImg = $fac['image'] ?? '';
                         if (!empty($rawFacImg) && !str_contains($rawFacImg, 'mockup_desktop')) {
-                            $facImg = str_starts_with($rawFacImg, 'http') ? $rawFacImg : asset(ltrim($rawFacImg, '/'));
+                            $facImg = str_starts_with($rawFacImg, 'http') ? $rawFacImg : '/' . ltrim($rawFacImg, '/');
                         } else {
                             $facImg = null;
                         }
@@ -734,7 +734,7 @@
                     @php
                         $rawEkImg = $ek['image'] ?? '';
                         if (!empty($rawEkImg) && !str_contains($rawEkImg, 'mockup_desktop')) {
-                            $ekImg = str_starts_with($rawEkImg, 'http') ? $rawEkImg : asset(ltrim($rawEkImg, '/'));
+                            $ekImg = str_starts_with($rawEkImg, 'http') ? $rawEkImg : '/' . ltrim($rawEkImg, '/');
                         } else {
                             $ekImg = null;
                         }

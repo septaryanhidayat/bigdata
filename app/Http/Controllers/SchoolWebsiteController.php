@@ -501,15 +501,34 @@ class SchoolWebsiteController extends Controller
         // Merge custom setting if present
         $info = array_merge($defaultInfo, array_filter($customUnit ?? []));
 
-        if (empty($info['programs'])) {
-            $info['programs'] = $defaultInfo['programs'] ?? [];
+        foreach (['programs', 'facilities', 'ekskul'] as $key) {
+            $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : [];
+            $defaultItems = $defaultInfo[$key] ?? [];
+            if (empty($userItems)) {
+                $info[$key] = $defaultItems;
+                continue;
+            }
+            foreach ($userItems as $idx => &$uItem) {
+                if (empty($uItem['image']) || str_contains($uItem['image'], 'mockup_desktop')) {
+                    $matchedDefault = null;
+                    foreach ($defaultItems as $dItem) {
+                        if (strtolower(trim($dItem['title'] ?? '')) === strtolower(trim($uItem['title'] ?? ''))) {
+                            $matchedDefault = $dItem;
+                            break;
+                        }
+                    }
+                    if (!$matchedDefault && isset($defaultItems[$idx])) {
+                        $matchedDefault = $defaultItems[$idx];
+                    }
+                    if ($matchedDefault && !empty($matchedDefault['image'])) {
+                        $uItem['image'] = $matchedDefault['image'];
+                    }
+                }
+            }
+            unset($uItem);
+            $info[$key] = $userItems;
         }
-        if (empty($info['facilities'])) {
-            $info['facilities'] = $defaultInfo['facilities'] ?? [];
-        }
-        if (empty($info['ekskul'])) {
-            $info['ekskul'] = $defaultInfo['ekskul'] ?? [];
-        }
+
         if (empty($info['teachers'])) {
             $info['teachers'] = $defaultInfo['teachers'] ?? [];
         }
