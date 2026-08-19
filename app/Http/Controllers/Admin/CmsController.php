@@ -358,10 +358,193 @@ class CmsController extends Controller
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
+        $defaultInfo = $this->getUnitDefaultProfileData($cleanCode);
         $unitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
-        $unitData = $unitSetting ? json_decode($unitSetting, true) : [];
+        $savedData = $unitSetting ? json_decode($unitSetting, true) : [];
+
+        $unitData = array_merge($defaultInfo, array_filter($savedData ?: []));
+        if (empty($unitData['programs'])) $unitData['programs'] = $defaultInfo['programs'] ?? [];
+        if (empty($unitData['facilities'])) $unitData['facilities'] = $defaultInfo['facilities'] ?? [];
+        if (empty($unitData['ekskul'])) $unitData['ekskul'] = $defaultInfo['ekskul'] ?? [];
+        if (empty($unitData['teachers'])) $unitData['teachers'] = $defaultInfo['teachers'] ?? [];
 
         return view('admin.settings.unit_edit', compact('cleanCode', 'schoolObj', 'unitData'));
+    }
+
+    private function getUnitDefaultProfileData($cleanCode)
+    {
+        $cleanCode = strtolower(trim($cleanCode));
+        if ($cleanCode === 'kbtkit') $cleanCode = 'tkit';
+
+        $defaults = [
+            'tkit' => [
+                'name' => 'KB & TKIT Robbani Ogan Ilir',
+                'code' => 'TKIT',
+                'npsn' => '69888765',
+                'akreditasi' => 'Terakreditasi Unggul (A)',
+                'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
+                'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
+                'principal_title' => 'Kepala KB/TKIT Robbani',
+                'principal_photo' => '/uploads/media/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di KB/TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an melalui suasana bermain yang edukatif dan menggembirakan.',
+                'description' => 'Kelompok Bermain & Taman Kanak-Kanak Islam Terpadu Terakreditasi A di Ogan Ilir. Membina fitrah anak sejak dini dengan pendekatan sentra, pembiasaan hafalan surat-surat pendek Juz 30, doa harian, kemandirian, dan stimulasi motorik terpadu.',
+                'vision' => 'Menjadi Lembaga PAUD Islam Terpadu Unggulan dalam Membentuk Karakter Anak Sholeh, Ceria, dan Berakhlak Qur\'ani.',
+                'missions' => [
+                    'Menanamkan aqidah yang lurus dan pembiasaan ibadah harian sejak usia dini.',
+                    'Membimbing hafalan Al-Qur\'an Juz 30 dengan metode nasyid yang menyenangkan.',
+                    'Mengembangkan potensi kecerdasan majemuk (multiple intelligences) dan motorik anak melalui bermain berbasis sentra.',
+                    'Membangun sinergi harmonis antara sekolah dan keluarga dalam mendampingi tumbuh kembang ananda.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 120,
+                'employees_count' => 14,
+                'classrooms_count' => 6,
+                'target_hafalan' => 'Juz 30 (Surah Pendek)',
+                'programs' => [
+                    ['title' => 'Tahfidz Juz 30 Cilik', 'icon' => '📖', 'desc' => 'Metode hafalan Al-Qur\'an nada nasyid yang menyenangkan khusus anak usia 3-6 tahun.'],
+                    ['title' => 'Adab & Doa Harian', 'icon' => '🤲', 'desc' => 'Pembiasaan sholat dhuha berjamaah, doa harian, dan adab islami harian.'],
+                    ['title' => 'Sentra Edukatif & Motorik', 'icon' => '🎨', 'desc' => 'Eksplorasi sensorik, seni lukis, balok konstruksi, dan permainan ketangkasan fisik.'],
+                    ['title' => 'Bilingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
+                ],
+                'facilities' => [
+                    ['title' => 'Loker di Setiap Kelas', 'badge' => 'Kemandirian Anak', 'icon' => '🎒', 'desc' => 'Setiap anak mempunyai loker pribadi masing-masing di kelasnya.', 'image' => '/uploads/media/tkit_post_Loker-scaled_a03171c9.jpeg'],
+                    ['title' => 'Permainan Outdoor', 'badge' => 'Motorik Kasar', 'icon' => '🛝', 'desc' => 'Tempat Permainan Outdoor yang nyaman, bersih dan dilengkapi oleh CCTV.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-04-at-09_52__03a061e9.jpeg'],
+                    ['title' => 'Tempat Wudhu Anti-Slip', 'badge' => 'Pembiasaan Ibadah', 'icon' => '💧', 'desc' => 'Tempat wudhu yang bersih dan alas lantai anti slip dan dilengkapi dengan CCTV.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_00__9f198ecf.jpeg'],
+                    ['title' => 'Teras Bersih & CCTV', 'badge' => 'Area Bermain', 'icon' => '🌿', 'desc' => 'Teras yang bersih dan dilengkapi CCTV, tempat anak main diluar ruangan yang nyaman.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_07__c2bf2e5f.jpeg']
+                ],
+                'ekskul' => [
+                    ['title' => 'Seni Melukis & Mewarnai', 'badge' => 'Kreativitas', 'icon' => '🎨', 'desc' => 'Melatih imajinasi dan ketrampilan motorik halus anak.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Nasyid & Hafalan Cilik', 'badge' => 'Seni Islami', 'icon' => '🎵', 'desc' => 'Melatih artikulasi suara dan daya ingat hafalan.', 'image' => '/images/mockup_desktop_3.png']
+                ]
+            ],
+            'sdit' => [
+                'name' => 'SDIT Robbani Ogan Ilir',
+                'code' => 'SDIT',
+                'npsn' => '69985678',
+                'akreditasi' => 'Terakreditasi B',
+                'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
+                'principal_name' => 'Nur Amalia, S.Pd',
+                'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
+                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional Terintegrasi Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
+                'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
+                'missions' => [
+                    'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.',
+                    'Menerapkan Kurikulum Merdeka Terintegrasi Kekhasan JSIT dan pembiasaan ibadah harian.',
+                    'Mengembangkan minat bakat siswa dalam bidang sains, koding digital, seni, dan kepanduan.',
+                    'Membangun karakter islami melalaui mentoring kelompok kecil dan budaya ramah anak.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 450,
+                'employees_count' => 28,
+                'classrooms_count' => 16,
+                'target_hafalan' => '3 - 5 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz Mutqin', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
+                    ['title' => 'Bina Pribadi Islam (BPI) & Adab Karimah', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah lurus, pembiasaan ibadah harian, dan kepemimpinan.'],
+                    ['title' => 'Koding Cilik & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar, robotik sederhana, dan laboratorium eksperimen sains.'],
+                    ['title' => 'Pramuka SIT & Archery (Panahan)', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, ketangkasan fisik outdoor, dan ekskul renang.']
+                ],
+                'facilities' => [
+                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang.', 'image' => '/uploads/media/fasilitas_sd_img-20250117-wa0010-scaled_4afcf92f.jpg'],
+                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin.', 'image' => '/uploads/media/fasilitas_sd_ruang-kls_a2b54fd4.jpg'],
+                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik.', 'image' => '/uploads/media/fasilitas_sd_saung_f3942ec8.jpg'],
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event.', 'image' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg'],
+                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka.', 'image' => '/uploads/media/fasilitas_sd_img-20241105-110318-scaled_531016d4.jpg']
+                ],
+                'ekskul' => [
+                    ['title' => 'Pramuka SIT', 'badge' => 'Kepanduan', 'icon' => '⛺', 'desc' => 'Kegiatan perkemahan dan kedisiplinan siswa.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus dan konsentrasi ketepatan sasaran.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Klub Renang SDIT', 'badge' => 'Olahraga Air', 'icon' => '🏊', 'desc' => 'Latihan ketahanan fisik di kolam renang sekolah.', 'image' => '/images/mockup_desktop_3.png']
+                ]
+            ],
+            'smpit' => [
+                'name' => 'SMP IT ROBBANI',
+                'code' => 'SMPIT',
+                'npsn' => '69989012',
+                'akreditasi' => 'Terakreditasi B',
+                'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
+                'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
+                'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
+                'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
+                'missions' => [
+                    'Membentuk Peserta Didik yang cerdas, kreatif dan terpuji berdasarkan nilai Islam dan pendidikan Karakter',
+                    'Membentuk Guru dan Tenaga Kependidikan yang handal dan Profesional',
+                    'Menjadi lembaga Pendidikan yang Kokoh dan terkelola secara Optimal',
+                    'Membangun kerjasama dengan orang tua Peserta Didik, masyarakat dan stake holder lainnya'
+                ],
+                'phone' => '085377193977',
+                'students_count' => 280,
+                'employees_count' => 12,
+                'classrooms_count' => 10,
+                'target_hafalan' => '5 - 10 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
+                    ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
+                    ['title' => 'Program Unggulan Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.'],
+                    ['title' => 'Bilingual & Public Speaking Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.']
+                ],
+                'facilities' => [
+                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => '/uploads/media/smpit_post_IMG20241017130510-scaled_9f90cc01.jpg'],
+                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca untuk menunjang pembelajaran dan kenyamanan pada saat proses pembelajaran siswa.', 'image' => '/uploads/media/smpit_post_WhatsApp-Image-2024-12-02-at-07_19__829cf6ca.jpeg'],
+                    ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => '/uploads/media/smpit_post_WhatsApp-Image-2024-12-02-at-07_33__9d557901.jpeg'],
+                    ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital anak.', 'image' => '/uploads/media/smpit_post_WhatsApp-Image-2024-12-03-at-10_49__3ee84d3e.jpeg'],
+                    ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => '/uploads/media/smpit_post_IMG20250811095348-scaled_6c4155a3.jpg'],
+                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri SMPIT.', 'image' => '/uploads/media/smpit_post_IMG20250827110303-scaled_7c511924.jpg']
+                ],
+                'ekskul' => [
+                    ['title' => 'Pembinaan OSN Sains & Math', 'badge' => 'Akademik Olimpic', 'icon' => '🔬', 'desc' => 'Persiapan olimpiade sains nasional bidang IPA, Matematika, dan IPS.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Klub Futsal & Basket SMPIT', 'badge' => 'Olahraga Prestasi', 'icon' => '⚽', 'desc' => 'Latihan dan turnamen olahraga fisik santri.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Latihan olahraga ketangkasan dan fokus memanah.', 'image' => '/images/mockup_desktop_3.png'],
+                    ['title' => 'Coding & Digital Art', 'badge' => 'Keterampilan Digital', 'icon' => '💻', 'desc' => 'Eksplorasi desain grafis digital dan dasar pemograman.', 'image' => '/images/mockup_desktop_4.png']
+                ]
+            ],
+            'smait' => [
+                'name' => 'SMAIT Robbani Ogan Ilir',
+                'code' => 'SMAIT',
+                'npsn' => '69989567',
+                'akreditasi' => 'Terakreditasi A',
+                'tagline' => 'Membangun Pemimpin Masa Depan, Huffazh Al-Qur\'an, & Lolos PTN Favorit',
+                'principal_name' => 'Ustadz Fauzi, M.Pd',
+                'principal_title' => 'Kepala Sekolah SMAIT Robbani',
+                'principal_photo' => '/images/mockup_mobile_1.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SMAIT Robbani. Tempat menempa kepemimpinan, kelanjutan hafalan Al-Qur\'an mutqin, serta bimbingan belajar intensif menuju Perguruan Tinggi Negeri unggulan.',
+                'description' => 'Sekolah Menengah Atas Islam Terpadu berakreditasi A di Ogan Ilir. Memadukan bimbingan lulus PTN/Kedinasan, Tahfidz 10-30 Juz, Karya Tulis Ilmiah, & Leadership.',
+                'vision' => 'Menjadi SMAIT Unggulan Nasional dalam Melahirkan Pemimpin Muda Rabbani, Cerdas Berilmu, dan Berwawasan Global.',
+                'missions' => [
+                    'Menyelenggarakan pembelajaran SMA terintegrasi persiapan UTBK SNBT & PTN Favorit.',
+                    'Membimbing program Tahfidz Al-Qur\'an hingga 10-30 Juz dan pengambilan ijazah sanad.',
+                    'Mengembangkan kemampuan karya ilmiah remaja, debat 3 bahasa, dan kepemimpinan OSIS.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 180,
+                'employees_count' => 18,
+                'classrooms_count' => 8,
+                'target_hafalan' => '10 - 30 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'Bimbingan Intensif PTN & Beasiswa', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan jurusan, dan pendampingan lolos PTN Favorit (UI, ITB, UGM, UNSRI).'],
+                    ['title' => 'Tahfidz 10-30 Juz & Ijazah Sanad', 'icon' => '📜', 'desc' => 'Program khusus huffazh Al-Qur\'an dengan target hafalan mutqin dan ijazah sanad.'],
+                    ['title' => 'Riset Sains & Technology Project', 'icon' => '🧪', 'desc' => 'Penelitian ilmiah remaja (KIR), karya tulis ilmiah, dan proyek inovasi koding.'],
+                    ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
+                ],
+                'facilities' => [
+                    ['title' => 'Laboratorium Komputer & Coding', 'badge' => 'Laboratorium Digital', 'icon' => '💻', 'desc' => 'Fasilitas komputer berspesifikasi tinggi untuk simulasi UTBK, koding, dan karya digital.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Laboratorium Sains Terpadu', 'badge' => 'Riset & Eksperimen', 'icon' => '🔬', 'desc' => 'Ruang praktikum Kimia, Fisika, dan Biologi lengkap untuk persiapan Olimpiade Sains.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Perpustakaan Digital & Riset', 'badge' => 'Pusat Belajar', 'icon' => '📚', 'desc' => 'Akses e-book internasional, jurnal sains, serta area riset privat seleksi PTN.', 'image' => '/images/mockup_desktop_3.png'],
+                    ['title' => 'Ruang Kelas Multimedia Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '🏫', 'desc' => 'Ruang kelas modern ber-AC dilengkapi proyektor smart board & internet cepat.', 'image' => '/images/mockup_desktop_4.png']
+                ],
+                'ekskul' => [
+                    ['title' => 'Klub UTBK & SNBT', 'badge' => 'Persiapan PTN', 'icon' => '📚', 'desc' => 'Bimbingan soal-soal penalaran umum dan kuantitatif.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Karya Ilmiah Remaja (KIR)', 'badge' => 'Riset Ilmiah', 'icon' => '🧪', 'desc' => 'Penelitian sains dan karya tulis ilmiah.', 'image' => '/images/mockup_desktop_2.png']
+                ]
+            ]
+        ];
+
+        return $defaults[$cleanCode] ?? $defaults['smpit'];
     }
 
     public function updateUnitProfile(Request $request, $code)
