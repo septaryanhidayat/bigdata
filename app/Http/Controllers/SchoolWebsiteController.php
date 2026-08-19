@@ -606,29 +606,43 @@ class SchoolWebsiteController extends Controller
             }, $globalVideos);
         }
 
-        // Unit Agendas: fallback to global agendas if empty
-        $unitAgendas = $info['agenda'] ?? [];
+        // Unit Agendas & Announcements loaded from XML backup files
+        $xmlData = $this->getXmlUnitEventsAndAnnouncements($cleanCode);
+        
+        $unitAgendas = !empty($info['agenda']) ? $info['agenda'] : $xmlData['agenda'];
         if (empty($unitAgendas)) {
             $allAgendas = $this->getAgendaData();
             $unitAgendas = array_map(function($ag) {
                 return [
                     'title' => $ag['title'],
+                    'date_day' => $ag['date_day'] ?? '25',
+                    'date_month' => $ag['date_month'] ?? 'AGU',
                     'date' => ($ag['date_day'] ?? '25') . ' ' . ($ag['date_month'] ?? 'AGU') . ' ' . ($ag['year'] ?? '2026'),
                     'time' => $ag['time'] ?? '08:00 WIB',
                     'location' => $ag['location'] ?? 'Kampus SIT Robbani',
                     'desc' => $ag['category'] ?? 'Kegiatan Terjadwal Unit'
                 ];
             }, $allAgendas);
+        } else {
+            foreach ($unitAgendas as &$agItem) {
+                if (empty($agItem['date_day'])) {
+                    $agItem['date_day'] = '15';
+                }
+                if (empty($agItem['date_month'])) {
+                    $agItem['date_month'] = 'AGU';
+                }
+            }
+            unset($agItem);
         }
 
-        // Unit Announcements: fallback to global announcements if empty
-        $unitAnnouncements = $info['announcements'] ?? [];
+        $unitAnnouncements = !empty($info['announcements']) ? $info['announcements'] : $xmlData['announcements'];
         if (empty($unitAnnouncements)) {
             $allAnnouncements = $this->getAnnouncementData();
             $unitAnnouncements = array_map(function($an) {
                 return [
                     'title' => $an['title'],
                     'date' => $an['date'] ?? '17 Agustus 2026',
+                    'category' => $an['category'] ?? 'Pengumuman Resmi',
                     'summary' => $an['summary'] ?? '',
                     'link' => $an['link'] ?? route('school.berita')
                 ];
@@ -1662,5 +1676,105 @@ class SchoolWebsiteController extends Controller
                 'answer' => "Assalamu'alaikum! Terima kasih telah bertanya. SIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nSilakan kunjungi menu **Pendaftaran SPMB** (`/ppdb`) atau hubungi WhatsApp Hotline Admin di **0811747472**."
             ]);
         }
+    }
+
+    /**
+     * Dynamically parse XML backup files to extract Unit Agendas and Announcements
+     */
+    private function getXmlUnitEventsAndAnnouncements($code)
+    {
+        $cleanCode = strtolower($code);
+        if ($cleanCode === 'kbtkit') $cleanCode = 'tkit';
+        
+        $xmlMap = [
+            'sdit' => public_path('uploads/xml/sdislamterpadurobbani.WordPress.2026-08-17.xml'),
+            'smpit' => public_path('uploads/xml/smpitrobbani.WordPress.2026-08-17.xml'),
+            'tkit' => public_path('uploads/xml/tkitrobbani.WordPress.2026-08-17.xml'),
+            'sit' => public_path('uploads/xml/sitrobbani.WordPress.2026-08-16.xml'),
+        ];
+        
+        $filePath = $xmlMap[$cleanCode] ?? $xmlMap['sdit'];
+        if (!file_exists($filePath)) {
+            $filePath = $xmlMap['sit'];
+        }
+        
+        $monthNamesIndo = [
+            '01' => 'JAN', '02' => 'FEB', '03' => 'MAR', '04' => 'APR', '05' => 'MEI', '06' => 'JUN',
+            '07' => 'JUL', '08' => 'AGU', '09' => 'SEP', '10' => 'OKT', '11' => 'NOV', '12' => 'DES'
+        ];
+        $monthNamesFull = [
+            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+            '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+        ];
+
+        $agendas = [];
+        $announcements = [];
+        
+        if (file_exists($filePath)) {
+            $xml = @simplexml_load_file($filePath);
+            if ($xml) {
+                $ns = $xml->getNamespaces(true);
+                foreach ($xml->channel->item as $item) {
+                    $wp = $item->children($ns['wp'] ?? []);
+                    if (!$wp) continue;
+                    $status = (string)$wp->status;
+                    if ($status !== 'publish') continue;
+                    
+                    $postType = (string)$wp->post_type;
+                    $title = (string)$item->title;
+                    $content = strip_tags((string)($item->children($ns['content'] ?? [])->encoded ?? ''));
+                    $postDate = (string)$wp->post_date;
+                    
+                    $cats = [];
+                    foreach ($item->category as $cat) {
+                        $cats[] = strtolower((string)$cat);
+                    }
+                    $catStr = implode(' ', $cats);
+                    
+                    $year = substr($postDate, 0, 4);
+                    $month = substr($postDate, 5, 2);
+                    $day = substr($postDate, 8, 2);
+                    
+                    $dateDay = $day ? sprintf('%02d', intval($day)) : '15';
+                    $dateMonth = $monthNamesIndo[$month] ?? 'AGU';
+                    $fullFormattedDate = ($day ? intval($day) . ' ' : '') . ($monthNamesFull[$month] ?? 'Agustus') . ' ' . ($year ?: '2026');
+                    
+                    if ($postType === 'agenda' || $postType === 'event' || str_contains($catStr, 'agenda') || str_contains($catStr, 'kegiatan') || str_contains(strtolower($title), 'agenda')) {
+                        $agendas[] = [
+                            'title' => $title,
+                            'date_day' => $dateDay,
+                            'date_month' => $dateMonth,
+                            'date' => $fullFormattedDate,
+                            'time' => '08:00 WIB - Selesai',
+                            'location' => 'Kampus SIT Robbani',
+                            'desc' => mb_strimwidth(trim(preg_replace('/\s+/', ' ', $content)), 0, 140, '...'),
+                            'category' => 'Agenda Unit',
+                        ];
+                    }
+                    
+                    if ($postType === 'pengumuman' || str_contains($catStr, 'pengumuman') || str_contains($catStr, 'info') || str_contains(strtolower($title), 'pengumuman')) {
+                        $announcements[] = [
+                            'title' => $title,
+                            'date' => $fullFormattedDate,
+                            'category' => 'Pengumuman Resmi',
+                            'summary' => mb_strimwidth(trim(preg_replace('/\s+/', ' ', $content)), 0, 160, '...'),
+                            'link' => '#',
+                        ];
+                    }
+                }
+            }
+        }
+
+        // If agendas or announcements empty for unit, pull fallback from SIT main XML
+        if (empty($agendas) && file_exists($xmlMap['sit'])) {
+            $sitData = $this->getXmlUnitEventsAndAnnouncements('sit');
+            $agendas = array_slice($sitData['agenda'], 0, 5);
+        }
+        if (empty($announcements) && file_exists($xmlMap['sit'])) {
+            $sitData = isset($sitData) ? $sitData : $this->getXmlUnitEventsAndAnnouncements('sit');
+            $announcements = array_slice($sitData['announcements'], 0, 4);
+        }
+
+        return ['agenda' => $agendas, 'announcements' => $announcements];
     }
 }

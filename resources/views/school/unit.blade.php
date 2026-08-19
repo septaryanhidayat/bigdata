@@ -796,7 +796,86 @@
 
             </div>
         </section>
-        @endif
+        <!-- 9.5. AGENDA & PENGUMUMAN UNIT (BERDAMPINGAN KIRI & KANAN) -->
+        <section id="agenda-pengumuman" class="reveal-fade-up px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start">
+                    
+                    <!-- Left Column: Pengumuman Unit -->
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-end border-b border-slate-200 dark:border-[#1a381c] pb-3">
+                            <div>
+                                <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-orange-100 dark:bg-[#c6f634] text-orange-900 dark:text-[#061107] text-[10px] font-black uppercase tracking-wider shadow-sm mb-1.5">
+                                    PENGUMUMAN RESMI
+                                </span>
+                                <h2 class="text-xl sm:text-2xl font-black font-headline text-slate-900 dark:text-white">Pengumuman {{ $info['code'] }}</h2>
+                            </div>
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400">Informasi Terkini</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            @foreach(array_slice($unitAnnouncements, 0, 4) as $ann)
+                            <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all space-y-2.5 group">
+                                <div class="flex justify-between items-center">
+                                    <span class="bg-orange-100 dark:bg-[#c6f634]/20 text-orange-700 dark:text-[#c6f634] border border-orange-200 dark:border-[#c6f634]/30 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                                        {{ $ann['category'] ?? 'Pengumuman' }}
+                                    </span>
+                                    <span class="text-[11px] text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[13px] text-emerald-600 dark:text-[#c6f634]">calendar_today</span>
+                                        {{ $ann['date'] ?? '' }}
+                                    </span>
+                                </div>
+                                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">
+                                    {{ $ann['title'] }}
+                                </h3>
+                                @if(!empty($ann['summary']))
+                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 font-medium">
+                                    {{ $ann['summary'] }}
+                                </p>
+                                @endif
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Agenda Unit -->
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-end border-b border-slate-200 dark:border-[#1a381c] pb-3">
+                            <div>
+                                <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-emerald-900 dark:text-[#061107] text-[10px] font-black uppercase tracking-wider shadow-sm mb-1.5">
+                                    JADWAL &amp; KALENDER
+                                </span>
+                                <h2 class="text-xl sm:text-2xl font-black font-headline text-slate-900 dark:text-white">Agenda Kegiatan {{ $info['code'] }}</h2>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-700 dark:text-[#c6f634]">TA 2026/2027</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            @foreach(array_slice($unitAgendas, 0, 5) as $ag)
+                            <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-4 sm:p-5 shadow-sm flex gap-4 items-center hover:shadow-md hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group">
+                                <div class="flex flex-col items-center justify-center bg-emerald-700 dark:bg-[#c6f634] text-white dark:text-[#061107] w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shrink-0 font-black shadow-md group-hover:scale-105 transition-transform">
+                                    <span class="text-base sm:text-lg leading-none font-headline">{{ $ag['date_day'] ?? '15' }}</span>
+                                    <span class="text-[9px] sm:text-[10px] uppercase tracking-wider leading-none mt-1 font-black">{{ $ag['date_month'] ?? 'AGU' }}</span>
+                                </div>
+                                <div class="flex-grow space-y-1 min-w-0">
+                                    <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-snug truncate group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">
+                                        {{ $ag['title'] }}
+                                    </h3>
+                                    <div class="flex flex-wrap gap-2 sm:gap-3 text-[11px] text-slate-500 dark:text-slate-300 font-medium">
+                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-emerald-600 dark:text-[#c6f634]">schedule</span> {{ $ag['time'] ?? '08:00 WIB' }}</span>
+                                        <span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[13px] text-emerald-600 dark:text-[#c6f634]">location_on</span> {{ $ag['location'] ?? 'Kampus SIT Robbani' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
 
         <!-- 10. DEWAN GURU & TENAGA PENDIDIK (GTK) (FORMAT FOTO KOTAK 3:4 RAPI & SERAGAM) -->
         <section id="guru" class="reveal-fade-up px-4 sm:px-6">
