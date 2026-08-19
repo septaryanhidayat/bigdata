@@ -621,14 +621,21 @@ class CmsController extends Controller
         $facilitiesInput = $request->input('facilities', []);
         $processedFacilities = [];
         if (is_array($facilitiesInput)) {
-            foreach ($facilitiesInput as $f) {
+            foreach ($facilitiesInput as $idx => $f) {
                 if (empty($f['title'])) continue;
+                $fImg = !empty($f['image']) ? trim($f['image']) : ($exData['facilities'][$idx]['image'] ?? '/images/mockup_desktop_1.png');
+                if ($request->hasFile("facility_photo_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("facility_photo_{$idx}"), 'uploads/cms', 'fasilitas_' . $cleanCode . '_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $fImg = $comp . '?v=' . time();
+                    }
+                }
                 $processedFacilities[] = [
                     'title' => trim($f['title']),
                     'badge' => trim($f['badge'] ?? 'Fasilitas Unit'),
                     'icon' => trim($f['icon'] ?? '🏫'),
                     'desc' => trim($f['desc'] ?? ''),
-                    'image' => trim($f['image'] ?? '/images/mockup_desktop_1.png'),
+                    'image' => $fImg,
                 ];
             }
         }
@@ -638,14 +645,21 @@ class CmsController extends Controller
         $ekskulInput = $request->input('ekskul', []);
         $processedEkskul = [];
         if (is_array($ekskulInput)) {
-            foreach ($ekskulInput as $e) {
+            foreach ($ekskulInput as $idx => $e) {
                 if (empty($e['title'])) continue;
+                $eImg = !empty($e['image']) ? trim($e['image']) : ($exData['ekskul'][$idx]['image'] ?? '/images/mockup_desktop_2.png');
+                if ($request->hasFile("ekskul_photo_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("ekskul_photo_{$idx}"), 'uploads/cms', 'ekskul_' . $cleanCode . '_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $eImg = $comp . '?v=' . time();
+                    }
+                }
                 $processedEkskul[] = [
                     'title' => trim($e['title']),
                     'badge' => trim($e['badge'] ?? 'Ekstrakurikuler'),
                     'icon' => trim($e['icon'] ?? '⭐'),
                     'desc' => trim($e['desc'] ?? ''),
-                    'image' => trim($e['image'] ?? '/images/mockup_desktop_2.png'),
+                    'image' => $eImg,
                 ];
             }
         }

@@ -301,6 +301,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <template x-for="(fac, index) in facilities" :key="index">
                     <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+                        <input type="hidden" :name="'facilities[' + index + '][image]'" x-model="fac.image">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-black text-slate-800" x-text="'Fasilitas #' + (index + 1)"></span>
                             <button type="button" @click="removeFacility(index)" class="text-xs text-rose-600 font-bold">🗑️ Hapus</button>
@@ -311,6 +312,16 @@
                         </div>
                         <input type="text" :name="'facilities[' + index + '][title]'" x-model="fac.title" placeholder="Nama Fasilitas (Ruang Kelas AC)" class="w-full text-xs font-black rounded-xl border-slate-300">
                         <textarea :name="'facilities[' + index + '][desc]'" x-model="fac.desc" rows="2" placeholder="Deskripsi fasilitas..." class="w-full text-xs font-medium rounded-xl border-slate-300"></textarea>
+                        
+                        <div class="pt-1">
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Foto Fasilitas (Upload Baru / Tetap Gunakan Foto Saat Ini)</label>
+                            <div class="flex items-center gap-2">
+                                <template x-if="fac.image">
+                                    <img :src="fac.image" class="w-12 h-10 rounded-lg object-cover border border-slate-300 shrink-0">
+                                </template>
+                                <input type="file" :name="'facility_photo_' + index" accept="image/*" class="w-full text-[10px] text-slate-600 border border-slate-300 rounded-xl p-1 bg-slate-50">
+                            </div>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -333,6 +344,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <template x-for="(eks, index) in ekskul" :key="index">
                     <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+                        <input type="hidden" :name="'ekskul[' + index + '][image]'" x-model="eks.image">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-black text-slate-800" x-text="'Ekskul #' + (index + 1)"></span>
                             <button type="button" @click="removeEkskul(index)" class="text-xs text-rose-600 font-bold">🗑️ Hapus</button>
@@ -343,6 +355,16 @@
                         </div>
                         <input type="text" :name="'ekskul[' + index + '][title]'" x-model="eks.title" placeholder="Nama Ekskul (Memanah / Archery)" class="w-full text-xs font-black rounded-xl border-slate-300">
                         <textarea :name="'ekskul[' + index + '][desc]'" x-model="eks.desc" rows="2" placeholder="Deskripsi ekskul..." class="w-full text-xs font-medium rounded-xl border-slate-300"></textarea>
+                        
+                        <div class="pt-1">
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Foto Kegiatan / Ekskul (Upload Baru / Tetap Gunakan Foto Saat Ini)</label>
+                            <div class="flex items-center gap-2">
+                                <template x-if="eks.image">
+                                    <img :src="eks.image" class="w-12 h-10 rounded-lg object-cover border border-slate-300 shrink-0">
+                                </template>
+                                <input type="file" :name="'ekskul_photo_' + index" accept="image/*" class="w-full text-[10px] text-slate-600 border border-slate-300 rounded-xl p-1 bg-slate-50">
+                            </div>
+                        </div>
                     </div>
                 </template>
             </div>
