@@ -447,16 +447,19 @@ class CmsController extends Controller
                     ['title' => 'Pramuka SIT & Archery (Panahan)', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, ketangkasan fisik outdoor, dan ekskul renang.']
                 ],
                 'facilities' => [
-                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang.', 'image' => '/uploads/media/fasilitas_sd_img-20250117-wa0010-scaled_4afcf92f.jpg'],
-                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin.', 'image' => '/uploads/media/fasilitas_sd_ruang-kls_a2b54fd4.jpg'],
-                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik.', 'image' => '/uploads/media/fasilitas_sd_saung_f3942ec8.jpg'],
-                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event.', 'image' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg'],
-                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka.', 'image' => '/uploads/media/fasilitas_sd_img-20241105-110318-scaled_531016d4.jpg']
+                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang.', 'image' => '/images/facilities/kolam_renang_sdit.jpg'],
+                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin.', 'image' => '/images/facilities/ruang_kelas_sdit.jpg'],
+                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik.', 'image' => '/images/facilities/mushola_sdit.jpg'],
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event.', 'image' => '/images/facilities/aula_sdit.jpg'],
+                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka.', 'image' => '/images/facilities/lapangan_sdit.jpg']
                 ],
                 'ekskul' => [
-                    ['title' => 'Pramuka SIT', 'badge' => 'Kepanduan', 'icon' => '⛺', 'desc' => 'Kegiatan perkemahan dan kedisiplinan siswa.', 'image' => '/images/mockup_desktop_1.png'],
-                    ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus dan konsentrasi ketepatan sasaran.', 'image' => '/images/mockup_desktop_2.png'],
-                    ['title' => 'Klub Renang SDIT', 'badge' => 'Olahraga Air', 'icon' => '🏊', 'desc' => 'Latihan ketahanan fisik di kolam renang sekolah.', 'image' => '/images/mockup_desktop_3.png']
+                    ['title' => 'Ekskul Futsal SDIT', 'badge' => 'Olahraga Tim', 'icon' => '⚽', 'desc' => 'Pengembangan bakat olahraga futsal, kekompakan tim, dan ketangkasan fisik siswa SDIT.', 'image' => '/images/ekskul/sd_futsal.webp'],
+                    ['title' => 'Ekskul Memanah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus, konsentrasi, ketenangan emosi, dan kedisiplinan diri sejak dini.', 'image' => '/images/ekskul/sd_panahan.webp'],
+                    ['title' => 'Ekskul Coding Digital Cilik', 'badge' => 'Teknologi & IT', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar dan pemikiran komputasi untuk siswa SDIT.', 'image' => '/images/ekskul/sd_coding.webp'],
+                    ['title' => 'Ekskul Seni Tari Tradisional', 'badge' => 'Seni Budaya', 'icon' => '💃', 'desc' => 'Pelatihan seni tari kreasi islami dan apresiasi budaya nusantara.', 'image' => '/images/ekskul/sd_seni.webp'],
+                    ['title' => 'Life Skill Bulu Tangkis', 'badge' => 'Olahraga Kebugaran', 'icon' => '🏸', 'desc' => 'Latihan ketangkasan refleksi, kelincahan, dan kebugaran jasmani santri.', 'image' => '/images/ekskul/bulu_tangkis.webp'],
+                    ['title' => 'Life Skill Tahfidz Intensive', 'badge' => 'Al-Qur\'an', 'icon' => '📖', 'desc' => 'Halaqoh pendalaman hafalan Al-Qur\'an dengan bimbingan metode talaqqi.', 'image' => '/images/ekskul/tahfidz.webp']
                 ]
             ],
             'smpit' => [
@@ -497,10 +500,14 @@ class CmsController extends Controller
                     ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri SMPIT.', 'image' => '/images/facilities/lapangan_smpit.jpg']
                 ],
                 'ekskul' => [
-                    ['title' => 'Pembinaan OSN Sains & Math', 'badge' => 'Akademik Olimpic', 'icon' => '🔬', 'desc' => 'Persiapan olimpiade sains nasional bidang IPA, Matematika, dan IPS.', 'image' => '/images/mockup_desktop_1.png'],
-                    ['title' => 'Klub Futsal & Basket SMPIT', 'badge' => 'Olahraga Prestasi', 'icon' => '⚽', 'desc' => 'Latihan dan turnamen olahraga fisik santri.', 'image' => '/images/mockup_desktop_2.png'],
-                    ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Latihan olahraga ketangkasan dan fokus memanah.', 'image' => '/images/mockup_desktop_3.png'],
-                    ['title' => 'Coding & Digital Art', 'badge' => 'Keterampilan Digital', 'icon' => '💻', 'desc' => 'Eksplorasi desain grafis digital dan dasar pemograman.', 'image' => '/images/mockup_desktop_4.png']
+                    ['title' => 'Futsal SMPIT Robbani', 'badge' => 'Olahraga Tim', 'icon' => '⚽', 'desc' => 'Wadah bagi santri SMPIT Robbani mengembangkan bakat olahraga futsal, ketangkasan fisik, dan kerja sama tim.', 'image' => '/images/ekskul/futsal.webp'],
+                    ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus, ketenangan emosi, ketepatan sasaran, dan kedisiplinan santri.', 'image' => '/images/ekskul/panahan.webp'],
+                    ['title' => 'Coding & Keterampilan Digital', 'badge' => 'Teknologi & IT', 'icon' => '💻', 'desc' => 'Wadah santri menguasai logika pemograman dasar, pembuatan website, dan teknologi masa depan.', 'image' => '/images/ekskul/coding.webp'],
+                    ['title' => 'Seni Tari Kreasi Islami', 'badge' => 'Seni Budaya', 'icon' => '💃', 'desc' => 'Mengembangkan minat bakat santri dibidang seni tari kreasi bernuansa islami dan seni nusantara.', 'image' => '/images/ekskul/seni_tari.webp'],
+                    ['title' => 'Public Speaking & Leadership', 'badge' => 'Komunikasi & Bahasa', 'icon' => '🎙️', 'desc' => 'Menggali dan mengembangkan potensi kepemimpinan serta orator publik dalam berbagai forum santri.', 'image' => '/images/ekskul/public_speaking.webp'],
+                    ['title' => 'English Club SMPIT', 'badge' => 'Bahasa Asing', 'icon' => '🌍', 'desc' => 'Lingkungan belajar Bahasa Inggris yang interaktif, komunikatif, dan menyenangkan.', 'image' => '/images/ekskul/english_club.webp'],
+                    ['title' => 'Pramuka SIT Robbani', 'badge' => 'Kepanduan Wajib', 'icon' => '🏕️', 'desc' => 'Kegiatan kepanduan khas JSIT untuk melatih kemandirian, kepemimpinan, dan kecintaan alam.', 'image' => '/images/ekskul/pramuka.webp'],
+                    ['title' => 'Digital Art & Graphic Design', 'badge' => 'Desain & Media', 'icon' => '🎨', 'desc' => 'Melatih kreativitas santri dalam bidang desain grafis, ilustrasi digital, dan media publikasi.', 'image' => '/images/ekskul/digital_art.webp']
                 ]
             ],
             'smait' => [

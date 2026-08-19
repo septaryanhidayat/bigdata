@@ -708,10 +708,18 @@
 
                 <div class="flex flex-wrap justify-center gap-6">
                     @foreach($unitEkskul as $ek)
+                    @php
+                        $rawEkImg = $ek['image'] ?? '';
+                        if (!empty($rawEkImg) && !str_contains($rawEkImg, 'mockup_desktop')) {
+                            $ekImg = str_starts_with($rawEkImg, 'http') ? $rawEkImg : asset(ltrim($rawEkImg, '/'));
+                        } else {
+                            $ekImg = null;
+                        }
+                    @endphp
                     <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500 transition-all group flex flex-col justify-between">
-                        @if(!empty($ek['image']))
+                        @if($ekImg)
                         <div class="w-full h-48 overflow-hidden relative bg-slate-900 shrink-0">
-                            <img src="{{ asset($ek['image']) }}" alt="{{ $ek['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.parentElement.style.display='none';">
+                            <img src="{{ $ekImg }}" alt="{{ $ek['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-6 bg-slate-900';">
                             <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/20 shadow-md">
                                 {{ $ek['badge'] ?? 'Ekskul & Kegiatan' }}
                             </span>
