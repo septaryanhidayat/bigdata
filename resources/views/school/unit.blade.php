@@ -796,6 +796,8 @@
 
             </div>
         </section>
+        @endif
+
         <!-- 9.5. AGENDA & PENGUMUMAN UNIT (BERDAMPINGAN KIRI & KANAN) -->
         <section id="agenda-pengumuman" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
