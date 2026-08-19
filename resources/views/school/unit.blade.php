@@ -623,12 +623,35 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     @foreach($info['programs'] as $prog)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col items-center text-center space-y-3 hover:border-emerald-500 hover:shadow-xl transition-all group">
-                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center text-3xl font-bold shadow-xs group-hover:scale-110 transition-transform">
-                            {{ $prog['icon'] ?? '🌟' }}
+                    @php
+                        $rawProgImg = $prog['image'] ?? '';
+                        if (!empty($rawProgImg) && !str_contains($rawProgImg, 'mockup_desktop')) {
+                            $progImg = str_starts_with($rawProgImg, 'http') ? $rawProgImg : asset(ltrim($rawProgImg, '/'));
+                        } else {
+                            $progImg = null;
+                        }
+                    @endphp
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:border-emerald-500 hover:shadow-xl transition-all group flex flex-col justify-between">
+                        @if($progImg)
+                        <div class="w-full h-44 overflow-hidden relative bg-slate-900 shrink-0">
+                            <img src="{{ $progImg }}" alt="{{ $prog['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-6 bg-slate-900';">
+                            <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-xl shadow-md">
+                                {{ $prog['icon'] ?? '🌟' }}
+                            </span>
                         </div>
-                        <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">{{ $prog['title'] }}</h3>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">{{ $prog['desc'] }}</p>
+                        @endif
+                        
+                        <div class="p-5 sm:p-6 space-y-3 flex-1 flex flex-col justify-between text-left">
+                            <div class="space-y-2">
+                                @if(!$progImg)
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center text-2xl font-bold shadow-xs group-hover:scale-110 transition-transform">
+                                    {{ $prog['icon'] ?? '🌟' }}
+                                </div>
+                                @endif
+                                <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">{{ $prog['title'] }}</h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">{{ $prog['desc'] }}</p>
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>
