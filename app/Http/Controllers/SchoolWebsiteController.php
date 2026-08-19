@@ -834,7 +834,12 @@ class SchoolWebsiteController extends Controller
             'tgl_kunjungan' => 'required|date',
             'jumlah_peserta' => 'required|integer',
             'tujuan' => 'required|string',
+            'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if ($request->hasFile('file_dokumen')) {
+            $request->file('file_dokumen')->store('layanan_kunjungan', 'public');
+        }
 
         return redirect()->back()->with('success', 'Permohonan Izin Kunjungan Sekolah berhasil dikirim! Tim Humas Yayasan Generasi Robbani akan menghubungi Anda melalui WhatsApp/Email.');
     }
@@ -855,7 +860,12 @@ class SchoolWebsiteController extends Controller
             'no_hp' => 'required|string',
             'jenis_kerjasama' => 'required|string',
             'deskripsi' => 'required|string',
+            'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if ($request->hasFile('file_dokumen')) {
+            $request->file('file_dokumen')->store('layanan_kerjasama', 'public');
+        }
 
         return redirect()->back()->with('success', 'Permohonan Kerjasama & Kemitraan telah diterima! Tim Kemitraan SIT Robbani Ogan Ilir akan memproses proposal Anda.');
     }
@@ -876,7 +886,12 @@ class SchoolWebsiteController extends Controller
             'fasilitas_disewa' => 'required|string',
             'tgl_sewa' => 'required|date',
             'keperluan' => 'required|string',
+            'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if ($request->hasFile('file_dokumen')) {
+            $request->file('file_dokumen')->store('layanan_sewa', 'public');
+        }
 
         return redirect()->back()->with('success', 'Permohonan Sewa Fasilitas Sekolah telah diajukan! Pengelola sarana prasarana akan mengonfirmasi jadwal & ketersediaan.');
     }

@@ -738,40 +738,6 @@ class AiRagEngine
                    "Ada informasi spesifik mengenai salah satu unit yang ingin Anda ketahui?";
         }
 
-        // ── 2. Check Relevant Document from Knowledge Base ─────────────────────────
-        if (!empty($context['relevantDocs'])) {
-            $bestDoc = $context['relevantDocs'][0];
-            $content = $bestDoc->raw_content;
-
-            $queryWords = array_filter(
-                preg_split('/[\s,\.?\!;\:\-]+/', $lower),
-                fn($w) => strlen($w) >= 3 && !in_array($w, ['apa', 'siapa', 'mana', 'bisa', 'saya', 'sekolah', 'robbani'])
-            );
-
-            $lines = explode("\n", $content);
-            $matchedLines = [];
-
-            foreach ($lines as $line) {
-                $lineTrim = trim($line);
-                if (empty($lineTrim)) continue;
-                $lineLower = strtolower($lineTrim);
-                foreach ($queryWords as $word) {
-                    if (str_contains($lineLower, $word)) {
-                        $matchedLines[] = $lineTrim;
-                        break;
-                    }
-                }
-                if (count($matchedLines) >= 5) break;
-            }
-
-            if (!empty($matchedLines)) {
-                $highlighted = implode("\n", array_map(fn($l) => "• " . ltrim($l, "• -*"), $matchedLines));
-                return "Berdasarkan data **{$bestDoc->title}**:\n\n" .
-                       "{$highlighted}\n\n" .
-                       "💬 Hubungi kami di WhatsApp **{$contactPhone}** jika membutuhkan panduan lebih lanjut.";
-            }
-        }
-
         // ── 3. Pertanyaan Alamat, Lokasi, Jam Kerja & Kontak ───────────────────────
         if (str_contains($lower, 'alamat') || str_contains($lower, 'lokasi') || str_contains($lower, 'dimana') || str_contains($lower, 'kontak') || str_contains($lower, 'nomor telepon') || str_contains($lower, 'jam kerja') || str_contains($lower, 'jam layanan') || str_contains($lower, 'hubungi')) {
             $addr = $context['contactAddress'] ?? 'Jl. Sarjana Padang Guci, Kel. Timbangan, Indralaya Utara, Ogan Ilir, Sumatera Selatan';
@@ -782,7 +748,7 @@ class AiRagEngine
         }
 
         // ── 4. Pertanyaan SPMB / PPDB / Syarat Pendaftaran ─────────────────────────
-        if (str_contains($lower, 'spmb') || str_contains($lower, 'ppdb') || str_contains($lower, 'daftar') || str_contains($lower, 'syarat') || str_contains($lower, 'alur') || str_contains($lower, 'cara masuk')) {
+        if (str_contains($lower, 'spmb') || str_contains($lower, 'ppdb') || str_contains($lower, 'daftar') || str_contains($lower, 'syarat') || str_contains($lower, 'alur') || str_contains($lower, 'cara masuk') || str_contains($lower, 'pendaftaran')) {
             return "Penerimaan Siswa Baru (**SPMB Online TA 2026/2027**) SIT Robbani telah dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT.\n\n" .
                    "📌 **Jalur Pendaftaran:**\n" .
                    "1. **Jalur Prestasi** (Diskon infaq 50% untuk juara MTQ / OSN)\n" .
@@ -819,6 +785,40 @@ class AiRagEngine
                    "3. **SMP IT Robbani** (Akreditasi B) — Fullday school digital (SIPAKAR V2) & tahfidz 5-10 juz.\n" .
                    "4. **SMAIT Robbani** (Persiapan) — Integrasi sains, teknologi IT, dan kepemimpinan islami.\n\n" .
                    "Ingin mengetahui detail kurikulum atau fasilitas unit tertentu?";
+        }
+
+        // ── 8. Check Relevant Document Snippet from Knowledge Base ─────────────────
+        if (!empty($context['relevantDocs'])) {
+            $bestDoc = $context['relevantDocs'][0];
+            $content = $bestDoc->raw_content;
+
+            $queryWords = array_filter(
+                preg_split('/[\s,\.?\!;\:\-]+/', $lower),
+                fn($w) => strlen($w) >= 3 && !in_array($w, ['apa', 'siapa', 'mana', 'bisa', 'saya', 'sekolah', 'robbani'])
+            );
+
+            $lines = explode("\n", $content);
+            $matchedLines = [];
+
+            foreach ($lines as $line) {
+                $lineTrim = trim($line);
+                if (empty($lineTrim)) continue;
+                $lineLower = strtolower($lineTrim);
+                foreach ($queryWords as $word) {
+                    if (str_contains($lineLower, $word)) {
+                        $matchedLines[] = $lineTrim;
+                        break;
+                    }
+                }
+                if (count($matchedLines) >= 5) break;
+            }
+
+            if (!empty($matchedLines)) {
+                $highlighted = implode("\n", array_map(fn($l) => "• " . ltrim($l, "• -*"), $matchedLines));
+                return "Berdasarkan data **{$bestDoc->title}**:\n\n" .
+                       "{$highlighted}\n\n" .
+                       "💬 Hubungi kami di WhatsApp **{$contactPhone}** jika membutuhkan panduan lebih lanjut.";
+            }
         }
 
         // ── 8. Default Conversational Fallback ──────────────────────────────────────
