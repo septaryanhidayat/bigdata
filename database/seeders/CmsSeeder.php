@@ -529,6 +529,76 @@ class CmsSeeder extends Seeder
                     "Peta Talenta Siswa: Pemetaan minat bakat akademik dan non-akademik siswa sejak dini"
                 ],
                 'sort_order' => 21
+            ],
+            [
+                'title' => '22. Surat Menyurat & E-Arsip Persuratan Digital',
+                'short_title' => 'Surat & E-Arsip',
+                'category' => 'operasional',
+                'category_name' => 'Persuratan Digital',
+                'icon' => '✉️',
+                'badge_bg' => 'bg-indigo-50 text-indigo-700 border border-indigo-200',
+                'short_desc' => 'Pembuatan surat dinas otomatis, nomor agenda, ttd digital QR Code, verifikasi publik, dan e-arsip.',
+                'full_desc' => 'Modul Tata Usaha & Surat Menyurat Digital. Memfasilitasi penerbitan surat masuk/keluar, penomoran otomatis sesuai kode klasifikasi, tanda tangan digital terverifikasi QR Code, verifikasi keaslian dokumen publik, serta e-arsip terintegrasi.',
+                'highlights' => [
+                    "Penomoran Surat Otomatis: Generator nomor surat dinas otomatis sesuai kode klasifikasi unit",
+                    "TTD Digital & Verifikasi QR Code: Tanda tangan elektronik pejabat terverifikasi kode QR publik",
+                    "Disposisi Surat Masuk Digital: Alur disposisi dari Kepala Sekolah ke staf/guru secara cepat",
+                    "Pemeriksa Keaslian Dokumen Publik: Halaman verifikasi publik untuk membuktikan keabsahan surat",
+                    "E-Arsip Dokumen Terstruktur: Penyimpanan file digital surat dengan sistem tagging dan pencarian cepat"
+                ],
+                'sort_order' => 22
+            ],
+            [
+                'title' => '23. CBT Integrasi Seleksi PPDB & Tes Potensi',
+                'short_title' => 'CBT Test PPDB',
+                'category' => 'akademik',
+                'category_name' => 'Ujian & Seleksi',
+                'icon' => '📝',
+                'badge_bg' => 'bg-amber-50 text-amber-700 border border-amber-200',
+                'short_desc' => 'Ujian seleksi calon siswa baru online, penilaian otomatis, CBT anti-kecurangan, dan rekap kelulusan.',
+                'full_desc' => 'Modul CBT Seleksi PPDB & Tes Potensi Akademik. Memfasilitasi ujian masuk calon siswa baru secara online, acak soal & pilihan, penilaian otomatis waktu nyata, hingga perangkaian skor kelulusan tes seleksi.',
+                'highlights' => [
+                    "Ujian Seleksi Masuk Online: Calon siswa mengerjakan soal tes pemetaan potensi dari rumah/lokasi tes",
+                    "Pemeriksaan Nilai Otomatis: Skor ujian pilihan ganda dan kuesioner langsung terhitung otomatis",
+                    "Fitur Anti-Kecurangan: Penguncian layar ujian dan batas waktu ketat saat pengerjaan tes",
+                    "Integrasi Data PPDB: Nilai tes otomatis terhubung ke kartu kelulusan calon siswa baru"
+                ],
+                'sort_order' => 23
+            ],
+            [
+                'title' => '24. Multi-Role & Akses Berbasis Unit (Data Isolation)',
+                'short_title' => 'Role & Unit Isolation',
+                'category' => 'operasional',
+                'category_name' => 'Keamanan & Akses',
+                'icon' => '🔐',
+                'badge_bg' => 'bg-rose-50 text-rose-700 border border-rose-200',
+                'short_desc' => 'Pengaturan hak akses ketat per unit (TK, SD, SMP, SMA), isolasi data sensitif, & dashboard kepsek fokus unit.',
+                'full_desc' => 'Modul Keamanan & Hak Akses Multi-Role Berbasis Unit. Menjamin bahwa Kepala Sekolah dan Staf Unit hanya dapat mengakses data internal unitnya sendiri (Siswa, Keuangan, SDM, BK, HRIS), sementara Superadmin & Ketua Yayasan memiliki wewenang penuh atas seluruh unit.',
+                'highlights' => [
+                    "Isolasi Data Sensitif: Kepala Sekolah SMPIT hanya melihat data SMPIT, Kepala SDIT hanya melihat data SDIT",
+                    "Dashboard Khusus Kepsek: Ringkasan statistik, siswa, guru, dan keuangan yang difokuskan pada unit sendiri",
+                    "Manajemen Role Granular: Pengaturan hak akses berbasis modul dan action (View, Create, Edit, Delete)",
+                    "Proteksi Data Keuangan & SDM: Menjaga kerahasiaan gaji, berkas karyawan, dan transaksi keuangan antar unit"
+                ],
+                'sort_order' => 24
+            ],
+            [
+                'title' => '25. Layanan Publik & Persyaratan Mandiri (Public Self-Service)',
+                'short_title' => 'Layanan Publik',
+                'category' => 'operasional',
+                'category_name' => 'Layanan & Kemitraan',
+                'icon' => '🤝',
+                'badge_bg' => 'bg-teal-50 text-teal-700 border border-teal-200',
+                'short_desc' => 'Pengajuan kunjungan sekolah, permohonan kerja sama, sewa fasilitas, upload berkas KTP tanpa wajib login.',
+                'full_desc' => 'Modul Layanan Publik Mandiri untuk Masyarakat, Wali Murid, dan Mitra Kerja Sama. Menyediakan formulir publik tanpa keharusan login untuk pengajuan Kunjungan Edukasi, Kerjasama / Sponsor, dan Sewa Fasilitas Sekolah (Aula, Lapangan, Bus) dilengkapi upload dokumen persyarataan.',
+                'highlights' => [
+                    "Layanan Bebas Akun: Masyarakat dan calon mitra dapat langsung mengisi formulir tanpa membuat akun",
+                    "Pengajuan Kunjungan & Studi Banding: Formulir online jadwal studi banding dan riset edukasi",
+                    "Permohonan Kerja Sama / Sponsor: Pengajuan kemitraan instansi, sponsorship event, dan MOU",
+                    "Penyewaan Sarana Prasarana: Pemesanan sewa aula sekolah, lapangan olahraga, dan kendaraan dinas",
+                    "Upload Berkas Dokumen: Lampiran file KTP/Surat Tugas yang tersimpan rapi di dashboard admin"
+                ],
+                'sort_order' => 25
             ]
         ];
 

@@ -538,13 +538,13 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏢</span> 
                             <span class="sidebar-text">Profil Unit (SD/SMP/SMA)</span>
                         </a>
-                        <a href="{{ route('admin.settings.sales') }}" title="Landing Sales 21 Modul" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.settings.sales') }}" title="Landing Sales 25 Modul" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">📦</span> 
-                            <span class="sidebar-text">Landing Sales 21 Modul</span>
+                            <span class="sidebar-text">Landing Sales 25 Modul</span>
                         </a>
-                        <a href="{{ route('admin.modules.index') }}" title="Kelola 21 Modul Fitur" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.modules.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.modules.index') }}" title="Kelola 25 Modul Fitur" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.modules.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🧩</span> 
-                            <span class="sidebar-text">Kelola 21 Modul Fitur</span>
+                            <span class="sidebar-text">Kelola 25 Modul Fitur</span>
                         </a>
                         <a href="{{ route('admin.faqs.index') }}" title="Kelola FAQ Tanya Jawab" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.faqs.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">❓</span> 

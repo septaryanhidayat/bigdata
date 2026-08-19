@@ -322,7 +322,7 @@ class CmsController extends Controller
             'pkg1_title' => SiteSetting::get('pkg1_title', 'Paket Source Code'),
             'pkg1_price' => SiteSetting::get('pkg1_price', 'Rp 1.500.000'),
             'pkg1_desc' => SiteSetting::get('pkg1_desc', 'Cocok untuk tim IT sekolah atau pengembang yang ingin mendeploy sendiri.'),
-            'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n21 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
+            'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n25 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
             'pkg2_title' => SiteSetting::get('pkg2_title', 'Paket Server + Reseller'),
             'pkg2_price' => SiteSetting::get('pkg2_price', 'Rp 3.000.000'),
             'pkg2_badge' => SiteSetting::get('pkg2_badge', '🔥 BEST SELLER & RESELLER READY'),
