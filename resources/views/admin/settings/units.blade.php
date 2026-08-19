@@ -6,12 +6,16 @@
 <div class="max-w-4xl space-y-6">
     <!-- Sub-navigation Tabs -->
     <div class="flex items-center gap-2 border-b border-slate-200 pb-3">
+        @if(Auth::user()->isSuperAdmin() || Auth::user()->isYayasan() || Auth::user()->isHumas())
         <a href="{{ route('admin.settings.portal') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
             🏛️ Web Portal Sekolah
         </a>
+        @endif
+        @if(Auth::user()->isSuperAdmin() || Auth::user()->isYayasan())
         <a href="{{ route('admin.settings.sales') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
             📦 Landing Sales 25 Modul
         </a>
+        @endif
         <a href="{{ route('admin.settings.units') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-theme-gradient text-white shadow-md">
             🏢 Profil Unit Sekolah (SDIT/SMPIT/SMAIT)
         </a>
@@ -22,9 +26,11 @@
             <h1 class="text-2xl font-black text-slate-900 tracking-tight">Pengaturan Profil Unit Sekolah (SDIT, SMPIT, SMAIT)</h1>
             <p class="text-xs text-slate-600 font-medium mt-1">Kelola data profil, warna aksen, kepala sekolah, NPSN, dan alamat masing-masing unit sekolah yayasan.</p>
         </div>
+        @if(Auth::user()->canAccessModule('master'))
         <a href="{{ route('admin.master.schools') }}" class="px-4 py-2.5 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md">
             + Edit Master Data Unit
         </a>
+        @endif
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

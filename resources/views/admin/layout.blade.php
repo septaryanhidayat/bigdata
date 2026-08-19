@@ -179,7 +179,7 @@
             </div>
 
             @php
-                if (Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan()) {
+                if (Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan() && !Auth::user()->isHumas()) {
                     $sidebarSchoolId = Auth::user()->school_id;
                     session(['dashboard_school_id' => Auth::user()->school_id]);
                 } else {
@@ -188,7 +188,21 @@
                 $sidebarSchools = \App\Models\School::all();
             @endphp
 
-            @if(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
+            @if(Auth::user()->isHumas())
+            <!-- Hak Akses Humas Yayasan Badge -->
+            <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-2 sidebar-text">
+                <div class="flex items-center justify-between text-[9px] font-black text-slate-400">
+                    <span class="uppercase tracking-wider">LINGKUP TUGAS:</span>
+                    <span class="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 text-[9px] font-extrabold">
+                        📢 Humas Yayasan
+                    </span>
+                </div>
+                <div class="p-2 rounded-xl bg-slate-900 text-white font-black text-xs border border-slate-700 flex items-center gap-2.5">
+                    <span class="text-sm shrink-0">🏛️</span>
+                    <span class="truncate">Web Portal &amp; Semua Unit</span>
+                </div>
+            </div>
+            @elseif(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
             <!-- Locked Unit Badge for Unit Specific Accounts -->
             <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-2 sidebar-text">
                 <div class="flex items-center justify-between text-[9px] font-black text-slate-400">
@@ -509,7 +523,20 @@
                     <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpCms">{{ $isCmsActive ? '▼' : '►' }}</span>
                 </div>
                 <div id="grpCms" class="space-y-0.5 group-content" style="{{ $isCmsActive ? 'display: block;' : 'display: none;' }}">
-                    @if(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
+                    @if(Auth::user()->isHumas())
+                        <a href="{{ route('admin.settings.portal') }}" title="Web Portal Utama" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🏛️</span> 
+                            <span class="sidebar-text">Web Portal Utama</span>
+                        </a>
+                        <a href="{{ route('admin.cms.content') }}" title="Kelola Konten Web" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.cms.content') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🎨</span> 
+                            <span class="sidebar-text">Kelola Konten Web</span>
+                        </a>
+                        <a href="{{ route('admin.settings.units') }}" title="Profil Website Semua Unit" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🏢</span> 
+                            <span class="sidebar-text">Profil Semua Web Unit</span>
+                        </a>
+                    @elseif(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
                         @php
                             $userSchoolCode = strtolower(Auth::user()->school->code ?? 'sdit');
                         @endphp
@@ -534,7 +561,7 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🎨</span> 
                             <span class="sidebar-text">Kelola Konten Web</span>
                         </a>
-                        <a href="{{ route('admin.settings.units') }}" title="Profil Unit (SD/SMP/SMA)" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.settings.units') }}" title="Profil Unit (SD/SMP/SMA)" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏢</span> 
                             <span class="sidebar-text">Profil Unit (SD/SMP/SMA)</span>
                         </a>

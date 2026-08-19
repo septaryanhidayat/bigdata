@@ -27,6 +27,8 @@ class User extends Authenticatable
     public const ROLE_PETUGAS_KANTIN = 'PETUGAS_KANTIN';
     public const ROLE_PANITIA_PPDB = 'PANITIA_PPDB';
     public const ROLE_PETUGAS_SARPRAS = 'PETUGAS_SARPRAS';
+    public const ROLE_HUMAS = 'HUMAS';
+    public const ROLE_ADMIN_WEB_UNIT = 'ADMIN_WEB_UNIT';
 
     protected $fillable = [
         'name',
@@ -123,6 +125,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is Humas Yayasan
+     */
+    public function isHumas(): bool
+    {
+        return $this->role === self::ROLE_HUMAS;
+    }
+
+    /**
+     * Check if user is Admin Web Unit
+     */
+    public function isAdminWebUnit(): bool
+    {
+        return $this->role === self::ROLE_ADMIN_WEB_UNIT;
+    }
+
+    /**
      * Check permission access for SmartEdu modules
      */
     public function canAccessModule(string $module): bool
@@ -137,6 +155,7 @@ class User extends Authenticatable
                 self::ROLE_STAFF_TU, self::ROLE_STAFF_KEUANGAN, self::ROLE_TEACHER,
                 self::ROLE_GURU_BK, self::ROLE_MUSYRIF_ASRAMA, self::ROLE_PETUGAS_PERPUS,
                 self::ROLE_PETUGAS_KANTIN, self::ROLE_PANITIA_PPDB, self::ROLE_PETUGAS_SARPRAS,
+                self::ROLE_HUMAS, self::ROLE_ADMIN_WEB_UNIT,
             ],
             'master' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU,
@@ -182,6 +201,7 @@ class User extends Authenticatable
             ],
             'settings' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU,
+                self::ROLE_HUMAS, self::ROLE_ADMIN_WEB_UNIT,
             ],
         ];
 
@@ -195,7 +215,7 @@ class User extends Authenticatable
      */
     public function canManageUnit(int|string|null $schoolId): bool
     {
-        if ($this->isSuperAdmin() || $this->role === self::ROLE_YAYASAN_CHAIRMAN || is_null($this->school_id)) {
+        if ($this->isSuperAdmin() || $this->role === self::ROLE_YAYASAN_CHAIRMAN || $this->role === self::ROLE_HUMAS || is_null($this->school_id)) {
             return true;
         }
 
@@ -211,7 +231,7 @@ class User extends Authenticatable
      */
     public function getEffectiveSchoolId(): ?int
     {
-        if ($this->isSuperAdmin() || $this->role === self::ROLE_YAYASAN_CHAIRMAN) {
+        if ($this->isSuperAdmin() || $this->role === self::ROLE_YAYASAN_CHAIRMAN || $this->role === self::ROLE_HUMAS) {
             $sessionVal = session('dashboard_school_id', 'all');
             return ($sessionVal === 'all' || empty($sessionVal)) ? null : (int)$sessionVal;
         }
@@ -246,6 +266,8 @@ class User extends Authenticatable
             self::ROLE_PETUGAS_KANTIN => '🍽️ Kasir Kantin RFID',
             self::ROLE_PANITIA_PPDB => '🎯 Panitia PPDB & CBT',
             self::ROLE_PETUGAS_SARPRAS => '🏢 Pengelola Sarpras & Aset',
+            self::ROLE_HUMAS => '📢 Humas Yayasan',
+            self::ROLE_ADMIN_WEB_UNIT => '🌐 Admin Web Unit' . ($this->school ? ' ' . $this->school->code : ''),
             default => 'Pengguna ' . $this->role,
         };
     }
@@ -268,6 +290,8 @@ class User extends Authenticatable
             self::ROLE_PETUGAS_KANTIN => 'bg-pink-500/20 text-pink-300 border-pink-500/40',
             self::ROLE_PANITIA_PPDB => 'bg-violet-500/20 text-violet-300 border-violet-500/40',
             self::ROLE_PETUGAS_SARPRAS => 'bg-slate-500/20 text-slate-300 border-slate-500/40',
+            self::ROLE_HUMAS => 'bg-teal-500/20 text-teal-300 border-teal-500/40',
+            self::ROLE_ADMIN_WEB_UNIT => 'bg-sky-500/20 text-sky-300 border-sky-500/40',
             default => 'bg-slate-500/20 text-slate-300 border-slate-500/40',
         };
     }

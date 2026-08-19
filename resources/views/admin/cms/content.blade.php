@@ -23,6 +23,7 @@
 
     <!-- Tab Navigation -->
     <div class="flex overflow-x-auto gap-2 border-b border-slate-200 pb-3 w-full">
+        @if(empty($userUnit))
         <a href="{{ route('admin.cms.content', ['tab' => 'foundation']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'foundation' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>🏛️</span> <span>Profil Yayasan</span>
         </a>
@@ -32,6 +33,7 @@
         <a href="{{ route('admin.cms.content', ['tab' => 'menu']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'menu' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>📌</span> <span>Menu Header ({{ count($headerMenus) }})</span>
         </a>
+        @endif
         <a href="{{ route('admin.cms.content', ['tab' => 'news']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'news' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>📰</span> <span>Berita &amp; Artikel ({{ count($newsList) }})</span>
         </a>

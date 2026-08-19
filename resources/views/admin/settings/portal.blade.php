@@ -9,9 +9,11 @@
         <a href="{{ route('admin.settings.portal') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-theme-gradient text-white shadow-md">
             🏛️ Web Portal Sekolah
         </a>
+        @if(Auth::user()->isSuperAdmin() || Auth::user()->isYayasan())
         <a href="{{ route('admin.settings.sales') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
             📦 Landing Sales 25 Modul
         </a>
+        @endif
         <a href="{{ route('admin.settings.units') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
             🏢 Profil Unit Sekolah (SDIT/SMPIT/SMAIT)
         </a>

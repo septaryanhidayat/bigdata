@@ -156,6 +156,42 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'nip' => '198711042026011004',
             ],
+            // 16. Humas Yayasan (Kelola Website Utama & Semua Web Unit)
+            [
+                'email' => 'humas@sitrobbani.sch.id',
+                'name' => 'Humas Yayasan SIT Robbani',
+                'role' => User::ROLE_HUMAS,
+                'school_id' => null,
+                'password' => Hash::make('p4l3mb4ng'),
+                'nip' => null,
+            ],
+            // 17. Admin Web Unit TKIT
+            [
+                'email' => 'tk@sitrobbani.sch.id',
+                'name' => 'Admin Web TKIT Robbani',
+                'role' => User::ROLE_ADMIN_WEB_UNIT,
+                'school_id' => $tkit?->id,
+                'password' => Hash::make('p4l3mb4ng'),
+                'nip' => null,
+            ],
+            // 18. Admin Web Unit SDIT
+            [
+                'email' => 'sd@sitrobbani.sch.id',
+                'name' => 'Admin Web SDIT Robbani',
+                'role' => User::ROLE_ADMIN_WEB_UNIT,
+                'school_id' => $sdit?->id,
+                'password' => Hash::make('p4l3mb4ng'),
+                'nip' => null,
+            ],
+            // 19. Admin Web Unit SMPIT
+            [
+                'email' => 'smp@sitrobbani.sch.id',
+                'name' => 'Admin Web SMPIT Robbani',
+                'role' => User::ROLE_ADMIN_WEB_UNIT,
+                'school_id' => $smpit?->id,
+                'password' => Hash::make('p4l3mb4ng'),
+                'nip' => null,
+            ],
         ];
 
         foreach ($users as $u) {

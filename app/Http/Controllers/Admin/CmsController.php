@@ -23,13 +23,22 @@ class CmsController extends Controller
     {
         $user = auth()->user();
 
-        // 1. Akun TU Unit (STAFF_TU) langsung diarahkan ke konten website unit
-        if ($user && $user->role === \App\Models\User::ROLE_STAFF_TU) {
+        // 1. Akun TU Unit & Admin Web Unit diarahkan langsung ke profil web unit / konten CMS
+        if ($user && ($user->role === \App\Models\User::ROLE_STAFF_TU || $user->role === \App\Models\User::ROLE_ADMIN_WEB_UNIT)) {
+            $userSchoolCode = strtolower($user->school->code ?? '');
+            if ($userSchoolCode) {
+                return redirect()->route('admin.settings.units.edit', $userSchoolCode);
+            }
+            return redirect()->route('admin.cms.content');
+        }
+
+        // Akun Humas Yayasan langsung diarahkan ke kelola konten CMS & Berita
+        if ($user && $user->role === \App\Models\User::ROLE_HUMAS) {
             return redirect()->route('admin.cms.content');
         }
 
         // 2. Kepala Unit (HEADMASTER) & Staff Unit locked to their school unit
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas()) {
             $schoolId = $user->school_id;
         } else {
             $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));
@@ -340,7 +349,7 @@ class CmsController extends Controller
     public function settingsUnits()
     {
         $user = auth()->user();
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas()) {
             $schools = School::where('id', $user->school_id)->withCount(['students', 'employees', 'classrooms'])->get();
         } else {
             $schools = School::withCount(['students', 'employees', 'classrooms'])->get();
@@ -354,7 +363,7 @@ class CmsController extends Controller
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
         
         $user = auth()->user();
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
@@ -560,7 +569,7 @@ class CmsController extends Controller
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
 
         $user = auth()->user();
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
@@ -1043,7 +1052,7 @@ class CmsController extends Controller
     public function contentIndex(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $selectedUnit = $request->get('unit_filter', $isGlobalAdmin ? 'all' : ($userUnit ?? 'all'));
@@ -1100,7 +1109,7 @@ class CmsController extends Controller
             'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://lh3.googleusercontent.com/aida/AP1WRLuf5i7pWfq9dzqqqjNB6dJ3JNiFjsv6Iv0erwSW9QTXek-Ur1VI-e_ULP2zi3qLQIbKln9GGYMrKRcDMpgsk8uELhhqxDf4J0N_tZ3ObFRa1UmfynfH5wzEfpsoQwZd8ofmDXnfj0-gwTaJjxlH2Gt_qt3XIBHF0DtXovfyqeC4E7-y7dd3rgARHyA57tjdlEywmGuLbJ1q3jagkMiPIv2sK3XpKR-CEw_Kr3hiDZtYNpxD6JtANagJSWCU'),
         ];
 
-        $activeTab = $request->get('tab', 'hero');
+        $activeTab = $request->get('tab', $userUnit ? 'news' : 'hero');
 
         return view('admin.cms.content', compact(
             'newsList', 'videoList', 'agendaList', 'announcementList', 'facilityList', 'galleryList', 'headerMenus', 'heroSettings', 'activeTab', 'isGlobalAdmin', 'userUnit', 'selectedUnit', 'unitCounts'
@@ -1110,7 +1119,7 @@ class CmsController extends Controller
     public function updateCmsContent(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $module = $request->input('module');
@@ -1247,7 +1256,7 @@ class CmsController extends Controller
     public function addCmsItem(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $module = $request->input('module');
@@ -1313,7 +1322,7 @@ class CmsController extends Controller
     public function deleteCmsItem(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $module = $request->input('module');
@@ -1926,7 +1935,7 @@ class CmsController extends Controller
     {
         $type = $request->input('type', 'news');
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $post = [
@@ -1958,7 +1967,7 @@ class CmsController extends Controller
 
         $allPosts = array_merge($newsData, $articleData);
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $targetSlug = $request->input('slug');
@@ -2046,7 +2055,7 @@ class CmsController extends Controller
 
         $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $isNew = $request->input('is_new', '1') == '1';
