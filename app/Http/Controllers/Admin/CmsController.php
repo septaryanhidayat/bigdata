@@ -28,8 +28,8 @@ class CmsController extends Controller
             return redirect()->route('admin.cms.content');
         }
 
-        // 2. Kepala Unit (HEADMASTER) menampilkan dashboard overview unitnya saja
-        if ($user && $user->role === \App\Models\User::ROLE_HEADMASTER && $user->school_id) {
+        // 2. Kepala Unit (HEADMASTER) & Staff Unit locked to their school unit
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
             $schoolId = $user->school_id;
         } else {
             $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));

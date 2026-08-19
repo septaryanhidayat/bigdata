@@ -750,6 +750,10 @@
             <span class="flex items-center gap-2"><span>👤</span> <span>Profil &amp; Sambutan</span></span>
             <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
         </a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.layanan.kunjungan') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.layanan*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>📋</span> <span>Layanan Publik (Humas &amp; Sarpras)</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
         <a @click="mobileMenuOpen = false" href="#unit-sekolah" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300">
             <span class="flex items-center gap-2"><span>🏫</span> <span>4 Unit Sekolah</span></span>
             <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>

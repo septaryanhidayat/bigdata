@@ -11,7 +11,7 @@
     <style>
         [x-cloak] { display: none !important; }
         
-        /* LIGHT MODE: Emerald Green & Dynamic Orange Palette */
+        /* LIGHT MODE: Emerald Green & Warm Orange Palette (High Contrast & High Readability) */
         html.light {
             --bg-main: #f8fafc;
             --bg-card: #ffffff;
@@ -26,11 +26,7 @@
             --box-green-text: #065f46;
             --box-orange-bg: #fff7ed;
             --box-orange-border: #fed7aa;
-            --box-orange-text: #c2410c;
-            --box-info-dark-bg: #0f172a;
-            --box-info-dark-text: #ffffff;
-            --accent-primary: #059669;
-            --accent-orange: #ea580c;
+            --box-orange-text: #9a3412;
             --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
         }
 
@@ -42,7 +38,7 @@
             --bg-input: #051006;
             --border-input: #214725;
             --text-heading: #ffffff;
-            --text-body: #e2e8f0;
+            --text-body: #f1f5f9;
             --text-muted: #94a3b8;
             --box-green-bg: #081a0b;
             --box-green-border: #164019;
@@ -50,10 +46,6 @@
             --box-orange-bg: #1c1205;
             --box-orange-border: #422909;
             --box-orange-text: #fb923c;
-            --box-info-dark-bg: #051206;
-            --box-info-dark-text: #ffffff;
-            --accent-primary: #a8f52c;
-            --accent-orange: #fb923c;
             --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
         }
 
@@ -76,7 +68,7 @@
             color: var(--text-heading) !important; 
         }
 
-        /* Light Mode Button: Orange-Emerald Gradient */
+        /* Action Submit Button */
         html.light .btn-action-gradient {
             background: linear-gradient(135deg, #059669 0%, #ea580c 100%) !important;
             color: #ffffff !important;
@@ -87,7 +79,6 @@
             transform: translateY(-1px);
         }
 
-        /* Dark Mode Button: Electric Neon Lime */
         html.dark .btn-action-gradient {
             background: #a8f52c !important;
             color: #030904 !important;
@@ -99,7 +90,7 @@
             transform: translateY(-1px);
         }
 
-        /* Active & Inactive Tab Styles */
+        /* Active & Inactive Service Tab Switchers */
         html.light .tab-btn-active {
             background-color: #059669 !important;
             color: #ffffff !important;
@@ -145,7 +136,7 @@
                 <!-- Theme Mode Switcher Toggle Button -->
                 <button @click="toggleTheme()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-black transition-all flex items-center gap-1.5 shadow-sm cursor-pointer">
                     <span x-text="darkMode ? '🌙' : '☀️'"></span>
-                    <span x-text="darkMode ? 'Mode Gelap (Neon)' : 'Mode Terang (Hijau-Orange)'" class="hidden sm:inline"></span>
+                    <span x-text="darkMode ? 'Mode Gelap (Obsidian)' : 'Mode Terang (Hijau-Orange)'" class="hidden sm:inline"></span>
                 </button>
 
                 <!-- Navigation Quick Links -->
@@ -171,7 +162,7 @@
             </p>
         </div>
 
-        <!-- 3 Public Service Tabs Navigation (NO PAGE RELOAD) -->
+        <!-- 3 Public Service Tabs Navigation (DEFAULT: LAYANAN 1 / KUNJUNGAN) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-2 rounded-2xl bg-slate-200/70 dark:bg-[#051006] border border-slate-300 dark:border-[#1a3b1d] shadow-inner">
             <button type="button" @click="switchTab('kunjungan')" 
                     :class="activeTab === 'kunjungan' ? 'tab-btn-active' : 'tab-btn-inactive'"
@@ -225,36 +216,36 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                     <!-- Persyaratan Pelayanan (7 Poin Tanpa Kewajiban Akun) -->
                     <div class="p-5 rounded-2xl bg-[var(--box-green-bg)] border border-[var(--box-green-border)] space-y-3">
-                        <div class="flex items-center gap-2 font-black text-[var(--box-green-text)] uppercase tracking-wider text-[11px]">
+                        <div class="flex items-center gap-2 font-black text-emerald-900 dark:text-[#a8f52c] uppercase tracking-wider text-[11px]">
                             <span>📋</span> <span>Persyaratan Pelayanan:</span>
                         </div>
-                        <ul class="space-y-2 text-[var(--text-body)] font-medium pl-1">
+                        <ul class="space-y-2 text-slate-800 dark:text-slate-200 font-semibold pl-1">
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">1.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">1.</span>
                                 <span>Pemohon melakukan pengajuan resmi melalui sistem formulir online ini.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">2.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">2.</span>
                                 <span>Bukti permohonan kunjungan sudah ditandatangani oleh pejabat berwenang &amp; cap stempel basah dibawa ketika hari kunjungan.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">3.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">3.</span>
                                 <span>Maksimal jumlah pengunjung sebanyak <strong>100 orang</strong>.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">4.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">4.</span>
                                 <span>Hari kunjungan resmi adalah hari <strong>Senin dan Kamis</strong>.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">5.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">5.</span>
                                 <span>Waktu kunjungan adalah pukul <strong>09.00 - 11.00 WIB</strong>.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">6.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">6.</span>
                                 <span>Pengunjung menggunakan pakaian yang <strong>sopan dan rapi</strong>.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-emerald-600 dark:text-[#a8f52c] font-black">7.</span>
+                                <span class="text-emerald-700 dark:text-[#a8f52c] font-black">7.</span>
                                 <span>Wajib menerapkan protokol kesehatan (protkes) secara ketat.</span>
                             </li>
                         </ul>
@@ -264,16 +255,16 @@
                     <div class="space-y-4">
                         <div class="p-5 rounded-2xl bg-[var(--box-orange-bg)] border border-[var(--box-orange-border)] space-y-3">
                             <div>
-                                <span class="text-[10px] font-black text-[var(--box-orange-text)] uppercase block tracking-wider">⏱️ Jangka Waktu Penyelesaian</span>
-                                <p class="text-xs font-bold text-[var(--text-heading)] mt-0.5">Waktu respon atas permohonan paling lambat <strong>10 (sepuluh) hari kerja</strong>.</p>
+                                <span class="text-[10px] font-black text-orange-900 dark:text-[#fb923c] uppercase block tracking-wider">⏱️ Jangka Waktu Penyelesaian</span>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white mt-0.5">Waktu respon atas permohonan paling lambat <strong>10 (sepuluh) hari kerja</strong>.</p>
                             </div>
                             <div class="border-t border-orange-200 dark:border-[#422909] pt-2.5">
-                                <span class="text-[10px] font-black text-[var(--box-orange-text)] uppercase block tracking-wider">💰 Biaya dan Tarif</span>
-                                <p class="text-xs font-black text-emerald-600 dark:text-[#a8f52c] mt-0.5">Proses permohonan dan pelaksanaan kunjungan <strong>GRATIS (Tidak Dipungut Biaya)</strong>.</p>
+                                <span class="text-[10px] font-black text-orange-900 dark:text-[#fb923c] uppercase block tracking-wider">💰 Biaya dan Tarif</span>
+                                <p class="text-xs font-black text-emerald-800 dark:text-[#a8f52c] mt-0.5">Proses permohonan dan pelaksanaan kunjungan <strong>GRATIS (Tidak Dipungut Biaya)</strong>.</p>
                             </div>
                             <div class="border-t border-orange-200 dark:border-[#422909] pt-2.5">
-                                <span class="text-[10px] font-black text-[var(--box-orange-text)] uppercase block tracking-wider">📦 Produk Layanan</span>
-                                <p class="text-xs font-bold text-[var(--text-heading)] mt-0.5">Surat Izin / Konfirmasi Kunjungan Sekolah</p>
+                                <span class="text-[10px] font-black text-orange-900 dark:text-[#fb923c] uppercase block tracking-wider">📦 Produk Layanan</span>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white mt-0.5">Surat Izin / Konfirmasi Kunjungan Sekolah</p>
                             </div>
                         </div>
 
@@ -307,45 +298,45 @@
                 </div>
                 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Nama Instansi / Sekolah / Lembaga *</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Nama Instansi / Sekolah / Lembaga *</label>
                     <input type="text" name="instansi" required placeholder="Contoh: SDIT Nurul Islam / Instansi Dinas / Komunitas Educational" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Nama Penanggung Jawab *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Nama Penanggung Jawab *</label>
                         <input type="text" name="nama_pemohon" required placeholder="Nama lengkap &amp; gelar penanggung jawab" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">No. WhatsApp / HP *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">No. WhatsApp / HP *</label>
                         <input type="text" name="no_hp" required placeholder="081234567890" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Email Aktif *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Email Aktif *</label>
                         <input type="email" name="email" required placeholder="email@instansi.com" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Rencana Tanggal Kunjungan (Senin / Kamis) *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Rencana Tanggal Kunjungan (Senin / Kamis) *</label>
                         <input type="date" name="tgl_kunjungan" required class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Estimasi Jumlah Peserta (Maksimal 100 Orang) *</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Estimasi Jumlah Peserta (Maksimal 100 Orang) *</label>
                     <input type="number" name="jumlah_peserta" max="100" min="1" required placeholder="Contoh: 30" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Maksud &amp; Tujuan Kunjungan *</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Maksud &amp; Tujuan Kunjungan *</label>
                     <textarea name="tujuan" rows="3" required placeholder="Jelaskan agenda studi banding, topik pembahasan, atau maksud kunjungan..." class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
                 </div>
 
                 <!-- Upload File Pendukung -->
                 <div class="space-y-1.5 pt-2">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">📁 Upload Berkas / Surat Permohonan Kunjungan (Opsional)</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">📁 Upload Berkas / Surat Permohonan Kunjungan (Opsional)</label>
                     <input type="file" name="file_dokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     <p class="text-[10px] text-[var(--text-muted)] font-medium">Format yang diterima: PDF, DOCX, JPG, PNG (Maksimal 10MB).</p>
                 </div>
@@ -376,14 +367,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                     <!-- Persyaratan Pelayanan Kerjasama -->
                     <div class="p-5 rounded-2xl bg-[var(--box-green-bg)] border border-[var(--box-green-border)] space-y-3">
-                        <div class="flex items-center gap-2 font-black text-[var(--box-green-text)] uppercase tracking-wider text-[11px]">
+                        <div class="flex items-center gap-2 font-black text-emerald-900 dark:text-[#a8f52c] uppercase tracking-wider text-[11px]">
                             <span>📋</span> <span>Persyaratan Pelayanan Kerja Sama:</span>
                         </div>
                         
-                        <div class="space-y-3 text-[var(--text-body)]">
+                        <div class="space-y-3 text-slate-800 dark:text-slate-200">
                             <div>
-                                <span class="font-black text-emerald-700 dark:text-[#a8f52c] block">• Individu (Perorangan):</span>
-                                <ul class="list-disc pl-5 space-y-1 font-medium mt-1">
+                                <span class="font-black text-emerald-900 dark:text-[#a8f52c] block">• Individu (Perorangan):</span>
+                                <ul class="list-disc pl-5 space-y-1 font-semibold mt-1">
                                     <li>Surat Permohonan Kerja Sama</li>
                                     <li>Fotokopi / Scan KTP Pemohon</li>
                                     <li>Proposal Ringkas Sinergi / Kemitraan</li>
@@ -391,8 +382,8 @@
                             </div>
                             
                             <div class="border-t border-emerald-200 dark:border-[#1a3b1d] pt-2">
-                                <span class="font-black text-emerald-700 dark:text-[#a8f52c] block">• Lembaga / Organisasi / Perusahaan:</span>
-                                <ul class="list-disc pl-5 space-y-1 font-medium mt-1">
+                                <span class="font-black text-emerald-900 dark:text-[#a8f52c] block">• Lembaga / Organisasi / Perusahaan:</span>
+                                <ul class="list-disc pl-5 space-y-1 font-semibold mt-1">
                                     <li>Surat Pengajuan Kerja Sama Resmi (Kop Surat &amp; Stempel)</li>
                                     <li>Fotokopi NPWP Perusahaan / Lembaga</li>
                                     <li>Proposal Penawaran Kerja Sama / Sponsorship</li>
@@ -405,10 +396,10 @@
                     <!-- Sistem Mekanisme dan Prosedur Kerjasama -->
                     <div class="space-y-4">
                         <div class="p-5 rounded-2xl bg-[var(--box-orange-bg)] border border-[var(--box-orange-border)] space-y-3">
-                            <div class="flex items-center gap-2 font-black text-[var(--box-orange-text)] uppercase tracking-wider text-[11px]">
+                            <div class="flex items-center gap-2 font-black text-orange-900 dark:text-[#fb923c] uppercase tracking-wider text-[11px]">
                                 <span>⚙️</span> <span>Sistem Mekanisme dan Prosedur:</span>
                             </div>
-                            <ol class="list-decimal pl-4 space-y-1.5 text-[var(--text-body)] font-medium">
+                            <ol class="list-decimal pl-4 space-y-1.5 text-slate-900 dark:text-white font-semibold">
                                 <li>Mitra mengajukan permohonan kerjasama secara online melalui sistem.</li>
                                 <li>Tim Kemitraan &amp; Humas meninjau proposal. Jika disetujui akan disampaikan penawaran/undangan diskusi; jika tidak disetujui akan diberitahukan via surat/pesan pemberitahuan.</li>
                                 <li>Melakukan negosiasi draf perjanjian kesepahaman (MoU / MoA).</li>
@@ -446,28 +437,28 @@
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Nama Perusahaan / Lembaga / Mitra *</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Nama Perusahaan / Lembaga / Mitra *</label>
                     <input type="text" name="nama_lembaga" required placeholder="PT / Yayasan / Komunitas / Instansi Mitra" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Nama Penanggung Jawab *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Nama Penanggung Jawab *</label>
                         <input type="text" name="nama_kontak" required placeholder="Nama lengkap penanggung jawab" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">No. WhatsApp / Telepon *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">No. WhatsApp / Telepon *</label>
                         <input type="text" name="no_hp" required placeholder="081234567890" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Email Resmi *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Email Resmi *</label>
                         <input type="email" name="email" required placeholder="mitra@perusahaan.com" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Kategori Kerja Sama *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Kategori Kerja Sama *</label>
                         <select name="jenis_kerjasama" required class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                             <option value="Pendidikan & Akademik">Pendidikan &amp; Akademik</option>
                             <option value="Sponsorship & Event">Sponsorship &amp; Event Sekolah</option>
@@ -478,13 +469,13 @@
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Ringkasan Proposal / Bentuk Kerjasama *</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Ringkasan Proposal / Bentuk Kerjasama *</label>
                     <textarea name="deskripsi" rows="3" required placeholder="Jelaskan penawaran kerjasama, bentuk sinergi, dan manfaat bersama..." class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
                 </div>
 
                 <!-- Upload File Proposal -->
                 <div class="space-y-1.5 pt-2">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">📁 Upload Proposal / Berkas Penawaran Kerja Sama (Opsional)</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">📁 Upload Proposal / Berkas Penawaran Kerja Sama (Opsional)</label>
                     <input type="file" name="file_dokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     <p class="text-[10px] text-[var(--text-muted)] font-medium">Format yang diterima: PDF, DOCX, JPG, PNG (Maksimal 10MB).</p>
                 </div>
@@ -515,14 +506,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                     <!-- Persyaratan Pelayanan Sewa -->
                     <div class="p-5 rounded-2xl bg-[var(--box-green-bg)] border border-[var(--box-green-border)] space-y-3">
-                        <div class="flex items-center gap-2 font-black text-[var(--box-green-text)] uppercase tracking-wider text-[11px]">
+                        <div class="flex items-center gap-2 font-black text-emerald-900 dark:text-[#a8f52c] uppercase tracking-wider text-[11px]">
                             <span>📋</span> <span>Persyaratan Pelayanan Sewa Menyewa:</span>
                         </div>
                         
-                        <div class="space-y-3 text-[var(--text-body)]">
+                        <div class="space-y-3 text-slate-800 dark:text-slate-200">
                             <div>
-                                <span class="font-black text-emerald-700 dark:text-[#a8f52c] block">• Individu (Perorangan):</span>
-                                <ul class="list-disc pl-5 space-y-1 font-medium mt-1">
+                                <span class="font-black text-emerald-900 dark:text-[#a8f52c] block">• Individu (Perorangan):</span>
+                                <ul class="list-disc pl-5 space-y-1 font-semibold mt-1">
                                     <li>Surat Permohonan Sewa</li>
                                     <li>Fotokopi / Scan KTP Pemohon</li>
                                     <li>Fotokopi NPWP (jika ada)</li>
@@ -530,8 +521,8 @@
                             </div>
                             
                             <div class="border-t border-emerald-200 dark:border-[#1a3b1d] pt-2">
-                                <span class="font-black text-emerald-700 dark:text-[#a8f52c] block">• Lembaga / Organisasi:</span>
-                                <ul class="list-disc pl-5 space-y-1 font-medium mt-1">
+                                <span class="font-black text-emerald-900 dark:text-[#a8f52c] block">• Lembaga / Organisasi:</span>
+                                <ul class="list-disc pl-5 space-y-1 font-semibold mt-1">
                                     <li>Surat Permohonan Sewa Resmi (Kop Surat &amp; Stempel Basah)</li>
                                     <li>Fotokopi NPWP Lembaga / Organisasi</li>
                                 </ul>
@@ -542,10 +533,10 @@
                     <!-- Sistem Mekanisme dan Prosedur Sewa -->
                     <div class="space-y-4">
                         <div class="p-5 rounded-2xl bg-[var(--box-orange-bg)] border border-[var(--box-orange-border)] space-y-3">
-                            <div class="flex items-center gap-2 font-black text-[var(--box-orange-text)] uppercase tracking-wider text-[11px]">
+                            <div class="flex items-center gap-2 font-black text-orange-900 dark:text-[#fb923c] uppercase tracking-wider text-[11px]">
                                 <span>⚙️</span> <span>Sistem Mekanisme dan Prosedur:</span>
                             </div>
-                            <ol class="list-decimal pl-4 space-y-1.5 text-[var(--text-body)] font-medium">
+                            <ol class="list-decimal pl-4 space-y-1.5 text-slate-900 dark:text-white font-semibold">
                                 <li>Penyewa mengajukan surat permohonan ditujukan kepada kepala sekolah.</li>
                                 <li>Jika permohonan disetujui akan disampaikan penawaran harga kepada Mitra; jika tidak disetujui akan diberitahukan melalui surat pemberitahuan kepada Mitra.</li>
                                 <li>Melakukan negosiasi harga. Jika setuju dilanjutkan dengan membuat draf perjanjian sewa menyewa; jika tidak setuju akan terjadi pembatalan sewa.</li>
@@ -584,18 +575,18 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Nama Penyewa / Organisasi *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Nama Penyewa / Organisasi *</label>
                         <input type="text" name="nama_penyewa" required placeholder="Nama lengkap / perwakilan lembaga" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">No. WhatsApp / HP *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">No. WhatsApp / HP *</label>
                         <input type="text" name="no_hp" required placeholder="081234567890" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Barang / Fasilitas yang Ingin Disewa *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Barang / Fasilitas yang Ingin Disewa *</label>
                         <select name="fasilitas_disewa" required class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                             <option value="Aula Pertemuan Utama">Aula Pertemuan Utama SIT Robbani</option>
                             <option value="Lapangan Olahraga Outdoor">Lapangan Olahraga Outdoor</option>
@@ -606,19 +597,19 @@
                         </select>
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Tanggal Penggunaan *</label>
+                        <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Tanggal Penggunaan *</label>
                         <input type="date" name="tgl_sewa" required class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">Keperluan &amp; Deskripsi Barang/Fasilitas *</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">Keperluan &amp; Deskripsi Barang/Fasilitas *</label>
                     <textarea name="keperluan" rows="3" required placeholder="Jelaskan nama acara, spesifikasi barang/fasilitas yang dibutuhkan, jumlah peserta, dan durasi penggunaan..." class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
                 </div>
 
                 <!-- Upload File Identitas / KTP / Surat -->
                 <div class="space-y-1.5 pt-2">
-                    <label class="block text-xs font-black text-emerald-700 dark:text-[#a8f52c] uppercase">📁 Upload KTP / NPWP / Surat Permohonan Sewa (Opsional)</label>
+                    <label class="block text-xs font-black text-emerald-900 dark:text-[#a8f52c] uppercase">📁 Upload KTP / NPWP / Surat Permohonan Sewa (Opsional)</label>
                     <input type="file" name="file_dokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="w-full px-4 py-3 rounded-xl layanan-input text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     <p class="text-[10px] text-[var(--text-muted)] font-medium">Format yang diterima: PDF, DOCX, JPG, PNG (Maksimal 10MB).</p>
                 </div>
@@ -656,8 +647,8 @@
                         this.activeTab = 'kerjasama';
                     } else if (path.includes('sewa')) {
                         this.activeTab = 'sewa';
-                    } else if (path.includes('kunjungan')) {
-                        this.activeTab = 'kunjungan';
+                    } else {
+                        this.activeTab = 'kunjungan'; // DEFAULT LAYANAN 1 (KUNJUNGAN)
                     }
                 },
                 switchTab(tabName) {

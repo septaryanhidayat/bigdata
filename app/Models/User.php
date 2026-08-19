@@ -148,13 +148,13 @@ class User extends Authenticatable
                 self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU, self::ROLE_TEACHER, self::ROLE_GURU_BK,
             ],
             'finance' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_STAFF_KEUANGAN,
+                self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER, self::ROLE_STAFF_KEUANGAN,
             ],
             'savings' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_STAFF_KEUANGAN,
+                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_KEUANGAN,
             ],
             'canteen' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_STAFF_KEUANGAN, self::ROLE_PETUGAS_KANTIN,
+                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_KEUANGAN, self::ROLE_PETUGAS_KANTIN,
             ],
             'cbt_ppdb' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU, self::ROLE_PANITIA_PPDB,

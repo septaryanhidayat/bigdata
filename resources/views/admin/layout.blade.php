@@ -179,7 +179,12 @@
             </div>
 
             @php
-                $sidebarSchoolId = session('dashboard_school_id', 'all');
+                if (Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan()) {
+                    $sidebarSchoolId = Auth::user()->school_id;
+                    session(['dashboard_school_id' => Auth::user()->school_id]);
+                } else {
+                    $sidebarSchoolId = session('dashboard_school_id', 'all');
+                }
                 $sidebarSchools = \App\Models\School::all();
             @endphp
 
