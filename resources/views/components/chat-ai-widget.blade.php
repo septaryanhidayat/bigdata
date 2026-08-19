@@ -23,7 +23,7 @@
         <span class="sm:hidden font-black text-xs">Chat AI</span>
     </button>
 
-    <!-- Chat Modal Window -->
+    <!-- Chat Modal Window (Strict Clean Light Mode) -->
     <div x-show="isOpen" x-cloak 
          x-transition:enter="transition ease-out duration-300 transform"
          x-transition:enter-start="opacity-0 translate-y-4 scale-95"
@@ -31,7 +31,7 @@
          x-transition:leave="transition ease-in duration-200 transform"
          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-         class="fixed bottom-20 right-4 sm:right-6 w-[92vw] sm:w-[420px] max-h-[82vh] h-[580px] bg-white dark:bg-[#0c1a0e] rounded-3xl border border-slate-200/90 dark:border-[#1b3d1f] shadow-2xl flex flex-col overflow-hidden z-50">
+         class="fixed bottom-20 right-4 sm:right-6 w-[92vw] sm:w-[420px] max-h-[82vh] h-[580px] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-50">
 
         <!-- Chat Header -->
         <div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#0f172a] p-4 text-white flex items-center justify-between shadow-md shrink-0">
@@ -53,16 +53,16 @@
         </div>
 
         <!-- Message Stream Area -->
-        <div x-ref="chatBox" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/70 dark:bg-[#071208] text-xs">
+        <div x-ref="chatBox" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 text-xs">
             
             <template x-for="(msg, index) in messages" :key="index">
                 <div :class="msg.sender === 'user' ? 'flex justify-end' : 'flex justify-start'">
                     
-                    <div :class="msg.sender === 'user' ? 'bg-emerald-700 text-white rounded-2xl rounded-tr-none' : 'bg-white dark:bg-[#122615] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-[#204724] rounded-2xl rounded-tl-none shadow-sm'" 
+                    <div :class="msg.sender === 'user' ? 'bg-emerald-700 text-white rounded-2xl rounded-tr-none shadow-sm' : 'bg-white text-slate-800 border border-slate-200 rounded-2xl rounded-tl-none shadow-sm'" 
                          class="max-w-[85%] p-3.5 space-y-1.5 transition-all">
                         
-                        <div class="flex items-center justify-between gap-2 border-b border-white/10 dark:border-white/5 pb-1 text-[9px] font-bold"
-                             :class="msg.sender === 'user' ? 'text-emerald-200' : 'text-emerald-700 dark:text-[#a3e635]'">
+                        <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-1 text-[9px] font-bold"
+                             :class="msg.sender === 'user' ? 'text-emerald-200 border-white/10' : 'text-emerald-700 border-slate-100'">
                             <span x-text="msg.sender === 'user' ? 'Anda' : '🤖 Robbani AI'"></span>
                             <span x-text="msg.time" class="opacity-75"></span>
                         </div>
@@ -75,7 +75,7 @@
 
             <!-- Loading Spinner Indicator -->
             <div x-show="isLoading" class="flex justify-start">
-                <div class="bg-white dark:bg-[#122615] border border-slate-200 dark:border-[#204724] p-3 rounded-2xl rounded-tl-none text-xs text-slate-500 dark:text-slate-300 flex items-center gap-2 shadow-xs">
+                <div class="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-none text-xs text-slate-600 flex items-center gap-2 shadow-xs">
                     <span class="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span>
                     <span class="font-bold text-[11px]">Robbani AI sedang berpikir...</span>
                 </div>
@@ -84,29 +84,29 @@
         </div>
 
         <!-- Quick Suggestion Chips -->
-        <div class="p-2.5 bg-slate-100/90 dark:bg-[#0c1a0e] border-t border-slate-200/80 dark:border-[#1b3d1f] flex items-center gap-2 overflow-x-auto text-[10px] font-bold shrink-0 no-scrollbar">
-            <button @click="sendMessage('Bagaimana cara mendaftar SPMB Online?')" class="px-3 py-1.5 rounded-full bg-white dark:bg-[#142c17] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#224d26] hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
+        <div class="p-2.5 bg-slate-100 border-t border-slate-200 flex items-center gap-2 overflow-x-auto text-[10px] font-bold shrink-0 no-scrollbar">
+            <button @click="sendMessage('Bagaimana cara mendaftar SPMB Online?')" class="px-3 py-1.5 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
                 📝 Pendaftaran SPMB
             </button>
-            <button @click="sendMessage('Apa saja 4 Unit Sekolah di SIT Robbani?')" class="px-3 py-1.5 rounded-full bg-white dark:bg-[#142c17] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#224d26] hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
+            <button @click="sendMessage('Apa saja 4 Unit Sekolah di SIT Robbani?')" class="px-3 py-1.5 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
                 🏫 4 Unit Sekolah
             </button>
-            <button @click="sendMessage('Berapa biaya SPP dan cara mengeceknya?')" class="px-3 py-1.5 rounded-full bg-white dark:bg-[#142c17] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#224d26] hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
+            <button @click="sendMessage('Berapa biaya SPP dan cara mengeceknya?')" class="px-3 py-1.5 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
                 💳 Rincian Biaya SPP
             </button>
-            <button @click="sendMessage('Dimana lokasi kampus dan kontak WhatsApp?')" class="px-3 py-1.5 rounded-full bg-white dark:bg-[#142c17] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#224d26] hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
+            <button @click="sendMessage('Dimana lokasi kampus dan kontak WhatsApp?')" class="px-3 py-1.5 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 shrink-0 shadow-2xs transition-colors">
                 📍 Alamat &amp; Kontak
             </button>
         </div>
 
         <!-- Input Bar -->
-        <div class="p-3 bg-white dark:bg-[#0c1a0e] border-t border-slate-200 dark:border-[#1b3d1f] shrink-0">
+        <div class="p-3 bg-white border-t border-slate-200 shrink-0">
             <form @submit.prevent="sendMessage()" class="flex items-center gap-2">
                 <input type="text" 
                        x-model="inputMessage" 
                        aria-label="Ketik pertanyaan untuk AI Assistant"
                        placeholder="Ketik pertanyaan seputar SIT Robbani..." 
-                       class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-[#142c17] text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600 border border-slate-200 dark:border-[#224d26]">
+                       class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-100 text-slate-900 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600 border border-slate-200">
                 <button type="submit" 
                         aria-label="Kirim Pesan ke AI"
                         :disabled="isLoading || !inputMessage.trim()"
@@ -205,7 +205,7 @@
                 if (!text) return '';
                 return text
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/`(.*?)`/g, '<code class="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-emerald-600 dark:text-[#a3e635] font-mono text-[11px]">$1</code>')
+                    .replace(/`(.*?)`/g, '<code class="bg-emerald-50 text-emerald-800 px-1.5 py-0.5 rounded font-mono text-[11px]">$1</code>')
                     .replace(/\n/g, '<br>');
             }
         }));
