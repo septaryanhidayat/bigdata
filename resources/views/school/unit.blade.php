@@ -408,49 +408,60 @@
         <!-- 2. MENU KECIL MELAYANG DI BAWAH BANNER (4 COMPACT ACTION CARDS 2x2 DI MOBILE) -->
         <section class="-mt-12 sm:-mt-20 relative z-30 px-4 sm:px-6">
             <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+                <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
                     
                     <!-- Card 1: Profil Sekolah -->
-                    <a href="#sambutan" class="bg-white dark:bg-[#0d1e0f] border-t-4 {{ $uTheme['top_border'] }} dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
-                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-emerald-50 dark:bg-[#153018] text-emerald-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-emerald-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">school</span>
+                    <a href="#sambutan" class="bg-white dark:bg-[#0d1e0f] border-t-4 {{ $uTheme['top_border'] }} dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
+                        <div class="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-emerald-50 dark:bg-[#153018] text-emerald-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-emerald-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]">school</span>
                         </div>
                         <div class="min-w-0">
-                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Profil Sekolah</h3>
-                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Visi misi &amp; sambutan</p>
+                            <h3 class="text-xs sm:text-xs font-black text-slate-900 dark:text-white font-headline group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Profil Sekolah</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Visi &amp; sambutan</p>
                         </div>
                     </a>
 
                     <!-- Card 2: PPDB 2026/2027 -->
-                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-amber-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
-                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-amber-50 dark:bg-[#153018] text-amber-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-amber-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">how_to_reg</span>
+                    <a href="{{ route('school.ppdb') }}" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-amber-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
+                        <div class="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-amber-50 dark:bg-[#153018] text-amber-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-amber-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]">how_to_reg</span>
                         </div>
                         <div class="min-w-0">
-                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">PPDB 2026</h3>
-                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Pendaftaran online</p>
+                            <h3 class="text-xs sm:text-xs font-black text-slate-900 dark:text-white font-headline group-hover:text-amber-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">PPDB 2026</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Daftar online</p>
                         </div>
                     </a>
 
                     <!-- Card 3: Program Unggulan -->
-                    <a href="#program" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-cyan-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
-                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-cyan-50 dark:bg-[#153018] text-cyan-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-cyan-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">menu_book</span>
+                    <a href="#program" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-cyan-500 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
+                        <div class="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-cyan-50 dark:bg-[#153018] text-cyan-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-cyan-500 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]">menu_book</span>
                         </div>
                         <div class="min-w-0">
-                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Program Unggulan</h3>
-                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Tahfidz &amp; kurikulum</p>
+                            <h3 class="text-xs sm:text-xs font-black text-slate-900 dark:text-white font-headline group-hover:text-cyan-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Program Unggulan</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Tahfidz &amp; digital</p>
                         </div>
                     </a>
 
-                    <!-- Card 4: Agenda Sekolah -->
-                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-indigo-600 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3.5 sm:p-5 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start text-center sm:text-left gap-2.5 sm:gap-3.5">
-                        <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-indigo-50 dark:bg-[#153018] text-indigo-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-indigo-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
-                            <span class="material-symbols-outlined text-[22px] sm:text-[26px]">calendar_month</span>
+                    <!-- Card 4: Fasilitas Unggulan -->
+                    <a href="#fasilitas" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-emerald-600 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
+                        <div class="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-emerald-50 dark:bg-[#153018] text-emerald-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-emerald-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]">apartment</span>
                         </div>
                         <div class="min-w-0">
-                            <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Agenda Sekolah</h3>
-                            <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Jadwal &amp; info resmi</p>
+                            <h3 class="text-xs sm:text-xs font-black text-slate-900 dark:text-white font-headline group-hover:text-emerald-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Fasilitas Unggulan</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Sarpras lengkap</p>
+                        </div>
+                    </a>
+
+                    <!-- Card 5: Agenda Sekolah -->
+                    <a href="#agenda-pengumuman" class="bg-white dark:bg-[#0d1e0f] border-t-4 border-t-indigo-600 dark:border-t-[#c6f634] border-x border-b border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3 col-span-2 sm:col-span-1">
+                        <div class="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-indigo-50 dark:bg-[#153018] text-indigo-600 dark:text-[#c6f634] flex items-center justify-center shrink-0 group-hover:bg-indigo-600 dark:group-hover:bg-[#c6f634] group-hover:text-white dark:group-hover:text-[#061107] transition-colors shadow-xs">
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]">calendar_month</span>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="text-xs sm:text-xs font-black text-slate-900 dark:text-white font-headline group-hover:text-indigo-600 dark:group-hover:text-[#c6f634] transition-colors leading-tight">Agenda Sekolah</h3>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 hidden sm:block mt-0.5">Jadwal &amp; info</p>
                         </div>
                     </a>
 
@@ -605,18 +616,18 @@
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
-                    <span class="unit-pill-badge inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider">KURIKULUM UNGGULAN</span>
+                    <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">KURIKULUM &amp; PROGRAM UNGGULAN</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Program Pembelajaran {{ $info['code'] }}</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengembangan potensi akademis, hafalan Al-Qur'an, koding digital, dan pembiasaan adab islami.</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengembangan potensi akademis, tahfidz Al-Qur'an, koding digital, dan pembiasaan adab islami.</p>
                 </div>
 
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     @foreach($info['programs'] as $prog)
-                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm flex flex-col items-center text-center space-y-2.5 hover:border-emerald-500 hover:shadow-lg transition-all">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center text-2xl font-bold shadow-xs">
-                            {{ $prog['icon'] }}
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col items-center text-center space-y-3 hover:border-emerald-500 hover:shadow-xl transition-all group">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-[#c6f634] text-emerald-800 dark:text-[#061107] flex items-center justify-center text-3xl font-bold shadow-xs group-hover:scale-110 transition-transform">
+                            {{ $prog['icon'] ?? '🌟' }}
                         </div>
-                        <h3 class="text-base font-bold font-headline text-slate-900 dark:text-white">{{ $prog['title'] }}</h3>
+                        <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors leading-snug">{{ $prog['title'] }}</h3>
                         <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">{{ $prog['desc'] }}</p>
                     </div>
                     @endforeach
@@ -625,113 +636,23 @@
             </div>
         </section>
 
-        <!-- 6 & 7. AGENDA & PENGUMUMAN SEBELAHAN (SIMETRIS & RAPI SEPERTI WEB UTAMA) -->
-        <section id="agenda-pengumuman" class="reveal-fade-up px-4 sm:px-6">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-                
-                <!-- Left: Agenda Sekolah Unit (50% Symmetrical Column) -->
-                <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between">
-                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-[#1a381c] pb-4">
-                        <div class="space-y-1">
-                            <span class="unit-pill-badge inline-block px-3 py-0.5 rounded-full bg-emerald-100 dark:bg-[#c6f634]/20 text-emerald-800 dark:text-[#c6f634] text-[11px] font-black uppercase tracking-wider">
-                                ✨ AGENDA UNIT {{ $info['code'] }}
-                            </span>
-                            <h2 class="text-lg sm:text-xl font-black font-headline text-slate-900 dark:text-white">Jadwal &amp; Kalender Kegiatan</h2>
-                        </div>
-                        <span class="text-xs text-slate-400 font-bold hidden sm:inline-block">Terjadwal</span>
-                    </div>
-
-                    @if(isset($unitAgendas) && count($unitAgendas) > 0)
-                    <div class="space-y-3.5">
-                        @foreach(array_slice($unitAgendas, 0, 3) as $ag)
-                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#061107] border border-slate-200/70 dark:border-[#1a381c] hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all flex items-start gap-3.5 group">
-                            <!-- Date Box -->
-                            <div class="w-12 h-12 rounded-xl bg-emerald-700 dark:bg-[#153018] text-white dark:text-[#c6f634] flex flex-col items-center justify-center font-black shrink-0 shadow-xs border border-transparent dark:border-[#1a381c]">
-                                <span class="text-sm leading-none font-headline">{{ preg_match('/\d+/', $ag['date'] ?? '', $m) ? $m[0] : '25' }}</span>
-                                <span class="text-[9px] uppercase tracking-wider mt-0.5">{{ strtoupper(substr(preg_replace('/[^a-zA-Z]/', '', $ag['date'] ?? 'AGU'), 0, 3)) ?: 'AGU' }}</span>
-                            </div>
-                            <!-- Agenda Details -->
-                            <div class="space-y-1 min-w-0 flex-1">
-                                <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors line-clamp-1">
-                                    {{ $ag['title'] }}
-                                </h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 leading-snug">{{ $ag['desc'] }}</p>
-                                <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400 dark:text-slate-400 pt-0.5">
-                                    <span class="flex items-center gap-1">📍 {{ $ag['location'] ?? 'Kampus SIT Robbani' }}</span>
-                                    <span>•</span>
-                                    <span class="flex items-center gap-1">⏰ {{ $ag['time'] ?? '08:00 WIB' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    @else
-                    <div class="p-8 text-center bg-slate-50 dark:bg-[#061107] rounded-2xl border border-slate-200/70 dark:border-[#1a381c] text-xs text-slate-500 dark:text-slate-400 space-y-1">
-                        <span class="text-2xl block mb-1">📅</span>
-                        <p class="font-bold">Belum ada agenda terdekat untuk unit ini.</p>
-                        <p class="text-[11px] text-slate-400">Jadwal kegiatan berkala akan diperbarui oleh admin unit.</p>
-                    </div>
-                    @endif
-                </div>
-
-                <!-- Right: Pengumuman Resmi Unit (50% Symmetrical Column) -->
-                <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between">
-                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-[#1a381c] pb-4">
-                        <div class="space-y-1">
-                            <span class="unit-pill-badge inline-block px-3 py-0.5 rounded-full bg-orange-100 dark:bg-[#c6f634]/20 text-orange-800 dark:text-[#c6f634] text-[11px] font-black uppercase tracking-wider">
-                                📢 INFORMASI RESMI
-                            </span>
-                            <h2 class="text-lg sm:text-xl font-black font-headline text-slate-900 dark:text-white">Pengumuman &amp; Edaran Unit</h2>
-                        </div>
-                        <span class="text-xs text-slate-400 font-bold hidden sm:inline-block">Terbaru</span>
-                    </div>
-
-                    @if(isset($unitAnnouncements) && count($unitAnnouncements) > 0)
-                    <div class="space-y-3.5">
-                        @foreach(array_slice($unitAnnouncements, 0, 3) as $ann)
-                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#061107] border-l-4 border-l-orange-500 dark:border-l-[#c6f634] border-y border-r border-slate-200/70 dark:border-y-[#1a381c] dark:border-r-[#1a381c] hover:border-orange-500 dark:hover:border-[#c6f634] transition-all space-y-1.5 group">
-                            <div class="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-400">
-                                <span class="font-bold text-orange-600 dark:text-[#c6f634] flex items-center gap-1">🗓️ {{ $ann['date'] ?? '17 Agustus 2026' }}</span>
-                                <span class="bg-orange-100 dark:bg-[#c6f634]/20 text-orange-800 dark:text-[#c6f634] px-2 py-0.5 rounded font-black uppercase text-[9px]">PENGUMUMAN</span>
-                            </div>
-                            <h3 class="text-xs sm:text-sm font-bold font-headline text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-[#c6f634] transition-colors line-clamp-1">
-                                {{ $ann['title'] }}
-                            </h3>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 leading-snug">
-                                {{ $ann['summary'] ?? $ann['excerpt'] ?? strip_tags($ann['content'] ?? '') }}
-                            </p>
-                        </div>
-                        @endforeach
-                    </div>
-                    @else
-                    <div class="p-8 text-center bg-slate-50 dark:bg-[#061107] rounded-2xl border border-slate-200/70 dark:border-[#1a381c] text-xs text-slate-500 dark:text-slate-400 space-y-1">
-                        <span class="text-2xl block mb-1">📢</span>
-                        <p class="font-bold">Belum ada pengumuman baru untuk unit ini.</p>
-                        <p class="text-[11px] text-slate-400">Pengumuman dan edaran wali murid akan ditampilkan di sini.</p>
-                    </div>
-                    @endif
-                </div>
-
-            </div>
-        </section>
-
-        <!-- 8. SARANA & FASILITAS SEKOLAH UNIT (MODERN ICON-BASED CARDS WITH LIGHT/DARK MODE) -->
+        <!-- 6. SARANA & FASILITAS SEKOLAH UNGGULAN (MODERN PHOTO & ICON CARDS) -->
         @if(isset($unitFacilities) && count($unitFacilities) > 0)
         <section id="fasilitas" class="reveal-fade-up px-4 sm:px-6">
             <div class="max-w-7xl mx-auto space-y-8">
                 
                 <div class="text-center space-y-1">
-                    <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">SARANA PRASARANA</span>
+                    <span class="unit-pill-badge inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-[#c6f634] text-[#004532] dark:text-[#061107] text-xs font-black uppercase tracking-wider shadow-sm">SARANA PRASARANA KHAS</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 dark:text-white">Fasilitas Unggulan {{ $info['code'] }}</h2>
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Sarana penunjang kenyamanan belajar, pembinaan karakter islami, dan aktivitas terpadu siswa.</p>
                 </div>
 
-                <div class="flex flex-wrap justify-center gap-5 sm:gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                     @foreach($unitFacilities as $fac)
                     @php
                         $facImg = !empty($fac['image']) ? (str_starts_with($fac['image'], 'http') ? $fac['image'] : asset($fac['image'])) : null;
                     @endphp
-                    <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
                         @if($facImg)
                         <div class="w-full h-48 overflow-hidden relative bg-slate-900 shrink-0">
                             <img src="{{ $facImg }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">

@@ -499,7 +499,20 @@ class SchoolWebsiteController extends Controller
         $defaultInfo = $unitMap[$uKey];
 
         // Merge custom setting if present
-        $info = array_merge($defaultInfo, $customUnit ?? []);
+        $info = array_merge($defaultInfo, array_filter($customUnit ?? []));
+
+        if (empty($info['programs'])) {
+            $info['programs'] = $defaultInfo['programs'] ?? [];
+        }
+        if (empty($info['facilities'])) {
+            $info['facilities'] = $defaultInfo['facilities'] ?? [];
+        }
+        if (empty($info['ekskul'])) {
+            $info['ekskul'] = $defaultInfo['ekskul'] ?? [];
+        }
+        if (empty($info['teachers'])) {
+            $info['teachers'] = $defaultInfo['teachers'] ?? [];
+        }
 
         if ($school) {
             $school->name = $info['name'];
@@ -554,9 +567,9 @@ class SchoolWebsiteController extends Controller
             $unitArticles = collect($allArticles)->take(6);
         }
 
-        $unitFacilities = $info['facilities'] ?? $this->getFacilityData();
-        $unitEkskul = $info['ekskul'] ?? [];
-        $unitGallery = $info['gallery'] ?? $this->getGalleryData();
+        $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
+        $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
+        $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
 
         // Unit Videos: fallback to global video list if empty
         $unitVideos = $info['videos'] ?? [];
