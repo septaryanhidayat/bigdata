@@ -134,7 +134,7 @@
             
             <!-- SmartEdu Logo & School Identity (Displayed on Mobile & Desktop) -->
             <a href="#" class="flex items-center gap-2.5 group">
-                <img src="/images/logo-robbani-light.png" alt="Logo SIT Robbani" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
+                <img src="/images/logo-robbani-official.png" alt="Logo SIT Robbani" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='/images/logo-robbani-light.png';">
                 <div class="border-l border-slate-200 pl-2.5">
                     <span class="text-[11px] sm:text-xs font-extrabold text-slate-900 uppercase tracking-wide block leading-tight">{{ $settings['edition_title'] }}</span>
                     <span class="text-[10px] sm:text-[11px] text-teal-700 font-semibold block leading-tight">{{ $settings['school_name'] }}</span>

@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Profil Resmi &amp; Sambutan Pimpinan Yayasan Generasi Robbani">
     <meta property="og:description" content="Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, &amp; SMAIT Robbani Ogan Ilir).">
-    <meta property="og:image" content="{{ !empty($settings['social_share_image']) ? $settings['social_share_image'] : '/images/logo robbani light.png' }}">
+    <meta property="og:image" content="{{ !empty($settings['social_share_image']) ? $settings['social_share_image'] : '/images/logo-robbani-official.png' }}">
 
     <!-- Tailwind CSS CDN with Custom Color Extensions -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -64,6 +64,31 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
         [x-cloak] { display: none !important; }
+    </style>
+
+    <!-- Smooth Scroll Reveal Animation Styles -->
+    <style>
+        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-scale-up { transform: scale(0.93); }
+        .reveal-slide-left { transform: translateX(-35px); }
+        .reveal-slide-right { transform: translateX(35px); }
+
+        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
+        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) translateX(0) !important;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#040d06] text-slate-900 dark:text-[#f0fdf4] antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
@@ -356,5 +381,29 @@
 
     @include('components.chat-ai-widget')
 
+
+    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.05
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
+            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
 </html>

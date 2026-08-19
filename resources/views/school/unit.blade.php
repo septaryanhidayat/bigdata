@@ -17,12 +17,12 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="Profil {{ $info['name'] }} | Portal Resmi SIT Robbani">
     <meta property="og:description" content="{{ $info['tagline'] }}">
-    <meta property="og:image" content="{{ asset('images/logo robbani light.png') }}">
+    <meta property="og:image" content="{{ asset('images/logo-robbani-official.png') }}">
     <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Profil {{ $info['name'] }}">
     <meta name="twitter:description" content="{{ $info['tagline'] }}">
-    <meta name="twitter:image" content="{{ asset('images/logo robbani light.png') }}">
+    <meta name="twitter:image" content="{{ asset('images/logo-robbani-official.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -182,6 +182,31 @@
         }
 
     </style>
+
+    <!-- Smooth Scroll Reveal Animation Styles -->
+    <style>
+        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-scale-up { transform: scale(0.93); }
+        .reveal-slide-left { transform: translateX(-35px); }
+        .reveal-slide-right { transform: translateX(35px); }
+
+        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
+        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) translateX(0) !important;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#061107] text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
 
@@ -263,7 +288,7 @@
         $uTheme = $themeConfig[$unitCodeLower] ?? $themeConfig['sdit'];
         $unitLogoPath = '/images/logo_' . $unitCodeLower . '.png';
         if (!file_exists(public_path($unitLogoPath))) {
-            $unitLogoPath = \App\Models\SiteSetting::get('logo_light', '/images/logo robbani light.png');
+            $unitLogoPath = \App\Models\SiteSetting::get('logo_light', '/images/logo-robbani-official.png');
         }
     @endphp
 
@@ -1205,6 +1230,30 @@
             document.querySelectorAll(".reveal-fade-up").forEach(el => {
                 observer.observe(el);
             });
+        });
+    </script>
+
+    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.05
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
+            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
         });
     </script>
 </body>

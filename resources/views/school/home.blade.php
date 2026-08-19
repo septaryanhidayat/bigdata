@@ -18,13 +18,13 @@
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir">
     <meta property="og:description" content="{{ $settings['hero_desc'] }}">
-    <meta property="og:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
+    <meta property="og:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo-robbani-official.png') }}">
     <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
     <meta property="og:locale" content="id_ID">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $settings['school_name'] }} | Website Resmi">
     <meta name="twitter:description" content="{{ $settings['hero_desc'] }}">
-    <meta name="twitter:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
+    <meta name="twitter:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo-robbani-official.png') }}">
 
     <!-- Schema.org EducationalOrganization & WebSite Structured Data -->
     <script type="application/ld+json">
@@ -71,7 +71,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
     <!-- Preload Critical LCP Logo & Hero Background -->
-    <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" fetchpriority="high">
     <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? str_replace(' ', '%20', $settings['hero_bg_image']) : asset('uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp') }}" fetchpriority="high">
 
     <!-- Google Fonts & Material Symbols (Asynchronous & Display Swap for 96+ Lighthouse FCP/LCP) -->
@@ -689,6 +689,31 @@
             font-weight: 900 !important;
         }
     </style>
+
+    <!-- Smooth Scroll Reveal Animation Styles -->
+    <style>
+        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-scale-up { transform: scale(0.93); }
+        .reveal-slide-left { transform: translateX(-35px); }
+        .reveal-slide-right { transform: translateX(35px); }
+
+        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
+        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) translateX(0) !important;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-body transition-colors duration-300 antialiased selection:bg-emerald-500 selection:text-white">
 
@@ -704,7 +729,7 @@
             
             <div class="flex items-center gap-md">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 logo-badge-container" title="SIT Robbani Ogan Ilir">
-                    <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}">
+                    <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}">
                     <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}">
                 </a>
             </div>
@@ -2427,7 +2452,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 pb-8 sm:pb-10 border-b border-emerald-800/60 dark:border-[#1a381c]">
                 <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4 text-center sm:text-left">
                     <div class="logo-badge-container">
-                        <img src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" width="160" height="48" loading="lazy" decoding="async" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 dark:hidden" alt="Logo SIT Robbani">
+                        <img src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" width="160" height="48" loading="lazy" decoding="async" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 dark:hidden" alt="Logo SIT Robbani">
                         <img src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" width="160" height="48" loading="lazy" decoding="async" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 hidden dark:block" alt="Logo SIT Robbani">
                     </div>
                     <div>
@@ -2593,5 +2618,29 @@
     <!-- Robbani AI Assistant Chat Widget -->
     @include('components.chat-ai-widget')
 
+
+    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.05
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
+            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
 </html>
