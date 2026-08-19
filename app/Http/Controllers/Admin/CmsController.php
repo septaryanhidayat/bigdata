@@ -21,7 +21,19 @@ class CmsController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));
+        $user = auth()->user();
+
+        // 1. Akun TU Unit (STAFF_TU) langsung diarahkan ke konten website unit
+        if ($user && $user->role === \App\Models\User::ROLE_STAFF_TU) {
+            return redirect()->route('admin.cms.content');
+        }
+
+        // 2. Kepala Unit (HEADMASTER) menampilkan dashboard overview unitnya saja
+        if ($user && $user->role === \App\Models\User::ROLE_HEADMASTER && $user->school_id) {
+            $schoolId = $user->school_id;
+        } else {
+            $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));
+        }
         session(['dashboard_school_id' => $schoolId]);
 
         $allSchools = School::all();

@@ -562,7 +562,7 @@
                 <p class="text-[10px] text-slate-400 font-semibold leading-tight sidebar-text">SmartEdu Ecosystem Active</p>
                 <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
-                    <button type="submit" title="Keluar / Logout" class="w-full py-2 px-3 rounded-xl bg-theme-gradient text-white font-black text-xs transition-colors shadow-lg flex items-center justify-center gap-2">
+                    <button type="submit" onclick="confirmAdminLogout(event)" title="Keluar / Logout" class="w-full py-2 px-3 rounded-xl bg-theme-gradient text-white font-black text-xs transition-colors shadow-lg flex items-center justify-center gap-2 cursor-pointer">
                         <span>🚪</span> <span class="logout-text">Keluar (Logout)</span>
                     </button>
                 </form>
@@ -633,7 +633,7 @@
                     </div>
                     <form action="{{ route('admin.logout') }}" method="POST" class="inline-block ml-1">
                         @csrf
-                        <button type="submit" title="Keluar / Logout dari Sistem" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5 text-xs font-black" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                        <button type="submit" onclick="confirmAdminLogout(event)" title="Keluar / Logout dari Sistem" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5 text-xs font-black cursor-pointer">
                             <span>🚪</span> <span class="hidden md:inline">Keluar</span>
                         </button>
                     </form>
@@ -955,6 +955,37 @@
         });
     </script>
     @endif
+    <script>
+        function confirmAdminLogout(event) {
+            event.preventDefault();
+            const form = event.currentTarget.closest('form');
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Keluar',
+                    text: 'Apakah Anda yakin ingin keluar dari Admin Portal SmartEdu?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e11d48',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, Keluar',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs',
+                        confirmButton: 'rounded-xl font-bold px-4 py-2 text-xs',
+                        cancelButton: 'rounded-xl font-bold px-4 py-2 text-xs'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            } else {
+                if (confirm('Apakah Anda yakin ingin keluar dari Admin Portal SmartEdu?')) {
+                    form.submit();
+                }
+            }
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

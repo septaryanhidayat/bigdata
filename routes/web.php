@@ -90,7 +90,7 @@ Route::get('/sales', [LandingPageController::class, 'index'])->name('sales');
 Route::get('/verifikasi-surat/{token}', [PublicLetterVerificationController::class, 'verify'])->name('letter.verify');
 
 // Login Route for Auth Middleware
-Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
 // Logout Routes (GET & POST)
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');

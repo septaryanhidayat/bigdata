@@ -53,7 +53,7 @@ class AuthController extends Controller
 
         $cookie = cookie()->forget('remember_web');
 
-        return redirect()->route('login')
+        return redirect()->route('admin.login')
             ->withCookie($cookie)
             ->with('success', 'Anda telah berhasil keluar dari sistem admin.');
     }
