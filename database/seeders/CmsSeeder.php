@@ -604,6 +604,7 @@ class CmsSeeder extends Seeder
 
         FeatureModule::truncate();
         foreach ($modules as $mod) {
+            $mod['is_active'] = true;
             FeatureModule::create($mod);
         }
 
