@@ -16,9 +16,10 @@ class EmployeeDossierController extends Controller
     /**
      * Daftar Lengkap Database & E-Berkas SDM Guru & Karyawan
      */
-    public function index(Request $request)
-    {
-        $schoolId = $request->input('school_id');
+        $user = auth()->user();
+        $effectiveSchoolId = $user?->getEffectiveSchoolId();
+        $schoolId = $effectiveSchoolId ?? $request->input('school_id');
+
         $search = trim((string)$request->input('search'));
         $roleType = $request->input('role_type');
         $status = $request->input('employment_status');

@@ -17,14 +17,14 @@ class CanteenController extends Controller
      */
     public function index()
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $outletsQuery = CanteenOutlet::withCount('products');
         $productsQuery = CanteenProduct::with('outlet');
         $transactionsQuery = CanteenTransaction::with(['outlet', 'student']);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $outletsQuery->where('school_id', $schoolId);
             $productsQuery->whereHas('outlet', function($q) use ($schoolId) {
                 $q->where('school_id', $schoolId);

@@ -11,10 +11,10 @@ class LibraryController extends Controller
 {
     public function index(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $booksQuery = LibraryBook::with('school');
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $booksQuery->where('school_id', $schoolId);
         }
 

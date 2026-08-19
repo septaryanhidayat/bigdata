@@ -220,6 +220,10 @@ class User extends Authenticatable
             return (int)$this->school_id;
         }
 
+        if ($this->employee && $this->employee->school_id) {
+            return (int)$this->employee->school_id;
+        }
+
         $sessionVal = session('dashboard_school_id', 'all');
         return ($sessionVal === 'all' || empty($sessionVal)) ? null : (int)$sessionVal;
     }

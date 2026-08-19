@@ -34,8 +34,10 @@ class UserController extends Controller
             $query->where('role', $request->role);
         }
 
-        // School unit filter
-        if ($request->filled('school_id') && $request->school_id !== 'all') {
+        $authUser = auth()->user();
+        if ($authUser && $authUser->school_id && !$authUser->isSuperAdmin() && !$authUser->isYayasan()) {
+            $query->where('school_id', $authUser->school_id);
+        } elseif ($request->filled('school_id') && $request->school_id !== 'all') {
             if ($request->school_id === 'yayasan') {
                 $query->whereNull('school_id');
             } else {
@@ -48,7 +50,8 @@ class UserController extends Controller
             $query->where('is_active', $request->status === 'active' ? 1 : 0);
         }
 
-        $users = $query->orderBy('role')->latest('id')->paginate(15);
+        $allUsers = $query->orderBy('role')->latest('id')->get();
+        $users = $query->orderBy('role')->latest('id')->paginate(500);
 
         // Stats Summary
         $totalUsers = User::count();
@@ -81,7 +84,7 @@ class UserController extends Controller
         ];
 
         return view('admin.users.index', compact(
-            'users', 'totalUsers', 'activeUsers', 'adminCount',
+            'users', 'allUsers', 'totalUsers', 'activeUsers', 'adminCount',
             'headmasterCount', 'teacherCount', 'staffCount',
             'schools', 'employees', 'roleOptions'
         ));

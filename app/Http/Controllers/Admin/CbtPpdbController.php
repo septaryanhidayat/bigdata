@@ -17,10 +17,10 @@ class CbtPpdbController extends Controller
 {
     public function cbtIndex(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $examsQuery = CbtExam::with('school');
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $examsQuery->where('school_id', $schoolId);
         }
 
@@ -35,7 +35,7 @@ class CbtPpdbController extends Controller
 
             foreach ($sampleExams as $ex) {
                 CbtExam::create([
-                    'school_id' => ($schoolId !== 'all') ? $schoolId : School::first()?->id,
+                    'school_id' => $schoolId ? $schoolId : School::first()?->id,
                     'title' => $ex['title'],
                     'subject_name' => $ex['subject'],
                     'duration_minutes' => $ex['duration'],
@@ -60,10 +60,10 @@ class CbtPpdbController extends Controller
             'total_questions' => 'required|integer',
         ]);
 
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         CbtExam::create([
-            'school_id' => ($schoolId !== 'all') ? $schoolId : School::first()?->id,
+            'school_id' => $schoolId ? $schoolId : School::first()?->id,
             'title' => $request->title,
             'subject_name' => $request->subject_name,
             'duration_minutes' => $request->duration_minutes,
@@ -78,10 +78,10 @@ class CbtPpdbController extends Controller
 
     public function ppdbIndex(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $ppdbQuery = PpdbRegistration::with('school');
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $ppdbQuery->where('school_id', $schoolId);
         }
 
