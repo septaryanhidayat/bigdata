@@ -11,20 +11,32 @@
     <link rel="canonical" href="{{ url('/') }}">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
-    <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=10">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=10">
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir">
-    <meta property="og:description" content="{{ $settings['hero_desc'] }}">
-    <meta property="og:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo-robbani-official.png') }}">
-    <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
+    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani">
+    <meta property="og:description" content="Official Portal Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT) - Yayasan Generasi Robbani Sumatera Selatan.">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SIT Robbani Ogan Ilir - Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url('/') }}">
     <meta name="twitter:title" content="{{ $settings['school_name'] }} | Website Resmi">
-    <meta name="twitter:description" content="{{ $settings['hero_desc'] }}">
-    <meta name="twitter:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo-robbani-official.png') }}">
+    <meta name="twitter:description" content="Official Portal Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT).">
+    <meta name="twitter:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
 
     <!-- Schema.org EducationalOrganization & WebSite Structured Data -->
     <script type="application/ld+json">

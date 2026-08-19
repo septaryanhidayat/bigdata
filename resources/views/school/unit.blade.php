@@ -10,19 +10,32 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <title>Profil Resmi {{ $info['name'] }} | Portal Terpadu SIT Robbani</title>
 
-    <!-- Favicon & Social Meta Tags -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=10">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=10">
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="Profil {{ $info['name'] }} | Portal Resmi SIT Robbani">
-    <meta property="og:description" content="{{ $info['tagline'] }}">
-    <meta property="og:image" content="{{ asset('images/logo-robbani-official.png') }}">
-    <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
+    <meta property="og:title" content="Profil Resmi {{ $info['name'] }} | SIT Robbani">
+    <meta property="og:description" content="{{ $info['tagline'] }} - Indralaya Utara, Ogan Ilir.">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ $info['name'] }} - SIT Robbani">
+    <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Profil {{ $info['name'] }}">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="Profil Resmi {{ $info['name'] }} | SIT Robbani">
     <meta name="twitter:description" content="{{ $info['tagline'] }}">
-    <meta name="twitter:image" content="{{ asset('images/logo-robbani-official.png') }}">
+    <meta name="twitter:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

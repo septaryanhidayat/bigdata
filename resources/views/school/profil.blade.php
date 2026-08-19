@@ -6,13 +6,24 @@
     <title>Profil Resmi & Sambutan Pimpinan | {{ $foundationProfile['name'] ?? $settings['school_name'] }}</title>
     <meta name="description" content="Profil Resmi, Sambutan Pimpinan, Visi Misi, dan 5 Pilar Utama Pendidikan Yayasan Generasi Robbani Sumatera Selatan.">
 
-    <!-- Favicon & Social Sharing Meta Tags -->
-    <link rel="icon" type="image/png" href="{{ !empty($settings['website_favicon']) ? $settings['website_favicon'] : '/favicon.png' }}?v=2">
-    <link rel="apple-touch-icon" href="{{ !empty($settings['website_favicon']) ? $settings['website_favicon'] : '/favicon.png' }}?v=2">
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:title" content="Profil Resmi &amp; Sambutan Pimpinan Yayasan Generasi Robbani">
-    <meta property="og:description" content="Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, &amp; SMAIT Robbani Ogan Ilir).">
-    <meta property="og:image" content="{{ !empty($settings['social_share_image']) ? $settings['social_share_image'] : '/images/logo-robbani-official.png' }}">
+    <meta property="og:description" content="Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, &amp; SMAIT Robbani Ogan Ilir) - Indralaya Utara, Ogan Ilir.">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
 
     <!-- Tailwind CSS CDN with Custom Color Extensions -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>

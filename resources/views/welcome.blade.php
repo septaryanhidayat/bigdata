@@ -48,24 +48,24 @@
     <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
 
     <!-- Open Graph (OG) Meta Tags for WhatsApp, Facebook, Telegram, LinkedIn -->
-    <link rel="image_src" href="{{ asset('images/og_share_image.png') }}?v=3">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="{{ $settings['app_name'] }}">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $settings['app_name'] }} - {{ $settings['school_name'] }} | Platform Digital Sekolah Islam Terpadu">
+    <meta property="og:title" content="{{ $settings['school_name'] }} | Platform Digital SmartEdu">
     <meta property="og:description" content="{{ $settings['hero_desc'] }}">
-    <meta property="og:image" content="{{ asset('images/og_share_image.png') }}?v=3">
-    <meta property="og:image:secure_url" content="{{ asset('images/og_share_image.png') }}?v=3">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
     <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="600">
-    <meta property="og:image:height" content="600">
-    <meta itemprop="image" content="{{ asset('images/og_share_image.png') }}?v=3">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta itemprop="image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
 
     <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="{{ $settings['app_name'] }} - {{ $settings['school_name'] }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $settings['school_name'] }}">
     <meta name="twitter:description" content="{{ $settings['hero_desc'] }}">
-    <meta name="twitter:image" content="{{ asset('images/og_share_image.png') }}?v=3">
+    <meta name="twitter:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
 
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

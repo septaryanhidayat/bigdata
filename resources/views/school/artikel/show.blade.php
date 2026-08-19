@@ -3,7 +3,35 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $article['title'] }} | {{ $settings['school_name'] }}</title>
+    <title>{{ $article['title'] }} | {{ $settings['school_name'] ?? 'SIT Robbani Ogan Ilir' }}</title>
+    <meta name="description" content="{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($article['content'] ?? ''))), 160) }}">
+    
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    @php
+        $rawArtImg = $article['image'] ?? '/images/og_share_robbani.png';
+        $fullArtImg = str_starts_with($rawArtImg, 'http') ? $rawArtImg : asset(ltrim($rawArtImg, '/'));
+    @endphp
+    <link rel="image_src" href="{{ $fullArtImg }}">
+
+    <!-- Open Graph / Facebook / WhatsApp SEO -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $article['title'] }}">
+    <meta property="og:description" content="{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($article['content'] ?? ''))), 160) }}">
+    <meta property="og:image" content="{{ $fullArtImg }}">
+    <meta property="og:image:secure_url" content="{{ $fullArtImg }}">
+    <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter Card SEO -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="{{ $article['title'] }}">
+    <meta name="twitter:description" content="{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($article['content'] ?? ''))), 160) }}">
+    <meta name="twitter:image" content="{{ $fullArtImg }}">
     
     <!-- Tailwind CSS CDN with darkMode: 'class' -->
     <script src="https://cdn.tailwindcss.com"></script>

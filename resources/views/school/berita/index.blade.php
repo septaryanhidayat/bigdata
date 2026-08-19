@@ -6,13 +6,24 @@
     <title>Portal Berita &amp; Pengumuman | {{ $settings['school_name'] }}</title>
     <meta name="description" content="Informasi resmi seputar Haflah, Wisuda Tahfidz, Prestasi Siswa, dan Kegiatan Belajar Unit KB/TKIT, SDIT, SMPIT, SMAIT Robbani Ogan Ilir.">
     <meta name="keywords" content="Berita SIT Robbani, Kegiatan Sekolah Islam Ogan Ilir, TKIT SDIT SMPIT SMAIT Robbani, Berita Pendidikan Islam Indralaya">
-    <link rel="canonical" href="{{ url('/berita') }}">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/berita') }}">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:title" content="Portal Berita Resmi | SIT Robbani Ogan Ilir">
-    <meta property="og:description" content="Kumpulan berita, liputan kegiatan, dan pengumuman resmi SIT Robbani Ogan Ilir.">
-    <meta property="og:image" content="{{ asset('images/logo-robbani-official.png') }}">
+    <meta property="og:description" content="Kumpulan berita, liputan kegiatan, dan pengumuman resmi SIT Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT).">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>

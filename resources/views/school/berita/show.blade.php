@@ -13,13 +13,24 @@
     <link rel="canonical" href="{{ url()->current() }}">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    @php
+        $rawNewsImg = $news['image'] ?? '/images/og_share_robbani.png';
+        $fullNewsImg = str_starts_with($rawNewsImg, 'http') ? $rawNewsImg : asset(ltrim($rawNewsImg, '/'));
+    @endphp
+    <link rel="image_src" href="{{ $fullNewsImg }}">
+
     <!-- Open Graph / Facebook / WhatsApp SEO -->
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="{{ $news['title'] }}">
     <meta property="og:description" content="{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($news['content']))), 160) }}">
-    <meta property="og:image" content="{{ str_starts_with($news['image'], 'http') ? $news['image'] : url($news['image']) }}">
+    <meta property="og:image" content="{{ $fullNewsImg }}">
+    <meta property="og:image:secure_url" content="{{ $fullNewsImg }}">
     <meta property="og:image:alt" content="{{ $news['title'] }}">
     <meta property="og:locale" content="id_ID">
     <meta property="article:published_time" content="{{ date('c', strtotime($news['date'] ?? now())) }}">
@@ -30,7 +41,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="{{ $news['title'] }}">
     <meta name="twitter:description" content="{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($news['content']))), 160) }}">
-    <meta name="twitter:image" content="{{ str_starts_with($news['image'], 'http') ? $news['image'] : url($news['image']) }}">
+    <meta name="twitter:image" content="{{ $fullNewsImg }}">
 
     <!-- Schema.org JSON-LD Structured Data for Google Indexing -->
     <script type="application/ld+json">
