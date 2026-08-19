@@ -396,10 +396,78 @@ class CmsController extends Controller
             'target_hafalan' => $request->input('target_hafalan'),
         ];
 
-        // Preserve teachers list if present
-        if (!empty($exData['teachers'])) {
-            $data['teachers'] = $exData['teachers'];
+        // Process Teachers & Staff List
+        $teachersInput = $request->input('teachers', []);
+        $processedTeachers = [];
+        if (is_array($teachersInput)) {
+            foreach ($teachersInput as $idx => $t) {
+                if (empty($t['name'])) continue;
+                $tPhoto = $t['photo'] ?? ($exData['teachers'][$idx]['photo'] ?? '/images/mockup_mobile_1.png');
+                if ($request->hasFile("teacher_photo_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("teacher_photo_{$idx}"), 'uploads/cms', 'guru_' . $cleanCode . '_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $tPhoto = $comp . '?v=' . time();
+                    }
+                }
+                $processedTeachers[] = [
+                    'name' => trim($t['name']),
+                    'role' => trim($t['role'] ?? 'Guru / Pendidik'),
+                    'photo' => $tPhoto,
+                    'bio' => trim($t['bio'] ?? ''),
+                ];
+            }
         }
+        $data['teachers'] = !empty($processedTeachers) ? $processedTeachers : ($exData['teachers'] ?? []);
+
+        // Process Programs List
+        $programsInput = $request->input('programs', []);
+        $processedPrograms = [];
+        if (is_array($programsInput)) {
+            foreach ($programsInput as $p) {
+                if (empty($p['title'])) continue;
+                $processedPrograms[] = [
+                    'title' => trim($p['title']),
+                    'icon' => trim($p['icon'] ?? '📖'),
+                    'desc' => trim($p['desc'] ?? ''),
+                ];
+            }
+        }
+        $data['programs'] = !empty($processedPrograms) ? $processedPrograms : ($exData['programs'] ?? []);
+
+        // Process Facilities List
+        $facilitiesInput = $request->input('facilities', []);
+        $processedFacilities = [];
+        if (is_array($facilitiesInput)) {
+            foreach ($facilitiesInput as $f) {
+                if (empty($f['title'])) continue;
+                $processedFacilities[] = [
+                    'title' => trim($f['title']),
+                    'badge' => trim($f['badge'] ?? 'Fasilitas Unit'),
+                    'icon' => trim($f['icon'] ?? '🏫'),
+                    'desc' => trim($f['desc'] ?? ''),
+                    'image' => trim($f['image'] ?? '/images/mockup_desktop_1.png'),
+                ];
+            }
+        }
+        $data['facilities'] = !empty($processedFacilities) ? $processedFacilities : ($exData['facilities'] ?? []);
+
+        // Process Ekskul List
+        $ekskulInput = $request->input('ekskul', []);
+        $processedEkskul = [];
+        if (is_array($ekskulInput)) {
+            foreach ($ekskulInput as $e) {
+                if (empty($e['title'])) continue;
+                $processedEkskul[] = [
+                    'title' => trim($e['title']),
+                    'badge' => trim($e['badge'] ?? 'Ekstrakurikuler'),
+                    'icon' => trim($e['icon'] ?? '⭐'),
+                    'desc' => trim($e['desc'] ?? ''),
+                    'image' => trim($e['image'] ?? '/images/mockup_desktop_2.png'),
+                ];
+            }
+        }
+        $data['ekskul'] = !empty($processedEkskul) ? $processedEkskul : ($exData['ekskul'] ?? []);
+        $data['gallery'] = $exData['gallery'] ?? [];
 
         // Handle Kepsek Photo upload
         if ($request->hasFile('principal_photo')) {
@@ -437,7 +505,7 @@ class CmsController extends Controller
 
         SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        return redirect()->route('admin.settings.units')->with('success', "Profil & Banner Hero Unit " . strtoupper($cleanCode) . " berhasil diperbarui secara mandiri!");
+        return redirect()->back()->with('success', "✓ Profil, Data Guru, Banner Hero, & Konten Web Unit " . strtoupper($cleanCode) . " berhasil diperbarui!");
     }
 
     public function updateSettings(Request $request)
