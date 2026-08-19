@@ -32,39 +32,39 @@
     </div>
     @endif
 
-    <!-- Google Maps Coordinate Guide Box -->
-    <div class="p-5 rounded-2xl bg-slate-900 border-2 border-amber-500/50 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
+    <!-- Google Maps Coordinate Guide Box (Light Mode) -->
+    <div class="p-5 rounded-2xl bg-amber-50 border border-amber-300 text-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
         <div class="flex items-start gap-3">
             <span class="text-2xl">🗺️</span>
             <div>
-                <h4 class="text-sm font-black text-amber-300">Cara Mengambil Titik Koordinat dari Google Maps:</h4>
-                <p class="text-xs text-slate-200 mt-1 leading-relaxed">
-                    1. Buka <a href="https://maps.google.com" target="_blank" class="underline font-black text-amber-300">Google Maps</a> di browser ➔ 
+                <h4 class="text-xs font-black text-amber-900 uppercase tracking-wider">Cara Mengambil Titik Koordinat dari Google Maps:</h4>
+                <p class="text-xs text-slate-700 mt-1 leading-relaxed font-semibold">
+                    1. Buka <a href="https://maps.google.com" target="_blank" class="underline font-black text-amber-900">Google Maps</a> di browser ➔ 
                     2. Cari lokasi gedung kampus unit sekolah Anda ➔ 
                     3. <strong>Klik kanan</strong> tepat pada atap gedung sekolah ➔ 
-                    4. Klik angka koordinat di menu paling atas (misal: <code class="bg-slate-800 text-emerald-300 px-1.5 py-0.5 rounded font-mono font-bold">-3.220800, 104.650400</code>) untuk menyalin ➔ 
+                    4. Klik angka koordinat di menu paling atas (misal: <code class="bg-amber-100 text-amber-950 px-1.5 py-0.5 rounded font-mono font-bold">-3.220800, 104.650400</code>) untuk menyalin ➔ 
                     5. Masukkan ke formulir unit di bawah ini lalu klik <strong>Simpan</strong>.
                 </p>
             </div>
         </div>
-        <a href="https://maps.google.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shrink-0 shadow-lg flex items-center gap-1">
+        <a href="https://maps.google.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shrink-0 shadow-md flex items-center gap-1">
             <span>🌐</span> Buka Google Maps ↗
         </a>
     </div>
 
-    <!-- Grid Unit School Geofences -->
+    <!-- Grid Unit School Geofences (Pure Light Mode) -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach($schools as $school)
-        <div class="bg-slate-900 text-white rounded-3xl border-2 border-slate-700/80 shadow-xl p-6 space-y-5">
+        <div class="bg-white text-slate-900 rounded-3xl border border-slate-200 shadow-sm p-6 space-y-5">
             <!-- Unit Header -->
-            <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-black text-lg border border-emerald-500/40">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-base border border-emerald-300">
                         {{ $school->code }}
                     </div>
                     <div>
-                        <h3 class="text-base font-black text-white">{{ $school->name }}</h3>
-                        <span class="text-xs text-slate-400">NPSN: {{ $school->npsn ?? '1064xxxx' }} • Unit ID: {{ $school->id }}</span>
+                        <h3 class="text-base font-black text-slate-900">{{ $school->name }}</h3>
+                        <span class="text-xs text-slate-500 font-medium">NPSN: {{ $school->npsn ?? '1064xxxx' }} • Unit ID: {{ $school->id }}</span>
                     </div>
                 </div>
 
@@ -76,13 +76,13 @@
                 </a>
             </div>
 
-            <!-- Form Edit Geofence -->
+            <!-- Form Edit Geofence (Light Mode) -->
             <form action="{{ route('admin.mobile.geofence.update', $school->id) }}" method="POST" class="space-y-4">
                 @csrf
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-black text-emerald-300 mb-1.5">
+                        <label class="block text-xs font-black text-emerald-900 mb-1.5 uppercase">
                             Titik Latitude (Lintang) *
                         </label>
                         <input type="text" 
@@ -90,11 +90,11 @@
                                value="{{ $school->latitude ?? -3.22080000 }}" 
                                required 
                                placeholder="Contoh: -3.22080000" 
-                               class="w-full px-4 py-2.5 rounded-xl bg-slate-800 text-white font-mono font-black text-sm border-2 border-slate-600 focus:border-emerald-400 focus:bg-slate-750 focus:outline-none shadow-inner">
+                               class="w-full px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 font-mono font-black text-xs border border-slate-300 focus:border-emerald-600 focus:outline-none">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-black text-emerald-300 mb-1.5">
+                        <label class="block text-xs font-black text-emerald-900 mb-1.5 uppercase">
                             Titik Longitude (Bujur) *
                         </label>
                         <input type="text" 
@@ -102,12 +102,12 @@
                                value="{{ $school->longitude ?? 104.65040000 }}" 
                                required 
                                placeholder="Contoh: 104.65040000" 
-                               class="w-full px-4 py-2.5 rounded-xl bg-slate-800 text-white font-mono font-black text-sm border-2 border-slate-600 focus:border-emerald-400 focus:bg-slate-750 focus:outline-none shadow-inner">
+                               class="w-full px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 font-mono font-black text-xs border border-slate-300 focus:border-emerald-600 focus:outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-black text-emerald-300 mb-1.5">
+                    <label class="block text-xs font-black text-emerald-900 mb-1.5 uppercase">
                         Radius Toleransi Presensi (Meter) *
                     </label>
                     <div class="flex items-center gap-3">
@@ -118,29 +118,29 @@
                                min="20" 
                                max="2000" 
                                step="10" 
-                               class="w-36 px-4 py-2.5 rounded-xl bg-slate-800 text-white font-mono font-black text-sm border-2 border-slate-600 focus:border-emerald-400 focus:outline-none shadow-inner">
-                        <span class="text-xs text-slate-300 font-semibold">
+                               class="w-36 px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 font-mono font-black text-xs border border-slate-300 focus:border-emerald-600 focus:outline-none">
+                        <span class="text-xs text-slate-600 font-semibold">
                             Meter dari titik pusat (Disarankan: 100 - 250m)
                         </span>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-black text-slate-300 mb-1.5">
+                    <label class="block text-xs font-black text-slate-800 mb-1.5 uppercase">
                         Alamat / Keterangan Gedung Kampus
                     </label>
                     <input type="text" 
                            name="address" 
                            value="{{ $school->address ?? 'Jl. Lintas Timur KM 35 Indralaya, Ogan Ilir' }}" 
-                           class="w-full px-4 py-2 rounded-xl bg-slate-800 text-white font-medium text-xs border border-slate-600 focus:border-emerald-400 focus:outline-none">
+                           class="w-full px-4 py-2 rounded-xl bg-slate-50 text-slate-900 font-medium text-xs border border-slate-300 focus:border-emerald-600 focus:outline-none">
                 </div>
 
                 <div class="pt-2 flex items-center justify-between">
-                    <span class="text-[11px] text-slate-400 font-mono">
+                    <span class="text-[11px] text-slate-500 font-mono">
                         Koordinat Aktif: {{ number_format((float)($school->latitude ?? -3.2208), 6) }}, {{ number_format((float)($school->longitude ?? 104.6504), 6) }}
                     </span>
-                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center gap-1.5 cursor-pointer">
-                        <span>💾</span> Simpan Titik Koordinat &amp; Radius
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all">
+                        Simpan Titik Koordinat &amp; Radius ➔
                     </button>
                 </div>
             </form>

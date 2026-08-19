@@ -24,11 +24,11 @@
         </div>
     </div>
 
-    <!-- Table Card -->
-    <div class="bg-slate-900 text-white rounded-3xl border-2 border-slate-700/80 shadow-xl overflow-hidden">
+    <!-- Table Card (Pure Light Mode) -->
+    <div class="bg-white text-slate-800 rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-200">
-                <thead class="bg-slate-950 text-xs uppercase text-slate-300 font-extrabold border-b border-slate-800">
+            <table class="w-full text-left text-xs text-slate-800">
+                <thead class="bg-slate-100 text-xs uppercase text-slate-700 font-black border-b border-slate-200">
                     <tr>
                         <th class="px-6 py-4">Pegawai &amp; Unit</th>
                         <th class="px-6 py-4">Foto Biometrik</th>
@@ -37,26 +37,26 @@
                         <th class="px-6 py-4">Model AI / Confidence</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-800">
+                <tbody class="divide-y divide-slate-200">
                     @forelse($employees as $emp)
-                    <tr class="hover:bg-slate-800/60 transition-colors">
+                    <tr class="hover:bg-slate-50 transition-colors">
                         <td class="px-6 py-4">
-                            <div class="font-extrabold text-white text-sm">{{ $emp->full_name }}</div>
-                            <div class="text-xs text-slate-400 mt-0.5">NIP: {{ $emp->nip ?? '-' }} • <span class="text-emerald-400 font-bold">{{ $emp->role_type ?? 'Pendidik' }}</span></div>
+                            <div class="font-extrabold text-slate-900 text-xs">{{ $emp->full_name }}</div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">NIP: {{ $emp->nip ?? '-' }} • <span class="text-emerald-700 font-bold">{{ $emp->role_type ?? 'Pendidik' }}</span></div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="w-12 h-12 rounded-full overflow-hidden border-2 {{ $emp->face_registered_at ? 'border-emerald-400 shadow-sm' : 'border-slate-700' }} bg-slate-800 flex items-center justify-center shrink-0">
+                            <div class="w-10 h-10 rounded-full overflow-hidden border-2 {{ $emp->face_registered_at ? 'border-emerald-500 shadow-xs' : 'border-slate-300' }} bg-slate-100 flex items-center justify-center shrink-0">
                                 <img src="{{ $emp->face_photo_url ? (str_starts_with($emp->face_photo_url, 'http') ? $emp->face_photo_url : asset($emp->face_photo_url)) : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200' }}" 
                                      alt="{{ $emp->full_name }}" 
                                      class="w-full h-full object-cover">
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-3 py-1 rounded-full text-xs font-black {{ $emp->face_registered_at ? 'bg-emerald-950 text-emerald-300 border border-emerald-700' : 'bg-rose-950 text-rose-300 border border-rose-700' }}">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black {{ $emp->face_registered_at ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300' }}">
                                 {{ $emp->face_registered_at ? '✓ Terverifikasi Biometrik' : 'Belum Terdaftar' }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-xs font-mono text-slate-300">
+                        <td class="px-6 py-4 text-[11px] font-mono text-slate-600">
                             {{ $emp->face_registered_at ? date('d M Y, H:i', strtotime($emp->face_registered_at)) . ' WIB' : '-' }}
                         </td>
                         <td class="px-6 py-4">

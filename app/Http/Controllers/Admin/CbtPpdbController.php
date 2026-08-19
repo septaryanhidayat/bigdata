@@ -79,23 +79,32 @@ class CbtPpdbController extends Controller
     public function ppdbIndex(Request $request)
     {
         $schoolId = auth()->user()?->getEffectiveSchoolId();
+        $schoolObj = $schoolId ? School::find($schoolId) : null;
+        $schoolCode = $schoolObj?->code ?? null;
+
         $ppdbQuery = PpdbRegistration::with('school');
 
         if ($schoolId) {
             $ppdbQuery->where('school_id', $schoolId);
+            if ($schoolCode) {
+                $ppdbQuery->where(function($q) use ($schoolCode) {
+                    $q->where('target_level', $schoolCode)
+                      ->orWhere('target_level', 'like', "%{$schoolCode}%");
+                });
+            }
         }
 
         $registrations = $ppdbQuery->latest()->get();
 
         if ($registrations->isEmpty()) {
+            $unitLevel = $schoolCode ?? 'SMPIT';
             $samples = [
-                ['name' => 'Fathan Al-Ghazali', 'parent' => 'Bapak Muhammad Hidayat', 'level' => 'SDIT', 'prev' => 'TKIT Robbani', 'phone' => '081234567890'],
-                ['name' => 'Zahra Khairunnisa', 'parent' => 'Ibu Rahmawati, S.Pd', 'level' => 'SMPIT', 'prev' => 'SDIT Robbani', 'phone' => '081398765432'],
-                ['name' => 'Ahmad Rayhan Utama', 'parent' => 'Bapak Ir. Hendra', 'level' => 'SMAIT', 'prev' => 'SMPIT Negeri 1', 'phone' => '081511223344'],
+                ['name' => 'Calon Siswa 1 ' . $unitLevel, 'parent' => 'Orang Tua A', 'level' => $unitLevel, 'prev' => 'Sekolah Asal 1', 'phone' => '081234567890'],
+                ['name' => 'Calon Siswa 2 ' . $unitLevel, 'parent' => 'Orang Tua B', 'level' => $unitLevel, 'prev' => 'Sekolah Asal 2', 'phone' => '081398765432'],
             ];
 
             foreach ($samples as $idx => $s) {
-                $targetSchoolId = ($schoolId !== 'all') ? $schoolId : (School::first()?->id ?? 1);
+                $targetSchoolId = $schoolId ? $schoolId : (School::first()?->id ?? 1);
                 $regNum = 'PPDB-2026-S' . $targetSchoolId . '-00' . ($idx + 1);
 
                 PpdbRegistration::firstOrCreate(

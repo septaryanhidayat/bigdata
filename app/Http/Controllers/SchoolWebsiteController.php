@@ -1552,24 +1552,41 @@ class SchoolWebsiteController extends Controller
     public function getHeaderMenus()
     {
         $cmsJson = SiteSetting::get('cms_header_menus');
+        $menus = [];
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
-                return $data;
+                $menus = $data;
             }
         }
 
-        return [
-            ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
-            ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
-            ['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true],
-            ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
-            ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
-            ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
-            ['title' => 'Sarana & Prasarana', 'url' => '#sarana-prasarana', 'is_active' => true],
-            ['title' => 'Galeri', 'url' => '#galeri-sekolah', 'is_active' => true],
-            ['title' => 'E-SPP', 'url' => route('school.espp'), 'is_active' => true],
-        ];
+        if (empty($menus)) {
+            $menus = [
+                ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
+                ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
+                ['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true],
+                ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
+                ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
+                ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
+                ['title' => 'Sarana & Prasarana', 'url' => '#sarana-prasarana', 'is_active' => true],
+                ['title' => 'Galeri', 'url' => '#galeri-sekolah', 'is_active' => true],
+                ['title' => 'E-SPP', 'url' => route('school.espp'), 'is_active' => true],
+            ];
+        } else {
+            $hasLayanan = false;
+            foreach ($menus as $m) {
+                if (isset($m['title']) && strtolower($m['title']) === 'layanan') {
+                    $hasLayanan = true;
+                    break;
+                }
+            }
+            if (!$hasLayanan) {
+                // Insert Layanan right after Profil
+                array_splice($menus, 2, 0, [['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true]]);
+            }
+        }
+
+        return $menus;
     }
 
     /**

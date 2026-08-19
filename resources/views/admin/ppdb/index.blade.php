@@ -32,7 +32,7 @@
 
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
-                <thead class="bg-slate-900 text-white font-bold uppercase">
+                <thead class="bg-slate-100 text-slate-700 font-black border-b border-slate-200 uppercase">
                     <tr>
                         <th class="p-4">No. Registrasi</th>
                         <th class="p-4">Nama Calon Siswa</th>
@@ -44,7 +44,7 @@
                         <th class="p-4">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
+                <tbody class="divide-y divide-slate-200 font-medium text-slate-800">
                     @forelse($registrations as $reg)
                     <tr class="hover:bg-slate-50">
                         <td class="p-4 font-mono font-bold text-slate-900">{{ $reg->registration_number }}</td>
