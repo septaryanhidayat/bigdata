@@ -86,6 +86,7 @@
             <div class="hidden md:flex items-center gap-2 lg:gap-3 text-xs font-extrabold">
                 <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">🏠 Beranda</a>
                 <a href="{{ route('school.profil') }}" class="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[#0d1e0f] text-[#004532] dark:text-[#c6f634] font-black border border-emerald-300 dark:border-[#1a381c]">👤 Profil Yayasan</a>
+                <a href="{{ route('school.layanan.kunjungan') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📋 Layanan</a>
                 <a href="{{ route('school.berita') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📰 Berita</a>
                 <a href="{{ route('school.artikel') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📖 Artikel</a>
                 <a href="{{ route('school.fasilitas') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">🏢 Fasilitas</a>

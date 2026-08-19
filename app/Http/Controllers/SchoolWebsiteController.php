@@ -820,7 +820,8 @@ class SchoolWebsiteController extends Controller
     public function layananKunjungan()
     {
         $settings = $this->getSettings();
-        return view('school.layanan.kunjungan', compact('settings'));
+        $activeTab = 'kunjungan';
+        return view('school.layanan.index', compact('settings', 'activeTab'));
     }
 
     public function storeLayananKunjungan(Request $request)
@@ -841,7 +842,8 @@ class SchoolWebsiteController extends Controller
     public function layananKerjasama()
     {
         $settings = $this->getSettings();
-        return view('school.layanan.kerjasama', compact('settings'));
+        $activeTab = 'kerjasama';
+        return view('school.layanan.index', compact('settings', 'activeTab'));
     }
 
     public function storeLayananKerjasama(Request $request)
@@ -862,7 +864,8 @@ class SchoolWebsiteController extends Controller
     {
         $settings = $this->getSettings();
         $facilityList = $this->getFacilityData();
-        return view('school.layanan.sewa', compact('settings', 'facilityList'));
+        $activeTab = 'sewa';
+        return view('school.layanan.index', compact('settings', 'facilityList', 'activeTab'));
     }
 
     public function storeLayananSewa(Request $request)
@@ -1544,6 +1547,7 @@ class SchoolWebsiteController extends Controller
         return [
             ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
             ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
+            ['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true],
             ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
             ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
             ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
