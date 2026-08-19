@@ -650,12 +650,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                     @foreach($unitFacilities as $fac)
                     @php
-                        $facImg = !empty($fac['image']) ? (str_starts_with($fac['image'], 'http') ? $fac['image'] : asset($fac['image'])) : null;
+                        $rawFacImg = $fac['image'] ?? '';
+                        if (!empty($rawFacImg) && !str_contains($rawFacImg, 'mockup_desktop')) {
+                            $facImg = str_starts_with($rawFacImg, 'http') ? $rawFacImg : asset(ltrim($rawFacImg, '/'));
+                        } else {
+                            $facImg = null;
+                        }
                     @endphp
                     <div class="bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-500 dark:hover:border-[#c6f634] transition-all group flex flex-col justify-between">
                         @if($facImg)
                         <div class="w-full h-48 overflow-hidden relative bg-slate-900 shrink-0">
-                            <img src="{{ $facImg }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/mockup_desktop_1.png';">
+                            <img src="{{ $facImg }}" alt="{{ $fac['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full h-full object-contain p-6 bg-slate-900';">
                             <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/20 shadow-md">
                                 {{ $fac['badge'] ?? 'Fasilitas Unggulan' }}
                             </span>
