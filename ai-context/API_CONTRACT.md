@@ -1,18 +1,19 @@
-# SmartEdu SIT Robbani — API Contract (API_CONTRACT.md)
+# SmartEdu SIT Robbani — API Contract
 
-> **Kontrak Lengkap REST API Mobile, Webhook Payment, dan Integrasi Eksternal**
-> *Terakhir diperbarui: 17 Agustus 2026*
+> *REST API Mobile HRIS — Laravel Sanctum Authentication*  
+> *Base URL Production: `https://sitrobbani.sch.id/api/v1/`*  
+> *Base URL Development: `http://bigdata.test/api/v1/`*  
+> *Terakhir diperbarui: 18 Agustus 2026*
 
 ---
 
-## 🔐 1. Autentikasi API Mobile (Laravel Sanctum)
+## 🔐 Autentikasi (Laravel Sanctum)
 
-**Base URL:** `https://sitrobbani.sch.id/api/v1/mobile`
+### POST `/api/v1/mobile/auth/login`
 
-> **PENTING:** Semua endpoint kecuali `/auth/login` memerlukan header `Authorization: Bearer {token}`.
+**Publik — tidak perlu token**
 
-### POST `/auth/login`
-**Request:**
+**Request Body:**
 ```json
 {
   "email": "guru@sitrobbani.sch.id",
@@ -20,178 +21,247 @@
   "device_name": "Samsung Galaxy A54"
 }
 ```
-**Response (200 OK):**
+
+**Response Sukses (200):**
 ```json
 {
   "success": true,
-  "token": "1|aBcDeFgHiJkLmNoPqRsTuVwXyZ...",
-  "user": {
-    "id": 5,
-    "name": "Nur Amalia, S.Pd",
-    "email": "nur.amalia@sitrobbani.sch.id",
-    "role": "HEADMASTER",
-    "school_id": 2,
-    "school_name": "SDIT Robbani"
+  "message": "Login berhasil!",
+  "data": {
+    "token": "1|abc123xyz...",
+    "user": {
+      "id": 5,
+      "name": "Ustadzah Sarah",
+      "email": "guru@sitrobbani.sch.id",
+      "role": "TEACHER",
+      "school_id": 2,
+      "avatar": "/uploads/avatars/sarah.jpg",
+      "phone": "08123456789"
+    }
   }
 }
 ```
-**Response (401 Unauthorized):**
+
+**Response Gagal (401):**
 ```json
 {
   "success": false,
-  "message": "Email atau password salah."
+  "message": "Email atau kata sandi salah."
 }
 ```
 
 ---
 
-## 📱 2. Endpoint API Mobile (auth:sanctum required)
+## 📌 Header Wajib untuk Endpoint Terproteksi
 
-> Header wajib: `Authorization: Bearer {token}` + `Accept: application/json`
-
-### GET `/dashboard`
-Mengembalikan ringkasan data dashboard pegawai (presensi hari ini, notifikasi, saldo kantin).
-
-### GET `/profile`
-Mengembalikan data lengkap profil pengguna yang sedang login.
-
-### POST `/profile/update`
-**Request:**
-```json
-{
-  "phone": "0812-3456-7890",
-  "address": "Indralaya, Ogan Ilir"
-}
+```
+Authorization: Bearer {token}
+Accept: application/json
+Content-Type: application/json
 ```
 
-### POST `/attendance/check-in`
-**Request:**
-```json
-{
-  "latitude": -3.2345678,
-  "longitude": 104.5678901,
-  "face_image": "base64_encoded_image_data"
-}
-```
+---
+
+## 👤 Dashboard & Profil
+
+### GET `/api/v1/mobile/dashboard`
+
 **Response:**
 ```json
 {
   "success": true,
-  "message": "Check-in berhasil pada 07:30 WIB",
-  "attendance_id": 123
+  "data": {
+    "employee": { "nama_lengkap": "...", "jabatan": "...", "unit": "SDIT" },
+    "attendance_today": { "status": "HADIR", "check_in": "07:15", "check_out": null },
+    "leave_balance": 12,
+    "payroll_latest": { "bulan": "Agustus 2026", "total_gaji": 3500000 },
+    "bpi_today": { "submitted": true, "subuh": true, "dzuhur": false }
+  }
 }
 ```
 
-### POST `/attendance/check-out`
-Sama dengan check-in, untuk merekam jam pulang.
+### GET `/api/v1/mobile/profile`
+### POST `/api/v1/mobile/profile/update`
 
-### GET `/attendance/history`
-Mengembalikan riwayat 30 hari presensi pengguna.
+---
 
-### GET `/payroll`
-Mengembalikan daftar slip gaji bulanan.
+## 🕐 Presensi (GPS + Face Recognition)
 
-### GET `/payroll/{id}/slip`
-Mengembalikan detail slip gaji dalam format JSON (untuk render di app).
+### POST `/api/v1/mobile/attendance/check-in`
 
-### GET `/bpi/mutabaah/today`
-Mengembalikan form mutabaah yaumiyah hari ini beserta status pengisian.
-
-### POST `/bpi/mutabaah/save`
-**Request:**
 ```json
 {
-  "date": "2026-08-17",
+  "latitude": -3.1234567,
+  "longitude": 104.7654321,
+  "face_image_base64": "data:image/jpeg;base64,...",
+  "check_type": "MASUK"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Presensi MASUK berhasil dicatat!",
+  "data": {
+    "timestamp": "2026-08-18 07:14:32",
+    "status": "HADIR",
+    "distance_meters": 48,
+    "face_match": true,
+    "face_confidence": 0.97
+  }
+}
+```
+
+### POST `/api/v1/mobile/attendance/check-out`
+### GET `/api/v1/mobile/attendance/history`
+
+---
+
+## 🏖️ Izin & Cuti
+
+### GET `/api/v1/mobile/leaves`
+### POST `/api/v1/mobile/leaves/apply`
+
+```json
+{
+  "leave_type": "SAKIT",
+  "start_date": "2026-08-19",
+  "end_date": "2026-08-19",
+  "reason": "Demam dan perlu istirahat",
+  "attachment_base64": "data:application/pdf;base64,..."
+}
+```
+
+---
+
+## 💰 Payroll & Slip Gaji
+
+### GET `/api/v1/mobile/payroll`
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 10,
+      "bulan": "Agustus",
+      "tahun": 2026,
+      "gaji_pokok": 3000000,
+      "tunjangan_kehadiran": 500000,
+      "potongan": 0,
+      "total_bersih": 3500000,
+      "status": "DIBAYAR"
+    }
+  ]
+}
+```
+
+### GET `/api/v1/mobile/payroll/{id}/slip`
+
+---
+
+## 🕌 BPI & Mutabaah
+
+### GET `/api/v1/mobile/bpi/mutabaah/today`
+### POST `/api/v1/mobile/bpi/mutabaah/save`
+
+```json
+{
+  "date": "2026-08-18",
   "sholat_subuh": true,
-  "sholat_dhuha": true,
   "sholat_dzuhur": true,
-  "sholat_ashar": true,
+  "sholat_ashr": true,
   "sholat_maghrib": true,
-  "sholat_isya": true,
-  "tilawah_pages": 2,
-  "tahajjud": false,
-  "notes": "Alhamdulillah"
+  "sholat_isya": false,
+  "tilawah_ayat": 10,
+  "puasa_sunnah": false,
+  "sholat_dhuha": true,
+  "sholat_tahajjud": false,
+  "sedekah": true
 }
 ```
 
-### POST `/face/enroll`
-**Request:**
+### GET `/api/v1/mobile/bpi/my-group`
+### GET `/api/v1/mobile/bpi/mutabaah/history`
+### GET `/api/v1/mobile/bpi/mentor/dashboard`
+### POST `/api/v1/mobile/bpi/meetings/record`
+
+---
+
+## 📢 Pengumuman
+
+### GET `/api/v1/mobile/announcements`
+
+---
+
+## 👤 Biometrik Wajah
+
+### POST `/api/v1/mobile/face/enroll`
+
 ```json
 {
-  "face_images": ["base64_img_1", "base64_img_2", "base64_img_3"]
+  "face_image_base64": "data:image/jpeg;base64,..."
+}
+```
+
+### GET `/api/v1/mobile/face/status`
+
+---
+
+## 🛒 Kantin Digital
+
+### GET `/api/v1/mobile/canteen/products`
+### POST `/api/v1/mobile/canteen/pay`
+
+```json
+{
+  "product_id": 3,
+  "quantity": 2,
+  "outlet_id": 1
 }
 ```
 
 ---
 
-## 💳 3. Payment Gateway (Coming Soon)
-
-### Midtrans Snap — Pembayaran SPP
-```json
-// Webhook payload dari Midtrans
-{
-  "transaction_status": "settlement",
-  "order_id": "SPP-2026-002-001",
-  "gross_amount": "350000.00",
-  "payment_type": "qris",
-  "signature_key": "SHA512_HASH"
-}
-```
-
-### Xendit — Virtual Account
-```json
-// Webhook payload dari Xendit
-{
-  "id": "5f213443c324d506a...",
-  "external_id": "SPP-2026-002-001",
-  "amount": 350000,
-  "status": "PAID"
-}
-```
-
----
-
-## 📲 4. WhatsApp Gateway (Coming Soon)
-
-**Provider:** Fonnte / Wablas / WAHA API
-
-```json
-// Request kirim notifikasi tagihan
-POST https://api.fonnte.com/send
-{
-  "target": "62812345678",
-  "message": "Yth. Wali Murid Ahmad,\nTagihan SPP Agustus 2026 sebesar Rp 350.000 belum dibayar.\nBayar via: [link QR]"
-}
-```
-
----
-
-## 🔄 5. RFID Gate Terminal
+## 📟 RFID Gate (Hardware Terminal)
 
 ### POST `/api/v1/attendance/tap-rfid`
-**Request (dari hardware RFID reader):**
+
+**Tidak perlu Sanctum** (menggunakan token internal hardware):
+
 ```json
 {
-  "rfid_uid": "A1B2C3D4",
-  "terminal_id": "GATE-SMPIT-01",
-  "timestamp": "2026-08-17T07:30:00+07:00"
-}
-```
-**Response:**
-```json
-{
-  "success": true,
-  "employee_name": "Tia Wulandari, S.Pd., Gr.",
-  "action": "CHECK_IN",
-  "time": "07:30"
+  "rfid_code": "ABC12345",
+  "gate_id": "GATE_UTAMA",
+  "tap_type": "MASUK"
 }
 ```
 
 ---
 
-## ⚠️ 6. Catatan Keamanan API
+## ⚠️ Format Error Standar
 
-1. **Rate Limiting:** API endpoint dibatasi 60 request/menit per IP (default Laravel Sanctum).
-2. **Token Expiry:** Token tidak expired otomatis, tapi bisa di-revoke via `DELETE /auth/logout`.
-3. **HTTPS Only:** Semua API harus diakses via HTTPS di produksi.
-4. **CORS:** Konfigurasi `CORS` di `config/cors.php` harus membatasi origin yang diizinkan.
+Semua error API menggunakan format:
+
+```json
+{
+  "success": false,
+  "message": "Pesan error yang jelas dalam Bahasa Indonesia.",
+  "errors": {
+    "field_name": ["Pesan validasi field ini wajib diisi."]
+  }
+}
+```
+
+**HTTP Status Codes:**
+- `200` — Sukses
+- `201` — Created
+- `400` — Bad Request / Validasi gagal
+- `401` — Unauthenticated (token tidak valid / tidak ada)
+- `403` — Forbidden (role tidak berhak)
+- `404` — Data tidak ditemukan
+- `413` — Payload terlalu besar (foto > limit)
+- `419` — CSRF Token Mismatch (web only)
+- `422` — Unprocessable Entity (validasi Laravel)
+- `500` — Internal Server Error (auto-logged ke `system_error_logs`)

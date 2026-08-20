@@ -21,10 +21,10 @@ class LetterController extends Controller
      */
     public function index(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $lettersQuery = OfficialLetter::with(['school', 'digitalSignature', 'dispositions']);
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $lettersQuery->where('school_id', $schoolId);
         }
 

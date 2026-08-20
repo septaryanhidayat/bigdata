@@ -23,12 +23,17 @@
 
     <!-- Tab Navigation -->
     <div class="flex overflow-x-auto gap-2 border-b border-slate-200 pb-3 w-full">
+        @if(empty($userUnit))
+        <a href="{{ route('admin.cms.content', ['tab' => 'foundation']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'foundation' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
+            <span>🏛️</span> <span>Profil Yayasan</span>
+        </a>
         <a href="{{ route('admin.cms.content', ['tab' => 'hero']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'hero' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>🎨</span> <span>Banner &amp; Background</span>
         </a>
         <a href="{{ route('admin.cms.content', ['tab' => 'menu']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'menu' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>📌</span> <span>Menu Header ({{ count($headerMenus) }})</span>
         </a>
+        @endif
         <a href="{{ route('admin.cms.content', ['tab' => 'news']) }}" class="px-4 py-2.5 rounded-2xl font-bold text-xs shrink-0 flex items-center gap-2 transition-all {{ $activeTab === 'news' ? 'bg-theme-gradient text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200' }}">
             <span>📰</span> <span>Berita &amp; Artikel ({{ count($newsList) }})</span>
         </a>
@@ -326,249 +331,204 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Form Tambah Berita Baru -->
-        <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="font-black text-base text-slate-900 flex items-center gap-2">
-                <span>➕</span> <span>Tambah Berita Baru</span>
-            </h3>
-            <form action="{{ route('admin.cms.content.add') }}" method="POST" enctype="multipart/form-data" class="space-y-3 text-xs" x-data="{ newPreview: '/images/mockup_desktop_1.png' }">
-                @csrf
-                <input type="hidden" name="module" value="news">
-                <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
-                
-                <div>
-                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Judul Berita</label>
-                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-bold text-slate-900 text-xs" placeholder="Judul berita...">
+    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6" x-data="{ 
+        selectedItems: [],
+        searchQuery: '',
+        selectedUnit: 'semua',
+        currentPage: 1,
+        perPage: 10,
+        items: {{ json_encode($newsList) }},
+        get filteredItems() {
+            return this.items.filter(item => {
+                const matchesSearch = !this.searchQuery || item.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+                const itemUnit = (item.unit || 'yayasan').toLowerCase();
+                const matchesUnit = this.selectedUnit === 'semua' || itemUnit === this.selectedUnit.toLowerCase();
+                return matchesSearch && matchesUnit;
+            });
+        },
+        get totalPages() {
+            return Math.ceil(this.filteredItems.length / this.perPage) || 1;
+        },
+        get paginatedItems() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filteredItems.slice(start, start + this.perPage);
+        },
+        get allSlugs() {
+            return this.filteredItems.map(item => item.slug || item.title);
+        },
+        toggleSelectAll(checked) {
+            this.selectedItems = checked ? [...this.allSlugs] : [];
+        }
+    }">
+        <!-- Toolbar Header & Action Buttons -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-black text-lg text-slate-900 flex items-center gap-2">
+                        <span>📰</span> <span>Daftar Publikasi Berita &amp; Artikel</span>
+                    </h3>
+                    <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs">
+                        Total {{ count($newsList) }} Konten
+                    </span>
                 </div>
+                <p class="text-xs text-slate-500 font-medium">Kelola artikel dan berita website dengan tampilan bersih. Gunakan filter unit di bawah untuk memilah berita per unit sekolah.</p>
+            </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Unit Sekolah</label>
-                        @if(!empty($userUnit))
-                            <input type="hidden" name="unit" value="{{ $userUnit }}">
-                            <input type="text" value="{{ strtoupper($userUnit) }}" disabled class="w-full px-3 py-2 rounded-xl border border-slate-200 font-bold text-slate-500 text-xs bg-slate-100">
-                        @else
-                            <select name="unit" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
-                                <option value="smpit" {{ ($selectedUnit ?? '') === 'smpit' ? 'selected' : '' }}>SMPIT</option>
-                                <option value="sdit" {{ ($selectedUnit ?? '') === 'sdit' ? 'selected' : '' }}>SDIT</option>
-                                <option value="tkit" {{ ($selectedUnit ?? '') === 'tkit' ? 'selected' : '' }}>KB/TKIT</option>
-                                <option value="smait" {{ ($selectedUnit ?? '') === 'smait' ? 'selected' : '' }}>SMAIT</option>
-                                <option value="yayasan" {{ ($selectedUnit ?? '') === 'yayasan' ? 'selected' : '' }}>Yayasan / Portal</option>
-                            </select>
-                        @endif
-                    </div>
-                    <div>
-                        <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Kategori</label>
-                        <input type="text" name="category" value="{{ !empty($userUnit) ? strtoupper($userUnit) : 'Berita' }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Tanggal</label>
-                        <input type="text" name="date" value="{{ date('d F Y') }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
-                    </div>
-                    <div>
-                        <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Penulis</label>
-                        <input type="text" name="author" value="Humas SIT Robbani" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs">
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
-                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block">📁 Upload File Gambar (Choose File)</label>
-                    <div class="relative w-full h-28 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 flex items-center justify-center">
-                        <img :src="newPreview" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                    </div>
-                    <input type="file" name="image_file" accept="image/*" @change="if ($event.target.files.length > 0) { newPreview = URL.createObjectURL($event.target.files[0]); }" class="w-full px-2 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-semibold file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white cursor-pointer">
-                    <input type="text" name="image" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-mono text-slate-700 text-[11px]" placeholder="atau tempelkan URL gambar...">
-                </div>
-
-                <div>
-                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Ringkasan (Excerpt)</label>
-                    <textarea name="excerpt" rows="2" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs" placeholder="Ringkasan 1-2 kalimat..."></textarea>
-                </div>
-                <div>
-                    <label class="font-black text-slate-800 text-xs uppercase tracking-wider block mb-1">Isi Berita Lengkap</label>
-                    <textarea name="content" rows="4" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-medium text-slate-900 text-xs" placeholder="Paragraf artikel lengkap..."></textarea>
-                </div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-black text-xs shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                    <span>➕ Simpan Berita Baru</span>
-                </button>
-            </form>
+            <div class="flex flex-wrap items-center gap-3 shrink-0">
+                <!-- Action Button: TAMBAH BERITA / ARTIKEL BARU (Jelas & Kontras Tinggi) -->
+                <a href="{{ route('admin.cms.post.create') }}" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 border-2 border-emerald-500 shrink-0 cursor-pointer">
+                    <span class="text-base">➕</span>
+                    <span class="whitespace-nowrap font-black">Tulis Berita / Artikel Baru</span>
+                </a>
+            </div>
         </div>
 
-        <!-- List Berita Existing with Bulk Selection Checklist & SweetAlert2 -->
-        <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4" x-data="{ 
-            selectedItems: [],
-            allSlugs: {{ json_encode(array_map(fn($item) => $item['slug'] ?? \Illuminate\Support\Str::slug($item['title'] ?? ''), $newsList)) }},
-            toggleSelectAll(checked) {
-                this.selectedItems = checked ? [...this.allSlugs] : [];
-            }
-        }">
-            <!-- Header & Bulk Action Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
-                <div class="flex items-center gap-2">
-                    <h3 class="font-black text-base text-slate-900">Daftar Berita ({{ count($newsList) }})</h3>
-                    @if(!empty($selectedUnit) && $selectedUnit !== 'all')
-                        <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[11px] uppercase">
-                            Unit: {{ strtoupper($selectedUnit) }}
-                        </span>
-                    @endif
-                </div>
+        <!-- Filter Unit & Search Controls Bar -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <!-- Filter Pills Unit Sekolah -->
+            <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-xs font-black text-slate-700 mr-1">Filter Unit:</span>
+                <button type="button" @click="selectedUnit = 'semua'; currentPage = 1" :class="selectedUnit === 'semua' ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    Semua Unit
+                </button>
+                <button type="button" @click="selectedUnit = 'tkit'; currentPage = 1" :class="selectedUnit === 'tkit' ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    KB/TKIT
+                </button>
+                <button type="button" @click="selectedUnit = 'sdit'; currentPage = 1" :class="selectedUnit === 'sdit' ? 'bg-orange-600 text-white border-orange-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    SDIT
+                </button>
+                <button type="button" @click="selectedUnit = 'smpit'; currentPage = 1" :class="selectedUnit === 'smpit' ? 'bg-blue-600 text-white border-blue-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    SMPIT
+                </button>
+                <button type="button" @click="selectedUnit = 'smait'; currentPage = 1" :class="selectedUnit === 'smait' ? 'bg-purple-600 text-white border-purple-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    SMAIT
+                </button>
+                <button type="button" @click="selectedUnit = 'yayasan'; currentPage = 1" :class="selectedUnit === 'yayasan' ? 'bg-teal-700 text-white border-teal-700 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'" class="px-3 py-1.5 rounded-xl font-extrabold text-xs border transition-all">
+                    Yayasan
+                </button>
+            </div>
 
-                <!-- Bulk Selection Controls -->
-                <div class="flex items-center gap-3">
-                    <label class="flex items-center gap-1.5 text-xs font-black text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl cursor-pointer transition-all border border-slate-200">
-                        <input type="checkbox" @change="toggleSelectAll($event.target.checked)" :checked="selectedItems.length > 0 && selectedItems.length === allSlugs.length" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer">
-                        <span>Pilih Semua</span>
-                    </label>
+            <!-- Search Input Bar -->
+            <div class="relative min-w-[240px]">
+                <input type="text" x-model="searchQuery" @input="currentPage = 1" placeholder="🔍 Cari judul berita..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+        </div>
 
-                    <template x-if="selectedItems.length > 0">
-                        <button type="button" @click="confirmDeleteBulk('news', selectedItems)" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer animate-bounce">
-                            <span>🗑️ Hapus <span x-text="selectedItems.length"></span> Berita Terpilih</span>
+        <!-- Bulk Selection Bar (If any checked) -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+            <div class="flex items-center gap-3">
+                <label class="flex items-center gap-2 text-xs font-black text-slate-700 cursor-pointer">
+                    <input type="checkbox" @change="toggleSelectAll($event.target.checked)" :checked="selectedItems.length > 0 && selectedItems.length === allSlugs.length" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer">
+                    <span>Pilih Semua Berita</span>
+                </label>
+                <template x-if="selectedItems.length > 0">
+                    <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-lg">
+                        <strong x-text="selectedItems.length"></strong> berita dipilih
+                    </span>
+                </template>
+            </div>
+
+            <template x-if="selectedItems.length > 0">
+                <button type="button" @click="confirmDeleteBulk('news', selectedItems)" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
+                    <span>🗑️ Hapus <span x-text="selectedItems.length"></span> Item Terpilih</span>
+                </button>
+            </template>
+        </div>
+
+        <!-- Clean Data List of News & Articles (Paginated & Filterable) -->
+        <div class="space-y-3.5">
+            <template x-for="(news, idx) in paginatedItems" :key="news.slug || idx">
+                <div class="p-4 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50/80 hover:border-emerald-300 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs hover:shadow-md" :class="selectedItems.includes(news.slug || news.title) ? 'ring-2 ring-rose-500 bg-rose-50/40' : ''">
+                    
+                    <div class="flex items-start md:items-center gap-3.5 min-w-0 flex-1">
+                        <!-- Checkbox -->
+                        <input type="checkbox" :value="news.slug || news.title" x-model="selectedItems" class="w-4 h-4 text-rose-600 rounded border-slate-300 focus:ring-rose-500 cursor-pointer mt-1 md:mt-0 shrink-0">
+
+                        <!-- Thumbnail Image -->
+                        <div class="w-20 h-16 sm:w-24 sm:h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 shrink-0 relative">
+                            <img :src="news.image || '/images/mockup_desktop_1.png'" :alt="news.title" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                        </div>
+
+                        <!-- Title, Unit & Meta -->
+                        <div class="min-w-0 flex-1 space-y-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-extrabold text-[10px] uppercase border border-emerald-200" x-text="news.category || 'Berita'"></span>
+                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[10px] uppercase" x-text="'UNIT: ' + (news.unit || 'YAYASAN').toUpperCase()"></span>
+                                <span class="text-[11px] text-slate-400 font-medium" x-text="'📅 ' + (news.date || '-')"></span>
+                                <span class="text-[11px] text-slate-400 font-medium" x-text="'✍️ ' + (news.author || 'Admin')"></span>
+                            </div>
+
+                            <h4 class="text-sm font-black text-slate-900 line-clamp-1 hover:text-emerald-700 transition-colors" x-text="news.title"></h4>
+
+                            <p class="text-xs text-slate-500 font-medium line-clamp-1" x-text="news.excerpt || news.content ? news.content.replace(/<[^>]*>?/gm, '').substring(0, 120) : ''"></p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons: LIHAT DI WEBSITE, EDIT & HAPUS -->
+                    <div class="flex items-center gap-2 self-end md:self-center shrink-0">
+                        <!-- LIHAT DI WEBSITE Button -->
+                        <a :href="'/berita/' + (news.slug || '')" target="_blank" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-black text-xs rounded-xl border border-emerald-200 hover:border-emerald-600 transition-all flex items-center gap-1.5 shadow-xs" title="Lihat tampilan berita di website">
+                            <span>🌐 Lihat Berita</span>
+                        </a>
+
+                        <!-- EDIT Button (Navigates to dedicated WordPress-style rich editor page) -->
+                        <a :href="'/admin/cms/post/edit?slug=' + encodeURIComponent(news.slug || '')" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-black text-xs rounded-xl border border-indigo-200 hover:border-indigo-600 transition-all flex items-center gap-1.5 shadow-xs">
+                            <span>✏️ Edit Post</span>
+                        </a>
+
+                        <!-- HAPUS Button -->
+                        <button type="button" @click="confirmDeleteSingle('delete-news-' + idx, news.title)" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-black text-xs rounded-xl border border-rose-200 hover:border-rose-600 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer">
+                            <span>🗑️ Hapus</span>
                         </button>
+                    </div>
+
+                </div>
+            </template>
+
+            <!-- Empty State when filtered result is zero -->
+            <template x-if="filteredItems.length === 0">
+                <div class="p-12 text-center bg-slate-50 rounded-3xl border border-slate-200 text-slate-500 space-y-3">
+                    <span class="text-4xl block">🔍</span>
+                    <h4 class="font-black text-base text-slate-800">Tidak ada berita atau artikel yang cocok.</h4>
+                    <p class="text-xs text-slate-400 max-w-md mx-auto">Coba ubah kata kunci pencarian atau pilih filter unit yang lain.</p>
+                </div>
+            </template>
+        </div>
+
+        <!-- Pagination Controls Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200 text-xs font-bold text-slate-600">
+            <div>
+                Menampilkan halaman <strong x-text="currentPage"></strong> dari <strong x-text="totalPages"></strong> (<span x-text="filteredItems.length"></span> total berita)
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button type="button" @click="if (currentPage > 1) currentPage--" :disabled="currentPage === 1" class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-600 hover:text-white transition-colors">
+                    ← Sebelumnya
+                </button>
+
+                <div class="flex items-center gap-1">
+                    <template x-for="p in totalPages" :key="p">
+                        <button type="button" @click="currentPage = p" :class="currentPage === p ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors" x-text="p"></button>
                     </template>
                 </div>
+
+                <button type="button" @click="if (currentPage < totalPages) currentPage++" :disabled="currentPage === totalPages" class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-600 hover:text-white transition-colors">
+                    Selanjutnya →
+                </button>
             </div>
-
-            <!-- Floating Selected Counter -->
-            <div x-show="selectedItems.length > 0" x-cloak class="p-3 bg-rose-50 border border-rose-200 rounded-2xl flex items-center justify-between gap-2 text-xs">
-                <span class="font-black text-rose-900 flex items-center gap-1.5">
-                    <span>📌</span>
-                    <span><strong x-text="selectedItems.length"></strong> dari {{ count($newsList) }} berita dipilih untuk dihapus massal.</span>
-                </span>
-                <button type="button" @click="selectedItems = []" class="text-rose-700 font-bold hover:underline">Batalkan Pilihan</button>
-            </div>
-            
-            <form action="{{ route('admin.cms.content.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                @csrf
-                <input type="hidden" name="module" value="news">
-                <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
-                
-                <div class="space-y-4 max-h-[700px] overflow-y-auto pr-2">
-                    @forelse($newsList as $idx => $news)
-                    @php
-                        $itemSlug = $news['slug'] ?? \Illuminate\Support\Str::slug($news['title'] ?? '');
-                    @endphp
-                    <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-3 hover:shadow-md transition-all" :class="selectedItems.includes('{{ $itemSlug }}') ? 'ring-2 ring-rose-500 bg-rose-50/40' : ''" x-data="{ expanded: false, previewSrc: '{{ $news['image'] }}' }">
-                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2.5">
-                            <div class="flex items-center gap-2.5">
-                                <!-- Individual Checklist Checkbox -->
-                                <label class="flex items-center gap-1.5 cursor-pointer" title="Centang untuk pilih hapus sekaligus">
-                                    <input type="checkbox" value="{{ $itemSlug }}" x-model="selectedItems" class="w-4 h-4 text-rose-600 rounded border-slate-300 focus:ring-rose-500 cursor-pointer">
-                                </label>
-                                <span class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-black text-xs uppercase shadow-xs">
-                                    #{{ $idx+1 }} {{ $idx === 0 ? '🏆 HEADLINE' : 'BERITA' }}
-                                </span>
-                                <span class="px-2.5 py-0.5 rounded-md bg-slate-200 text-slate-800 font-extrabold text-[11px] uppercase">
-                                    Unit: {{ strtoupper($news['unit'] ?? $news['category'] ?? 'SMPIT') }}
-                                </span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button type="button" @click="expanded = !expanded" class="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-xl text-xs font-black border border-blue-200 flex items-center gap-1 cursor-pointer">
-                                    <span x-text="expanded ? '▲ Tutup Isi Lengkap' : '✏️ Buka Isi Lengkap'"></span>
-                                </button>
-                                <!-- SweetAlert2 Single Delete Trigger -->
-                                <button type="button" @click="confirmDeleteSingle('delete-news-{{ $idx }}', '{{ addslashes($news['title']) }}')" class="px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-xl text-xs font-black border border-rose-200 cursor-pointer flex items-center gap-1">
-                                    <span>🗑️ Hapus</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 text-xs">
-                            <!-- Image Picker Box -->
-                            <div class="md:col-span-4 bg-white p-3 rounded-2xl border border-slate-200 space-y-2">
-                                <label class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider block">📁 Foto / Gambar Berita</label>
-                                <div class="relative w-full h-28 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 flex items-center justify-center">
-                                    <img :src="previewSrc" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-black text-slate-500 mb-1">Ganti Foto (Choose File):</label>
-                                    <input type="file" name="items[{{ $idx }}][image_file]" accept="image/*" @change="if ($event.target.files.length > 0) { previewSrc = URL.createObjectURL($event.target.files[0]); }" class="w-full text-xs font-semibold file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-black file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
-                                </div>
-                                <input type="hidden" name="items[{{ $idx }}][image]" value="{{ $news['image'] }}">
-                            </div>
-
-                            <!-- Details Inputs -->
-                            <div class="md:col-span-8 space-y-2.5">
-                                <div>
-                                    <label class="font-extrabold text-slate-800 text-xs uppercase tracking-wider block mb-1">Judul Berita</label>
-                                    <input type="text" name="items[{{ $idx }}][title]" value="{{ $news['title'] }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white focus:border-emerald-500">
-                                    <input type="hidden" name="items[{{ $idx }}][slug]" value="{{ $news['slug'] ?? \Illuminate\Support\Str::slug($news['title']) }}">
-                                </div>
-                                
-                                <div class="grid grid-cols-3 gap-2">
-                                    <div>
-                                        <label class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider block mb-1">Unit</label>
-                                        @if(!empty($userUnit))
-                                            <input type="hidden" name="items[{{ $idx }}][unit]" value="{{ $userUnit }}">
-                                            <input type="text" value="{{ strtoupper($userUnit) }}" disabled class="w-full px-2 py-1.5 rounded-xl border border-slate-200 font-bold text-slate-500 text-xs bg-slate-100">
-                                        @else
-                                            <select name="items[{{ $idx }}][unit]" class="w-full px-2 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
-                                                <option value="smpit" {{ ($news['unit'] ?? '') === 'smpit' ? 'selected' : '' }}>SMPIT</option>
-                                                <option value="sdit" {{ ($news['unit'] ?? '') === 'sdit' ? 'selected' : '' }}>SDIT</option>
-                                                <option value="tkit" {{ ($news['unit'] ?? '') === 'tkit' ? 'selected' : '' }}>KB/TKIT</option>
-                                                <option value="smait" {{ ($news['unit'] ?? '') === 'smait' ? 'selected' : '' }}>SMAIT</option>
-                                                <option value="yayasan" {{ ($news['unit'] ?? '') === 'yayasan' ? 'selected' : '' }}>Yayasan</option>
-                                            </select>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        <label class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider block mb-1">Kategori</label>
-                                        <input type="text" name="items[{{ $idx }}][category]" value="{{ $news['category'] }}" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
-                                    </div>
-                                    <div>
-                                        <label class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider block mb-1">Tanggal</label>
-                                        <input type="text" name="items[{{ $idx }}][date]" value="{{ $news['date'] }}" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider block mb-1">Penulis</label>
-                                    <input type="text" name="items[{{ $idx }}][author]" value="{{ $news['author'] ?? 'Humas SIT Robbani' }}" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs bg-white">
-                                </div>
-
-                                <div>
-                                    <label class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider block mb-1">Ringkasan (Excerpt)</label>
-                                    <textarea name="items[{{ $idx }}][excerpt]" rows="2" class="w-full px-3 py-1.5 rounded-xl border border-slate-300 font-semibold text-slate-900 text-xs bg-white">{{ $news['excerpt'] }}</textarea>
-                                </div>
-
-                                <div x-show="expanded" x-cloak class="pt-2">
-                                    <label class="font-extrabold text-emerald-800 text-xs uppercase tracking-wider block mb-1">Isi Konten Berita Lengkap</label>
-                                    <textarea name="items[{{ $idx }}][content]" rows="6" class="w-full px-3 py-2 rounded-xl border border-emerald-300 font-medium text-slate-900 text-xs bg-emerald-50/40 focus:bg-white">{{ $news['content'] ?? $news['excerpt'] }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    <div class="p-8 text-center bg-slate-50 rounded-2xl border border-slate-200 text-slate-500">
-                        <span class="text-3xl block mb-2">📭</span>
-                        <p class="font-bold text-sm">Belum ada berita untuk kategori unit ini.</p>
-                        <p class="text-xs text-slate-400 mt-1">Gunakan form di samping kiri untuk menambahkan berita baru.</p>
-                    </div>
-                    @endforelse
-                </div>
-                
-                <div class="pt-4 border-t border-slate-200 flex justify-end">
-                    <button type="submit" class="px-7 py-3 rounded-xl bg-emerald-700 text-white font-black text-xs hover:bg-emerald-800 shadow-md transition-all flex items-center gap-2">
-                        <span>💾 Simpan Semua Perubahan Berita</span>
-                    </button>
-                </div>
-            </form>
-
-            @foreach($newsList as $idx => $news)
-            <form id="delete-news-{{ $idx }}" action="{{ route('admin.cms.content.delete') }}" method="POST" class="hidden">
-                @csrf
-                @method('DELETE')
-                <input type="hidden" name="module" value="news">
-                <input type="hidden" name="index" value="{{ $idx }}">
-                <input type="hidden" name="slug" value="{{ $news['slug'] ?? '' }}">
-                <input type="hidden" name="title" value="{{ $news['title'] ?? '' }}">
-                <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
-            </form>
-            @endforeach
         </div>
+
+        @foreach($newsList as $idx => $news)
+        <form id="delete-news-{{ $idx }}" action="{{ route('admin.cms.content.delete') }}" method="POST" class="hidden">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="module" value="news">
+            <input type="hidden" name="index" value="{{ $idx }}">
+            <input type="hidden" name="slug" value="{{ $news['slug'] ?? '' }}">
+            <input type="hidden" name="title" value="{{ $news['title'] ?? '' }}">
+            <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
+        </form>
+        @endforeach
     </div>
     @endif
 
@@ -992,6 +952,87 @@
         <input type="hidden" name="selected_items" id="bulk-delete-items" value="">
         <input type="hidden" name="unit_filter" value="{{ $selectedUnit ?? 'all' }}">
     </form>
+
+    {{-- TAB 0: PENGATURAN PROFIL YAYASAN --}}
+    @if($activeTab === 'foundation')
+    @php
+        $foundationProfile = (new App\Http\Controllers\SchoolWebsiteController())->getFoundationProfile();
+    @endphp
+    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+            <h3 class="font-black text-lg text-slate-900 flex items-center gap-2">
+                <span>🏛️</span> <span>Pengaturan Profil Resmi Yayasan Generasi Robbani</span>
+            </h3>
+            <p class="text-xs text-slate-500 font-medium">Kelola informasi umum, nama pimpinan, kata sambutan, visi, misi, dan pilar pendidikan yayasan yang tampil pada halaman website profil depan.</p>
+        </div>
+
+        <form action="{{ route('admin.cms.foundation-profile.update') }}" method="POST" class="space-y-6">
+            @csrf
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama & Tagline -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Nama Resmi Yayasan</label>
+                        <input type="text" name="name" value="{{ $foundationProfile['name'] ?? '' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Tagline / Subtitle Deskripsi</label>
+                        <input type="text" name="tagline" value="{{ $foundationProfile['tagline'] ?? '' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Tahun Berdiri Yayasan</label>
+                        <input type="text" name="founded_year" value="{{ $foundationProfile['founded_year'] ?? '2014' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <!-- Ketua Yayasan & Foto -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Nama Ketua Yayasan</label>
+                        <input type="text" name="chairman_name" value="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Jabatan / Gelar Resmi</label>
+                        <input type="text" name="chairman_title" value="{{ $foundationProfile['chairman_title'] ?? 'Ketua Yayasan Generasi Robbani Sumatera Selatan' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">URL Foto Ketua Yayasan</label>
+                        <input type="text" name="chairman_photo" value="{{ $foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sambutan & Visi -->
+            <div class="space-y-4 border-t border-slate-200 pt-5">
+                <div>
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Teks Kata Sambutan Resmi Ketua Yayasan (HTML didukung)</label>
+                    <textarea name="chairman_greeting" rows="5" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium focus:ring-2 focus:ring-emerald-500">{{ $foundationProfile['chairman_greeting'] ?? '' }}</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Visi Utama Yayasan</label>
+                    <textarea name="vision" rows="3" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">{{ $foundationProfile['vision'] ?? '' }}</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Misi-Misi Yayasan (Pisahkan dengan Baris Baru / Enter)</label>
+                    <textarea name="missions" rows="5" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium focus:ring-2 focus:ring-emerald-500">{{ implode("\n", $foundationProfile['missions'] ?? []) }}</textarea>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 flex justify-end">
+                <button type="submit" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer">
+                    <span>💾 Simpan Perubahan Profil Yayasan</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    @endif
 
 </div>
 

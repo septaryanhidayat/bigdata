@@ -21,7 +21,28 @@ class CmsController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));
+        $user = auth()->user();
+
+        // 1. Akun TU Unit & Admin Web Unit diarahkan langsung ke profil web unit / konten CMS
+        if ($user && ($user->role === \App\Models\User::ROLE_STAFF_TU || $user->role === \App\Models\User::ROLE_ADMIN_WEB_UNIT)) {
+            $userSchoolCode = strtolower($user->school->code ?? '');
+            if ($userSchoolCode) {
+                return redirect()->route('admin.settings.units.edit', $userSchoolCode);
+            }
+            return redirect()->route('admin.cms.content');
+        }
+
+        // Akun Humas Yayasan langsung diarahkan ke kelola konten CMS & Berita
+        if ($user && $user->role === \App\Models\User::ROLE_HUMAS) {
+            return redirect()->route('admin.cms.content');
+        }
+
+        // 2. Kepala Unit (HEADMASTER) & Staff Unit locked to their school unit
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas()) {
+            $schoolId = $user->school_id;
+        } else {
+            $schoolId = $request->get('school_id', session('dashboard_school_id', 'all'));
+        }
         session(['dashboard_school_id' => $schoolId]);
 
         $allSchools = School::all();
@@ -310,7 +331,7 @@ class CmsController extends Controller
             'pkg1_title' => SiteSetting::get('pkg1_title', 'Paket Source Code'),
             'pkg1_price' => SiteSetting::get('pkg1_price', 'Rp 1.500.000'),
             'pkg1_desc' => SiteSetting::get('pkg1_desc', 'Cocok untuk tim IT sekolah atau pengembang yang ingin mendeploy sendiri.'),
-            'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n21 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
+            'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n25 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
             'pkg2_title' => SiteSetting::get('pkg2_title', 'Paket Server + Reseller'),
             'pkg2_price' => SiteSetting::get('pkg2_price', 'Rp 3.000.000'),
             'pkg2_badge' => SiteSetting::get('pkg2_badge', '🔥 BEST SELLER & RESELLER READY'),
@@ -328,7 +349,7 @@ class CmsController extends Controller
     public function settingsUnits()
     {
         $user = auth()->user();
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan()) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas()) {
             $schools = School::where('id', $user->school_id)->withCount(['students', 'employees', 'classrooms'])->get();
         } else {
             $schools = School::withCount(['students', 'employees', 'classrooms'])->get();
@@ -342,14 +363,204 @@ class CmsController extends Controller
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
         
         $user = auth()->user();
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
+        $defaultInfo = $this->getUnitDefaultProfileData($cleanCode);
         $unitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
-        $unitData = $unitSetting ? json_decode($unitSetting, true) : [];
+        $savedData = $unitSetting ? json_decode($unitSetting, true) : [];
+
+        $unitData = array_merge($defaultInfo, array_filter($savedData ?: []));
+        if (empty($unitData['programs'])) $unitData['programs'] = $defaultInfo['programs'] ?? [];
+        if (empty($unitData['facilities'])) $unitData['facilities'] = $defaultInfo['facilities'] ?? [];
+        if (empty($unitData['ekskul'])) $unitData['ekskul'] = $defaultInfo['ekskul'] ?? [];
+        if (empty($unitData['teachers'])) $unitData['teachers'] = $defaultInfo['teachers'] ?? [];
 
         return view('admin.settings.unit_edit', compact('cleanCode', 'schoolObj', 'unitData'));
+    }
+
+    private function getUnitDefaultProfileData($cleanCode)
+    {
+        $cleanCode = strtolower(trim($cleanCode));
+        if ($cleanCode === 'kbtkit') $cleanCode = 'tkit';
+
+        $defaults = [
+            'tkit' => [
+                'name' => 'KB & TKIT Robbani Ogan Ilir',
+                'code' => 'TKIT',
+                'npsn' => '69888765',
+                'akreditasi' => 'Terakreditasi Unggul (A)',
+                'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
+                'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
+                'principal_title' => 'Kepala KB/TKIT Robbani',
+                'principal_photo' => '/uploads/media/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di KB/TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an melalui suasana bermain yang edukatif dan menggembirakan.',
+                'description' => 'Kelompok Bermain & Taman Kanak-Kanak Islam Terpadu Terakreditasi A di Ogan Ilir. Membina fitrah anak sejak dini dengan pendekatan sentra, pembiasaan hafalan surat-surat pendek Juz 30, doa harian, kemandirian, dan stimulasi motorik terpadu.',
+                'vision' => 'Menjadi Lembaga PAUD Islam Terpadu Unggulan dalam Membentuk Karakter Anak Sholeh, Ceria, dan Berakhlak Qur\'ani.',
+                'missions' => [
+                    'Menanamkan aqidah yang lurus dan pembiasaan ibadah harian sejak usia dini.',
+                    'Membimbing hafalan Al-Qur\'an Juz 30 dengan metode nasyid yang menyenangkan.',
+                    'Mengembangkan potensi kecerdasan majemuk (multiple intelligences) dan motorik anak melalui bermain berbasis sentra.',
+                    'Membangun sinergi harmonis antara sekolah dan keluarga dalam mendampingi tumbuh kembang ananda.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 120,
+                'employees_count' => 14,
+                'classrooms_count' => 6,
+                'target_hafalan' => 'Juz 30 (Surah Pendek)',
+                'programs' => [
+                    ['title' => 'Tahfidz Juz 30 Cilik', 'icon' => '📖', 'desc' => 'Metode hafalan Al-Qur\'an nada nasyid yang menyenangkan khusus anak usia 3-6 tahun.'],
+                    ['title' => 'Adab & Doa Harian', 'icon' => '🤲', 'desc' => 'Pembiasaan sholat dhuha berjamaah, doa harian, dan adab islami harian.'],
+                    ['title' => 'Sentra Edukatif & Motorik', 'icon' => '🎨', 'desc' => 'Eksplorasi sensorik, seni lukis, balok konstruksi, dan permainan ketangkasan fisik.'],
+                    ['title' => 'Bilingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
+                ],
+                'facilities' => [
+                    ['title' => 'Loker di Setiap Kelas', 'badge' => 'Kemandirian Anak', 'icon' => '🎒', 'desc' => 'Setiap anak mempunyai loker pribadi masing-masing di kelasnya.', 'image' => '/uploads/media/tkit_post_Loker-scaled_a03171c9.jpeg'],
+                    ['title' => 'Permainan Outdoor', 'badge' => 'Motorik Kasar', 'icon' => '🛝', 'desc' => 'Tempat Permainan Outdoor yang nyaman, bersih dan dilengkapi oleh CCTV.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-04-at-09_52__03a061e9.jpeg'],
+                    ['title' => 'Tempat Wudhu Anti-Slip', 'badge' => 'Pembiasaan Ibadah', 'icon' => '💧', 'desc' => 'Tempat wudhu yang bersih dan alas lantai anti slip dan dilengkapi dengan CCTV.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_00__9f198ecf.jpeg'],
+                    ['title' => 'Teras Bersih & CCTV', 'badge' => 'Area Bermain', 'icon' => '🌿', 'desc' => 'Teras yang bersih dan dilengkapi CCTV, tempat anak main diluar ruangan yang nyaman.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_07__c2bf2e5f.jpeg']
+                ],
+                'ekskul' => [
+                    ['title' => 'Seni Melukis & Mewarnai', 'badge' => 'Kreativitas', 'icon' => '🎨', 'desc' => 'Melatih imajinasi dan ketrampilan motorik halus anak.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Nasyid & Hafalan Cilik', 'badge' => 'Seni Islami', 'icon' => '🎵', 'desc' => 'Melatih artikulasi suara dan daya ingat hafalan.', 'image' => '/images/mockup_desktop_3.png']
+                ]
+            ],
+            'sdit' => [
+                'name' => 'SDIT Robbani Ogan Ilir',
+                'code' => 'SDIT',
+                'npsn' => '69985678',
+                'akreditasi' => 'Terakreditasi B',
+                'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
+                'principal_name' => 'Nur Amalia, S.Pd',
+                'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
+                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional Terintegrasi Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
+                'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
+                'missions' => [
+                    'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.',
+                    'Menerapkan Kurikulum Merdeka Terintegrasi Kekhasan JSIT dan pembiasaan ibadah harian.',
+                    'Mengembangkan minat bakat siswa dalam bidang sains, koding digital, seni, dan kepanduan.',
+                    'Membangun karakter islami melalaui mentoring kelompok kecil dan budaya ramah anak.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 450,
+                'employees_count' => 28,
+                'classrooms_count' => 16,
+                'target_hafalan' => '3 - 5 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz Mutqin', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
+                    ['title' => 'Bina Pribadi Islam (BPI) & Adab Karimah', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah lurus, pembiasaan ibadah harian, dan kepemimpinan.'],
+                    ['title' => 'Koding Cilik & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar, robotik sederhana, dan laboratorium eksperimen sains.'],
+                    ['title' => 'Pramuka SIT & Archery (Panahan)', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, ketangkasan fisik outdoor, dan ekskul renang.']
+                ],
+                'facilities' => [
+                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang.', 'image' => '/images/facilities/kolam_renang_sdit.jpg'],
+                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin.', 'image' => '/images/facilities/ruang_kelas_sdit.jpg'],
+                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik.', 'image' => '/images/facilities/mushola_sdit.jpg'],
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event.', 'image' => '/images/facilities/aula_sdit.jpg'],
+                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka.', 'image' => '/images/facilities/lapangan_sdit.jpg']
+                ],
+                'ekskul' => [
+                    ['title' => 'Ekskul Futsal SDIT', 'badge' => 'Olahraga Tim', 'icon' => '⚽', 'desc' => 'Pengembangan bakat olahraga futsal, kekompakan tim, dan ketangkasan fisik siswa SDIT.', 'image' => '/images/ekskul/sd_futsal.webp'],
+                    ['title' => 'Ekskul Memanah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus, konsentrasi, ketenangan emosi, dan kedisiplinan diri sejak dini.', 'image' => '/images/ekskul/sd_panahan.webp'],
+                    ['title' => 'Ekskul Coding Digital Cilik', 'badge' => 'Teknologi & IT', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar dan pemikiran komputasi untuk siswa SDIT.', 'image' => '/images/ekskul/sd_coding.webp'],
+                    ['title' => 'Ekskul Seni Tari Tradisional', 'badge' => 'Seni Budaya', 'icon' => '💃', 'desc' => 'Pelatihan seni tari kreasi islami dan apresiasi budaya nusantara.', 'image' => '/images/ekskul/sd_seni.webp'],
+                    ['title' => 'Life Skill Bulu Tangkis', 'badge' => 'Olahraga Kebugaran', 'icon' => '🏸', 'desc' => 'Latihan ketangkasan refleksi, kelincahan, dan kebugaran jasmani santri.', 'image' => '/images/ekskul/bulu_tangkis.webp'],
+                    ['title' => 'Life Skill Tahfidz Intensive', 'badge' => 'Al-Qur\'an', 'icon' => '📖', 'desc' => 'Halaqoh pendalaman hafalan Al-Qur\'an dengan bimbingan metode talaqqi.', 'image' => '/images/ekskul/tahfidz.webp']
+                ]
+            ],
+            'smpit' => [
+                'name' => 'SMP IT ROBBANI',
+                'code' => 'SMPIT',
+                'npsn' => '69989012',
+                'akreditasi' => 'Terakreditasi B',
+                'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
+                'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
+                'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
+                'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
+                'missions' => [
+                    'Membentuk Peserta Didik yang cerdas, kreatif dan terpuji berdasarkan nilai Islam dan pendidikan Karakter',
+                    'Membentuk Guru dan Tenaga Kependidikan yang handal dan Profesional',
+                    'Menjadi lembaga Pendidikan yang Kokoh dan terkelola secara Optimal',
+                    'Membangun kerjasama dengan orang tua Peserta Didik, masyarakat dan stake holder lainnya'
+                ],
+                'phone' => '085377193977',
+                'students_count' => 280,
+                'employees_count' => 12,
+                'classrooms_count' => 10,
+                'target_hafalan' => '5 - 10 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
+                    ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
+                    ['title' => 'Program Unggulan Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.'],
+                    ['title' => 'Bilingual & Public Speaking Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.']
+                ],
+                'facilities' => [
+                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => '/images/facilities/gedung_smpit.jpg'],
+                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca untuk menunjang pembelajaran dan kenyamanan pada saat proses pembelajaran siswa.', 'image' => '/images/facilities/ruang_kelas_smpit.jpg'],
+                    ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => '/images/facilities/toilet_smpit.jpg'],
+                    ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital anak.', 'image' => '/images/facilities/tablet_smpit.jpg'],
+                    ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => '/images/facilities/kantin_smpit.jpg'],
+                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri SMPIT.', 'image' => '/images/facilities/lapangan_smpit.jpg']
+                ],
+                'ekskul' => [
+                    ['title' => 'Futsal SMPIT Robbani', 'badge' => 'Olahraga Tim', 'icon' => '⚽', 'desc' => 'Wadah bagi santri SMPIT Robbani mengembangkan bakat olahraga futsal, ketangkasan fisik, dan kerja sama tim.', 'image' => '/images/ekskul/futsal.webp'],
+                    ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus, ketenangan emosi, ketepatan sasaran, dan kedisiplinan santri.', 'image' => '/images/ekskul/panahan.webp'],
+                    ['title' => 'Coding & Keterampilan Digital', 'badge' => 'Teknologi & IT', 'icon' => '💻', 'desc' => 'Wadah santri menguasai logika pemograman dasar, pembuatan website, dan teknologi masa depan.', 'image' => '/images/ekskul/coding.webp'],
+                    ['title' => 'Seni Tari Kreasi Islami', 'badge' => 'Seni Budaya', 'icon' => '💃', 'desc' => 'Mengembangkan minat bakat santri dibidang seni tari kreasi bernuansa islami dan seni nusantara.', 'image' => '/images/ekskul/seni_tari.webp'],
+                    ['title' => 'Public Speaking & Leadership', 'badge' => 'Komunikasi & Bahasa', 'icon' => '🎙️', 'desc' => 'Menggali dan mengembangkan potensi kepemimpinan serta orator publik dalam berbagai forum santri.', 'image' => '/images/ekskul/public_speaking.webp'],
+                    ['title' => 'English Club SMPIT', 'badge' => 'Bahasa Asing', 'icon' => '🌍', 'desc' => 'Lingkungan belajar Bahasa Inggris yang interaktif, komunikatif, dan menyenangkan.', 'image' => '/images/ekskul/english_club.webp'],
+                    ['title' => 'Pramuka SIT Robbani', 'badge' => 'Kepanduan Wajib', 'icon' => '🏕️', 'desc' => 'Kegiatan kepanduan khas JSIT untuk melatih kemandirian, kepemimpinan, dan kecintaan alam.', 'image' => '/images/ekskul/pramuka.webp'],
+                    ['title' => 'Digital Art & Graphic Design', 'badge' => 'Desain & Media', 'icon' => '🎨', 'desc' => 'Melatih kreativitas santri dalam bidang desain grafis, ilustrasi digital, dan media publikasi.', 'image' => '/images/ekskul/digital_art.webp']
+                ]
+            ],
+            'smait' => [
+                'name' => 'SMAIT Robbani Ogan Ilir',
+                'code' => 'SMAIT',
+                'npsn' => '69989567',
+                'akreditasi' => 'Terakreditasi A',
+                'tagline' => 'Membangun Pemimpin Masa Depan, Huffazh Al-Qur\'an, & Lolos PTN Favorit',
+                'principal_name' => 'Ustadz Fauzi, M.Pd',
+                'principal_title' => 'Kepala Sekolah SMAIT Robbani',
+                'principal_photo' => '/images/mockup_mobile_1.png',
+                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SMAIT Robbani. Tempat menempa kepemimpinan, kelanjutan hafalan Al-Qur\'an mutqin, serta bimbingan belajar intensif menuju Perguruan Tinggi Negeri unggulan.',
+                'description' => 'Sekolah Menengah Atas Islam Terpadu berakreditasi A di Ogan Ilir. Memadukan bimbingan lulus PTN/Kedinasan, Tahfidz 10-30 Juz, Karya Tulis Ilmiah, & Leadership.',
+                'vision' => 'Menjadi SMAIT Unggulan Nasional dalam Melahirkan Pemimpin Muda Rabbani, Cerdas Berilmu, dan Berwawasan Global.',
+                'missions' => [
+                    'Menyelenggarakan pembelajaran SMA terintegrasi persiapan UTBK SNBT & PTN Favorit.',
+                    'Membimbing program Tahfidz Al-Qur\'an hingga 10-30 Juz dan pengambilan ijazah sanad.',
+                    'Mengembangkan kemampuan karya ilmiah remaja, debat 3 bahasa, dan kepemimpinan OSIS.'
+                ],
+                'phone' => '0811747472',
+                'students_count' => 180,
+                'employees_count' => 18,
+                'classrooms_count' => 8,
+                'target_hafalan' => '10 - 30 Juz Mutqin',
+                'programs' => [
+                    ['title' => 'Bimbingan Intensif PTN & Beasiswa', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan jurusan, dan pendampingan lolos PTN Favorit (UI, ITB, UGM, UNSRI).'],
+                    ['title' => 'Tahfidz 10-30 Juz & Ijazah Sanad', 'icon' => '📜', 'desc' => 'Program khusus huffazh Al-Qur\'an dengan target hafalan mutqin dan ijazah sanad.'],
+                    ['title' => 'Riset Sains & Technology Project', 'icon' => '🧪', 'desc' => 'Penelitian ilmiah remaja (KIR), karya tulis ilmiah, dan proyek inovasi koding.'],
+                    ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
+                ],
+                'facilities' => [
+                    ['title' => 'Laboratorium Komputer & Coding', 'badge' => 'Laboratorium Digital', 'icon' => '💻', 'desc' => 'Fasilitas komputer berspesifikasi tinggi untuk simulasi UTBK, koding, dan karya digital.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Laboratorium Sains Terpadu', 'badge' => 'Riset & Eksperimen', 'icon' => '🔬', 'desc' => 'Ruang praktikum Kimia, Fisika, dan Biologi lengkap untuk persiapan Olimpiade Sains.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Perpustakaan Digital & Riset', 'badge' => 'Pusat Belajar', 'icon' => '📚', 'desc' => 'Akses e-book internasional, jurnal sains, serta area riset privat seleksi PTN.', 'image' => '/images/mockup_desktop_3.png'],
+                    ['title' => 'Ruang Kelas Multimedia Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '🏫', 'desc' => 'Ruang kelas modern ber-AC dilengkapi proyektor smart board & internet cepat.', 'image' => '/images/mockup_desktop_4.png']
+                ],
+                'ekskul' => [
+                    ['title' => 'Klub UTBK & SNBT', 'badge' => 'Persiapan PTN', 'icon' => '📚', 'desc' => 'Bimbingan soal-soal penalaran umum dan kuantitatif.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Karya Ilmiah Remaja (KIR)', 'badge' => 'Riset Ilmiah', 'icon' => '🧪', 'desc' => 'Penelitian sains dan karya tulis ilmiah.', 'image' => '/images/mockup_desktop_2.png']
+                ]
+            ]
+        ];
+
+        return $defaults[$cleanCode] ?? $defaults['smpit'];
     }
 
     public function updateUnitProfile(Request $request, $code)
@@ -358,9 +569,12 @@ class CmsController extends Controller
         $schoolObj = School::where('code', strtoupper($cleanCode))->first();
 
         $user = auth()->user();
-        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
+        if ($user && $user->school_id && !$user->isSuperAdmin() && !$user->isYayasan() && !$user->isHumas() && (!$schoolObj || $schoolObj->id !== $user->school_id)) {
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
+
+        $existingSetting = SiteSetting::get("unit_profile_{$cleanCode}");
+        $exData = $existingSetting ? (json_decode($existingSetting, true) ?: []) : [];
 
         $data = [
             'name' => $request->input('name'),
@@ -381,25 +595,130 @@ class CmsController extends Controller
             'target_hafalan' => $request->input('target_hafalan'),
         ];
 
-        // Handle Kepsek Photo upload if present
+        // Process Teachers & Staff List
+        $teachersInput = $request->input('teachers', []);
+        $processedTeachers = [];
+        if (is_array($teachersInput)) {
+            foreach ($teachersInput as $idx => $t) {
+                if (empty($t['name'])) continue;
+                $tPhoto = $t['photo'] ?? ($exData['teachers'][$idx]['photo'] ?? '/images/mockup_mobile_1.png');
+                if ($request->hasFile("teacher_photo_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("teacher_photo_{$idx}"), 'uploads/cms', 'guru_' . $cleanCode . '_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $tPhoto = $comp . '?v=' . time();
+                    }
+                }
+                $processedTeachers[] = [
+                    'name' => trim($t['name']),
+                    'role' => trim($t['role'] ?? 'Guru / Pendidik'),
+                    'photo' => $tPhoto,
+                    'bio' => trim($t['bio'] ?? ''),
+                ];
+            }
+        }
+        $data['teachers'] = !empty($processedTeachers) ? $processedTeachers : ($exData['teachers'] ?? []);
+
+        // Process Programs List
+        $programsInput = $request->input('programs', []);
+        $processedPrograms = [];
+        if (is_array($programsInput)) {
+            foreach ($programsInput as $p) {
+                if (empty($p['title'])) continue;
+                $processedPrograms[] = [
+                    'title' => trim($p['title']),
+                    'icon' => trim($p['icon'] ?? '📖'),
+                    'desc' => trim($p['desc'] ?? ''),
+                ];
+            }
+        }
+        $data['programs'] = !empty($processedPrograms) ? $processedPrograms : ($exData['programs'] ?? []);
+
+        // Process Facilities List
+        $facilitiesInput = $request->input('facilities', []);
+        $processedFacilities = [];
+        if (is_array($facilitiesInput)) {
+            foreach ($facilitiesInput as $idx => $f) {
+                if (empty($f['title'])) continue;
+                $fImg = !empty($f['image']) ? trim($f['image']) : ($exData['facilities'][$idx]['image'] ?? '/images/mockup_desktop_1.png');
+                if ($request->hasFile("facility_photo_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("facility_photo_{$idx}"), 'uploads/cms', 'fasilitas_' . $cleanCode . '_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $fImg = $comp . '?v=' . time();
+                    }
+                }
+                $processedFacilities[] = [
+                    'title' => trim($f['title']),
+                    'badge' => trim($f['badge'] ?? 'Fasilitas Unit'),
+                    'icon' => trim($f['icon'] ?? '🏫'),
+                    'desc' => trim($f['desc'] ?? ''),
+                    'image' => $fImg,
+                ];
+            }
+        }
+        $data['facilities'] = !empty($processedFacilities) ? $processedFacilities : ($exData['facilities'] ?? []);
+
+        // Process Ekskul List
+        $ekskulInput = $request->input('ekskul', []);
+        $processedEkskul = [];
+        if (is_array($ekskulInput)) {
+            foreach ($ekskulInput as $idx => $e) {
+                if (empty($e['title'])) continue;
+                $eImg = !empty($e['image']) ? trim($e['image']) : ($exData['ekskul'][$idx]['image'] ?? '/images/mockup_desktop_2.png');
+                if ($request->hasFile("ekskul_photo_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("ekskul_photo_{$idx}"), 'uploads/cms', 'ekskul_' . $cleanCode . '_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $eImg = $comp . '?v=' . time();
+                    }
+                }
+                $processedEkskul[] = [
+                    'title' => trim($e['title']),
+                    'badge' => trim($e['badge'] ?? 'Ekstrakurikuler'),
+                    'icon' => trim($e['icon'] ?? '⭐'),
+                    'desc' => trim($e['desc'] ?? ''),
+                    'image' => $eImg,
+                ];
+            }
+        }
+        $data['ekskul'] = !empty($processedEkskul) ? $processedEkskul : ($exData['ekskul'] ?? []);
+        $data['gallery'] = $exData['gallery'] ?? [];
+
+        // Handle Kepsek Photo upload
         if ($request->hasFile('principal_photo')) {
             $compressedPhoto = \App\Services\ImageOptimizer::compress($request->file('principal_photo'), 'uploads/cms', 'kepsek_' . $cleanCode . '_' . uniqid());
             if ($compressedPhoto) {
                 $data['principal_photo'] = $compressedPhoto . '?v=' . time();
             }
-        } else {
-            $existing = SiteSetting::get("unit_profile_{$cleanCode}");
-            if ($existing) {
-                $exData = json_decode($existing, true);
-                if (isset($exData['principal_photo'])) {
-                    $data['principal_photo'] = $exData['principal_photo'];
-                }
-            }
+        } elseif (isset($exData['principal_photo'])) {
+            $data['principal_photo'] = $exData['principal_photo'];
         }
 
-        SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data));
+        // Handle Hero BG Image (Foto Sekolah / Masjid)
+        if ($request->hasFile('hero_bg_file')) {
+            $compressedBg = \App\Services\ImageOptimizer::compress($request->file('hero_bg_file'), 'uploads/cms', 'herobg_' . $cleanCode . '_' . uniqid());
+            if ($compressedBg) {
+                $data['hero_bg_image'] = $compressedBg . '?v=' . time();
+            }
+        } elseif ($request->filled('hero_bg_image')) {
+            $data['hero_bg_image'] = $request->input('hero_bg_image');
+        } elseif (isset($exData['hero_bg_image'])) {
+            $data['hero_bg_image'] = $exData['hero_bg_image'];
+        }
 
-        return redirect()->route('admin.settings.units')->with('success', "Profil Unit " . strtoupper($cleanCode) . " berhasil diperbarui secara mandiri!");
+        // Handle Hero Main Photo (Foto Siswa / Visual Hero)
+        if ($request->hasFile('hero_image_file')) {
+            $compressedHero = \App\Services\ImageOptimizer::compress($request->file('hero_image_file'), 'uploads/cms', 'hero_' . $cleanCode . '_' . uniqid());
+            if ($compressedHero) {
+                $data['hero_image'] = $compressedHero . '?v=' . time();
+            }
+        } elseif ($request->filled('hero_image')) {
+            $data['hero_image'] = $request->input('hero_image');
+        } elseif (isset($exData['hero_image'])) {
+            $data['hero_image'] = $exData['hero_image'];
+        }
+
+        SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->back()->with('success', "✓ Profil, Data Guru, Banner Hero, & Konten Web Unit " . strtoupper($cleanCode) . " berhasil diperbarui!");
     }
 
     public function updateSettings(Request $request)
@@ -733,7 +1052,7 @@ class CmsController extends Controller
     public function contentIndex(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $selectedUnit = $request->get('unit_filter', $isGlobalAdmin ? 'all' : ($userUnit ?? 'all'));
@@ -790,7 +1109,7 @@ class CmsController extends Controller
             'hero_bg_image' => SiteSetting::get('hero_bg_image', 'https://lh3.googleusercontent.com/aida/AP1WRLuf5i7pWfq9dzqqqjNB6dJ3JNiFjsv6Iv0erwSW9QTXek-Ur1VI-e_ULP2zi3qLQIbKln9GGYMrKRcDMpgsk8uELhhqxDf4J0N_tZ3ObFRa1UmfynfH5wzEfpsoQwZd8ofmDXnfj0-gwTaJjxlH2Gt_qt3XIBHF0DtXovfyqeC4E7-y7dd3rgARHyA57tjdlEywmGuLbJ1q3jagkMiPIv2sK3XpKR-CEw_Kr3hiDZtYNpxD6JtANagJSWCU'),
         ];
 
-        $activeTab = $request->get('tab', 'hero');
+        $activeTab = $request->get('tab', $userUnit ? 'news' : 'hero');
 
         return view('admin.cms.content', compact(
             'newsList', 'videoList', 'agendaList', 'announcementList', 'facilityList', 'galleryList', 'headerMenus', 'heroSettings', 'activeTab', 'isGlobalAdmin', 'userUnit', 'selectedUnit', 'unitCounts'
@@ -800,7 +1119,7 @@ class CmsController extends Controller
     public function updateCmsContent(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $module = $request->input('module');
@@ -937,7 +1256,7 @@ class CmsController extends Controller
     public function addCmsItem(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $module = $request->input('module');
@@ -1003,7 +1322,7 @@ class CmsController extends Controller
     public function deleteCmsItem(Request $request)
     {
         $user = auth()->user();
-        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN]);
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
         $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
 
         $module = $request->input('module');
@@ -1610,6 +1929,254 @@ class CmsController extends Controller
             'success',
             "✨ AUTO-KATEGORISASI SELESAI! " . count($deduped) . " berita & artikel berhasil dikelompokkan ke unit masing-masing dan diurutkan dari tahun 2026 terbaru: TKIT ({$unitCounts['TKIT']}), SDIT ({$unitCounts['SDIT']}), SMPIT ({$unitCounts['SMPIT']}), SMAIT ({$unitCounts['SMAIT']}), Yayasan ({$unitCounts['YAYASAN']})."
         );
+    }
+
+    public function createPost(Request $request)
+    {
+        $type = $request->input('type', 'news');
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $post = [
+            'title' => '',
+            'slug' => '',
+            'category' => $userUnit ? strtoupper($userUnit) : 'Berita Yayasan',
+            'unit' => $userUnit ?? 'yayasan',
+            'date' => date('d F Y'),
+            'author' => $user ? $user->name : 'Admin Website',
+            'image' => '/images/mockup_desktop_1.png',
+            'excerpt' => '',
+            'content' => '',
+        ];
+
+        return view('admin.cms.post_edit', [
+            'post' => $post,
+            'index' => null,
+            'type' => $type,
+            'userUnit' => $userUnit,
+            'isNew' => true,
+        ]);
+    }
+
+    public function editPost(Request $request)
+    {
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+        $newsData = $schoolWebsiteCtrl->getNewsData();
+        $articleData = $schoolWebsiteCtrl->getArticleData();
+
+        $allPosts = array_merge($newsData, $articleData);
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $targetSlug = $request->input('slug');
+        $targetTitle = $request->input('title');
+        $idx = $request->input('index');
+
+        $foundPost = null;
+        $foundIndex = -1;
+        $postSource = 'news'; // 'news' or 'article'
+
+        if (!empty($targetSlug)) {
+            foreach ($newsData as $i => $item) {
+                if (($item['slug'] ?? '') === $targetSlug) {
+                    $foundPost = $item;
+                    $foundIndex = $i;
+                    $postSource = 'news';
+                    break;
+                }
+            }
+            if (!$foundPost) {
+                foreach ($articleData as $i => $item) {
+                    if (($item['slug'] ?? '') === $targetSlug) {
+                        $foundPost = $item;
+                        $foundIndex = $i;
+                        $postSource = 'article';
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!$foundPost && !empty($targetTitle)) {
+            foreach ($newsData as $i => $item) {
+                if (($item['title'] ?? '') === $targetTitle) {
+                    $foundPost = $item;
+                    $foundIndex = $i;
+                    $postSource = 'news';
+                    break;
+                }
+            }
+            if (!$foundPost) {
+                foreach ($articleData as $i => $item) {
+                    if (($item['title'] ?? '') === $targetTitle) {
+                        $foundPost = $item;
+                        $foundIndex = $i;
+                        $postSource = 'article';
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!$foundPost && is_numeric($idx)) {
+            $numericIdx = (int) $idx;
+            if (isset($newsData[$numericIdx])) {
+                $foundPost = $newsData[$numericIdx];
+                $foundIndex = $numericIdx;
+                $postSource = 'news';
+            } elseif (isset($articleData[$numericIdx])) {
+                $foundPost = $articleData[$numericIdx];
+                $foundIndex = $numericIdx;
+                $postSource = 'article';
+            }
+        }
+
+        if (!$foundPost) {
+            return redirect()->route('admin.cms.content', ['tab' => 'news'])->with('error', 'Post / Artikel tidak ditemukan.');
+        }
+
+        return view('admin.cms.post_edit', [
+            'post' => $foundPost,
+            'index' => $foundIndex,
+            'type' => $postSource,
+            'userUnit' => $userUnit,
+            'isNew' => false,
+        ]);
+    }
+
+    public function savePost(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $schoolWebsiteCtrl = new \App\Http\Controllers\SchoolWebsiteController();
+        $user = auth()->user();
+        $isGlobalAdmin = $user && in_array($user->role, [\App\Models\User::ROLE_SUPER_ADMIN, \App\Models\User::ROLE_YAYASAN_CHAIRMAN, \App\Models\User::ROLE_HUMAS]);
+        $userUnit = (!$isGlobalAdmin && $user && $user->school) ? strtolower($user->school->code) : null;
+
+        $isNew = $request->input('is_new', '1') == '1';
+        $originalSlug = $request->input('original_slug');
+        $originalTitle = $request->input('original_title');
+        $index = $request->input('index');
+
+        $title = trim($request->input('title'));
+        $slug = \Illuminate\Support\Str::slug($title);
+        $category = $request->input('category', 'Berita');
+        $unit = $userUnit ?? $request->input('unit', 'yayasan');
+        $date = $request->input('date', date('d F Y'));
+        $author = $request->input('author', $user ? $user->name : 'Admin');
+        $excerpt = $request->input('excerpt');
+        $content = $request->input('content');
+
+        if (empty($excerpt)) {
+            $excerpt = \Illuminate\Support\Str::limit(strip_tags($content), 160);
+        }
+
+        // AUTOMATED SAFETY FILTER (Anti-Judol, Anti-Pinjol, Anti-SARA, Anti-Pornography, Anti-LGBT, etc.)
+        if (!\App\Services\ContentFilterService::isSafe($title, $excerpt, $content, $category)) {
+            return back()->with('error', '⚠️ Konten mengandung kata terlarang (Judi Online / Pinjol / SARA / Konten Terlarang). Publikasi dibatalkan secara otomatis.')->withInput();
+        }
+
+        // Image Handling
+        $imagePath = $request->input('existing_image', '/images/mockup_desktop_1.png');
+        if ($request->hasFile('image_file')) {
+            $compressed = \App\Services\ImageOptimizer::compress($request->file('image_file'), 'uploads/cms', 'post_' . time() . '_' . \Illuminate\Support\Str::random(6));
+            if ($compressed) {
+                $imagePath = $compressed . '?v=' . time();
+            }
+        } elseif ($request->filled('image_url')) {
+            $imagePath = $request->input('image_url');
+        }
+
+        $postItem = [
+            'title' => $title,
+            'slug' => $slug,
+            'category' => $category,
+            'unit' => $unit,
+            'date' => $date,
+            'author' => $author,
+            'image' => $imagePath,
+            'excerpt' => $excerpt,
+            'content' => $content,
+            'timestamp' => time(),
+        ];
+
+        // Determine if article or news based on category
+        $isArticle = \Illuminate\Support\Str::contains(strtolower($category), ['artikel', 'edukasi', 'opini', 'tips', 'kajian']);
+        $targetSettingKey = $isArticle ? 'cms_article_data' : 'cms_news_data';
+
+        $currentJson = SiteSetting::get($targetSettingKey);
+        $currentList = $currentJson ? (json_decode($currentJson, true) ?: []) : [];
+
+        if ($isNew) {
+            array_unshift($currentList, $postItem);
+        } else {
+            // Find and update item
+            $updatedIndex = -1;
+            if (!empty($originalSlug)) {
+                foreach ($currentList as $i => $item) {
+                    if (($item['slug'] ?? '') === $originalSlug) {
+                        $updatedIndex = $i;
+                        break;
+                    }
+                }
+            }
+            if ($updatedIndex === -1 && !empty($originalTitle)) {
+                foreach ($currentList as $i => $item) {
+                    if (($item['title'] ?? '') === $originalTitle) {
+                        $updatedIndex = $i;
+                        break;
+                    }
+                }
+            }
+            if ($updatedIndex === -1 && is_numeric($index) && isset($currentList[(int)$index])) {
+                $updatedIndex = (int)$index;
+            }
+
+            if ($updatedIndex >= 0) {
+                $currentList[$updatedIndex] = $postItem;
+            } else {
+                array_unshift($currentList, $postItem);
+            }
+        }
+
+        SiteSetting::set($targetSettingKey, json_encode(array_values($currentList), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->route('admin.cms.content', ['tab' => 'news', 'unit_filter' => $userUnit ?? 'all'])
+            ->with('success', "✓ Berita/Artikel '{$title}' berhasil disimpan!");
+    }
+
+    public function updateFoundationProfile(Request $request)
+    {
+        $data = [
+            'name' => $request->input('name', 'Yayasan Generasi Robbani Sumatera Selatan'),
+            'tagline' => $request->input('tagline', 'Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, & SMAIT Robbani Ogan Ilir)'),
+            'founded_year' => $request->input('founded_year', '2014'),
+            'chairman_name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'),
+            'chairman_title' => $request->input('chairman_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
+            'chairman_photo' => $request->input('chairman_photo', '/images/logo-robbani-official.png'),
+            'chairman_greeting' => $request->input('chairman_greeting', ''),
+            'vision' => $request->input('vision', ''),
+            'missions' => array_filter(array_map('trim', explode("\n", $request->input('missions', '')))),
+            'pillars' => [
+                ['title' => 'Pembiasaan & Tahfidz Al-Qur\'an', 'desc' => 'Target hafalan mutqin Juz 30 & Juz 1–5 dengan bimbingan ustadz-ustadzah teruji.', 'icon' => '📖'],
+                ['title' => 'Bina Pribadi Islami (BPI)', 'desc' => 'Pembinaan akhlak, adab harian, mabit, dan mutabaah yaumiyah secara terukur.', 'icon' => '🤲'],
+                ['title' => 'Integrasi Kurikulum JSIT & Merdeka', 'desc' => 'Perpaduan standar akademis nasional Kurikulum Merdeka dengan kekhasan JSIT.', 'icon' => '🎓'],
+                ['title' => 'Ekosistem Digital SmartEdu', 'desc' => 'Presensi RFID gate, E-SPP cashless, dan portal belajar digital modern.', 'icon' => '💻'],
+                ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
+            ],
+            'executives' => [
+                ['name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'), 'role' => 'Ketua Yayasan', 'photo' => $request->input('chairman_photo', '/images/logo-robbani-official.png')]
+            ]
+        ];
+
+        SiteSetting::set('foundation_profile_data', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return redirect()->back()->with('success', '✨ Pengaturan Profil Yayasan berhasil disimpan & diperbarui!');
     }
 }
 

@@ -34,8 +34,10 @@ class UserController extends Controller
             $query->where('role', $request->role);
         }
 
-        // School unit filter
-        if ($request->filled('school_id') && $request->school_id !== 'all') {
+        $authUser = auth()->user();
+        if ($authUser && $authUser->school_id && !$authUser->isSuperAdmin() && !$authUser->isYayasan()) {
+            $query->where('school_id', $authUser->school_id);
+        } elseif ($request->filled('school_id') && $request->school_id !== 'all') {
             if ($request->school_id === 'yayasan') {
                 $query->whereNull('school_id');
             } else {
@@ -48,7 +50,8 @@ class UserController extends Controller
             $query->where('is_active', $request->status === 'active' ? 1 : 0);
         }
 
-        $users = $query->orderBy('role')->latest('id')->paginate(15);
+        $allUsers = $query->orderBy('role')->latest('id')->get();
+        $users = $query->orderBy('role')->latest('id')->paginate(500);
 
         // Stats Summary
         $totalUsers = User::count();
@@ -68,6 +71,8 @@ class UserController extends Controller
         $roleOptions = [
             User::ROLE_SUPER_ADMIN => '👑 Super Admin IT',
             User::ROLE_YAYASAN_CHAIRMAN => '🏛️ Ketua Yayasan',
+            User::ROLE_HUMAS => '📢 Humas Yayasan',
+            User::ROLE_ADMIN_WEB_UNIT => '🌐 Admin Web Unit',
             User::ROLE_HEADMASTER => '🏫 Kepala Sekolah',
             User::ROLE_STAFF_TU => '📋 Tata Usaha (TU)',
             User::ROLE_STAFF_KEUANGAN => '💰 Bendahara / Keuangan',
@@ -81,7 +86,7 @@ class UserController extends Controller
         ];
 
         return view('admin.users.index', compact(
-            'users', 'totalUsers', 'activeUsers', 'adminCount',
+            'users', 'allUsers', 'totalUsers', 'activeUsers', 'adminCount',
             'headmasterCount', 'teacherCount', 'staffCount',
             'schools', 'employees', 'roleOptions'
         ));
@@ -108,7 +113,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
-            'school_id' => in_array($validated['role'], [User::ROLE_SUPER_ADMIN, User::ROLE_YAYASAN_CHAIRMAN]) ? null : ($validated['school_id'] ?: null),
+            'school_id' => in_array($validated['role'], [User::ROLE_SUPER_ADMIN, User::ROLE_YAYASAN_CHAIRMAN, User::ROLE_HUMAS]) ? null : ($validated['school_id'] ?: null),
             'phone' => $validated['phone'] ?? null,
             'is_active' => $request->has('is_active') ? true : false,
         ]);
@@ -146,7 +151,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
-            'school_id' => in_array($validated['role'], [User::ROLE_SUPER_ADMIN, User::ROLE_YAYASAN_CHAIRMAN]) ? null : ($validated['school_id'] ?: null),
+            'school_id' => in_array($validated['role'], [User::ROLE_SUPER_ADMIN, User::ROLE_YAYASAN_CHAIRMAN, User::ROLE_HUMAS]) ? null : ($validated['school_id'] ?: null),
             'phone' => $validated['phone'] ?? null,
             'is_active' => $request->has('is_active') ? true : false,
         ];

@@ -11,10 +11,10 @@ class BkController extends Controller
 {
     public function index(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $studentsQuery = Student::with(['school', 'classroom']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $studentsQuery->where('school_id', $schoolId);
         }
 

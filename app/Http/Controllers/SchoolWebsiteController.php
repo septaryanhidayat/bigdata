@@ -17,9 +17,9 @@ class SchoolWebsiteController extends Controller
             'school_name' => SiteSetting::get('school_name', 'Yayasan Generasi Robbani Sumatera Selatan'),
             'tagline' => SiteSetting::get('tagline', 'Official Website Sekolah Islam Terpadu Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT)'),
             'hero_badge' => SiteSetting::get('hero_badge', '✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027'),
-            'hero_title' => SiteSetting::get('hero_title', 'Taman Pendidikan & Sekolah Islam Terpadu Robbani'),
+            'hero_title' => SiteSetting::get('hero_title', 'Sekolah Islam Terpadu Robbani Ogan Ilir'),
             'hero_desc' => SiteSetting::get('hero_desc', 'Mencetak Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Berprestasi Nasional di Kabupaten Ogan Ilir, Sumatera Selatan.'),
-            'hero_bg_image' => SiteSetting::get('hero_bg_image', '/images/hero_3d_illustration_1786347707126.png'),
+            'hero_bg_image' => SiteSetting::get('hero_bg_image', '/uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp'),
             'hero_banner_opacity' => SiteSetting::get('hero_banner_opacity', '70'),
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
             'principal_name' => SiteSetting::get('principal_name', 'Sughesti wulandari, S.Pd'),
@@ -55,37 +55,37 @@ class SchoolWebsiteController extends Controller
                 'name' => 'ECILIA OKTARINA, SE., MM.',
                 'title' => 'Bapenda Provinsi Sumsel',
                 'text' => 'Tenaga pendidik profesional dan berkompeten sangat menunjang pembelajaran. Terjalinnya kedekatan antara guru, anak, dan orang tua. Pelajaran ilmu agama serta sopan santun yang diajarkan sangat menonjol. Sekolah Robbani adalah pilihan tepat di masa globalisasi.',
-                'avatar' => '/images/mockup_mobile_1.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'RENNI SUSANTI, A.Md. Kep.',
                 'title' => 'Perawat RSUD Ogan Ilir',
                 'text' => 'Sekolah Robbani merupakan sekolah pilihan terbaik saat ini. Pembelajarannya sangat bagus, gurunya muda dan berkompeten, serta fondasi agamanya sangat kuat. Hubungan silaturahmi antara guru, siswa, dan ortu sangat erat.',
-                'avatar' => '/images/mockup_mobile_2.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Bunda Mazaya',
                 'title' => 'Wali Murid Alumni SDIT Robbani',
                 'text' => 'Alhamdulillah selama anak saya Mazaya bersekolah di sini, banyak ilmu yang didapat terutama pengetahuan Agama, hafalan Al-Qur\'an bertambah, dan sering ikut perlombaan sehingga bertambah percaya dirinya.',
-                'avatar' => '/images/mockup_mobile_3.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Calvin',
                 'title' => 'Siswa SDIT Robbani',
                 'text' => 'Sekolah di Robbani enak, punya banyak teman, sekolahnya nyaman, fasilitasnya bagus, gurunya baik dan ramah, ada satpam yang stay terus jadi sekolahnya aman.',
-                'avatar' => '/images/mockup_mobile_4.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Faiz',
                 'title' => 'Siswa SDIT Robbani',
                 'text' => 'Sekolahnya menyenangkan, gurunya ramah, ruang kelas ber-AC jadi sangat nyaman saat belajar.',
-                'avatar' => '/images/mockup_mobile_5.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ],
             [
                 'name' => 'Anaya Tahta',
                 'title' => 'Alumni SIT Robbani TA 2020/2021',
                 'text' => 'Selama sekolah di ROBBANI saya mendapatkan banyak ilmu bermanfaat, dapat menyelesaikan hafalan beberapa juz, serta diajarkan disiplin dan bertanggung jawab. Terimakasih ustadz dan bunda atas bimbingannya.',
-                'avatar' => '/images/logo-robbani-official.png'
+                'avatar' => '/images/avatar-gray-person.svg'
             ]
         ];
 
@@ -175,7 +175,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SMPIT Robbani',
                 'principal_name' => 'Tia Wulandari, S.Pd',
                 'principal_title' => 'Kepala Sekolah SMPIT',
-                'principal_photo' => '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
+                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
                 'desc' => 'Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).'
             ],
             'smait' => [
@@ -215,11 +215,48 @@ class SchoolWebsiteController extends Controller
         ));
     }
 
+    public function getFoundationProfile()
+    {
+        $cmsJson = SiteSetting::get('foundation_profile_data');
+        if ($cmsJson) {
+            $data = json_decode($cmsJson, true);
+            if (is_array($data)) return $data;
+        }
+
+        return [
+            'name' => 'Yayasan Generasi Robbani Sumatera Selatan',
+            'tagline' => 'Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, & SMAIT Robbani Ogan Ilir)',
+            'founded_year' => '2014',
+            'chairman_name' => 'Sughesti Wulandari, S.Pd',
+            'chairman_title' => 'Ketua Yayasan Generasi Robbani Sumatera Selatan',
+            'chairman_photo' => '/images/logo-robbani-official.png',
+            'chairman_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh.<br><br>Alhamdulillah, puji dan syukur senantiasa kita panjatkan ke hadirat Allah SWT yang telah melimpahkan rahmat, hidayah, dan inayah-Nya kepada kita semua. Sholawat serta salam semoga senantiasa tercurah kepada junjungan kita Nabi Besar Muhammad SAW, keluarga, sahabat, dan para pengikutnya hingga akhir zaman.<br><br>Yayasan Generasi Robbani Sumatera Selatan berkomitmen penuh menghadirkan ekosistem pendidikan Islam Terpadu yang unggul, berkarakter Qur\'ani, dan adaptif terhadap perkembangan sains teknologi digital di Kabupaten Ogan Ilir.',
+            'vision' => 'Menjadi Lembaga Pendidikan Islam Terpadu Pilihan Utama di Sumatera Selatan yang Mencetak Generasi Rabbani Beriman, Hafidz Al-Qur\'an, Berakhlak Karimah, Unggul Akademik, dan Siap Memimpin di Era Digital.',
+            'missions' => [
+                'Menyelenggarakan pendidikan Islam Terpadu berstandar JSIT dari usia dini (TK) hingga jenjang menengah atas (SMA).',
+                'Membina kecintaan terhadap Al-Qur\'an melalui target hafalan bertahap dan pendampingan adab islami.',
+                'Mengembangkan kecerdasan digital, kepemimpinan, dan kemandirian berprestasi secara berkelanjutan.',
+                'Membangun sinergi kokoh antara sekolah, wali murid, dan masyarakat dalam membentuk karakter anak.'
+            ],
+            'pillars' => [
+                ['title' => 'Pembiasaan & Tahfidz Al-Qur\'an', 'desc' => 'Target hafalan mutqin Juz 30 & Juz 1–5 dengan bimbingan ustadz-ustadzah teruji.', 'icon' => '📖'],
+                ['title' => 'Bina Pribadi Islami (BPI)', 'desc' => 'Pembinaan akhlak, adab harian, mabit, dan mutabaah yaumiyah secara terukur.', 'icon' => '🤲'],
+                ['title' => 'Integrasi Kurikulum JSIT & Merdeka', 'desc' => 'Perpaduan standar akademis nasional Kurikulum Merdeka dengan kekhasan JSIT.', 'icon' => '🎓'],
+                ['title' => 'Ekosistem Digital SmartEdu', 'desc' => 'Presensi RFID gate, E-SPP cashless, dan portal belajar digital modern.', 'icon' => '💻'],
+                ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
+            ],
+            'executives' => [
+                ['name' => 'Sughesti Wulandari, S.Pd', 'role' => 'Ketua Yayasan', 'photo' => '/images/logo-robbani-official.png']
+            ]
+        ];
+    }
+
     public function profil()
     {
         $settings = $this->getSettings();
         $schools = School::where('is_active', true)->get();
-        return view('school.profil', compact('settings', 'schools'));
+        $foundationProfile = $this->getFoundationProfile();
+        return view('school.profil', compact('settings', 'schools', 'foundationProfile'));
     }
 
     public function unitProfile($code)
@@ -244,10 +281,11 @@ class SchoolWebsiteController extends Controller
                 'code' => 'TKIT',
                 'npsn' => '69888765',
                 'akreditasi' => 'Terakreditasi Unggul (A)',
+                'kurikulum' => 'JSIT & Merdeka PAUD',
                 'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
                 'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
-                'principal_photo' => '/uploads/wp_assets/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_photo' => '/uploads/media/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di KB/TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an melalui suasana bermain yang edukatif dan menggembirakan.',
                 'description' => 'Kelompok Bermain & Taman Kanak-Kanak Islam Terpadu Terakreditasi A di Ogan Ilir. Membina fitrah anak sejak dini dengan pendekatan sentra, pembiasaan hafalan surat-surat pendek Juz 30, doa harian, kemandirian, dan stimulasi motorik terpadu.',
                 'vision' => 'Menjadi Lembaga PAUD Islam Terpadu Unggulan dalam Membentuk Karakter Anak Sholeh, Ceria, dan Berakhlak Qur\'ani.',
@@ -269,22 +307,28 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Billingual Basic Kids', 'icon' => '🗣️', 'desc' => 'Pengenalan kosakata dasar Bahasa Arab & Inggris sehari-hari melalui kuis & lagu.']
                 ],
                 'teachers' => [
-                    ['name' => 'Dia Fitri Yani, S.Pd', 'role' => 'Guru Sentra Balok & Motorik', 'photo' => '/uploads/wp_assets/gtk_tk_dia_9992b8e6.jpeg'],
-                    ['name' => 'Nopitri Rosah, S.Pd', 'role' => 'Guru Sentra Persiapan & Literasi', 'photo' => '/uploads/wp_assets/gtk_tk_ocha_ce0626c2.jpeg'],
-                    ['name' => 'Susanti, S.Pd.I', 'role' => 'Guru Tahfidz Al-Qur\'an & PAI', 'photo' => '/uploads/wp_assets/gtk_tk_susan_5fcc63ea.jpeg'],
-                    ['name' => 'Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/wp_assets/gtk_tk_yunisa_2de7f85f.jpeg'],
-                    ['name' => 'Zahrotun Jannati, S.Pd', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/wp_assets/gtk_tk_zahro_5e0084ad.jpeg'],
-                    ['name' => 'Rojanah, S.E', 'role' => 'Staff Keuangan & Tata Usaha', 'photo' => '/uploads/wp_assets/gtk_tk_4-scaled_640e548f.jpg'],
-                    ['name' => 'Minarti, S.Pd', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/uploads/wp_assets/gtk_tk_5-scaled_67583fbf.jpg'],
-                    ['name' => 'Neli Wati, S.Pd', 'role' => 'Guru Kelas Kelompok Bermain (KB)', 'photo' => '/uploads/wp_assets/gtk_tk_6-scaled_b4639f16.jpg'],
-                    ['name' => 'Putri Nabila, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/wp_assets/gtk_tk_7-scaled_b0b5f4cd.jpg'],
-                    ['name' => 'Rhodotun Nikmah, S.Pd', 'role' => 'Guru Sentra Imtaq & Doa Harian', 'photo' => '/uploads/wp_assets/gtk_tk_8-scaled_d8ee33e6.jpg'],
-                    ['name' => 'Rizqy Maharani B. P., S.Pd', 'role' => 'Guru Bilingual Basic Kids', 'photo' => '/uploads/wp_assets/gtk_tk_9-scaled_6b8397e4.jpg'],
-                    ['name' => 'Aisyah Enjelita, S.Pd', 'role' => 'Staff Administrasi & Layanan Siswa', 'photo' => '/uploads/wp_assets/gtk_tk_whatsapp-image-2025-10-08-at-085210_5e9ab9e6.jpeg']
+                    ['name' => 'Dia Fitri Yani, S.Pd', 'role' => 'Guru Sentra Balok & Motorik', 'photo' => '/uploads/media/gtk_tk_dia_9992b8e6.jpeg'],
+                    ['name' => 'Nopitri Rosah, S.Pd', 'role' => 'Guru Sentra Persiapan & Literasi', 'photo' => '/uploads/media/gtk_tk_ocha_ce0626c2.jpeg'],
+                    ['name' => 'Susanti, S.Pd.I', 'role' => 'Guru Tahfidz Al-Qur\'an & PAI', 'photo' => '/uploads/media/gtk_tk_susan_5fcc63ea.jpeg'],
+                    ['name' => 'Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/media/gtk_tk_yunisa_2de7f85f.jpeg'],
+                    ['name' => 'Zahrotun Jannati, S.Pd', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/media/gtk_tk_zahro_5e0084ad.jpeg'],
+                    ['name' => 'Rojanah, S.E', 'role' => 'Staff Keuangan & Tata Usaha', 'photo' => '/uploads/media/gtk_tk_4-scaled_640e548f.jpg'],
+                    ['name' => 'Minarti, S.Pd', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/uploads/media/gtk_tk_5-scaled_67583fbf.jpg'],
+                    ['name' => 'Neli Wati, S.Pd', 'role' => 'Guru Kelas Kelompok Bermain (KB)', 'photo' => '/uploads/media/gtk_tk_6-scaled_b4639f16.jpg'],
+                    ['name' => 'Putri Nabila, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/media/gtk_tk_7-scaled_b0b5f4cd.jpg'],
+                    ['name' => 'Rhodotun Nikmah, S.Pd', 'role' => 'Guru Sentra Imtaq & Doa Harian', 'photo' => '/uploads/media/gtk_tk_8-scaled_d8ee33e6.jpg'],
+                    ['name' => 'Rizqy Maharani B. P., S.Pd', 'role' => 'Guru Bilingual Basic Kids', 'photo' => '/uploads/media/gtk_tk_9-scaled_6b8397e4.jpg'],
+                    ['name' => 'Aisyah Enjelita, S.Pd', 'role' => 'Staff Administrasi & Layanan Siswa', 'photo' => '/uploads/media/gtk_tk_whatsapp-image-2025-10-08-at-085210_5e9ab9e6.jpeg']
                 ],
                 'alumni' => [
-                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
-                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/uploads/wp_assets/galeri_tk_whatsapp-image-2025-11-24-at-102111_3544c740.jpeg']
+                    ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/media/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
+                    ['name' => 'Renni Susanti, A.Md.Kep', 'title' => 'Perawat & Wali Murid', 'text' => 'Lingkungan TKIT Robbani sangat bersih, aman, dan ustadzah pendidiknya sangat ramah membimbing anak.', 'avatar' => '/uploads/media/galeri_tk_whatsapp-image-2025-11-24-at-102111_3544c740.jpeg']
+                ],
+                'facilities' => [
+                    ['title' => 'Loker di Setiap Kelas', 'badge' => 'Kemandirian Anak', 'icon' => '🎒', 'desc' => 'Setiap anak mempunyai loker pribadi masing-masing di kelasnya.', 'image' => '/uploads/media/tkit_post_Loker-scaled_a03171c9.jpeg'],
+                    ['title' => 'Permainan Outdoor', 'badge' => 'Motorik Kasar', 'icon' => '🛝', 'desc' => 'Tempat Permainan Outdoor yang nyaman, bersih dan dilengkapi oleh CCTV.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-04-at-09_52__03a061e9.jpeg'],
+                    ['title' => 'Tempat Wudhu Anti-Slip', 'badge' => 'Pembiasaan Ibadah', 'icon' => '💧', 'desc' => 'Tempat wudhu yang bersih dan alas lantai anti slip dan dilengkapi dengan CCTV.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_00__9f198ecf.jpeg'],
+                    ['title' => 'Teras Bersih & CCTV', 'badge' => 'Area Bermain', 'icon' => '🌿', 'desc' => 'Teras yang bersih dan dilengkapi CCTV, tempat anak main diluar ruangan yang nyaman.', 'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_07__c2bf2e5f.jpeg']
                 ]
             ],
             'sdit' => [
@@ -292,16 +336,17 @@ class SchoolWebsiteController extends Controller
                 'code' => 'SDIT',
                 'npsn' => '69985678',
                 'akreditasi' => 'Terakreditasi B',
+                'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
                 'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/wp_assets/kepsek_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
-                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional dengan Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
+                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional Terintegrasi Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
                 'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
                 'missions' => [
                     'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.',
-                    'Menerapkan Kurikulum Merdeka terintegrasi nilai-nilai keislaman dan pembiasaan ibadah harian.',
+                    'Menerapkan Kurikulum Merdeka Terintegrasi Kekhasan JSIT dan pembiasaan ibadah harian.',
                     'Mengembangkan minat bakat siswa dalam bidang sains, koding digital, seni, dan kepanduan.',
                     'Membentuk karakter kepemimpinan islami melalui pembinaan Bina Pribadi Islam (BPI).'
                 ],
@@ -317,31 +362,38 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
                 ],
                 'teachers' => [
-                    ['name' => 'Nur Amalia, S.Pd', 'role' => 'Kepala Sekolah', 'photo' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
-                    ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Wakil Kepala Sekolah', 'photo' => '/uploads/wp_assets/gtk_sd_dian-kemala-astuti-spd_e347e53e.png'],
-                    ['name' => 'Ranti Saputri, S.TP', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png'],
-                    ['name' => 'Rini Nur Aisyah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_rini-nur-aisyah-spd_62500a42.png'],
-                    ['name' => 'Verda Novita Sari, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_verda-novita-sari-spd_ad452dad.png'],
-                    ['name' => 'Dwi Misgiyati, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_dwi-misgiyati-spd-1_e732e7cf.png'],
-                    ['name' => 'Marisa, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_marisa-spd_130e5322.png'],
-                    ['name' => 'Veti Susanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_veti-susanti-spd-1_59757bcc.png'],
-                    ['name' => 'Annisa Fatihah Salsabila, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_annisa-fatihah-salsabila-spd_44fd8f4a.png'],
-                    ['name' => 'Risfina Ayu Rochmayani, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_risfina-ayu-rochmayani-spd_3791bc4c.png'],
-                    ['name' => 'Yara Dwinadia, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_yara-dwinadia-spd_3fc4a612.png'],
-                    ['name' => 'Rika Damayanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_rika-damayanti-spd-1_7a98d317.png'],
-                    ['name' => 'Reni Zahara, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_reni-zahara-s-pd_bab4d1d8.png'],
-                    ['name' => 'Dita Irfaul Khasanah, S.Si', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_dita-irfaul-khasanah-ssi_57bffe6b.png'],
-                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/wp_assets/gtk_sd_sarah-salsabilah-spd-1_f536c3f5.png'],
-                    ['name' => 'Anisa, S.Pd', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/wp_assets/gtk_sd_anisa-spd_c33d9a96.png'],
-                    ['name' => 'Apriliah, S.Ag', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/wp_assets/gtk_sd_annisa-fatihah-salsabila-spd-2_d59d918b.png'],
-                    ['name' => 'Sholahuddin Gultom, S.Pd', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/wp_assets/gtk_sd_sholahudin-gultom-spd_b287c1f1.png'],
-                    ['name' => 'Ahmad Firdaus', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/wp_assets/gtk_sd_ahmad-firdaus_265113a5.png'],
-                    ['name' => 'Risma Nia, S.Sos', 'role' => 'Staff TU', 'photo' => '/uploads/wp_assets/gtk_sd_risma-nia-ssos_5f30d015.png'],
-                    ['name' => 'Fredy Kurniawan', 'role' => 'Security', 'photo' => '/uploads/wp_assets/gtk_sd_fredy-kurniawan_977beb19.png'],
+                    ['name' => 'Nur Amalia, S.Pd', 'role' => 'Kepala Sekolah', 'photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
+                    ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Wakil Kepala Sekolah', 'photo' => '/uploads/media/gtk_sd_dian-kemala-astuti-spd_e347e53e.png'],
+                    ['name' => 'Ranti Saputri, S.TP', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_ranti-saputri-s-tp_5199b18b.png'],
+                    ['name' => 'Rini Nur Aisyah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_rini-nur-aisyah-spd_62500a42.png'],
+                    ['name' => 'Verda Novita Sari, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_verda-novita-sari-spd_ad452dad.png'],
+                    ['name' => 'Dwi Misgiyati, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_dwi-misgiyati-spd-1_e732e7cf.png'],
+                    ['name' => 'Marisa, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_marisa-spd_130e5322.png'],
+                    ['name' => 'Veti Susanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_veti-susanti-spd-1_59757bcc.png'],
+                    ['name' => 'Annisa Fatihah Salsabila, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_annisa-fatihah-salsabila-spd_44fd8f4a.png'],
+                    ['name' => 'Risfina Ayu Rochmayani, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_risfina-ayu-rochmayani-spd_3791bc4c.png'],
+                    ['name' => 'Yara Dwinadia, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_yara-dwinadia-spd_3fc4a612.png'],
+                    ['name' => 'Rika Damayanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_rika-damayanti-spd-1_7a98d317.png'],
+                    ['name' => 'Reni Zahara, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_reni-zahara-s-pd_bab4d1d8.png'],
+                    ['name' => 'Dita Irfaul Khasanah, S.Si', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_dita-irfaul-khasanah-ssi_57bffe6b.png'],
+                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_sarah-salsabilah-spd-1_f536c3f5.png'],
+                    ['name' => 'Anisa, S.Pd', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/media/gtk_sd_anisa-spd_c33d9a96.png'],
+                    ['name' => 'Apriliah, S.Ag', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/media/gtk_sd_annisa-fatihah-salsabila-spd-2_d59d918b.png'],
+                    ['name' => 'Sholahuddin Gultom, S.Pd', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/media/gtk_sd_sholahudin-gultom-spd_b287c1f1.png'],
+                    ['name' => 'Ahmad Firdaus', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/media/gtk_sd_ahmad-firdaus_265113a5.png'],
+                    ['name' => 'Risma Nia, S.Sos', 'role' => 'Staff TU', 'photo' => '/uploads/media/gtk_sd_risma-nia-ssos_5f30d015.png'],
+                    ['name' => 'Fredy Kurniawan', 'role' => 'Security', 'photo' => '/uploads/media/gtk_sd_fredy-kurniawan_977beb19.png'],
                 ],
                 'alumni' => [
-                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/wp_assets/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
-                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/uploads/wp_assets/gtk_sd_ranti-saputri-s-tp_5199b18b.png']
+                    ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
+                    ['name' => 'Anaya Tahta', 'title' => 'Alumni SDIT Robbani 2020', 'text' => 'Selama di SDIT Robbani saya mendapatkan hafalan Al-Qur\'an beberapa juz dan fondasi akademik sains yang kuat.', 'avatar' => '/uploads/media/gtk_sd_ranti-saputri-s-tp_5199b18b.png']
+                ],
+                'facilities' => [
+                    ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang yang rutin dilaksanakan.', 'image' => '/uploads/media/fasilitas_sd_img-20250117-wa0010-scaled_4afcf92f.jpg'],
+                    ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin melalui penyediaan fasilitas AC dan penerangan.', 'image' => '/uploads/media/fasilitas_sd_ruang-kls_a2b54fd4.jpg'],
+                    ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik sehingga siswa terasa nyaman ketika beribadah.', 'image' => '/uploads/media/fasilitas_sd_saung_f3942ec8.jpg'],
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event, seminar, atau kegiatan upacara sekolah.', 'image' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg'],
+                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka sebagai pelataran aktivitas fisik siswa.', 'image' => '/uploads/media/fasilitas_sd_img-20241105-110318-scaled_531016d4.jpg']
                 ]
             ],
             'smpit' => [
@@ -349,19 +401,19 @@ class SchoolWebsiteController extends Controller
                 'code' => 'SMPIT',
                 'npsn' => '69989012',
                 'akreditasi' => 'Terakreditasi B',
+                'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
                 'principal_name' => 'Tia Wulandari, S.Pd',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
+                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
-                'vision' => 'Melahirkan Generasi Rabbani yang Beriman dan Bertaqwa, Unggul dalam Ilmu Pengetahuan dan Teknologi serta Berwawasan Global.',
+                'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
                 'missions' => [
-                    'Mengadakan kegiatan keagamaan secara rutin dan teratur untuk menumbuhkan penghayatan dan pengamalan nilai-nilai ajaran agama Islam.',
-                    'Membina dan menumbuhkan budaya disiplin dan berkarakter islami.',
-                    'Melaksanakan pengajaran secara efektif dan menyenangkan dengan penerapan teknologi pendidikan (SIPAKAR V2).',
-                    'Membimbing dan mengarahkan setiap murid untuk mengenali potensi diri, sehingga dapat mengembangkan talenta sebagai kecakapan hidupnya.',
-                    'Menumbuhkan daya juang serta semangat yang tinggi dalam belajar dan bekerja keras untuk meraih prestasi dan peduli terhadap lingkungan.'
+                    'Membentuk Peserta Didik yang cerdas, kreatif dan terpuji berdasarkan nilai Islam dan pendidikan Karakter',
+                    'Membentuk Guru dan Tenaga Kependidikan yang handal dan Profesional',
+                    'Menjadi lembaga Pendidikan yang Kokoh dan terkelola secara Optimal',
+                    'Membangun kerjasama dengan orang tua Peserta Didik, masyarakat dan stake holder lainnya'
                 ],
                 'phone' => '085377193977',
                 'students_count' => 280,
@@ -375,23 +427,31 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking siswa.']
                 ],
                 'teachers' => [
-                    ['name' => 'Tia Wulandari, S.Pd', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg'],
-                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-110541_b2c738bc.jpeg'],
-                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530_54a2d99a.jpeg'],
-                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104532_d3e51bd5.jpeg'],
-                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531-2_1a306591.jpeg'],
-                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-1_1ab1778a.jpeg'],
-                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104530-2_8a9b894e.jpeg'],
-                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104531_594dd006.jpeg'],
-                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/wp_assets/whatsapp-image-2024-12-03-at-104527_83f5cdfe.jpeg'],
-                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/wp_assets/smpit_post_GURU-SMP-3_4_20250930_141746_0000_b839d8b3.png'],
-                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/wp_assets/smpit_post_GURU-SMP-3_4_20250811_094836_0002_3c2fedb6.png'],
-                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/wp_assets/smpit_post_GURU-SMP-3_4_20250930_141708_0000_105be986.png']
+                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-110541_b299e525.jpeg'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530_30ee68d0.jpeg'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104532_3126be1f.jpeg'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-2_2f796280.jpeg'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530-1_2c9bcfe7.jpeg'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530-2_065e94be.jpeg'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531_eb838cb9.jpeg'],
+                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104527_df1d1872.jpeg'],
+                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/guru-smp-3_4_20250930_141746_0000_c5eaee11.png'],
+                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/guru-smp-3_4_20250811_094836_0002_09c00b0d.png'],
+                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
                 ],
                 'alumni' => [
-                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg'],
+                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/media/img20251124075603-scaled_0267776a.jpg'],
                     ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Pendidikan di SMPIT Robbani melatih saya mandiri, disiplin ibadah harian, dan hafal Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
                     ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi siswa.', 'avatar' => '/images/mockup_mobile_4.png']
+                ],
+                'facilities' => [
+                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => '/images/facilities/gedung_smpit.jpg'],
+                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca.', 'image' => '/images/facilities/ruang_kelas_smpit.jpg'],
+                    ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => '/images/facilities/toilet_smpit.jpg'],
+                    ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital.', 'image' => '/images/facilities/tablet_smpit.jpg'],
+                    ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => '/images/facilities/kantin_smpit.jpg'],
+                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri.', 'image' => '/images/facilities/lapangan_smpit.jpg']
                 ]
             ],
             'smait' => [
@@ -399,6 +459,7 @@ class SchoolWebsiteController extends Controller
                 'code' => 'SMAIT',
                 'npsn' => '69983456',
                 'akreditasi' => 'Dalam Tahap Persiapan',
+                'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Center of Excellence: Science, IT, Tahfidz 10-30 Juz, & Mentoring PTN',
                 'principal_name' => '—',
                 'principal_title' => 'Kepala Sekolah SMAIT Robbani',
@@ -424,7 +485,13 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Public Speaking & Leadership', 'icon' => '🎙️', 'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.']
                 ],
                 'teachers' => [],
-                'alumni' => []
+                'alumni' => [],
+                'facilities' => [
+                    ['title' => 'Laboratorium Komputer & Coding', 'badge' => 'Laboratorium Digital', 'icon' => '💻', 'desc' => 'Fasilitas komputer berspesifikasi tinggi untuk simulasi UTBK, koding, dan karya digital.', 'image' => '/images/mockup_desktop_1.png'],
+                    ['title' => 'Laboratorium Sains Terpadu', 'badge' => 'Riset & Eksperimen', 'icon' => '🔬', 'desc' => 'Ruang praktikum Kimia, Fisika, dan Biologi lengkap untuk persiapan Olimpiade Sains.', 'image' => '/images/mockup_desktop_2.png'],
+                    ['title' => 'Perpustakaan Digital & Riset', 'badge' => 'Pusat Belajar', 'icon' => '📚', 'desc' => 'Akses e-book internasional, jurnal sains, serta area riset privat seleksi PTN.', 'image' => '/images/mockup_desktop_3.png'],
+                    ['title' => 'Ruang Kelas Multimedia Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '🏫', 'desc' => 'Ruang kelas modern ber-AC dilengkapi proyektor smart board & internet cepat.', 'image' => '/images/mockup_desktop_4.png']
+                ]
             ]
         ];
 
@@ -432,7 +499,39 @@ class SchoolWebsiteController extends Controller
         $defaultInfo = $unitMap[$uKey];
 
         // Merge custom setting if present
-        $info = array_merge($defaultInfo, $customUnit ?? []);
+        $info = array_merge($defaultInfo, array_filter($customUnit ?? []));
+
+        foreach (['programs', 'facilities', 'ekskul'] as $key) {
+            $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : [];
+            $defaultItems = $defaultInfo[$key] ?? [];
+            if (empty($userItems)) {
+                $info[$key] = $defaultItems;
+                continue;
+            }
+            foreach ($userItems as $idx => &$uItem) {
+                if (empty($uItem['image']) || str_contains($uItem['image'], 'mockup_desktop')) {
+                    $matchedDefault = null;
+                    foreach ($defaultItems as $dItem) {
+                        if (strtolower(trim($dItem['title'] ?? '')) === strtolower(trim($uItem['title'] ?? ''))) {
+                            $matchedDefault = $dItem;
+                            break;
+                        }
+                    }
+                    if (!$matchedDefault && isset($defaultItems[$idx])) {
+                        $matchedDefault = $defaultItems[$idx];
+                    }
+                    if ($matchedDefault && !empty($matchedDefault['image'])) {
+                        $uItem['image'] = $matchedDefault['image'];
+                    }
+                }
+            }
+            unset($uItem);
+            $info[$key] = $userItems;
+        }
+
+        if (empty($info['teachers'])) {
+            $info['teachers'] = $defaultInfo['teachers'] ?? [];
+        }
 
         if ($school) {
             $school->name = $info['name'];
@@ -456,8 +555,8 @@ class SchoolWebsiteController extends Controller
             ];
         }
 
-        $students = Student::where('school_id', $school->id ?? 1)->where('status', 'aktif')->take(10)->get();
-        $teachers = Employee::where('school_id', $school->id ?? 1)->where('status', 'aktif')->take(8)->get();
+        $students = Student::where('school_id', $school->id ?? 1)->where(function($q) { $q->where('status', 'aktif')->orWhere('status', 'ACTIVE'); })->take(10)->get();
+        $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
         $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
 
         $settings = $this->getSettings();
@@ -487,9 +586,9 @@ class SchoolWebsiteController extends Controller
             $unitArticles = collect($allArticles)->take(6);
         }
 
-        $unitFacilities = $info['facilities'] ?? $this->getFacilityData();
-        $unitEkskul = $info['ekskul'] ?? [];
-        $unitGallery = $info['gallery'] ?? $this->getGalleryData();
+        $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
+        $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
+        $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
 
         // Unit Videos: fallback to global video list if empty
         $unitVideos = $info['videos'] ?? [];
@@ -507,29 +606,43 @@ class SchoolWebsiteController extends Controller
             }, $globalVideos);
         }
 
-        // Unit Agendas: fallback to global agendas if empty
-        $unitAgendas = $info['agenda'] ?? [];
+        // Unit Agendas & Announcements loaded from XML backup files
+        $xmlData = $this->getXmlUnitEventsAndAnnouncements($cleanCode);
+        
+        $unitAgendas = !empty($info['agenda']) ? $info['agenda'] : $xmlData['agenda'];
         if (empty($unitAgendas)) {
             $allAgendas = $this->getAgendaData();
             $unitAgendas = array_map(function($ag) {
                 return [
                     'title' => $ag['title'],
+                    'date_day' => $ag['date_day'] ?? '25',
+                    'date_month' => $ag['date_month'] ?? 'AGU',
                     'date' => ($ag['date_day'] ?? '25') . ' ' . ($ag['date_month'] ?? 'AGU') . ' ' . ($ag['year'] ?? '2026'),
                     'time' => $ag['time'] ?? '08:00 WIB',
                     'location' => $ag['location'] ?? 'Kampus SIT Robbani',
                     'desc' => $ag['category'] ?? 'Kegiatan Terjadwal Unit'
                 ];
             }, $allAgendas);
+        } else {
+            foreach ($unitAgendas as &$agItem) {
+                if (empty($agItem['date_day'])) {
+                    $agItem['date_day'] = '15';
+                }
+                if (empty($agItem['date_month'])) {
+                    $agItem['date_month'] = 'AGU';
+                }
+            }
+            unset($agItem);
         }
 
-        // Unit Announcements: fallback to global announcements if empty
-        $unitAnnouncements = $info['announcements'] ?? [];
+        $unitAnnouncements = !empty($info['announcements']) ? $info['announcements'] : $xmlData['announcements'];
         if (empty($unitAnnouncements)) {
             $allAnnouncements = $this->getAnnouncementData();
             $unitAnnouncements = array_map(function($an) {
                 return [
                     'title' => $an['title'],
                     'date' => $an['date'] ?? '17 Agustus 2026',
+                    'category' => $an['category'] ?? 'Pengumuman Resmi',
                     'summary' => $an['summary'] ?? '',
                     'link' => $an['link'] ?? route('school.berita')
                 ];
@@ -754,7 +867,8 @@ class SchoolWebsiteController extends Controller
     public function layananKunjungan()
     {
         $settings = $this->getSettings();
-        return view('school.layanan.kunjungan', compact('settings'));
+        $activeTab = 'kunjungan';
+        return view('school.layanan.index', compact('settings', 'activeTab'));
     }
 
     public function storeLayananKunjungan(Request $request)
@@ -767,7 +881,12 @@ class SchoolWebsiteController extends Controller
             'tgl_kunjungan' => 'required|date',
             'jumlah_peserta' => 'required|integer',
             'tujuan' => 'required|string',
+            'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if ($request->hasFile('file_dokumen')) {
+            $request->file('file_dokumen')->store('layanan_kunjungan', 'public');
+        }
 
         return redirect()->back()->with('success', 'Permohonan Izin Kunjungan Sekolah berhasil dikirim! Tim Humas Yayasan Generasi Robbani akan menghubungi Anda melalui WhatsApp/Email.');
     }
@@ -775,7 +894,8 @@ class SchoolWebsiteController extends Controller
     public function layananKerjasama()
     {
         $settings = $this->getSettings();
-        return view('school.layanan.kerjasama', compact('settings'));
+        $activeTab = 'kerjasama';
+        return view('school.layanan.index', compact('settings', 'activeTab'));
     }
 
     public function storeLayananKerjasama(Request $request)
@@ -787,7 +907,12 @@ class SchoolWebsiteController extends Controller
             'no_hp' => 'required|string',
             'jenis_kerjasama' => 'required|string',
             'deskripsi' => 'required|string',
+            'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if ($request->hasFile('file_dokumen')) {
+            $request->file('file_dokumen')->store('layanan_kerjasama', 'public');
+        }
 
         return redirect()->back()->with('success', 'Permohonan Kerjasama & Kemitraan telah diterima! Tim Kemitraan SIT Robbani Ogan Ilir akan memproses proposal Anda.');
     }
@@ -796,7 +921,8 @@ class SchoolWebsiteController extends Controller
     {
         $settings = $this->getSettings();
         $facilityList = $this->getFacilityData();
-        return view('school.layanan.sewa', compact('settings', 'facilityList'));
+        $activeTab = 'sewa';
+        return view('school.layanan.index', compact('settings', 'facilityList', 'activeTab'));
     }
 
     public function storeLayananSewa(Request $request)
@@ -807,7 +933,12 @@ class SchoolWebsiteController extends Controller
             'fasilitas_disewa' => 'required|string',
             'tgl_sewa' => 'required|date',
             'keperluan' => 'required|string',
+            'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if ($request->hasFile('file_dokumen')) {
+            $request->file('file_dokumen')->store('layanan_sewa', 'public');
+        }
 
         return redirect()->back()->with('success', 'Permohonan Sewa Fasilitas Sekolah telah diajukan! Pengelola sarana prasarana akan mengonfirmasi jadwal & ketersediaan.');
     }
@@ -1073,54 +1204,64 @@ class SchoolWebsiteController extends Controller
                 'content' => 'Ogan Ilir — Puluhan siswa SDIT Robbani Ogan Ilir mengikuti ujian Munaqosyah Tahfidz Al-Qur\'an Juz 29 dan 30 secara terbuka di Masjid Kampus Robbani.'
             ]
         ];
+
+        // AUTOMATED SAFETY FILTER: Remove judol, pinjol, SARA, pornography, etc.
+        return \App\Services\ContentFilterService::filterCollection($newsList);
     }
 
     public function getArticleData()
     {
         $cmsJson = SiteSetting::get('cms_article_data');
+        $data = [];
         if ($cmsJson) {
-            $data = json_decode($cmsJson, true);
-            if (is_array($data) && count($data) > 0) {
-                // Deduplicate by title slug & sort newest first
+            $parsed = json_decode($cmsJson, true);
+            if (is_array($parsed) && count($parsed) > 0) {
+                // Deduplicate by title slug
                 $uniqueMap = [];
-                foreach ($data as $item) {
+                foreach ($parsed as $item) {
                     $key = \Illuminate\Support\Str::slug($item['title'] ?? '');
                     if (!empty($key) && !isset($uniqueMap[$key])) {
                         $uniqueMap[$key] = $item;
                     }
                 }
                 $data = array_values($uniqueMap);
-                usort($data, function($a, $b) {
-                    $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
-                    $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
-                    return $tB <=> $tA;
-                });
-                return $data;
             }
         }
 
-        return [
-            [
-                'title' => 'Tata Cara Sholat Tasbih dan Keutamaannya',
-                'slug' => 'tata-cara-sholat-tasbih-dan-keutamaannya',
-                'category' => 'Artikel Keislaman',
-                'date' => '06 Maret 2026',
-                'author' => 'Tim Bina Pribadi Islami',
-                'image' => '/images/hero_3d_illustration_1786347707126.png',
-                'excerpt' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam. Sholat ini memiliki keistimewaan karena di dalamnya dipenuhi kalimat tasbih.',
-                'content' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam, baik dilaksanakan pada siang hari maupun malam hari.<br><br><strong>Keutamaan Sholat Tasbih:</strong><br>1. Menggugurkan dosa-dosa kecil maupun besar.<br>2. Menjadikan hati lebih tenang dan dekat dengan Allah SWT.<br>3. Meneladani sunnah Rasulullah SAW dan arahan kepada Sayyidina Abbas RA.<br><br><strong>Tata Cara Pelaksanaan:</strong><br>Sholat Tasbih dikerjakan sebanyak 4 rakaat. Dalam setiap rakaatnya, dibaca kalimat tasbih <i>"Subhanallah walhamdulillah wala ilaha illallah wallahu akbar"</i> sebanyak 75 kali (total 300 kali tasbih dalam 4 rakaat).'
-            ],
-            [
-                'title' => 'Membangun Karakter Rabbani Melalui Pembiasaan Mutabaah Yaumiyah & Bina Pribadi Islami',
-                'slug' => 'membangun-karakter-rabbani-melalui-mutabaah-yaumiyah-bpi',
-                'category' => 'Artikel Edukasi',
-                'date' => '18 Februari 2026',
-                'author' => 'Tim Kurikulum JSIT',
-                'image' => '/images/bpi_mutabaah_3d_1786347836635.png',
-                'excerpt' => 'Pembentukan karakter generasi Rabbani diawali dengan pembiasaan sholat 5 waktu tepat waktu, tilawah Al-Qur\'an, hafalan ziyadah, dan keterlibatan aktif wali murid.',
-                'content' => 'Pembentukan karakter siswa tidak hanya cukup dilakukan melalui teori di dalam kelas, namun membutuhkan pembiasaan (amaliyah yaumiyah) yang konsisten.<br><br>Melalui modul Bina Pribadi Islami (BPI) dan Mutabaah Yaumiyah di SIT Robbani Ogan Ilir, siswa dibimbing untuk melatih kedisiplinan ibadah mandiri: Sholat Fardhu tepat waktu, Sholat Dhuha, Tahajud, Tilawah harian, hafalan ayat Al-Qur\'an, serta bakti kepada orang tua.'
-            ]
-        ];
+        if (empty($data)) {
+            $data = [
+                [
+                    'title' => 'Tata Cara Sholat Tasbih dan Keutamaannya',
+                    'slug' => 'tata-cara-sholat-tasbih-dan-keutamaannya',
+                    'category' => 'Artikel Keislaman',
+                    'date' => '06 Maret 2026',
+                    'author' => 'Tim Bina Pribadi Islami',
+                    'image' => '/images/hero_3d_illustration_1786347707126.png',
+                    'excerpt' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam. Sholat ini memiliki keistimewaan karena di dalamnya dipenuhi kalimat tasbih.',
+                    'content' => 'Sholat Tasbih merupakan salah satu sholat sunnah yang dianjurkan untuk dikerjakan oleh umat Islam, baik dilaksanakan pada siang hari maupun malam hari.<br><br><strong>Keutamaan Sholat Tasbih:</strong><br>1. Menggugurkan dosa-dosa kecil maupun besar.<br>2. Menjadikan hati lebih tenang dan dekat dengan Allah SWT.<br>3. Meneladani sunnah Rasulullah SAW dan arahan kepada Sayyidina Abbas RA.<br><br><strong>Tata Cara Pelaksanaan:</strong><br>Sholat Tasbih dikerjakan sebanyak 4 rakaat. Dalam setiap rakaatnya, dibaca kalimat tasbih <i>"Subhanallah walhamdulillah wala ilaha illallah wallahu akbar"</i> sebanyak 75 kali (total 300 kali tasbih dalam 4 rakaat).'
+                ],
+                [
+                    'title' => 'Membangun Karakter Rabbani Melalui Pembiasaan Mutabaah Yaumiyah & Bina Pribadi Islami',
+                    'slug' => 'membangun-karakter-rabbani-melalui-mutabaah-yaumiyah-bpi',
+                    'category' => 'Artikel Edukasi',
+                    'date' => '18 Februari 2026',
+                    'author' => 'Tim Kurikulum JSIT',
+                    'image' => '/images/bpi_mutabaah_3d_1786347836635.png',
+                    'excerpt' => 'Pembentukan karakter generasi Rabbani diawali dengan pembiasaan sholat 5 waktu tepat waktu, tilawah Al-Qur\'an, hafalan ziyadah, dan keterlibatan aktif wali murid.',
+                    'content' => 'Pembentukan karakter siswa tidak hanya cukup dilakukan melalui teori di dalam kelas, namun membutuhkan pembiasaan (amaliyah yaumiyah) yang konsisten.<br><br>Melalui modul Bina Pribadi Islami (BPI) dan Mutabaah Yaumiyah di SIT Robbani Ogan Ilir, siswa dibimbing untuk melatih kedisiplinan ibadah mandiri: Sholat Fardhu tepat waktu, Sholat Dhuha, Tahajud, Tilawah harian, hafalan ayat Al-Qur\'an, serta bakti kepada orang tua.'
+                ]
+            ];
+        }
+
+        // Sort DESC by date/timestamp
+        usort($data, function($a, $b) {
+            $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+            $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+            return $tB <=> $tA;
+        });
+
+        // AUTOMATED SAFETY FILTER: Remove judol, pinjol, SARA, pornography, etc.
+        return \App\Services\ContentFilterService::filterCollection($data);
     }
 
     public function getFacilityData()
@@ -1394,49 +1535,59 @@ class SchoolWebsiteController extends Controller
     public function getGalleryData()
     {
         $cmsJson = SiteSetting::get('cms_gallery_data');
+        $merged = [];
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
-                return $data;
+                $merged = $data;
             }
+        }
+
+        // Merge authentic galleries from unit profiles (TKIT, SDIT, SMPIT, SMAIT)
+        $units = ['tkit', 'sdit', 'smpit', 'smait'];
+        foreach ($units as $u) {
+            $profileJson = SiteSetting::get('unit_profile_' . $u);
+            if ($profileJson) {
+                $prof = json_decode($profileJson, true);
+                if (isset($prof['gallery']) && is_array($prof['gallery'])) {
+                    foreach ($prof['gallery'] as $g) {
+                        if (!isset($g['desc']) || empty($g['desc'])) {
+                            $g['desc'] = "Dokumentasi kegiatan " . strtoupper($u) . " SIT Robbani Ogan Ilir.";
+                        }
+                        $merged[] = $g;
+                    }
+                }
+            }
+        }
+
+        if (count($merged) > 0) {
+            return array_values($merged);
         }
 
         return [
             [
                 'title' => 'Wisuda & Haflah Tahfidz Al-Qur\'an Siswa',
                 'category' => 'Wisuda & Tahfidz',
-                'image' => '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg',
+                'image' => '/uploads/media/1-e1643012044561_a09877b7.jpeg',
                 'desc' => 'Momen khidmat wisuda tahfidz Al-Qur’an dan apresiasi capaian hafalan siswa SIT Robbani.'
             ],
             [
                 'title' => 'Kompleks & Sarana Belajar SIT Robbani',
                 'category' => 'Fasilitas Kampus',
-                'image' => '/uploads/wp_assets/2_7c039504.png',
+                'image' => '/uploads/media/2_7c039504.png',
                 'desc' => 'Kompleks persekolahan yang asri, kondusif, dan dilengkapi sarana pembelajaran modern.'
             ],
             [
                 'title' => 'Keceriaan Belajar Siswa KB/TKIT Robbani',
                 'category' => 'KB/TKIT Robbani',
-                'image' => '/uploads/wp_assets/img20220127093650-scaled_e1faddf6.jpg',
+                'image' => '/uploads/media/img20220127093650-scaled_e1faddf6.jpg',
                 'desc' => 'Aktivitas belajar motorik ceria, pengenalan adab islami, dan hafalan surah pendek sejak dini.'
             ],
             [
                 'title' => 'Pembelajaran Digital & Lab Komputer',
                 'category' => 'Sarana & Teknologi',
-                'image' => '/uploads/wp_assets/3_0996b3f3.png',
+                'image' => '/uploads/media/3_0996b3f3.png',
                 'desc' => 'Siswa berlatih koding, literasi digital interaktif, dan simulasi Asesmen Nasional.'
-            ],
-            [
-                'title' => 'Prestasi & Juara Kompetisi Siswa Robbani',
-                'category' => 'Prestasi Siswa',
-                'image' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg',
-                'desc' => 'Capaian prestasi membanggakan siswa-siswi SIT Robbani di tingkat kabupaten dan provinsi.'
-            ],
-            [
-                'title' => 'Upgrading & Pembinaan Kompetensi Guru',
-                'category' => 'Pendidik & SDM',
-                'image' => '/uploads/wp_assets/5_b3b7f870.jpg',
-                'desc' => 'Peningkatan mutu pedagogik dan ruhiyah berkala seluruh dewan guru dan tenaga kependidikan.'
             ]
         ];
     }
@@ -1444,23 +1595,41 @@ class SchoolWebsiteController extends Controller
     public function getHeaderMenus()
     {
         $cmsJson = SiteSetting::get('cms_header_menus');
+        $menus = [];
         if ($cmsJson) {
             $data = json_decode($cmsJson, true);
             if (is_array($data) && count($data) > 0) {
-                return $data;
+                $menus = $data;
             }
         }
 
-        return [
-            ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
-            ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
-            ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
-            ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
-            ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
-            ['title' => 'Sarana & Prasarana', 'url' => '#sarana-prasarana', 'is_active' => true],
-            ['title' => 'Galeri', 'url' => '#galeri-sekolah', 'is_active' => true],
-            ['title' => 'E-SPP', 'url' => route('school.espp'), 'is_active' => true],
-        ];
+        if (empty($menus)) {
+            $menus = [
+                ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
+                ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
+                ['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true],
+                ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
+                ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
+                ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
+                ['title' => 'Sarana & Prasarana', 'url' => '#sarana-prasarana', 'is_active' => true],
+                ['title' => 'Galeri', 'url' => '#galeri-sekolah', 'is_active' => true],
+                ['title' => 'E-SPP', 'url' => route('school.espp'), 'is_active' => true],
+            ];
+        } else {
+            $hasLayanan = false;
+            foreach ($menus as $m) {
+                if (isset($m['title']) && strtolower($m['title']) === 'layanan') {
+                    $hasLayanan = true;
+                    break;
+                }
+            }
+            if (!$hasLayanan) {
+                // Insert Layanan right after Profil
+                array_splice($menus, 2, 0, [['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true]]);
+            }
+        }
+
+        return $menus;
     }
 
     /**
@@ -1469,6 +1638,21 @@ class SchoolWebsiteController extends Controller
     public function chatAi(Request $request)
     {
         try {
+            $ip = $request->ip();
+            $executed = \Illuminate\Support\Facades\RateLimiter::attempt(
+                'chat-ai:' . $ip,
+                $perMinute = 15,
+                function() {},
+                $decaySeconds = 60
+            );
+
+            if (!$executed) {
+                return response()->json([
+                    'status' => 'error',
+                    'answer' => 'Mohon maaf, Anda mengirim terlalu banyak pesan dalam waktu singkat. Silakan tunggu 1 menit lagi untuk melanjutkan pertanyaan.'
+                ]);
+            }
+
             $message = trim($request->input('message', ''));
             if (empty($message)) {
                 return response()->json([
@@ -1490,5 +1674,104 @@ class SchoolWebsiteController extends Controller
             ]);
         }
     }
-}
 
+    /**
+     * Dynamically parse XML backup files to extract Unit Agendas and Announcements
+     */
+    private function getXmlUnitEventsAndAnnouncements($code)
+    {
+        $cleanCode = strtolower($code);
+        if ($cleanCode === 'kbtkit') $cleanCode = 'tkit';
+        
+        $xmlMap = [
+            'sdit' => public_path('uploads/xml/sdislamterpadurobbani.WordPress.2026-08-17.xml'),
+            'smpit' => public_path('uploads/xml/smpitrobbani.WordPress.2026-08-17.xml'),
+            'tkit' => public_path('uploads/xml/tkitrobbani.WordPress.2026-08-17.xml'),
+            'sit' => public_path('uploads/xml/sitrobbani.WordPress.2026-08-16.xml'),
+        ];
+        
+        $filePath = $xmlMap[$cleanCode] ?? $xmlMap['sdit'];
+        if (!file_exists($filePath)) {
+            $filePath = $xmlMap['sit'];
+        }
+        
+        $monthNamesIndo = [
+            '01' => 'JAN', '02' => 'FEB', '03' => 'MAR', '04' => 'APR', '05' => 'MEI', '06' => 'JUN',
+            '07' => 'JUL', '08' => 'AGU', '09' => 'SEP', '10' => 'OKT', '11' => 'NOV', '12' => 'DES'
+        ];
+        $monthNamesFull = [
+            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+            '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+        ];
+
+        $agendas = [];
+        $announcements = [];
+        
+        if (file_exists($filePath)) {
+            $xml = @simplexml_load_file($filePath);
+            if ($xml) {
+                $ns = $xml->getNamespaces(true);
+                foreach ($xml->channel->item as $item) {
+                    $wp = $item->children($ns['wp'] ?? []);
+                    if (!$wp) continue;
+                    $status = (string)$wp->status;
+                    if ($status !== 'publish') continue;
+                    
+                    $postType = (string)$wp->post_type;
+                    $title = (string)$item->title;
+                    $content = strip_tags((string)($item->children($ns['content'] ?? [])->encoded ?? ''));
+                    $postDate = (string)$wp->post_date;
+                    
+                    $cats = [];
+                    foreach ($item->category as $cat) {
+                        $cats[] = strtolower((string)$cat);
+                    }
+                    $catStr = implode(' ', $cats);
+                    
+                    $year = substr($postDate, 0, 4);
+                    $month = substr($postDate, 5, 2);
+                    $day = substr($postDate, 8, 2);
+                    
+                    $dateDay = $day ? sprintf('%02d', intval($day)) : '15';
+                    $dateMonth = $monthNamesIndo[$month] ?? 'AGU';
+                    $fullFormattedDate = ($day ? intval($day) . ' ' : '') . ($monthNamesFull[$month] ?? 'Agustus') . ' ' . ($year ?: '2026');
+                    
+                    if ($postType === 'agenda' || $postType === 'event' || str_contains($catStr, 'agenda') || str_contains($catStr, 'kegiatan') || str_contains(strtolower($title), 'agenda')) {
+                        $agendas[] = [
+                            'title' => $title,
+                            'date_day' => $dateDay,
+                            'date_month' => $dateMonth,
+                            'date' => $fullFormattedDate,
+                            'time' => '08:00 WIB - Selesai',
+                            'location' => 'Kampus SIT Robbani',
+                            'desc' => mb_strimwidth(trim(preg_replace('/\s+/', ' ', $content)), 0, 140, '...'),
+                            'category' => 'Agenda Unit',
+                        ];
+                    }
+                    
+                    if ($postType === 'pengumuman' || str_contains($catStr, 'pengumuman') || str_contains($catStr, 'info') || str_contains(strtolower($title), 'pengumuman')) {
+                        $announcements[] = [
+                            'title' => $title,
+                            'date' => $fullFormattedDate,
+                            'category' => 'Pengumuman Resmi',
+                            'summary' => mb_strimwidth(trim(preg_replace('/\s+/', ' ', $content)), 0, 160, '...'),
+                            'link' => '#',
+                        ];
+                    }
+                }
+            }
+        }
+
+        // If agendas or announcements empty for unit, pull fallback from SIT main XML
+        if (empty($agendas) && file_exists($xmlMap['sit'])) {
+            $sitData = $this->getXmlUnitEventsAndAnnouncements('sit');
+            $agendas = array_slice($sitData['agenda'], 0, 5);
+        }
+        if (empty($announcements) && file_exists($xmlMap['sit'])) {
+            $sitData = isset($sitData) ? $sitData : $this->getXmlUnitEventsAndAnnouncements('sit');
+            $announcements = array_slice($sitData['announcements'], 0, 4);
+        }
+
+        return ['agenda' => $agendas, 'announcements' => $announcements];
+    }
+}

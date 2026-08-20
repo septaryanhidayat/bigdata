@@ -21,10 +21,13 @@ class SarprasController extends Controller
         $assets = $assetsQuery->latest()->get();
 
         if ($assets->isEmpty()) {
+            $schoolObj = $schoolId ? School::find($schoolId) : null;
+            $unitName = $schoolObj?->code ?? 'Sekolah';
+
             $samples = [
-                ['name' => 'PC Lab Komputer i7 16GB', 'code' => 'AST-LAB-001', 'category' => 'ELEKTRONIK', 'qty' => 30, 'loc' => 'Lab Komputer 1', 'cost' => 12500000],
-                ['name' => 'Proyektor Epson 4K HD', 'code' => 'AST-PRJ-002', 'category' => 'ELEKTRONIK', 'qty' => 12, 'loc' => 'Ruang Aula Utama', 'cost' => 8900000],
-                ['name' => 'Meja Kursi Siswa Ergonomis', 'code' => 'AST-MJ-003', 'category' => 'MEBEL', 'qty' => 120, 'loc' => 'Gedung SDIT Rombel A-D', 'cost' => 450000],
+                ['name' => 'PC Lab Komputer i7 16GB', 'code' => 'AST-LAB-001', 'category' => 'ELEKTRONIK', 'qty' => 30, 'loc' => "Lab Komputer {$unitName}", 'cost' => 12500000],
+                ['name' => 'Proyektor Epson 4K HD', 'code' => 'AST-PRJ-002', 'category' => 'ELEKTRONIK', 'qty' => 12, 'loc' => "Ruang Aula Utama {$unitName}", 'cost' => 8900000],
+                ['name' => 'Meja Kursi Siswa Ergonomis', 'code' => 'AST-MJ-003', 'category' => 'MEBEL', 'qty' => 120, 'loc' => "Gedung {$unitName} Rombel A-D", 'cost' => 450000],
             ];
 
             foreach ($samples as $s) {

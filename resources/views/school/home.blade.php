@@ -11,20 +11,32 @@
     <link rel="canonical" href="{{ url('/') }}">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
-    <!-- Favicon & Social Sharing Meta Tags (Default Light Logo) -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=10">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v=10">
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir">
-    <meta property="og:description" content="{{ $settings['hero_desc'] }}">
-    <meta property="og:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
-    <meta property="og:site_name" content="SIT Robbani Ogan Ilir">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
+    <meta property="og:title" content="{{ $settings['school_name'] }} | Website Resmi SIT Robbani">
+    <meta property="og:description" content="Official Portal Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT) - Yayasan Generasi Robbani Sumatera Selatan.">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SIT Robbani Ogan Ilir - Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url('/') }}">
     <meta name="twitter:title" content="{{ $settings['school_name'] }} | Website Resmi">
-    <meta name="twitter:description" content="{{ $settings['hero_desc'] }}">
-    <meta name="twitter:image" content="{{ asset($settings['social_share_image'] ?? 'images/logo robbani light.png') }}">
+    <meta name="twitter:description" content="Official Portal Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT).">
+    <meta name="twitter:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
 
     <!-- Schema.org EducationalOrganization & WebSite Structured Data -->
     <script type="application/ld+json">
@@ -64,19 +76,23 @@
     ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>
 
-    <!-- Preconnect & DNS-Prefetch for Fast CDN Resources -->
+    <!-- Preconnect & DNS-Prefetch for Fast CDN Resources & External Hero Background -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
     <!-- Preload Critical LCP Logo & Hero Background -->
-    <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : asset('images/hero_3d_illustration_1786347707126.png') }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? str_replace(' ', '%20', $settings['hero_bg_image']) : asset('uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp') }}" fetchpriority="high">
 
-    <!-- Google Fonts & Material Symbols -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
+    <!-- Google Fonts & Material Symbols (Asynchronous & Display Swap for 96+ Lighthouse FCP/LCP) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
+    </noscript>
 
     <!-- Tailwind CSS CDN with Plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -685,6 +701,31 @@
             font-weight: 900 !important;
         }
     </style>
+
+    <!-- Smooth Scroll Reveal Animation Styles -->
+    <style>
+        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-scale-up { transform: scale(0.93); }
+        .reveal-slide-left { transform: translateX(-35px); }
+        .reveal-slide-right { transform: translateX(35px); }
+
+        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
+        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) translateX(0) !important;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-body transition-colors duration-300 antialiased selection:bg-emerald-500 selection:text-white">
 
@@ -700,7 +741,7 @@
             
             <div class="flex items-center gap-md">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 logo-badge-container" title="SIT Robbani Ogan Ilir">
-                    <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}">
+                    <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}">
                     <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}">
                 </a>
             </div>
@@ -744,6 +785,10 @@
         </a>
         <a @click="mobileMenuOpen = false" href="{{ route('school.profil') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.profil') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
             <span class="flex items-center gap-2"><span>👤</span> <span>Profil &amp; Sambutan</span></span>
+            <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="{{ route('school.layanan.kunjungan') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.layanan*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300' }}">
+            <span class="flex items-center gap-2"><span>📋</span> <span>Layanan Publik (Humas &amp; Sarpras)</span></span>
             <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
         </a>
         <a @click="mobileMenuOpen = false" href="#unit-sekolah" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634] border border-transparent hover:border-emerald-300">
@@ -794,7 +839,7 @@
         <!-- ========================================== -->
         <!-- HERO SECTION (CENTER ALIGNED MOBILE/TABLET) -->
         <!-- ========================================== -->
-        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? $settings['hero_bg_image'] : asset('images/hero_3d_illustration_1786347707126.png') }}');">
+        <section class="relative py-12 sm:py-20 lg:py-24 overflow-hidden border-b border-slate-200/80 dark:border-slate-800 bg-cover bg-center bg-no-repeat transition-all" style="background-image: url('{{ !empty($settings['hero_bg_image']) ? str_replace(' ', '%20', $settings['hero_bg_image']) : asset('uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp') }}');">
             <div class="absolute inset-0 bg-gradient-to-r from-emerald-950 via-slate-950 to-orange-950 backdrop-blur-[2px]" style="opacity: {{ ((float) (!empty($settings['hero_banner_opacity']) ? $settings['hero_banner_opacity'] : 70)) / 100 }};"></div>
             
             <div class="max-w-container-max mx-auto px-gutter relative z-10">
@@ -828,9 +873,9 @@
 
                         <!-- Highlights Feature Badges -->
                         <div class="flex flex-wrap justify-center lg:justify-start gap-md text-xs font-semibold text-slate-700 dark:text-slate-300 pt-3 border-t border-slate-200/80 dark:border-slate-800">
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Tahfidz Al-Qur'an</span>
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum Merdeka</span>
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Akreditasi Unggul</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Sekolah Digital</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Pendidikan Karakter</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum Merdeka & JSIT</span>
                         </div>
                     </div>
 
@@ -1194,7 +1239,7 @@
 
                             <!-- Foto Kepala Sekolah (Format Kotak Pas Foto Portrait 3:4 Rapi) -->
                             <div class="relative w-28 h-36 sm:w-32 sm:h-40 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-md bg-slate-100 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/uploads/wp_assets/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                                <img src="{{ $unitProfiles['smpit']['principal_photo'] ?? '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg' }}" alt="{{ $unitProfiles['smpit']['principal_name'] }}" width="128" height="160" loading="lazy" decoding="async" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                 <span class="absolute bottom-1 right-1 w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px] font-black shadow-xs">👔</span>
                             </div>
 
@@ -2389,15 +2434,15 @@
                     <p class="text-xs sm:text-sm text-slate-600">Kepercayaan dan apresiasi wali murid &amp; alumni terhadap pendidikan SIT Robbani Ogan Ilir.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-md text-left pt-2">
+                <div class="flex flex-wrap justify-center gap-md text-left pt-2">
                     @foreach($testimonialList as $testi)
-                    <div class="bg-white border border-slate-200/80 p-md sm:p-lg rounded-3xl shadow-sm flex flex-col justify-between space-y-md hover:border-emerald-500 hover:shadow-xl transition-all duration-300">
+                    <div class="w-full md:w-[calc(33.333%-16px)] bg-white border border-slate-200/80 p-md sm:p-lg rounded-3xl shadow-sm flex flex-col justify-between space-y-md hover:border-emerald-500 hover:shadow-xl transition-all duration-300">
                         <div class="space-y-sm">
                             <div class="text-amber-400 text-sm font-black">⭐⭐⭐⭐⭐</div>
                             <p class="text-xs italic text-slate-700 leading-relaxed font-medium">"{{ $testi['text'] }}"</p>
                         </div>
                         <div class="flex items-center gap-sm pt-sm border-t border-slate-200">
-                            <img src="{{ $testi['avatar'] }}" alt="{{ $testi['name'] }}" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <img src="{{ str_starts_with($testi['avatar'] ?? '', 'http') ? $testi['avatar'] : asset($testi['avatar'] ?? '/images/avatar-gray-person.svg') }}" alt="{{ $testi['name'] }}" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-10 rounded-full object-cover border-2 border-emerald-600 bg-slate-200" onerror="this.onerror=null; this.src='/images/avatar-gray-person.svg';">
                             <div>
                                 <h3 class="text-xs font-bold text-slate-900 leading-tight">{{ $testi['name'] }}</h3>
                                 <span class="text-[10px] text-emerald-700 font-semibold block leading-tight">{{ $testi['title'] }}</span>
@@ -2419,7 +2464,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 pb-8 sm:pb-10 border-b border-emerald-800/60 dark:border-[#1a381c]">
                 <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4 text-center sm:text-left">
                     <div class="logo-badge-container">
-                        <img src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" width="160" height="48" loading="lazy" decoding="async" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 dark:hidden" alt="Logo SIT Robbani">
+                        <img src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" width="160" height="48" loading="lazy" decoding="async" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 dark:hidden" alt="Logo SIT Robbani">
                         <img src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" width="160" height="48" loading="lazy" decoding="async" class="h-12 sm:h-14 w-auto object-contain mx-auto md:mx-0 hidden dark:block" alt="Logo SIT Robbani">
                     </div>
                     <div>
@@ -2585,5 +2630,29 @@
     <!-- Robbani AI Assistant Chat Widget -->
     @include('components.chat-ai-widget')
 
+
+    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.05
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
+            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
 </html>

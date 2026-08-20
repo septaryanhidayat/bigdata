@@ -18,7 +18,10 @@ class EmployeeDossierController extends Controller
      */
     public function index(Request $request)
     {
-        $schoolId = $request->input('school_id');
+        $user = auth()->user();
+        $effectiveSchoolId = $user?->getEffectiveSchoolId();
+        $schoolId = $effectiveSchoolId ?? $request->input('school_id');
+
         $search = trim((string)$request->input('search'));
         $roleType = $request->input('role_type');
         $status = $request->input('employment_status');

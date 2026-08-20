@@ -1,12 +1,12 @@
 @extends('admin.layout')
 
-@section('title', 'Kelola 21 Modul Fitur')
+@section('title', 'Kelola 25 Modul Fitur')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Manajemen 21 Modul Produk Digital</h1>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Manajemen 25 Modul Produk Digital</h1>
             <p class="text-xs text-slate-600 font-medium mt-1">Tambah, ubah nama, ikon, deskripsi, serta atur modul mana yang <strong>Tampil atau Sembunyi</strong> di landing page.</p>
         </div>
         <a href="{{ route('admin.modules.create') }}" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-xs shadow-sm">

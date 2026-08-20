@@ -1,148 +1,164 @@
-# SmartEdu SIT Robbani — Database Schema (DATABASE_SCHEMA.md)
+# SmartEdu SIT Robbani — Database Schema
 
-> **Skema Lengkap 58 Tabel Database Aktual**
-> *Terakhir diperbarui: 17 Agustus 2026 | DB Engine: SQLite (dev) / MySQL (prod)*
+> *Skema Lengkap 58 Tabel Database Aktual*  
+> *Engine: SQLite (dev) / MySQL InnoDB (prod)*  
+> *Terakhir diperbarui: 18 Agustus 2026*
 
 ---
 
 ## 📊 Daftar Lengkap 58 Tabel
 
-### 🏛️ Core — Yayasan, Auth & Multi-Tenancy
-| Tabel | Deskripsi |
-|-------|-----------|
-| `schools` | Data 4 unit sekolah (TKIT, SDIT, SMPIT, SMAIT) + Yayasan — `school_id` adalah anchor multi-tenancy |
-| `users` | Akun pengguna (15 role RBAC), kolom `school_id`, `role`, `avatar` |
-| `personal_access_tokens` | Token otentikasi REST API Mobile (Laravel Sanctum) |
-| `academic_years` | Tahun ajaran aktif per unit sekolah |
-| `site_settings` | Pengaturan global sistem (nama sekolah, logo, warna tema, dll) |
-| `feature_modules` | Toggle on/off fitur modul per unit |
-| `audit_logs` | Log aktivitas pengguna untuk audit trail |
-| `sessions` | Session login aktif |
-| `migrations` | Laravel migration tracking |
-| `cache` / `cache_locks` | Laravel cache driver |
-| `jobs` / `job_batches` / `failed_jobs` | Laravel queue worker |
-| `password_reset_tokens` | Token reset password |
+### 🏛️ Core — Auth, Multi-Tenancy & Sistem
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `schools` | 4 | Data 4 unit sekolah (TKIT, SDIT, SMPIT, SMAIT) — anchor multi-tenancy |
+| `users` | 148 | Akun pengguna (15 role RBAC), kolom `school_id`, `role`, `avatar`, `is_blocked` |
+| `personal_access_tokens` | — | Token REST API Mobile (Laravel Sanctum) |
+| `academic_years` | 1 | Tahun ajaran aktif per unit sekolah |
+| `site_settings` | 42 | Pengaturan global CMS (nama sekolah, logo, berita JSON, profil yayasan, dll) |
+| `feature_modules` | 21 | Toggle on/off fitur modul per unit |
+| `audit_logs` | 23+ | Log aktivitas pengguna untuk audit trail |
+| `system_error_logs` | — | Log error PHP/Laravel otomatis dengan auto-mitigation |
+| `sessions` | — | Session login aktif (driver: database) |
+| `cache` / `cache_locks` | — | Laravel cache driver |
+| `jobs` / `job_batches` / `failed_jobs` | — | Laravel queue worker |
+| `password_reset_tokens` | — | Token reset password |
+| `migrations` | 27 | Laravel migration tracking (27 file migration) |
 
 ### 👩‍🏫 Akademik & Kurikulum
-| Tabel | Deskripsi |
-|-------|-----------|
-| `students` | Data siswa lengkap (NIS, nama, kelas, sekolah, foto) |
-| `guardians` | Data wali murid / orang tua siswa |
-| `classrooms` | Data kelas (nama, tingkat, wali kelas, tahun ajaran) |
-| `levels` | Tingkatan kelas (1-6 SD, 7-9 SMP, dll) |
-| `subjects` | Mata pelajaran per unit sekolah |
-| `grades` | Nilai akademik siswa (per mapel, per semester) |
-| `schedules` | Jadwal pelajaran harian |
-| `kbm_journals` | Jurnal kegiatan belajar mengajar harian |
-| `student_leaves` | Izin tidak masuk siswa |
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `students` | 38 | Data siswa (NIS, nama, kelas, school_id, foto, NISN) |
+| `guardians` | 13 | Data wali murid / orang tua siswa |
+| `classrooms` | 11 | Data kelas (nama, tingkat, wali kelas, tahun ajaran, school_id) |
+| `levels` | 6 | Tingkatan kelas (Kelas 1–6 SD, 7–9 SMP, dll) |
+| `subjects` | 13 | Mata pelajaran per unit sekolah |
+| `grades` | 1+ | Nilai akademik siswa (per mapel, per semester) |
+| `schedules` | 1+ | Jadwal pelajaran harian |
+| `kbm_journals` | 1+ | Jurnal kegiatan belajar mengajar harian |
+| `student_leaves` | 1+ | Izin tidak masuk siswa |
+| `attendances` | 104 | Presensi siswa (QR/RFID, status: HADIR/IZIN/SAKIT/ALPHA) |
 
 ### 💰 Keuangan
-| Tabel | Deskripsi |
-|-------|-----------|
-| `spp_bills` | Tagihan SPP per siswa per bulan |
-| `spp_payments` | Pembayaran SPP (kasir, transfer, gateway) |
-| `chart_of_accounts` | Bagan akun keuangan (COA) yayasan |
-| `journal_entries` | Jurnal akuntansi harian |
-| `savings_transactions` | Buku tabungan siswa |
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `spp_bills` | 16 | Tagihan SPP per siswa per bulan |
+| `spp_payments` | 13 | Pembayaran SPP (kasir, transfer, gateway) |
+| `chart_of_accounts` | 3 | Bagan akun keuangan (COA) yayasan |
+| `journal_entries` | 1+ | Jurnal akuntansi harian |
+| `savings_transactions` | 73 | Buku tabungan siswa (setor/tarik) |
 
 ### 🛒 Kantin & RFID
-| Tabel | Deskripsi |
-|-------|-----------|
-| `canteen_outlets` | Data booth/outlet kantin sekolah |
-| `canteen_products` | Menu produk kantin + harga |
-| `canteen_transactions` | Transaksi pembelian kantin (saldo RFID) |
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `canteen_outlets` | 3 | Data booth/outlet kantin sekolah |
+| `canteen_products` | 3 | Menu produk kantin + harga |
+| `canteen_transactions` | 13 | Transaksi pembelian kantin |
 
 ### 🧑‍💼 HRIS & Kepegawaian
-| Tabel | Deskripsi |
-|-------|-----------|
-| `employees` | Data lengkap pegawai (NIK, NUPTK, jabatan, foto, biometrik face) |
-| `payroll_salaries` | Data penggajian bulanan |
-| `employee_attendance_logs` | Presensi pegawai (GPS/face recognition) |
-| `employee_leaves` | Izin/cuti pegawai |
-| `employee_kpis` | Penilaian kinerja (KPI) pegawai |
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `employees` | 108 | Data lengkap pegawai (NIK, NUPTK, jabatan, foto, biometrik wajah, dossier) |
+| `payroll_salaries` | 10 | Data penggajian bulanan |
+| `employee_attendance_logs` | 1+ | Presensi pegawai (GPS/face recognition) |
+| `employee_leaves` | 14 | Izin/cuti pegawai |
+| `employee_kpis` | 2 | Penilaian kinerja (KPI) pegawai |
 
 ### 🕌 BPI & Mutabaah
-| Tabel | Deskripsi |
-|-------|-----------|
-| `bpi_mutabaahs` | Mutabaah yaumiyah siswa (sholat, tilawah, puasa) |
-| `employee_mutabaahs` | Mutabaah yaumiyah pegawai |
-| `employee_bpi_groups` | Kelompok halaqah BPI pegawai |
-| `employee_bpi_members` | Anggota kelompok BPI pegawai |
-| `employee_bpi_meetings` | Catatan pertemuan BPI/Halaqah |
 
-### 📋 Presensi
-| Tabel | Deskripsi |
-|-------|-----------|
-| `attendances` | Presensi siswa (QR/RFID) |
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `bpi_mutabaahs` | 6 | Mutabaah yaumiyah siswa (sholat 5 waktu, tilawah, puasa, dhuha) |
+| `employee_mutabaahs` | 2 | Mutabaah yaumiyah pegawai |
+| `employee_bpi_groups` | 2 | Kelompok halaqah BPI pegawai |
+| `employee_bpi_members` | 13 | Anggota kelompok BPI |
+| `employee_bpi_meetings` | 14 | Catatan pertemuan BPI/Halaqah |
 
-### 📚 Perpustakaan
-| Tabel | Deskripsi |
-|-------|-----------|
-| `library_books` | Koleksi buku perpustakaan + status sirkulasi |
+### 📚 Perpustakaan, LMS, CBT
 
-### 💻 LMS & CBT
-| Tabel | Deskripsi |
-|-------|-----------|
-| `lms_materials` | Materi e-learning (file, video, link) |
-| `cbt_exams` | Soal & ujian CBT (termasuk CBT PPDB) |
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `library_books` | 4 | Koleksi buku perpustakaan + status sirkulasi |
+| `lms_materials` | 4 | Materi e-learning (file, video, link) |
+| `cbt_exams` | 10 | Soal & ujian CBT (termasuk CBT PPDB) |
 
-### 🏫 Sarpras
-| Tabel | Deskripsi |
-|-------|-----------|
-| `sarpras_assets` | Inventaris aset sarana prasarana |
-| `rooms` | Data ruangan untuk booking fasilitas |
+### 🏫 Sarpras & BK
 
-### 💬 BK
-| Tabel | Deskripsi |
-|-------|-----------|
-| `bk_records` | Catatan bimbingan konseling siswa |
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `sarpras_assets` | 13 | Inventaris aset sarana prasarana |
+| `rooms` | 1 | Data ruangan untuk booking fasilitas |
+| `bk_records` | 7 | Catatan bimbingan konseling siswa |
 
 ### 📝 Persuratan & TTE
-| Tabel | Deskripsi |
-|-------|-----------|
-| `official_letters` | Surat masuk & keluar resmi |
-| `letter_templates` | Template surat dengan KOP unit |
-| `letter_dispositions` | Disposisi surat antar pejabat |
-| `letter_audit_trails` | Jejak audit penandatanganan TTE |
-| `digital_signatures` | Hash SHA-256 & UUID token TTE |
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `official_letters` | 38 | Surat masuk & keluar resmi |
+| `letter_templates` | 6 | Template surat dengan KOP unit |
+| `letter_dispositions` | 18 | Disposisi surat antar pejabat |
+| `letter_audit_trails` | 102 | Jejak audit penandatanganan TTE |
+| `digital_signatures` | 20 | Hash SHA-256 & UUID token TTE |
 
 ### 🎓 SPMB & PPDB
-| Tabel | Deskripsi |
-|-------|-----------|
-| `ppdb_registrations` | Pendaftaran siswa baru (formulir online) |
+
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `ppdb_registrations` | 18 | Pendaftaran siswa baru (formulir online multi-step) |
 
 ### 🤖 AI Knowledge Base
-| Tabel | Deskripsi |
-|-------|-----------|
-| `ai_knowledge_bases` | Dokumen knowledge base RAG (PDF chunks, teks manual) |
-| `faq_items` | FAQ yang bisa di-training ke chatbot AI |
 
-### ⚙️ Sistem
-| Tabel | Deskripsi |
-|-------|-----------|
-| `system_error_logs` | Log error PHP/Laravel otomatis (dengan auto-mitigation) |
+| Tabel | Baris (seed) | Deskripsi |
+|-------|-------------|-----------|
+| `ai_knowledge_bases` | 4 | Dokumen knowledge base RAG (PDF chunks, teks manual) |
+| `faq_items` | 7 | FAQ yang bisa di-training ke chatbot AI |
 
 ---
 
 ## 🔑 Kunci Multi-Tenancy
 
 ```sql
--- Semua tabel yang memiliki data per-unit menyimpan school_id
-ALTER TABLE students ADD COLUMN school_id INTEGER REFERENCES schools(id);
-ALTER TABLE employees ADD COLUMN school_id INTEGER REFERENCES schools(id);
-ALTER TABLE spp_bills ADD COLUMN school_id INTEGER;
--- dst.
+-- Semua tabel data per-unit menyimpan school_id
+-- school_id = NULL → data global yayasan
+-- school_id = 1    → KB/TKIT Robbani
+-- school_id = 2    → SDIT Robbani
+-- school_id = 3    → SMPIT Robbani
+-- school_id = 4    → SMAIT Robbani
 
--- Query dengan scoping wajib:
-SELECT * FROM students WHERE school_id = ? -- (atau tidak ada filter jika SUPER_ADMIN)
+-- Query dengan scoping wajib (Eloquent):
+$query->when($user->school_id, fn($q) => $q->where('school_id', $user->school_id));
 ```
 
 ---
 
 ## 🗃️ File Database
 
-| Environment | File/Config | Keterangan |
-|-------------|-------------|------------|
-| **Development** | `database/database.sqlite` (~20MB) | SQLite lokal, excluded dari Git |
-| **Produksi** | MySQL database cPanel | Import dari `scratch/mysql_FINAL_sitrobbani.sql` |
-| **Export Script** | `scratch/export_sqlite_to_mysql.php` | Konversi SQLite → MySQL |
+| Environment | Koneksi | File / Keterangan |
+|-------------|---------|-------------------|
+| **Development** | SQLite 3 | `database/database.sqlite` (~20MB, excluded git) |
+| **Produksi cPanel** | MySQL 5.7+ | Import `smartedu_FINAL_sitrobbani.sql` (2.14 MB) |
+| **Export Script** | PHP | `scratch/export_full_to_mysql.php` — konversi SQLite → MySQL penuh |
+
+---
+
+## 📌 Kolom Penting Model User
+
+```php
+// app/Models/User.php
+// Kolom: id, name, email, password, role, school_id, avatar,
+//        phone, is_blocked, remember_token, created_at, updated_at
+//
+// Role constants:
+const ROLE_SUPER_ADMIN       = 'SUPER_ADMIN';
+const ROLE_YAYASAN_CHAIRMAN  = 'YAYASAN_CHAIRMAN';
+const ROLE_HEADMASTER        = 'HEADMASTER';
+const ROLE_TEACHER           = 'TEACHER';
+const ROLE_STAFF_TU          = 'STAFF_TU';
+const ROLE_STAFF_KEUANGAN    = 'STAFF_KEUANGAN';
+// ... 15 total roles
+```

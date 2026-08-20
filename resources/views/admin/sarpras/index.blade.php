@@ -38,7 +38,7 @@
 
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
-                <thead class="bg-slate-900 text-white font-bold uppercase">
+                <thead class="bg-slate-100 text-slate-700 font-black border-b border-slate-200 uppercase">
                     <tr>
                         <th class="p-4">Kode Aset</th>
                         <th class="p-4">Nama Barang / Aset</th>
@@ -49,10 +49,10 @@
                         <th class="p-4">Kondisi Fisik</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
+                <tbody class="divide-y divide-slate-200 font-medium text-slate-800">
                     @forelse($assets as $ast)
                     <tr class="hover:bg-slate-50">
-                        <td class="p-4 font-mono font-bold text-purple-700">{{ $ast->asset_code }}</td>
+                        <td class="p-4 font-mono font-bold text-emerald-800">{{ $ast->asset_code }}</td>
                         <td class="p-4 font-black text-slate-900">{{ $ast->name }}</td>
                         <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 font-black text-[10px]">{{ $ast->category }}</span></td>
                         <td class="p-4 font-black text-slate-900">{{ number_format($ast->quantity) }} Unit</td>

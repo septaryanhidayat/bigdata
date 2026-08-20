@@ -179,11 +179,30 @@
             </div>
 
             @php
-                $sidebarSchoolId = session('dashboard_school_id', 'all');
+                if (Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan() && !Auth::user()->isHumas()) {
+                    $sidebarSchoolId = Auth::user()->school_id;
+                    session(['dashboard_school_id' => Auth::user()->school_id]);
+                } else {
+                    $sidebarSchoolId = session('dashboard_school_id', 'all');
+                }
                 $sidebarSchools = \App\Models\School::all();
             @endphp
 
-            @if(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
+            @if(Auth::user()->isHumas())
+            <!-- Hak Akses Humas Yayasan Badge -->
+            <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-2 sidebar-text">
+                <div class="flex items-center justify-between text-[9px] font-black text-slate-400">
+                    <span class="uppercase tracking-wider">LINGKUP TUGAS:</span>
+                    <span class="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 text-[9px] font-extrabold">
+                        📢 Humas Yayasan
+                    </span>
+                </div>
+                <div class="p-2 rounded-xl bg-slate-900 text-white font-black text-xs border border-slate-700 flex items-center gap-2.5">
+                    <span class="text-sm shrink-0">🏛️</span>
+                    <span class="truncate">Web Portal &amp; Semua Unit</span>
+                </div>
+            </div>
+            @elseif(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
             <!-- Locked Unit Badge for Unit Specific Accounts -->
             <div class="p-3 rounded-2xl bg-[#1d1f27] border border-slate-800 space-y-2 sidebar-text">
                 <div class="flex items-center justify-between text-[9px] font-black text-slate-400">
@@ -504,7 +523,20 @@
                     <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpCms">{{ $isCmsActive ? '▼' : '►' }}</span>
                 </div>
                 <div id="grpCms" class="space-y-0.5 group-content" style="{{ $isCmsActive ? 'display: block;' : 'display: none;' }}">
-                    @if(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
+                    @if(Auth::user()->isHumas())
+                        <a href="{{ route('admin.settings.portal') }}" title="Web Portal Utama" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🏛️</span> 
+                            <span class="sidebar-text">Web Portal Utama</span>
+                        </a>
+                        <a href="{{ route('admin.cms.content') }}" title="Kelola Konten Web" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.cms.content') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🎨</span> 
+                            <span class="sidebar-text">Kelola Konten Web</span>
+                        </a>
+                        <a href="{{ route('admin.settings.units') }}" title="Profil Website Semua Unit" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">🏢</span> 
+                            <span class="sidebar-text">Profil Semua Web Unit</span>
+                        </a>
+                    @elseif(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
                         @php
                             $userSchoolCode = strtolower(Auth::user()->school->code ?? 'sdit');
                         @endphp
@@ -529,17 +561,17 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🎨</span> 
                             <span class="sidebar-text">Kelola Konten Web</span>
                         </a>
-                        <a href="{{ route('admin.settings.units') }}" title="Profil Unit (SD/SMP/SMA)" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.settings.units') }}" title="Profil Unit (SD/SMP/SMA)" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.units*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏢</span> 
                             <span class="sidebar-text">Profil Unit (SD/SMP/SMA)</span>
                         </a>
-                        <a href="{{ route('admin.settings.sales') }}" title="Landing Sales 21 Modul" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.settings.sales') }}" title="Landing Sales 25 Modul" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.sales') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">📦</span> 
-                            <span class="sidebar-text">Landing Sales 21 Modul</span>
+                            <span class="sidebar-text">Landing Sales 25 Modul</span>
                         </a>
-                        <a href="{{ route('admin.modules.index') }}" title="Kelola 21 Modul Fitur" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.modules.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.modules.index') }}" title="Kelola 25 Modul Fitur" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.modules.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🧩</span> 
-                            <span class="sidebar-text">Kelola 21 Modul Fitur</span>
+                            <span class="sidebar-text">Kelola 25 Modul Fitur</span>
                         </a>
                         <a href="{{ route('admin.faqs.index') }}" title="Kelola FAQ Tanya Jawab" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.faqs.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">❓</span> 
@@ -562,7 +594,7 @@
                 <p class="text-[10px] text-slate-400 font-semibold leading-tight sidebar-text">SmartEdu Ecosystem Active</p>
                 <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
-                    <button type="submit" title="Keluar / Logout" class="w-full py-2 px-3 rounded-xl bg-theme-gradient text-white font-black text-xs transition-colors shadow-lg flex items-center justify-center gap-2">
+                    <button type="submit" onclick="confirmAdminLogout(event)" title="Keluar / Logout" class="w-full py-2 px-3 rounded-xl bg-theme-gradient text-white font-black text-xs transition-colors shadow-lg flex items-center justify-center gap-2 cursor-pointer">
                         <span>🚪</span> <span class="logout-text">Keluar (Logout)</span>
                     </button>
                 </form>
@@ -633,7 +665,7 @@
                     </div>
                     <form action="{{ route('admin.logout') }}" method="POST" class="inline-block ml-1">
                         @csrf
-                        <button type="submit" title="Keluar / Logout dari Sistem" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5 text-xs font-black" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                        <button type="submit" onclick="confirmAdminLogout(event)" title="Keluar / Logout dari Sistem" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5 text-xs font-black cursor-pointer">
                             <span>🚪</span> <span class="hidden md:inline">Keluar</span>
                         </button>
                     </form>
@@ -955,6 +987,37 @@
         });
     </script>
     @endif
+    <script>
+        function confirmAdminLogout(event) {
+            event.preventDefault();
+            const form = event.currentTarget.closest('form');
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Keluar',
+                    text: 'Apakah Anda yakin ingin keluar dari Admin Portal SmartEdu?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e11d48',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, Keluar',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        popup: 'rounded-3xl border border-slate-800 shadow-2xl p-6 text-xs',
+                        confirmButton: 'rounded-xl font-bold px-4 py-2 text-xs',
+                        cancelButton: 'rounded-xl font-bold px-4 py-2 text-xs'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            } else {
+                if (confirm('Apakah Anda yakin ingin keluar dari Admin Portal SmartEdu?')) {
+                    form.submit();
+                }
+            }
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

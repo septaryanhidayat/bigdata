@@ -90,7 +90,7 @@ Route::get('/sales', [LandingPageController::class, 'index'])->name('sales');
 Route::get('/verifikasi-surat/{token}', [PublicLetterVerificationController::class, 'verify'])->name('letter.verify');
 
 // Login Route for Auth Middleware
-Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
 // Logout Routes (GET & POST)
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
@@ -107,8 +107,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // 1. Dashboard Utama (Bisa diakses seluruh role pengguna)
         Route::get('/', [CmsController::class, 'dashboard'])->name('dashboard');
         
-        // 2a. Pengelolaan Profil Website Unit & Publikasi Berita Unit (Super Admin, Ketua Yayasan, Kepala Unit, Staf TU)
-        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_TU')->group(function () {
+        // 2a. Pengelolaan Profil Website Unit & Publikasi Berita Unit (Super Admin, Ketua Yayasan, Kepala Unit, Staf TU, Humas Yayasan, Admin Web Unit)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,STAFF_TU,HUMAS,ADMIN_WEB_UNIT')->group(function () {
             Route::get('/settings/units', [CmsController::class, 'settingsUnits'])->name('settings.units');
             Route::get('/settings/units/{code}/edit', [CmsController::class, 'editUnitProfile'])->name('settings.units.edit');
             Route::post('/settings/units/{code}/update', [CmsController::class, 'updateUnitProfile'])->name('settings.units.update');
@@ -117,9 +117,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/cms/content/update', [CmsController::class, 'updateCmsContent'])->name('cms.content.update');
             Route::post('/cms/content/item/add', [CmsController::class, 'addCmsItem'])->name('cms.content.add');
             Route::match(['post', 'delete'], '/cms/content/item/delete', [CmsController::class, 'deleteCmsItem'])->name('cms.content.delete');
+            Route::get('/cms/post/create', [CmsController::class, 'createPost'])->name('cms.post.create');
+            Route::get('/cms/post/edit', [CmsController::class, 'editPost'])->name('cms.post.edit');
+            Route::post('/cms/post/save', [CmsController::class, 'savePost'])->name('cms.post.save');
+            Route::post('/cms/foundation-profile', [CmsController::class, 'updateFoundationProfile'])->name('cms.foundation-profile.update');
         });
 
-        // 2b. Pengaturan Global Portal Yayasan, Manajemen Akun, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
+        // 2b. Pengaturan Website Utama Portal Yayasan (Super Admin, Ketua Yayasan, Humas Yayasan)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HUMAS')->group(function () {
+            Route::get('/settings', [CmsController::class, 'settingsPortal'])->name('settings');
+            Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
+            Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
+            Route::post('/cms/import-wordpress', [CmsController::class, 'importWordPress'])->name('cms.import-wordpress');
+            Route::post('/cms/auto-categorize', [CmsController::class, 'autoCategorizeContent'])->name('cms.auto-categorize');
+        });
+
+        // 2c. Pengaturan Global Portal Yayasan, Manajemen Akun, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
         Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN')->group(function () {
             // Manajemen Akun & Hak Akses Pengguna
             Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
@@ -131,12 +144,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/users/{id}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
             Route::get('/users-export', [\App\Http\Controllers\Admin\UserController::class, 'export'])->name('users.export');
 
-            Route::get('/settings', [CmsController::class, 'settingsPortal'])->name('settings');
-            Route::get('/settings/portal', [CmsController::class, 'settingsPortal'])->name('settings.portal');
             Route::get('/settings/sales', [CmsController::class, 'settingsSales'])->name('settings.sales');
-            Route::post('/settings', [CmsController::class, 'updateSettings'])->name('settings.update');
-            Route::post('/cms/import-wordpress', [CmsController::class, 'importWordPress'])->name('cms.import-wordpress');
-            Route::post('/cms/auto-categorize', [CmsController::class, 'autoCategorizeContent'])->name('cms.auto-categorize');
 
             Route::get('/modules', [CmsController::class, 'modules'])->name('modules.index');
             Route::post('/modules/{id}/toggle', [CmsController::class, 'toggleModule'])->name('modules.toggle');

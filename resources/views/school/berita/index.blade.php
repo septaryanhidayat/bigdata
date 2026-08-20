@@ -6,13 +6,24 @@
     <title>Portal Berita &amp; Pengumuman | {{ $settings['school_name'] }}</title>
     <meta name="description" content="Informasi resmi seputar Haflah, Wisuda Tahfidz, Prestasi Siswa, dan Kegiatan Belajar Unit KB/TKIT, SDIT, SMPIT, SMAIT Robbani Ogan Ilir.">
     <meta name="keywords" content="Berita SIT Robbani, Kegiatan Sekolah Islam Ogan Ilir, TKIT SDIT SMPIT SMAIT Robbani, Berita Pendidikan Islam Indralaya">
-    <link rel="canonical" href="{{ url('/berita') }}">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/berita') }}">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:title" content="Portal Berita Resmi | SIT Robbani Ogan Ilir">
-    <meta property="og:description" content="Kumpulan berita, liputan kegiatan, dan pengumuman resmi SIT Robbani Ogan Ilir.">
-    <meta property="og:image" content="{{ asset('images/logo robbani light.png') }}">
+    <meta property="og:description" content="Kumpulan berita, liputan kegiatan, dan pengumuman resmi SIT Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT).">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -39,6 +50,31 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
         [x-cloak] { display: none !important; }
     </style>
+
+    <!-- Smooth Scroll Reveal Animation Styles -->
+    <style>
+        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-scale-up { transform: scale(0.93); }
+        .reveal-slide-left { transform: translateX(-35px); }
+        .reveal-slide-right { transform: translateX(35px); }
+
+        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
+        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) translateX(0) !important;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col justify-between">
 
@@ -46,7 +82,7 @@
     <header class="sticky top-0 z-50 transition-colors duration-300 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                <img x-show="!darkMode" src="{{ $settings['logo_light'] ?? '/images/logo robbani light.png' }}" class="h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                <img x-show="!darkMode" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" class="h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 <img x-show="darkMode" x-cloak src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" class="h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 <div>
                     <span class="font-black text-xs block text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">PORTAL BERITA RESMI</span>
@@ -58,6 +94,7 @@
             <div class="hidden md:flex items-center gap-2.5 text-xs font-extrabold">
                 <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">🏠 Beranda</a>
                 <a href="{{ route('school.profil') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">👤 Profil</a>
+                <a href="{{ route('school.layanan.kunjungan') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">📋 Layanan</a>
                 <a href="{{ route('school.berita') }}" class="px-3.5 py-2 rounded-xl bg-emerald-700 text-white font-black shadow-xs">📰 Berita</a>
                 <a href="{{ route('school.artikel') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">📖 Artikel</a>
                 <a href="{{ route('school.fasilitas') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">🏢 Fasilitas</a>
@@ -213,5 +250,29 @@
     <!-- Robbani AI Assistant Chat Widget -->
     @include('components.chat-ai-widget')
 
+
+    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.05
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
+            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
 </html>

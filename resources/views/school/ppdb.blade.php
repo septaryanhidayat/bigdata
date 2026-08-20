@@ -4,9 +4,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Formulir SPMB Online T.A 2026/2027 | {{ $settings['school_name'] }}</title>
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
+    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
+    <meta property="og:title" content="Formulir SPMB / PPDB Online 2026/2027 | SIT Robbani">
+    <meta property="og:description" content="Penerimaan Peserta Didik Baru (PPDB) SIT Robbani Ogan Ilir Jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT T.A 2026/2027.">
+    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        [x-cloak] { display: none !important; }
         /* Light Mode Default (Emerald Green & Dynamic Orange with High-Contrast Dark Text) */
         html.light {
             --bg-main: #f8fafc;
@@ -114,6 +135,31 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+    </style>
+
+    <!-- Smooth Scroll Reveal Animation Styles -->
+    <style>
+        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-scale-up { transform: scale(0.93); }
+        .reveal-slide-left { transform: translateX(-35px); }
+        .reveal-slide-right { transform: translateX(35px); }
+
+        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
+        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) translateX(0) !important;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
     </style>
 </head>
 <body class="antialiased min-h-screen pb-20 flex flex-col justify-between">
@@ -905,6 +951,32 @@
                     localStorage.removeItem('spmb_auto_draft_v7');
                 });
             }
+        });
+    </script>
+    @include('components.chat-ai-widget')
+
+
+    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.05
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
+            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
         });
     </script>
 </body>

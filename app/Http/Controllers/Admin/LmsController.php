@@ -11,10 +11,10 @@ class LmsController extends Controller
 {
     public function index(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $materialsQuery = LmsMaterial::with('school');
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $materialsQuery->where('school_id', $schoolId);
         }
 

@@ -15,49 +15,48 @@ class MobileHrisAdminController extends Controller
      */
     public function index(Request $request)
     {
-        $schoolId = session('selected_school_id', 1);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         // 1. Total statistik
-        $totalEmployees = DB::table('employees')->where('school_id', $schoolId)->count();
-        if ($totalEmployees === 0) {
-            $totalEmployees = DB::table('employees')->count();
+        $empQuery = DB::table('employees');
+        if ($schoolId) {
+            $empQuery->where('school_id', $schoolId);
         }
+        $totalEmployees = $empQuery->count();
 
-        $enrolledFaces = DB::table('employees')
-            ->whereNotNull('face_registered_at')
-            ->count();
+        $faceQuery = DB::table('employees')->whereNotNull('face_registered_at');
+        if ($schoolId) {
+            $faceQuery->where('school_id', $schoolId);
+        }
+        $enrolledFaces = $faceQuery->count();
 
         $todayAttendance = 0;
         if (Schema::hasTable('employee_attendance_logs')) {
-            $todayAttendance = DB::table('employee_attendance_logs')
-                ->whereDate('date', now()->toDateString())
-                ->count();
+            $attQ = DB::table('employee_attendance_logs')->whereDate('date', now()->toDateString());
+            if ($schoolId) {
+                $attQ->join('employees', 'employee_attendance_logs.employee_id', '=', 'employees.id')
+                     ->where('employees.school_id', $schoolId);
+            }
+            $todayAttendance = $attQ->count();
         }
 
         $todayMutabaah = 0;
-        if (Schema::hasTable('employee_mutabaahs')) {
-            $todayMutabaah = DB::table('employee_mutabaahs')
-                ->whereDate('date', now()->toDateString())
-                ->count();
-        } elseif (Schema::hasTable('bpi_mutabaahs')) {
-            $todayMutabaah = DB::table('bpi_mutabaahs')
-                ->whereDate('date', now()->toDateString())
-                ->count();
-        }
 
         // 2. Log Presensi Mobile Hari Ini (dengan foto selfie & GPS)
-        $attendanceLogs = DB::table('employee_attendance_logs')
+        $attLogsQuery = DB::table('employee_attendance_logs')
             ->join('employees', 'employee_attendance_logs.employee_id', '=', 'employees.id')
-            ->select('employee_attendance_logs.*', 'employees.full_name', 'employees.nip', 'employees.role_type as position', 'employees.face_photo_url')
-            ->orderBy('employee_attendance_logs.id', 'desc')
-            ->limit(15)
-            ->get();
+            ->select('employee_attendance_logs.*', 'employees.full_name', 'employees.nip', 'employees.role_type as position', 'employees.face_photo_url');
+        if ($schoolId) {
+            $attLogsQuery->where('employees.school_id', $schoolId);
+        }
+        $attendanceLogs = $attLogsQuery->orderBy('employee_attendance_logs.id', 'desc')->limit(15)->get();
 
         // 3. Daftar Pegawai & Status Perekaman Biometrik Wajah (Face ID)
-        $employees = DB::table('employees')
-            ->orderBy('id', 'asc')
-            ->limit(20)
-            ->get();
+        $empListQuery = DB::table('employees');
+        if ($schoolId) {
+            $empListQuery->where('school_id', $schoolId);
+        }
+        $employees = $empListQuery->orderBy('id', 'asc')->limit(20)->get();
 
         return view('admin.mobile.index', compact(
             'totalEmployees',
@@ -74,9 +73,12 @@ class MobileHrisAdminController extends Controller
      */
     public function faceBiometrics(Request $request)
     {
-        $employees = DB::table('employees')
-            ->orderBy('face_registered_at', 'desc')
-            ->paginate(15);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        $query = DB::table('employees');
+        if ($schoolId) {
+            $query->where('school_id', $schoolId);
+        }
+        $employees = $query->orderBy('face_registered_at', 'desc')->paginate(15);
 
         return view('admin.mobile.faces', compact('employees'));
     }
@@ -86,7 +88,8 @@ class MobileHrisAdminController extends Controller
      */
     public function geofenceSettings(Request $request)
     {
-        $schools = \App\Models\School::orderBy('id', 'asc')->get();
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        $schools = $schoolId ? \App\Models\School::where('id', $schoolId)->get() : \App\Models\School::orderBy('id', 'asc')->get();
         return view('admin.mobile.geofence', compact('schools'));
     }
 
@@ -95,6 +98,11 @@ class MobileHrisAdminController extends Controller
      */
     public function updateGeofence(Request $request, $id)
     {
+        $effectiveSchoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($effectiveSchoolId && (int)$effectiveSchoolId !== (int)$id) {
+            return redirect()->back()->with('error', '⛔ Anda tidak memiliki otoritas mengubah lokasi geofence unit lain.');
+        }
+
         $school = \App\Models\School::findOrFail($id);
 
         $rawLat = trim((string)$request->input('latitude'));

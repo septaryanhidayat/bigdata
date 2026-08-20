@@ -530,12 +530,130 @@ class CmsSeeder extends Seeder
                     "Peta Talenta Siswa: Pemetaan minat bakat akademik dan non-akademik siswa sejak dini"
                 ],
                 'sort_order' => 21
+            ],
+            [
+                'title' => '22. Surat Menyurat & E-Arsip Persuratan Digital',
+                'short_title' => 'Surat & E-Arsip',
+                'category' => 'operasional',
+                'category_name' => 'Persuratan Digital',
+                'icon' => '✉️',
+                'badge_bg' => 'bg-indigo-50 text-indigo-700 border border-indigo-200',
+                'short_desc' => 'Pembuatan surat dinas otomatis, nomor agenda, ttd digital QR Code, verifikasi publik, dan e-arsip.',
+                'full_desc' => 'Modul Tata Usaha & Surat Menyurat Digital. Memfasilitasi penerbitan surat masuk/keluar, penomoran otomatis sesuai kode klasifikasi, tanda tangan digital terverifikasi QR Code, verifikasi keaslian dokumen publik, serta e-arsip terintegrasi.',
+                'highlights' => [
+                    "Penomoran Surat Otomatis: Generator nomor surat dinas otomatis sesuai kode klasifikasi unit",
+                    "TTD Digital & Verifikasi QR Code: Tanda tangan elektronik pejabat terverifikasi kode QR publik",
+                    "Disposisi Surat Masuk Digital: Alur disposisi dari Kepala Sekolah ke staf/guru secara cepat",
+                    "Pemeriksa Keaslian Dokumen Publik: Halaman verifikasi publik untuk membuktikan keabsahan surat",
+                    "E-Arsip Dokumen Terstruktur: Penyimpanan file digital surat dengan sistem tagging dan pencarian cepat"
+                ],
+                'sort_order' => 22
+            ],
+            [
+                'title' => '23. CBT Integrasi Seleksi PPDB & Tes Potensi',
+                'short_title' => 'CBT Test PPDB',
+                'category' => 'akademik',
+                'category_name' => 'Ujian & Seleksi',
+                'icon' => '📝',
+                'badge_bg' => 'bg-amber-50 text-amber-700 border border-amber-200',
+                'short_desc' => 'Ujian seleksi calon siswa baru online, penilaian otomatis, CBT anti-kecurangan, dan rekap kelulusan.',
+                'full_desc' => 'Modul CBT Seleksi PPDB & Tes Potensi Akademik. Memfasilitasi ujian masuk calon siswa baru secara online, acak soal & pilihan, penilaian otomatis waktu nyata, hingga perangkaian skor kelulusan tes seleksi.',
+                'highlights' => [
+                    "Ujian Seleksi Masuk Online: Calon siswa mengerjakan soal tes pemetaan potensi dari rumah/lokasi tes",
+                    "Pemeriksaan Nilai Otomatis: Skor ujian pilihan ganda dan kuesioner langsung terhitung otomatis",
+                    "Fitur Anti-Kecurangan: Penguncian layar ujian dan batas waktu ketat saat pengerjaan tes",
+                    "Integrasi Data PPDB: Nilai tes otomatis terhubung ke kartu kelulusan calon siswa baru"
+                ],
+                'sort_order' => 23
+            ],
+            [
+                'title' => '24. Multi-Role & Akses Berbasis Unit (Data Isolation)',
+                'short_title' => 'Role & Unit Isolation',
+                'category' => 'operasional',
+                'category_name' => 'Keamanan & Akses',
+                'icon' => '🔐',
+                'badge_bg' => 'bg-rose-50 text-rose-700 border border-rose-200',
+                'short_desc' => 'Pengaturan hak akses ketat per unit (TK, SD, SMP, SMA), isolasi data sensitif, & dashboard kepsek fokus unit.',
+                'full_desc' => 'Modul Keamanan & Hak Akses Multi-Role Berbasis Unit. Menjamin bahwa Kepala Sekolah dan Staf Unit hanya dapat mengakses data internal unitnya sendiri (Siswa, Keuangan, SDM, BK, HRIS), sementara Superadmin & Ketua Yayasan memiliki wewenang penuh atas seluruh unit.',
+                'highlights' => [
+                    "Isolasi Data Sensitif: Kepala Sekolah SMPIT hanya melihat data SMPIT, Kepala SDIT hanya melihat data SDIT",
+                    "Dashboard Khusus Kepsek: Ringkasan statistik, siswa, guru, dan keuangan yang difokuskan pada unit sendiri",
+                    "Manajemen Role Granular: Pengaturan hak akses berbasis modul dan action (View, Create, Edit, Delete)",
+                    "Proteksi Data Keuangan & SDM: Menjaga kerahasiaan gaji, berkas karyawan, dan transaksi keuangan antar unit"
+                ],
+                'sort_order' => 24
+            ],
+            [
+                'title' => '25. Layanan Publik & Persyaratan Mandiri (Public Self-Service)',
+                'short_title' => 'Layanan Publik',
+                'category' => 'operasional',
+                'category_name' => 'Layanan & Kemitraan',
+                'icon' => '🤝',
+                'badge_bg' => 'bg-teal-50 text-teal-700 border border-teal-200',
+                'short_desc' => 'Pengajuan kunjungan sekolah, permohonan kerja sama, sewa fasilitas, upload berkas KTP tanpa wajib login.',
+                'full_desc' => 'Modul Layanan Publik Mandiri untuk Masyarakat, Wali Murid, dan Mitra Kerja Sama. Menyediakan formulir publik tanpa keharusan login untuk pengajuan Kunjungan Edukasi, Kerjasama / Sponsor, dan Sewa Fasilitas Sekolah (Aula, Lapangan, Bus) dilengkapi upload dokumen persyarataan.',
+                'highlights' => [
+                    "Layanan Bebas Akun: Masyarakat dan calon mitra dapat langsung mengisi formulir tanpa membuat akun",
+                    "Pengajuan Kunjungan & Studi Banding: Formulir online jadwal studi banding dan riset edukasi",
+                    "Permohonan Kerja Sama / Sponsor: Pengajuan kemitraan instansi, sponsorship event, dan MOU",
+                    "Penyewaan Sarana Prasarana: Pemesanan sewa aula sekolah, lapangan olahraga, dan kendaraan dinas",
+                    "Upload Berkas Dokumen: Lampiran file KTP/Surat Tugas yang tersimpan rapi di dashboard admin"
+                ],
+                'sort_order' => 25
             ]
         ];
 
         FeatureModule::truncate();
         foreach ($modules as $mod) {
+            $mod['is_active'] = true;
             FeatureModule::create($mod);
         }
+
+        // Seed Unit Profiles from XML Backups (SMPIT, SDIT, TKIT, SMAIT)
+        $smpitData = json_decode(SiteSetting::get('unit_profile_smpit') ?: '{}', true) ?: [];
+        $smpitData['programs'] = [
+            ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
+            ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
+            ['title' => 'Program Unggulan Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.'],
+            ['title' => 'Bilingual & Public Speaking Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.']
+        ];
+        $smpitData['facilities'] = [
+            ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => '/images/facilities/gedung_smpit.jpg'],
+            ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca untuk menunjang pembelajaran dan kenyamanan pada saat proses pembelajaran siswa.', 'image' => '/images/facilities/ruang_kelas_smpit.jpg'],
+            ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => '/images/facilities/toilet_smpit.jpg'],
+            ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital anak.', 'image' => '/images/facilities/tablet_smpit.jpg'],
+            ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => '/images/facilities/kantin_smpit.jpg'],
+            ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri SMPIT.', 'image' => '/images/facilities/lapangan_smpit.jpg']
+        ];
+        $smpitData['ekskul'] = [
+            ['title' => 'Futsal SMPIT Robbani', 'badge' => 'Olahraga Tim', 'icon' => '⚽', 'desc' => 'Wadah bagi santri SMPIT Robbani mengembangkan bakat olahraga futsal, ketangkasan fisik, dan kerja sama tim.', 'image' => '/images/ekskul/futsal.webp'],
+            ['title' => 'Panahan Sunnah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus, ketenangan emosi, ketepatan sasaran, dan kedisiplinan santri.', 'image' => '/images/ekskul/panahan.webp'],
+            ['title' => 'Coding & Keterampilan Digital', 'badge' => 'Teknologi & IT', 'icon' => '💻', 'desc' => 'Wadah santri menguasai logika pemograman dasar, pembuatan website, dan teknologi masa depan.', 'image' => '/images/ekskul/coding.webp'],
+            ['title' => 'Seni Tari Kreasi Islami', 'badge' => 'Seni Budaya', 'icon' => '💃', 'desc' => 'Mengembangkan minat bakat santri dibidang seni tari kreasi bernuansa islami dan seni nusantara.', 'image' => '/images/ekskul/seni_tari.webp'],
+            ['title' => 'Public Speaking & Leadership', 'badge' => 'Komunikasi & Bahasa', 'icon' => '🎙️', 'desc' => 'Menggali dan mengembangkan potensi kepemimpinan serta orator publik dalam berbagai forum santri.', 'image' => '/images/ekskul/public_speaking.webp'],
+            ['title' => 'English Club SMPIT', 'badge' => 'Bahasa Asing', 'icon' => '🌍', 'desc' => 'Lingkungan belajar Bahasa Inggris yang interaktif, komunikatif, dan menyenangkan.', 'image' => '/images/ekskul/english_club.webp'],
+            ['title' => 'Pramuka SIT Robbani', 'badge' => 'Kepanduan Wajib', 'icon' => '🏕️', 'desc' => 'Kegiatan kepanduan khas JSIT untuk melatih kemandirian, kepemimpinan, dan kecintaan alam.', 'image' => '/images/ekskul/pramuka.webp'],
+            ['title' => 'Digital Art & Graphic Design', 'badge' => 'Desain & Media', 'icon' => '🎨', 'desc' => 'Melatih kreativitas santri dalam bidang desain grafis, ilustrasi digital, dan media publikasi.', 'image' => '/images/ekskul/digital_art.webp']
+        ];
+        SiteSetting::set('unit_profile_smpit', json_encode($smpitData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        // SDIT Profile
+        $sditData = json_decode(SiteSetting::get('unit_profile_sdit') ?: '{}', true) ?: [];
+        $sditData['facilities'] = [
+            ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di area sekolah untuk kegiatan ekskul dan olahraga air santri.', 'image' => '/images/facilities/kolam_renang_sdit.jpg'],
+            ['title' => 'Ruang Kelas Nyaman Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'Ruang kelas SDIT Robbani didesain senyaman mungkin lengkap dengan AC, Kipas Angin, Loker, dan Pojok Baca.', 'image' => '/images/facilities/ruang_kelas_sdit.jpg'],
+            ['title' => 'Mushola Saung Unik', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'Sarana ibadah khas berupa saung terbuka unik untuk tempat sholat berjamaah dan halaqoh BPI.', 'image' => '/images/facilities/mushola_sdit.jpg'],
+            ['title' => 'Aula Pertemuan Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'Aula serbaguna indoor untuk pertemuan orang tua, pentas seni santri, dan event sekolah.', 'image' => '/images/facilities/aula_sdit.jpg'],
+            ['title' => 'Lapangan Olahraga Outdoor', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, senam, panahan, dan kegiatan fisik outdoor siswa SDIT.', 'image' => '/images/facilities/lapangan_sdit.jpg']
+        ];
+        $sditData['ekskul'] = [
+            ['title' => 'Ekskul Futsal SDIT', 'badge' => 'Olahraga Tim', 'icon' => '⚽', 'desc' => 'Pengembangan bakat olahraga futsal, kekompakan tim, dan ketangkasan fisik siswa SDIT.', 'image' => '/images/ekskul/sd_futsal.webp'],
+            ['title' => 'Ekskul Memanah (Archery)', 'badge' => 'Olahraga Sunnah', 'icon' => '🏹', 'desc' => 'Melatih fokus, konsentrasi, ketenangan emosi, dan kedisiplinan diri sejak dini.', 'image' => '/images/ekskul/sd_panahan.webp'],
+            ['title' => 'Ekskul Coding Digital Cilik', 'badge' => 'Teknologi & IT', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar dan pemikiran komputasi untuk siswa SDIT.', 'image' => '/images/ekskul/sd_coding.webp'],
+            ['title' => 'Ekskul Seni Tari Tradisional', 'badge' => 'Seni Budaya', 'icon' => '💃', 'desc' => 'Pelatihan seni tari kreasi islami dan apresiasi budaya nusantara.', 'image' => '/images/ekskul/sd_seni.webp'],
+            ['title' => 'Life Skill Bulu Tangkis', 'badge' => 'Olahraga Kebugaran', 'icon' => '🏸', 'desc' => 'Latihan ketangkasan refleksi, kelincahan, dan kebugaran jasmani santri.', 'image' => '/images/ekskul/bulu_tangkis.webp'],
+            ['title' => 'Life Skill Tahfidz Intensive', 'badge' => 'Al-Qur\'an', 'icon' => '📖', 'desc' => 'Halaqoh pendalaman hafalan Al-Qur\'an dengan bimbingan metode talaqqi.', 'image' => '/images/ekskul/tahfidz.webp']
+        ];
+        SiteSetting::set('unit_profile_sdit', json_encode($sditData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }

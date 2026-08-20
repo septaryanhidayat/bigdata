@@ -1,5 +1,19 @@
 <?php
 
+// Auto-patch Laravel Str::trim null-byte regex bug on PHP 8.2+ with strict PCRE2
+$strVendorFile = dirname(__DIR__) . '/vendor/laravel/framework/src/Illuminate/Support/Str.php';
+if (file_exists($strVendorFile)) {
+    $content = file_get_contents($strVendorFile);
+    if (strpos($content, '$trimDefaultCharacters = " \n\r\t\v\0"') !== false) {
+        $content = str_replace(
+            ['$trimDefaultCharacters = " \n\r\t\v\0"', '$ltrimDefaultCharacters = " \n\r\t\v\0"', '$rtrimDefaultCharacters = " \n\r\t\v\0"'],
+            ['$trimDefaultCharacters = " \n\r\t\v"', '$ltrimDefaultCharacters = " \n\r\t\v"', '$rtrimDefaultCharacters = " \n\r\t\v"'],
+            $content
+        );
+        @file_put_contents($strVendorFile, $content);
+    }
+}
+
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;

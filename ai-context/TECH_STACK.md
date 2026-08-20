@@ -1,104 +1,118 @@
-# SmartEdu SIT Robbani — Technology Stack (TECH_STACK.md)
+# SmartEdu SIT Robbani — Tech Stack
 
-> **Dokumentasi Lengkap Pustaka, Framework, dan Infrastruktur Teknologi**
-> *Terakhir diperbarui: 17 Agustus 2026*
-
----
-
-## 🛠️ 1. Backend & Server Framework
-
-| Lapisan / Komponen | Teknologi Terpilih | Versi / Spesifikasi | Alasan Pemilihan & Penggunaan |
-| :--- | :--- | :--- | :--- |
-| **Bahasa Pemrograman** | **PHP** | `8.2+ / 8.4 (produksi)` | Ekosistem stabil, typed properties, performa JIT, penanganan multi-tenancy cepat. |
-| **Framework Utama** | **Laravel** | `13.x` | Arsitektur MVC, Eloquent ORM, Blade Templating, Middleware Pipeline, Seeding. |
-| **Asset Bundler** | **Vite** | `^6.x` | Build CSS/JS produksi — hasil di `public/build/` harus di-commit ke GitHub. |
-| **PDF Generation** | **Barryvdh DomPDF** | `^3.0` | Cetak Kuitansi SPP ber-KOP, Kartu Ujian CBT, Rapor Siswa, dan Surat Resmi TTE. |
-| **QR Code Generator** | **Simple QrCode** | `^4.2` | Membuat kode QR verifikasi TTE, presensi siswa, dan validasi kuitansi publik. |
-| **AI LLM API** | **Google Gemini API** | `gemini-1.5-flash` | Pemrosesan bahasa alami (NLP) chatbot dengan penalaran dokumen cepat dan hemat latensi. |
+> *Versi 3.0 Final — 18 Agustus 2026*
 
 ---
 
-## 🎨 2. Frontend & User Interface Architecture
+## 🖥️ Backend
 
-| Komponen | Teknologi | Keterangan Implementasi |
+| Komponen | Versi / Library | Keterangan |
 | :--- | :--- | :--- |
-| **CSS Utility Framework** | **Tailwind CSS (v3/v4 CDN)** | Responsif fluid, grid bento hub, utility styling tanpa overhead build JS berat. |
-| **JavaScript Framework** | **Alpine.js (v3.x)** | State management ringan (`x-data`, `x-show`, `x-model`, `x-cloak`) untuk modal, dark mode, tab filter, dan live clock. |
-| **Typography & Fonts** | **Google Fonts (Montserrat & Inter)** | `Montserrat` untuk headline resmi berwibawa, `Inter` untuk konten keterbacaan tinggi. |
-| **Icon System** | **Material Symbols Outlined + Authentic SVGs** | Ikon standar Google dengan variasi bobot `wght 700` dan SVG logo resmi medsos. |
-| **Notifikasi Alert** | **SweetAlert2** | Alert modal modern dengan auto-timer 2.5 detik untuk feedback aksi user konsisten. |
-| **Dark Mode System** | **Pure Custom CSS Obsidian & Neon Lime** | Kombinasi background `#061107` (Deep Obsidian Emerald) dan accent `#c6f634` (Electric Lemon) dengan rasio kontras WCAG AAA. |
+| **PHP** | 8.4.x (cPanel) / 8.4.24 (Lokal Herd) | PHP 8.4 strict types, named args |
+| **Laravel** | 13.24.x | Framework backend utama |
+| **Database Dev** | SQLite 3 | `database/database.sqlite`, excluded dari git |
+| **Database Prod** | MySQL 5.7+ / MariaDB 10.3+ | 58 tabel InnoDB, `smartedu_FINAL_sitrobbani.sql` |
+| **ORM** | Eloquent ORM | Semua query wajib via Eloquent (PDO binding) |
+| **Auth** | Laravel built-in + Sanctum | Web session + API Bearer Token |
+| **Queue** | Database Queue | Job, failed_jobs, job_batches |
+| **PDF** | DomPDF (`barryvdh/laravel-dompdf`) | Kuitansi SPP, Slip Gaji, Kartu Ujian |
+| **QR Code** | `simplesoftwareio/simple-qrcode` | QR TTE surat, RFID, barcode sarpras |
+| **AI/LLM** | Google Gemini 1.5 Flash API | Mesin RAG Chatbot, embedding retrieval |
+| **HTTP Client** | Guzzle (via Laravel HTTP) | Panggilan API eksternal (Gemini, dll.) |
 
 ---
 
-## 🗄️ 3. Basis Data & Model Relasional
+## 🎨 Frontend & Styling
 
-| Aspek | Spesifikasi | Detail |
+| Komponen | Versi | Keterangan |
 | :--- | :--- | :--- |
-| **DBMS Lokal (Dev)** | **SQLite** | Digunakan di lingkungan development lokal, file: `database/database.sqlite` (±20MB, 57 tabel). |
-| **DBMS Produksi (cPanel)** | **MySQL 5.7+ / MariaDB 10.3+** | InnoDB engine, foreign key constraints, UTF-8 MB4 charset. Import dari `scratch/mysql_FINAL_sitrobbani.sql`. |
-| **ORM** | **Laravel Eloquent** | Relasi `hasMany`, `belongsTo`, `belongsToMany` dengan global scope multi-tenancy `school_id`. |
-| **Migrasi & Seeders** | **Laravel Migration Pipeline** | 11+ migration file terstruktur dan seeder master otomatis. |
-
-> ⚠️ **PENTING:** Di `.env` produksi, `DB_CONNECTION=mysql`. Di lokal, `DB_CONNECTION=sqlite`.
-
----
-
-## 📱 4. Aplikasi Mobile (SDM SIT Robbani)
-
-| Komponen | Teknologi | Detail |
-| :--- | :--- | :--- |
-| **Framework** | **React Native (Expo SDK 52)** | Cross-platform Android & iOS dari folder `sdm-robbani-mobile/`. |
-| **Distribusi** | **EAS Build (Expo Application Services)** | APK Android via `eas build --platform android`. |
-| **Auth** | **Laravel Sanctum Token** | Semua endpoint `/api/v1/mobile/*` kecuali login dilindungi `auth:sanctum`. |
-| **Fitur** | Presensi GPS/Face Recognition, Payroll, BPI Mutabaah, Kantin Digital, KPI | |
+| **Tailwind CSS** | CDN v4 (web publik) + v3 Vite (admin) | Utility-first CSS |
+| **Alpine.js** | 3.x (CDN) | State management reaktif frontend |
+| **SweetAlert2** | Latest CDN | Dialog konfirmasi hapus, notifikasi |
+| **Vite** | 6.x | Asset bundler admin dashboard |
+| **Google Fonts** | Plus Jakarta Sans | Tipografi premium website & admin |
+| **Font Awesome / SVG** | Inline SVG | Icon share sosmed, admin sidebar |
+| **Chart.js** | CDN | Grafik statistik di dashboard |
 
 ---
 
-## 🧠 5. Mesin AI & Knowledge Base RAG
+## 🎨 Design Tokens
 
-```
-[User Input] 
-     │
-     ▼
-[App\Services\AiRagEngine]
-     ├── 1. Semantic Ingestion (AiKnowledgeBase::findRelevantKnowledge)
-     │        └── Mencocokkan kata kunci & cuplikan dokumen PDF yang diunggah
-     ├── 2. Live SmartEdu Data Extraction
-     │        └── Mengambil TA aktif, data unit sekolah, statistik SPMB, kontak
-     ├── 3. Contextual Prompt Assembly
-     │        └── Menggabungkan System Prompt + Cuplikan Dokumen + Live Data + Pertanyaan
-     └── 4. Inference Engine
-              ├── Mode Online: Google Gemini 1.5 Flash API
-              └── Mode Fallback / Offline: Smart Local Synthesizer with Document Citation
+```css
+/* Light Mode */
+--primary: #004532;       /* Emerald Deep Green */
+--accent: #ea580c;        /* Orange-600 */
+--bg: #f8fafc;            /* Slate-50 */
+
+/* Dark Mode (Obsidian + Neon Lime) */
+--bg-dark: #040d06;       /* Obsidian Emerald */
+--surface-dark: #07170a;  /* Dark Green Surface */
+--neon: #c6f634;          /* Neon Lime Accent */
+--neon-bright: #a3e635;   /* Lime-400 */
 ```
 
 ---
 
-## 🔒 6. Keamanan & Optimasi Jaringan
+## 📱 Aplikasi Mobile
 
-- **Middleware Kustom:** `App\Http\Middleware\SecurityHeaders` (global, terpasang di `bootstrap/app.php`)
-  - `X-Content-Type-Options: nosniff`
-  - `X-Frame-Options: SAMEORIGIN`
-  - `X-XSS-Protection: 1; mode=block`
-  - `Referrer-Policy: strict-origin-when-cross-origin`
-  - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
-- **Enkripsi & Hash:** SHA-256 untuk TTE Digital Surat Resmi, `bcrypt` untuk password pengguna.
-- **Validasi Permintaan:** Laravel Form Request Validation & CSRF Protection Token.
-- **API Auth:** Laravel Sanctum token untuk seluruh endpoint mobile (kecuali login).
+| Komponen | Versi | Keterangan |
+| :--- | :--- | :--- |
+| **Framework** | Expo SDK 52 + React Native | Folder `sdm-robbani-mobile/` |
+| **Auth** | Laravel Sanctum Bearer Token | Login → token → simpan SecureStore |
+| **Navigation** | Expo Router v3 | File-based routing |
+| **State** | React Context API | Auth context, user profile |
+| **Storage** | Expo SecureStore | Penyimpanan token aman |
+| **Camera** | Expo Camera | Capture foto biometrik wajah |
+| **Location** | Expo Location | GPS anti-fake presensi |
+| **HTTP** | Axios | REST API client |
 
 ---
 
-## 🌐 7. Infrastruktur Produksi — cPanel Hosting
+## 🗄️ Database
 
-| Komponen | Spesifikasi | Keterangan |
-| :--- | :--- | :--- |
-| **Hosting** | **cPanel (Shared/VPS)** | Deployment via Git Version Control cPanel |
-| **PHP CLI Produksi** | `/usr/local/php84/bin/php` | Gunakan path eksplisit, bukan `php` default (bisa 8.1) |
-| **Web Server** | **Apache + .htaccess** | DocumentRoot diarahkan ke `/public` folder Laravel |
-| **Database** | **MySQL cPanel** | Import dari `scratch/mysql_FINAL_sitrobbani.sql` |
-| **Assets** | **Vite Build (pre-built)** | `public/build/` ter-commit di GitHub, tidak perlu Node.js di server |
-| **Storage** | `storage/app/public` symlink ke `public/storage` | Via `php artisan storage:link` |
-| **Deploy Script** | `bash deploy.sh` | Otomatis maintenance mode, migrate, cache, optimize |
+| Environment | Koneksi | File |
+|-------------|---------|------|
+| **Development (Lokal)** | SQLite 3 | `database/database.sqlite` (~20MB) |
+| **Produksi (cPanel)** | MySQL / MariaDB | Import `smartedu_FINAL_sitrobbani.sql` (2MB+) |
 
-> **Catatan:** Untuk production VPS mandiri (masa depan): Nginx + PHP-FPM 8.4 + Redis + Supervisor
+### Konfigurasi `.env` Produksi
+```env
+APP_ENV=production
+APP_DEBUG=false
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=namauser_sitrobbani
+DB_USERNAME=namauser_sitrobbani
+DB_PASSWORD=PASSWORD_MYSQL_CPANEL
+```
+
+---
+
+## 🚀 Deployment (cPanel)
+
+| Langkah | Perintah / File |
+|---------|-----------------|
+| 1. Clone Git | `git clone https://github.com/septaryanhidayat/bigdata.git ~/bigdata` |
+| 2. Copy `.env` | Salin `.env.cpanel` → `.env`, isi password MySQL |
+| 3. Install deps | `composer install --no-dev --optimize-autoloader` |
+| 4. Generate key | `php artisan key:generate` |
+| 5. Import SQL | phpMyAdmin → Import `smartedu_FINAL_sitrobbani.sql` |
+| 6. Migrate (ops) | `php artisan migrate --force` (opsional jika sudah import SQL) |
+| 7. Link storage | `php artisan storage:link` |
+| 8. Optimize | `php artisan optimize` |
+| 9. Set permissions | `chmod -R 755 storage bootstrap/cache` |
+
+> **Catatan**: `public/build/` sengaja **di-commit ke Git** sehingga cPanel tidak memerlukan Node.js untuk build Vite.
+
+---
+
+## 🔧 Tools Pengembangan
+
+| Tool | Versi | Keterangan |
+|------|-------|------------|
+| Laravel Herd | Windows | Dev server lokal PHP 8.4 |
+| VS Code | Latest | IDE dengan Intelephense & Tailwind |
+| Git | 2.x | Version control |
+| GitHub | `septaryanhidayat/bigdata` | Repository utama |
+| Postman | Latest | Testing REST API endpoint |

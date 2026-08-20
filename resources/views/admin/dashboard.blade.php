@@ -25,15 +25,22 @@
         </div>
 
         <!-- School Unit Filter Dropdown (Default: Semua Unit Yayasan) -->
-        <form action="{{ route('admin.dashboard') }}" method="GET" class="flex items-center gap-3 w-full md:w-auto">
-            <label class="text-xs font-extrabold text-slate-700 whitespace-nowrap hidden sm:inline">Pilih Unit Sekolah:</label>
-            <select name="school_id" onchange="this.form.submit()" class="px-4 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-xs border border-slate-800 focus:outline-none cursor-pointer w-full md:w-64 shadow-md">
-                <option value="all" {{ $schoolId == 'all' ? 'selected' : '' }}>🏢 Semua Unit (Yayasan Robbani)</option>
-                @foreach($allSchools as $sc)
-                    <option value="{{ $sc->id }}" {{ $schoolId == $sc->id ? 'selected' : '' }}>🏫 {{ $sc->name }} ({{ $sc->code }})</option>
-                @endforeach
-            </select>
-        </form>
+        @if(Auth::user()->role === \App\Models\User::ROLE_HEADMASTER)
+            <div class="px-4 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-xs border border-slate-800 flex items-center gap-2 shadow-md">
+                <span>🏫</span>
+                <span>Unit: {{ $activeSchoolObj->name ?? 'Overview Unit' }}</span>
+            </div>
+        @else
+            <form action="{{ route('admin.dashboard') }}" method="GET" class="flex items-center gap-3 w-full md:w-auto">
+                <label class="text-xs font-extrabold text-slate-700 whitespace-nowrap hidden sm:inline">Pilih Unit Sekolah:</label>
+                <select name="school_id" onchange="this.form.submit()" class="px-4 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-xs border border-slate-800 focus:outline-none cursor-pointer w-full md:w-64 shadow-md">
+                    <option value="all" {{ $schoolId == 'all' ? 'selected' : '' }}>🏢 Semua Unit (Yayasan Robbani)</option>
+                    @foreach($allSchools as $sc)
+                        <option value="{{ $sc->id }}" {{ $schoolId == $sc->id ? 'selected' : '' }}>🏫 {{ $sc->name }} ({{ $sc->code }})</option>
+                    @endforeach
+                </select>
+            </form>
+        @endif
     </div>
 
     <!-- Top Section: Main Spline Chart Card & Donut Traffic Card -->

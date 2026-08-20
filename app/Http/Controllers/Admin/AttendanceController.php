@@ -18,14 +18,14 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $today = date('Y-m-d');
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $attendancesQuery = Attendance::with(['student.school', 'student.classroom'])->where('date', $today);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
         $presentQuery = Attendance::where('date', $today)->where('status', 'HADIR');
         $lateQuery = Attendance::where('date', $today)->where('status', 'TERLAMBAT');
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $attendancesQuery->where('school_id', $schoolId);
             $studentsQuery->where('school_id', $schoolId);
             $presentQuery->where('school_id', $schoolId);

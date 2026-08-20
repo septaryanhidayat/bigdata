@@ -1,155 +1,215 @@
-# SmartEdu SIT Robbani — UI/UX Design System (UI_UX_DESIGN.md)
+# SmartEdu SIT Robbani — UI/UX Design System
 
-> **Panduan Desain Token, Dark/Light Mode, Layout Mobile-First, dan Komponen UI**
-> *Terakhir diperbarui: 17 Agustus 2026*
-
----
-
-## 🎨 1. Color System — Dark Mode (Obsidian Emerald)
-
-| Token | Hex | Penggunaan |
-|-------|-----|------------|
-| `--bg-primary` | `#061107` | Background utama halaman dark mode |
-| `--bg-card` | `#0e2010` | Surface card, panel, sidebar |
-| `--bg-card-alt` | `#0d1e0f` | Card alternatif, input background |
-| `--border-card` | `#1a381c` | Border card, divider, outline |
-| `--accent-lime` | `#c6f634` | CTA button, badge aktif, highlight |
-| `--accent-lime-dark` | `#a8d428` | Hover state CTA button |
-| `--text-primary` | `#e8f5e9` | Teks utama konten |
-| `--text-secondary` | `#a5d6a7` | Teks sekunder, caption, label |
-| `--text-on-lime` | `#061107` | **WAJIB** pada background lime (kontras WCAG AAA) |
-
-> ⚠️ **Aturan Wajib:** Pada `bg-[#c6f634]` (Electric Lemon/Neon Lime), teks **HARUS** `text-[#061107]` atau `text-slate-950`. DILARANG teks putih — kontras gagal WCAG.
+> *Token Desain, Komponen, & Panduan Tampilan Terpadu*  
+> *Terakhir diperbarui: 18 Agustus 2026*
 
 ---
 
-## ☀️ 2. Color System — Light Mode
+## 🎨 1. Color Palette (Light & Dark Mode)
 
-| Token | Hex | Penggunaan |
-|-------|-----|------------|
-| `--bg-primary` | `#ffffff` | Background halaman light mode |
-| `--bg-card` | `#f8fffe` | Surface card light |
-| `--border-card` | `#d1fae5` | Border card light |
-| `--accent-green` | `#16a34a` | Primary CTA light mode |
-| `--text-primary` | `#0f172a` | Teks utama light mode |
-| `--text-secondary` | `#475569` | Teks sekunder light mode |
-
----
-
-## 📱 3. Layout Mobile-First Rules
-
-### Website Publik (unit.blade.php)
-- **Header mobile:** Logo di kiri atas saja, tanpa tulisan di samping. Single-line, tidak overflow.
-- **Hero Banner:** Padding disesuaikan mobile, badge tidak terpotong, animasi `animate-hero-float` dan `animate-pulse-glow`.
-- **Guru Cards:** Grid 2 kolom mobile, nama dan jabatan rata tengah, tidak ada quote/bio.
-- **Footer mobile:** Logo saja (tanpa teks di samping), semua konten rata tengah, tidak ada bullet list.
-- **Utility ribbon header:** Single-line, tidak clipping di mobile.
-
-### Dashboard Admin (responsive)
-- Sidebar collapse di mobile menjadi hamburger menu.
-- Tabel menggunakan scroll horizontal di mobile.
-- Card statistik 2x2 grid di mobile (bukan 4 kolom).
-- Chatbot AI panel: font terbaca, warna kontras.
-
----
-
-## 🎭 4. Animasi & Interaksi
-
-### Scroll Animations
+### Light Mode (Default)
 ```css
-.reveal-fade-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.reveal-fade-up.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* Primary & Accent */
+--color-primary: #004532;          /* Emerald Deep Green — header, buttons */
+--color-primary-hover: #065f46;    /* Emerald-700 */
+--color-accent: #ea580c;           /* Orange-600 — CTA, badge highlights */
+--color-accent-hover: #c2410c;     /* Orange-700 */
+
+/* Background */
+--color-bg: #f8fafc;               /* Slate-50 */
+--color-surface: #ffffff;          /* White cards */
+--color-border: #e2e8f0;           /* Slate-200 */
+
+/* Text */
+--color-text: #0f172a;             /* Slate-900 */
+--color-muted: #64748b;            /* Slate-500 */
 ```
 
-### Hero Float Animation
+### Dark Mode (Obsidian Emerald + Neon Lime)
 ```css
-@keyframes hero-float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-.animate-hero-float { animation: hero-float 3s ease-in-out infinite; }
+/* Dark Mode Palette */
+--bg-dark: #040d06;               /* Obsidian Emerald — main background */
+--surface-dark: #07170a;          /* Dark Green surface */
+--border-dark: #1a381c;           /* Dark border */
+--neon: #c6f634;                  /* Neon Lime — primary accent dark */
+--neon-bright: #a3e635;           /* Lime-400 hover */
+
+/* Dark Text */
+--text-dark: #f0fdf4;             /* Emerald-50 */
+--text-muted-dark: #86efac;       /* Emerald-300 */
 ```
 
-### Pulse Glow Animation
-```css
-@keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(198, 246, 52, 0.3); }
-    50% { box-shadow: 0 0 40px rgba(198, 246, 52, 0.7); }
-}
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-```
-
-### Chatbot Typing Animation
-- Respon AI ditampilkan karakter per karakter (bukan langsung semua muncul).
-- Delay antar karakter: ~30ms untuk efek natural.
+### Unit Color Coding
+| Unit | Badge Color | Tailwind |
+|------|-------------|----------|
+| KB/TKIT | Emerald | `bg-emerald-100 text-emerald-800` |
+| SDIT | Orange | `bg-orange-100 text-orange-800` |
+| SMPIT | Blue | `bg-blue-100 text-blue-800` |
+| SMAIT | Purple | `bg-purple-100 text-purple-800` |
+| Yayasan | Slate | `bg-slate-100 text-slate-800` |
 
 ---
 
-## 🌗 5. Dark/Light Mode Toggle
+## ✍️ 2. Tipografi
 
-```javascript
-// Alpine.js implementation
-x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
-x-init="$watch('darkMode', v => {
-    localStorage.setItem('darkMode', v);
-    document.documentElement.classList.toggle('dark', v);
-})"
-```
+| Elemen | Font | Weight | Size |
+|--------|------|--------|------|
+| **Heading H1** | Plus Jakarta Sans | Black (900) | 3xl–6xl |
+| **Heading H2** | Plus Jakarta Sans | ExtraBold (800) | 2xl–4xl |
+| **Body Text** | Plus Jakarta Sans | Medium (500) | sm–base |
+| **Admin UI** | Plus Jakarta Sans | SemiBold (600) | xs–sm |
+| **Badge/Label** | Plus Jakarta Sans | Black (900) | 2xs–xs |
 
 ```html
-<!-- Toggle button -->
-<button @click="darkMode = !darkMode" aria-label="Toggle dark mode">
-    <span x-show="!darkMode">🌙</span>
-    <span x-show="darkMode">☀️</span>
+<!-- Google Fonts load -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+```
+
+---
+
+## 🧱 3. Komponen UI Standar
+
+### Kartu (Card)
+```html
+<!-- Standard Card -->
+<div class="bg-white dark:bg-[#07170a] border border-slate-200 dark:border-[#1a381c] rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all">
+  <!-- content -->
+</div>
+```
+
+### Tombol Aksi
+```html
+<!-- Tombol Utama (CTA) -->
+<button class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md transition-transform hover:scale-105">
+  Daftar PPDB →
+</button>
+
+<!-- Tombol Bahaya -->
+<button class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs">
+  Hapus
+</button>
+
+<!-- Tombol Secondary -->
+<button class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-200">
+  Batal
 </button>
 ```
 
----
+### Badge Unit
+```html
+<span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-[#0d1e0f] text-emerald-800 dark:text-[#c6f634] font-black text-xs">TKIT</span>
+<span class="px-3 py-1 rounded-full bg-orange-100 text-orange-800 font-black text-xs">SDIT</span>
+<span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-black text-xs">SMPIT</span>
+<span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 font-black text-xs">SMAIT</span>
+```
 
-## 🖼️ 6. Foto Guru — Konvensi Penamaan
-
-### Prefix file foto berdasarkan unit:
-| Unit | Prefix File |
-|------|-------------|
-| TKIT Robbani | `gtk_tk_*.jpeg` atau `gtk_tk_*.jpg` |
-| SDIT Robbani | `gtk_sd_*.png` |
-| SMPIT Robbani | `gtk_smp_*.png` atau `whatsapp-image-2024-12-03-*.jpeg` |
-
-**Lokasi:** `public/uploads/wp_assets/`
-
-**Aturan tampil:**
-- Foto ditampilkan dalam card dengan aspect-ratio 1:1, object-cover.
-- Tidak ada quote/bio di bawah nama di halaman unit.
-- Jabatan tampil di bawah nama (dari field `role`, bukan "Guru S1").
+### Input Form
+```html
+<input type="text" 
+  class="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#0d1e0f] border border-slate-200 dark:border-[#1a381c] rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500 dark:text-white">
+```
 
 ---
 
-## 🔔 7. Notifikasi & Alert
+## 🌙 4. Dark Mode Implementation
 
-**Selalu gunakan SweetAlert2** untuk:
-- ✅ Simpan data berhasil → `Swal.fire({icon: 'success', timer: 2500})`
-- ❌ Error validasi → `Swal.fire({icon: 'error'})`
-- ⚠️ Konfirmasi hapus → `Swal.fire({icon: 'warning', showCancelButton: true})`
-- ℹ️ Info umum → `Swal.fire({icon: 'info', timer: 3000})`
+Dark mode menggunakan Alpine.js + Tailwind `dark:` variant:
 
-**Jangan gunakan** `alert()` atau `confirm()` browser default.
+```html
+<!-- x-data di elemen <html> atau <body> -->
+<html x-data="{ darkMode: false }" :class="darkMode ? 'dark' : ''">
+
+<!-- Toggle button -->
+<button @click="darkMode = !darkMode">
+  <span x-show="!darkMode">🌙 Mode Malam</span>
+  <span x-show="darkMode" x-cloak>☀️ Mode Terang</span>
+</button>
+
+<!-- Gunakan Tailwind dark: prefix -->
+<div class="bg-white dark:bg-[#07170a] text-slate-900 dark:text-[#f0fdf4]">
+```
 
 ---
 
-## 🎨 8. Dashboard Admin — 5 Tema Warna Global
+## 🎭 5. Animasi & Micro-interactions
 
-Dashboard admin mendukung 5 pilihan warna tema yang bisa diseleksi:
-1. **Obsidian Emerald** (default dark) — `#061107` + `#c6f634`
-2. **Royal Navy** — `#0d1b2a` + `#4fc3f7`
-3. **Deep Purple** — `#1a0533` + `#ce93d8`
-4. **Slate Pro** — `#0f172a` + `#94a3b8`
-5. **Warm Amber** — `#1c1008` + `#fbbf24`
+### Animasi Keyframe (Tailwind Custom Config)
+```javascript
+// tailwind.config.js
+keyframes: {
+  'pulse-slow': {
+    '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+    '50%': { opacity: '0.8', transform: 'scale(1.05)' }
+  },
+  'float': {
+    '0%, 100%': { transform: 'translateY(0px)' },
+    '50%': { transform: 'translateY(-8px)' }
+  },
+  'slide-up': {
+    '0%': { opacity: '0', transform: 'translateY(20px)' },
+    '100%': { opacity: '1', transform: 'translateY(0)' }
+  }
+}
+```
 
-Warna tema disimpan di localStorage dan diaplikasikan via CSS custom properties.
+### Hover Effects Standar
+```css
+/* Card hover lift */
+.card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+/* Button press */
+.btn:hover { transform: scale(1.05); }
+
+/* Icon group hover */
+.group:hover .group-hover-icon { transform: scale(1.1); transition: transform 0.3s; }
+```
+
+---
+
+## 📐 6. Layout Grid
+
+### Website Publik
+- **Max Width**: `max-w-7xl mx-auto px-4 sm:px-6`
+- **Hero Section**: Full-width dengan gradient overlay
+- **Section Spacing**: `py-14 sm:py-20`
+- **Gap Between Cards**: `gap-6`
+
+### Admin Dashboard
+- **Sidebar**: Fixed 256px, collapsible mobile
+- **Content Area**: `flex-1 overflow-auto p-6`
+- **Dashboard Cards**: Grid `grid-cols-2 md:grid-cols-4 gap-4`
+- **Table**: `overflow-x-auto` + `min-w-[640px]`
+
+---
+
+## 🖼️ 7. Gambar & Media
+
+### Standar Ukuran Gambar
+| Jenis | Ukuran | Format | Max Size |
+|-------|--------|--------|----------|
+| Thumbnail Berita | 1200×628px | WebP | 50 KB |
+| Foto Guru/Kepsek | 300×400px | WebP/JPEG | 50 KB |
+| Galeri Unit | 800×600px | WebP | 50 KB |
+| Logo Sekolah | 200×200px | PNG | 30 KB |
+| Avatar User | 150×150px | WebP | 20 KB |
+
+### Fallback Avatar
+```html
+<!-- Orang abu-abu default untuk testimoni/guru tanpa foto -->
+<img src="/images/avatar-gray-person.svg" alt="Foto tidak tersedia">
+```
+
+---
+
+## 📱 8. Responsive Breakpoints
+
+```css
+/* Tailwind defaults digunakan */
+sm:  640px   /* Mobile landscape */
+md:  768px   /* Tablet */
+lg:  1024px  /* Desktop */
+xl:  1280px  /* Large desktop */
+2xl: 1536px  /* Ultra-wide */
+```
+
+Semua halaman dirancang **mobile-first**: layout 1 kolom di mobile, grid multi-kolom di tablet/desktop.

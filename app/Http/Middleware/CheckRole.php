@@ -19,7 +19,7 @@ class CheckRole
         $user = $request->user();
 
         if (!$user) {
-            return redirect()->route('login');
+            return redirect()->route('admin.login');
         }
 
         // Super Admin always bypasses all checks

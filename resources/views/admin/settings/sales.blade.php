@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Pengaturan Landing Page Sales 21 Modul')
+@section('title', 'Pengaturan Landing Page Sales 25 Modul')
 
 @section('content')
 <div class="max-w-4xl space-y-6">
@@ -10,7 +10,7 @@
             🏛️ Web Portal Sekolah
         </a>
         <a href="{{ route('admin.settings.sales') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-theme-gradient text-white shadow-md">
-            📦 Landing Sales 21 Modul
+            📦 Landing Sales 25 Modul
         </a>
         <a href="{{ route('admin.settings.units') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
             🏢 Profil Unit Sekolah (SDIT/SMPIT/SMAIT)
