@@ -22,6 +22,8 @@ use App\Models\User;
 use App\Services\GeminiEraporService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 class AcademicController extends Controller
 {
@@ -169,13 +171,218 @@ class AcademicController extends Controller
     }
 
     /**
-     * Modul 2.2: Penilaian & E-Rapor Terpadu SIT (Kurikulum Merdeka, Wafa & 7 SKL JSIT)
+     * Pastikan tabel-tabel ekstensi e-rapor (Wafa, Karakter, Catatan, Setting, Ekskul, P5)
+     * otomatis terbuat jika database produksi belum menjalankan migration.
      */
+    public static function ensureExtendedTablesExist(): void
+    {
+        // 1. quran_criteria
+        try {
+            if (!Schema::hasTable('quran_criteria')) {
+                Schema::create('quran_criteria', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('school_id')->nullable()->index();
+                    $table->string('category', 20)->default('tahsin');
+                    $table->string('code', 30)->nullable();
+                    $table->string('name');
+                    $table->text('description')->nullable();
+                    $table->unsignedSmallInteger('order_number')->default(0);
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure quran_criteria table error: ' . $e->getMessage());
+        }
+
+        // 2. quran_grades
+        try {
+            if (!Schema::hasTable('quran_grades')) {
+                Schema::create('quran_grades', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('student_id')->index();
+                    $table->unsignedBigInteger('academic_year_id')->nullable()->index();
+                    $table->string('tahsin_method')->default('Wafa');
+                    $table->string('tahsin_level')->nullable();
+                    $table->json('tahsin_scores')->nullable();
+                    $table->decimal('tahsin_final_score', 5, 2)->nullable();
+                    $table->string('tahsin_predicate', 30)->nullable();
+                    $table->text('tahsin_notes')->nullable();
+                    $table->string('tahfidz_target')->nullable();
+                    $table->string('tahfidz_achievement')->nullable();
+                    $table->decimal('tahfidz_score', 5, 2)->nullable();
+                    $table->string('tahfidz_predicate', 30)->nullable();
+                    $table->string('tasmi_exam_result')->nullable();
+                    $table->text('tahfidz_notes')->nullable();
+                    $table->unsignedBigInteger('examiner_teacher_id')->nullable()->index();
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure quran_grades table error: ' . $e->getMessage());
+        }
+
+        // 3. character_indicators
+        try {
+            if (!Schema::hasTable('character_indicators')) {
+                Schema::create('character_indicators', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('school_id')->nullable()->index();
+                    $table->string('standard_code', 20);
+                    $table->string('standard_name');
+                    $table->text('indicator_name');
+                    $table->unsignedSmallInteger('order_number')->default(0);
+                    $table->timestamps();
+                });
+
+                // Seed 7 Standar Karakter JSIT
+                $defaults = [
+                    ['standard_code' => 'SKL-01', 'standard_name' => 'Akidah yang Lurus (Salimul Aqidah)', 'indicator_name' => 'Mengenal Allah melalui ciptaan-Nya, tidak melakukan syirik, dan ikhlas beribadah.'],
+                    ['standard_code' => 'SKL-02', 'standard_name' => 'Ibadah yang Benar (Shahihul Ibadah)', 'indicator_name' => 'Melaksanakan sholat fardhu berjamaah dengan tertib, terbiasa dhuha dan rawatib.'],
+                    ['standard_code' => 'SKL-03', 'standard_name' => 'Kepribadian Matang & Berakhlak Mulia (Matinul Khuluq)', 'indicator_name' => 'Santun kepada guru, orang tua, dan teman, bersikap jujur dan amanah.'],
+                    ['standard_code' => 'SKL-04', 'standard_name' => 'Pribadi yang Mandiri (Qadirun alal Kasbi)', 'indicator_name' => 'Mandiri dalam mengurus perlengkapan sekolah dan tugas-tugas harian.'],
+                    ['standard_code' => 'SKL-05', 'standard_name' => 'Cerdas & Berpengetahuan Luas (Mutsaqqoful Fikri)', 'indicator_name' => 'Memiliki rasa ingin tahu tinggi, gemar membaca dan berpikir kritis.'],
+                    ['standard_code' => 'SKL-06', 'standard_name' => 'Sehat & Kuat (Qawiyyul Jismi)', 'indicator_name' => 'Menjaga kebersihan fisik, lingkungan, makan makanan halal & bergizi, gemar berolahraga.'],
+                    ['standard_code' => 'SKL-07', 'standard_name' => 'Disiplin & Bermanfaat bagi Sesama (Nafiun Lighairihi)', 'indicator_name' => 'Disiplin waktu, tertib aturan, peduli lingkungan dan suka membantu orang lain.'],
+                ];
+                foreach ($defaults as $idx => $def) {
+                    \Illuminate\Support\Facades\DB::table('character_indicators')->insert([
+                        'school_id' => null,
+                        'standard_code' => $def['standard_code'],
+                        'standard_name' => $def['standard_name'],
+                        'indicator_name' => $def['indicator_name'],
+                        'order_number' => $idx + 1,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure character_indicators table error: ' . $e->getMessage());
+        }
+
+        // 4. character_grades
+        try {
+            if (!Schema::hasTable('character_grades')) {
+                Schema::create('character_grades', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('student_id')->index();
+                    $table->unsignedBigInteger('academic_year_id')->nullable()->index();
+                    $table->json('indicator_scores')->nullable();
+                    $table->string('mutabaah_sholat_fardhu')->nullable()->default('Selalu Berjamaah');
+                    $table->string('mutabaah_sholat_dhuha')->nullable()->default('Rutin Setiap Hari');
+                    $table->string('mutabaah_tilawah')->nullable()->default('Rutin 1/2 Juz per Hari');
+                    $table->string('mutabaah_infaq')->nullable()->default('Rutin Infaq Jumat');
+                    $table->text('bpi_mentor_notes')->nullable();
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure character_grades table error: ' . $e->getMessage());
+        }
+
+        // 5. homeroom_notes
+        try {
+            if (!Schema::hasTable('homeroom_notes')) {
+                Schema::create('homeroom_notes', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('student_id')->index();
+                    $table->unsignedBigInteger('academic_year_id')->nullable()->index();
+                    $table->integer('sick_count')->default(0);
+                    $table->integer('permission_count')->default(0);
+                    $table->integer('absent_count')->default(0);
+                    $table->decimal('height_cm', 5, 1)->nullable();
+                    $table->decimal('weight_kg', 5, 1)->nullable();
+                    $table->string('hearing_health')->nullable()->default('Baik');
+                    $table->string('vision_health')->nullable()->default('Baik');
+                    $table->string('dental_health')->nullable()->default('Baik');
+                    $table->json('extracurriculars')->nullable();
+                    $table->text('notes')->nullable();
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure homeroom_notes table error: ' . $e->getMessage());
+        }
+
+        // 6. report_settings
+        try {
+            if (!Schema::hasTable('report_settings')) {
+                Schema::create('report_settings', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('school_id')->index();
+                    $table->text('kop_header_text')->nullable();
+                    $table->string('kop_image_url')->nullable();
+                    $table->string('school_logo_url')->nullable();
+                    $table->string('jsit_logo_url')->nullable();
+                    $table->string('foundation_logo_url')->nullable();
+                    $table->string('stamp_image_url')->nullable();
+                    $table->string('principal_signature_url')->nullable();
+                    $table->string('principal_name')->nullable();
+                    $table->string('principal_nip')->nullable();
+                    $table->string('report_date')->nullable();
+                    $table->string('report_city')->nullable()->default('Bandung');
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure report_settings table error: ' . $e->getMessage());
+        }
+
+        // 7. extracurriculars
+        try {
+            if (!Schema::hasTable('extracurriculars')) {
+                Schema::create('extracurriculars', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('school_id')->index();
+                    $table->string('name');
+                    $table->string('coach_name')->nullable();
+                    $table->text('description')->nullable();
+                    $table->boolean('is_active')->default(true);
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure extracurriculars table error: ' . $e->getMessage());
+        }
+
+        // 8. p5_projects
+        try {
+            if (!Schema::hasTable('p5_projects')) {
+                Schema::create('p5_projects', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('school_id')->index();
+                    $table->unsignedBigInteger('classroom_id')->nullable()->index();
+                    $table->unsignedBigInteger('academic_year_id')->nullable()->index();
+                    $table->string('theme');
+                    $table->string('title');
+                    $table->text('description')->nullable();
+                    $table->string('coordinator_name')->nullable();
+                    $table->json('target_dimensions')->nullable();
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure p5_projects table error: ' . $e->getMessage());
+        }
+
+        // 9. Classrooms signature column
+        try {
+            if (Schema::hasTable('classrooms') && !Schema::hasColumn('classrooms', 'homeroom_signature_path')) {
+                Schema::table('classrooms', function (Blueprint $table) {
+                    $table->string('homeroom_signature_path')->nullable();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure classrooms homeroom_signature_path error: ' . $e->getMessage());
+        }
+    }
+
     /**
      * Modul 2.2: Penilaian & E-Rapor Terpadu SIT (Kurikulum Merdeka, Wafa & 7 SKL JSIT)
      */
     public function grades(Request $request)
     {
+        self::ensureExtendedTablesExist();
         $user = auth()->user();
         $schools = School::all();
         
@@ -236,40 +443,64 @@ class AcademicController extends Controller
             ->get()
             ->keyBy('student_id');
 
-        $existingQuran = QuranGrade::where('academic_year_id', $activeAcademicYear?->id)
-            ->whereIn('student_id', $studentIds)
-            ->get()
-            ->keyBy('student_id');
+        try {
+            $existingQuran = QuranGrade::where('academic_year_id', $activeAcademicYear?->id)
+                ->whereIn('student_id', $studentIds)
+                ->get()
+                ->keyBy('student_id');
+        } catch (\Throwable $e) {
+            $existingQuran = collect();
+        }
 
-        $existingCharacter = CharacterGrade::where('academic_year_id', $activeAcademicYear?->id)
-            ->whereIn('student_id', $studentIds)
-            ->get()
-            ->keyBy('student_id');
+        try {
+            $existingCharacter = CharacterGrade::where('academic_year_id', $activeAcademicYear?->id)
+                ->whereIn('student_id', $studentIds)
+                ->get()
+                ->keyBy('student_id');
+        } catch (\Throwable $e) {
+            $existingCharacter = collect();
+        }
 
-        $existingHomeroom = HomeroomNote::where('academic_year_id', $activeAcademicYear?->id)
-            ->whereIn('student_id', $studentIds)
-            ->get()
-            ->keyBy('student_id');
+        try {
+            $existingHomeroom = HomeroomNote::where('academic_year_id', $activeAcademicYear?->id)
+                ->whereIn('student_id', $studentIds)
+                ->get()
+                ->keyBy('student_id');
+        } catch (\Throwable $e) {
+            $existingHomeroom = collect();
+        }
 
         // Master Criteria & Settings
-        $quranCriteria = QuranCriterion::where(function($q) use ($schoolId) {
-            $q->where('school_id', $schoolId)->orWhereNull('school_id');
-        })->orderBy('order_number')->get();
+        try {
+            $quranCriteria = QuranCriterion::where(function($q) use ($schoolId) {
+                $q->where('school_id', $schoolId)->orWhereNull('school_id');
+            })->orderBy('order_number')->get();
+        } catch (\Throwable $e) {
+            $quranCriteria = collect();
+        }
 
-        $characterIndicators = CharacterIndicator::where(function($q) use ($schoolId) {
-            $q->where('school_id', $schoolId)->orWhereNull('school_id');
-        })->orderBy('order_number')->get();
+        try {
+            $characterIndicators = CharacterIndicator::where(function($q) use ($schoolId) {
+                $q->where('school_id', $schoolId)->orWhereNull('school_id');
+            })->orderBy('order_number')->get();
+        } catch (\Throwable $e) {
+            $characterIndicators = collect();
+        }
 
-        $reportSetting = ReportSetting::firstOrCreate(
-            ['school_id' => $schoolId],
-            [
-                'kop_header_text' => "YAYASAN PENDIDIKAN ISLAM TERPADU ROBBANI\n" . strtoupper($activeSchool->name ?? 'SEKOLAH ISLAM TERPADU ROBBANI') . "\nNPSN: " . ($activeSchool->npsn ?? '20198033') . " • Akreditasi: A (Unggul)\nAlamat: " . ($activeSchool->address ?? 'Jl. Raya Pendidikan Terpadu No. 8, Bandung'),
-                'principal_name' => $activeSchool->principal_name ?? 'Ustadz H. Ahmad Fauzi, M.Pd.',
-                'principal_nip' => '19850315 200904 1 003',
-                'report_city' => 'Bandung',
-                'report_date' => '20 Desember 2026',
-            ]
-        );
+        try {
+            $reportSetting = ReportSetting::firstOrCreate(
+                ['school_id' => $schoolId],
+                [
+                    'kop_header_text' => "YAYASAN PENDIDIKAN ISLAM TERPADU ROBBANI\n" . strtoupper($activeSchool->name ?? 'SEKOLAH ISLAM TERPADU ROBBANI') . "\nNPSN: " . ($activeSchool->npsn ?? '20198033') . " • Akreditasi: A (Unggul)\nAlamat: " . ($activeSchool->address ?? 'Jl. Raya Pendidikan Terpadu No. 8, Bandung'),
+                    'principal_name' => $activeSchool->principal_name ?? 'Ustadz H. Ahmad Fauzi, M.Pd.',
+                    'principal_nip' => '19850315 200904 1 003',
+                    'report_city' => 'Bandung',
+                    'report_date' => '20 Desember 2026',
+                ]
+            );
+        } catch (\Throwable $e) {
+            $reportSetting = new ReportSetting();
+        }
 
         // Dashboard Stats & Classroom Progress Calculation
         $allSchoolStudents = Student::where('school_id', $schoolId)->whereIn('status', ['ACTIVE', 'AKTIF'])->get();
@@ -284,9 +515,20 @@ class AcademicController extends Controller
             $stIds = $clsStudents->pluck('id');
 
             $mapelGradesCount = $stCount > 0 ? Grade::whereIn('student_id', $stIds)->distinct('student_id')->count('student_id') : 0;
-            $quranGradesCount = $stCount > 0 ? QuranGrade::whereIn('student_id', $stIds)->count() : 0;
-            $charGradesCount = $stCount > 0 ? CharacterGrade::whereIn('student_id', $stIds)->count() : 0;
-            $hrNotesCount = $stCount > 0 ? HomeroomNote::whereIn('student_id', $stIds)->count() : 0;
+            $quranGradesCount = 0;
+            $charGradesCount = 0;
+            $hrNotesCount = 0;
+            try {
+                if ($stCount > 0 && Schema::hasTable('quran_grades')) {
+                    $quranGradesCount = QuranGrade::whereIn('student_id', $stIds)->count();
+                }
+                if ($stCount > 0 && Schema::hasTable('character_grades')) {
+                    $charGradesCount = CharacterGrade::whereIn('student_id', $stIds)->count();
+                }
+                if ($stCount > 0 && Schema::hasTable('homeroom_notes')) {
+                    $hrNotesCount = HomeroomNote::whereIn('student_id', $stIds)->count();
+                }
+            } catch (\Throwable $e) {}
 
             $totalExpected = $stCount * 4;
             $totalFilled = $mapelGradesCount + $quranGradesCount + $charGradesCount + $hrNotesCount;
@@ -332,9 +574,20 @@ class AcademicController extends Controller
         $rekapGuru = $schoolTeachers->count();
         $assignedWaliCount = $classrooms->whereNotNull('homeroom_teacher_id')->count();
         $rekapMapel = Grade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
-        $rekapWafa = QuranGrade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
-        $rekapKarakter = CharacterGrade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
-        $rekapHomeroom = HomeroomNote::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
+        $rekapWafa = 0;
+        $rekapKarakter = 0;
+        $rekapHomeroom = 0;
+        try {
+            if (Schema::hasTable('quran_grades')) {
+                $rekapWafa = QuranGrade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
+            }
+            if (Schema::hasTable('character_grades')) {
+                $rekapKarakter = CharacterGrade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
+            }
+            if (Schema::hasTable('homeroom_notes')) {
+                $rekapHomeroom = HomeroomNote::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->distinct('student_id')->count('student_id');
+            }
+        } catch (\Throwable $e) {}
 
         // All students in this unit for Data Siswa Unit menu
         $unitStudents = Student::where('school_id', $schoolId)
@@ -348,8 +601,13 @@ class AcademicController extends Controller
         }
 
         // Ekstrakurikuler & Ko-Kurikuler P5
-        $extracurriculars = \App\Models\Extracurricular::where('school_id', $schoolId)->get();
-        $p5Projects = \App\Models\P5Project::where('school_id', $schoolId)->with(['classroom'])->get();
+        try {
+            $extracurriculars = Schema::hasTable('extracurriculars') ? \App\Models\Extracurricular::where('school_id', $schoolId)->get() : collect();
+            $p5Projects = Schema::hasTable('p5_projects') ? \App\Models\P5Project::where('school_id', $schoolId)->with(['classroom'])->get() : collect();
+        } catch (\Throwable $e) {
+            $extracurriculars = collect();
+            $p5Projects = collect();
+        }
 
         // Current user role display label
         $currentUser = auth()->user();
@@ -1383,15 +1641,33 @@ class AcademicController extends Controller
             abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk mengakses rapor siswa di unit sekolah lain.');
         }
 
+        self::ensureExtendedTablesExist();
         $academicYear = AcademicYear::where('is_active', 1)->first() ?? AcademicYear::first();
         
         $grades = Grade::where('student_id', $studentId)->with('subject')->get();
-        $quranGrade = QuranGrade::where('student_id', $studentId)->first();
-        $characterGrade = CharacterGrade::where('student_id', $studentId)->first();
-        $homeroomNote = HomeroomNote::where('student_id', $studentId)->first();
-        $reportSetting = ReportSetting::where('school_id', $student->school_id)->first();
-        $quranCriteria = QuranCriterion::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
-        $characterIndicators = CharacterIndicator::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
+        try {
+            $quranGrade = QuranGrade::where('student_id', $studentId)->first();
+        } catch (\Throwable $e) { $quranGrade = null; }
+        
+        try {
+            $characterGrade = CharacterGrade::where('student_id', $studentId)->first();
+        } catch (\Throwable $e) { $characterGrade = null; }
+        
+        try {
+            $homeroomNote = HomeroomNote::where('student_id', $studentId)->first();
+        } catch (\Throwable $e) { $homeroomNote = null; }
+        
+        try {
+            $reportSetting = ReportSetting::where('school_id', $student->school_id)->first();
+        } catch (\Throwable $e) { $reportSetting = null; }
+        
+        try {
+            $quranCriteria = QuranCriterion::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
+        } catch (\Throwable $e) { $quranCriteria = collect(); }
+        
+        try {
+            $characterIndicators = CharacterIndicator::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
+        } catch (\Throwable $e) { $characterIndicators = collect(); }
 
         $printType = $request->query('type', 'all_in_one'); // all_in_one, academic, quran, character, leger
 

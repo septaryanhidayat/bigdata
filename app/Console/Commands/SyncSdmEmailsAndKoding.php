@@ -27,6 +27,9 @@ class SyncSdmEmailsAndKoding extends Command
      */
     public function handle()
     {
+        $this->info('Memastikan tabel e-rapor & struktur database tersedia...');
+        \App\Http\Controllers\Admin\AcademicController::ensureExtendedTablesExist();
+
         $this->info('Memulai sinkronisasi email SDM @sitrobbani.sch.id dan pembaharuan istilah Koding...');
 
         // 1. UPDATE USER EMAILS TO @sitrobbani.sch.id

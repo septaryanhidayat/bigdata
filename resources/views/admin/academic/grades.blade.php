@@ -318,7 +318,7 @@
                         <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider flex items-center gap-2">
                             <span>🍩</span> <span>Sebaran Predikat Capaian Akademik & Tilawah Al-Qur'an</span>
                         </h4>
-                        <p class="text-[11px] text-slate-500 font-medium">Proporsi predikat Mumtaz (A), Jayyid Jiddan (B), Jayyid (C), dan Maqbul (D) di unit {{ $activeSchool->name }}</p>
+                        <p class="text-[11px] text-slate-500 font-medium">Proporsi predikat Mumtaz (A), Jayyid Jiddan (B), Jayyid (C), dan Maqbul (D) di unit {{ $activeSchool->name ?? 'SIT Robbani' }}</p>
                     </div>
                     <div class="flex items-center gap-3 text-[11px] font-bold">
                         <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Mumtaz (A)</span>
@@ -368,7 +368,7 @@
 
             <!-- Subtitle Bar -->
             <div class="px-6 py-2.5 bg-slate-100 border-x border-slate-200 text-slate-700 text-xs font-bold">
-                Rincian Kesiapan & Alur Kerja Utama Unit {{ $activeSchool->name }} :
+                Rincian Kesiapan & Alur Kerja Utama Unit {{ $activeSchool->name ?? 'SIT Robbani' }} :
             </div>
 
             <!-- Checklist Table with 100% Real Calculations -->
@@ -763,7 +763,7 @@
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
                 <div>
-                    <h3 class="font-black text-sm text-slate-900">Daftar Akun Pengguna Terdaftar di Unit {{ $activeSchool->name }}</h3>
+                    <h3 class="font-black text-sm text-slate-900">Daftar Akun Pengguna Terdaftar di Unit {{ $activeSchool->name ?? 'SIT Robbani' }}</h3>
                     <p class="text-xs text-slate-500 font-medium">Hanya akun unit sekolah Anda yang tampil dan dapat dikelola secara aman</p>
                 </div>
                 <span class="px-3 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs">
@@ -1072,7 +1072,7 @@
             <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
                 <div>
                     <h3 class="font-black text-sm text-slate-900">Daftar Siswa Unit (Total: {{ $unitStudents->count() }} Siswa)</h3>
-                    <p class="text-xs text-slate-500 font-medium">Menampilkan seluruh peserta didik aktif pada unit {{ $activeSchool->name }}</p>
+                    <p class="text-xs text-slate-500 font-medium">Menampilkan seluruh peserta didik aktif pada unit {{ $activeSchool->name ?? 'SIT Robbani' }}</p>
                 </div>
             </div>
 
@@ -3217,7 +3217,7 @@
         `;
 
         const schoolId = '{{ $schoolId ?? 1 }}';
-        let url = `{{ route('admin.academic.ai.analyze.class') }}?school_id=${schoolId}`;
+        let url = `{{ route('admin.academic.ai.analyze-class') }}?school_id=${schoolId}`;
         if (classroomId) {
             url += `&classroom_id=${classroomId}`;
         }

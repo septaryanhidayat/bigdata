@@ -305,9 +305,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
             // AI Smart Assistant (Google Gemini AI Studio)
             Route::post('/ai/generate-homeroom', [AcademicController::class, 'aiGenerateHomeroom'])->name('ai.homeroom');
+            Route::post('/ai/generate-homeroom-alias', [AcademicController::class, 'aiGenerateHomeroom'])->name('ai.generate.homeroom');
             Route::post('/ai/generate-narrative', [AcademicController::class, 'aiGenerateNarrative'])->name('ai.narrative');
+            Route::post('/ai/generate-narrative-alias', [AcademicController::class, 'aiGenerateNarrative'])->name('ai.generate.narrative');
             Route::post('/ai/generate-quran', [AcademicController::class, 'aiGenerateQuran'])->name('ai.quran');
-            Route::post('/ai/analyze-class', [AcademicController::class, 'aiAnalyzeClass'])->name('ai.analyze-class');
+            Route::post('/ai/generate-quran-alias', [AcademicController::class, 'aiGenerateQuran'])->name('ai.generate.quran');
+            Route::match(['get', 'post'], '/ai/analyze-class', [AcademicController::class, 'aiAnalyzeClass'])->name('ai.analyze-class');
+            Route::match(['get', 'post'], '/ai/analyze-class-alias', [AcademicController::class, 'aiAnalyzeClass'])->name('ai.analyze.class');
 
             // Manajemen Pengguna Unit (Khusus Kepala Sekolah & Super Admin)
             Route::post('/users/save', [AcademicController::class, 'saveUnitUser'])->name('users.save');
