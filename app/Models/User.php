@@ -144,6 +144,30 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is Guru / Pengajar
+     */
+    public function isTeacher(): bool
+    {
+        return $this->role === self::ROLE_TEACHER;
+    }
+
+    /**
+     * Check if user is Staf Tata Usaha / Operator
+     */
+    public function isStaffTu(): bool
+    {
+        return $this->role === self::ROLE_STAFF_TU;
+    }
+
+    /**
+     * Check if user is Operator
+     */
+    public function isOperator(): bool
+    {
+        return $this->role === self::ROLE_STAFF_TU || $this->role === self::ROLE_SUPER_ADMIN;
+    }
+
+    /**
      * Check permission access for SmartEdu modules
      */
     public function canAccessModule(string $module): bool

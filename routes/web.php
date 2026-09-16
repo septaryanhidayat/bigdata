@@ -264,7 +264,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/rooms', [MasterDataController::class, 'storeRoom'])->name('rooms.store');
         });
 
-        // 11. Modul 2: Core Akademik, Penilaian & E-Rapor (Super Admin, Kepala Sekolah, TU, Guru)
+        // 11. Modul 2: Core Akademik, Penilaian & E-Rapor SIT (Super Admin, Kepala Sekolah, TU, Guru)
         Route::prefix('academic')->name('academic.')->middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,TEACHER')->group(function () {
             Route::get('/schedules', [AcademicController::class, 'schedules'])->name('schedules');
             Route::post('/schedules', [AcademicController::class, 'storeSchedule'])->name('schedules.store');
@@ -273,9 +273,36 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/journals', [AcademicController::class, 'storeJournal'])->name('journals.store');
             Route::delete('/journals/{id}', [AcademicController::class, 'destroyJournal'])->name('journals.destroy');
             Route::get('/grades', [AcademicController::class, 'grades'])->name('grades');
-            Route::post('/grades', [AcademicController::class, 'storeGrade'])->name('grades.store');
             Route::delete('/grades/{id}', [AcademicController::class, 'destroyGrade'])->name('grades.destroy');
+            Route::post('/grades/batch', [AcademicController::class, 'batchStoreGrades'])->name('grades.batch.store');
+            Route::post('/grades/quran', [AcademicController::class, 'storeQuranGrade'])->name('grades.quran.store');
+            Route::post('/grades/quran/batch', [AcademicController::class, 'batchStoreQuran'])->name('grades.quran.batch.store');
+            Route::post('/grades/character', [AcademicController::class, 'storeCharacterGrade'])->name('grades.character.store');
+            Route::post('/grades/character/batch', [AcademicController::class, 'batchStoreCharacter'])->name('grades.character.batch.store');
+            Route::post('/grades/homeroom', [AcademicController::class, 'storeHomeroomNote'])->name('grades.homeroom.store');
+            Route::post('/grades/homeroom/batch', [AcademicController::class, 'batchStoreHomeroom'])->name('grades.homeroom.batch.store');
+            Route::post('/grades/settings', [AcademicController::class, 'storeReportSettings'])->name('grades.settings.store');
+            Route::post('/classrooms/save', [AcademicController::class, 'saveClassroom'])->name('classrooms.save');
+            Route::post('/classrooms/delete/{classroomId}', [AcademicController::class, 'deleteClassroom'])->name('classrooms.delete');
+            Route::post('/classrooms/{classroomId}/signature', [AcademicController::class, 'uploadHomeroomSignature'])->name('classrooms.signature');
+
+            Route::post('/students/save', [AcademicController::class, 'saveStudent'])->name('students.save');
+            Route::post('/students/delete/{studentId}', [AcademicController::class, 'deleteStudent'])->name('students.delete');
+            Route::get('/students/template', [AcademicController::class, 'downloadStudentTemplate'])->name('students.template');
+            Route::post('/students/import', [AcademicController::class, 'importStudents'])->name('students.import');
+
+            Route::post('/subjects/save', [AcademicController::class, 'saveSubject'])->name('subjects.save');
+            Route::post('/subjects/delete/{subjectId}', [AcademicController::class, 'deleteSubject'])->name('subjects.delete');
+            Route::get('/subjects/template', [AcademicController::class, 'downloadSubjectTemplate'])->name('subjects.template');
+            Route::post('/subjects/import', [AcademicController::class, 'importSubjects'])->name('subjects.import');
+
+            Route::post('/extracurriculars/save', [AcademicController::class, 'saveExtracurricular'])->name('extracurriculars.save');
+            Route::post('/extracurriculars/delete/{id}', [AcademicController::class, 'deleteExtracurricular'])->name('extracurriculars.delete');
+
+            Route::post('/p5/save', [AcademicController::class, 'saveProjectP5'])->name('p5.save');
+            Route::post('/p5/delete/{id}', [AcademicController::class, 'deleteProjectP5'])->name('p5.delete');
             Route::get('/report-card/{studentId}', [AcademicController::class, 'reportCard'])->name('report-card');
+            Route::get('/leger/export', [AcademicController::class, 'exportLeger'])->name('leger.export');
         });
 
         // 12. Modul 3: Absensi Realtime RFID & QR Code (Super Admin, Kepala Sekolah, TU, Guru, Guru BK)

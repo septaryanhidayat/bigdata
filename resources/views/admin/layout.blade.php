@@ -229,11 +229,11 @@
 
                 <!-- 1. KATEGORI: MASTER DATA YAYASAN & SEKOLAH -->
                 @if(Auth::user()->canAccessModule('master'))
-                <div onclick="toggleNavGroup('grpMaster')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-amber-300 transition-colors">
-                    <span class="text-[10px] {{ $isMasterActive ? 'text-amber-300 font-black' : 'text-amber-400 font-bold' }} uppercase tracking-widest block">1. Master Data Yayasan</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpMaster">{{ $isMasterActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-widest block">1. Master Data Yayasan</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpMaster" class="space-y-0.5 group-content" style="{{ $isMasterActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpMaster" class="space-y-0.5 group-content" style="display: block;">
                     <a href="{{ route('admin.master.index') }}" title="Master Data Hub" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.master.index') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📂</span> 
                         <span class="sidebar-text">Master Data Hub</span>
@@ -266,11 +266,11 @@
                     $canViewHrisGroup = Auth::user()->canAccessModule('hris') || Auth::user()->canAccessModule('bpi');
                 @endphp
                 @if($canViewHrisGroup)
-                <div onclick="toggleNavGroup('grpHris')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-emerald-300 transition-colors">
-                    <span class="text-[10px] {{ $isHrisActive ? 'text-emerald-300 font-black' : 'text-emerald-400 font-bold' }} uppercase tracking-widest block">2. SDM & Mobile HRIS</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpHris">{{ $isHrisActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-emerald-400 font-extrabold uppercase tracking-widest block">2. SDM & Mobile HRIS</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpHris" class="space-y-0.5 group-content" style="{{ $isHrisActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpHris" class="space-y-0.5 group-content" style="display: block;">
                     @if(Auth::user()->canAccessModule('hris'))
                     <a href="{{ route('admin.employees.index') }}" title="Database Induk & E-Berkas SDM" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.employees.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📁</span> 
@@ -303,16 +303,16 @@
                 </div>
                 @endif
 
-                <!-- 3. KATEGORI: AKADEMIK & PEMBELAJARAN (KBM, LMS, CBT) -->
+                <!-- 3. KATEGORI: AKADEMIK & PEMBELAJARAN (KBM, LMS, CBT, E-RAPOR) -->
                 @php
                     $canViewAcademicGroup = Auth::user()->canAccessModule('academic') || Auth::user()->canAccessModule('lms') || Auth::user()->canAccessModule('cbt_ppdb');
                 @endphp
                 @if($canViewAcademicGroup)
-                <div onclick="toggleNavGroup('grpAcademic')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-purple-300 transition-colors">
-                    <span class="text-[10px] {{ $isAcademicActive ? 'text-purple-300 font-black' : 'text-purple-400 font-bold' }} uppercase tracking-widest block">3. Akademik & Pembelajaran</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpAcademic">{{ $isAcademicActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-purple-400 font-extrabold uppercase tracking-widest block">3. Akademik & Pembelajaran</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpAcademic" class="space-y-0.5 group-content" style="{{ $isAcademicActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpAcademic" class="space-y-0.5 group-content" style="display: block;">
                     @if(Auth::user()->canAccessModule('academic'))
                     <a href="{{ route('admin.academic.schedules') }}" title="Jadwal KBM Mingguan" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.schedules') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📅</span> 
@@ -322,9 +322,9 @@
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📖</span> 
                         <span class="sidebar-text">Jurnal KBM Guru</span>
                     </a>
-                    <a href="{{ route('admin.academic.grades') }}" title="Penilaian & E-Rapor" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.grades') ? 'nav-link-active' : 'text-slate-300' }}">
-                        <span class="w-5 text-center text-sm shrink-0 opacity-80">📝</span> 
-                        <span class="sidebar-text">Penilaian & E-Rapor</span>
+                    <a href="{{ route('admin.academic.grades') }}" title="Aplikasi e-Rapor SIT Terpadu" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <span class="w-5 text-center text-sm shrink-0 opacity-80">📘</span> 
+                        <span class="sidebar-text">Aplikasi e-Rapor SIT</span>
                     </a>
                     @endif
 
@@ -349,11 +349,11 @@
                     $canViewStudentServicesGroup = Auth::user()->canAccessModule('attendance') || Auth::user()->canAccessModule('bk') || Auth::user()->canAccessModule('cbt_ppdb') || Auth::user()->canAccessModule('library') || Auth::user()->canAccessModule('sarpras');
                 @endphp
                 @if($canViewStudentServicesGroup)
-                <div onclick="toggleNavGroup('grpStudentServices')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-blue-300 transition-colors">
-                    <span class="text-[10px] {{ $isStudentServicesActive ? 'text-blue-300 font-black' : 'text-blue-400 font-bold' }} uppercase tracking-widest block">4. Layanan Siswa & Fasilitas</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpStudentServices">{{ $isStudentServicesActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-blue-400 font-extrabold uppercase tracking-widest block">4. Layanan Siswa & Fasilitas</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpStudentServices" class="space-y-0.5 group-content" style="{{ $isStudentServicesActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpStudentServices" class="space-y-0.5 group-content" style="display: block;">
                     @if(Auth::user()->canAccessModule('attendance'))
                     <a href="{{ route('admin.attendance.index') }}" title="Presensi RFID Gate Siswa" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.attendance.index') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">🪪</span> 
@@ -400,11 +400,11 @@
                     $canViewFinanceGroup = Auth::user()->canAccessModule('finance') || Auth::user()->canAccessModule('savings') || Auth::user()->canAccessModule('canteen');
                 @endphp
                 @if($canViewFinanceGroup)
-                <div onclick="toggleNavGroup('grpFinance')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-emerald-300 transition-colors">
-                    <span class="text-[10px] {{ $isFinanceActive ? 'text-emerald-300 font-black' : 'text-emerald-400 font-bold' }} uppercase tracking-widest block">5. Keuangan & Cashless</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpFinance">{{ $isFinanceActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-emerald-400 font-extrabold uppercase tracking-widest block">5. Keuangan & Cashless</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpFinance" class="space-y-0.5 group-content" style="{{ $isFinanceActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpFinance" class="space-y-0.5 group-content" style="display: block;">
                     @if(Auth::user()->canAccessModule('finance'))
                     <a href="{{ route('admin.finance.spp-bills') }}" title="Kasir SPP & Kwitansi" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.finance.spp-bills') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">💳</span> 
@@ -434,11 +434,11 @@
 
                 <!-- 6. KATEGORI: PERSURATAN & E-OFFICE TTE -->
                 @if(Auth::user()->canAccessModule('letters'))
-                <div onclick="toggleNavGroup('grpLetters')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-pink-300 transition-colors">
-                    <span class="text-[10px] {{ $isLettersActive ? 'text-pink-300 font-black' : 'text-pink-400 font-bold' }} uppercase tracking-widest block">6. Persuratan & E-Office</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpLetters">{{ $isLettersActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-pink-400 font-extrabold uppercase tracking-widest block">6. Persuratan & E-Office</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-pink-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpLetters" class="space-y-0.5 group-content" style="{{ $isLettersActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpLetters" class="space-y-0.5 group-content" style="display: block;">
                     <a href="{{ route('admin.letters.index') }}" title="Overview Persuratan" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.letters.index') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📬</span> 
                         <span class="sidebar-text">Overview Persuratan</span>
@@ -472,11 +472,11 @@
 
                 <!-- 7. KATEGORI: PENGATURAN WEB, AKUN & CMS -->
                 @if(Auth::user()->canAccessModule('settings'))
-                <div onclick="toggleNavGroup('grpCms')" class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title cursor-pointer hover:text-cyan-300 transition-colors">
-                    <span class="text-[10px] {{ $isCmsActive ? 'text-cyan-300 font-black' : 'text-cyan-400 font-bold' }} uppercase tracking-widest block">7. Pengaturan Web & CMS</span>
-                    <span class="text-[9px] text-slate-400 group-arrow sidebar-text" id="arrow-grpCms">{{ $isCmsActive ? '▼' : '►' }}</span>
+                <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
+                    <span class="text-[10px] text-cyan-400 font-extrabold uppercase tracking-widest block">7. Pengaturan Web & CMS</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400/60 sidebar-text"></span>
                 </div>
-                <div id="grpCms" class="space-y-0.5 group-content" style="{{ $isCmsActive ? 'display: block;' : 'display: none;' }}">
+                <div id="grpCms" class="space-y-0.5 group-content" style="display: block;">
                     @if(Auth::user()->isHumas())
                         <a href="{{ route('admin.settings.portal') }}" title="Web Portal Utama" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏛️</span> 
@@ -722,21 +722,10 @@
             }
         }
 
-        // Toggle Group Accordion Collapse/Expand
+        // Ensure all sidebar groups remain permanently expanded without collapsing
         function toggleNavGroup(groupId) {
             const groupEl = document.getElementById(groupId);
-            const arrowEl = document.getElementById('arrow-' + groupId);
-            if (groupEl) {
-                if (groupEl.style.display === 'none') {
-                    groupEl.style.display = 'block';
-                    if (arrowEl) arrowEl.innerText = '▼';
-                    localStorage.setItem('smartedu_nav_' + groupId, 'open');
-                } else {
-                    groupEl.style.display = 'none';
-                    if (arrowEl) arrowEl.innerText = '►';
-                    localStorage.setItem('smartedu_nav_' + groupId, 'closed');
-                }
-            }
+            if (groupEl) groupEl.style.display = 'block';
         }
 
         // Restore saved theme & active group on page load
@@ -745,22 +734,13 @@
             setAdminTheme(savedTheme);
             localStorage.removeItem('smartedu_sidebar_compact');
 
-            // Always expand active group containing the currently active page and ensure all sibling submenus are visible
-            const activeLink = document.querySelector('.nav-link-active');
-            if (activeLink) {
-                const parentGroup = activeLink.closest('.group-content');
-                if (parentGroup) {
-                    parentGroup.style.display = 'block';
-                    const parentId = parentGroup.id;
-                    const arrowEl = document.getElementById('arrow-' + parentId);
-                    if (arrowEl) arrowEl.innerText = '▼';
-
-                    // Ensure all sub-links in this group are visible
-                    parentGroup.querySelectorAll('.nav-item-link').forEach(link => {
-                        link.style.display = 'flex';
-                    });
-                }
-            }
+            // Permanently expand all group contents and ensure all items are shown
+            document.querySelectorAll('.group-content').forEach(group => {
+                group.style.display = 'block';
+                group.querySelectorAll('.nav-item-link').forEach(link => {
+                    link.style.display = 'flex';
+                });
+            });
         });
 
         // Global SweetAlert2 Toast & Dialog Helpers

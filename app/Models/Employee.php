@@ -32,11 +32,16 @@ class Employee extends Model
         return $this->hasMany(Classroom::class, 'homeroom_teacher_id');
     }
 
+    public function getNameAttribute(): string
+    {
+        return $this->formatted_name ?: ($this->full_name ?? '');
+    }
+
     public function getFormattedNameAttribute(): string
     {
         $prefix = $this->title_prefix ? $this->title_prefix . ' ' : '';
         $suffix = $this->title_suffix ? ', ' . $this->title_suffix : '';
-        return $prefix . $this->full_name . $suffix;
+        return $prefix . ($this->full_name ?? '') . $suffix;
     }
 
     public function getTitleAttribute(): string

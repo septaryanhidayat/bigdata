@@ -58,6 +58,26 @@ class Student extends Model
         return $this->belongsTo(Guardian::class);
     }
 
+    public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    public function quranGrade(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(QuranGrade::class);
+    }
+
+    public function characterGrade(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(CharacterGrade::class);
+    }
+
+    public function homeroomNote(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(HomeroomNote::class);
+    }
+
     public function getBirthPlaceAttribute(): ?string
     {
         return $this->pob;

@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role', 40)->default('SUPER_ADMIN')->after('email');
-            $table->foreignId('school_id')->nullable()->after('role')->constrained()->nullOnDelete();
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->string('role', 40)->default('SUPER_ADMIN')->after('email');
+            }
+            if (!Schema::hasColumn('users', 'school_id')) {
+                $table->foreignId('school_id')->nullable()->after('role')->constrained('schools')->nullOnDelete();
+            }
         });
     }
 
