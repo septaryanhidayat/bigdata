@@ -32,14 +32,13 @@ class AuthController extends Controller
         $input = trim($request->input('username'));
         $password = $request->input('password');
 
-        // Resolve input by username or email
-        $userCandidate = User::where('email', $input)->orWhere('username', $input)->first();
-        if ($input === 'admin' && !$userCandidate) {
+        // Resolve input: if 'admin', map to default admin email
+        $email = $input;
+        if ($input === 'admin') {
             $email = 'admin@smartedu.test';
-            $userCandidate = User::where('email', $email)->first();
-        } else {
-            $email = $userCandidate ? $userCandidate->email : $input;
         }
+
+        $userCandidate = User::where('email', $email)->first();
 
         $throttleKey = Str::transliterate(Str::lower($email) . '|' . $request->ip());
 

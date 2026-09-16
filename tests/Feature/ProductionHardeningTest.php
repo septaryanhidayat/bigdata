@@ -47,7 +47,6 @@ class ProductionHardeningTest extends TestCase
 
         $inactiveUser = User::create([
             'name' => 'Inactive Teacher',
-            'username' => 'inactive_' . Str::random(6),
             'email' => 'inactive_' . Str::random(6) . '@robbani.sch.id',
             'password' => Hash::make('password123'),
             'role' => 'guru',
@@ -56,7 +55,7 @@ class ProductionHardeningTest extends TestCase
         ]);
 
         $response = $this->post(route('admin.login.store'), [
-            'username' => $inactiveUser->username,
+            'username' => $inactiveUser->email,
             'password' => 'password123',
         ]);
 
