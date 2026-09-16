@@ -102,6 +102,15 @@
                     <span class="text-base">🌱</span>
                     <span>Ko-Kurikuler / P5</span>
                 </a>
+
+                <!-- 6. Pengguna & Guru Unit (Kepsek & Super Admin) -->
+                @if(auth()->user()?->isSuperAdmin() || auth()->user()?->isHeadmaster() || auth()->user()?->role === 'HEADMASTER')
+                <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'users']) }}" 
+                   class="flex items-center gap-3 px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'users' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">
+                    <span class="text-base">👤</span>
+                    <span>Pengguna & Guru Unit</span>
+                </a>
+                @endif
             </div>
 
             <!-- Group 3: PENILAIAN E-RAPOR -->
@@ -407,6 +416,32 @@
                         </ul>
                     </div>
 
+                    <!-- Langkah 7: Asisten Cerdas Google Gemini AI -->
+                    <div class="p-4 rounded-2xl border border-emerald-300 bg-emerald-50/50 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-700 text-white font-black text-[11px] flex items-center justify-center shrink-0">✨</span>
+                            <h4 class="font-black text-emerald-900 text-xs">Asisten Cerdas Google Gemini AI Terintegrasi</h4>
+                        </div>
+                        <ul class="text-[11px] text-emerald-800 space-y-1 list-disc list-inside">
+                            <li><strong>AI Narasi Capaian Pembelajaran:</strong> Klik tombol ✨ di samping form nilai mapel untuk membuat deskripsi CP Kurikulum Merdeka otomatis.</li>
+                            <li><strong>AI Catatan Motivasi Wali Kelas:</strong> Menuliskan catatan motivasi hangat, Islami, dan bernada positif secara instan berdasarkan nilai & karakter.</li>
+                            <li><strong>AI Evaluasi Wafa & Tahfidz:</strong> Evaluasi perkembangan makhraj, tajwid lagu Hijaz, dan target hafalan otomatis.</li>
+                            <li><strong>AI Analisis Rapor Kelas:</strong> Membantu Kepala Sekolah & Wali Kelas meninjau tren nilai dan rekomendasi taktis rombel.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Langkah 8: Hak Akses Kepala Sekolah & Pengguna Unit -->
+                    <div class="p-4 rounded-2xl border border-blue-200 bg-blue-50/50 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-blue-700 text-white font-black text-[11px] flex items-center justify-center shrink-0">👥</span>
+                            <h4 class="font-black text-blue-900 text-xs">Manajemen Akun Pengguna oleh Kepala Sekolah</h4>
+                        </div>
+                        <ul class="text-[11px] text-blue-800 space-y-1 list-disc list-inside">
+                            <li>Kepala Sekolah dapat menambah, mengedit profil, dan mengatur ulang kata sandi (reset password) akun Guru Mapel, Wali Kelas, dan Staf TU di unitnya.</li>
+                            <li>Terisolasi aman: Kepala Sekolah tidak dapat mengubah akun Super Admin atau mengakses data akun di unit sekolah lain.</li>
+                        </ul>
+                    </div>
+
                 </div>
 
                 <!-- Hak Akses & Isolasi Unit -->
@@ -461,12 +496,14 @@
             }
         }
 
-        // Auto open on first visit
+        // Auto open on first visit ONLY when on dashboard page!
         document.addEventListener('DOMContentLoaded', function() {
+            @if(($activeMenu ?? 'dashboard') === 'dashboard')
             const dismissed = localStorage.getItem('smartedu_erapor_guide_dismissed');
             if (dismissed !== 'true') {
                 openPanduanModal();
             }
+            @endif
         });
     </script>
 </body>

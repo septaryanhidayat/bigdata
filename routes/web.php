@@ -300,9 +300,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/extracurriculars/delete/{id}', [AcademicController::class, 'deleteExtracurricular'])->name('extracurriculars.delete');
 
             Route::post('/p5/save', [AcademicController::class, 'saveProjectP5'])->name('p5.save');
-            Route::post('/p5/delete/{id}', [AcademicController::class, 'deleteProjectP5'])->name('p5.delete');
             Route::get('/report-card/{studentId}', [AcademicController::class, 'reportCard'])->name('report-card');
             Route::get('/leger/export', [AcademicController::class, 'exportLeger'])->name('leger.export');
+
+            // AI Smart Assistant (Google Gemini AI Studio)
+            Route::post('/ai/generate-homeroom', [AcademicController::class, 'aiGenerateHomeroom'])->name('ai.homeroom');
+            Route::post('/ai/generate-narrative', [AcademicController::class, 'aiGenerateNarrative'])->name('ai.narrative');
+            Route::post('/ai/generate-quran', [AcademicController::class, 'aiGenerateQuran'])->name('ai.quran');
+            Route::post('/ai/analyze-class', [AcademicController::class, 'aiAnalyzeClass'])->name('ai.analyze-class');
+
+            // Manajemen Pengguna Unit (Khusus Kepala Sekolah & Super Admin)
+            Route::post('/users/save', [AcademicController::class, 'saveUnitUser'])->name('users.save');
+            Route::post('/users/delete/{id}', [AcademicController::class, 'deleteUnitUser'])->name('users.delete');
         });
 
         // 12. Modul 3: Absensi Realtime RFID & QR Code (Super Admin, Kepala Sekolah, TU, Guru, Guru BK)
