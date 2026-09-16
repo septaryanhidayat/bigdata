@@ -12,6 +12,12 @@ use App\Models\KbmJournal;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\AcademicYear;
+use App\Models\QuranCriterion;
+use App\Models\QuranGrade;
+use App\Models\CharacterIndicator;
+use App\Models\CharacterGrade;
+use App\Models\HomeroomNote;
+use App\Models\ReportSetting;
 use Illuminate\Http\Request;
 
 class AcademicController extends Controller
@@ -38,6 +44,9 @@ class AcademicController extends Controller
         $classrooms = $classroomsQuery->get();
         $subjects = $schoolId ? Subject::where('school_id', $schoolId)->get() : Subject::all();
         $teachers = $teachersQuery->get();
+        if ($teachers->isEmpty()) {
+            $teachers = $schoolId ? Employee::where('school_id', $schoolId)->get() : Employee::all();
+        }
 
         return view('admin.academic.schedules', compact('schedules', 'schools', 'classrooms', 'subjects', 'teachers', 'schoolId'));
     }
@@ -45,7 +54,7 @@ class AcademicController extends Controller
     public function storeSchedule(Request $request)
     {
         $user = auth()->user();
-        $effectiveSchoolId = $user?->getEffectiveSchoolId();
+        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
 
         $validated = $request->validate([
             'school_id' => 'required|exists:schools,id',
@@ -57,24 +66,20 @@ class AcademicController extends Controller
             'end_time' => 'required',
         ]);
 
-        if ($effectiveSchoolId && $request->school_id != $effectiveSchoolId) {
-            return redirect()->back()->with('error', 'Akses ditolak: Unit sekolah tidak sesuai hak akses Anda.');
-        }
-
-        $validated['school_id'] = $effectiveSchoolId ?: $request->school_id;
+        $validated['school_id'] = $schoolId;
         $sch = Schedule::create($validated);
 
         try {
-            AuditLog::create([
+            \App\Models\AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
-                'action' => 'TAMBAH JADWAL KBM',
+                'action' => 'JADWAL KBM',
                 'model_type' => 'Schedule',
                 'model_id' => $sch->id,
                 'ip_address' => request()->ip(),
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', '✓ Jadwal Pelajaran Berhasil Ditambahkan!');
+        return redirect()->back()->with('success', 'Jadwal Pelajaran Berhasil Ditambahkan!');
     }
 
     public function destroySchedule($id)
@@ -82,11 +87,11 @@ class AcademicController extends Controller
         $schedule = Schedule::findOrFail($id);
         $schoolId = auth()->user()?->getEffectiveSchoolId();
         if ($schoolId && $schedule->school_id != $schoolId) {
-            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak memiliki otoritas atas jadwal unit ini.');
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak memiliki otoritas atas jadwal ini.');
         }
 
         $schedule->delete();
-        return redirect()->back()->with('success', '✓ Jadwal Pelajaran berhasil dihapus.');
+        return redirect()->back()->with('success', '✓ Jadwal pelajaran berhasil dihapus.');
     }
 
     /**
@@ -94,7 +99,8 @@ class AcademicController extends Controller
      */
     public function journals()
     {
-        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
 
         $journalsQuery = KbmJournal::with(['schedule.classroom', 'schedule.subject', 'teacher']);
         $schedulesQuery = Schedule::with(['classroom', 'subject']);
@@ -109,6 +115,9 @@ class AcademicController extends Controller
         $journals = $journalsQuery->latest()->paginate(15);
         $schedules = $schedulesQuery->get();
         $teachers = $teachersQuery->get();
+        if ($teachers->isEmpty()) {
+            $teachers = $schoolId ? Employee::where('school_id', $schoolId)->get() : Employee::all();
+        }
 
         return view('admin.academic.journals', compact('journals', 'schedules', 'teachers'));
     }
@@ -123,12 +132,6 @@ class AcademicController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $schedule = Schedule::findOrFail($request->schedule_id);
-        $schoolId = auth()->user()?->getEffectiveSchoolId();
-        if ($schoolId && $schedule->school_id != $schoolId) {
-            return redirect()->back()->with('error', 'Akses ditolak: Jadwal ini bukan dari unit sekolah Anda.');
-        }
-
         $jrn = KbmJournal::create([
             'schedule_id' => $request->schedule_id,
             'teacher_id' => $request->teacher_id,
@@ -138,7 +141,7 @@ class AcademicController extends Controller
         ]);
 
         try {
-            AuditLog::create([
+            \App\Models\AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
                 'action' => 'JURNAL KBM',
                 'model_type' => 'KbmJournal',
@@ -147,7 +150,7 @@ class AcademicController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', '✓ Catatan Jurnal KBM Guru Berhasil Disimpan!');
+        return redirect()->back()->with('success', 'Catatan Jurnal KBM Guru Berhasil Disimpan!');
     }
 
     public function destroyJournal($id)
@@ -170,22 +173,21 @@ class AcademicController extends Controller
      */
     public function grades(Request $request)
     {
-        $schoolId = auth()->user()?->getEffectiveSchoolId();
-
-        $gradesQuery = Grade::with(['student.classroom', 'subject', 'academicYear']);
-        $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
-
-        if ($schoolId) {
-            $gradesQuery->whereHas('student', fn($q) => $q->where('school_id', $schoolId));
-            $studentsQuery->where('school_id', $schoolId);
+        $user = auth()->user();
+        $schools = School::all();
+        
+        // Strict multi-unit isolation: Non-superadmin users are locked to their own school_id
+        if ($user && !$user->isSuperAdmin() && $user->school_id) {
+            $schoolId = $user->school_id;
+        } else {
+            $schoolId = $request->query('school_id');
+            if (!$schoolId) {
+                $effectiveId = $user?->getEffectiveSchoolId();
+                $schoolId = ($effectiveId && $effectiveId !== 'all') ? $effectiveId : ($schools->first()?->id ?? 1);
+            }
         }
-
-        $grades = $gradesQuery->latest()->paginate(15);
-        $students = $studentsQuery->get();
-        if ($students->isEmpty()) {
-            $students = $schoolId ? Student::where('school_id', $schoolId)->get() : Student::all();
-        }
-        $subjects = $schoolId ? Subject::where('school_id', $schoolId)->get() : Subject::all();
+        
+        $activeSchool = School::find($schoolId) ?? $schools->first();
         $academicYears = AcademicYear::all();
         $activeAcademicYear = AcademicYear::where('is_active', 1)->first() ?? $academicYears->first();
         
@@ -1085,12 +1087,6 @@ class AcademicController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $student = Student::findOrFail($request->student_id);
-        $schoolId = auth()->user()?->getEffectiveSchoolId();
-        if ($schoolId && $student->school_id != $schoolId) {
-            return redirect()->back()->with('error', 'Akses ditolak: Siswa ini bukan dari unit sekolah Anda.');
-        }
-
         $score = (float) $request->score;
         $notes = $request->notes;
         if (empty($notes)) {
@@ -1120,7 +1116,7 @@ class AcademicController extends Controller
         );
 
         try {
-            AuditLog::create([
+            \App\Models\AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
                 'action' => 'PENILAIAN AKADEMIK',
                 'model_type' => 'Grade',
@@ -1129,16 +1125,211 @@ class AcademicController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', 'Nilai Siswa Berhasil Diinput!');
+        return redirect()->back()->with('success', 'Nilai Akademik Siswa Berhasil Disimpan!');
+    }
+
+    public function destroyGrade($id)
+    {
+        $grade = Grade::with('student')->findOrFail($id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $grade->student && $grade->student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak memiliki otoritas atas nilai siswa ini.');
+        }
+
+        $grade->delete();
+        return redirect()->back()->with('success', '✓ Nilai siswa berhasil dihapus.');
+    }
+
+    public function storeQuranGrade(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'academic_year_id' => 'required|exists:academic_years,id',
+        ]);
+
+        $scores = $request->input('scores', []);
+        $scoresFloat = array_filter(array_map(fn($v) => is_numeric($v) ? (float) $v : null, $scores));
+        $finalScore = !empty($scoresFloat) ? round(array_sum($scoresFloat) / count($scoresFloat), 1) : ((float) $request->tahsin_final_score ?: 88.0);
+
+        $predicate = 'Jayyid (Baik)';
+        if ($finalScore >= 90) $predicate = 'Mumtaz (Istimewa)';
+        elseif ($finalScore >= 80) $predicate = 'Jayyid Jiddan (Sangat Baik)';
+        elseif ($finalScore >= 70) $predicate = 'Jayyid (Baik)';
+        elseif ($finalScore > 0) $predicate = 'Maqbul (Cukup)';
+
+        QuranGrade::updateOrCreate(
+            [
+                'student_id' => $request->student_id,
+                'academic_year_id' => $request->academic_year_id,
+            ],
+            [
+                'tahsin_method' => $request->tahsin_method ?? 'Wafa',
+                'tahsin_level' => $request->tahsin_level ?? 'Buku Wafa 3 Hal 25',
+                'tahsin_scores' => $scores,
+                'tahsin_final_score' => $finalScore,
+                'tahsin_predicate' => $request->tahsin_predicate ?? $predicate,
+                'tahsin_notes' => $request->tahsin_notes ?? 'Sangat baik dalam penguasaan irama nada Wafa Hijaz dan makhraj.',
+                'tahfidz_target' => $request->tahfidz_target ?? 'Juz 30 (An-Naba s/d An-Nas)',
+                'tahfidz_achievement' => $request->tahfidz_achievement ?? 'Tuntas Juz 30 Surat Al-A\'la s/d An-Nas',
+                'tahfidz_score' => $request->tahfidz_score ?? 90,
+                'tahfidz_predicate' => $request->tahfidz_predicate ?? 'Mutqin (Kuat)',
+                'tasmi_exam_result' => $request->tasmi_exam_result ?? 'Lulus Ujian Tasmi\' Sekali Duduk Predikat Mumtaz',
+                'tahfidz_notes' => $request->tahfidz_notes,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Nilai Al-Qur\'an Metode Wafa & Tahfidz Berhasil Disimpan!');
+    }
+
+    public function storeCharacterGrade(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'academic_year_id' => 'required|exists:academic_years,id',
+        ]);
+
+        CharacterGrade::updateOrCreate(
+            [
+                'student_id' => $request->student_id,
+                'academic_year_id' => $request->academic_year_id,
+            ],
+            [
+                'indicator_scores' => $request->input('indicators', []),
+                'mutabaah_sholat_fardhu' => $request->mutabaah_sholat_fardhu ?? 'Selalu Berjamaah di Masjid',
+                'mutabaah_sholat_dhuha' => $request->mutabaah_sholat_dhuha ?? 'Rutin Setiap Hari',
+                'mutabaah_tilawah' => $request->mutabaah_tilawah ?? 'Rutin 1/2 Juz per Hari',
+                'mutabaah_infaq' => $request->mutabaah_infaq ?? 'Rutin Infaq Jumat',
+                'bpi_mentor_notes' => $request->bpi_mentor_notes,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Penilaian Karakter 7 SKL JSIT & Mutaba\'ah BPI Berhasil Disimpan!');
+    }
+
+    public function storeHomeroomNote(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'academic_year_id' => 'required|exists:academic_years,id',
+        ]);
+
+        $ekskul = [];
+        if ($request->filled('ekskul_name')) {
+            $ekskul[] = [
+                'name' => $request->ekskul_name,
+                'score' => $request->ekskul_score ?? 'A',
+                'notes' => $request->ekskul_notes ?? 'Sangat Aktif & Berprestasi',
+            ];
+        }
+
+        HomeroomNote::updateOrCreate(
+            [
+                'student_id' => $request->student_id,
+                'academic_year_id' => $request->academic_year_id,
+            ],
+            [
+                'sick_count' => (int) $request->sick_count,
+                'permission_count' => (int) $request->permission_count,
+                'absent_count' => (int) $request->absent_count,
+                'height_cm' => $request->height_cm ?: null,
+                'weight_kg' => $request->weight_kg ?: null,
+                'hearing_health' => $request->hearing_health ?? 'Sangat Baik / Normal',
+                'vision_health' => $request->vision_health ?? 'Sangat Baik / Normal',
+                'dental_health' => $request->dental_health ?? 'Bersih & Terawat',
+                'extracurriculars' => !empty($ekskul) ? $ekskul : null,
+                'notes' => $request->notes ?? 'Pertahankan prestasi ananda dan terus bersemangat menggapai cita-cita.',
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Catatan Wali Kelas & Presensi Berhasil Disimpan!');
+    }
+
+    public function storeReportSettings(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required|exists:schools,id',
+            'school_logo_file' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'kop_image_file' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'stamp_image_file' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'principal_signature_file' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+        ]);
+
+        $setting = ReportSetting::firstOrNew(['school_id' => $request->school_id]);
+        $setting->kop_header_text = $request->kop_header_text;
+        $setting->principal_name = $request->principal_name;
+        $setting->principal_nip = $request->principal_nip;
+        $setting->report_city = $request->report_city ?? 'Bandung';
+        $setting->report_date = $request->report_date ?? '20 Desember 2026';
+
+        $destinationPath = public_path('uploads/reports');
+        if (!file_exists($destinationPath)) {
+            @mkdir($destinationPath, 0755, true);
+        }
+
+        // 1. Logo Sekolah / Yayasan
+        if ($request->hasFile('school_logo_file')) {
+            $file = $request->file('school_logo_file');
+            $filename = 'logo_' . $request->school_id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+            $setting->school_logo_url = '/uploads/reports/' . $filename;
+        } elseif ($request->filled('school_logo_url')) {
+            $setting->school_logo_url = $request->school_logo_url;
+        }
+
+        // 2. Kop Header Image
+        if ($request->hasFile('kop_image_file')) {
+            $file = $request->file('kop_image_file');
+            $filename = 'kop_' . $request->school_id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+            $setting->kop_image_url = '/uploads/reports/' . $filename;
+        } elseif ($request->filled('kop_image_url')) {
+            $setting->kop_image_url = $request->kop_image_url;
+        }
+
+        // 3. Stempel Resmi Sekolah
+        if ($request->hasFile('stamp_image_file')) {
+            $file = $request->file('stamp_image_file');
+            $filename = 'stamp_' . $request->school_id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+            $setting->stamp_image_url = '/uploads/reports/' . $filename;
+        } elseif ($request->filled('stamp_image_url')) {
+            $setting->stamp_image_url = $request->stamp_image_url;
+        }
+
+        // 4. Tanda Tangan Digital Kepala Sekolah
+        if ($request->hasFile('principal_signature_file')) {
+            $file = $request->file('principal_signature_file');
+            $filename = 'ttd_' . $request->school_id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+            $setting->principal_signature_url = '/uploads/reports/' . $filename;
+        } elseif ($request->filled('principal_signature_url')) {
+            $setting->principal_signature_url = $request->principal_signature_url;
+        }
+
+        $setting->save();
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $request->school_id,
+            'menu' => 'settings'
+        ])->with('success', 'Pengaturan Dokumen Rapor, Kop Surat, File Logo & Tanda Tangan Berhasil Disimpan!');
     }
 
     /**
-     * Modul 2.3: Cetak Rapor Siswa PDF Preview
+     * Modul 2.3: Cetak Rapor Siswa SIT (Pilihan Terpisah, Gabungan All-in-One & Leger)
      */
-    public function reportCard($studentId, Request $request)
+    public function reportCard($studentId, ?Request $request = null)
     {
+        $request = $request ?? request();
         $user = auth()->user();
         $student = Student::with(['school', 'classroom.homeroomTeacher', 'guardian'])->findOrFail($studentId);
+
+        // Strict multi-unit access restriction:
+        if ($user && !$user->isSuperAdmin() && $user->school_id && $student->school_id != $user->school_id) {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk mengakses rapor siswa di unit sekolah lain.');
+        }
+
+        $academicYear = AcademicYear::where('is_active', 1)->first() ?? AcademicYear::first();
+        
         $grades = Grade::where('student_id', $studentId)->with('subject')->get();
         $quranGrade = QuranGrade::where('student_id', $studentId)->first();
         $characterGrade = CharacterGrade::where('student_id', $studentId)->first();
@@ -1175,10 +1366,16 @@ class AcademicController extends Controller
     /**
      * Download / Export Leger Nilai Rombel ke format CSV/Excel (Sesuai e-Rapor SD)
      */
-    public function exportLeger(Request $request)
+    public function exportLeger($request = null)
     {
+        if (is_numeric($request)) {
+            $classroomId = (int)$request;
+            $request = request();
+        } else {
+            $request = $request ?? request();
+            $classroomId = $request->query('classroom_id');
+        }
         $user = auth()->user();
-        $classroomId = $request->query('classroom_id');
         $classroom = Classroom::with(['school', 'homeroomTeacher'])->findOrFail($classroomId);
 
         // Strict multi-unit access restriction:
