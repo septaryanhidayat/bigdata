@@ -136,9 +136,10 @@ class CmsController extends Controller
         // Fetch Real Audit Log Activity for User & Admin Website Logging
         $auditLogs = \App\Models\AuditLog::with('user')->latest()->take(10)->get();
 
+        $schoolWebsiteCtrl = app(\App\Http\Controllers\SchoolWebsiteController::class);
         $websiteStats = [
-            'news_published' => count($this->getNewsData()),
-            'articles_published' => count($this->getArticleData()),
+            'news_published' => count($schoolWebsiteCtrl->getNewsData()),
+            'articles_published' => count($schoolWebsiteCtrl->getArticleData()),
             'ppdb_submissions' => \App\Models\PpdbRegistration::count(),
             'service_requests' => \App\Models\PublicServiceRequest::count(),
             'system_status' => 'ONLINE (Production Ready)'

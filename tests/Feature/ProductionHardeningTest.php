@@ -174,4 +174,21 @@ class ProductionHardeningTest extends TestCase
         $student->refresh();
         $this->assertEquals($initialBalance, $student->savings_balance);
     }
+
+    /**
+     * Test 7: Admin Dashboard loads successfully for authenticated admin.
+     */
+    public function test_admin_dashboard_loads_successfully()
+    {
+        $admin = User::create([
+            'name' => 'Super Administrator',
+            'email' => 'admin_test_' . Str::random(5) . '@robbani.sch.id',
+            'password' => Hash::make('password123'),
+            'role' => 'super_admin',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.dashboard'));
+        $response->assertStatus(200);
+    }
 }
