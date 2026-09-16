@@ -27,9 +27,13 @@ class CheckRole
             return $next($request);
         }
 
-        // Check if user's role is in the allowed roles
-        if (!empty($roles) && in_array($user->role, $roles, true)) {
-            return $next($request);
+        // Check if user's role is in the allowed roles (case-insensitive)
+        if (!empty($roles)) {
+            $userRole = strtoupper((string)$user->role);
+            $upperRoles = array_map('strtoupper', $roles);
+            if (in_array($userRole, $upperRoles, true)) {
+                return $next($request);
+            }
         }
 
         if ($request->expectsJson() || $request->is('api/*')) {

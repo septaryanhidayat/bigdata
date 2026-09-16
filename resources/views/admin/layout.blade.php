@@ -78,62 +78,14 @@
         html.theme-magenta { --theme-accent: #db2777; --theme-accent-light: #fdf2f8; --theme-gradient-primary: linear-gradient(135deg, #db2777 0%, #c026d3 50%, #7c3aed 100%); }
         html.theme-sunset { --theme-accent: #e11d48; --theme-accent-light: #fff1f2; --theme-gradient-primary: linear-gradient(135deg, #e11d48 0%, #ea580c 50%, #ca8a04 100%); }
         html.theme-gold { --theme-accent: #d97706; --theme-accent-light: #fffbeb; --theme-gradient-primary: linear-gradient(135deg, #d97706 0%, #b45309 50%, #78350f 100%); }
-
-        /* ==========================================================================
-           DYNAMIC MINIMIZE / COMPACT SIDEBAR STYLES (ICON ONLY MODE)
-           ========================================================================== */
-        #adminSidebar.sidebar-compact {
-            width: 5rem !important; /* 80px compact width */
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-            overflow-x: hidden !important;
-        }
-
-        #adminSidebar.sidebar-compact .sidebar-brand-container img {
-            max-width: 2.25rem !important;
-            max-height: 2.25rem !important;
-            object-fit: contain !important;
-        }
-
-        #adminSidebar.sidebar-compact .sidebar-text,
-        #adminSidebar.sidebar-compact .sidebar-group-title,
-        #adminSidebar.sidebar-compact .sidebar-profile-info {
-            display: none !important;
-        }
-
-        #adminSidebar.sidebar-compact .sidebar-brand-container {
-            justify-content: center !important;
-            width: 100% !important;
-        }
-
-        #adminSidebar.sidebar-compact .sidebar-expand-icon {
-            display: none !important;
-        }
-
-        #adminSidebar.sidebar-compact .sidebar-compact-icon {
-            display: inline-block !important;
-        }
-
-        #adminSidebar.sidebar-compact .nav-item-link {
-            justify-content: center !important;
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-        }
-
-        #adminSidebar.sidebar-compact .profile-box-container {
-            justify-content: center !important;
-            padding: 0.5rem !important;
-        }
-
-        #adminSidebar.sidebar-compact .logout-text {
-            display: none !important;
-        }
     </style>
 
     <script>
         // Set initial theme before body renders to avoid color flicker
         const savedTheme = localStorage.getItem('smartedu_admin_theme') || 'theme-magenta';
         document.documentElement.className = 'h-full ' + savedTheme;
+        // Ensure legacy compact state is removed so sidebar is always fully visible
+        localStorage.removeItem('smartedu_sidebar_compact');
     </script>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col md:flex-row theme-magenta" id="adminBody">
@@ -141,14 +93,14 @@
     <!-- Mobile Sidebar Backdrop Overlay -->
     <div id="sidebarMobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
-    <!-- Dark Sleek Floating Sidebar (Off-Canvas on Mobile, Static/Compact on Desktop) -->
-    <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] md:max-w-none md:relative md:w-64 -translate-x-full md:translate-x-0 bg-[#14151b] text-white shrink-0 p-4 sm:p-5 flex flex-col justify-between shadow-2xl transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden">
+    <!-- Dark Sleek Solid Sidebar (Off-Canvas on Mobile Drawer, Permanent Solid on Desktop) -->
+    <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] md:max-w-none md:sticky md:top-0 md:h-screen md:w-64 xl:w-72 -translate-x-full md:translate-x-0 bg-[#0f1117] text-white shrink-0 p-4 sm:p-5 flex flex-col justify-between border-r border-slate-800/80 shadow-2xl transition-transform duration-300 ease-in-out overflow-y-auto overflow-x-hidden">
         <div class="space-y-5">
             
             <!-- Logo & Brand Header (SmartEdu Only) -->
             <div class="flex items-center justify-between px-1 sidebar-brand-container">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 shrink-0 overflow-hidden">
-                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 via-rose-500 to-purple-600 flex items-center justify-center text-white font-black text-base shadow-md shrink-0">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 shrink-0 overflow-hidden group">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 via-rose-500 to-purple-600 flex items-center justify-center text-white font-black text-base shadow-md shrink-0 group-hover:scale-105 transition-transform">
                         S
                     </div>
                     <div class="sidebar-text overflow-hidden">
@@ -160,16 +112,10 @@
                     </div>
                 </a>
 
-                <!-- Minimize / Expand Sidebar Toggle Button (Desktop) & Close Button (Mobile) -->
-                <div class="flex items-center gap-1">
-                    <button onclick="toggleAdminSidebar()" title="Minimize / Expand Sidebar" class="hidden md:flex w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
-                        <span class="sidebar-expand-icon">◀</span>
-                        <span class="sidebar-compact-icon hidden">▶</span>
-                    </button>
-                    <button onclick="toggleMobileSidebar()" title="Tutup Menu" class="md:hidden w-7 h-7 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
-                        ✕
-                    </button>
-                </div>
+                <!-- Close Button (Mobile Only) -->
+                <button onclick="toggleMobileSidebar()" title="Tutup Menu" class="md:hidden w-7 h-7 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
+                    ✕
+                </button>
             </div>
 
             <!-- Profile User Box -->
@@ -618,29 +564,30 @@
         </div>
     </aside>
 
-    <!-- Main Content Container -->
+    <!-- Main Content Wrapper (Flex-1) -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-        
+
         <!-- Top Bar Header -->
-        <header class="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between gap-4 sticky top-0 z-10 shadow-sm">
+        <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4 sticky top-0 z-20 shadow-xs">
             
-            <!-- Sidebar Toggle Button & Global Search Box -->
+            <!-- Left Controls: Mobile Drawer Hamburger & Global Search Box / Quick Links -->
             <div class="flex items-center gap-3">
                 
-                <!-- Toggle Minimize/Expand Sidebar Button (Responsive Mobile & Desktop) -->
-                <button onclick="handleSidebarToggle()" title="Toggle Menu Sidebar" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-lg shadow-sm border border-slate-200 transition-transform active:scale-95 cursor-pointer">
+                <!-- Toggle Menu Drawer Button (Mobile Only) -->
+                <button onclick="toggleMobileSidebar()" title="Buka Menu Sidebar" class="md:hidden w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-lg shadow-xs border border-slate-200 transition-transform active:scale-95 cursor-pointer">
                     ☰
                 </button>
 
                 <!-- Direct Website Link (Top Header Quick Button) -->
-                <a href="{{ route('home') }}" target="_blank" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-extrabold text-xs transition-colors shadow-2xs">
-                    <span>🌐</span> <span>Lihat Website</span> <span>↗</span>
+                <a href="{{ route('home') }}" target="_blank" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200/90 text-slate-700 border border-slate-200 font-extrabold text-xs transition-all shadow-2xs">
+                    <span>🌐</span> <span>Lihat Website</span> <span class="text-[10px] text-slate-400">↗</span>
                 </a>
 
-                <!-- Search Bar with WCAG AA Compliant Contrast -->
-                <div class="hidden md:flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl w-64 lg:w-72 border border-slate-200">
-                    <span class="text-slate-500 font-bold">🔍</span>
-                    <input type="text" placeholder="Cari data siswa, guru, tagihan, rfid..." class="bg-transparent border-none text-xs font-semibold focus:outline-none w-full text-slate-800 placeholder:text-slate-500">
+                <!-- Global Search Bar with Ctrl+K badge -->
+                <div class="hidden md:flex items-center gap-2.5 bg-slate-100/90 hover:bg-slate-100 px-3.5 py-2 rounded-xl w-64 lg:w-80 border border-slate-200/80 transition-colors focus-within:border-slate-400 focus-within:bg-white focus-within:ring-2 focus-within:ring-slate-200">
+                    <span class="text-slate-400 font-bold text-xs">🔍</span>
+                    <input type="text" placeholder="Cari data siswa, guru, tagihan, rfid..." class="bg-transparent border-none text-xs font-semibold focus:outline-none w-full text-slate-800 placeholder:text-slate-400">
+                    <kbd class="hidden xl:inline-block px-1.5 py-0.5 text-[9px] font-mono font-bold text-slate-400 bg-white rounded border border-slate-200 shadow-2xs">Ctrl K</kbd>
                 </div>
             </div>
 
@@ -726,11 +673,7 @@
         }
 
         function handleSidebarToggle() {
-            if (window.innerWidth < 768) {
-                toggleMobileSidebar();
-            } else {
-                toggleAdminSidebar();
-            }
+            toggleMobileSidebar();
         }
 
         function toggleMobileSidebar() {
@@ -749,13 +692,6 @@
                 if (backdrop) backdrop.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
             }
-        }
-
-        function toggleAdminSidebar() {
-            const sidebar = document.getElementById('adminSidebar');
-            sidebar.classList.toggle('sidebar-compact');
-            const isCompact = sidebar.classList.contains('sidebar-compact');
-            localStorage.setItem('smartedu_sidebar_compact', isCompact);
         }
 
         // Show/Hide Menu Filter (All vs Active Only)
@@ -803,16 +739,11 @@
             }
         }
 
-        // Restore saved theme, active group & sidebar compact state on page load
+        // Restore saved theme & active group on page load
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('smartedu_admin_theme') || 'theme-emerald';
             setAdminTheme(savedTheme);
-
-            const isCompact = localStorage.getItem('smartedu_sidebar_compact') === 'true';
-            if (isCompact) {
-                const sb = document.getElementById('adminSidebar');
-                if (sb) sb.classList.add('sidebar-compact');
-            }
+            localStorage.removeItem('smartedu_sidebar_compact');
 
             // Always expand active group containing the currently active page and ensure all sibling submenus are visible
             const activeLink = document.querySelector('.nav-link-active');

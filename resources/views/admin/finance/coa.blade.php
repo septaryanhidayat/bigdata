@@ -36,7 +36,7 @@
                                     {{ $c->type }}
                                 </span>
                             </td>
-                            <td class="p-3 font-black text-slate-900">Rp {{ number_format($c->balance, 0, ',', '.') }}</td>
+                            <td class="p-3 font-black text-slate-900">Rp {{ number_format($c->current_balance ?? $c->balance ?? 0, 0, ',', '.') }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -47,7 +47,7 @@
             <form action="{{ route('admin.finance.coa.store') }}" method="POST" class="pt-4 border-t border-slate-100 space-y-3 text-xs font-bold">
                 @csrf
                 <span class="block text-slate-800 font-extrabold">➕ Tambah Akun COA Baru</span>
-                <input type="hidden" name="school_id" value="{{ $schools->first()->id ?? 1 }}">
+                <input type="hidden" name="school_id" value="{{ optional($schools->first())->id ?? 1 }}">
 
                 <div class="grid grid-cols-2 gap-2">
                     <input type="text" name="code" required placeholder="Kode (102)" class="px-3 py-2 rounded-xl border border-slate-300">
@@ -62,10 +62,10 @@
                         <option value="REVENUE">REVENUE (Pendapatan)</option>
                         <option value="EXPENSE">EXPENSE (Beban Operasional)</option>
                     </select>
-                    <input type="number" name="balance" value="0" required placeholder="Saldo Awal" class="px-3 py-2 rounded-xl border border-slate-300">
+                    <input type="number" name="initial_balance" value="0" required placeholder="Saldo Awal" class="px-3 py-2 rounded-xl border border-slate-300">
                 </div>
 
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-extrabold">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-extrabold shadow-sm hover:bg-emerald-700 transition-colors">
                     Simpan Akun COA ➔
                 </button>
             </form>
@@ -86,20 +86,24 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
-                        @foreach($journals as $j)
+                        @forelse($journals as $j)
                         <tr class="hover:bg-slate-50">
                             <td class="p-3">
-                                <span class="font-mono font-bold text-slate-900 block">{{ $j->reference_no }}</span>
-                                <span class="text-[10px] text-slate-400">{{ $j->transaction_date }}</span>
+                                <span class="font-mono font-bold text-slate-900 block">{{ $j->reference_number ?? $j->reference_no ?? '-' }}</span>
+                                <span class="text-[10px] text-slate-400">{{ $j->date ?? $j->transaction_date ?? '-' }}</span>
                             </td>
                             <td class="p-3 font-bold text-slate-900">
-                                {{ $j->coa->name ?? '-' }}
+                                {{ $j->account->name ?? $j->coa->name ?? '-' }}
                                 <span class="text-[10px] text-slate-400 block font-normal">{{ $j->description }}</span>
                             </td>
                             <td class="p-3 font-bold text-emerald-700">{{ number_format($j->debit, 0, ',', '.') }}</td>
                             <td class="p-3 font-bold text-rose-700">{{ number_format($j->credit, 0, ',', '.') }}</td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="4" class="p-4 text-center text-slate-400 italic">Belum ada jurnal transaksi tercatat.</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

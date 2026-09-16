@@ -165,7 +165,9 @@ class FinanceController extends Controller
     public function coa()
     {
         $coas = ChartOfAccount::orderBy('code', 'asc')->get();
-        return view('admin.finance.coa', compact('coas'));
+        $journals = JournalEntry::with('account')->latest()->take(20)->get();
+        $schools = School::all();
+        return view('admin.finance.coa', compact('coas', 'journals', 'schools'));
     }
 
     public function storeCoa(Request $request)
@@ -176,7 +178,10 @@ class FinanceController extends Controller
             'type' => 'required|in:ASSET,LIABILITY,EQUITY,REVENUE,EXPENSE',
         ]);
 
+        $schoolId = $request->school_id ?? auth()->user()?->school_id ?? optional(School::first())->id ?? 1;
+
         ChartOfAccount::create([
+            'school_id' => $schoolId,
             'code' => $request->code,
             'name' => $request->name,
             'type' => $request->type,

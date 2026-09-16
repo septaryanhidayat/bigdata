@@ -190,5 +190,125 @@ class ProductionHardeningTest extends TestCase
 
         $response = $this->actingAs($admin)->get(route('admin.dashboard'));
         $response->assertStatus(200);
+        $response->assertSee('Dashboard Analytics');
+        $response->assertSee('Tren Penerimaan SPP');
+        $response->assertSee('Data Transaksi');
+    }
+
+    /**
+     * Test 8: Verify all primary admin modules render with HTTP 200 without missing methods or fatal errors.
+     */
+    public function test_all_core_admin_modules_render_successfully()
+    {
+        $school = School::create([
+            'name' => 'SDIT Robbani Kompleks',
+            'code' => 'sdit',
+            'level' => 'SD',
+            'is_active' => true,
+        ]);
+
+        $admin = User::create([
+            'name' => 'Super Admin Modules',
+            'email' => 'admin_mod_' . Str::random(5) . '@robbani.sch.id',
+            'password' => Hash::make('password123'),
+            'role' => 'super_admin',
+            'is_active' => true,
+        ]);
+
+        $routesToTest = [
+            'admin.dashboard',
+            'admin.master.index',
+            'admin.master.schools',
+            'admin.master.curriculums',
+            'admin.master.classrooms',
+            'admin.master.students',
+            'admin.master.references',
+            'admin.attendance.index',
+            'admin.attendance.leaves',
+            'admin.finance.spp-bills',
+            'admin.finance.coa',
+            'admin.savings.index',
+            'admin.canteen.index',
+            'admin.academic.schedules',
+            'admin.academic.journals',
+            'admin.academic.grades',
+            'admin.employees.index',
+            'admin.payroll.index',
+            'admin.mobile.index',
+            'admin.mobile.faces',
+            'admin.mobile.geofence',
+            'admin.bpi.index',
+            'admin.letters.index',
+            'admin.letters.incoming',
+            'admin.letters.outgoing',
+            'admin.letters.dispositions',
+            'admin.letters.tte-queue',
+            'admin.letters.templates',
+            'admin.letters.archive',
+            'admin.lms.index',
+            'admin.cbt.index',
+            'admin.ppdb-admin.index',
+            'admin.sarpras.index',
+            'admin.library.index',
+            'admin.bk.index',
+            'admin.ai-trainer.index',
+            'admin.cms.content',
+            'admin.settings.units',
+            'admin.settings.portal',
+            'admin.settings.sales',
+            'admin.modules.index',
+            'admin.faqs.index',
+            'admin.public-services.index',
+            'admin.users.index',
+        ];
+
+        foreach ($routesToTest as $routeName) {
+            $response = $this->actingAs($admin)->get(route($routeName));
+            $this->assertEquals(200, $response->getStatusCode(), "Route {$routeName} failed with HTTP " . $response->getStatusCode());
+        }
+    }
+
+    /**
+     * Test 9: Accounting COA creation and journal auto-posting.
+     */
+    public function test_accounting_coa_creation_and_listing()
+    {
+        $school = School::create([
+            'name' => 'SDIT Robbani Finansial',
+            'code' => 'sdit_fin',
+            'level' => 'SD',
+            'is_active' => true,
+        ]);
+
+        $admin = User::create([
+            'name' => 'Accounting Admin',
+            'email' => 'admin_coa_' . Str::random(5) . '@robbani.sch.id',
+            'password' => Hash::make('password123'),
+            'role' => 'SUPER_ADMIN',
+            'school_id' => $school->id,
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($admin)->post(route('admin.finance.coa.store'), [
+            'school_id' => $school->id,
+            'code' => '102-BANK',
+            'name' => 'Bank Syariah Mandiri',
+            'type' => 'ASSET',
+            'initial_balance' => 15000000,
+        ]);
+
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('chart_of_accounts', [
+            'code' => '102-BANK',
+            'name' => 'Bank Syariah Mandiri',
+            'type' => 'ASSET',
+            'current_balance' => 15000000,
+        ]);
+
+        $viewResponse = $this->actingAs($admin)->get(route('admin.finance.coa'));
+        $viewResponse->assertStatus(200);
+        $viewResponse->assertSee('102-BANK');
+        $viewResponse->assertSee('Bank Syariah Mandiri');
     }
 }

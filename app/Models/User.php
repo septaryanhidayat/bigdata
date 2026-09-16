@@ -72,15 +72,17 @@ class User extends Authenticatable
      */
     public function hasRole(string|array $roles): bool
     {
-        if ($this->role === self::ROLE_SUPER_ADMIN) {
+        if ($this->isSuperAdmin()) {
             return true; // Super admin always passes
         }
 
+        $userRole = strtoupper((string)$this->role);
         if (is_array($roles)) {
-            return in_array($this->role, $roles, true);
+            $upperRoles = array_map('strtoupper', $roles);
+            return in_array($userRole, $upperRoles, true);
         }
 
-        return $this->role === $roles;
+        return $userRole === strtoupper($roles);
     }
 
     /**
@@ -105,7 +107,7 @@ class User extends Authenticatable
      */
     public function isSuperAdmin(): bool
     {
-        return $this->role === self::ROLE_SUPER_ADMIN;
+        return strtoupper((string)$this->role) === self::ROLE_SUPER_ADMIN;
     }
 
     /**
@@ -113,7 +115,8 @@ class User extends Authenticatable
      */
     public function isYayasan(): bool
     {
-        return $this->role === self::ROLE_YAYASAN_CHAIRMAN || $this->role === self::ROLE_SUPER_ADMIN;
+        $role = strtoupper((string)$this->role);
+        return $role === self::ROLE_YAYASAN_CHAIRMAN || $role === self::ROLE_SUPER_ADMIN;
     }
 
     /**
