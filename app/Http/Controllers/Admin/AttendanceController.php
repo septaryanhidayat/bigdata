@@ -52,14 +52,10 @@ class AttendanceController extends Controller
     {
         $request->validate(['rfid_tag' => 'required|string']);
 
-        $student = Student::where('rfid_tag', $request->rfid_tag)->first();
+        $student = Student::where('rfid_tag', trim($request->rfid_tag))->first();
 
         if (!$student) {
-            $student = Student::first();
-        }
-
-        if (!$student) {
-            return redirect()->back()->with('error', 'Kartu RFID tidak dikenali dan belum ada data siswa!');
+            return redirect()->back()->with('error', "Kartu RFID '{$request->rfid_tag}' tidak terdaftar pada database siswa aktif! Silakan daftarkan tag RFID terlebih dahulu di Master Data Siswa.");
         }
 
         $today = date('Y-m-d');
@@ -72,7 +68,7 @@ class AttendanceController extends Controller
                 'time_in' => $nowTime,
                 'status' => ($nowTime > '07:15:00') ? 'TERLAMBAT' : 'HADIR',
                 'method' => 'RFID_GATE',
-                'notes' => 'Tap RFID Simulator Gate',
+                'notes' => 'Tap Terminal Gate RFID Scanner',
             ]
         );
 
@@ -86,7 +82,7 @@ class AttendanceController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', '✓ [RFID GATE TAP OK] Siswa: ' . $student->full_name . ' | Jam Masuk: ' . $nowTime);
+        return redirect()->back()->with('success', '✓ [RFID GATE OK] Siswa: ' . $student->full_name . ' (' . ($student->nis ?? 'NIS-') . ') | Waktu: ' . $nowTime);
     }
 
     /**
@@ -94,21 +90,18 @@ class AttendanceController extends Controller
      */
     public function leaves(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $leavesQuery = StudentLeave::with(['student.school', 'student.classroom', 'guardian']);
         $studentsQuery = Student::whereIn('status', ['ACTIVE', 'AKTIF']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $leavesQuery->whereHas('student', fn($q) => $q->where('school_id', $schoolId));
             $studentsQuery->where('school_id', $schoolId);
         }
 
         $leaves = $leavesQuery->latest()->paginate(15);
         $students = $studentsQuery->get();
-        if ($students->isEmpty()) {
-            $students = ($schoolId !== 'all') ? Student::where('school_id', $schoolId)->get() : Student::all();
-        }
 
         return view('admin.attendance.leaves', compact('leaves', 'students', 'schoolId'));
     }
@@ -119,13 +112,19 @@ class AttendanceController extends Controller
             'student_id' => 'required|exists:students,id',
             'leave_type' => 'required|string',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'required|string',
         ]);
 
-        $student = Student::find($request->student_id);
+        $student = Student::findOrFail($request->student_id);
+
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Siswa ini bukan dari unit sekolah Anda.');
+        }
+
         $leaveType = in_array(strtoupper($request->leave_type), ['SAKIT', 'IZIN', 'LAINNYA']) ? strtoupper($request->leave_type) : 'IZIN';
-        $guardianId = $student->guardian_id ?? Guardian::first()?->id ?? 1;
+        $guardianId = $student->guardian_id ?? Guardian::first()?->id ?? null;
 
         $lve = StudentLeave::create([
             'student_id' => $student->id,
@@ -147,6 +146,6 @@ class AttendanceController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', 'Pengajuan Izin Siswa Berhasil Disetujui!');
+        return redirect()->back()->with('success', '✓ Pengajuan Izin/Sakit Siswa berhasil diproses & disetujui!');
     }
 }

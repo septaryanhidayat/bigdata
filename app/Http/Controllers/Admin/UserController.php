@@ -246,12 +246,19 @@ class UserController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ];
 
-        $callback = function () use ($users) {
+        $sanitizeCell = function ($val) {
+            if (is_string($val) && preg_match('/^[=\+\-@\t\r]/', $val)) {
+                return "'" . $val;
+            }
+            return $val;
+        };
+
+        $callback = function () use ($users, $sanitizeCell) {
             $file = fopen('php://output', 'w');
             fputcsv($file, ['ID', 'Nama Lengkap', 'Email', 'Role / Peran', 'Unit Sekolah', 'No. HP', 'Status', 'Terdaftar Pada']);
 
             foreach ($users as $u) {
-                fputcsv($file, [
+                $row = [
                     $u->id,
                     $u->name,
                     $u->email,
@@ -259,8 +266,9 @@ class UserController extends Controller
                     $u->school->name ?? 'Yayasan (Semua Unit)',
                     $u->phone ?? '-',
                     $u->is_active ? 'AKTIF' : 'NONAKTIF',
-                    $u->created_at->format('d/m/Y H:i'),
-                ]);
+                    $u->created_at ? $u->created_at->format('d/m/Y H:i') : '-',
+                ];
+                fputcsv($file, array_map($sanitizeCell, $row));
             }
             fclose($file);
         };

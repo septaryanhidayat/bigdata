@@ -318,12 +318,19 @@ class MasterDataController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ];
 
-        $callback = function () use ($students) {
+        $sanitizeCell = function ($val) {
+            if (is_string($val) && preg_match('/^[=\+\-@\t\r]/', $val)) {
+                return "'" . $val;
+            }
+            return $val;
+        };
+
+        $callback = function () use ($students, $sanitizeCell) {
             $file = fopen('php://output', 'w');
             fputcsv($file, ['ID', 'NIS', 'NISN', 'Nama Lengkap', 'Jenis Kelamin', 'Unit Sekolah', 'Kelas', 'RFID Tag', 'Saldo Tabungan', 'Status']);
 
             foreach ($students as $st) {
-                fputcsv($file, [
+                $row = [
                     $st->id,
                     $st->nis,
                     $st->nisn ?? '-',
@@ -334,7 +341,8 @@ class MasterDataController extends Controller
                     $st->rfid_tag ?? '-',
                     $st->savings_balance,
                     $st->status,
-                ]);
+                ];
+                fputcsv($file, array_map($sanitizeCell, $row));
             }
             fclose($file);
         };
@@ -352,7 +360,8 @@ class MasterDataController extends Controller
         ]);
 
         $user = auth()->user();
-        $defaultSchool = $user && $user->school_id ? School::find($user->school_id) : School::first();
+        $schoolId = $user?->getEffectiveSchoolId();
+        $defaultSchool = $schoolId ? School::find($schoolId) : School::first();
 
         $file = $request->file('csv_file');
         $handle = fopen($file->getPathname(), 'r');
@@ -373,10 +382,10 @@ class MasterDataController extends Controller
                         'school_id' => $defaultSchool->id ?? 1,
                         'full_name' => $fullName,
                         'gender' => $gender,
-                        'rfid_tag' => 'RFID-IMP-' . rand(10000, 99999),
+                        'rfid_tag' => null,
                         'status' => 'ACTIVE',
-                        'savings_balance' => 50000,
-                        'canteen_balance' => 20000,
+                        'savings_balance' => 0,
+                        'canteen_balance' => 0,
                         'canteen_daily_limit' => 50000,
                     ]
                 );
@@ -385,7 +394,7 @@ class MasterDataController extends Controller
         }
         fclose($handle);
 
-        return redirect()->back()->with('success', "✓ Berhasil mengimpor {$importedCount} data siswa baru secara massal!");
+        return redirect()->back()->with('success', "✓ Berhasil mengimpor {$importedCount} data siswa baru secara massal dengan saldo awal bersih (Rp 0)!");
     }
 
     /**
@@ -409,12 +418,19 @@ class MasterDataController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ];
 
-        $callback = function () use ($teachers) {
+        $sanitizeCell = function ($val) {
+            if (is_string($val) && preg_match('/^[=\+\-@\t\r]/', $val)) {
+                return "'" . $val;
+            }
+            return $val;
+        };
+
+        $callback = function () use ($teachers, $sanitizeCell) {
             $file = fopen('php://output', 'w');
             fputcsv($file, ['ID', 'NIP', 'Nama Guru', 'Gelar', 'Jabatan', 'Unit Sekolah', 'No. HP', 'Email']);
 
             foreach ($teachers as $t) {
-                fputcsv($file, [
+                $row = [
                     $t->id,
                     $t->nip ?? '-',
                     $t->full_name,
@@ -423,7 +439,8 @@ class MasterDataController extends Controller
                     $t->school->name ?? '-',
                     $t->phone ?? '-',
                     $t->email ?? '-',
-                ]);
+                ];
+                fputcsv($file, array_map($sanitizeCell, $row));
             }
             fclose($file);
         };

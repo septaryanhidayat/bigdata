@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BkRecord;
 use App\Models\Student;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 
 class BkController extends Controller
@@ -20,27 +21,13 @@ class BkController extends Controller
 
         $students = $studentsQuery->get();
         
-        $recordsQuery = BkRecord::with('student.school');
-        if ($schoolId !== 'all') {
+        $recordsQuery = BkRecord::with('student.school', 'student.classroom');
+        if ($schoolId) {
             $recordsQuery->whereHas('student', function($q) use ($schoolId) {
                 $q->where('school_id', $schoolId);
             });
         }
-        $records = $recordsQuery->latest()->take(15)->get();
-
-        if ($records->isEmpty() && $students->isNotEmpty()) {
-            foreach ($students->take(3) as $st) {
-                BkRecord::create([
-                    'student_id' => $st->id,
-                    'type' => 'ACHIEVEMENT',
-                    'title' => 'Juara 1 Lomba MHQ & Hafalan Juz 30 Tingkat Provinsi',
-                    'points' => 50,
-                    'description' => 'Mendapatkan penghargaan dan piagam emas wali kota',
-                    'date' => now()->toDateString(),
-                ]);
-            }
-            $records = BkRecord::with('student.school')->latest()->take(15)->get();
-        }
+        $records = $recordsQuery->latest()->take(25)->get();
 
         return view('admin.bk.index', compact('records', 'students', 'schoolId'));
     }
@@ -55,11 +42,17 @@ class BkController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        $student = Student::findOrFail($request->student_id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Siswa ini bukan dari unit sekolah Anda.');
+        }
+
         $validated['date'] = now()->toDateString();
         $bk = BkRecord::create($validated);
 
         try {
-            \App\Models\AuditLog::create([
+            AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
                 'action' => 'CATATAN BK (' . $request->type . ')',
                 'model_type' => 'BkRecord',
@@ -69,5 +62,17 @@ class BkController extends Controller
         } catch(\Throwable $e) {}
 
         return redirect()->back()->with('success', '✓ Record Catatan BK Siswa Berhasil Disimpan!');
+    }
+
+    public function destroy($id)
+    {
+        $record = BkRecord::with('student')->findOrFail($id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $record->student && $record->student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak berwenang menghapus catatan BK unit ini.');
+        }
+
+        $record->delete();
+        return redirect()->back()->with('success', '✓ Catatan BK berhasil dihapus.');
     }
 }

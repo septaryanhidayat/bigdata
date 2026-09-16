@@ -133,125 +133,19 @@ class CmsController extends Controller
             ->take(10)
             ->get();
 
-        // Fetch Audit Log Activity for User & Admin Website Logging
+        // Fetch Real Audit Log Activity for User & Admin Website Logging
         $auditLogs = \App\Models\AuditLog::with('user')->latest()->take(10)->get();
 
-        if ($auditLogs->isEmpty()) {
-            $auditLogs = collect([
-                (object)[
-                    'user_name' => 'Administrator SmartEdu',
-                    'user_role' => 'Super Admin',
-                    'action' => 'LOGIN',
-                    'badge_color' => 'bg-emerald-500',
-                    'description' => 'Berhasil login ke Admin Portal SIAKAD Robbani',
-                    'ip_address' => '180.252.12.9',
-                    'created_at' => now()->subMinutes(5)->diffForHumans()
-                ],
-                (object)[
-                    'user_name' => 'Operator CMS Website',
-                    'user_role' => 'Admin Content',
-                    'action' => 'CMS UPDATE',
-                    'badge_color' => 'bg-blue-500',
-                    'description' => 'Memperbarui berita "Prestasi Santri SIT Robbani Juara OSN 2026"',
-                    'ip_address' => '180.252.12.9',
-                    'created_at' => now()->subMinutes(18)->diffForHumans()
-                ],
-                (object)[
-                    'user_name' => 'Bendahara SPP (Ustadzah Maryam)',
-                    'user_role' => 'Finance Admin',
-                    'action' => 'TRANSAKSI SPP',
-                    'badge_color' => 'bg-purple-500',
-                    'description' => 'Memproses pembayaran SPP Agustus Siswa Fatih Abdullah (SMPIT)',
-                    'ip_address' => '114.124.20.15',
-                    'created_at' => now()->subMinutes(42)->diffForHumans()
-                ],
-                (object)[
-                    'user_name' => 'Gate System RFID',
-                    'user_role' => 'System Engine',
-                    'action' => 'PRESENSI GATE',
-                    'badge_color' => 'bg-teal-500',
-                    'description' => 'Tap RFID Masuk Presensi Gate SDIT & SMPIT (12 Siswa Terrecord)',
-                    'ip_address' => '192.168.1.100',
-                    'created_at' => now()->subHours(1)->diffForHumans()
-                ],
-                (object)[
-                    'user_name' => 'Petugas POS Kantin',
-                    'user_role' => 'Teller Cashless',
-                    'action' => 'KANTIN POS',
-                    'badge_color' => 'bg-amber-500',
-                    'description' => 'Checkout transaksi kantin cashless Rp 20.000 (Aisyah Humaira)',
-                    'ip_address' => '192.168.1.105',
-                    'created_at' => now()->subHours(2)->diffForHumans()
-                ],
-                (object)[
-                    'user_name' => 'Wali Murid / Orang Tua',
-                    'user_role' => 'Public Visitor',
-                    'action' => 'FORM KUNJUNGAN',
-                    'badge_color' => 'bg-rose-500',
-                    'description' => 'Mengirim pengajuan reservasi kunjungan sekolah & konsultasi PPDB',
-                    'ip_address' => '36.85.15.89',
-                    'created_at' => now()->subHours(3)->diffForHumans()
-                ]
-            ]);
-        }
-
         $websiteStats = [
-            'news_published' => 12,
-            'articles_published' => 8,
-            'ppdb_submissions' => 45,
-            'visits_today' => 342,
-            'system_status' => 'ONLINE 100%'
+            'news_published' => count($this->getNewsData()),
+            'articles_published' => count($this->getArticleData()),
+            'ppdb_submissions' => \App\Models\PpdbRegistration::count(),
+            'service_requests' => \App\Models\PublicServiceRequest::count(),
+            'system_status' => 'ONLINE (Production Ready)'
         ];
 
-        // Fetch System Error Monitoring Logs
+        // Fetch Real System Error Monitoring Logs
         $systemErrorLogs = \App\Models\SystemErrorLog::latest()->take(8)->get();
-
-        if ($systemErrorLogs->isEmpty()) {
-            $systemErrorLogs = collect([
-                (object)[
-                    'id' => 101,
-                    'error_type' => 'RFID Device Connection Error',
-                    'severity' => 'WARNING',
-                    'message' => 'Gate Reader #2 (SMPIT Gate) mengalami timeout komunikasi HTTP/UDP Socket.',
-                    'file' => 'app/Services/RfidGateKeeper.php',
-                    'line' => 142,
-                    'url' => '/api/attendance/rfid-tap',
-                    'user_agent' => 'RFID Gate Device (ESP32 Firmware v2.1 / SMPIT Gate)',
-                    'ip_address' => '192.168.1.120',
-                    'status' => 'UNRESOLVED',
-                    'mitigation_solution' => "1. Periksa ketersediaan jaringan LAN/Wi-Fi di Gate SMPIT.\n2. Pastikan IP Gate 192.168.1.120 terdaftar di config GateKeeper.\n3. Tekan tombol [Jalankan Auto-Mitigasi] untuk melakukan reset socket connection.",
-                    'created_at' => now()->subMinutes(12)->diffForHumans()
-                ],
-                (object)[
-                    'id' => 102,
-                    'error_type' => 'JS Runtime Device Error',
-                    'severity' => 'INFO',
-                    'message' => 'Uncaught TypeError: Cannot read properties of null (reading "classList")',
-                    'file' => 'resources/js/app.js',
-                    'line' => 88,
-                    'url' => '/berita/prestasi-santri-osn-2026',
-                    'user_agent' => 'Mozilla/5.0 (Linux; Android 13; SM-A536B) Mobile Safari/537.36',
-                    'ip_address' => '36.85.15.89',
-                    'status' => 'UNRESOLVED',
-                    'mitigation_solution' => "1. Terdeteksi pada browser Android user saat membuka artikel berita.\n2. Tambahkan pengecekan elemen DOM: `if(element) { element.classList.add(...) }`.\n3. Bug ini telah ditangani dengan aman oleh fallback global listener.",
-                    'created_at' => now()->subMinutes(35)->diffForHumans()
-                ],
-                (object)[
-                    'id' => 103,
-                    'error_type' => 'Database Query Lock',
-                    'severity' => 'HIGH',
-                    'message' => 'SQLSTATE[40001]: Serialization failure: 1213 Deadlock found when trying to get lock',
-                    'file' => 'app/Http/Controllers/Admin/FinanceController.php',
-                    'line' => 210,
-                    'url' => '/admin/finance/spp-pay',
-                    'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0.0.0',
-                    'ip_address' => '180.252.12.9',
-                    'status' => 'AUTO_MITIGATED',
-                    'mitigation_solution' => "1. Transaksi SPP bersamaan terdeteksi. Sistem telah melakukan retry otomatis.\n2. Rekomendasi: Gunakan `DB::transaction(..., 3)` untuk retry otomatis 3x.\n3. Masalah berhasil dimitigasi secara otomatis oleh database engine.",
-                    'created_at' => now()->subHours(2)->diffForHumans()
-                ]
-            ]);
-        }
 
         // System Concurrency & High-Traffic Load Control State
         $trafficMode = SiteSetting::get('system_traffic_mode', 'NORMAL');
@@ -472,28 +366,50 @@ class CmsController extends Controller
                 ]
             ],
             'smpit' => [
-                'name' => 'SMP IT ROBBANI',
+                'name' => 'SMP ISLAM TERPADU ROBBANI',
                 'code' => 'SMPIT',
-                'npsn' => '69989012',
+                'npsn' => '70031580',
                 'akreditasi' => 'Terakreditasi B',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
-                'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
+                'vision' => 'Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.',
                 'missions' => [
-                    'Membentuk Peserta Didik yang cerdas, kreatif dan terpuji berdasarkan nilai Islam dan pendidikan Karakter',
-                    'Membentuk Guru dan Tenaga Kependidikan yang handal dan Profesional',
-                    'Menjadi lembaga Pendidikan yang Kokoh dan terkelola secara Optimal',
-                    'Membangun kerjasama dengan orang tua Peserta Didik, masyarakat dan stake holder lainnya'
+                    'Memperkuat iman, takwa, dan karakter religius peserta didik melalui pembiasaan ibadah dan Pendidikan karakter.',
+                    'Mengembangkan kemandirian, kreativitas, dan nalar kritis peserta didik melalui pembelajaran bermakna dan berbasis proyek.',
+                    'Mengintegrasikan teknologi digital dalam pembelajaran dan penilaian untuk meningkatkan literasi serta keterampilan berpikir kritis dan kreatif.',
+                    'Membangun kolaborasi yang sinergis antara sekolah, orang tua, dan masyarakat dalam mendukung pengembangan potensi dan karakter peserta didik.'
                 ],
                 'phone' => '085377193977',
-                'students_count' => 280,
-                'employees_count' => 12,
-                'classrooms_count' => 10,
-                'target_hafalan' => '5 - 10 Juz Mutqin',
+                'students_count' => 58,
+                'employees_count' => 16,
+                'classrooms_count' => 3,
+                'target_hafalan' => '3 - 5 Juz Mutqin',
+                'teachers' => [
+                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp', 'bio' => 'Lulusan Universitas Sriwijaya Pendidikan Biologi, Kepala Sekolah SMPIT Robbani berprestasi.'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/b2c738bc73172000c348fe9732dbecf6.webp', 'bio' => 'Guru mata pelajaran IPA dan pembina Tahsin Tahfidz Qur\'an (TTQ) serta BPI.'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/54a2d99ab10745e07564015cfc1228ee.webp', 'bio' => 'Lulusan STIT Raudhatul Ulum Ogan Ilir Jurusan PAI, pengajar PAI, Hadist dan TTQ.'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/d3e51bd52edb07d8614fe2565072e0c5.webp', 'bio' => 'Lulusan Universitas PGRI Palembang Jurusan Kesenian, pengajar IPS dan Seni Budaya.'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/1a306591b4f11e6554f591c37690d5b8.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, pengajar Bahasa Indonesia.'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/1ab1778a6021f1ce288cf0e3b8031046.webp', 'bio' => 'Lulusan S1 Pendidikan Bahasa Inggris, pengajar Bahasa Inggris & English Club.'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/8a9b894e3694bf33b6f404e78dbe0aa4.webp', 'bio' => 'Lulusan Universitas Al-Azhar Kairo Mesir, pengajar Bahasa Arab & TTQ.'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/594dd0069de306c30552420e1b926084.webp', 'bio' => 'Lulusan FMIPA Jurusan Matematika Universitas Sriwijaya, pengajar Matematika & TIK.'],
+                    ['name' => 'Syaifudin, S.Sn., Gr.', 'role' => 'Guru PJOK & Prakarya', 'photo' => '/uploads/media/83f5cdfe22b97802cb88ecddf4a22486.webp', 'bio' => 'Lulusan Institut Seni Indonesia (ISI) Yogyakarta, pengajar PJOK, Seni Rupa, dan Digital Art.'],
+                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/b839d8b384fd3d66b6c08bdb59e54839.webp', 'bio' => 'Lulusan Fakultas Ekonomi Syariah IAI Al-Qur\'an Al-Ittifaqiah, pengajar PAI & TTQ.'],
+                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/3c2fedb6aea0123567c6132ad53e8814.webp', 'bio' => 'Lulusan FISIP Jurusan Sosiologi, pengajar Pendidikan Pancasila & Kewarganegaraan.'],
+                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/105be986293de8c41c1e9c49bd4c40ce.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, Staff Administrasi & Tata Usaha SMPIT.'],
+                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru TTQ & BPI', 'photo' => '/uploads/media/f536c3f56567554b4572ef5b850803ce.webp', 'bio' => 'Guru pembina Tahsin Tahfidz Qur\'an (TTQ) dan Bina Pribadi Islam.'],
+                    ['name' => 'Ennja Carolin, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Fadhila Putri Alya, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Ita Mahmudah, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_1.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Kamila Sari, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_4.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Kms M Ilham Pratama, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_5.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Lia Maharani, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Rici Alfarizi, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.']
+                ],
                 'programs' => [
                     ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
                     ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
@@ -2177,6 +2093,61 @@ class CmsController extends Controller
         SiteSetting::set('foundation_profile_data', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         return redirect()->back()->with('success', '✨ Pengaturan Profil Yayasan berhasil disimpan & diperbarui!');
+    }
+
+    /**
+     * Manajemen Permohonan Layanan Publik (Kunjungan, Kerjasama, Sewa Fasilitas)
+     */
+    public function publicServiceRequests(Request $request)
+    {
+        $type = $request->query('type');
+        $query = \App\Models\PublicServiceRequest::with('handler');
+
+        if ($type && in_array($type, ['kunjungan', 'kerjasama', 'sewa'])) {
+            $query->where('request_type', $type);
+        }
+
+        $requests = $query->latest()->paginate(20);
+        $totalCount = \App\Models\PublicServiceRequest::count();
+        $pendingCount = \App\Models\PublicServiceRequest::where('status', 'PENDING')->count();
+        $approvedCount = \App\Models\PublicServiceRequest::where('status', 'APPROVED')->count();
+
+        return view('admin.services.index', compact('requests', 'totalCount', 'pendingCount', 'approvedCount', 'type'));
+    }
+
+    public function updatePublicServiceStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:PENDING,APPROVED,REJECTED,COMPLETED',
+            'admin_note' => 'nullable|string|max:1000',
+        ]);
+
+        $service = \App\Models\PublicServiceRequest::findOrFail($id);
+        $service->update([
+            'status' => $request->status,
+            'admin_note' => $request->admin_note,
+            'handled_by' => auth()->id(),
+        ]);
+
+        try {
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'UPDATE STATUS LAYANAN PUBLIK (' . $request->status . ')',
+                'model_type' => 'PublicServiceRequest',
+                'model_id' => $service->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch (\Throwable $e) {}
+
+        return redirect()->back()->with('success', "✓ Status Permohonan {$service->applicant_name} berhasil diperbarui menjadi {$request->status}!");
+    }
+
+    public function destroyPublicServiceRequest($id)
+    {
+        $service = \App\Models\PublicServiceRequest::findOrFail($id);
+        $service->delete();
+
+        return redirect()->back()->with('success', '✓ Permohonan Layanan Publik berhasil dihapus.');
     }
 }
 

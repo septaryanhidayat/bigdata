@@ -25,9 +25,10 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# Database lokal (jangan push ke GitHub)
+# Database lokal & dump (jangan push ke GitHub)
 database/database.sqlite
 database/*.sqlite
+database/*.sql
 
 # CPanel deployment (ini boleh di-push karena dibutuhkan server)
 # public/build/ -- SENGAJA TIDAK di-exclude agar cPanel tidak perlu Node.js

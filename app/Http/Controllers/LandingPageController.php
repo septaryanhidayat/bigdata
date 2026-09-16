@@ -11,6 +11,9 @@ class LandingPageController extends Controller
 {
     public function index()
     {
+        $waNumber = SiteSetting::get('whatsapp_number', '62811747472');
+        $cleanWa = preg_replace('/[^0-9]/', '', $waNumber);
+
         $settings = [
             'app_name' => SiteSetting::get('app_name', 'SmartEdu'),
             'edition_title' => SiteSetting::get('edition_title', 'SmartEdu'),
@@ -33,28 +36,23 @@ class LandingPageController extends Controller
             'pkg1_price' => SiteSetting::get('pkg1_price', 'Rp 1.500.000'),
             'pkg1_desc' => SiteSetting::get('pkg1_desc', 'Cocok untuk tim IT sekolah atau pengembang yang ingin mendeploy sendiri.'),
             'pkg1_features' => SiteSetting::get('pkg1_features', "Full Source Code Laravel 13 & SQLite/MySQL\n25 Modul Digital Terpadu Siap Pakai\nFitur SafeSchool Anti-Bullying & SmartBot AI\nDokumentasi Kode & Panduan Setup DB\nHak Milik Selamanya (Tanpa Biaya Bulanan)"),
-            'pkg1_link' => SiteSetting::get('pkg1_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20membeli%20Paket%20Source%20Code%201,5%20Juta'),
+            'pkg1_link' => SiteSetting::get('pkg1_link', "https://wa.me/{$cleanWa}?text=" . urlencode('Halo SmartEdu, saya tertarik konsultasi Paket Source Code 1,5 Juta')),
             
             'pkg2_title' => SiteSetting::get('pkg2_title', 'Paket Server + Reseller'),
             'pkg2_price' => SiteSetting::get('pkg2_price', 'Rp 3.000.000'),
             'pkg2_badge' => SiteSetting::get('pkg2_badge', '🔥 BEST SELLER & RESELLER READY'),
             'pkg2_desc' => SiteSetting::get('pkg2_desc', 'Solusi lengkap siap pakai untuk sekolah + lisensi hak jual kembali!'),
             'pkg2_features' => SiteSetting::get('pkg2_features', "Semua Fitur Paket Source Code 1,5 Juta\nFREE Setup & Deploy Server VPS/Cloud Sampai Live\nPaket Hak Jual Kembali / Reseller Affiliate (Profit 100%)\nCustom Branding Logo & Nama Sekolah Anda\nSupport Priority WhatsApp Direct 24/7\nFree Update Patch & Bug Fix 1 Tahun"),
-            'pkg2_link' => SiteSetting::get('pkg2_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20membeli%20Paket%20Complete%20Server%20%2B%20Reseller%203%20Juta'),
+            'pkg2_link' => SiteSetting::get('pkg2_link', "https://wa.me/{$cleanWa}?text=" . urlencode('Halo SmartEdu, saya tertarik konsultasi Paket Complete Server + Reseller 3 Juta')),
             
             'pkg3_title' => SiteSetting::get('pkg3_title', 'Paket Enterprise Yayasan'),
             'pkg3_price' => SiteSetting::get('pkg3_price', 'Rp 5.500.000'),
             'pkg3_desc' => SiteSetting::get('pkg3_desc', 'Didesain khusus untuk yayasan dengan banyak unit/cabang sekolah.'),
             'pkg3_features' => SiteSetting::get('pkg3_features', "Semua Fitur Paket 3 Juta Complete\nGratis Domain .sch.id Selama 1 Tahun\nLisensi Multi-Sekolah / Cabang Yayasan\nTraining Pembekalan Zoom untuk Admin & Guru (1 Bulan)\nMaintenance Server & Backup Data Otomatis\nRequest Penyesuaian Modul Fitur Custom"),
-            'pkg3_link' => SiteSetting::get('pkg3_link', 'https://wa.me/6281234567890?text=Halo%20SmartEdu,%20saya%20tertarik%20konsultasi%20Paket%20Enterprise%20Yayasan'),
+            'pkg3_link' => SiteSetting::get('pkg3_link', "https://wa.me/{$cleanWa}?text=" . urlencode('Halo SmartEdu, saya tertarik konsultasi Paket Enterprise Yayasan')),
         ];
 
-        if (\App\Models\FeatureModule::count() < 25) {
-            (new \Database\Seeders\CmsSeeder())->run();
-        }
-        \App\Models\FeatureModule::query()->update(['is_active' => true]);
-
-        $modules = \App\Models\FeatureModule::orderBy('sort_order')->get();
+        $modules = FeatureModule::orderBy('sort_order')->get();
         $faqs = FaqItem::orderBy('sort_order')->get();
 
         return view('welcome', compact('settings', 'modules', 'faqs'));

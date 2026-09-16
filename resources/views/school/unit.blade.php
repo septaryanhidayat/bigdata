@@ -318,7 +318,7 @@
 
             <!-- Desktop Navigation Menu -->
             <nav class="hidden xl:flex items-center gap-4 text-xs font-bold text-slate-700 dark:text-slate-200 shrink-0">
-                <a href="#" class="{{ $uTheme['accent_text'] }} font-black transition-colors">Beranda</a>
+                <a href="{{ route('school.unit', $schoolCode) }}" class="{{ $uTheme['accent_text'] }} font-black transition-colors">Beranda</a>
                 <a href="#sambutan" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Profil Sekolah</a>
                 <a href="#program" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Akademik</a>
                 <a href="#agenda-pengumuman" class="hover:text-emerald-600 dark:hover:text-[#c6f634] transition-colors whitespace-nowrap">Agenda</a>
@@ -1233,7 +1233,7 @@
                         Navigasi Utama
                     </h4>
                     <ul class="space-y-2 text-xs font-semibold text-slate-400">
-                        <li><a href="#" class="hover:text-amber-300 transition-colors block py-0.5">Beranda {{ $info['code'] }}</a></li>
+                        <li><a href="{{ route('school.unit', $schoolCode) }}" class="hover:text-amber-300 transition-colors block py-0.5">Beranda {{ $info['code'] }}</a></li>
                         <li><a href="#sambutan" class="hover:text-amber-300 transition-colors block py-0.5">Sambutan Kepala Sekolah</a></li>
                         <li><a href="#profil" class="hover:text-amber-300 transition-colors block py-0.5">Profil &amp; Visi Misi</a></li>
                         <li><a href="#program" class="hover:text-amber-300 transition-colors block py-0.5">Kurikulum &amp; Program Unggulan</a></li>

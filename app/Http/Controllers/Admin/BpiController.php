@@ -6,51 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\BpiMutabaah;
 use App\Models\Student;
 use App\Models\School;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 
 class BpiController extends Controller
 {
     public function index(Request $request)
     {
-        $schoolId = session('dashboard_school_id', 'all');
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
         $studentsQuery = Student::with(['school', 'classroom']);
 
-        if ($schoolId !== 'all') {
+        if ($schoolId) {
             $studentsQuery->where('school_id', $schoolId);
         }
 
-        $students = $studentsQuery->take(20)->get();
+        $students = $studentsQuery->take(25)->get();
 
-        $mutabaahLogsQuery = BpiMutabaah::with('student.school');
-        if ($schoolId !== 'all') {
+        $mutabaahLogsQuery = BpiMutabaah::with(['student.school', 'student.classroom']);
+        if ($schoolId) {
             $mutabaahLogsQuery->whereHas('student', function($q) use ($schoolId) {
                 $q->where('school_id', $schoolId);
             });
         }
-        $mutabaahLogs = $mutabaahLogsQuery->latest()->take(10)->get();
-
-        if ($mutabaahLogs->isEmpty() && $students->isNotEmpty()) {
-            foreach ($students->take(5) as $st) {
-                BpiMutabaah::create([
-                    'student_id' => $st->id,
-                    'date' => now()->toDateString(),
-                    'sholat_subuh' => true,
-                    'sholat_zhuhur' => true,
-                    'sholat_ashar' => true,
-                    'sholat_maghrib' => true,
-                    'sholat_isya' => true,
-                    'dhuha' => true,
-                    'tahajud' => false,
-                    'tilawah_juz' => 'Juz 30 (Surah An-Naba)',
-                    'hafalan_surah' => 'Surah Al-Mulk ayat 1-15',
-                    'al_mathurat' => true,
-                    'infaq_amount' => 5000,
-                    'notes' => 'Sangat rajin dan istiqomah tilawah Al-Qur\'an',
-                    'verified_by_parent' => true,
-                ]);
-            }
-            $mutabaahLogs = BpiMutabaah::with('student.school')->latest()->take(10)->get();
-        }
+        $mutabaahLogs = $mutabaahLogsQuery->latest()->take(25)->get();
 
         return view('admin.bpi.index', compact('students', 'mutabaahLogs', 'schoolId'));
     }
@@ -60,29 +38,58 @@ class BpiController extends Controller
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'date' => 'required|date',
-            'tilawah_juz' => 'nullable|string',
-            'hafalan_surah' => 'nullable|string',
-            'infaq_amount' => 'nullable|numeric',
+            'tilawah_juz' => 'nullable|string|max:100',
+            'hafalan_surah' => 'nullable|string|max:100',
+            'infaq_amount' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string|max:500',
         ]);
 
-        BpiMutabaah::create([
+        $student = Student::findOrFail($request->student_id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Siswa ini bukan dari unit sekolah Anda.');
+        }
+
+        $bpi = BpiMutabaah::create([
             'student_id' => $request->student_id,
             'date' => $request->date,
-            'sholat_subuh' => $request->has('sholat_subuh'),
-            'sholat_zhuhur' => $request->has('sholat_zhuhur'),
-            'sholat_ashar' => $request->has('sholat_ashar'),
-            'sholat_maghrib' => $request->has('sholat_maghrib'),
-            'sholat_isya' => $request->has('sholat_isya'),
-            'dhuha' => $request->has('dhuha'),
-            'tahajud' => $request->has('tahajud'),
-            'tilawah_juz' => $request->tilawah_juz ?? 'Juz 30',
-            'hafalan_surah' => $request->hafalan_surah ?? 'Surah Al-Mulk',
-            'al_mathurat' => $request->has('al_mathurat'),
-            'infaq_amount' => $request->infaq_amount ?? 5000,
-            'notes' => $request->notes ?? 'Amal yaumiyah terisi lengkap',
+            'sholat_subuh' => $request->boolean('sholat_subuh'),
+            'sholat_zhuhur' => $request->boolean('sholat_zhuhur'),
+            'sholat_ashar' => $request->boolean('sholat_ashar'),
+            'sholat_maghrib' => $request->boolean('sholat_maghrib'),
+            'sholat_isya' => $request->boolean('sholat_isya'),
+            'dhuha' => $request->boolean('dhuha'),
+            'tahajud' => $request->boolean('tahajud'),
+            'tilawah_juz' => $request->tilawah_juz ?: null,
+            'hafalan_surah' => $request->hafalan_surah ?: null,
+            'al_mathurat' => $request->boolean('al_mathurat'),
+            'infaq_amount' => $request->infaq_amount ? (float) $request->infaq_amount : 0,
+            'notes' => $request->notes ?: null,
             'verified_by_parent' => true,
         ]);
 
-        return redirect()->back()->with('success', '✓ Catatan Mutaba\'ah BPI berhasil ditambahkan!');
+        try {
+            AuditLog::create([
+                'user_id' => auth()->id() ?? 1,
+                'action' => 'CATAT MUTABAAH BPI',
+                'model_type' => 'BpiMutabaah',
+                'model_id' => $bpi->id,
+                'ip_address' => request()->ip(),
+            ]);
+        } catch (\Throwable $e) {}
+
+        return redirect()->back()->with('success', '✓ Catatan Mutaba\'ah BPI berhasil disimpan!');
+    }
+
+    public function destroy($id)
+    {
+        $bpi = BpiMutabaah::with('student')->findOrFail($id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $bpi->student && $bpi->student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak berwenang menghapus catatan BPI unit ini.');
+        }
+
+        $bpi->delete();
+        return redirect()->back()->with('success', '✓ Catatan Mutaba\'ah BPI berhasil dihapus.');
     }
 }

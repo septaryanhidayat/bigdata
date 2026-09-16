@@ -40,11 +40,12 @@
                         <th class="p-4">Tipe Catatan</th>
                         <th class="p-4">Keterangan / Judul</th>
                         <th class="p-4">Poin</th>
+                        <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
                     @forelse($records as $rec)
-                    <tr class="hover:bg-slate-50">
+                    <tr class="hover:bg-slate-50 transition-colors">
                         <td class="p-4 font-mono font-bold text-slate-900">{{ $rec->date }}</td>
                         <td class="p-4 font-black text-slate-900">{{ $rec->student->full_name ?? 'Siswa' }}</td>
                         <td class="p-4 font-bold text-slate-600">{{ $rec->student->school->code ?? '-' }}</td>
@@ -62,10 +63,19 @@
                         <td class="p-4 font-mono font-black text-sm {{ $rec->type == 'ACHIEVEMENT' ? 'text-emerald-600' : 'text-rose-600' }}">
                             {{ $rec->type == 'ACHIEVEMENT' ? '+' : '-' }}{{ $rec->points }} Poin
                         </td>
+                        <td class="p-4 text-center">
+                            <form action="{{ route('admin.bk.destroy', $rec->id) }}" method="POST" onsubmit="return confirm('Hapus catatan BK ini?')" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="p-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-black text-[11px] transition-colors" title="Hapus Catatan BK">
+                                    🗑️ Hapus
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-slate-400 italic">Belum ada catatan BK terrecord.</td>
+                        <td colspan="7" class="p-8 text-center text-slate-400 italic">Belum ada catatan BK terrecord. Silakan klik tombol Input Catatan BK Baru di atas.</td>
                     </tr>
                     @endforelse
                 </tbody>

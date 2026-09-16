@@ -34,7 +34,7 @@ class SchoolWebsiteController extends Controller
             'logo_dark' => SiteSetting::get('logo_dark', '/images/logo robbani dark.png'),
             'website_favicon' => SiteSetting::get('website_favicon', '/favicon.png'),
             'social_share_image' => SiteSetting::get('social_share_image', '/images/logo robbani light.png'),
-            'principal_photo' => SiteSetting::get('principal_photo', '/uploads/wp_assets/press-release-employee-10-scaled_b06e4c83.webp'),
+            'principal_photo' => SiteSetting::get('principal_photo', '/uploads/media/press-release-employee-10-scaled_b06e4c83.webp'),
         ];
 
         $schools = School::withCount(['students', 'employees', 'classrooms'])->where('is_active', true)->get();
@@ -161,21 +161,21 @@ class SchoolWebsiteController extends Controller
                 'name' => 'KB/TKIT Robbani',
                 'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
-                'principal_photo' => '/uploads/wp_assets/kepsek_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_photo' => '/uploads/media/ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
                 'desc' => 'Kelompok Bermain & TK Islam Terpadu Terakreditasi A.'
             ],
             'sdit' => [
                 'name' => 'SDIT Robbani',
                 'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'principal_title' => 'Kepala SDIT Robbani',
-                'principal_photo' => '/uploads/wp_assets/kepsek_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
                 'desc' => 'Sekolah Dasar Islam Terpadu Terakreditasi B & Program Tahfidz.'
             ],
             'smpit' => [
                 'name' => 'SMPIT Robbani',
-                'principal_name' => 'Tia Wulandari, S.Pd',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMPIT',
-                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
                 'desc' => 'Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).'
             ],
             'smait' => [
@@ -397,48 +397,56 @@ class SchoolWebsiteController extends Controller
                 ]
             ],
             'smpit' => [
-                'name' => 'SMP IT ROBBANI',
+                'name' => 'SMP ISLAM TERPADU ROBBANI',
                 'code' => 'SMPIT',
-                'npsn' => '69989012',
+                'npsn' => '70031580',
                 'akreditasi' => 'Terakreditasi B',
                 'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
-                'principal_name' => 'Tia Wulandari, S.Pd',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg',
+                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
-                'vision' => 'Menjadi Sekolah Menengah Pertama Terbaik di Indonesia pada tahun 2032',
+                'vision' => 'Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.',
                 'missions' => [
-                    'Membentuk Peserta Didik yang cerdas, kreatif dan terpuji berdasarkan nilai Islam dan pendidikan Karakter',
-                    'Membentuk Guru dan Tenaga Kependidikan yang handal dan Profesional',
-                    'Menjadi lembaga Pendidikan yang Kokoh dan terkelola secara Optimal',
-                    'Membangun kerjasama dengan orang tua Peserta Didik, masyarakat dan stake holder lainnya'
+                    'Memperkuat iman, takwa, dan karakter religius peserta didik melalui pembiasaan ibadah dan Pendidikan karakter.',
+                    'Mengembangkan kemandirian, kreativitas, dan nalar kritis peserta didik melalui pembelajaran bermakna dan berbasis proyek.',
+                    'Mengintegrasikan teknologi digital dalam pembelajaran dan penilaian untuk meningkatkan literasi serta keterampilan berpikir kritis dan kreatif.',
+                    'Membangun kolaborasi yang sinergis antara sekolah, orang tua, dan masyarakat dalam mendukung pengembangan potensi dan karakter peserta didik.'
                 ],
                 'phone' => '085377193977',
-                'students_count' => 280,
-                'employees_count' => 12,
-                'classrooms_count' => 10,
-                'target_hafalan' => '5 - 10 Juz Mutqin',
+                'students_count' => 58,
+                'employees_count' => 16,
+                'classrooms_count' => 3,
+                'target_hafalan' => '3 - 5 Juz Mutqin',
                 'programs' => [
-                    ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi, modul CBT, dan rekam jejak hafalan.'],
-                    ['title' => 'Fullday School & Karakter Islami', 'icon' => '🏫', 'desc' => 'Pembiasaan ibadah harian, sholat dhuha & dhuhur berjamaah, mentoring adab, dan kemandirian.'],
-                    ['title' => 'Tahfidz Al-Qur\'an 5-10 Juz', 'icon' => '📜', 'desc' => 'Bimbingan tasmi\', murojaah berkala, dan wisuda tahfidz dengan target hafalan mutqin.'],
-                    ['title' => 'Bilingual Club (Arab & Inggris)', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian 2 bahasa asing dan pembinaan public speaking siswa.']
+                    ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
+                    ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
+                    ['title' => 'Program Unggulan Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.'],
+                    ['title' => 'Bilingual & Public Speaking Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.']
                 ],
                 'teachers' => [
-                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-1_3fa9a06a.jpeg'],
-                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-110541_b299e525.jpeg'],
-                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530_30ee68d0.jpeg'],
-                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104532_3126be1f.jpeg'],
-                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531-2_2f796280.jpeg'],
-                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530-1_2c9bcfe7.jpeg'],
-                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104530-2_065e94be.jpeg'],
-                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104531_eb838cb9.jpeg'],
-                    ['name' => 'Syaifudin, S.Sn', 'role' => 'Guru PJOK & Seni Rupa', 'photo' => '/uploads/media/whatsapp-image-2024-12-03-at-104527_df1d1872.jpeg'],
-                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/guru-smp-3_4_20250930_141746_0000_c5eaee11.png'],
-                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/guru-smp-3_4_20250811_094836_0002_09c00b0d.png'],
-                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/guru-smp-3_4_20250930_141708_0000_17aa18d5.png']
+                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp', 'bio' => 'Lulusan Universitas Sriwijaya Pendidikan Biologi, Kepala Sekolah SMPIT Robbani berprestasi.'],
+                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/b2c738bc73172000c348fe9732dbecf6.webp', 'bio' => 'Guru mata pelajaran IPA dan pembina Tahsin Tahfidz Qur\'an (TTQ) serta BPI.'],
+                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/54a2d99ab10745e07564015cfc1228ee.webp', 'bio' => 'Lulusan STIT Raudhatul Ulum Ogan Ilir Jurusan PAI, pengajar PAI, Hadist dan TTQ.'],
+                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/d3e51bd52edb07d8614fe2565072e0c5.webp', 'bio' => 'Lulusan Universitas PGRI Palembang Jurusan Kesenian, pengajar IPS dan Seni Budaya.'],
+                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/1a306591b4f11e6554f591c37690d5b8.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, pengajar Bahasa Indonesia.'],
+                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/1ab1778a6021f1ce288cf0e3b8031046.webp', 'bio' => 'Lulusan S1 Pendidikan Bahasa Inggris, pengajar Bahasa Inggris & English Club.'],
+                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/8a9b894e3694bf33b6f404e78dbe0aa4.webp', 'bio' => 'Lulusan Universitas Al-Azhar Kairo Mesir, pengajar Bahasa Arab & TTQ.'],
+                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/594dd0069de306c30552420e1b926084.webp', 'bio' => 'Lulusan FMIPA Jurusan Matematika Universitas Sriwijaya, pengajar Matematika & TIK.'],
+                    ['name' => 'Syaifudin, S.Sn., Gr.', 'role' => 'Guru PJOK & Prakarya', 'photo' => '/uploads/media/83f5cdfe22b97802cb88ecddf4a22486.webp', 'bio' => 'Lulusan Institut Seni Indonesia (ISI) Yogyakarta, pengajar PJOK, Seni Rupa, dan Digital Art.'],
+                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/b839d8b384fd3d66b6c08bdb59e54839.webp', 'bio' => 'Lulusan Fakultas Ekonomi Syariah IAI Al-Qur\'an Al-Ittifaqiah, pengajar PAI & TTQ.'],
+                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/3c2fedb6aea0123567c6132ad53e8814.webp', 'bio' => 'Lulusan FISIP Jurusan Sosiologi, pengajar Pendidikan Pancasila & Kewarganegaraan.'],
+                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/105be986293de8c41c1e9c49bd4c40ce.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, Staff Administrasi & Tata Usaha SMPIT.'],
+                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru TTQ & BPI', 'photo' => '/uploads/media/f536c3f56567554b4572ef5b850803ce.webp', 'bio' => 'Guru pembina Tahsin Tahfidz Qur\'an (TTQ) dan Bina Pribadi Islam.'],
+                    ['name' => 'Ennja Carolin, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Fadhila Putri Alya, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Ita Mahmudah, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_1.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Kamila Sari, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_4.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Kms M Ilham Pratama, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_5.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Lia Maharani, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+                    ['name' => 'Rici Alfarizi, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.']
                 ],
                 'alumni' => [
                     ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/media/img20251124075603-scaled_0267776a.jpg'],
@@ -876,17 +884,32 @@ class SchoolWebsiteController extends Controller
         $request->validate([
             'instansi' => 'required|string|max:255',
             'nama_pemohon' => 'required|string|max:255',
-            'email' => 'required|email',
-            'no_hp' => 'required|string',
+            'email' => 'required|email|max:255',
+            'no_hp' => 'required|string|max:50',
             'tgl_kunjungan' => 'required|date',
-            'jumlah_peserta' => 'required|integer',
-            'tujuan' => 'required|string',
+            'jumlah_peserta' => 'required|integer|min:1',
+            'tujuan' => 'required|string|max:2000',
             'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
+        $docPath = null;
         if ($request->hasFile('file_dokumen')) {
-            $request->file('file_dokumen')->store('layanan_kunjungan', 'public');
+            $docPath = $request->file('file_dokumen')->store('layanan_kunjungan', 'public');
         }
+
+        \App\Models\PublicServiceRequest::create([
+            'request_type' => 'kunjungan',
+            'institution_name' => $request->instansi,
+            'applicant_name' => $request->nama_pemohon,
+            'email' => $request->email,
+            'phone_number' => $request->no_hp,
+            'event_date' => $request->tgl_kunjungan,
+            'participants_count' => $request->jumlah_peserta,
+            'facility_or_type' => 'Kunjungan & Studi Banding',
+            'purpose_description' => $request->tujuan,
+            'document_path' => $docPath,
+            'status' => 'PENDING',
+        ]);
 
         return redirect()->back()->with('success', 'Permohonan Izin Kunjungan Sekolah berhasil dikirim! Tim Humas Yayasan Generasi Robbani akan menghubungi Anda melalui WhatsApp/Email.');
     }
@@ -903,16 +926,29 @@ class SchoolWebsiteController extends Controller
         $request->validate([
             'nama_lembaga' => 'required|string|max:255',
             'nama_kontak' => 'required|string|max:255',
-            'email' => 'required|email',
-            'no_hp' => 'required|string',
-            'jenis_kerjasama' => 'required|string',
-            'deskripsi' => 'required|string',
+            'email' => 'required|email|max:255',
+            'no_hp' => 'required|string|max:50',
+            'jenis_kerjasama' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:3000',
             'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
+        $docPath = null;
         if ($request->hasFile('file_dokumen')) {
-            $request->file('file_dokumen')->store('layanan_kerjasama', 'public');
+            $docPath = $request->file('file_dokumen')->store('layanan_kerjasama', 'public');
         }
+
+        \App\Models\PublicServiceRequest::create([
+            'request_type' => 'kerjasama',
+            'institution_name' => $request->nama_lembaga,
+            'applicant_name' => $request->nama_kontak,
+            'email' => $request->email,
+            'phone_number' => $request->no_hp,
+            'facility_or_type' => $request->jenis_kerjasama,
+            'purpose_description' => $request->deskripsi,
+            'document_path' => $docPath,
+            'status' => 'PENDING',
+        ]);
 
         return redirect()->back()->with('success', 'Permohonan Kerjasama & Kemitraan telah diterima! Tim Kemitraan SIT Robbani Ogan Ilir akan memproses proposal Anda.');
     }
@@ -929,16 +965,29 @@ class SchoolWebsiteController extends Controller
     {
         $request->validate([
             'nama_penyewa' => 'required|string|max:255',
-            'no_hp' => 'required|string',
-            'fasilitas_disewa' => 'required|string',
+            'no_hp' => 'required|string|max:50',
+            'fasilitas_disewa' => 'required|string|max:255',
             'tgl_sewa' => 'required|date',
-            'keperluan' => 'required|string',
+            'keperluan' => 'required|string|max:2000',
             'file_dokumen' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
+        $docPath = null;
         if ($request->hasFile('file_dokumen')) {
-            $request->file('file_dokumen')->store('layanan_sewa', 'public');
+            $docPath = $request->file('file_dokumen')->store('layanan_sewa', 'public');
         }
+
+        \App\Models\PublicServiceRequest::create([
+            'request_type' => 'sewa',
+            'institution_name' => $request->nama_penyewa,
+            'applicant_name' => $request->nama_penyewa,
+            'phone_number' => $request->no_hp,
+            'event_date' => $request->tgl_sewa,
+            'facility_or_type' => $request->fasilitas_disewa,
+            'purpose_description' => $request->keperluan,
+            'document_path' => $docPath,
+            'status' => 'PENDING',
+        ]);
 
         return redirect()->back()->with('success', 'Permohonan Sewa Fasilitas Sekolah telah diajukan! Pengelola sarana prasarana akan mengonfirmasi jadwal & ketersediaan.');
     }
@@ -1067,7 +1116,17 @@ class SchoolWebsiteController extends Controller
     public function downloadSpmbPdf($id)
     {
         $settings = $this->getSettings();
-        $registration = \App\Models\PpdbRegistration::findOrFail($id);
+
+        if (is_numeric($id)) {
+            $registration = \App\Models\PpdbRegistration::findOrFail($id);
+            $requestReg = request('reg');
+            if (!auth()->check() && $requestReg && $requestReg !== $registration->registration_number) {
+                abort(403, 'Akses tidak sah: Nomor registrasi verifikasi tidak sesuai.');
+            }
+        } else {
+            $registration = \App\Models\PpdbRegistration::where('registration_number', $id)->firstOrFail();
+        }
+
         return view('school.spmb_pdf', compact('settings', 'registration'));
     }
 
@@ -1149,7 +1208,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'KB/TKIT',
                 'date' => '12 Agustus 2026',
                 'author' => 'Humas KB/TKIT Robbani',
-                'image' => '/uploads/wp_assets/img20220127093650-scaled_e1faddf6.jpg',
+                'image' => '/uploads/media/img20220127093650-scaled_e1faddf6.jpg',
                 'excerpt' => 'Keceriaan dan kebersamaan siswa cilik KB/TKIT Robbani Ogan Ilir saat mengekspresikan bakat hafalan surah pendek, doa harian, & kreasi mewarnai bersama bundanya.',
                 'content' => 'Ogan Ilir — Suasana penuh warna dan keceriaan mewarnai aula KB/TKIT Robbani Ogan Ilir dalam gelaran Puncak Tema & Pentas Seni Cilik Siswa Usia Dini Tahun Ajaran 2026/2027.<br><br>Acara ini diselenggarakan sebagai wadah apresiasi tumbuh kembang, keberanian, dan kreativitas siswa cilik KB/TKIT Robbani setelah menyelesaikan tema pembelajaran semester ganjil.<br><br>Para siswa dengan percaya diri menampilkan unjuk bakat hafalan surah-surah pendek Al-Qur\'an (Juz Amma), perkataan thoyyibah, doa harian, tarian kreasi nusantara islami, serta fashion show pakaian adat.<br><br>Kepala KB/TKIT Robbani, Ani Oktar Yansi, S.Pd.I, menyampaikan rasa syukur dan haru atas perkembangan adab dan kemandirian ananda.'
             ],
@@ -1159,7 +1218,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SDIT',
                 'date' => '08 Agustus 2026',
                 'author' => 'Pembina Pramuka SDIT',
-                'image' => '/uploads/wp_assets/1-e1643012044561_a09877b7.jpeg',
+                'image' => '/uploads/media/1-e1643012044561_a09877b7.jpeg',
                 'excerpt' => 'Pelatihan kemandirian, ketangkasan, dan mabit malam bina iman takwa siswa penggalang SDIT Robbani Ogan Ilir.',
                 'content' => 'Ogan Ilir — Ratusan siswa penggalang Sekolah Dasar Islam Terpadu (SDIT) Robbani Ogan Ilir antusias mengikuti kegiatan Perkemahan Sabtu-Minggu (Persami) & Supercamp Karakter Pramuka SIT 2026 di Bumi Perkemahan Kampus Terpadu Robbani.<br><br>Kegiatan yang mengusung tema "Tangguh, Mandiri, Berakhlak Karimah, dan Siap Memimpin" ini diisi dengan berbagai materi ketangkasan, sandi morse, pioneering tali temali, penjelajahan alam halang rintang, serta pertunjukan api unggun.'
             ],
@@ -1169,7 +1228,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SMPIT',
                 'date' => '31 Juli 2026',
                 'author' => 'Humas SIT Robbani',
-                'image' => '/uploads/wp_assets/img20251124075603-scaled_0267776a.jpg',
+                'image' => '/uploads/media/img20251124075603-scaled_0267776a.jpg',
                 'excerpt' => 'Alhamdulillah, Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir berhasil meraih Penghargaan Peserta Terbaik III dalam Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan.',
                 'content' => 'Ogan Ilir — Sebuah kebanggaan besar kembali diukir oleh keluarga besar Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Ibu Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir, berhasil meraih penghargaan sebagai Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan Tahun 2026.'
             ],
@@ -1179,7 +1238,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SMAIT',
                 'date' => '20 Juli 2026',
                 'author' => 'Tim Bimbingan Konseling SMAIT',
-                'image' => '/uploads/wp_assets/5_b3b7f870.jpg',
+                'image' => '/uploads/media/5_b3b7f870.jpg',
                 'excerpt' => 'Capaian membanggakan alumni SMAIT Robbani tembus jalur SNBP, SNBT, dan beasiswa perguruan tinggi ternama di dalam maupun luar negeri.',
                 'content' => 'Ogan Ilir — Kualitas lulusan Sekolah Menengah Atas Islam Terpadu (SMAIT) Robbani Ogan Ilir kembali terbukti di kancah nasional dan internasional. Berdasarkan pengumuman resmi kelulusan PTN 2026, puluhan alumni SMAIT Robbani berhasil diterima di Perguruan Tinggi Negeri (PTN) favorit seperti Universitas Sriwijaya, ITB, UGM, UNDIP, serta Universitas Al-Azhar Kairo.'
             ],
@@ -1189,7 +1248,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'KB/TKIT',
                 'date' => '05 Juli 2026',
                 'author' => 'Tim Kurikulum TKIT',
-                'image' => '/uploads/wp_assets/3_0996b3f3.png',
+                'image' => '/uploads/media/3_0996b3f3.png',
                 'excerpt' => 'Mengenalkan makanan sehat halal dan thoyyib sejak dini melalui praktik memasak menyenangkan bersama ustazah dan wali murid.',
                 'content' => 'Ogan Ilir — Para siswa cilik KB/TKIT Robbani antusias mengikuti kegiatan Fun Cooking & Edukasi Makanan Sehat Halalan Thoyyiban di halaman sekolah.'
             ],
@@ -1199,7 +1258,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SDIT',
                 'date' => '18 Juni 2026',
                 'author' => 'Tim Al-Qur\'an SDIT',
-                'image' => '/uploads/wp_assets/2_7c039504.png',
+                'image' => '/uploads/media/2_7c039504.png',
                 'excerpt' => 'Ujian hafalan Al-Qur\'an terbuka siswa SDIT Robbani di hadapan para penguji munaqisy dan orang tua siswa.',
                 'content' => 'Ogan Ilir — Puluhan siswa SDIT Robbani Ogan Ilir mengikuti ujian Munaqosyah Tahfidz Al-Qur\'an Juz 29 dan 30 secara terbuka di Masjid Kampus Robbani.'
             ]

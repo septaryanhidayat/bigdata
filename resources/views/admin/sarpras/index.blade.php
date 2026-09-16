@@ -47,11 +47,12 @@
                         <th class="p-4">Lokasi Ruangan</th>
                         <th class="p-4">Nilai Per Unit</th>
                         <th class="p-4">Kondisi Fisik</th>
+                        <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 font-medium text-slate-800">
                     @forelse($assets as $ast)
-                    <tr class="hover:bg-slate-50">
+                    <tr class="hover:bg-slate-50 transition-colors">
                         <td class="p-4 font-mono font-bold text-emerald-800">{{ $ast->asset_code }}</td>
                         <td class="p-4 font-black text-slate-900">{{ $ast->name }}</td>
                         <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 font-black text-[10px]">{{ $ast->category }}</span></td>
@@ -59,12 +60,21 @@
                         <td class="p-4 font-bold text-slate-600">📍 {{ $ast->location }}</td>
                         <td class="p-4 font-mono font-black text-emerald-600">Rp {{ number_format($ast->purchase_cost, 0, ',', '.') }}</td>
                         <td class="p-4">
-                            <span class="px-3 py-1 rounded-full bg-emerald-500 text-white font-black text-[10px]">✓ {{ $ast->condition }}</span>
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black text-[10px]">✓ {{ $ast->condition }}</span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <form action="{{ route('admin.sarpras.destroy', $ast->id) }}" method="POST" onsubmit="return confirm('Hapus aset ini dari inventaris?')" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="p-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-black text-[11px] transition-colors" title="Hapus Aset">
+                                    🗑️ Hapus
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="p-8 text-center text-slate-400 italic">Belum ada aset terdaftar.</td>
+                        <td colspan="8" class="p-8 text-center text-slate-400 italic">Belum ada aset terdaftar. Silakan klik tombol Tambah Aset Baru di atas.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -86,12 +96,12 @@
             @csrf
             <div>
                 <label class="block text-slate-700 mb-1">Kode Barcode Aset:</label>
-                <input type="text" name="asset_code" value="AST-{{ rand(100,999) }}" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <input type="text" name="asset_code" required placeholder="Contoh: AST-LAB-001" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
             </div>
 
             <div>
                 <label class="block text-slate-700 mb-1">Nama Barang / Aset:</label>
-                <input type="text" name="name" placeholder="Contoh: Laptop Acer i5 8GB" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <input type="text" name="name" required placeholder="Contoh: Laptop Acer i5 8GB" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -101,26 +111,28 @@
                         <option value="ELEKTRONIK">Elektronik</option>
                         <option value="MEBEL">Mebel</option>
                         <option value="BANGUNAN">Bangunan</option>
+                        <option value="KENDARAAN">Kendaraan</option>
+                        <option value="ALAT_PERAGA">Alat Peraga</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-slate-700 mb-1">Jumlah (Qty):</label>
-                    <input type="number" name="quantity" value="1" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                    <input type="number" name="quantity" value="1" min="1" required class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
                 </div>
             </div>
 
             <div>
                 <label class="block text-slate-700 mb-1">Lokasi Ruangan / Gedung:</label>
-                <input type="text" name="location" value="Lab Komputer Utama" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <input type="text" name="location" required placeholder="Contoh: Lab Komputer SMPIT Lantai 2" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
             </div>
 
             <div>
                 <label class="block text-slate-700 mb-1">Nilai / Biaya Pembelian (Rp):</label>
-                <input type="number" name="purchase_cost" value="5000000" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <input type="number" name="purchase_cost" min="0" required placeholder="Contoh: 7500000" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
             </div>
 
             <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
-                <button type="button" onclick="document.getElementById('addAssetModal').classList.add('hidden')" class="px-4 py-2.5 rounded-2xl bg-slate-100 text-slate-600">Batal</button>
+                <button type="button" onclick="document.getElementById('addAssetModal').classList.add('hidden')" class="px-4 py-2.5 rounded-2xl bg-slate-100 text-slate-600 font-bold">Batal</button>
                 <button type="submit" class="px-5 py-2.5 rounded-2xl bg-theme-gradient text-white font-black shadow-md">Simpan Aset</button>
             </div>
         </form>

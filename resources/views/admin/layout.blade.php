@@ -138,8 +138,11 @@
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col md:flex-row theme-magenta" id="adminBody">
 
-    <!-- Dark Sleek Floating Sidebar -->
-    <aside id="adminSidebar" class="w-full md:w-64 bg-[#14151b] text-white shrink-0 p-4 sm:p-5 flex flex-col justify-between shadow-2xl relative z-20 transition-all duration-300 overflow-x-hidden">
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarMobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
+
+    <!-- Dark Sleek Floating Sidebar (Off-Canvas on Mobile, Static/Compact on Desktop) -->
+    <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] md:max-w-none md:relative md:w-64 -translate-x-full md:translate-x-0 bg-[#14151b] text-white shrink-0 p-4 sm:p-5 flex flex-col justify-between shadow-2xl transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden">
         <div class="space-y-5">
             
             <!-- Logo & Brand Header (SmartEdu Only) -->
@@ -157,11 +160,16 @@
                     </div>
                 </a>
 
-                <!-- Minimize / Expand Sidebar Toggle Button -->
-                <button onclick="toggleAdminSidebar()" title="Minimize / Expand Sidebar" class="hidden md:flex w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
-                    <span class="sidebar-expand-icon">◀</span>
-                    <span class="sidebar-compact-icon hidden">▶</span>
-                </button>
+                <!-- Minimize / Expand Sidebar Toggle Button (Desktop) & Close Button (Mobile) -->
+                <div class="flex items-center gap-1">
+                    <button onclick="toggleAdminSidebar()" title="Minimize / Expand Sidebar" class="hidden md:flex w-7 h-7 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
+                        <span class="sidebar-expand-icon">◀</span>
+                        <span class="sidebar-compact-icon hidden">▶</span>
+                    </button>
+                    <button onclick="toggleMobileSidebar()" title="Tutup Menu" class="md:hidden w-7 h-7 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center text-xs transition-transform active:scale-95 shrink-0">
+                        ✕
+                    </button>
+                </div>
             </div>
 
             <!-- Profile User Box -->
@@ -270,7 +278,7 @@
                     $isStudentServicesActive = request()->routeIs('admin.attendance.*') || request()->routeIs('admin.bk.*') || request()->routeIs('admin.ppdb-admin.*') || request()->routeIs('admin.library.*') || request()->routeIs('admin.sarpras.*');
                     $isFinanceActive = request()->routeIs('admin.finance.*') || request()->routeIs('admin.savings.*') || request()->routeIs('admin.canteen.*');
                     $isLettersActive = request()->routeIs('admin.letters.*');
-                    $isCmsActive = request()->routeIs('admin.settings.*') || request()->routeIs('admin.cms.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.faqs.*') || request()->routeIs('admin.users.*') || request()->routeIs('admin.ai-trainer.*');
+                    $isCmsActive = request()->routeIs('admin.settings.*') || request()->routeIs('admin.cms.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.faqs.*') || request()->routeIs('admin.users.*') || request()->routeIs('admin.ai-trainer.*') || request()->routeIs('admin.public-services.*');
                 @endphp
 
                 <!-- 1. KATEGORI: MASTER DATA YAYASAN & SEKOLAH -->
@@ -536,6 +544,10 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏢</span> 
                             <span class="sidebar-text">Profil Semua Web Unit</span>
                         </a>
+                        <a href="{{ route('admin.public-services.index') }}" title="Permohonan Layanan Publik" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.public-services.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">📨</span> 
+                            <span class="sidebar-text">Layanan Publik (Kunjungan/Sewa)</span>
+                        </a>
                     @elseif(Auth::user()->school_id && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan())
                         @php
                             $userSchoolCode = strtolower(Auth::user()->school->code ?? 'sdit');
@@ -581,6 +593,10 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🤖</span> 
                             <span class="sidebar-text">AI Knowledge Trainer</span>
                         </a>
+                        <a href="{{ route('admin.public-services.index') }}" title="Permohonan Layanan Publik" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.public-services.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">📨</span> 
+                            <span class="sidebar-text">Layanan Publik (Kunjungan/Sewa)</span>
+                        </a>
                     @endif
                 </div>
                 @endif
@@ -611,8 +627,8 @@
             <!-- Sidebar Toggle Button & Global Search Box -->
             <div class="flex items-center gap-3">
                 
-                <!-- Toggle Minimize/Expand Sidebar Button -->
-                <button onclick="toggleAdminSidebar()" title="Minimize / Expand Sidebar Menu" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-lg shadow-sm border border-slate-200 transition-transform active:scale-95">
+                <!-- Toggle Minimize/Expand Sidebar Button (Responsive Mobile & Desktop) -->
+                <button onclick="handleSidebarToggle()" title="Toggle Menu Sidebar" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-lg shadow-sm border border-slate-200 transition-transform active:scale-95 cursor-pointer">
                     ☰
                 </button>
 
@@ -621,10 +637,10 @@
                     <span>🌐</span> <span>Lihat Website</span> <span>↗</span>
                 </a>
 
-                <!-- Search Bar -->
+                <!-- Search Bar with WCAG AA Compliant Contrast -->
                 <div class="hidden md:flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl w-64 lg:w-72 border border-slate-200">
-                    <span class="text-slate-400">🔍</span>
-                    <input type="text" placeholder="Cari data siswa, guru, tagihan, rfid..." class="bg-transparent border-none text-xs font-semibold focus:outline-none w-full text-slate-700">
+                    <span class="text-slate-500 font-bold">🔍</span>
+                    <input type="text" placeholder="Cari data siswa, guru, tagihan, rfid..." class="bg-transparent border-none text-xs font-semibold focus:outline-none w-full text-slate-800 placeholder:text-slate-500">
                 </div>
             </div>
 
@@ -707,6 +723,32 @@
 
             // Dispatch event for chart re-render if needed
             window.dispatchEvent(new CustomEvent('adminThemeChanged', { detail: { theme: themeName } }));
+        }
+
+        function handleSidebarToggle() {
+            if (window.innerWidth < 768) {
+                toggleMobileSidebar();
+            } else {
+                toggleAdminSidebar();
+            }
+        }
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const backdrop = document.getElementById('sidebarMobileBackdrop');
+            if (!sidebar) return;
+            const isOpen = sidebar.classList.contains('translate-x-0');
+            if (isOpen) {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+                if (backdrop) backdrop.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                if (backdrop) backdrop.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
         }
 
         function toggleAdminSidebar() {

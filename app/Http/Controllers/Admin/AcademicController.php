@@ -12,6 +12,7 @@ use App\Models\KbmJournal;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\AcademicYear;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 
 class AcademicController extends Controller
@@ -38,9 +39,6 @@ class AcademicController extends Controller
         $classrooms = $classroomsQuery->get();
         $subjects = $schoolId ? Subject::where('school_id', $schoolId)->get() : Subject::all();
         $teachers = $teachersQuery->get();
-        if ($teachers->isEmpty()) {
-            $teachers = $schoolId ? Employee::where('school_id', $schoolId)->get() : Employee::all();
-        }
 
         return view('admin.academic.schedules', compact('schedules', 'schools', 'classrooms', 'subjects', 'teachers', 'schoolId'));
     }
@@ -48,7 +46,7 @@ class AcademicController extends Controller
     public function storeSchedule(Request $request)
     {
         $user = auth()->user();
-        $schoolId = $user && $user->school_id ? $user->school_id : $request->school_id;
+        $effectiveSchoolId = $user?->getEffectiveSchoolId();
 
         $validated = $request->validate([
             'school_id' => 'required|exists:schools,id',
@@ -60,20 +58,36 @@ class AcademicController extends Controller
             'end_time' => 'required',
         ]);
 
-        $validated['school_id'] = $schoolId;
+        if ($effectiveSchoolId && $request->school_id != $effectiveSchoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Unit sekolah tidak sesuai hak akses Anda.');
+        }
+
+        $validated['school_id'] = $effectiveSchoolId ?: $request->school_id;
         $sch = Schedule::create($validated);
 
         try {
-            \App\Models\AuditLog::create([
+            AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
-                'action' => 'JADWAL KBM',
+                'action' => 'TAMBAH JADWAL KBM',
                 'model_type' => 'Schedule',
                 'model_id' => $sch->id,
                 'ip_address' => request()->ip(),
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', 'Jadwal Pelajaran Berhasil Ditambahkan!');
+        return redirect()->back()->with('success', '✓ Jadwal Pelajaran Berhasil Ditambahkan!');
+    }
+
+    public function destroySchedule($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $schedule->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak memiliki otoritas atas jadwal unit ini.');
+        }
+
+        $schedule->delete();
+        return redirect()->back()->with('success', '✓ Jadwal Pelajaran berhasil dihapus.');
     }
 
     /**
@@ -81,8 +95,7 @@ class AcademicController extends Controller
      */
     public function journals()
     {
-        $user = auth()->user();
-        $schoolId = $user?->getEffectiveSchoolId();
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
 
         $journalsQuery = KbmJournal::with(['schedule.classroom', 'schedule.subject', 'teacher']);
         $schedulesQuery = Schedule::with(['classroom', 'subject']);
@@ -97,9 +110,6 @@ class AcademicController extends Controller
         $journals = $journalsQuery->latest()->paginate(15);
         $schedules = $schedulesQuery->get();
         $teachers = $teachersQuery->get();
-        if ($teachers->isEmpty()) {
-            $teachers = $schoolId ? Employee::where('school_id', $schoolId)->get() : Employee::all();
-        }
 
         return view('admin.academic.journals', compact('journals', 'schedules', 'teachers'));
     }
@@ -114,6 +124,12 @@ class AcademicController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+        $schedule = Schedule::findOrFail($request->schedule_id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $schedule->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Jadwal ini bukan dari unit sekolah Anda.');
+        }
+
         $jrn = KbmJournal::create([
             'schedule_id' => $request->schedule_id,
             'teacher_id' => $request->teacher_id,
@@ -123,7 +139,7 @@ class AcademicController extends Controller
         ]);
 
         try {
-            \App\Models\AuditLog::create([
+            AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
                 'action' => 'JURNAL KBM',
                 'model_type' => 'KbmJournal',
@@ -132,7 +148,19 @@ class AcademicController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', 'Catatan Jurnal KBM Guru Berhasil Disimpan!');
+        return redirect()->back()->with('success', '✓ Catatan Jurnal KBM Guru Berhasil Disimpan!');
+    }
+
+    public function destroyJournal($id)
+    {
+        $journal = KbmJournal::with('schedule')->findOrFail($id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $journal->schedule && $journal->schedule->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak memiliki otoritas atas jurnal ini.');
+        }
+
+        $journal->delete();
+        return redirect()->back()->with('success', '✓ Jurnal KBM berhasil dihapus.');
     }
 
     /**
@@ -152,9 +180,6 @@ class AcademicController extends Controller
 
         $grades = $gradesQuery->latest()->paginate(15);
         $students = $studentsQuery->get();
-        if ($students->isEmpty()) {
-            $students = $schoolId ? Student::where('school_id', $schoolId)->get() : Student::all();
-        }
         $subjects = $schoolId ? Subject::where('school_id', $schoolId)->get() : Subject::all();
         $academicYears = AcademicYear::all();
 
@@ -172,6 +197,12 @@ class AcademicController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+        $student = Student::findOrFail($request->student_id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Siswa ini bukan dari unit sekolah Anda.');
+        }
+
         $grd = Grade::create([
             'student_id' => $request->student_id,
             'subject_id' => $request->subject_id,
@@ -183,7 +214,7 @@ class AcademicController extends Controller
         ]);
 
         try {
-            \App\Models\AuditLog::create([
+            AuditLog::create([
                 'user_id' => auth()->id() ?? 1,
                 'action' => 'PENILAIAN E-RAPOR',
                 'model_type' => 'Grade',
@@ -192,7 +223,19 @@ class AcademicController extends Controller
             ]);
         } catch(\Throwable $e) {}
 
-        return redirect()->back()->with('success', 'Nilai Siswa Berhasil Diinput!');
+        return redirect()->back()->with('success', '✓ Nilai Siswa Berhasil Diinput!');
+    }
+
+    public function destroyGrade($id)
+    {
+        $grade = Grade::with('student')->findOrFail($id);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $grade->student && $grade->student->school_id != $schoolId) {
+            return redirect()->back()->with('error', 'Akses ditolak: Anda tidak memiliki otoritas atas nilai siswa ini.');
+        }
+
+        $grade->delete();
+        return redirect()->back()->with('success', '✓ Nilai siswa berhasil dihapus.');
     }
 
     /**
@@ -201,6 +244,11 @@ class AcademicController extends Controller
     public function reportCard($studentId)
     {
         $student = Student::with(['school', 'classroom.homeroomTeacher', 'guardian'])->findOrFail($studentId);
+        $schoolId = auth()->user()?->getEffectiveSchoolId();
+        if ($schoolId && $student->school_id != $schoolId) {
+            abort(403, 'Akses ditolak: Anda tidak memiliki hak akses melihat rapor unit ini.');
+        }
+
         $grades = Grade::where('student_id', $studentId)->with('subject')->get();
         $academicYear = AcademicYear::where('is_active', 1)->first() ?? AcademicYear::first();
 

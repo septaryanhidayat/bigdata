@@ -48,13 +48,19 @@
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-                <span class="text-[10px] text-emerald-600 font-extrabold">● Proctoring Active</span>
-                <button onclick="openBankSoalModal('{{ $ex->id }}', '{{ $ex->title }}')" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-black hover:bg-slate-800">Kelola Bank Soal ➔</button>
+                <form action="{{ route('admin.cbt.destroy', $ex->id) }}" method="POST" onsubmit="return confirm('Hapus paket ujian CBT ini beserta seluruh butir soalnya?')" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-rose-600 hover:text-rose-700 font-bold text-[11px] p-1">
+                        🗑️ Hapus
+                    </button>
+                </form>
+                <button onclick="openBankSoalModal('{{ $ex->id }}', '{{ $ex->title }}')" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-black hover:bg-slate-800">Kelola Bank Soal ({{ $ex->questions->count() }}) ➔</button>
             </div>
         </div>
         @empty
         <div class="col-span-3 p-8 bg-white rounded-3xl text-center text-slate-400 italic border border-slate-100">
-            Belum ada paket ujian CBT terbuat.
+            Belum ada paket ujian CBT terbuat. Silakan klik tombol Buat Paket Ujian CBT di atas.
         </div>
         @endforelse
     </div>
@@ -78,7 +84,7 @@
 
             <div>
                 <label class="block text-slate-700 mb-1">Pertanyaan / Soal Ujian:</label>
-                <textarea name="question_text" rows="3" required placeholder="Tuliskan soal pilihan ganda di sini..." class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200"></textarea>
+                <textarea name="question_text" rows="3" required placeholder="Tuliskan butir soal pilihan ganda di sini..." class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200"></textarea>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -90,6 +96,14 @@
                     <label class="block text-slate-700 mb-1">Pilihan B:</label>
                     <input type="text" name="option_b" required placeholder="Jawaban B" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
                 </div>
+                <div>
+                    <label class="block text-slate-700 mb-1">Pilihan C (Opsional):</label>
+                    <input type="text" name="option_c" placeholder="Jawaban C" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                </div>
+                <div>
+                    <label class="block text-slate-700 mb-1">Pilihan D (Opsional):</label>
+                    <input type="text" name="option_d" placeholder="Jawaban D" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                </div>
             </div>
 
             <div>
@@ -97,8 +111,8 @@
                 <select name="correct_answer" class="w-full p-3 rounded-2xl bg-slate-50 border border-slate-200">
                     <option value="A">Opsi A (Jawaban A)</option>
                     <option value="B">Opsi B (Jawaban B)</option>
-                    <option value="C">Opsi C</option>
-                    <option value="D">Opsi D</option>
+                    <option value="C">Opsi C (Jawaban C)</option>
+                    <option value="D">Opsi D (Jawaban D)</option>
                 </select>
             </div>
 

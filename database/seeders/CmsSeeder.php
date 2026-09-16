@@ -611,6 +611,51 @@ class CmsSeeder extends Seeder
 
         // Seed Unit Profiles from XML Backups (SMPIT, SDIT, TKIT, SMAIT)
         $smpitData = json_decode(SiteSetting::get('unit_profile_smpit') ?: '{}', true) ?: [];
+        $smpitData['name'] = 'SMP ISLAM TERPADU ROBBANI';
+        $smpitData['code'] = 'SMPIT';
+        $smpitData['npsn'] = '70031580';
+        $smpitData['akreditasi'] = 'Terakreditasi B';
+        $smpitData['kurikulum'] = 'Merdeka & Kekhasan JSIT';
+        $smpitData['tagline'] = 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)';
+        $smpitData['principal_name'] = 'Tia Wulandari, S.Pd., Gr.';
+        $smpitData['principal_title'] = 'Kepala Sekolah SMP IT Robbani Ogan Ilir';
+        $smpitData['principal_photo'] = '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp';
+        $smpitData['principal_greeting'] = "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.";
+        $smpitData['description'] = "SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.";
+        $smpitData['vision'] = "Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.";
+        $smpitData['missions'] = [
+            "Memperkuat iman, takwa, dan karakter religius peserta didik melalui pembiasaan ibadah dan Pendidikan karakter.",
+            "Mengembangkan kemandirian, kreativitas, dan nalar kritis peserta didik melalui pembelajaran bermakna dan berbasis proyek.",
+            "Mengintegrasikan teknologi digital dalam pembelajaran dan penilaian untuk meningkatkan literasi serta keterampilan berpikir kritis dan kreatif.",
+            "Membangun kolaborasi yang sinergis antara sekolah, orang tua, dan masyarakat dalam mendukung pengembangan potensi dan karakter peserta didik."
+        ];
+        $smpitData['phone'] = '085377193977';
+        $smpitData['students_count'] = 58;
+        $smpitData['employees_count'] = 16;
+        $smpitData['classrooms_count'] = 3;
+        $smpitData['target_hafalan'] = '3 - 5 Juz Mutqin';
+        $smpitData['teachers'] = [
+            ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp', 'bio' => 'Lulusan Universitas Sriwijaya Pendidikan Biologi, Kepala Sekolah SMPIT Robbani berprestasi.'],
+            ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/b2c738bc73172000c348fe9732dbecf6.webp', 'bio' => 'Guru mata pelajaran IPA dan pembina Tahsin Tahfidz Qur\'an (TTQ) serta BPI.'],
+            ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/54a2d99ab10745e07564015cfc1228ee.webp', 'bio' => 'Lulusan STIT Raudhatul Ulum Ogan Ilir Jurusan PAI, pengajar PAI, Hadist dan TTQ.'],
+            ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/d3e51bd52edb07d8614fe2565072e0c5.webp', 'bio' => 'Lulusan Universitas PGRI Palembang Jurusan Kesenian, pengajar IPS dan Seni Budaya.'],
+            ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/1a306591b4f11e6554f591c37690d5b8.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, pengajar Bahasa Indonesia.'],
+            ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/1ab1778a6021f1ce288cf0e3b8031046.webp', 'bio' => 'Lulusan S1 Pendidikan Bahasa Inggris, pengajar Bahasa Inggris & English Club.'],
+            ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/8a9b894e3694bf33b6f404e78dbe0aa4.webp', 'bio' => 'Lulusan Universitas Al-Azhar Kairo Mesir, pengajar Bahasa Arab & TTQ.'],
+            ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/594dd0069de306c30552420e1b926084.webp', 'bio' => 'Lulusan FMIPA Jurusan Matematika Universitas Sriwijaya, pengajar Matematika & TIK.'],
+            ['name' => 'Syaifudin, S.Sn., Gr.', 'role' => 'Guru PJOK & Prakarya', 'photo' => '/uploads/media/83f5cdfe22b97802cb88ecddf4a22486.webp', 'bio' => 'Lulusan Institut Seni Indonesia (ISI) Yogyakarta, pengajar PJOK, Seni Rupa, dan Digital Art.'],
+            ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/b839d8b384fd3d66b6c08bdb59e54839.webp', 'bio' => 'Lulusan Fakultas Ekonomi Syariah IAI Al-Qur\'an Al-Ittifaqiah, pengajar PAI & TTQ.'],
+            ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/3c2fedb6aea0123567c6132ad53e8814.webp', 'bio' => 'Lulusan FISIP Jurusan Sosiologi, pengajar Pendidikan Pancasila & Kewarganegaraan.'],
+            ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/105be986293de8c41c1e9c49bd4c40ce.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, Staff Administrasi & Tata Usaha SMPIT.'],
+            ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru TTQ & BPI', 'photo' => '/uploads/media/f536c3f56567554b4572ef5b850803ce.webp', 'bio' => 'Guru pembina Tahsin Tahfidz Qur\'an (TTQ) dan Bina Pribadi Islam.'],
+            ['name' => 'Ennja Carolin, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+            ['name' => 'Fadhila Putri Alya, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+            ['name' => 'Ita Mahmudah, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_1.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+            ['name' => 'Kamila Sari, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_4.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+            ['name' => 'Kms M Ilham Pratama, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_5.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+            ['name' => 'Lia Maharani, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
+            ['name' => 'Rici Alfarizi, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.']
+        ];
         $smpitData['programs'] = [
             ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
             ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],

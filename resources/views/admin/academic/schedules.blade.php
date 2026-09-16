@@ -26,21 +26,35 @@
                         <th class="p-4">Unit & Rombel</th>
                         <th class="p-4">Mata Pelajaran</th>
                         <th class="p-4">Guru Pengampu</th>
+                        <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
-                    @foreach($schedules as $sch)
-                    <tr class="hover:bg-slate-50">
+                    @forelse($schedules as $sch)
+                    <tr class="hover:bg-slate-50 transition-colors">
                         <td class="p-4 font-black text-emerald-800">{{ $sch->day }}</td>
                         <td class="p-4 font-mono text-slate-900">{{ $sch->start_time }} - {{ $sch->end_time }}</td>
                         <td class="p-4">
                             <span class="font-bold text-slate-900 block">{{ $sch->classroom->name ?? '-' }}</span>
-                            <span class="text-[10px] text-slate-400">{{ $sch->school->code ?? '-' }}</span>
+                            <span class="text-[10px] text-slate-500 font-bold">{{ $sch->school->code ?? '-' }}</span>
                         </td>
                         <td class="p-4 font-extrabold text-slate-900">{{ $sch->subject->name ?? '-' }}</td>
                         <td class="p-4 font-bold text-slate-700">👨‍🏫 {{ $sch->teacher->full_name ?? '-' }}</td>
+                        <td class="p-4 text-center">
+                            <form action="{{ route('admin.academic.schedules.destroy', $sch->id) }}" method="POST" onsubmit="return confirm('Hapus jadwal pelajaran ini?')" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="p-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-black text-[11px] transition-colors" title="Hapus Jadwal">
+                                    🗑️ Hapus
+                                </button>
+                            </form>
+                        </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="6" class="p-8 text-center text-slate-400 italic">Belum ada jadwal KBM tersimpan. Silakan isi form di bawah.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
