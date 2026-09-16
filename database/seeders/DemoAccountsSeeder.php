@@ -51,11 +51,11 @@ class DemoAccountsSeeder extends Seeder
     public function run(): void
     {
         // 1. Akun Operator SMPIT
-        $this->createUser('operator.smpit@smartedu.id', 'Ustadzah Fatimah, S.Kom (Operator SMPIT)', User::ROLE_STAFF_TU, 3, '08123456001');
+        $this->createUser('operator.smpit@sitrobbani.sch.id', 'Ustadzah Fatimah, S.Kom (Operator SMPIT)', User::ROLE_STAFF_TU, 3, '08123456001');
 
         // 2. Akun Guru & Walas SMPIT (Kelas 7A)
-        $empGuruSmpit = $this->createEmployee('guru.smpit@smartedu.id', 'Ahmad Fauzi', 'Ustadz', 'S.Pd', 3, '198501012010011005', '08123456002');
-        $this->createUser('guru.smpit@smartedu.id', 'Ustadz Ahmad Fauzi, S.Pd (Guru & Walas 7A)', User::ROLE_TEACHER, 3, '08123456002');
+        $empGuruSmpit = $this->createEmployee('guru.smpit@sitrobbani.sch.id', 'Ahmad Fauzi', 'Ustadz', 'S.Pd', 3, '198501012010011005', '08123456002');
+        $this->createUser('guru.smpit@sitrobbani.sch.id', 'Ustadz Ahmad Fauzi, S.Pd (Guru & Walas 7A)', User::ROLE_TEACHER, 3, '08123456002');
 
         // Assign to Classroom 4 (Kelas 7A) as homeroom teacher if exists
         $cls7a = Classroom::find(4);
@@ -64,18 +64,18 @@ class DemoAccountsSeeder extends Seeder
         }
 
         // 3. Akun Kepala Sekolah SMPIT
-        $this->createUser('kepsek.smpit@smartedu.id', 'Ustadz Dr. H. Sulaiman, M.Pd (Kepsek SMPIT)', User::ROLE_HEADMASTER, 3, '08123456003');
+        $this->createUser('kepsek.smpit@sitrobbani.sch.id', 'Ustadz Dr. H. Sulaiman, M.Pd (Kepsek SMPIT)', User::ROLE_HEADMASTER, 3, '08123456003');
 
         // 4. Akun Operator SDIT
-        $this->createUser('operator.sdit@smartedu.id', 'Ustadzah Maryam, S.Pd (Operator SDIT)', User::ROLE_STAFF_TU, 2, '08123456004');
+        $this->createUser('operator.sdit@sitrobbani.sch.id', 'Ustadzah Maryam, S.Pd (Operator SDIT)', User::ROLE_STAFF_TU, 2, '08123456004');
 
         // 5. Akun Guru SDIT
-        $this->createEmployee('guru.sdit@smartedu.id', 'Halimah', 'Ustadzah', 'S.Pd', 2, '198702022011022003', '08123456005');
-        $this->createUser('guru.sdit@smartedu.id', 'Ustadzah Halimah, S.Pd (Guru SDIT)', User::ROLE_TEACHER, 2, '08123456005');
+        $this->createEmployee('guru.sdit@sitrobbani.sch.id', 'Halimah', 'Ustadzah', 'S.Pd', 2, '198702022011022003', '08123456005');
+        $this->createUser('guru.sdit@sitrobbani.sch.id', 'Ustadzah Halimah, S.Pd (Guru SDIT)', User::ROLE_TEACHER, 2, '08123456005');
 
         // 6. Akun Kepala Sekolah SDIT
-        $this->createUser('kepsek.sdit@smartedu.id', 'Ustadz Drs. H. Usman, M.Pd.I (Kepsek SDIT)', User::ROLE_HEADMASTER, 2, '08123456006');
+        $this->createUser('kepsek.sdit@sitrobbani.sch.id', 'Ustadz Drs. H. Usman, M.Pd.I (Kepsek SDIT)', User::ROLE_HEADMASTER, 2, '08123456006');
 
-        $this->command->info('Akun demo (Guru, Operator, Kepsek) untuk SMPIT & SDIT berhasil dibuat!');
+        $this->command->info('Akun resmi SDM (Guru, Operator, Kepsek) untuk SMPIT & SDIT berhasil dibuat dengan domain @sitrobbani.sch.id!');
     }
 }

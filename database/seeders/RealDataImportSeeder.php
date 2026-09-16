@@ -60,8 +60,8 @@ class RealDataImportSeeder extends Seeder
         ]);
 
         $adminFallback = User::create([
-            'name' => 'Super Admin SmartEdu',
-            'email' => 'admin@smartedu.id',
+            'name' => 'Super Admin SIT Robbani',
+            'email' => 'admin@sitrobbani.sch.id',
             'password' => $defaultPasswordHash,
             'role' => 'SUPER_ADMIN',
             'school_id' => null,

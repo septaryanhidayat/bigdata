@@ -270,7 +270,7 @@ class DemoSimulationSeeder extends Seeder
                         'dental_health' => 'Bersih & Terawat',
                         'extracurriculars' => [
                             ['name' => 'Pramuka SIT', 'predicate' => 'Sangat Baik', 'notes' => 'Aktif dalam giat perkemahan dan kepanduan'],
-                            ['name' => 'Panahan Tradisional / Robotik', 'predicate' => 'Baik', 'notes' => 'Disiplin dan memiliki fokus tinggi'],
+                            ['name' => 'Panahan Tradisional / Koding', 'predicate' => 'Baik', 'notes' => 'Disiplin dan memiliki fokus tinggi'],
                         ],
                         'notes' => 'Prestasi belajar Ananda semester ini sangat membanggakan. Pertahankan ketekunan dan istiqomah dalam ibadah harian.',
                     ]

@@ -571,7 +571,7 @@ class AiRagEngine
                 'programs' => [
                     ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
                     ['title' => 'Bina Pribadi Islam (BPI)', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah, karakter, dan kepemimpinan islami.'],
-                    ['title' => 'Koding & Science Club', 'desc' => 'Pembelajaran dasar pemograman, robotik sederhana, dan eksperimen sains sekolah.'],
+                    ['title' => 'Koding & Science Club', 'desc' => 'Pembelajaran dasar pemograman, koding dasar, dan eksperimen sains sekolah.'],
                     ['title' => 'Pramuka SIT & Archery', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
                 ],
                 'teachers' => [

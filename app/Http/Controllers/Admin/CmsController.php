@@ -347,7 +347,7 @@ class CmsController extends Controller
                 'programs' => [
                     ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz Mutqin', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
                     ['title' => 'Bina Pribadi Islam (BPI) & Adab Karimah', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah lurus, pembiasaan ibadah harian, dan kepemimpinan.'],
-                    ['title' => 'Koding Cilik & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar, robotik sederhana, dan laboratorium eksperimen sains.'],
+                    ['title' => 'Koding Cilik & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran logika pemograman dasar, koding dasar, dan laboratorium eksperimen sains.'],
                     ['title' => 'Pramuka SIT & Archery (Panahan)', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, ketangkasan fisik outdoor, dan ekskul renang.']
                 ],
                 'facilities' => [

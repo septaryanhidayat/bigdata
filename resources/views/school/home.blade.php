@@ -1811,7 +1811,7 @@
                                         <h3 class="text-xs font-black truncate">Ekstrakurikuler &amp; Bakat</h3>
                                         <span class="smartedu-micro-badge px-2 py-0.5 rounded-full text-[9px] uppercase">Potensi</span>
                                     </div>
-                                    <p class="text-[11px] leading-snug line-clamp-2">Pemetaan minat bakat siswa (Panahan, Futsal, Pramuka SIT, Robotik, &amp; Pidato 3 Bahasa).</p>
+                                    <p class="text-[11px] leading-snug line-clamp-2">Pemetaan minat bakat siswa (Panahan, Futsal, Pramuka SIT, Koding, &amp; Pidato 3 Bahasa).</p>
                                 </div>
                             </div>
                         </div>

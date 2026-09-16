@@ -358,7 +358,7 @@ class SchoolWebsiteController extends Controller
                 'programs' => [
                     ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
                     ['title' => 'Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah, karakter, dan kepemimpinan islami.'],
-                    ['title' => 'Koding & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran dasar pemograman, robotik sederhana, dan eksperimen sains sekolah.'],
+                    ['title' => 'Koding & Science Club', 'icon' => '💻', 'desc' => 'Pembelajaran dasar pemograman, koding dasar, dan eksperimen sains sekolah.'],
                     ['title' => 'Pramuka SIT & Archery', 'icon' => '🏹', 'desc' => 'Kegiatan kepanduan khas JSIT, panahan sunnah, serta ketangkasan fisik outdoor.']
                 ],
                 'teachers' => [
@@ -1454,7 +1454,7 @@ class SchoolWebsiteController extends Controller
                 'duration' => '06:12',
                 'youtube_id' => 'cCRXQhYNF38',
                 'thumbnail' => 'https://img.youtube.com/vi/cCRXQhYNF38/hqdefault.jpg',
-                'desc' => 'Unjuk bakat seni islami, pidato 3 bahasa, sains robotika, dan kreasi siswa SMP IT Robbani Ogan Ilir.'
+                'desc' => 'Unjuk bakat seni islami, pidato 3 bahasa, sains koding digital, dan kreasi siswa SMP IT Robbani Ogan Ilir.'
             ],
             [
                 'title' => 'Anak KB-TK IT Robbani Belajar Pesawat di Poltekbang Palembang [After Movie 2026]',

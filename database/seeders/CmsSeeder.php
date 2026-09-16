@@ -520,7 +520,7 @@ class CmsSeeder extends Seeder
                 'icon' => '🏆',
                 'badge_bg' => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
                 'short_desc' => 'Pendaftaran ekskul online, absensi & jurnal pembina, hall of fame prestasi, dan sertifikat digital.',
-                'full_desc' => 'Modul Pengelolaan Ekstrakurikuler, Klub Bakat & Portofolio Prestasi Siswa. Memfasilitasi pendaftaran ekskul online, jadwal & absensi latihan, jurnal pembina, portofolio digital kejuaraan/prestasi (Pramuka, Tahfidz, Robotik, Olahraga, Sains), serta integrasi nilai deskriptif ke E-Rapor.',
+                'full_desc' => 'Modul Pengelolaan Ekstrakurikuler, Klub Bakat & Portofolio Prestasi Siswa. Memfasilitasi pendaftaran ekskul online, jadwal & absensi latihan, jurnal pembina, portofolio digital kejuaraan/prestasi (Pramuka, Tahfidz, Koding, Olahraga, Sains), serta integrasi nilai deskriptif ke E-Rapor.',
                 'highlights' => [
                     "Pendaftaran Ekskul Online: Siswa memilih klub ekstrakurikuler dan minat bakat mandiri via portal",
                     "Manajemen Pembina dan Absensi Ekskul: Jadwal latihan, absensi keikutsertaan, dan jurnal pembina kegiatan",
