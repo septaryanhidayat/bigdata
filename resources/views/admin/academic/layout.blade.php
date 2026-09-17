@@ -210,21 +210,25 @@
 
             @if(Auth::user()->isSuperAdmin())
             <!-- Center: Multi-Unit Switcher Pills (Super Admin Yayasan Saja) -->
-            <div class="hidden lg:flex items-center gap-1.5 bg-[#022c22] p-1 rounded-xl border border-emerald-700/60 shadow-inner">
-                <span class="text-[10px] font-black text-emerald-300 px-2 uppercase tracking-wider">Unit:</span>
+            <div class="flex items-center gap-1 bg-[#022c22] p-1 rounded-xl border border-emerald-700/60 shadow-inner overflow-x-auto max-w-full">
+                <span class="text-[10px] font-black text-emerald-300 px-1.5 uppercase tracking-wider whitespace-nowrap">Unit:</span>
                 @foreach($schools as $sc)
+                    @php
+                        $scCount = \App\Models\Student::where('school_id', $sc->id)->count();
+                    @endphp
                     <a href="{{ route('admin.academic.grades', ['school_id' => $sc->id, 'menu' => $activeMenu ?? 'dashboard']) }}" 
-                       class="px-3 py-1 rounded-lg text-xs font-black transition-all {{ ($schoolId ?? 1) == $sc->id ? 'bg-white text-emerald-950 shadow-xs' : 'text-emerald-200 hover:text-white hover:bg-emerald-800/60' }}">
-                        {{ $sc->code }}
+                       class="px-2.5 py-1 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 whitespace-nowrap {{ ($schoolId ?? 1) == $sc->id ? 'bg-white text-emerald-950 shadow-xs' : 'text-emerald-200 hover:text-white hover:bg-emerald-800/60' }}">
+                        <span>{{ $sc->code }}</span>
+                        <span class="px-1.5 py-0.2 rounded-full text-[10px] font-mono {{ ($schoolId ?? 1) == $sc->id ? 'bg-emerald-800 text-white' : 'bg-emerald-900/80 text-emerald-300' }}">{{ $scCount }}</span>
                     </a>
                 @endforeach
             </div>
             @else
             <!-- Center: Locked School Unit Display for Unit Operator / Teacher / Principal -->
-            <div class="hidden lg:flex items-center gap-2 bg-[#022c22] px-3.5 py-1.5 rounded-xl border border-emerald-700/60 shadow-inner text-xs font-black">
-                <span class="text-emerald-400 font-extrabold uppercase tracking-wider text-[11px]">🏫 Unit Kerja:</span>
-                <span class="bg-emerald-800/90 text-white px-2.5 py-0.5 rounded-md border border-emerald-600/50 font-black tracking-wide">{{ $activeSchool->name ?? 'Unit Sekolah' }}</span>
-                <span class="text-[10px] text-emerald-300 font-bold bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-700/40">🔒 Terisolasi</span>
+            <div class="flex items-center gap-2 bg-[#022c22] px-3 py-1.5 rounded-xl border border-emerald-700/60 shadow-inner text-xs font-black">
+                <span class="text-emerald-400 font-extrabold uppercase tracking-wider text-[11px] hidden sm:inline">🏫 Unit Kerja:</span>
+                <span class="bg-emerald-800/90 text-white px-2 py-0.5 rounded-md border border-emerald-600/50 font-black tracking-wide">{{ $activeSchool->code ?? $activeSchool->name ?? 'Unit Sekolah' }}</span>
+                <span class="text-[10px] text-emerald-300 font-bold bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-700/40 hidden md:inline">🔒 Terisolasi</span>
             </div>
             @endif
 

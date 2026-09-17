@@ -915,8 +915,18 @@
                 </p>
             </div>
 
-            <!-- Action Buttons: Tambah Siswa, Download Template, Import CSV -->
+            <!-- Action Buttons: Sinkronkan Master, Tambah Siswa, Download Template, Import CSV -->
             <div class="flex items-center gap-2.5 flex-wrap sm:shrink-0">
+                <form method="POST" action="{{ route('admin.academic.students.sync.master') }}" class="inline">
+                    @csrf
+                    <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                    <button type="submit" 
+                            onclick="return confirm('Tarik dan sinkronkan data siswa dari Data Master Siswa ke e-Rapor unit {{ $activeSchool->name ?? '' }}?')"
+                            class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition cursor-pointer shadow-xs active:scale-95"
+                            title="Tarik dan sinkronkan data siswa dari Data Master Siswa ke unit ini">
+                        <span>🔄</span> <span>Tarik / Sinkronkan Master Siswa</span>
+                    </button>
+                </form>
                 <a href="{{ route('admin.academic.students.template') }}" 
                    class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition border border-slate-300 shadow-2xs">
                     <span>📥</span> <span>Format Template CSV</span>
@@ -982,6 +992,11 @@
                 <span class="text-xs font-bold text-slate-700">Filter Rombel:</span>
                 <select name="classroom_id" onchange="this.form.submit()" class="text-xs font-bold text-slate-800 rounded-xl border border-slate-300 px-3 py-2 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
                     <option value="">-- Semua Rombel ({{ $unitStudents->count() }} Siswa) --</option>
+                    @if($unitStudents->whereNull('classroom_id')->count() > 0)
+                        <option value="unassigned" {{ $selectedClassroomId === 'unassigned' ? 'selected' : '' }} class="text-amber-700 font-bold">
+                            ⚠️ Belum Masuk Rombel ({{ $unitStudents->whereNull('classroom_id')->count() }} Siswa)
+                        </option>
+                    @endif
                     @foreach($classrooms as $cls)
                         <option value="{{ $cls->id }}" {{ $selectedClassroomId == $cls->id ? 'selected' : '' }}>
                             {{ $cls->name }} ({{ \App\Models\Student::where('classroom_id', $cls->id)->count() }} Siswa)
@@ -996,6 +1011,20 @@
                        class="w-full text-xs rounded-xl border border-slate-300 px-3 py-2 bg-slate-50 focus:bg-white focus:border-emerald-600">
             </div>
         </div>
+
+        @if($unitStudents->whereNull('classroom_id')->count() > 0)
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-amber-900 flex items-start gap-3 text-xs">
+            <span class="text-lg">⚠️</span>
+            <div class="flex-1">
+                <p class="font-extrabold text-amber-900">Perhatian: Ada {{ $unitStudents->whereNull('classroom_id')->count() }} siswa di unit ini yang belum dimasukkan ke Rombel / Kelas!</p>
+                <p class="text-amber-700 mt-0.5">Siswa yang belum memiliki rombel tidak akan muncul saat pengisian nilai e-Rapor kelas. Silakan klik tombol <b>Edit</b> pada baris siswa di tabel bawah untuk menentukan rombel/kelasnya.</p>
+            </div>
+            <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'students', 'classroom_id' => 'unassigned']) }}" 
+               class="px-3 py-1.5 rounded-lg bg-amber-200 hover:bg-amber-300 text-amber-900 font-bold shrink-0 transition">
+                Filter Siswa Tanpa Rombel
+            </a>
+        </div>
+        @endif
 
         <!-- Modal Tambah / Update Siswa -->
         <div id="modalTambahSiswa" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
@@ -1091,7 +1120,13 @@
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800 font-medium">
                         @php
-                            $displayedStudents = $selectedClassroomId ? $unitStudents->where('classroom_id', $selectedClassroomId) : $unitStudents;
+                            if ($selectedClassroomId === 'unassigned') {
+                                $displayedStudents = $unitStudents->whereNull('classroom_id');
+                            } elseif ($selectedClassroomId) {
+                                $displayedStudents = $unitStudents->where('classroom_id', $selectedClassroomId);
+                            } else {
+                                $displayedStudents = $unitStudents;
+                            }
                         @endphp
                         @forelse($displayedStudents as $st)
                         <tr class="hover:bg-slate-50/75 transition-colors siswa-row" data-name="{{ strtolower($st->full_name) }}" data-nis="{{ $st->nis }}">
@@ -1113,9 +1148,15 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 font-bold text-slate-800 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-black text-xs whitespace-nowrap">
-                                    {{ $st->classroom->name ?? 'Belum Ada Rombel' }}
-                                </span>
+                                @if($st->classroom)
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-black text-xs whitespace-nowrap">
+                                        {{ $st->classroom->name }}
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 font-bold text-xs whitespace-nowrap">
+                                        ⚠️ Belum Ada Rombel
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-4 py-3 text-center">
                                 <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black">

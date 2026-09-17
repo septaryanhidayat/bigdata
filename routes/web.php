@@ -290,6 +290,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/students/delete/{studentId}', [AcademicController::class, 'deleteStudent'])->name('students.delete');
             Route::get('/students/template', [AcademicController::class, 'downloadStudentTemplate'])->name('students.template');
             Route::post('/students/import', [AcademicController::class, 'importStudents'])->name('students.import');
+            Route::post('/students/sync-master', [AcademicController::class, 'syncMasterStudents'])->name('students.sync.master');
 
             Route::post('/subjects/save', [AcademicController::class, 'saveSubject'])->name('subjects.save');
             Route::post('/subjects/delete/{subjectId}', [AcademicController::class, 'deleteSubject'])->name('subjects.delete');

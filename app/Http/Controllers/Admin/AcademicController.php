@@ -383,6 +383,17 @@ class AcademicController extends Controller
     public function grades(Request $request)
     {
         self::ensureExtendedTablesExist();
+
+        // Auto-heal any mismatched student school_id with classroom school_id
+        try {
+            $mismatches = Student::with('classroom')->whereNotNull('classroom_id')->get();
+            foreach ($mismatches as $st) {
+                if ($st->classroom && $st->classroom->school_id && $st->school_id != $st->classroom->school_id) {
+                    $st->update(['school_id' => $st->classroom->school_id]);
+                }
+            }
+        } catch (\Throwable $e) {}
+
         $user = auth()->user();
         $schools = School::all();
         
@@ -393,7 +404,13 @@ class AcademicController extends Controller
             $schoolId = $request->query('school_id');
             if (!$schoolId) {
                 $effectiveId = $user?->getEffectiveSchoolId();
-                $schoolId = ($effectiveId && $effectiveId !== 'all') ? $effectiveId : ($schools->first()?->id ?? 1);
+                if ($effectiveId && $effectiveId !== 'all') {
+                    $schoolId = $effectiveId;
+                } else {
+                    // Cerdas: Pilih unit sekolah yang memiliki siswa, fallback ke unit pertama
+                    $schoolWithStudents = School::whereHas('students')->first();
+                    $schoolId = $schoolWithStudents?->id ?? ($schools->first()?->id ?? 1);
+                }
             }
         }
         
@@ -406,11 +423,20 @@ class AcademicController extends Controller
 
         // Classrooms in this school
         $classrooms = Classroom::where('school_id', $schoolId)->with(['homeroomTeacher'])->get();
+
+        // Selected Classroom:
         $selectedClassroomId = $request->query('classroom_id');
-        if (!$selectedClassroomId && $classrooms->isNotEmpty()) {
-            $selectedClassroomId = $classrooms->first()->id;
+        if ($activeMenu === 'students' && !$request->has('classroom_id')) {
+            // Pada menu Data Siswa Unit, default ke semua rombel (jangan batasi ke kelas 1 saja)
+            $selectedClassroomId = null;
+        } elseif (!$selectedClassroomId && $classrooms->isNotEmpty()) {
+            // Prioritaskan rombel yang sudah memiliki siswa
+            $firstClassWithStudents = $classrooms->first(function($c) {
+                return Student::where('classroom_id', $c->id)->exists();
+            });
+            $selectedClassroomId = $firstClassWithStudents?->id ?? $classrooms->first()->id;
         }
-        $selectedClassroom = $classrooms->firstWhere('id', $selectedClassroomId);
+        $selectedClassroom = $selectedClassroomId ? $classrooms->firstWhere('id', $selectedClassroomId) : null;
 
         // Subjects in this school
         $subjects = Subject::where(function($q) use ($schoolId) {
@@ -426,12 +452,15 @@ class AcademicController extends Controller
         $selectedSubject = $subjects->firstWhere('id', $selectedSubjectId);
 
         // Students of Selected Classroom
-        $classStudents = Student::where('classroom_id', $selectedClassroomId)
-            ->whereIn('status', ['ACTIVE', 'AKTIF'])
-            ->orderBy('nis')
-            ->get();
-        if ($classStudents->isEmpty() && $selectedClassroomId) {
-            $classStudents = Student::where('classroom_id', $selectedClassroomId)->orderBy('nis')->get();
+        $classStudents = collect();
+        if ($selectedClassroomId && $selectedClassroomId !== 'unassigned') {
+            $classStudents = Student::where('classroom_id', $selectedClassroomId)
+                ->whereIn('status', ['ACTIVE', 'AKTIF'])
+                ->orderBy('nis')
+                ->get();
+            if ($classStudents->isEmpty()) {
+                $classStudents = Student::where('classroom_id', $selectedClassroomId)->orderBy('nis')->get();
+            }
         }
 
         $studentIds = $classStudents->pluck('id');
@@ -800,6 +829,48 @@ class AcademicController extends Controller
             'school_id' => $schoolId,
             'menu' => 'students'
         ])->with('success', "Data Santri {$name} berhasil dihapus dari sistem.");
+    }
+
+    /**
+     * Sinkronisasi Siswa dari Data Master ke Unit e-Rapor
+     */
+    public function syncMasterStudents(Request $request)
+    {
+        $schoolId = $request->input('school_id');
+        $school = School::findOrFail($schoolId);
+
+        // 1. Auto-heal: jika siswa punya rombel yang sekolahnya adalah unit ini, update school_id siswa ke unit ini
+        $unitClassroomIds = Classroom::where('school_id', $schoolId)->pluck('id');
+        Student::whereIn('classroom_id', $unitClassroomIds)
+            ->where('school_id', '!=', $schoolId)
+            ->update(['school_id' => $schoolId]);
+
+        // 2. Perbaiki mismatch global
+        $allMismatches = Student::with('classroom')->whereNotNull('classroom_id')->get();
+        foreach ($allMismatches as $st) {
+            if ($st->classroom && $st->classroom->school_id && $st->school_id != $st->classroom->school_id) {
+                $st->update(['school_id' => $st->classroom->school_id]);
+            }
+        }
+
+        // 3. Normalisasi status siswa di unit ini agar selalu ACTIVE
+        Student::where('school_id', $schoolId)
+            ->where(function($q) {
+                $q->whereNull('status')->orWhere('status', '')->orWhere('status', 'aktif');
+            })
+            ->update(['status' => 'ACTIVE']);
+
+        // 4. Hitung total siswa di unit ini
+        $totalInUnit = Student::where('school_id', $schoolId)->count();
+        $inRombel = Student::where('school_id', $schoolId)->whereNotNull('classroom_id')->count();
+        $noRombel = $totalInUnit - $inRombel;
+
+        $msg = "✓ Sinkronisasi berhasil! Ditemukan {$totalInUnit} siswa pada unit {$school->name} ({$inRombel} sudah terdaftar di Rombel" . ($noRombel > 0 ? ", {$noRombel} siswa belum masuk Rombel" : "") . ").";
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $schoolId,
+            'menu' => 'students'
+        ])->with('success', $msg);
     }
 
     /**
