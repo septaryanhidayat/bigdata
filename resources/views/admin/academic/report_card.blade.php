@@ -233,9 +233,9 @@
                     <tr>
                         <td class="border border-slate-900 p-2 text-center">{{ $idx + 1 }}</td>
                         <td class="border border-slate-900 p-2 font-bold">{{ $grd->subject->name ?? '-' }}</td>
-                        <td class="border border-slate-900 p-2 text-center font-black text-sm">{{ $grd->score }}</td>
+                        <td class="border border-slate-900 p-2 text-center font-black text-sm">{{ (float)$grd->score == intval($grd->score) ? intval($grd->score) : $grd->score }}</td>
                         <td class="border border-slate-900 p-2 text-center font-bold">
-                            {{ $grd->score >= 90 ? 'A (Istimewa)' : ($grd->score >= 80 ? 'B (Baik)' : 'C (Cukup)') }}
+                            {{ $grd->score >= 90 ? 'A (Istimewa)' : ($grd->score >= 80 ? 'B (Baik)' : ($grd->score >= 70 ? 'C (Cukup)' : 'D (Perlu Bimbingan)')) }}
                         </td>
                         <td class="border border-slate-900 p-2 text-[11px] leading-snug">
                             {{ $grd->notes ?? 'Menunjukkan penguasaan capaian pembelajaran yang sangat baik dalam memahami konsep materi dan mampu menerapkannya dalam proyek pemecahan masalah.' }}

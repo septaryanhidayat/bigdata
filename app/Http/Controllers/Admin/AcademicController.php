@@ -1137,17 +1137,28 @@ class AcademicController extends Controller
      */
     public function batchStoreGrades(Request $request)
     {
+        $academicYearId = $request->academic_year_id ?? AcademicYear::where('is_active', 1)->first()?->id ?? AcademicYear::first()?->id;
+
         $request->validate([
             'school_id' => 'required',
             'classroom_id' => 'required|exists:classrooms,id',
             'subject_id' => 'required|exists:subjects,id',
-            'academic_year_id' => 'required|exists:academic_years,id',
             'grades' => 'required|array',
         ]);
 
         $savedCount = 0;
         foreach ($request->grades as $studentId => $data) {
-            $score = isset($data['score']) && $data['score'] !== '' ? (float) $data['score'] : null;
+            $score = null;
+            if (isset($data['score']) && $data['score'] !== '') {
+                $score = (float) $data['score'];
+            } elseif (isset($data['score_sas']) && $data['score_sas'] !== '' && isset($data['score_tp']) && $data['score_tp'] !== '') {
+                $score = round(((float)$data['score_tp'] + (float)$data['score_sas']) / 2, 1);
+            } elseif (isset($data['score_sas']) && $data['score_sas'] !== '') {
+                $score = (float) $data['score_sas'];
+            } elseif (isset($data['score_tp']) && $data['score_tp'] !== '') {
+                $score = (float) $data['score_tp'];
+            }
+
             if (is_null($score)) continue;
 
             $notes = $data['notes'] ?? '';
@@ -1167,10 +1178,10 @@ class AcademicController extends Controller
                 [
                     'student_id' => $studentId,
                     'subject_id' => $request->subject_id,
-                    'academic_year_id' => $request->academic_year_id,
-                    'assessment_type' => $data['assessment_type'] ?? 'Sumatif Akhir Semester (SAS)',
+                    'academic_year_id' => $academicYearId,
                 ],
                 [
+                    'assessment_type' => $data['assessment_type'] ?? 'Sumatif Akhir Semester (SAS)',
                     'competency_code' => $data['competency_code'] ?? 'TP-MERDEKA',
                     'score' => $score,
                     'notes' => $notes,
@@ -1644,7 +1655,21 @@ class AcademicController extends Controller
         self::ensureExtendedTablesExist();
         $academicYear = AcademicYear::where('is_active', 1)->first() ?? AcademicYear::first();
         
-        $grades = Grade::where('student_id', $studentId)->with('subject')->get();
+        $gradesQuery = Grade::where('student_id', $studentId)->with('subject');
+        if ($academicYear) {
+            $yearGrades = (clone $gradesQuery)->where('academic_year_id', $academicYear->id)->get();
+            if ($yearGrades->isNotEmpty()) {
+                $grades = $yearGrades;
+            } else {
+                $grades = $gradesQuery->get();
+            }
+        } else {
+            $grades = $gradesQuery->get();
+        }
+        $grades = $grades->filter(fn($g) => !empty($g->subject_id))
+                         ->sortByDesc('updated_at')
+                         ->unique('subject_id')
+                         ->values();
         try {
             $quranGrade = QuranGrade::where('student_id', $studentId)->first();
         } catch (\Throwable $e) { $quranGrade = null; }

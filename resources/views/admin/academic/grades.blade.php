@@ -2054,32 +2054,35 @@
                             @forelse($classStudents as $student)
                             @php
                                 $existing = $existingGrades->get($student->id);
-                                $score = $existing->score ?? 85;
-                                $notes = $existing->notes ?? '';
+                                $score = $existing ? $existing->score : 85;
+                                $displayScore = (float)$score == intval($score) ? intval($score) : $score;
+                                $notes = $existing ? $existing->notes : '';
                             @endphp
                             <tr class="hover:bg-slate-50/50 transition-colors">
                                 <td class="px-4 py-3 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">
                                     <p class="font-extrabold text-slate-900 text-xs leading-snug">{{ $student->full_name }}</p>
                                     <p class="text-[11px] text-slate-500 font-semibold mt-0.5">NIS: {{ $student->nis }}</p>
+                                    <!-- Hidden score input agar nilai tersimpan otomatis ke database -->
+                                    <input type="hidden" name="grades[{{ $student->id }}][score]" id="score_{{ $student->id }}" value="{{ $displayScore }}">
                                 </td>
                                 
                                 <!-- Input Nilai Formatif (TP) -->
                                 <td class="px-4 py-3 text-center">
-                                    <input type="number" min="0" max="100" 
+                                    <input type="number" min="0" max="100" step="any"
                                            name="grades[{{ $student->id }}][score_tp]" 
                                            id="tp_{{ $student->id }}" 
-                                           value="{{ $score }}" 
+                                           value="{{ $displayScore }}" 
                                            oninput="calcRow({{ $student->id }})"
                                            class="w-20 text-center font-bold text-xs rounded-lg border border-slate-300 py-1.5 px-2 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 table-input bg-white">
                                 </td>
 
                                 <!-- Input Nilai Sumatif (SAS) -->
                                 <td class="px-4 py-3 text-center">
-                                    <input type="number" min="0" max="100" 
+                                    <input type="number" min="0" max="100" step="any"
                                            name="grades[{{ $student->id }}][score_sas]" 
-                                           id="sas_{{ $student->id }}"
-                                           value="{{ $score }}" 
+                                           id="sas_{{ $student->id }}" 
+                                           value="{{ $displayScore }}" 
                                            oninput="calcRow({{ $student->id }})"
                                            class="w-20 text-center font-black text-xs rounded-lg border border-slate-300 py-1.5 px-2 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 table-input bg-emerald-50/50">
                                 </td>
@@ -2087,14 +2090,14 @@
                                 <!-- Nilai Akhir (Auto Calculated) -->
                                 <td class="px-4 py-3 text-center">
                                     <span id="final_{{ $student->id }}" class="font-black text-xs text-slate-900 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
-                                        {{ $score }}
+                                        {{ $displayScore }}
                                     </span>
                                 </td>
 
                                 <!-- Predikat Badge -->
                                 <td class="px-4 py-3 text-center whitespace-nowrap">
-                                    <span id="pred_{{ $student->id }}" class="px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center {{ $score >= 85 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : ($score >= 75 ? 'bg-blue-100 text-blue-800 border border-blue-300' : 'bg-amber-100 text-amber-800 border border-amber-300') }}">
-                                        {{ $score >= 85 ? 'A (Istimewa)' : ($score >= 75 ? 'B (Baik)' : 'C (Cukup)') }}
+                                    <span id="pred_{{ $student->id }}" class="px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center {{ $score >= 85 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : ($score >= 75 ? 'bg-blue-100 text-blue-800 border border-blue-300' : ($score >= 65 ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-rose-100 text-rose-800 border border-rose-300')) }}">
+                                        {{ $score >= 85 ? 'A (Istimewa)' : ($score >= 75 ? 'B (Baik)' : ($score >= 65 ? 'C (Cukup)' : 'D (Perlu Bimbingan)')) }}
                                     </span>
                                 </td>
 
@@ -3278,8 +3281,9 @@
 
     function generateAiNarrativeSingle(studentId, studentName) {
         const textarea = document.getElementById('notes_' + studentId);
+        const scoreInput = document.getElementById('score_' + studentId);
         const sasInput = document.getElementById('sas_' + studentId);
-        const score = sasInput ? sasInput.value : 85;
+        const score = (scoreInput && scoreInput.value) ? scoreInput.value : (sasInput ? sasInput.value : 85);
         const subjectName = '{{ $selectedSubject->name ?? "Mata Pelajaran" }}';
 
         if (!textarea) return;
@@ -3460,26 +3464,38 @@
         const tpInput = document.getElementById('tp_' + studentId);
         const sasInput = document.getElementById('sas_' + studentId);
         const finalElem = document.getElementById('final_' + studentId);
+        const scoreInput = document.getElementById('score_' + studentId);
         const predElem = document.getElementById('pred_' + studentId);
 
-        let tp = tpInput ? parseFloat(tpInput.value) || 0 : 0;
-        let sas = sasInput ? parseFloat(sasInput.value) || 0 : 0;
+        let tp = tpInput && tpInput.value !== '' ? parseFloat(tpInput.value) : null;
+        let sas = sasInput && sasInput.value !== '' ? parseFloat(sasInput.value) : null;
         
-        let finalScore = sas > 0 ? sas : tp;
-        finalElem.innerText = Math.round(finalScore);
+        let finalScore = 0;
+        if (sas !== null && tp !== null && !isNaN(sas) && !isNaN(tp)) {
+            finalScore = Math.round((tp + sas) / 2);
+        } else if (sas !== null && !isNaN(sas)) {
+            finalScore = sas;
+        } else if (tp !== null && !isNaN(tp)) {
+            finalScore = tp;
+        }
 
-        if (finalScore >= 85) {
-            predElem.innerText = 'A (Istimewa)';
-            predElem.className = 'px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-100 text-emerald-800';
-        } else if (finalScore >= 75) {
-            predElem.innerText = 'B (Baik)';
-            predElem.className = 'px-2 py-0.5 rounded-md text-[10px] font-black bg-blue-100 text-blue-800';
-        } else if (finalScore >= 65) {
-            predElem.innerText = 'C (Cukup)';
-            predElem.className = 'px-2 py-0.5 rounded-md text-[10px] font-black bg-amber-100 text-amber-800';
-        } else {
-            predElem.innerText = 'D (Perlu Bimbingan)';
-            predElem.className = 'px-2 py-0.5 rounded-md text-[10px] font-black bg-rose-100 text-rose-800';
+        if (finalElem) finalElem.innerText = Math.round(finalScore);
+        if (scoreInput) scoreInput.value = Math.round(finalScore);
+
+        if (predElem) {
+            if (finalScore >= 85) {
+                predElem.innerText = 'A (Istimewa)';
+                predElem.className = 'px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center bg-emerald-100 text-emerald-800 border border-emerald-300';
+            } else if (finalScore >= 75) {
+                predElem.innerText = 'B (Baik)';
+                predElem.className = 'px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center bg-blue-100 text-blue-800 border border-blue-300';
+            } else if (finalScore >= 65) {
+                predElem.innerText = 'C (Cukup)';
+                predElem.className = 'px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center bg-amber-100 text-amber-800 border border-amber-300';
+            } else {
+                predElem.innerText = 'D (Perlu Bimbingan)';
+                predElem.className = 'px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center bg-rose-100 text-rose-800 border border-rose-300';
+            }
         }
     }
 
@@ -3489,8 +3505,17 @@
         let count = 0;
         textareas.forEach(ta => {
             const studentId = ta.id.replace('notes_', '');
+            const scoreInput = document.getElementById('score_' + studentId);
             const sasInput = document.getElementById('sas_' + studentId);
-            const score = sasInput ? parseFloat(sasInput.value) || 80 : 80;
+            const tpInput = document.getElementById('tp_' + studentId);
+            let score = 80;
+            if (scoreInput && scoreInput.value !== '') {
+                score = parseFloat(scoreInput.value) || 80;
+            } else if (sasInput && sasInput.value !== '') {
+                score = parseFloat(sasInput.value) || 80;
+            } else if (tpInput && tpInput.value !== '') {
+                score = parseFloat(tpInput.value) || 80;
+            }
 
             if (score >= 90) {
                 ta.value = 'Menunjukkan penguasaan capaian pembelajaran yang istimewa (Mumtaz) pada seluruh materi serta mampu bernalar kritis secara mandiri.';
