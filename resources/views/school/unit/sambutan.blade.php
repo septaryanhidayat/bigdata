@@ -73,13 +73,13 @@
                     Segala puji dan syukur kita panjatkan kehadirat Allah SWT yang senantiasa melimpahkan rahmat, taufik, dan inayah-Nya kepada kita semua. Sholawat beriring salam senantiasa tercurah kepada junjungan alam Nabi Besar Muhammad SAW, para keluarga, sahabat, dan pengikutnya hingga akhir zaman.
                 </p>
                 <p class="text-justify">
-                    Selamat datang di website resmi <strong>{{ $info['name'] }}</strong>. Di era transformasi digital dan revolusi industri saat ini, kehadiran media informasi digital menjadi sarana vital untuk mempererat ukhuwah, menyajikan transparansi kegiatan sekolah, serta memberikan kemudahan akses informasi bagi para orang tua, santri, dan masyarakat luas.
+                    Selamat datang di website resmi <strong>{{ $info['name'] }}</strong>. Di era transformasi digital dan revolusi industri saat ini, kehadiran media informasi digital menjadi sarana vital untuk mempererat ukhuwah, menyajikan transparansi kegiatan sekolah, serta memberikan kemudahan akses informasi bagi para orang tua, siswa, dan masyarakat luas.
                 </p>
                 <p class="text-justify">
                     Sebagai Sekolah Islam Terpadu, kami berkomitmen menghadirkan pendidikan holistik yang memadukan keunggulan kurikulum nasional, penguatan adab Islami, target hafalan Al-Qur'an mutqin, kompetensi sains-teknologi, dan pembiasaan bahasa asing.
                 </p>
                 <p class="text-justify">
-                    Kami mengucapkan terima kasih yang sebesar-besarnya kepada Pembina dan Pengurus Yayasan, seluruh asatidz dan asatidzah, staf kependidikan, serta para wali santri yang senantiasa membersamai langkah kami dalam mendidik generasi terbaik umat. Mari bersama-sama kita wujudkan anak-anak yang sholih-sholihah, cerdas, berprestasi, dan berakhlakul karimah.
+                    Kami mengucapkan terima kasih yang sebesar-besarnya kepada Pembina dan Pengurus Yayasan, seluruh asatidz dan asatidzah, staf kependidikan, serta para wali murid yang senantiasa membersamai langkah kami dalam mendidik generasi terbaik umat. Mari bersama-sama kita wujudkan anak-anak yang sholih-sholihah, cerdas, berprestasi, dan berakhlakul karimah.
                 </p>
             @endif
 
@@ -93,11 +93,11 @@
             </div>
         </div>
 
-        {{-- CALLOUT BANNER: PENDAFTARAN SANTRI BARU (SPMB ONLINE) --}}
+        {{-- CALLOUT BANNER: PENDAFTARAN SISWA BARU (SPMB ONLINE) --}}
         <div class="mt-8 sm:mt-10 p-5 sm:p-8 rounded-2xl bg-gradient-to-r {{ $uTheme['nav_gradient'] }} text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6 border border-white/20 text-center sm:text-left">
             <div class="space-y-1">
                 <h4 class="text-base sm:text-lg font-black text-white tracking-tight">
-                    Pendaftaran Santri Baru (SPMB Online)
+                    Pendaftaran Siswa Baru (SPMB Online)
                 </h4>
                 <p class="text-xs text-indigo-200 font-light max-w-md">
                     Mari bergabung bersama keluarga besar {{ $info['name'] }}. Gelombang exclusive kuota terbatas telah dibuka.

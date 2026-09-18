@@ -98,7 +98,7 @@
                     Permohonan Kerja Sama
                 </h3>
                 <p class="text-xs text-gray-600 leading-relaxed">
-                    Fasilitas kemitraan strategis dengan perguruan tinggi, perbankan syariah, lembaga kesehatan, korporasi, program magang mahasiswa, beasiswa santri, serta donasi dan program CSR keumatan.
+                    Fasilitas kemitraan strategis dengan perguruan tinggi, perbankan syariah, lembaga kesehatan, korporasi, program magang mahasiswa, beasiswa siswa, serta donasi dan program CSR keumatan.
                 </p>
             </div>
             <div class="pt-6 border-t border-gray-100 mt-6">

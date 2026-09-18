@@ -27,7 +27,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Fasilitas &amp; Sarana Kampus</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Infrastruktur dan sarana prasarana modern, asri, dan islami yang disiapkan khusus untuk mendukung kenyamanan santri {{ $info['name'] }}.
+            Infrastruktur dan sarana prasarana modern, asri, dan islami yang disiapkan khusus untuk mendukung kenyamanan siswa {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -112,6 +112,21 @@
     </div>
 
     {{-- 3-COLUMN FACILITY CARDS GRID --}}
+    @if(empty($facilitiesList))
+        <div class="bg-white rounded-3xl p-10 sm:p-14 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
+            <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-gray-900">Sarana &amp; Fasilitas Dalam Tahap Pembangunan</h3>
+            <p class="text-xs sm:text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
+                @if($codeLower === 'smait')
+                    Pembangunan sarana belajar modern, laboratorium digital, dan fasilitas pendukung pembelajaran SMA IT Robbani sedang dipersiapkan secara komprehensif.
+                @else
+                    Data fasilitas kampus unit {{ $info['name'] }} sedang diperbarui.
+                @endif
+            </p>
+        </div>
+    @else
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         @foreach($facilitiesList as $fac)
             <div x-show="matches({ title: '{{ addslashes($fac['title'] ?? '') }}', desc: '{{ addslashes($fac['desc'] ?? '') }}' })"
@@ -144,8 +159,8 @@
                         <h3 class="text-base sm:text-lg font-black text-gray-900 group-hover:text-unit-primary transition leading-snug">
                             {{ $fac['title'] ?? 'Fasilitas Sekolah' }}
                         </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed font-light line-clamp-3">
-                            {{ $fac['desc'] ?? 'Sarana pendukung kegiatan belajar mengajar dan pembinaan karakter santri.' }}
+                        <p class="text-xs text-gray-600 leading-relaxed font-light line-clamp-3 text-justify">
+                            {{ $fac['desc'] ?? 'Sarana pendukung kegiatan belajar mengajar dan pembinaan karakter siswa.' }}
                         </p>
                     </div>
 
@@ -166,6 +181,7 @@
             </div>
         @endforeach
     </div>
+    @endif
 
     {{-- BOTTOM CALLOUT & SERVICE HUB CARDS --}}
     <div class="mt-14 sm:mt-18 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -194,7 +210,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <h3 class="text-lg sm:text-xl font-black text-white">
-                    Daftar Santri Baru (SPMB Online)
+                    Daftar Siswa Baru (SPMB Online)
                 </h3>
                 <p class="text-xs text-indigo-100 font-light leading-relaxed">
                     Nikmati fasilitas pendidikan lengkap, lingkungan belajar terpadu, dan pembinaan karakter Qur'ani di {{ $info['name'] }}.

@@ -74,7 +74,7 @@
                         Formulir Peminjaman &amp; Sewa Sarana
                     </h2>
                     <p class="text-xs text-gray-500 mt-1">
-                        Pastikan tanggal dan waktu yang diajukan tidak berbenturan dengan agenda utama kegiatan santri.
+                        Pastikan tanggal dan waktu yang diajukan tidak berbenturan dengan agenda utama kegiatan siswa.
                     </p>
                 </div>
 
@@ -188,7 +188,7 @@
                     </li>
                     <li class="flex items-start gap-2.5">
                         <i class="fa-solid fa-clock text-amber-600 mt-0.5 shrink-0"></i>
-                        <span><strong>Waktu Acara:</strong> Kegiatan malam maksimal selesai pukul 22.00 WIB untuk menjaga kenyamanan santri asrama.</span>
+                        <span><strong>Waktu Acara:</strong> Kegiatan malam maksimal selesai pukul 22.00 WIB untuk menjaga kenyamanan siswa asrama.</span>
                     </li>
                 </ul>
             </div>

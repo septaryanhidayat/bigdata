@@ -384,36 +384,188 @@ class SchoolWebsiteController extends Controller
         // Merge custom setting if present
         $info = array_merge($defaultInfo, array_filter($customUnit ?? []));
 
-        foreach (['programs', 'facilities', 'ekskul'] as $key) {
-            $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : [];
-            $defaultItems = $defaultInfo[$key] ?? [];
-            if (empty($userItems)) {
-                $info[$key] = $defaultItems;
-                continue;
-            }
-            foreach ($userItems as $idx => &$uItem) {
-                if (empty($uItem['image']) || str_contains($uItem['image'], 'mockup_desktop')) {
-                    $matchedDefault = null;
-                    foreach ($defaultItems as $dItem) {
-                        if (strtolower(trim($dItem['title'] ?? '')) === strtolower(trim($uItem['title'] ?? ''))) {
-                            $matchedDefault = $dItem;
-                            break;
+        if ($cleanCode === 'smait') {
+            $info['teachers'] = [];
+            $info['facilities'] = [];
+            $info['ekskul'] = [];
+            $info['programs'] = [];
+            $info['gallery'] = [];
+            $info['videos'] = [];
+            $info['agenda'] = [];
+            $info['announcements'] = [];
+            $info['alumni'] = [];
+            $info['prestasi'] = [];
+            $info['students_count'] = 0;
+            $info['employees_count'] = 0;
+            $info['classrooms_count'] = 0;
+            $info['status'] = 'BELUM_DIBUKA';
+            $info['tagline'] = 'Sekolah Menengah Atas Islam Terpadu - Segera Dibuka';
+            $info['principal_name'] = 'Tahap Persiapan Operasional';
+            $info['principal_title'] = 'Kepala Sekolah';
+            $info['principal_greeting'] = 'Pendidikan jenjang SMA IT Robbani saat ini sedang dalam tahap persiapan sarana prasarana dan perizinan operasional resmi. Insya Allah segera hadir untuk melahirkan generasi pemimpin bangsa yang Qur\'ani dan berwawasan teknologi global.';
+            $info['description'] = 'SMA IT Robbani saat ini dalam tahap persiapan pembukaan dan perizinan operasional. Program pendidikan dirancang untuk mempersiapkan siswa menuju perguruan tinggi unggulan dan penguasaan ilmu syar\'i serta sains teknologi modern.';
+
+            $students = collect([]);
+            $teachers = collect([]);
+            $classrooms = collect([]);
+            $unitNews = collect([]);
+            $unitArticles = collect([]);
+            $unitFacilities = [];
+            $unitEkskul = [];
+            $unitGallery = [];
+            $unitPrestasi = [];
+            $unitVideos = [];
+            $unitAgendas = [];
+            $unitAnnouncements = [];
+            $unitPrograms = [];
+            $unitAlumni = [];
+        } else {
+            foreach (['programs', 'facilities', 'ekskul'] as $key) {
+                $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : [];
+                $defaultItems = $defaultInfo[$key] ?? [];
+                if (empty($userItems)) {
+                    $info[$key] = $defaultItems;
+                    continue;
+                }
+                foreach ($userItems as $idx => &$uItem) {
+                    if (empty($uItem['image']) || str_contains($uItem['image'], 'mockup_desktop')) {
+                        $matchedDefault = null;
+                        foreach ($defaultItems as $dItem) {
+                            if (strtolower(trim($dItem['title'] ?? '')) === strtolower(trim($uItem['title'] ?? ''))) {
+                                $matchedDefault = $dItem;
+                                break;
+                            }
+                        }
+                        if (!$matchedDefault && isset($defaultItems[$idx])) {
+                            $matchedDefault = $defaultItems[$idx];
+                        }
+                        if ($matchedDefault && !empty($matchedDefault['image'])) {
+                            $uItem['image'] = $matchedDefault['image'];
                         }
                     }
-                    if (!$matchedDefault && isset($defaultItems[$idx])) {
-                        $matchedDefault = $defaultItems[$idx];
+                }
+                unset($uItem);
+                $info[$key] = $userItems;
+            }
+
+            if (empty($info['teachers'])) {
+                $info['teachers'] = $defaultInfo['teachers'] ?? [];
+            }
+
+            $students = Student::where('school_id', $school->id ?? 1)->where(function($q) { $q->where('status', 'aktif')->orWhere('status', 'ACTIVE'); })->take(10)->get();
+            $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
+            $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
+
+            // Filter unit news strictly relevant to this unit
+            $allNews = $this->getNewsData();
+            $unitNews = collect($allNews)->filter(function($item) use ($cleanCode) {
+                $u = strtolower($item['unit'] ?? '');
+                $cat = strtolower($item['category'] ?? '');
+                return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
+            })->values()->take(6);
+
+            if ($unitNews->isEmpty()) {
+                $unitNews = collect($allNews)->take(6);
+            }
+
+            // Filter unit articles strictly relevant to this unit
+            $allArticles = $this->getArticleData();
+            $unitArticles = collect($allArticles)->filter(function($item) use ($cleanCode) {
+                $u = strtolower($item['unit'] ?? '');
+                $cat = strtolower($item['category'] ?? '');
+                return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
+            })->values()->take(6);
+
+            if ($unitArticles->isEmpty()) {
+                $unitArticles = collect($allArticles)->take(6);
+            }
+
+            $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
+            $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
+            $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
+            $unitPrestasi = !empty($info['prestasi']) ? $info['prestasi'] : ($defaultInfo['prestasi'] ?? []);
+
+            $unitVideos = $info['videos'] ?? [];
+            if (empty($unitVideos)) {
+                $globalVideos = $this->getVideoData();
+                $unitVideos = array_map(function($v) {
+                    $ytId = $v['youtube_id'] ?? $v['embed_id'] ?? '';
+                    if (empty($ytId) && !empty($v['url'])) {
+                        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $v['url'], $match)) {
+                            $ytId = $match[1];
+                        }
                     }
-                    if ($matchedDefault && !empty($matchedDefault['image'])) {
-                        $uItem['image'] = $matchedDefault['image'];
+                    $thumb = !empty($ytId) ? "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg" : ($v['thumbnail'] ?? $v['image'] ?? '/images/mockup_desktop_4.png');
+                    return [
+                        'title' => $v['title'],
+                        'url' => !empty($ytId) ? 'https://www.youtube.com/watch?v=' . $ytId : ($v['url'] ?? 'https://youtube.com'),
+                        'embed_id' => $ytId,
+                        'thumbnail' => $thumb,
+                        'image' => $thumb,
+                        'date' => $v['date'] ?? 'Dokumentasi Video Resmi',
+                        'desc' => $v['desc'] ?? $v['title']
+                    ];
+                }, $globalVideos);
+            } else {
+                $unitVideos = array_map(function($v) {
+                    $ytId = $v['embed_id'] ?? $v['youtube_id'] ?? '';
+                    if (empty($ytId) && !empty($v['url'])) {
+                        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $v['url'], $match)) {
+                            $ytId = $match[1];
+                        }
+                    }
+                    $thumb = !empty($ytId) ? "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg" : ($v['thumbnail'] ?? $v['image'] ?? '/images/mockup_desktop_4.png');
+                    $v['embed_id'] = $ytId;
+                    $v['thumbnail'] = $thumb;
+                    $v['image'] = $thumb;
+                    return $v;
+                }, $unitVideos);
+            }
+
+            $xmlData = $this->getXmlUnitEventsAndAnnouncements($cleanCode);
+            
+            $unitAgendas = !empty($info['agenda']) ? $info['agenda'] : $xmlData['agenda'];
+            if (empty($unitAgendas)) {
+                $allAgendas = $this->getAgendaData();
+                $unitAgendas = array_map(function($ag) {
+                    return [
+                        'title' => $ag['title'],
+                        'date_day' => $ag['date_day'] ?? '25',
+                        'date_month' => $ag['date_month'] ?? 'AGU',
+                        'date' => ($ag['date_day'] ?? '25') . ' ' . ($ag['date_month'] ?? 'AGU') . ' ' . ($ag['year'] ?? '2026'),
+                        'time' => $ag['time'] ?? '08:00 WIB',
+                        'location' => $ag['location'] ?? 'Kampus Sekolah',
+                        'desc' => $ag['category'] ?? 'Kegiatan Terjadwal Unit'
+                    ];
+                }, $allAgendas);
+            } else {
+                foreach ($unitAgendas as &$agItem) {
+                    if (empty($agItem['date_day'])) {
+                        $agItem['date_day'] = '15';
+                    }
+                    if (empty($agItem['date_month'])) {
+                        $agItem['date_month'] = 'AGU';
                     }
                 }
+                unset($agItem);
             }
-            unset($uItem);
-            $info[$key] = $userItems;
-        }
 
-        if (empty($info['teachers'])) {
-            $info['teachers'] = $defaultInfo['teachers'] ?? [];
+            $unitAnnouncements = !empty($info['announcements']) ? $info['announcements'] : $xmlData['announcements'];
+            if (empty($unitAnnouncements)) {
+                $allAnnouncements = $this->getAnnouncementData();
+                $unitAnnouncements = array_map(function($an) {
+                    return [
+                        'title' => $an['title'],
+                        'date' => $an['date'] ?? '17 Agustus 2026',
+                        'category' => $an['category'] ?? 'Pengumuman Resmi',
+                        'summary' => $an['summary'] ?? '',
+                        'link' => $an['link'] ?? route('school.berita')
+                    ];
+                }, $allAnnouncements);
+            }
+
+            $unitPrograms = !empty($info['programs']) ? $info['programs'] : ($defaultInfo['programs'] ?? $defaultInfo['ekskul'] ?? $unitEkskul);
+            $unitAlumni = !empty($info['alumni']) ? $info['alumni'] : [];
         }
 
         if ($school) {
@@ -438,98 +590,8 @@ class SchoolWebsiteController extends Controller
             ];
         }
 
-        $students = Student::where('school_id', $school->id ?? 1)->where(function($q) { $q->where('status', 'aktif')->orWhere('status', 'ACTIVE'); })->take(10)->get();
-        $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
-        $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
-
         $settings = $this->getSettings();
         $headerMenus = $this->getHeaderMenus();
-
-        // Filter unit news strictly relevant to this unit
-        $allNews = $this->getNewsData();
-        $unitNews = collect($allNews)->filter(function($item) use ($cleanCode) {
-            $u = strtolower($item['unit'] ?? '');
-            $cat = strtolower($item['category'] ?? '');
-            return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
-        })->values()->take(6);
-
-        if ($unitNews->isEmpty()) {
-            $unitNews = collect($allNews)->take(6);
-        }
-
-        // Filter unit articles strictly relevant to this unit
-        $allArticles = $this->getArticleData();
-        $unitArticles = collect($allArticles)->filter(function($item) use ($cleanCode) {
-            $u = strtolower($item['unit'] ?? '');
-            $cat = strtolower($item['category'] ?? '');
-            return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
-        })->values()->take(6);
-
-        if ($unitArticles->isEmpty()) {
-            $unitArticles = collect($allArticles)->take(6);
-        }
-
-        $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
-        $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
-        $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
-        $unitPrestasi = !empty($info['prestasi']) ? $info['prestasi'] : ($defaultInfo['prestasi'] ?? []);
-
-        $unitVideos = $info['videos'] ?? [];
-        if (empty($unitVideos)) {
-            $globalVideos = $this->getVideoData();
-            $unitVideos = array_map(function($v) {
-                return [
-                    'title' => $v['title'],
-                    'url' => 'https://www.youtube.com/watch?v=' . ($v['youtube_id'] ?? ''),
-                    'embed_id' => $v['youtube_id'] ?? '',
-                    'image' => $v['thumbnail'] ?? '/images/mockup_desktop_4.png',
-                    'date' => 'Dokumentasi Video Resmi',
-                    'desc' => $v['desc'] ?? $v['title']
-                ];
-            }, $globalVideos);
-        }
-
-        $xmlData = $this->getXmlUnitEventsAndAnnouncements($cleanCode);
-        
-        $unitAgendas = !empty($info['agenda']) ? $info['agenda'] : $xmlData['agenda'];
-        if (empty($unitAgendas)) {
-            $allAgendas = $this->getAgendaData();
-            $unitAgendas = array_map(function($ag) {
-                return [
-                    'title' => $ag['title'],
-                    'date_day' => $ag['date_day'] ?? '25',
-                    'date_month' => $ag['date_month'] ?? 'AGU',
-                    'date' => ($ag['date_day'] ?? '25') . ' ' . ($ag['date_month'] ?? 'AGU') . ' ' . ($ag['year'] ?? '2026'),
-                    'time' => $ag['time'] ?? '08:00 WIB',
-                    'location' => $ag['location'] ?? 'Kampus Sekolah',
-                    'desc' => $ag['category'] ?? 'Kegiatan Terjadwal Unit'
-                ];
-            }, $allAgendas);
-        } else {
-            foreach ($unitAgendas as &$agItem) {
-                if (empty($agItem['date_day'])) {
-                    $agItem['date_day'] = '15';
-                }
-                if (empty($agItem['date_month'])) {
-                    $agItem['date_month'] = 'AGU';
-                }
-            }
-            unset($agItem);
-        }
-
-        $unitAnnouncements = !empty($info['announcements']) ? $info['announcements'] : $xmlData['announcements'];
-        if (empty($unitAnnouncements)) {
-            $allAnnouncements = $this->getAnnouncementData();
-            $unitAnnouncements = array_map(function($an) {
-                return [
-                    'title' => $an['title'],
-                    'date' => $an['date'] ?? '17 Agustus 2026',
-                    'category' => $an['category'] ?? 'Pengumuman Resmi',
-                    'summary' => $an['summary'] ?? '',
-                    'link' => $an['link'] ?? route('school.berita')
-                ];
-            }, $allAnnouncements);
-        }
 
         $currentHost = request()->getHost();
         $subdomains = ['tk', 'tkit', 'sd', 'sdit', 'smp', 'smpit', 'sma', 'smait', 'spmb'];
@@ -1160,8 +1222,8 @@ class SchoolWebsiteController extends Controller
         
         foreach ($uploadFields as $field) {
             if ($request->hasFile($field) && $request->file($field)->isValid()) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $field . '_' . rand(100, 999) . '.' . $file->getClientOriginalExtension();
+                $ext = in_array(strtolower($file->extension()), ['jpg', 'jpeg', 'png', 'pdf']) ? strtolower($file->extension()) : 'jpg';
+                $filename = time() . '_' . $field . '_' . rand(100, 999) . '.' . $ext;
                 $file->move(public_path('uploads/spmb'), $filename);
                 $uploadedDocs[$field] = '/uploads/spmb/' . $filename;
             } else {
@@ -2270,9 +2332,9 @@ public function getDefaultUnitMap(array $themeTokens): array
   ),
 ),
                 'alumni' => [
-                    ['name' => 'Wali Santri TKIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat santri di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Santri', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Wali Murid TKIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
                 ],
             ],
             'sdit' => [
@@ -2523,7 +2585,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Kolam Renang Sekolah',
     'badge' => 'Fasilitas Unggulan SDIT',
     'icon' => 'ud83cudfcau200du2642ufe0f',
-    'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di area sekolah untuk kegiatan ekskul dan olahraga air santri.',
+    'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di area sekolah untuk kegiatan ekskul dan olahraga air siswa.',
     'image' => '/images/facilities/kolam_renang_sdit.jpg',
   ),
   1 => 
@@ -2547,7 +2609,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Aula Pertemuan Sekolah',
     'badge' => 'Gedung Pertemuan',
     'icon' => 'ud83cudfdbufe0f',
-    'desc' => 'Aula serbaguna indoor untuk pertemuan orang tua, pentas seni santri, dan event sekolah.',
+    'desc' => 'Aula serbaguna indoor untuk pertemuan orang tua, pentas seni siswa, dan event sekolah.',
     'image' => '/images/facilities/aula_sdit.jpg',
   ),
   4 => 
@@ -2597,7 +2659,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Life Skill Bulu Tangkis',
     'badge' => 'Olahraga Kebugaran',
     'icon' => 'ud83cudff8',
-    'desc' => 'Latihan ketangkasan refleksi, kelincahan, dan kebugaran jasmani santri.',
+    'desc' => 'Latihan ketangkasan refleksi, kelincahan, dan kebugaran jasmani siswa.',
     'image' => '/images/ekskul/bulu_tangkis.webp',
   ),
   5 => 
@@ -2612,9 +2674,9 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'gallery' => array (
 ),
                 'alumni' => [
-                    ['name' => 'Wali Santri SDIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat santri di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Santri', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Wali Murid SDIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
                 ],
             ],
             'smpit' => [
@@ -2686,7 +2748,7 @@ public function getDefaultUnitMap(array $themeTokens): array
   array (
     'title' => 'Bilingual & Public Speaking Club',
     'icon' => 'ud83cudf0d',
-    'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.',
+    'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking siswa.',
   ),
 ),
                 'teachers' => array (
@@ -2807,7 +2869,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Lapangan Olahraga Sekolah',
     'badge' => 'Area Olahraga',
     'icon' => 'ud83cudfc0',
-    'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri SMPIT.',
+    'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik siswa SMPIT.',
     'image' => '/images/facilities/lapangan_smpit.jpg',
   ),
 ),
@@ -2817,7 +2879,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Futsal SMPIT Robbani',
     'badge' => 'Olahraga Tim',
     'icon' => 'u26bd',
-    'desc' => 'Wadah bagi santri SMPIT Robbani mengembangkan bakat olahraga futsal, ketangkasan fisik, dan kerja sama tim.',
+    'desc' => 'Wadah bagi siswa SMPIT Robbani mengembangkan bakat olahraga futsal, ketangkasan fisik, dan kerja sama tim.',
     'image' => '/images/ekskul/futsal.webp',
   ),
   1 => 
@@ -2825,7 +2887,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Panahan Sunnah (Archery)',
     'badge' => 'Olahraga Sunnah',
     'icon' => 'ud83cudff9',
-    'desc' => 'Melatih fokus, ketenangan emosi, ketepatan sasaran, dan kedisiplinan santri.',
+    'desc' => 'Melatih fokus, ketenangan emosi, ketepatan sasaran, dan kedisiplinan siswa.',
     'image' => '/images/ekskul/panahan.webp',
   ),
   2 => 
@@ -2833,7 +2895,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Coding & Keterampilan Digital',
     'badge' => 'Teknologi & IT',
     'icon' => 'ud83dudcbb',
-    'desc' => 'Wadah santri menguasai logika pemograman dasar, pembuatan website, dan teknologi masa depan.',
+    'desc' => 'Wadah siswa menguasai logika pemograman dasar, pembuatan website, dan teknologi masa depan.',
     'image' => '/images/ekskul/coding.webp',
   ),
   3 => 
@@ -2841,7 +2903,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Seni Tari Kreasi Islami',
     'badge' => 'Seni Budaya',
     'icon' => 'ud83dudc83',
-    'desc' => 'Mengembangkan minat bakat santri dibidang seni tari kreasi bernuansa islami dan seni nusantara.',
+    'desc' => 'Mengembangkan minat bakat siswa dibidang seni tari kreasi bernuansa islami dan seni nusantara.',
     'image' => '/images/ekskul/seni_tari.webp',
   ),
   4 => 
@@ -2849,7 +2911,7 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Public Speaking & Leadership',
     'badge' => 'Komunikasi & Bahasa',
     'icon' => 'ud83cudf99ufe0f',
-    'desc' => 'Menggali dan mengembangkan potensi kepemimpinan serta orator publik dalam berbagai forum santri.',
+    'desc' => 'Menggali dan mengembangkan potensi kepemimpinan serta orator publik dalam berbagai forum siswa.',
     'image' => '/images/ekskul/public_speaking.webp',
   ),
   5 => 
@@ -2873,47 +2935,47 @@ public function getDefaultUnitMap(array $themeTokens): array
     'title' => 'Digital Art & Graphic Design',
     'badge' => 'Desain & Media',
     'icon' => 'ud83cudfa8',
-    'desc' => 'Melatih kreativitas santri dalam bidang desain grafis, ilustrasi digital, dan media publikasi.',
+    'desc' => 'Melatih kreativitas siswa dalam bidang desain grafis, ilustrasi digital, dan media publikasi.',
     'image' => '/images/ekskul/digital_art.webp',
   ),
 ),
                 'gallery' => array (
 ),
                 'alumni' => [
-                    ['name' => 'Wali Santri SMPIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat santri di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Santri', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Wali Murid SMPIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
                 ],
             ],
             'smait' => [
-                'name' => 'SMAIT ROBBANI OGAN ILIR',
+                'name' => 'SMA IT Robbani',
                 'code' => 'SMAIT',
-                'npsn' => '69983456',
-                'akreditasi' => 'Dalam Tahap Persiapan & Akreditasi',
-                'sub_badge' => 'KABUPATEN OGAN ILIR - Dalam Tahap Persiapan & Akreditasi',
+                'npsn' => '69989912',
+                'akreditasi' => 'Terakreditasi B',
+                'sub_badge' => 'KABUPATEN OGAN ILIR - Tahap Persiapan Operasional',
                 'kurikulum' => 'Merdeka & Kekhasan JSIT',
-                'tagline' => 'Center of Excellence: Science, IT, Tahfidz 10-30 Juz, & Mentoring PTN Ternama',
-                'principal_name' => '',
-                'principal_title' => 'Kepala SMAIT Robbani',
-                'principal_photo' => '',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. SMAIT Robbani mengantarkan para siswa unggul lolos seleksi PTN Favorit (UI, ITB, UGM, UNSRI) & Perguruan Tinggi Luar Negeri, berprestasi riset sains, serta menjadi Huffazh Al-Qur\'an yang tangguh.',
-                'description' => 'Sekolah Menengah Atas Islam Terpadu jenjang lanjutan berfokus pada persiapan tembus PTN Favorit & Beasiswa Luar Negeri, Tahfidz Al-Qur\'an 10-30 Juz berijazah sanad, serta Riset Sains & Leadership kepemimpinan masa depan.',
-                'vision' => 'Menjadi SMAIT Unggulan Nasional dalam Melahirkan Ilmuwan Muslim, Huffazh Al-Qur\'an, dan Pemimpin Masa Depan.',
-                'missions' => array (
-  0 => 'Menyelenggarakan bimbingan intensif UTBK-SNBT dan seleksi PTN / Beasiswa Luar Negeri.',
-  1 => 'Melahirkan lulusan berjiwa Huffazh Al-Qur\'an target 10-30 Juz berijazah sanad.',
-  2 => 'Mendorong riset sains remaja, inovasi koding digital, dan karya ilmiah tingkat nasional.',
-  3 => 'Membentuk karakter kader dakwah dan pemimpin berintegritas tinggi.',
-),
+                'tagline' => 'Sekolah Menengah Atas Islam Terpadu - Segera Dibuka',
+                'principal_name' => 'Tahap Persiapan Operasional',
+                'principal_title' => 'Kepala Sekolah',
+                'principal_photo' => '/images/logo-robbani-official.png',
+                'principal_greeting' => 'Pendidikan tingkat SMA IT Robbani saat ini sedang dalam tahap persiapan sarana prasarana dan perizinan operasional resmi. Insya Allah segera hadir untuk melahirkan generasi pemimpin bangsa yang Qur\'ani dan berwawasan teknologi global.',
+                'description' => 'SMA IT Robbani saat ini dalam tahap persiapan pembukaan dan perizinan operasional resmi. Program pendidikan dirancang untuk mempersiapkan siswa menuju perguruan tinggi unggulan dan penguasaan ilmu syar\'i serta sains teknologi modern.',
+                'vision' => 'Menjadi Lembaga Pendidikan Menengah Atas Islam Terkemuka yang Mencetak Cendekia Qur\'ani, Unggul dalam Riset Sains & Teknologi, serta Berkarakter Pemimpin Global.',
+                'missions' => [
+                    'Menghantarkan siswa menguasai hafalan Al-Qur\'an mutqin serta memahami dasar-dasar ilmu syariah.',
+                    'Mempersiapkan siswa secara intensif menembus PTN favorit dalam negeri dan beasiswa perguruan tinggi luar negeri.',
+                    'Membekali siswa keterampilan riset ilmiah, computational thinking, dan kecerdasan buatan.',
+                    'Membina kedewasaan, kemandirian, dan ukhuwah islamiyah melalui kehidupan kampus yang terstruktur dan bermartabat.',
+                ],
                 'history' => [
-                    'title' => 'Membangun Generasi Emas SMAIT Robbani Ogan Ilir',
+                    'title' => 'Tahap Persiapan SMA IT Robbani Ogan Ilir',
                     'badge' => 'Jejak Langkah & Perkembangan',
                     'image' => '/images/logo-robbani-official.png',
-                    'paragraphs' => array (
-  0 => 'SMAIT ROBBANI OGAN ILIR didirikan di bawah naungan Yayasan Generasi Robbani Sumatera Selatan sebagai wujud komitmen memberikan pendidikan Islam terpadu berkualitas di Kabupaten Ogan Ilir.',
-  1 => 'Mengembangkan kurikulum terpadu nasional dan kekhasan JSIT (Jaringan Sekolah Islam Terpadu), pembinaan tahfidz Al-Qur\'an mutqin, serta penguatan adab Islami dan kemandirian peserta didik.',
-  2 => 'Didukung oleh sarana pembelajaran modern, tenaga pendidik bersertifikasi dan berdedikasi tinggi, serta lingkungan kampus yang asri dan aman, kami terus berinovasi membina generasi Qur\'ani yang siap memimpin peradaban masa depan.',
-),
+                    'paragraphs' => [
+                        'Pendidikan tingkat SMA IT Robbani didirikan di bawah naungan Yayasan Generasi Robbani Sumatera Selatan sebagai wujud komitmen memberikan kesinambungan pendidikan Islam terpadu lanjutan di Kabupaten Ogan Ilir.',
+                        'Saat ini institusi sedang merampungkan pemenuhan sarana laboratorium modern, asrama, dan perizinan dinas terkait.',
+                        'Insya Allah SMA IT Robbani akan segera membuka penerimaan peserta didik baru begitu seluruh proses legalitas dan sarana siap.',
+                    ],
                 ],
                 'phone' => '0811747472',
                 'whatsapp' => '0811747472',
@@ -2926,140 +2988,22 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'campus_photo' => '/images/logo-robbani-official.png',
                 'hero_bg_image' => '',
                 'hero_image' => '',
-                'students_count' => 190,
-                'employees_count' => 22,
-                'classrooms_count' => 8,
-                'target_hafalan' => '10 - 30 Juz (Huffazh)',
+                'students_count' => 0,
+                'employees_count' => 0,
+                'classrooms_count' => 0,
+                'target_hafalan' => '10 - 30 Juz',
                 'theme' => $themeTokens['smait'] ?? [],
-                'programs' => array (
-  0 => 
-  array (
-    'title' => 'Bimbingan Intensif PTN & Beasiswa',
-    'icon' => 'ud83cudf93',
-    'desc' => 'Tryout SNBT berkala, pemetaan jurusan, dan pendampingan lolos perguruan tinggi ternama.',
-  ),
-  1 => 
-  array (
-    'title' => 'Tahfidz 10-30 Juz & Sanad',
-    'icon' => 'ud83dudcd6',
-    'desc' => 'Program khusus siswa tahfidz dengan target mutqin dan persiapan pengambilan sanad.',
-  ),
-  2 => 
-  array (
-    'title' => 'Riset Sains & Technology Project',
-    'icon' => 'ud83euddea',
-    'desc' => 'Penelitian ilmiah remaja, karya tulis ilmiah, dan proyek teknologi buatan siswa.',
-  ),
-  3 => 
-  array (
-    'title' => 'Public Speaking & Leadership',
-    'icon' => 'ud83cudf99ufe0f',
-    'desc' => 'Latihan pidato 3 bahasa, manajemen organisasi OSIS, dan debat internasional.',
-  ),
-),
-                'teachers' => array (
-  0 => 
-  array (
-    'name' => 'Ustadz Ahmad Subagja, M.Si',
-    'role' => 'Kepala Sekolah SMAIT',
-    'photo' => '/images/mockup_mobile_4.png',
-    'bio' => 'Kepala Sekolah SMAIT Robbani, magister sains Universitas Indonesia.',
-  ),
-  1 => 
-  array (
-    'name' => 'Ustadz Dr. H. Burhanuddin, M.A',
-    'role' => 'Guru Al-Qur\'an & Hadits',
-    'photo' => '/images/mockup_mobile_2.png',
-    'bio' => 'Doktor Ilmu Al-Qur\'an dan Hadits.',
-  ),
-  2 => 
-  array (
-    'name' => 'Ustadzah Intan, M.Pd',
-    'role' => 'Koordinator Bimbingan PTN / Fisika',
-    'photo' => '/images/mockup_mobile_3.png',
-    'bio' => 'Pembina OSN Fisika & Koordinator SNBT.',
-  ),
-  3 => 
-  array (
-    'name' => 'Ustadz Ahmad Zaki, S.T',
-    'role' => 'Pembina Coding & Koding',
-    'photo' => '/images/mockup_mobile_1.png',
-    'bio' => 'Praktisi IT dan pembina Koding SMAIT.',
-  ),
-),
-                'facilities' => array (
-  0 => 
-  array (
-    'title' => 'Laboratorium Komputer & Digital Lab',
-    'image' => '/images/mockup_desktop_1.png',
-    'desc' => 'Lab komputer dengan koneksi internet gigabit dan perangkat workstation koding.',
-  ),
-  1 => 
-  array (
-    'title' => 'Laboratorium Sains Terpadu (Fisika, Kimia, Biologi)',
-    'image' => '/images/mockup_desktop_2.png',
-    'desc' => 'Peralatan praktikum sains modern untuk eksperimen dan karya tulis ilmiah siswa.',
-  ),
-  2 => 
-  array (
-    'title' => 'Perpustakaan & Ruang Riset Digital',
-    'image' => '/images/mockup_desktop_3.png',
-    'desc' => 'Koleksi ribuan buku referensi UTBK, kitab keislaman, dan jurnal digital.',
-  ),
-  3 => 
-  array (
-    'title' => 'Asrama Putra-Putri Modern',
-    'image' => '/images/mockup_desktop_4.png',
-    'desc' => 'Gedung asrama ber-AC dengan fasilitas lengkap dan pembinaan musyrif 24 jam.',
-  ),
-),
-                'ekskul' => array (
-  0 => 
-  array (
-    'title' => 'Karya Ilmiah Remaja (KIR)',
-    'image' => '/images/mockup_desktop_1.png',
-    'desc' => 'Pembinaan riset sains remaja dan publikasi paper ilmiah.',
-  ),
-  1 => 
-  array (
-    'title' => 'Koding & AI Club',
-    'image' => '/images/mockup_desktop_2.png',
-    'desc' => 'Pengembangan kecerdasan buatan, IoT, dan otomasi.',
-  ),
-  2 => 
-  array (
-    'title' => 'English & Arabic Debate',
-    'image' => '/images/mockup_desktop_3.png',
-    'desc' => 'Klub debat bahasa internasional dan diplomasi model UN.',
-  ),
-  3 => 
-  array (
-    'title' => 'Panahan & Bela Diri',
-    'image' => '/images/mockup_desktop_4.png',
-    'desc' => 'Olahraga sunnah memanah dan bela diri tapak suci.',
-  ),
-),
-                'gallery' => array (
-  0 => 
-  array (
-    'title' => 'Wisuda Purnasiswa & Pelepasan Alumni PTN',
-    'image' => '/images/mockup_desktop_1.png',
-    'date' => '15 Mei 2026',
-    'desc' => 'Momen kebanggaan kelulusan siswa angkatan SMAIT Robbani.',
-  ),
-  1 => 
-  array (
-    'title' => 'Robbani Science & Innovation Expo',
-    'image' => '/images/mockup_desktop_2.png',
-    'date' => '20 April 2026',
-    'desc' => 'Pameran hasil karya riset teknologi dan prototipe sains siswa.',
-  ),
-),
-                'alumni' => [
-                    ['name' => 'Wali Santri SMAIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat santri di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Santri', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
-                ],
+                'programs' => [],
+                'teachers' => [],
+                'facilities' => [],
+                'ekskul' => [],
+                'prestasi' => [],
+                'gallery' => [],
+                'videos' => [],
+                'agenda' => [],
+                'announcements' => [],
+                'alumni' => [],
+                'status' => 'BELUM_DIBUKA',
             ],
         ];
     }

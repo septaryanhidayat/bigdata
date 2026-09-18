@@ -17,7 +17,24 @@
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     $unitUrl = url('/unit/' . $codeLower);
 
-    $heroSlides = [
+    $isSmait = $codeLower === 'smait' || ($info['status'] ?? '') === 'BELUM_DIBUKA';
+    $heroSlides = $isSmait ? [
+        [
+            'title' => 'Selamat Datang di Portal Resmi SMA IT Robbani',
+            'subtitle' => 'Tahap Persiapan Operasional Menuju Pembukaan Jenjang Lanjutan Berkarakter Qur\'ani & Sains Teknologi.',
+            'image' => asset('/images/logo-robbani-official.png')
+        ],
+        [
+            'title' => 'Mempersiapkan Generasi Cendekia Qur\'ani Masa Depan',
+            'subtitle' => 'Kurikulum Terpadu JSIT & Nasional dengan fasilitas sarana prasarana modern.',
+            'image' => asset('/images/logo-robbani-official.png')
+        ],
+        [
+            'title' => 'Informasi Pembukaan & Konsultasi Jenjang',
+            'subtitle' => 'Insya Allah segera membuka penerimaan peserta didik baru setelah proses legalitas dan sarana siap.',
+            'image' => asset('/images/logo-robbani-official.png')
+        ]
+    ] : [
         [
             'title' => 'Selamat Datang di Website Resmi ' . $info['name'],
             'subtitle' => $info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia',
@@ -29,7 +46,7 @@
             'image' => asset($info['hero_image'] ?: ($info['hero_bg_image'] ?: '/images/logo-robbani-official.png'))
         ],
         [
-            'title' => 'Pendaftaran Santri Baru (SPMB) Telah Dibuka',
+            'title' => 'Pendaftaran Siswa Baru (SPMB) Telah Dibuka',
             'subtitle' => 'Daftarkan putra-putri tercinta sekarang, kuota terbatas per kelas.',
             'image' => asset($info['flyer'] ?: ($info['hero_image'] ?: '/images/logo-robbani-official.png'))
         ]
@@ -37,6 +54,17 @@
 @endphp
 
 @section('content')
+
+@if($isSmait)
+    <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-600 text-slate-950 px-4 py-3 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 text-center text-xs sm:text-sm font-bold">
+            <span class="inline-flex items-center gap-1 bg-slate-950 text-amber-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                <i class="fa-solid fa-clock"></i> SEGERA DIBUKA
+            </span>
+            <span>SMA IT Robbani saat ini dalam tahap persiapan operasional pembukaan. Data kegiatan dan pendaftaran belum dibuka.</span>
+        </div>
+    </div>
+@endif
 
 {{-- ========================================================
      SESI 1: HERO SLIDER BANNER (Carousel Otomatis)
@@ -189,53 +217,55 @@
             <div class="lg:col-span-8 space-y-4 sm:space-y-5 text-center lg:text-left">
                 <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider">
                     <i class="fa-solid fa-sparkles"></i>
-                    <span>Pendaftaran Tahun Ajaran 2026/2027</span>
+                    <span>{{ $isSmait ? 'Tahap Persiapan Operasional Pembukaan' : 'Pendaftaran Tahun Ajaran 2026/2027' }}</span>
                 </div>
                 <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-                    SPMB Gelombang Exclusive &amp; Class Meeting Semester Genap
+                    {{ $isSmait ? 'Menuju Pembukaan Resmi Jenjang SMA IT Robbani' : 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}
                 </h2>
                 <p class="text-xs sm:text-sm text-indigo-100 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                    Wujudkan impian pendidikan ananda bersama {{ $info['name'] }}. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.
+                    {{ $isSmait ? 'SMA IT Robbani saat ini dalam tahap perampungan sarana prasarana modern dan perizinan operasional resmi. Insya Allah segera melayani pendidikan tingkat menengah atas berkarakter Qur\'ani dan unggul IPTEK.' : 'Wujudkan impian pendidikan ananda bersama ' . $info['name'] . '. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}
                 </p>
 
                 {{-- 3 KARTU BENEFIT --}}
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 text-left sm:text-center">
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
-                        <i class="fa-solid fa-users text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
+                        <i class="fa-solid fa-building-columns text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
-                            <h4 class="text-xs font-bold text-white">Kuota Terbatas</h4>
-                            <p class="text-[10px] text-indigo-200">24 Santri / Kelas</p>
+                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Status Kampus' : 'Kuota Terbatas' }}</h4>
+                            <p class="text-[10px] text-indigo-200">{{ $isSmait ? 'Tahap Persiapan' : '24 Siswa / Kelas' }}</p>
                         </div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
-                        <i class="fa-solid fa-tag text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
+                        <i class="fa-solid fa-book-quran text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
-                            <h4 class="text-xs font-bold text-white">Cashback SPMB</h4>
-                            <p class="text-[10px] text-indigo-200">Potongan Uang Masuk</p>
+                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Fokus Peminatan' : 'Cashback SPMB' }}</h4>
+                            <p class="text-[10px] text-indigo-200">{{ $isSmait ? 'Tahfidz & PTN' : 'Potongan Uang Masuk' }}</p>
                         </div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
-                        <i class="fa-solid fa-medal text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
+                        <i class="fa-solid fa-certificate text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
-                            <h4 class="text-xs font-bold text-white">Class Meeting</h4>
-                            <p class="text-[10px] text-indigo-200">Lomba Antar Sekolah</p>
+                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Kurikulum Terpadu' : 'Class Meeting' }}</h4>
+                            <p class="text-[10px] text-indigo-200">{{ $isSmait ? 'JSIT & Merdeka' : 'Lomba Antar Sekolah' }}</p>
                         </div>
                     </div>
                 </div>
 
                 {{-- TOMBOL AKSI --}}
                 <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
+                    @if(!$isSmait)
                     <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
                        class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-graduation-cap"></i>
                         <span>Daftar Sekarang</span>
                     </a>
-                    <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}" 
+                    @endif
+                    <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar informasi persiapan ' . $info['name']) }}" 
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition flex items-center justify-center space-x-2">
                         <i class="fa-brands fa-whatsapp text-emerald-400"></i>
-                        <span>Hubungi Panitia SPMB</span>
+                        <span>{{ $isSmait ? 'Konsultasi Informasi Pembukaan' : 'Hubungi Panitia SPMB' }}</span>
                     </a>
                 </div>
             </div>
@@ -298,12 +328,12 @@
      SESI 5: WARTA & KABAR KAMPUS (BERITA)
      ======================================================== --}}
 <section id="berita" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-center sm:text-left">
         <div>
             <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Kabar Terkini</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Warta &amp; Informasi Kampus</h2>
         </div>
-        <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1 self-start sm:self-auto">
+        <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center justify-center sm:justify-start gap-1 self-center sm:self-auto">
             <span>Lihat Semua Berita</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
@@ -339,35 +369,49 @@
                             {{ $featuredNews['title'] }}
                         </a>
                     </h3>
-                    <p class="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed">
-                        {{ $featuredNews['summary'] ?? ($info['name'] . ' terus menorehkan prestasi dan menyelenggarakan kegiatan positif untuk mendukung potensi santri.') }}
+                    <p class="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed text-justify">
+                        {{ $featuredNews['summary'] ?? ($info['name'] . ' terus menorehkan prestasi dan menyelenggarakan kegiatan positif untuk mendukung potensi siswa.') }}
                     </p>
                 </div>
             </div>
-        @endif
 
-        {{-- BERITA SAMPINGAN HORIZONTAL (KANAN - 5 Kolom) --}}
-        <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
-            @foreach($sideNews as $sItem)
-                <a href="{{ !empty($sItem['slug']) ? route('school.berita.show', $sItem['slug']) : '#' }}" 
-                   class="bg-white rounded-2xl p-4 shadow-md border border-gray-100 hover:border-indigo-300 transition group flex items-center space-x-4 reveal-fade-up">
-                    <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
-                        <img src="{{ asset($sItem['image'] ?? '/images/logo-robbani-official.png') }}" 
-                             alt="{{ $sItem['title'] }}" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                             onerror="this.src='/images/logo-robbani-official.png'">
-                    </div>
-                    <div class="space-y-1 min-w-0 flex-1">
-                        <span class="text-[10px] text-gray-400 font-medium block">
-                            {{ $sItem['date'] ?? '18 Sep 2026' }}
-                        </span>
-                        <h4 class="text-xs font-bold text-gray-900 group-hover:text-indigo-600 transition line-clamp-2 leading-snug">
-                            {{ $sItem['title'] }}
-                        </h4>
-                    </div>
-                </a>
-            @endforeach
-        </div>
+            {{-- BERITA SAMPINGAN HORIZONTAL (KANAN - 5 Kolom) --}}
+            <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+                @foreach($sideNews as $sItem)
+                    <a href="{{ !empty($sItem['slug']) ? route('school.berita.show', $sItem['slug']) : '#' }}" 
+                       class="bg-white rounded-2xl p-4 shadow-md border border-gray-100 hover:border-indigo-300 transition group flex items-center space-x-4 reveal-fade-up">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+                            <img src="{{ asset($sItem['image'] ?? '/images/logo-robbani-official.png') }}" 
+                                 alt="{{ $sItem['title'] }}" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                                 onerror="this.src='/images/logo-robbani-official.png'">
+                        </div>
+                        <div class="space-y-1 min-w-0 flex-1">
+                            <span class="text-[10px] text-gray-400 font-medium block">
+                                {{ $sItem['date'] ?? '18 Sep 2026' }}
+                            </span>
+                            <h4 class="text-xs font-bold text-gray-900 group-hover:text-indigo-600 transition line-clamp-2 leading-snug">
+                                {{ $sItem['title'] }}
+                            </h4>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="col-span-12 bg-white rounded-3xl p-8 sm:p-12 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+                    <i class="fa-regular fa-newspaper"></i>
+                </div>
+                <h4 class="text-base font-bold text-gray-800">Belum Ada Warta Publikasi</h4>
+                <p class="text-xs text-gray-500 max-w-md mx-auto leading-relaxed text-center">
+                    @if($codeLower === 'smait')
+                        Publikasi warta dan agenda kegiatan SMA IT Robbani akan diperbarui menjelang pembukaan tahun ajaran baru.
+                    @else
+                        Warta dan informasi terbaru unit {{ $info['name'] }} akan dipublikasikan secara berkala.
+                    @endif
+                </p>
+            </div>
+        @endif
 
     </div>
 </section>
@@ -385,22 +429,32 @@
     @php
         $programs = $info['programs'] ?? [
             ['title' => 'Tahfidz Al-Qur\'an Mutqin', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
-            ['title' => 'Bilingual Arabic & English', 'icon' => '🗣️', 'desc' => 'Pembiasaan percakapan bahasa Arab dan Inggris dalam aktivitas santri sehari-hari.'],
+            ['title' => 'Bilingual Arabic & English', 'icon' => '🗣️', 'desc' => 'Pembiasaan percakapan bahasa Arab dan Inggris dalam aktivitas siswa sehari-hari.'],
             ['title' => 'Bina Prestasi Sains & Riset', 'icon' => '🔬', 'desc' => 'Inkubator olimpiade matematika, sains terapan, dan koding dasar berbasis nalar ilmiah.'],
-            ['title' => 'Karakter Mandiri & Kepemimpinan', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil (BPI), kepanduan Pramuka SIT, serta pembinaan adab santri.']
+            ['title' => 'Karakter Mandiri & Kepemimpinan', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil (BPI), kepanduan Pramuka SIT, serta pembinaan adab siswa.']
         ];
     @endphp
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        @foreach($programs as $prog)
+        @forelse($programs as $prog)
             <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-xl border border-gray-100 hover:border-amber-400 hover:-translate-y-1 transition duration-300 space-y-3 reveal-fade-up">
                 <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shadow-inner">
                     <span>{{ $prog['icon'] ?? '🌟' }}</span>
                 </div>
                 <h3 class="font-extrabold text-sm sm:text-base text-gray-900">{{ $prog['title'] }}</h3>
-                <p class="text-xs text-gray-600 leading-relaxed font-light">{{ $prog['desc'] }}</p>
+                <p class="text-xs text-gray-600 leading-relaxed font-light text-justify">{{ $prog['desc'] }}</p>
             </div>
-        @endforeach
+        @empty
+            <div class="col-span-1 sm:col-span-2 lg:col-span-4 bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-sm space-y-2 reveal-fade-up">
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 mx-auto flex items-center justify-center text-xl shadow-inner">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h4 class="text-sm font-bold text-gray-800">Kurikulum &amp; Program Unggulan Dalam Tahap Finalisasi</h4>
+                <p class="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
+                    Rancangan kurikulum terpadu JSIT dan program peminatan unggulan SMA IT Robbani sedang dipersiapkan untuk menyambut pembukaan resmi.
+                </p>
+            </div>
+        @endforelse
     </div>
 
     <div class="text-center pt-2">
@@ -423,13 +477,11 @@
     </div>
 
     @php
-        $teacherList = !empty($info['teachers']) ? array_slice($info['teachers'], 0, 8) : [
-            ['name' => $info['principal_name'], 'role' => 'Kepala Sekolah', 'photo' => $info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp']
-        ];
+        $teacherList = !empty($info['teachers']) ? array_slice($info['teachers'], 0, 8) : [];
     @endphp
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-        @foreach($teacherList as $tc)
+        @forelse($teacherList as $tc)
             <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition duration-300 reveal-fade-up text-center group">
                 <div class="h-44 sm:h-64 overflow-hidden bg-indigo-50">
                     <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
@@ -442,7 +494,17 @@
                     <p class="text-[10px] sm:text-xs text-indigo-600 font-semibold truncate">{{ $tc['role'] }}</p>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-span-2 sm:col-span-3 lg:col-span-4 bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-sm space-y-2 reveal-fade-up">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-xl shadow-inner">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <h4 class="text-sm font-bold text-gray-800">Formasi Pendidik Sedang Dipersiapkan</h4>
+                <p class="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
+                    Perekrutan dan penempatan guru serta tenaga kependidikan SMA IT Robbani dalam proses seleksi kualifikasi terbaik.
+                </p>
+            </div>
+        @endforelse
     </div>
 
     <div class="text-center pt-2">
@@ -473,11 +535,31 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             @forelse($initialVideos as $v)
-                <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between">
-                    <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden">
-                        <img src="{{ asset($v['thumbnail'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" onerror="this.src='/images/logo-robbani-official.png'">
-                        @if(!empty($v['embed_id']))
-                            <button @click="activeVideo = '{{ $v['embed_id'] }}'" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition cursor-pointer" aria-label="Putar Video">
+                @php
+                    $embedId = $v['embed_id'] ?? '';
+                    if (empty($embedId) && !empty($v['url'])) {
+                        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $v['url'], $match)) {
+                            $embedId = $match[1];
+                        }
+                    }
+                    $rawThumb = !empty($v['thumbnail']) ? $v['thumbnail'] : (!empty($v['image']) ? $v['image'] : '');
+                    if (!empty($embedId) && (empty($rawThumb) || str_contains($rawThumb, 'mockup') || str_contains($rawThumb, 'logo-robbani') || str_contains($rawThumb, 'galeri-'))) {
+                        $videoThumb = "https://img.youtube.com/vi/{$embedId}/hqdefault.jpg";
+                    } elseif (!empty($rawThumb)) {
+                        $videoThumb = (str_starts_with($rawThumb, 'http://') || str_starts_with($rawThumb, 'https://')) ? $rawThumb : asset($rawThumb);
+                    } elseif (!empty($embedId)) {
+                        $videoThumb = "https://img.youtube.com/vi/{$embedId}/hqdefault.jpg";
+                    } else {
+                        $videoThumb = asset('/images/mockup_desktop_4.png');
+                    }
+                @endphp
+                <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between reveal-fade-up">
+                    <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden cursor-pointer"
+                         @if(!empty($embedId)) @click="activeVideo = '{{ $embedId }}'" @else onclick="window.open('{{ $v['url'] ?? 'https://youtube.com' }}', '_blank')" @endif>
+                        <img src="{{ $videoThumb }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500" onerror="this.onerror=null; @if(!empty($embedId)) this.src='https://img.youtube.com/vi/{{ $embedId }}/hqdefault.jpg'; @else this.src='/images/mockup_desktop_4.png'; @endif">
+                        <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition duration-300"></div>
+                        @if(!empty($embedId))
+                            <button type="button" @click.stop="activeVideo = '{{ $embedId }}'" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition cursor-pointer" aria-label="Putar Video">
                                 <i class="fa-solid fa-play"></i>
                             </button>
                         @else
@@ -501,11 +583,31 @@
         @if(count($moreVideos) > 0)
             <div x-show="showAllVideos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pt-4">
                 @foreach($moreVideos as $v)
-                    <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between">
-                        <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden">
-                            <img src="{{ asset($v['thumbnail'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" onerror="this.src='/images/logo-robbani-official.png'">
-                            @if(!empty($v['embed_id']))
-                                <button @click="activeVideo = '{{ $v['embed_id'] }}'" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition cursor-pointer" aria-label="Putar Video">
+                    @php
+                        $embedId = $v['embed_id'] ?? '';
+                        if (empty($embedId) && !empty($v['url'])) {
+                            if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $v['url'], $match)) {
+                                $embedId = $match[1];
+                            }
+                        }
+                        $rawThumb = !empty($v['thumbnail']) ? $v['thumbnail'] : (!empty($v['image']) ? $v['image'] : '');
+                        if (!empty($embedId) && (empty($rawThumb) || str_contains($rawThumb, 'mockup') || str_contains($rawThumb, 'logo-robbani') || str_contains($rawThumb, 'galeri-'))) {
+                            $videoThumb = "https://img.youtube.com/vi/{$embedId}/hqdefault.jpg";
+                        } elseif (!empty($rawThumb)) {
+                            $videoThumb = (str_starts_with($rawThumb, 'http://') || str_starts_with($rawThumb, 'https://')) ? $rawThumb : asset($rawThumb);
+                        } elseif (!empty($embedId)) {
+                            $videoThumb = "https://img.youtube.com/vi/{$embedId}/hqdefault.jpg";
+                        } else {
+                            $videoThumb = asset('/images/mockup_desktop_4.png');
+                        }
+                    @endphp
+                    <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between reveal-fade-up">
+                        <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden cursor-pointer"
+                             @if(!empty($embedId)) @click="activeVideo = '{{ $embedId }}'" @else onclick="window.open('{{ $v['url'] ?? 'https://youtube.com' }}', '_blank')" @endif>
+                            <img src="{{ $videoThumb }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500" onerror="this.onerror=null; @if(!empty($embedId)) this.src='https://img.youtube.com/vi/{{ $embedId }}/hqdefault.jpg'; @else this.src='/images/mockup_desktop_4.png'; @endif">
+                            <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition duration-300"></div>
+                            @if(!empty($embedId))
+                                <button type="button" @click.stop="activeVideo = '{{ $embedId }}'" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition cursor-pointer" aria-label="Putar Video">
                                     <i class="fa-solid fa-play"></i>
                                 </button>
                             @else
@@ -594,7 +696,7 @@
                             'category' => 'Akademik',
                             'date' => '18 Sep 2026',
                             'title' => 'Jadwal Penilaian Tengah Semester (PTS) TA 2026/2027',
-                            'summary' => 'Diharapkan seluruh santri mempersiapkan diri dengan belajar tekun dan menjaga kesehatan.'
+                            'summary' => 'Diharapkan seluruh siswa mempersiapkan diri dengan belajar tekun dan menjaga kesehatan.'
                         ]
                     ];
                 @endphp
@@ -648,12 +750,12 @@
 </section>
 
 {{-- ========================================================
-     SESI 10: GALERI FOTO SANTRI
+     SESI 10: GALERI FOTO SISWA
      ======================================================== --}}
 <section id="galeri" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-        <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Dokumentasi Santri</span>
-        <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Galeri Foto Santri</h2>
+        <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Dokumentasi Siswa</span>
+        <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Galeri Foto Siswa</h2>
         <div class="w-16 h-1 bg-amber-400 rounded-full mx-auto"></div>
     </div>
 
@@ -664,7 +766,7 @@
         @forelse($displayGallery as $g)
             <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group relative">
                 <img src="{{ asset($g['image'] ?? '/images/logo-robbani-official.png') }}" 
-                     alt="{{ $g['title'] ?? 'Dokumentasi Santri' }}" 
+                     alt="{{ $g['title'] ?? 'Dokumentasi Siswa' }}" 
                      class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
                      onerror="this.src='/images/logo-robbani-official.png'">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
@@ -694,20 +796,29 @@
     <div class="rounded-3xl bg-gradient-to-r from-indigo-950 via-indigo-900 to-blue-950 p-6 sm:p-12 text-white shadow-2xl border border-indigo-500/30 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
         <div class="space-y-2">
             <span class="inline-block bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
-                Kuota Terbatas!
+                {{ $isSmait ? 'Tahap Persiapan' : 'Kuota Terbatas!' }}
             </span>
             <h3 class="text-xl sm:text-3xl font-black text-white tracking-tight">
-                Daftar Sekarang di {{ $info['name'] }}
+                {{ $isSmait ? 'Pusat Informasi ' . $info['name'] : 'Daftar Sekarang di ' . $info['name'] }}
             </h3>
             <p class="text-xs sm:text-sm text-indigo-200 font-light max-w-xl">
-                Amankan kursi belajar terbaik ananda sekarang juga sebelum kuota penerimaan terpenuhi.
+                {{ $isSmait ? 'Dapatkan update informasi jadwal pembukaan dan konsultasi kurikulum jenjang SMA IT Robbani.' : 'Amankan kursi belajar terbaik ananda sekarang juga sebelum kuota penerimaan terpenuhi.' }}
             </p>
         </div>
-        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
-           class="w-full sm:w-auto px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Daftar SPMB Online</span>
-        </a>
+        @if($isSmait)
+            <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar info pembukaan ' . $info['name']) }}" 
+               target="_blank" rel="noopener noreferrer"
+               class="w-full sm:w-auto px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+                <span>Konsultasi Informasi</span>
+            </a>
+        @else
+            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+               class="w-full sm:w-auto px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Daftar SPMB Online</span>
+            </a>
+        @endif
     </div>
 </section>
 
@@ -731,7 +842,7 @@
                 <img src="/uploads/covers/cover-bilingual-arab-inggris.webp" alt="Literasi Bahasa" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
             </div>
             <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-karakter-santri.webp" alt="Literasi Karakter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
+                <img src="/uploads/covers/cover-karakter-siswa.webp" alt="Literasi Karakter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
             </div>
         </div>
         <div class="text-center pt-2">
@@ -745,7 +856,7 @@
 </section>
 
 {{-- ========================================================
-     SESI 13: TESTIMONI WALI SANTRI & ALUMNI
+     SESI 13: TESTIMONI WALI MURID & ALUMNI
      ======================================================== --}}
 <section id="testimoni" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
     <div class="text-center space-y-2">
@@ -757,7 +868,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         @php
             $testimonials = !empty($info['alumni']) ? $info['alumni'] : [
-                ['name' => 'Wali Santri Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
+                ['name' => 'Wali Murid Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
                 ['name' => 'Ahmad Faiz', 'title' => 'Alumni Berprestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
                 ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp']
             ];
@@ -799,7 +910,7 @@
             </div>
             <div>
                 <h4 class="text-xs font-bold text-gray-900">Pendaftaran SPMB Online</h4>
-                <p class="text-[11px] text-gray-500">Buka formulir online santri baru</p>
+                <p class="text-[11px] text-gray-500">Buka formulir online siswa baru</p>
             </div>
         </a>
 
@@ -819,7 +930,7 @@
             </div>
             <div>
                 <h4 class="text-xs font-bold text-gray-900">Layanan Infaq / Beasiswa</h4>
-                <p class="text-[11px] text-gray-500">Program santri yatim dhuafa</p>
+                <p class="text-[11px] text-gray-500">Program siswa yatim dhuafa</p>
             </div>
         </a>
     </div>

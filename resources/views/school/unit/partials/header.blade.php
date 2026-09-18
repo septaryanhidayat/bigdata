@@ -190,9 +190,6 @@
                             <a href="{{ url('/unit/' . $codeLower . '/layanan/sewa') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-building-columns w-5 text-indigo-600 mr-2 text-sm"></i> Sewa Sarana &amp; Gedung
                             </a>
-                            <a href="{{ route('school.espp') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-credit-card w-5 text-indigo-600 mr-2 text-sm"></i> Cek E-SPP Santri
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -314,7 +311,7 @@
             <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
                class="w-full flex items-center justify-center space-x-2 py-3 rounded-xl font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg">
                 <i class="fa-solid fa-graduation-cap"></i>
-                <span>Daftar Santri Baru (SPMB Online)</span>
+                <span>Daftar Siswa Baru (SPMB Online)</span>
             </a>
         </div>
     </div>

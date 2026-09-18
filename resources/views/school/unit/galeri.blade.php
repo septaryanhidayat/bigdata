@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Galeri Foto Kegiatan - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Dokumentasi foto kegiatan santri, pembelajaran kelas, munaqosah tahfidz, outbond, dan event sekolah di ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
+@section('meta_description', 'Dokumentasi foto kegiatan siswa, pembelajaran kelas, munaqosah tahfidz, outbond, dan event sekolah di ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -25,9 +25,9 @@
             <span>/</span>
             <span class="text-amber-300 font-semibold shrink-0">Galeri Foto</span>
         </nav>
-        <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Galeri Foto Kegiatan Santri</h1>
+        <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Galeri Foto Kegiatan Siswa</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Rekam jejak aktivitas santri {{ $info['name'] }} dalam belajar, beribadah, berkarya, berolahraga, dan meraih prestasi.
+            Rekam jejak aktivitas siswa {{ $info['name'] }} dalam belajar, beribadah, berkarya, berolahraga, dan meraih prestasi.
         </p>
     </div>
 </div>
@@ -67,7 +67,7 @@
                 Dokumentasi Visual
             </span>
             <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                Momen Kebersamaan Santri ({{ count($galleryList) }} Dokumentasi)
+                Momen Kebersamaan Siswa ({{ count($galleryList) }} Dokumentasi)
             </h2>
             <div class="w-16 h-1 bg-unit-primary rounded-full mt-2"></div>
         </div>
@@ -123,6 +123,21 @@
     </div>
 
     {{-- 4-COLUMN PHOTO GRID --}}
+    @if(empty($galleryList))
+        <div class="bg-white rounded-3xl p-10 sm:p-14 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
+            <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+                <i class="fa-solid fa-camera-retro"></i>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-gray-900">Dokumentasi Galeri Belum Tersedia</h3>
+            <p class="text-xs sm:text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
+                @if($codeLower === 'smait')
+                    Galeri foto kegiatan dan peresmian SMA IT Robbani akan dipublikasikan seiring dimulainya operasional kampus.
+                @else
+                    Dokumentasi kegiatan {{ $info['name'] }} sedang dalam tahap kurasi foto terbaru.
+                @endif
+            </p>
+        </div>
+    @else
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         @foreach($galleryList as $g)
             <div x-show="matches({ title: '{{ addslashes($g['title'] ?? '') }}', desc: '{{ addslashes($g['desc'] ?? '') }}' })"
@@ -133,7 +148,7 @@
                  class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 bg-gray-100 aspect-square sm:aspect-[4/3] cursor-pointer border border-gray-100">
                 
                 <img src="{{ asset($g['image'] ?? '/images/logo-robbani-official.png') }}" 
-                     alt="{{ $g['title'] ?? 'Dokumentasi Santri' }}" 
+                     alt="{{ $g['title'] ?? 'Dokumentasi Siswa' }}" 
                      class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                      onerror="this.src='/images/logo-robbani-official.png'">
                 
@@ -149,7 +164,7 @@
                             {{ $g['date'] ?? 'Dokumentasi' }}
                         </span>
                         <h4 class="text-xs sm:text-sm font-bold line-clamp-2 leading-snug">
-                            {{ $g['title'] ?? 'Kegiatan Santri' }}
+                            {{ $g['title'] ?? 'Kegiatan Siswa' }}
                         </h4>
                     </div>
                 </div>
@@ -157,6 +172,7 @@
             </div>
         @endforeach
     </div>
+    @endif
 
     {{-- LIGHTBOX MODAL --}}
     <div x-show="activeImage" 

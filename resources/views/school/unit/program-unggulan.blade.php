@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Program Unggulan - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Program Unggulan dan Pembinaan Karakter Santri di ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Kurikulum terpadu JSIT & Nasional, tahfidz mutqin, dan sains teknologi.')
+@section('meta_description', 'Program Unggulan dan Pembinaan Karakter Siswa di ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Kurikulum terpadu JSIT & Nasional, tahfidz mutqin, dan sains teknologi.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -27,8 +27,8 @@
             $programsList = [
                 ['title' => 'Tahfidz Al-Qur\'an Mutqin', 'icon' => '📖', 'target' => $info['target_hafalan'] ?? '2-3 Juz Mutqin', 'desc' => 'Program tahfidz terstruktur dengan metode talaqqi, tasmi\' akbar, dan ujian munaqosah bersertifikat.'],
                 ['title' => 'Bilingual Arabic & English', 'icon' => '🗣️', 'target' => 'Percakapan Bahasa Asing Sehari-hari', 'desc' => 'Pembiasaan kosakata harian dan muhadatsah untuk membangun rasa percaya diri berkomunikasi global.'],
-                ['title' => 'Bina Karakter Muwashofat (BPI)', 'icon' => '🌟', 'target' => '10 Karakter Santri JSIT', 'desc' => 'Mentoring pekanan kelompok kecil, mabit qiyamul lail, dan buku mutabaah ibadah yaumiyah.'],
-                ['title' => 'Bina Prestasi Sains & Robotika', 'icon' => '🔬', 'target' => 'Juara KSN & Olimpiade', 'desc' => 'Klub sains dan riset teknologi terpadu untuk mengasah nalar kritis dan daya cipta santri.'],
+                ['title' => 'Bina Karakter Muwashofat (BPI)', 'icon' => '🌟', 'target' => '10 Karakter Siswa JSIT', 'desc' => 'Mentoring pekanan kelompok kecil, mabit qiyamul lail, dan buku mutabaah ibadah yaumiyah.'],
+                ['title' => 'Bina Prestasi Sains & Robotika', 'icon' => '🔬', 'target' => 'Juara KSN & Olimpiade', 'desc' => 'Klub sains dan riset teknologi terpadu untuk mengasah nalar kritis dan daya cipta siswa.'],
                 ['title' => 'Kepanduan Pramuka SIT', 'icon' => '🏕️', 'target' => 'Jiwa Tangguh & Mandiri', 'desc' => 'Latihan kepemimpinan, survival, jambore nasional JSIT, dan kepedulian sosial kemanusiaan.'],
                 ['title' => 'Ekosistem Digital SmartEdu', 'icon' => '💻', 'target' => 'Literasi Teknologi Modern', 'desc' => 'Pembelajaran interaktif komputer, presensi digital, CBT online, dan perpustakaan digital.']
             ];
@@ -63,7 +63,7 @@
             Keunggulan Pendidikan Terpadu
         </span>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-            Fondasi Keunggulan Santri {{ $info['name'] }}
+            Fondasi Keunggulan Siswa {{ $info['name'] }}
         </h2>
         <div class="w-16 h-1 bg-unit-primary rounded-full mx-auto"></div>
         <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
@@ -72,6 +72,21 @@
     </div>
 
     {{-- PROGRAMS GRID --}}
+    @if(empty($programsList))
+        <div class="bg-white rounded-3xl p-10 sm:p-14 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
+            <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-gray-900">Kurikulum &amp; Program Unggulan Dalam Tahap Finalisasi</h3>
+            <p class="text-xs sm:text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
+                @if($codeLower === 'smait')
+                    Program peminatan kurikulum unggulan terpadu JSIT dan persiapan masuk PTN favorit SMA IT Robbani sedang dirampungkan untuk menyambut pembukaan resmi.
+                @else
+                    Program unggulan unit {{ $info['name'] }} sedang diperbarui.
+                @endif
+            </p>
+        </div>
+    @else
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         @foreach($programsList as $idx => $prog)
             <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-gray-100 flex flex-col justify-between group relative overflow-hidden">
@@ -105,7 +120,7 @@
                     </div>
 
                     {{-- DESCRIPTION --}}
-                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light text-justify">
                         {{ $prog['desc'] }}
                     </p>
 
@@ -138,6 +153,7 @@
             </div>
         @endforeach
     </div>
+    @endif
 
     {{-- CALLOUT BOX: 10 KARAKTER MUWASHOFAT JSIT --}}
     <div class="mt-14 sm:mt-18 rounded-3xl bg-white p-6 sm:p-10 shadow-xl border border-gray-100">
@@ -147,7 +163,7 @@
                     Standar Mutu JSIT Indonesia
                 </span>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
-                    10 Karakter Muwashofat Santri Robbani
+                    10 Karakter Muwashofat Siswa Robbani
                 </h3>
                 <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
                     Aqidah yang bersih, ibadah yang benar, akhlak yang mulia, jasmani yang kuat, wawasan yang luas, teratur urusannya, mandiri, disiplin waktu, bermanfaat bagi orang lain, serta bersungguh-sungguh memerangi hawa nafsu.
@@ -156,7 +172,7 @@
             <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
                class="px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
                 <i class="fa-solid fa-graduation-cap"></i>
-                <span>Gabung Santri Baru</span>
+                <span>Gabung Siswa Baru</span>
             </a>
         </div>
     </div>

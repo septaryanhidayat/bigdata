@@ -84,25 +84,25 @@
             overflow-x: hidden;
         }
 
-        /* Micro-Interactions & Fast Scroll-Reveal */
+        /* Micro-Interactions & Snappy Fast Scroll-Reveal */
         .reveal-fade-up {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(0, 16px, 0);
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-fade-up.is-revealed {
             opacity: 1 !important;
-            transform: translateY(0) !important;
+            transform: translate3d(0, 0, 0) !important;
         }
 
-        .delay-1 { transition-delay: 60ms; }
-        .delay-2 { transition-delay: 120ms; }
-        .delay-3 { transition-delay: 180ms; }
-        .delay-4 { transition-delay: 240ms; }
-        .delay-5 { transition-delay: 300ms; }
-        .delay-6 { transition-delay: 360ms; }
+        .delay-1 { transition-delay: 50ms; }
+        .delay-2 { transition-delay: 100ms; }
+        .delay-3 { transition-delay: 150ms; }
+        .delay-4 { transition-delay: 200ms; }
+        .delay-5 { transition-delay: 250ms; }
+        .delay-6 { transition-delay: 300ms; }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
@@ -139,7 +139,7 @@
     {{-- FLOATING WIDGETS --}}
     {{-- 1. Floating WhatsApp Hotline (Kiri Bawah) --}}
     <div class="fixed bottom-6 left-6 z-40 flex items-center space-x-2">
-        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar pendaftaran santri baru dan program ' . ($info['name'] ?? 'sekolah')) }}" 
+        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar pendaftaran siswa baru dan program ' . ($info['name'] ?? 'sekolah')) }}" 
            target="_blank" 
            rel="noopener noreferrer"
            class="flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-full shadow-xl hover:shadow-emerald-500/30 transform hover:-translate-y-1 transition duration-300 group">
@@ -170,7 +170,7 @@
                             observer.unobserve(entry.target);
                         }
                     });
-                }, { threshold: 0.1 });
+                }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
                 reveals.forEach(el => observer.observe(el));
             } else {
                 reveals.forEach(el => el.classList.add('is-revealed'));
@@ -184,7 +184,7 @@
                         el.classList.add('is-revealed');
                     }
                 });
-            }, 100);
+            }, 60);
 
             // Back to Top Visibility
             const backBtn = document.getElementById('backToTopBtn');

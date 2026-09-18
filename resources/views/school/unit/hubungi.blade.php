@@ -28,7 +28,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Hubungi Kami &amp; Layanan Informasi</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Pintu komunikasi terbuka bagi orang tua, calon santri, dan masyarakat untuk berkonsultasi seputar pendidikan di {{ $info['name'] }}.
+            Pintu komunikasi terbuka bagi orang tua, calon siswa, dan masyarakat untuk berkonsultasi seputar pendidikan di {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -170,7 +170,7 @@
                             </label>
                             <select id="cf_kategori" required
                                     class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                                <option value="Informasi SPMB & Pendaftaran">Informasi SPMB &amp; Pendaftaran Santri Baru</option>
+                                <option value="Informasi SPMB & Pendaftaran">Informasi SPMB &amp; Pendaftaran Siswa Baru</option>
                                 <option value="Biaya Pendidikan & E-SPP">Biaya Pendidikan &amp; E-SPP</option>
                                 <option value="Konsultasi Tahfidz & Akademik">Konsultasi Tahfidz &amp; Akademik JSIT</option>
                                 <option value="Layanan Administrasi & TU">Layanan Administrasi &amp; Ijazah/Mutasi</option>
@@ -262,7 +262,7 @@
             {{-- SPMB BANNER --}}
             <div class="bg-gradient-to-br from-amber-500 to-amber-600 text-gray-950 rounded-3xl p-6 shadow-xl space-y-2.5">
                 <span class="text-[10px] font-black uppercase tracking-wider bg-black/15 px-2.5 py-0.5 rounded-full inline-block">
-                    Penerimaan Santri Baru (SPMB)
+                    Penerimaan Siswa Baru (SPMB)
                 </span>
                 <h4 class="text-base font-black leading-snug">Daftarkan Putra-Putri Anda Sekarang!</h4>
                 <p class="text-xs font-medium opacity-90 leading-relaxed">

@@ -130,11 +130,11 @@
                                 class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
                             <option value="">-- Pilih Bidang Kerja Sama --</option>
                             <option value="Pendidikan & Kurikulum JSIT" {{ old('jenis_kerjasama') == 'Pendidikan & Kurikulum JSIT' ? 'selected' : '' }}>MoU Pendidikan &amp; Pengembangan Kurikulum JSIT</option>
-                            <option value="Program Beasiswa Santri Tahfidz" {{ old('jenis_kerjasama') == 'Program Beasiswa Santri Tahfidz' ? 'selected' : '' }}>Program Beasiswa Santri Berprestasi &amp; Yatim/Dhuafa</option>
+                            <option value="Program Beasiswa Siswa Tahfidz" {{ old('jenis_kerjasama') == 'Program Beasiswa Siswa Tahfidz' ? 'selected' : '' }}>Program Beasiswa Siswa Berprestasi &amp; Yatim/Dhuafa</option>
                             <option value="Magang Mahasiswa & PKL" {{ old('jenis_kerjasama') == 'Magang Mahasiswa & PKL' ? 'selected' : '' }}>Penerimaan Praktik Mengajar / Magang Mahasiswa (PPL/PKL)</option>
                             <option value="CSR & Program Lingkungan" {{ old('jenis_kerjasama') == 'CSR & Program Lingkungan' ? 'selected' : '' }}>Penyaluran CSR Perusahaan &amp; Lingkungan Hidup</option>
                             <option value="Sponsorship Kegiatan & Event" {{ old('jenis_kerjasama') == 'Sponsorship Kegiatan & Event' ? 'selected' : '' }}>Sponsorship Event Lomba, Milad &amp; Wisuda Robbani</option>
-                            <option value="Layanan Kesehatan & Psikologi" {{ old('jenis_kerjasama') == 'Layanan Kesehatan & Psikologi' ? 'selected' : '' }}>Pemeriksaan Kesehatan Santri &amp; Konseling Psikologi</option>
+                            <option value="Layanan Kesehatan & Psikologi" {{ old('jenis_kerjasama') == 'Layanan Kesehatan & Psikologi' ? 'selected' : '' }}>Pemeriksaan Kesehatan Siswa &amp; Konseling Psikologi</option>
                             <option value="Lainnya" {{ old('jenis_kerjasama') == 'Lainnya' ? 'selected' : '' }}>Bidang Kerja Sama Lainnya</option>
                         </select>
                     </div>

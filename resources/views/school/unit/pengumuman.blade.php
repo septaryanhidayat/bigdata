@@ -27,7 +27,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Pengumuman Resmi Sekolah</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Pemberitahuan kedinasan, surat edaran pimpinan sekolah, jadwal libur santri, serta pengumuman penting bagi wali murid {{ $info['name'] }}.
+            Pemberitahuan kedinasan, surat edaran pimpinan sekolah, jadwal libur siswa, serta pengumuman penting bagi wali murid {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -88,8 +88,8 @@
                             {{ $an['title'] }}
                         </h3>
 
-                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
-                            {{ $an['summary'] ?? ($an['desc'] ?? 'Pemberitahuan resmi dari pihak sekolah untuk seluruh wali santri, guru, dan peserta didik.') }}
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light text-justify">
+                            {{ $an['summary'] ?? ($an['desc'] ?? 'Pemberitahuan resmi dari pihak sekolah untuk seluruh wali murid, guru, dan peserta didik.') }}
                         </p>
 
                         <div class="pt-3 border-t border-gray-100 flex items-center justify-between">

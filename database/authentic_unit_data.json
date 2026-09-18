@@ -9,7 +9,7 @@
         "principal_title": "Kepala KB & TKIT Robbani Ogan Ilir",
         "principal_photo": "/uploads/media/tkit_post_Ani-Oktar-Yansi-S_Pd__I-scaled_0a6337c9.jpg",
         "principal_greeting": "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi KB & TKIT Robbani Ogan Ilir. Pendidikan anak usia dini adalah fondasi terpenting dalam menanamkan akidah lurus, adab islami, dan kemandirian ananda. Kami hadir mendampingi tumbuh kembang ananda dengan kasih sayang dan metode belajar yang menyenangkan.",
-        "description": "KB & TKIT Robbani Ogan Ilir adalah lembaga pendidikan usia dini Islam Terpadu unggulan di Indralaya, membina fitrah santri melalui penanaman akidah, adab islami, hafalan Al-Qur'an, dan kemandirian.",
+        "description": "KB & TKIT Robbani Ogan Ilir adalah lembaga pendidikan usia dini Islam Terpadu unggulan di Indralaya, membina fitrah siswa melalui penanaman akidah, adab islami, hafalan Al-Qur'an, dan kemandirian.",
         "vision": "Terwujudnya Generasi Qur'ani yang Berakhlak Mulia, Mandiri, Kreatif, dan Sehat Sejak Usia Dini.",
         "missions": [
             {
@@ -173,8 +173,8 @@
                 "image": "/uploads/media/tkit_post_Box-Mainan-scaled_85012e3f.jpeg"
             },
             {
-                "title": "Loker Pribadi Setiap Santri",
-                "desc": "Tempat penyimpanan perlengkapan pribadi agar melatih tanggung jawab santri.",
+                "title": "Loker Pribadi Setiap Siswa",
+                "desc": "Tempat penyimpanan perlengkapan pribadi agar melatih tanggung jawab siswa.",
                 "image": "/uploads/media/tkit_post_Loker-scaled_a03171c9.jpeg"
             },
             {
@@ -229,12 +229,12 @@
             {
                 "title": "Juara 3 Lomba Mewarnai Putra Tingkat TKIT se-Sumsel",
                 "year": "2025",
-                "desc": "Prestasi santri KB-TK IT Robbani pada ajang Gebyar Seni Islam Terpadu Sumatera Selatan."
+                "desc": "Prestasi siswa KB-TK IT Robbani pada ajang Gebyar Seni Islam Terpadu Sumatera Selatan."
             },
             {
                 "title": "Juara II Lomba Dongeng Anak Muslim se-Kabupaten",
                 "year": "2025",
-                "desc": "Keberanian dan kefasihan santri mengekspresikan cerita kisah teladan Rasulullah SAW."
+                "desc": "Keberanian dan kefasihan siswa mengekspresikan cerita kisah teladan Rasulullah SAW."
             },
             {
                 "title": "Juara Harapan III Lomba Fashion Show Busana Muslim",
@@ -264,10 +264,10 @@
         ],
         "gallery": [
             {
-                "title": "Outbond Ceria Santri",
+                "title": "Outbond Ceria Siswa",
                 "image": "/uploads/media/tkit_post_outbond_a2521a4b.jpeg",
                 "date": "Dokumentasi Authentic",
-                "desc": "Dokumentasi kegiatan Outbond Ceria Santri di lingkungan KB & TKIT Robbani Ogan Ilir."
+                "desc": "Dokumentasi kegiatan Outbond Ceria Siswa di lingkungan KB & TKIT Robbani Ogan Ilir."
             },
             {
                 "title": "Manasik Haji Cilik",
@@ -276,10 +276,10 @@
                 "desc": "Dokumentasi kegiatan Manasik Haji Cilik di lingkungan KB & TKIT Robbani Ogan Ilir."
             },
             {
-                "title": "Pentas Seni & Kreasi Santri (PENSI)",
+                "title": "Pentas Seni & Kreasi Siswa (PENSI)",
                 "image": "/uploads/media/tkit_post_pensi_6c00d7f2.jpeg",
                 "date": "Dokumentasi Authentic",
-                "desc": "Dokumentasi kegiatan Pentas Seni & Kreasi Santri (PENSI) di lingkungan KB & TKIT Robbani Ogan Ilir."
+                "desc": "Dokumentasi kegiatan Pentas Seni & Kreasi Siswa (PENSI) di lingkungan KB & TKIT Robbani Ogan Ilir."
             },
             {
                 "title": "Market Day & Pengenalan Wirausaha",
@@ -288,10 +288,10 @@
                 "desc": "Dokumentasi kegiatan Market Day & Pengenalan Wirausaha di lingkungan KB & TKIT Robbani Ogan Ilir."
             },
             {
-                "title": "Fun Cooking Santri Cilik",
+                "title": "Fun Cooking Siswa Cilik",
                 "image": "/uploads/media/tkit_post_fun-cooking_8cdffa44.jpeg",
                 "date": "Dokumentasi Authentic",
-                "desc": "Dokumentasi kegiatan Fun Cooking Santri Cilik di lingkungan KB & TKIT Robbani Ogan Ilir."
+                "desc": "Dokumentasi kegiatan Fun Cooking Siswa Cilik di lingkungan KB & TKIT Robbani Ogan Ilir."
             },
             {
                 "title": "Kegiatan Renang Ceria",
@@ -413,9 +413,9 @@
                 "title": "Semarak Kemerdekaan 17 Agustus 2025 KB-TK IT Robbani Ogan Ilir",
                 "url": "https://www.youtube.com/watch?v=vSTXudHWUssASRqV",
                 "embed_id": "vSTXudHWUssASRqV",
-                "thumbnail": "/uploads/galeri/galeri-upacara-santri.webp",
+                "thumbnail": "/uploads/galeri/galeri-upacara-siswa.webp",
                 "date": "24 November 2025",
-                "desc": "Keceriaan dan kebersamaan santri cilik KB-TK IT Robbani merayakan hari kemerdekaan RI."
+                "desc": "Keceriaan dan kebersamaan siswa cilik KB-TK IT Robbani merayakan hari kemerdekaan RI."
             },
             {
                 "title": "Gebyar Maulid Nabi Muhammad SAW 2025 | KB TK IT Robbani Ogan Ilir",
@@ -423,7 +423,7 @@
                 "embed_id": "m7j0xSovjZW9V9Vo",
                 "thumbnail": "/uploads/galeri/galeri-class-meeting.webp",
                 "date": "24 November 2025",
-                "desc": "Penampilan sholawat dan hafalan doa harian santri cilik KB-TK IT Robbani."
+                "desc": "Penampilan sholawat dan hafalan doa harian siswa cilik KB-TK IT Robbani."
             }
         ],
         "agenda": [
@@ -556,10 +556,10 @@
         ],
         "announcements": [
             {
-                "title": "Laporan Capaian Belajar Per 3 Bulan Santri KB/TKIT",
+                "title": "Laporan Capaian Belajar Per 3 Bulan Siswa KB/TKIT",
                 "date": "08 Oktober 2025",
                 "category": "Pengumuman Akademik",
-                "summary": "Penyampaian laporan perkembangan adab, motorik, hafalan Al-Qur'an, dan kemandirian santri kepada wali murid.",
+                "summary": "Penyampaian laporan perkembangan adab, motorik, hafalan Al-Qur'an, dan kemandirian siswa kepada wali murid.",
                 "link": "#"
             },
             {
@@ -573,7 +573,7 @@
                 "title": "Pengumuman Pemenang Lomba Da'i dan Da'iyah Cilik KB-TK Islam Terpadu Robbani",
                 "date": "02 Maret 2024",
                 "category": "Lomba Keagamaan",
-                "summary": "Apresiasi keberanian dan kefasihan berdakwah santri cilik dalam menyampaikan pesan-pesan islami.",
+                "summary": "Apresiasi keberanian dan kefasihan berdakwah siswa cilik dalam menyampaikan pesan-pesan islami.",
                 "link": "#"
             },
             {
@@ -609,13 +609,13 @@
         "alumni": [
             {
                 "name": "Bunda Rizky",
-                "title": "Wali Santri TK B Madinah",
+                "title": "Wali Murid TK B Madinah",
                 "text": "Alhamdulillah, ananda menjadi sangat mandiri, rajin sholat, dan hafal banyak surah pendek sejak di TKIT Robbani.",
                 "avatar": "/uploads/dewan/kepala-sekolah.webp"
             },
             {
                 "name": "Mama Aisyah",
-                "title": "Wali Santri TK A Jeddah",
+                "title": "Wali Murid TK A Jeddah",
                 "text": "Guru-gurunya sangat telaten dan penuh kasih sayang dalam mendampingi ananda. Sekolah terbaik untuk anak usia dini.",
                 "avatar": "/uploads/dewan/kepala-sekolah.webp"
             },
@@ -654,7 +654,7 @@
             },
             {
                 "title": "Bakat & Kepemimpinan",
-                "desc": "Memfasilitasi bakat minat santri melalui ragam ekstrakurikuler kepanduan, olahraga, dan seni islami."
+                "desc": "Memfasilitasi bakat minat siswa melalui ragam ekstrakurikuler kepanduan, olahraga, dan seni islami."
             }
         ],
         "phone": "0811747472",
@@ -833,7 +833,7 @@
             },
             {
                 "name": "Jihan Mutia Saad",
-                "role": "Guru Kelas & Tahfidz Santri",
+                "role": "Guru Kelas & Tahfidz Siswa",
                 "photo": "/uploads/media/sdit_post_jihan_6b14e9f8.jpg",
                 "bio": "Pendidik berdedikasi membimbing generasi qurani dan cerdas berprestasi di SDIT Robbani."
             },
@@ -852,8 +852,8 @@
         ],
         "facilities": [
             {
-                "title": "Kolam Renang Santri",
-                "desc": "Kolam renang representatif untuk kegiatan olahraga air santri.",
+                "title": "Kolam Renang Siswa",
+                "desc": "Kolam renang representatif untuk kegiatan olahraga air siswa.",
                 "image": "/uploads/fasilitas/fasilitas-lapangan.webp"
             },
             {
@@ -868,7 +868,7 @@
             },
             {
                 "title": "Aula Pertemuan Serbaguna",
-                "desc": "Ruang pertemuan akbar untuk POMG, seminar, dan pertunjukan kreasi santri.",
+                "desc": "Ruang pertemuan akbar untuk POMG, seminar, dan pertunjukan kreasi siswa.",
                 "image": "/uploads/fasilitas/fasilitas-gedung-utama.webp"
             },
             {
@@ -879,7 +879,7 @@
         ],
         "ekskul": [
             {
-                "title": "Ekskul Renang Santri",
+                "title": "Ekskul Renang Siswa",
                 "desc": "Olahraga sunnah renang dengan pembina profesional di kolam renang khusus.",
                 "image": "/uploads/galeri/galeri-panahan-pramuka.webp"
             },
@@ -891,16 +891,16 @@
             {
                 "title": "Ekskul Pramuka SIT",
                 "desc": "Pramuka bernafaskan Islam melatih kepanduan, kepemimpinan, dan kemandirian.",
-                "image": "/uploads/galeri/galeri-upacara-santri.webp"
+                "image": "/uploads/galeri/galeri-upacara-siswa.webp"
             },
             {
                 "title": "Bina Pribadi Islam (BPI)",
-                "desc": "Program mentoring keislaman mingguan untuk memperkokoh akidah dan adab santri.",
+                "desc": "Program mentoring keislaman mingguan untuk memperkokoh akidah dan adab siswa.",
                 "image": "/uploads/galeri/galeri-wisuda-tahfidz.webp"
             },
             {
                 "title": "Ekskul Seni Tari Islami",
-                "desc": "Seni pertunjukan saman dan gerak kreasi santri bernuansa islami.",
+                "desc": "Seni pertunjukan saman dan gerak kreasi siswa bernuansa islami.",
                 "image": "/uploads/galeri/galeri-suasana-kelas.webp"
             },
             {
@@ -915,17 +915,17 @@
             },
             {
                 "title": "Ekskul Futsal",
-                "desc": "Pengasahan bakat sepakbola mini, sportivitas, dan kekompakan tim santri.",
+                "desc": "Pengasahan bakat sepakbola mini, sportivitas, dan kekompakan tim siswa.",
                 "image": "/uploads/galeri/galeri-class-meeting.webp"
             },
             {
-                "title": "English Club Santri",
+                "title": "English Club Siswa",
                 "desc": "Klub percakapan bahasa Inggris interaktif dan ceria.",
                 "image": "/uploads/galeri/galeri-perpustakaan.webp"
             },
             {
                 "title": "Bola Tangan & Olahraga Atletik",
-                "desc": "Melatih kebugaran jasmani dan koordinasi motorik santri.",
+                "desc": "Melatih kebugaran jasmani dan koordinasi motorik siswa.",
                 "image": "/uploads/galeri/galeri-panahan-pramuka.webp"
             },
             {
@@ -996,11 +996,11 @@
                 "title": "Wisuda Tahfidz Al-Qur'an Juz 29 & 30 SDIT Robbani",
                 "image": "/uploads/galeri/galeri-wisuda-tahfidz.webp",
                 "date": "05 Juli 2026",
-                "desc": "Momen kelulusan hafalan santri di hadapan munaqisy dan orang tua."
+                "desc": "Momen kelulusan hafalan siswa di hadapan munaqisy dan orang tua."
             },
             {
-                "title": "Upacara Hari Pahlawan & Karakter Kepemimpinan Santri",
-                "image": "/uploads/galeri/galeri-upacara-santri.webp",
+                "title": "Upacara Hari Pahlawan & Karakter Kepemimpinan Siswa",
+                "image": "/uploads/galeri/galeri-upacara-siswa.webp",
                 "date": "10 Nov 2025",
                 "desc": "Menumbuhkan jiwa patriotisme dan keteladanan pahlawan bangsa."
             },
@@ -1020,13 +1020,13 @@
                 "title": "Pojok Baca & Literasi Perpustakaan SDIT Robbani",
                 "image": "/uploads/galeri/galeri-perpustakaan.webp",
                 "date": "15 Agu 2025",
-                "desc": "Meningkatkan minat baca dan wawasan santri melalui ribuan buku referensi."
+                "desc": "Meningkatkan minat baca dan wawasan siswa melalui ribuan buku referensi."
             },
             {
                 "title": "Class Meeting & Kompetisi Olahraga Antar Kelas",
                 "image": "/uploads/galeri/galeri-class-meeting.webp",
                 "date": "20 Des 2025",
-                "desc": "Keseruan kompetisi olahraga dan unjuk bakat santri pasca ujian semester."
+                "desc": "Keseruan kompetisi olahraga dan unjuk bakat siswa pasca ujian semester."
             }
         ],
         "videos": [
@@ -1036,13 +1036,13 @@
                 "embed_id": "lhFR6TrEWxY",
                 "thumbnail": "/uploads/galeri/galeri-wisuda-tahfidz.webp",
                 "date": "01 Agustus 2026",
-                "desc": "Dokumentasi wisuda purnasiswa dan uji publik tahfidz santri SIT Robbani."
+                "desc": "Dokumentasi wisuda purnasiswa dan uji publik tahfidz siswa SIT Robbani."
             },
             {
                 "title": "After Movie PHBN 17 Agustus Semarak Kemerdekaan",
                 "url": "https://www.youtube.com/watch?v=qO9d--P9uGs",
                 "embed_id": "qO9d--P9uGs",
-                "thumbnail": "/uploads/galeri/galeri-upacara-santri.webp",
+                "thumbnail": "/uploads/galeri/galeri-upacara-siswa.webp",
                 "date": "27 Agustus 2025",
                 "desc": "Rangkaian upacara bendera dan lomba kemerdekaan semarak di kampus Robbani."
             }
@@ -1064,7 +1064,7 @@
                 "date": "15 Oktober 2026",
                 "time": "08:00 WIB - Selesai",
                 "location": "Masjid Kampus Robbani",
-                "desc": "Ujian hafalan Al-Qur'an santri di hadapan tim penguji dan wali murid."
+                "desc": "Ujian hafalan Al-Qur'an siswa di hadapan tim penguji dan wali murid."
             },
             {
                 "title": "Supercamp Pramuka SIT & Penjelajahan Alam",
@@ -1076,7 +1076,7 @@
                 "desc": "Pelatihan kemandirian, pioneering, sandi morse, dan mabit malam bina iman."
             },
             {
-                "title": "Class Meeting & Porseni Santri Akhir Semester",
+                "title": "Class Meeting & Porseni Siswa Akhir Semester",
                 "date_day": "15",
                 "date_month": "DES",
                 "date": "15 Desember 2026",
@@ -1091,12 +1091,12 @@
                 "date": "04 Juni 2026",
                 "time": "08:00 WIB - Selesai",
                 "location": "Aula Pertemuan SDIT Robbani",
-                "desc": "Prosesi khidmat wisuda dan pelepasan santri angkatan kelas VI."
+                "desc": "Prosesi khidmat wisuda dan pelepasan siswa angkatan kelas VI."
             }
         ],
         "announcements": [
             {
-                "title": "Penerimaan Santri Baru (SPMB) SDIT Robbani TA 2026/2027 Telah Dibuka",
+                "title": "Penerimaan Siswa Baru (SPMB) SDIT Robbani TA 2026/2027 Telah Dibuka",
                 "date": "18 September 2026",
                 "category": "SPMB / PPDB",
                 "summary": "Pendaftaran gelombang inden kuota terbatas telah dibuka untuk calon peserta didik baru kelas 1.",
@@ -1106,14 +1106,14 @@
                 "title": "Jadwal Penilaian Tengah Semester (PTS) Gasal",
                 "date": "10 September 2026",
                 "category": "Akademik",
-                "summary": "Diharapkan seluruh santri menjaga kesehatan dan mengulang materi pembelajaran di rumah.",
+                "summary": "Diharapkan seluruh siswa menjaga kesehatan dan mengulang materi pembelajaran di rumah.",
                 "link": "#"
             },
             {
                 "title": "Himbauan Penggunaan Seragam & Perlengkapan Sekolah",
                 "date": "01 September 2026",
                 "category": "Kesiswaan",
-                "summary": "Seluruh santri diwajibkan mengenakan seragam rapi dan membawa perlengkapan ibadah lengkap.",
+                "summary": "Seluruh siswa diwajibkan mengenakan seragam rapi dan membawa perlengkapan ibadah lengkap.",
                 "link": "#"
             },
             {
@@ -1176,7 +1176,7 @@
         "principal_name": "Tia Wulandari, S.Pd., Gr.",
         "principal_title": "Kepala SMPIT Robbani Ogan Ilir",
         "principal_photo": "/uploads/media/press-release-employee-10-scaled_b06e4c83.webp",
-        "principal_greeting": "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di laman resmi SMPIT Robbani Ogan Ilir. Di usia remaja yang krusial, santri membutuhkan pendampingan yang kokoh dalam akidah, penempaan akhlak karimah, dan wadah akselerasi potensi akademik. Bersama para asatidz berdedikasi dan fasilitas modern terpadu, kami mendidik calon pemimpin umat yang berdaya saing global.",
+        "principal_greeting": "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di laman resmi SMPIT Robbani Ogan Ilir. Di usia remaja yang krusial, siswa membutuhkan pendampingan yang kokoh dalam akidah, penempaan akhlak karimah, dan wadah akselerasi potensi akademik. Bersama para asatidz berdedikasi dan fasilitas modern terpadu, kami mendidik calon pemimpin umat yang berdaya saing global.",
         "description": "Sekolah Menengah Pertama Islam Terpadu (SMPIT) Robbani Ogan Ilir adalah kawah candradimuka bagi generasi muda muslim, memadukan kurikulum terpadu JSIT, sains teknologi, tahfidz Al-Qur'an, dan kepemimpinan masa depan.",
         "vision": "Terwujudnya Generasi Pemimpin Masa Depan yang Berkarakter Qur'ani, Unggul dalam IPTEK, Berwawasan Lingkungan, dan Berdaya Saing Global.",
         "missions": [
@@ -1190,7 +1190,7 @@
             },
             {
                 "title": "Kepemimpinan & Organisasi",
-                "desc": "Membina jiwa kepemimpinan santri melalui OSIS, kepanduan pramuka SIT, dan kegiatan kemasyarakatan."
+                "desc": "Membina jiwa kepemimpinan siswa melalui OSIS, kepanduan pramuka SIT, dan kegiatan kemasyarakatan."
             },
             {
                 "title": "Karakter Ramah & Peduli",
@@ -1255,25 +1255,25 @@
                 "name": "Kamila Sari",
                 "role": "Guru Bahasa Inggris & Pembina English Club",
                 "photo": "/uploads/dewan/guru-bahasa.webp",
-                "bio": "Pendidik berdedikasi membimbing santri SMPIT Robbani berakhlak mulia dan berprestasi global."
+                "bio": "Pendidik berdedikasi membimbing siswa SMPIT Robbani berakhlak mulia dan berprestasi global."
             },
             {
                 "name": "Kms M Ilham Pratama",
                 "role": "Guru Tahfidz & Al-Qur'an",
                 "photo": "/uploads/dewan/guru-ipa.webp",
-                "bio": "Pendidik berdedikasi membimbing santri SMPIT Robbani berakhlak mulia dan berprestasi global."
+                "bio": "Pendidik berdedikasi membimbing siswa SMPIT Robbani berakhlak mulia dan berprestasi global."
             },
             {
                 "name": "Rici Alfarizi",
                 "role": "Guru PJOK & Pembina Futsal/Atletik",
                 "photo": "/uploads/dewan/guru-pjok.webp",
-                "bio": "Pendidik berdedikasi membimbing santri SMPIT Robbani berakhlak mulia dan berprestasi global."
+                "bio": "Pendidik berdedikasi membimbing siswa SMPIT Robbani berakhlak mulia dan berprestasi global."
             },
             {
                 "name": "Sarah Salsabilah",
                 "role": "Guru Pembina Prestasi & OSN",
                 "photo": "/uploads/dewan/guru-ipa.webp",
-                "bio": "Pendidik berdedikasi membimbing santri SMPIT Robbani berakhlak mulia dan berprestasi global."
+                "bio": "Pendidik berdedikasi membimbing siswa SMPIT Robbani berakhlak mulia dan berprestasi global."
             },
             {
                 "name": "Ita Mahmudah, S.Pd",
@@ -1316,7 +1316,7 @@
             },
             {
                 "title": "Lapangan Olahraga Multifungsi",
-                "desc": "Fasilitas lapangan untuk basket, voli, futsal, dan upacara santri.",
+                "desc": "Fasilitas lapangan untuk basket, voli, futsal, dan upacara siswa.",
                 "image": "/uploads/fasilitas/fasilitas-lapangan.webp"
             }
         ],
@@ -1372,7 +1372,7 @@
                 "image": "/uploads/galeri/galeri-class-meeting.webp"
             },
             {
-                "title": "Kewirausahaan Santri (Market Day)",
+                "title": "Kewirausahaan Siswa (Market Day)",
                 "desc": "Praktik mandiri bisnis islami, kejujuran perniagaan, dan inovasi produk.",
                 "image": "/uploads/galeri/galeri-suasana-kelas.webp"
             }
@@ -1890,25 +1890,25 @@
             },
             {
                 "title": "Qur'an Camp & Field Trip",
-                "desc": "Perkemahan Al-Qur'an intensif dan kunjungan edukatif memperluas wawasan santri.",
+                "desc": "Perkemahan Al-Qur'an intensif dan kunjungan edukatif memperluas wawasan siswa.",
                 "icon": "fa-campground"
             }
         ],
         "alumni": [
             {
                 "name": "Bismad Kuntakana Fadta Al-Rafly",
-                "title": "Santri Berprestasi Taekwondo Internasional",
+                "title": "Siswa Berprestasi Taekwondo Internasional",
                 "text": "Belajar di SMPIT Robbani membentuk disiplin tinggi, hafalan Al-Qur'an terjaga, dan guru-guru sangat mendukung karir prestasi atlet saya.",
                 "avatar": "/uploads/dewan/guru-pjok.webp"
             },
             {
                 "name": "Aisyah Z.A",
-                "title": "Santri Berprestasi Medali Emas",
+                "title": "Siswa Berprestasi Medali Emas",
                 "text": "Suasana belajar sangat kompetitif dan religius, bimbingan guru olimpiade sangat intensif hingga bisa meraih juara tingkat provinsi.",
                 "avatar": "/uploads/dewan/guru-ipa.webp"
             },
             {
-                "name": "Wali Santri SMPIT Robbani",
+                "name": "Wali Murid SMPIT Robbani",
                 "title": "Orang Tua Murid",
                 "text": "Komunikasi para asatidz kepada orang tua sangat terbuka dan transparan. Perkembangan adab ananda di rumah sangat terlihat nyata.",
                 "avatar": "/uploads/dewan/kepala-sekolah.webp"
@@ -1916,29 +1916,29 @@
         ]
     },
     "smait": {
-        "name": "SMAIT Robbani Ogan Ilir",
+        "name": "SMA IT Robbani",
         "code": "SMAIT",
         "npsn": "69989912",
         "akreditasi": "Terakreditasi B",
-        "tagline": "Mencetak Generasi Cendekia Muslim, Hafidz Qur'an, dan Pemimpin Masa Depan Berwawasan Global",
-        "principal_name": "Ustadz Dr. H. Ahmad Robbani, M.Pd",
-        "principal_title": "Kepala SMAIT Robbani Ogan Ilir",
+        "tagline": "Sekolah Menengah Atas Islam Terpadu - Segera Dibuka",
+        "principal_name": "Tahap Persiapan Operasional",
+        "principal_title": "Kepala Sekolah",
         "principal_photo": "/uploads/dewan/kepala-sekolah.webp",
-        "principal_greeting": "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMAIT Robbani Ogan Ilir. Pendidikan tingkat menengah atas adalah gerbang penentu masa depan santri menuju perguruan tinggi terbaik dunia dan panggung kepemimpinan umat. Dengan mengintegrasikan sains riset, hafalan Al-Qur'an, bahasa internasional, dan kehidupan asrama (boarding school) yang terpimpin, kami mengantarkan ananda menjadi cendekia muslim tangguh.",
-        "description": "SMAIT Robbani Ogan Ilir menyelenggarakan pendidikan menengah atas terpadu berbasis sains, riset inovasi, tahfidz Al-Qur'an, dan pembinaan karakter boarding school untuk mengantarkan santri sukses di perguruan tinggi favorit dunia.",
+        "principal_greeting": "Pendidikan tingkat SMA IT Robbani saat ini sedang dalam tahap persiapan sarana prasarana dan perizinan operasional resmi. Insya Allah segera hadir untuk melahirkan generasi pemimpin bangsa yang Qur'ani dan berwawasan teknologi global.",
+        "description": "SMA IT Robbani saat ini dalam tahap persiapan pembukaan dan perizinan operasional. Program pendidikan dirancang untuk mempersiapkan siswa menuju perguruan tinggi unggulan dan penguasaan ilmu syar'i serta sains teknologi modern.",
         "vision": "Menjadi Lembaga Pendidikan Menengah Atas Islam Terkemuka yang Mencetak Cendekia Qur'ani, Unggul dalam Riset Sains & Teknologi, serta Berkarakter Pemimpin Global.",
         "missions": [
             {
                 "title": "Tahfidz Al-Qur'an & Tsaqofah",
-                "desc": "Menghantarkan santri menguasai hafalan Al-Qur'an mutqin serta memahami dasar-dasar ilmu syariah."
+                "desc": "Menghantarkan siswa menguasai hafalan Al-Qur'an mutqin serta memahami dasar-dasar ilmu syariah."
             },
             {
                 "title": "Akselerasi Masuk PTN & Luar Negeri",
-                "desc": "Mempersiapkan santri secara intensif menembus PTN favorit dalam negeri dan beasiswa perguruan tinggi luar negeri."
+                "desc": "Mempersiapkan siswa secara intensif menembus PTN favorit dalam negeri dan beasiswa perguruan tinggi luar negeri."
             },
             {
                 "title": "Inovasi Riset Sains & AI",
-                "desc": "Membekali santri keterampilan riset ilmiah, computational thinking, dan kecerdasan buatan."
+                "desc": "Membekali siswa keterampilan riset ilmiah, computational thinking, dan kecerdasan buatan."
             },
             {
                 "title": "Boarding School Mandiri",
@@ -1946,305 +1946,20 @@
             }
         ],
         "phone": "0811747472",
-        "students_count": 140,
-        "employees_count": 8,
-        "classrooms_count": 6,
-        "target_hafalan": "Minimal 5 Juz Mutqin (Hingga 30 Juz Santri Takhassus)",
-        "teachers": [
-            {
-                "name": "Ustadz Dr. H. Ahmad Robbani, M.Pd",
-                "role": "Kepala SMAIT Robbani",
-                "photo": "/uploads/dewan/kepala-sekolah.webp",
-                "bio": "Doktor Manajemen Pendidikan Islam, pembina generasi cendekia Robbani."
-            },
-            {
-                "name": "Ustadz M. Syarif Hidayatullah, Lc., M.Ag",
-                "role": "Musyrif Asrama Putra & Pembina BPI",
-                "photo": "/uploads/dewan/guru-bahasa.webp",
-                "bio": "Alumni Univ. Al-Azhar Kairo, pengampu bahasa Arab & fikih siyasah."
-            },
-            {
-                "name": "Ustadzah Siti Fatimah, S.Pd., M.Si",
-                "role": "Wakil Kepala Bidang Akademik & Guru Biologi",
-                "photo": "/uploads/dewan/guru-ipa.webp",
-                "bio": "Pembimbing Karya Tulis Ilmiah Remaja & olimpiade biologi."
-            },
-            {
-                "name": "Ustadz Dimas Bagus Prasetyo, S.Kom",
-                "role": "Guru Koding, AI & Robotik",
-                "photo": "/uploads/dewan/guru-pjok.webp",
-                "bio": "Praktisi teknologi komputasi dan mentor pengembangan startup remaja."
-            },
-            {
-                "name": "Ustadz Irfan Hakim, S.Pd",
-                "role": "Koordinator Sukses UTBK & Guru Matematika",
-                "photo": "/uploads/dewan/guru-kelas.webp",
-                "bio": "Spesialis penalaran kuantitatif dan bimbingan masuk PTN unggulan."
-            },
-            {
-                "name": "Ustadzah Nurul Izzah, S.Pd.I",
-                "role": "Musyrifah Asrama Putri & Pengampu Tahfidz",
-                "photo": "/uploads/dewan/guru-bahasa.webp",
-                "bio": "Hafidzah 30 Juz Mutqin bersanad, pembimbing halaqoh ziyadah."
-            },
-            {
-                "name": "Ustadzah Rina Andriyani, M.Pd",
-                "role": "Guru Bahasa Inggris & Diplomasi Internasional",
-                "photo": "/uploads/dewan/guru-ipa.webp",
-                "bio": "Pembina English Debate Club dan persiapan tes TOEFL/IELTS."
-            },
-            {
-                "name": "Ahmad Fauzi, S.Sos",
-                "role": "Staff Administrasi & Layanan Santri",
-                "photo": "/uploads/dewan/guru-pjok.webp",
-                "bio": "Pengelola sistem administrasi dan e-arsip SMAIT Robbani."
-            }
-        ],
-        "facilities": [
-            {
-                "title": "Laboratorium Komputer & Workstation Koding",
-                "desc": "Perangkat komputer spek tinggi dengan koneksi internet gigabit untuk pemrograman.",
-                "image": "/uploads/fasilitas/fasilitas-lab-ipa.webp"
-            },
-            {
-                "title": "Laboratorium Sains Terpadu (Fisika, Kimia, Biologi)",
-                "desc": "Peralatan praktikum modern untuk eksperimen riset dan penelitian ilmiah.",
-                "image": "/uploads/fasilitas/fasilitas-lab-ipa.webp"
-            },
-            {
-                "title": "Perpustakaan & Ruang Riset Digital",
-                "desc": "Koleksi ribuan buku referensi UTBK, kitab keislaman, dan jurnal digital.",
-                "image": "/uploads/fasilitas/fasilitas-perpustakaan.webp"
-            },
-            {
-                "title": "Asrama Putra-Putri Modern Ber-AC",
-                "desc": "Gedung asrama representatif dengan pembinaan musyrif/musyrifah 24 jam penuh.",
-                "image": "/uploads/fasilitas/fasilitas-gedung-utama.webp"
-            },
-            {
-                "title": "Masjid Jami' Kampus Terpadu",
-                "desc": "Pusat ibadah qiyamul lail, sholat berjamaah, dan kajian tsaqofah islamiyah.",
-                "image": "/uploads/fasilitas/fasilitas-masjid.webp"
-            },
-            {
-                "title": "Lapangan Olahraga Multifungsi",
-                "desc": "Sarana lapangan futsal, basket, voli, dan bulu tangkis santri.",
-                "image": "/uploads/fasilitas/fasilitas-lapangan.webp"
-            }
-        ],
-        "ekskul": [
-            {
-                "title": "Karya Ilmiah Remaja (KIR)",
-                "desc": "Pembinaan metodologi riset ilmiah sains dan publikasi karya tulis remaja.",
-                "image": "/uploads/galeri/galeri-lab-sains.webp"
-            },
-            {
-                "title": "Koding, AI & Web Development Club",
-                "desc": "Pengembangan aplikasi web, machine learning dasar, dan kecerdasan buatan.",
-                "image": "/uploads/galeri/galeri-lab-sains.webp"
-            },
-            {
-                "title": "English & Arabic Debate Club",
-                "desc": "Diplomasi dan debat kompetitif dalam bahasa Inggris dan Arab internasional.",
-                "image": "/uploads/galeri/galeri-perpustakaan.webp"
-            },
-            {
-                "title": "Panahan Sunnah & Tapak Suci",
-                "desc": "Olahraga sunnah memanah dan seni bela diri ketahanan fisik santri.",
-                "image": "/uploads/galeri/galeri-panahan-pramuka.webp"
-            },
-            {
-                "title": "Jurnalistik & Multimedia Kreatif",
-                "desc": "Pelatihan kepenulisan warta, videografi, podcasting, dan manajemen medsos.",
-                "image": "/uploads/galeri/galeri-suasana-kelas.webp"
-            },
-            {
-                "title": "Pramuka Penegak SIT",
-                "desc": "Kepanduan tangguh membina jiwa kepemimpinan dan pengabdian masyarakat.",
-                "image": "/uploads/galeri/galeri-panahan-pramuka.webp"
-            },
-            {
-                "title": "Rohis & Da'i Muda Robbani",
-                "desc": "Latihan khutbah jum'at, kajian tematik, dan dakwah digital santri.",
-                "image": "/uploads/galeri/galeri-wisuda-tahfidz.webp"
-            },
-            {
-                "title": "Futsal & Badminton Club",
-                "desc": "Kebugaran jasmani dan sportivitas kompetisi olahraga santri.",
-                "image": "/uploads/galeri/galeri-class-meeting.webp"
-            }
-        ],
-        "prestasi": [
-            {
-                "title": "Lolos Seleksi PTN Favorit (UNSRI, ITB, UGM) Jalur SNBP & SNBT 2026",
-                "year": "2026",
-                "desc": "Alumni SMAIT Robbani menembus fakultas kedokteran, teknik, dan ilmu sains di kampus top Indonesia."
-            },
-            {
-                "title": "Beasiswa Penuh Studi Timur Tengah Universitas Al-Azhar Kairo Mesir",
-                "year": "2025",
-                "desc": "Santri SMAIT meraih beasiswa internasional di bidang syariah dan dirasat islamiyah."
-            },
-            {
-                "title": "Juara I Lomba Karya Tulis Ilmiah Remaja (KIR) Tingkat Provinsi Sumsel",
-                "year": "2025",
-                "desc": "Inovasi riset pemanfaatan limbah organik menjadi bioplastik ramah lingkungan."
-            },
-            {
-                "title": "Medali Perak Olimpiade Sains Nasional (OSN) Bidang Kebumian & Biologi",
-                "year": "2025",
-                "desc": "Pencapaian medali bergengsi tingkat nasional di ajang Puspresnas."
-            },
-            {
-                "title": "Juara Debat Bahasa Arab & Inggris Antar SMA se-Sumatera Selatan",
-                "year": "2024",
-                "desc": "Kecakapan diplomasi dan argumentasi santri dalam dua bahasa internasional."
-            },
-            {
-                "title": "Kelulusan Santri Tahfidz 30 Juz Mutqin Bersanad Angkatan Pertama",
-                "year": "2024",
-                "desc": "Pencapaian munaqosyah terbuka tahfidz Al-Qur'an 30 juz berstandar mutqin."
-            }
-        ],
-        "gallery": [
-            {
-                "title": "Wisuda Purnasiswa & Pelepasan Alumni PTN SMAIT Robbani",
-                "image": "/uploads/galeri/galeri-wisuda-tahfidz.webp",
-                "date": "15 Mei 2026",
-                "desc": "Momen kebanggaan kelulusan santri angkatan SMAIT Robbani."
-            },
-            {
-                "title": "Robbani Science & Innovation Expo",
-                "image": "/uploads/galeri/galeri-lab-sains.webp",
-                "date": "20 April 2026",
-                "desc": "Pameran hasil karya riset teknologi dan prototipe sains siswa."
-            },
-            {
-                "title": "Munaqosyah Terbuka Uji Publik Tahfidz 30 Juz",
-                "image": "/uploads/galeri/galeri-wisuda-tahfidz.webp",
-                "date": "10 Maret 2026",
-                "desc": "Ujian hafalan Al-Qur'an santri di hadapan dewan asatidz dan wali murid."
-            },
-            {
-                "title": "Praktikum Sains & Observasi Mikrobiologi di Lab",
-                "image": "/uploads/galeri/galeri-lab-sains.webp",
-                "date": "12 Februari 2026",
-                "desc": "Santri mengeksplorasi eksperimen biologi dan reaksi kimia dasar."
-            }
-        ],
-        "videos": [
-            {
-                "title": "Profil SMAIT Robbani & Ekosistem Boarding School Masa Depan",
-                "url": "https://www.youtube.com/watch?v=lhFR6TrEWxY",
-                "embed_id": "lhFR6TrEWxY",
-                "thumbnail": "/uploads/galeri/galeri-kampus-terpadu.webp",
-                "date": "01 Agustus 2026",
-                "desc": "Gambaran menyeluruh kurikulum integratif sains, tahfidz, dan adab di SMAIT Robbani."
-            },
-            {
-                "title": "Haflah Akhirussanah dan Wisuda Tahfidz SIT Robbani Tahun 2026",
-                "url": "https://www.youtube.com/watch?v=lhFR6TrEWxY",
-                "embed_id": "lhFR6TrEWxY",
-                "thumbnail": "/uploads/galeri/galeri-wisuda-tahfidz.webp",
-                "date": "01 Agustus 2026",
-                "desc": "Momen haru wisuda hafalan Al-Qur'an santri purnasiswa."
-            }
-        ],
-        "agenda": [
-            {
-                "title": "Try Out Akbar Masuk PTN (UTBK-SNBT) Intensif",
-                "date_day": "28",
-                "date_month": "SEP",
-                "date": "28 September 2026",
-                "time": "08:00 WIB - 13:00 WIB",
-                "location": "Digital Lab SMAIT",
-                "desc": "Simulasi ujian berbasis komputer menguji penalaran umum, literasi, dan numerasi."
-            },
-            {
-                "title": "Munaqosyah Tahfidz Terbuka Juz 28, 29, 30",
-                "date_day": "20",
-                "date_month": "OKT",
-                "date": "20 Oktober 2026",
-                "time": "08:00 WIB - Selesai",
-                "location": "Masjid Kampus Robbani",
-                "desc": "Uji publik hafalan Al-Qur'an santri di hadapan munaqisy dan wali murid."
-            },
-            {
-                "title": "Dauroh Ilmiah & Studi Lanjut Perguruan Tinggi",
-                "date_day": "12",
-                "date_month": "NOV",
-                "date": "12 November 2026",
-                "time": "09:00 WIB - 15:00 WIB",
-                "location": "Aula Pertemuan Robbani",
-                "desc": "Sosialisasi jalur beasiswa PTN dalam negeri dan kampus Timur Tengah."
-            },
-            {
-                "title": "Asesmen Sumatif Akhir Semester Genap",
-                "date_day": "05",
-                "date_month": "DES",
-                "date": "05 Desember 2026",
-                "time": "07:30 WIB - 12:00 WIB",
-                "location": "Ruang Kelas SMAIT",
-                "desc": "Ujian akhir semester mengukur penguasaan kurikulum nasional dan kepesantrenan."
-            }
-        ],
-        "announcements": [
-            {
-                "title": "Pendaftaran SPMB Santri Baru SMAIT Robbani Boarding School TA 2026/2027",
-                "date": "18 September 2026",
-                "category": "SPMB / PPDB",
-                "summary": "Jalur beasiswa tahfidz dan reguler asrama putra-putri telah dibuka secara online.",
-                "link": "/ppdb?unit=smait"
-            },
-            {
-                "title": "Sosialisasi Program Sukses Masuk PTN & Pemetaan Karir Santri",
-                "date": "10 September 2026",
-                "category": "Bimbingan Konseling",
-                "summary": "Pertemuan daring orang tua santri kelas XII mendiskusikan target jurusan dan PTN impian.",
-                "link": "#"
-            }
-        ],
-        "programs": [
-            {
-                "title": "Program Sukses PTN & Beasiswa Global",
-                "desc": "Pembinaan intensif persiapan UTBK-SNBT, SNBP, dan seleksi beasiswa universitas luar negeri.",
-                "icon": "fa-graduation-cap"
-            },
-            {
-                "title": "Tahfidz Takhassus Al-Qur'an",
-                "desc": "Halaqoh intensif karantina hafalan Qur'an menuju capaian 30 juz mutqin bersanad.",
-                "icon": "fa-book-quran"
-            },
-            {
-                "title": "Riset Sains & Inovasi Teknologi",
-                "desc": "Bimbingan karya tulis ilmiah remaja (KIR), praktikum laboratorium kimia/biologi, dan koding AI.",
-                "icon": "fa-flask-vial"
-            },
-            {
-                "title": "Boarding School Karakter Rabbani",
-                "desc": "Pembinaan karakter 24 jam di asrama ber-AC dengan mentoring musyrif/musyrifah berpengalaman.",
-                "icon": "fa-hotel"
-            }
-        ],
-        "alumni": [
-            {
-                "name": "Alumni Fakultas Kedokteran UNSRI",
-                "title": "Alumni SMAIT Robbani",
-                "text": "Bekal disiplin riset dan hafalan Qur'an di SMAIT Robbani sangat membantu saya menjalani perkuliahan di fakultas kedokteran.",
-                "avatar": "/uploads/dewan/guru-ipa.webp"
-            },
-            {
-                "name": "Santri Penerima Beasiswa Al-Azhar Kairo",
-                "title": "Alumni SMAIT Robbani",
-                "text": "Bimbingan asatidz bahasa Arab dan tsaqofah islamiyah di asrama menjadi modal utama saya lulus tes seleksi Kemenag ke Al-Azhar.",
-                "avatar": "/uploads/dewan/guru-bahasa.webp"
-            },
-            {
-                "name": "Wali Santri Boarding School",
-                "title": "Orang Tua Murid",
-                "text": "Alhamdulillah, ananda menjadi sangat mandiri, tawadhu, dan beradab mulia setelah dibina di asrama SMAIT Robbani.",
-                "avatar": "/uploads/dewan/kepala-sekolah.webp"
-            }
-        ]
+        "students_count": 0,
+        "employees_count": 0,
+        "classrooms_count": 0,
+        "target_hafalan": "10 - 30 Juz",
+        "teachers": [],
+        "facilities": [],
+        "ekskul": [],
+        "prestasi": [],
+        "gallery": [],
+        "videos": [],
+        "agenda": [],
+        "announcements": [],
+        "programs": [],
+        "alumni": [],
+        "status": "BELUM_DIBUKA"
     }
 }

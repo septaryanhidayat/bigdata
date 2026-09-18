@@ -95,7 +95,7 @@
                             <i class="fa-solid fa-shield-halved text-4xl text-amber-500"></i>
                         </div>
                         <h4 class="text-xs font-bold text-gray-900">Crest / Lencana Badge</h4>
-                        <p class="text-[11px] text-gray-500 mt-0.5">Emblem seragam santri &amp; bendera institusi</p>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Emblem seragam siswa &amp; bendera institusi</p>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@
                         <div>
                             <h4 class="text-sm font-bold text-gray-900">Mushaf Al-Qur'an yang Terbuka</h4>
                             <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Simbol pedoman hidup utama yang senantiasa dibaca, dihafal, dipahami, dan diamalkan oleh setiap santri. Menjadi rujukan tertinggi dalam seluruh cabang ilmu pengetahuan.
+                                Simbol pedoman hidup utama yang senantiasa dibaca, dihafal, dipahami, dan diamalkan oleh setiap siswa. Menjadi rujukan tertinggi dalam seluruh cabang ilmu pengetahuan.
                             </p>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                         <div>
                             <h4 class="text-sm font-bold text-gray-900">Pita Kesatuan &amp; Lingkaran Ukhuwah</h4>
                             <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Sinergi harmonis yang saling menguatkan antara Yayasan, Dewan Guru, Orang Tua Santri, dan masyarakat dalam membentuk ekosistem pendidikan yang penuh berkah.
+                                Sinergi harmonis yang saling menguatkan antara Yayasan, Dewan Guru, Orang Tua Murid, dan masyarakat dalam membentuk ekosistem pendidikan yang penuh berkah.
                             </p>
                         </div>
                     </div>

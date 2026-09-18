@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Artikel & Berita Terkini - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Kumpulan artikel pendidikan Islam, wawasan parenting, kabar prestasi santri, dan berita kegiatan resmi ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
+@section('meta_description', 'Kumpulan artikel pendidikan Islam, wawasan parenting, kabar prestasi siswa, dan berita kegiatan resmi ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -32,13 +32,13 @@
                 'slug' => 'membangun-karakter-qurani-usia-dini'
             ],
             [
-                'title' => 'Prestasi Gemilang Santri Robbani Raih Juara Olimpiade Sains & Tahfidz Nasional',
-                'category' => 'Prestasi Santri',
+                'title' => 'Prestasi Gemilang Siswa Robbani Raih Juara Olimpiade Sains & Tahfidz Nasional',
+                'category' => 'Prestasi Siswa',
                 'date' => '10 September 2026',
                 'author' => 'Humas Sekolah',
                 'image' => '/images/mockup_desktop_2.png',
-                'desc' => 'Santri SIT Robbani kembali menorehkan prestasi membanggakan pada ajang kompetisi nasional tingkat pelajar se-Indonesia.',
-                'slug' => 'prestasi-gemilang-santri-olimpiade-sains'
+                'desc' => 'Siswa SIT Robbani kembali menorehkan prestasi membanggakan pada ajang kompetisi nasional tingkat pelajar se-Indonesia.',
+                'slug' => 'prestasi-gemilang-siswa-olimpiade-sains'
             ],
             [
                 'title' => 'Tips Menghafal Al-Qur\'an Cepat, Melekat, dan Menyenangkan bagi Pelajar',
@@ -46,7 +46,7 @@
                 'date' => '05 September 2026',
                 'author' => 'Koordinator Tahfidz',
                 'image' => '/images/mockup_desktop_3.png',
-                'desc' => 'Metode talaqqi dan muraja\'ah terstruktur terbukti efektif membantu santri menuntaskan target hafalan mutqin tanpa tekanan.',
+                'desc' => 'Metode talaqqi dan muraja\'ah terstruktur terbukti efektif membantu siswa menuntaskan target hafalan mutqin tanpa tekanan.',
                 'slug' => 'tips-menghafal-quran-cepat-melekat'
             ],
             [
@@ -55,7 +55,7 @@
                 'date' => '28 Agustus 2026',
                 'author' => 'Tim Kesiswaan',
                 'image' => '/images/mockup_desktop_4.png',
-                'desc' => 'Santri memamerkan karya inovasi sains terapan, teknologi robotik sederhana, dan percobaan biologi dalam pameran riset tahunan.',
+                'desc' => 'Siswa memamerkan karya inovasi sains terapan, teknologi robotik sederhana, dan percobaan biologi dalam pameran riset tahunan.',
                 'slug' => 'robbani-science-innovation-day'
             ]
         ];
@@ -73,7 +73,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Artikel, Wacana &amp; Berita Terkini</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Inspirasi pendidikan Islam, parenting islami, kabar prestasi santri, dan laporan kegiatan resmi dari {{ $info['name'] }}.
+            Inspirasi pendidikan Islam, parenting islami, kabar prestasi siswa, dan laporan kegiatan resmi dari {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -144,7 +144,7 @@
                 :class="activeCat === 'prestasi' ? 'bg-unit-primary text-white shadow-md' : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'"
                 class="px-4 py-2 rounded-full text-xs font-bold shrink-0 transition flex items-center gap-1.5">
             <i class="fa-solid fa-trophy text-[10px]"></i>
-            <span>Prestasi Santri</span>
+            <span>Prestasi Siswa</span>
         </button>
         <button type="button" 
                 @click="activeCat = 'tahfidz'"
@@ -213,7 +213,7 @@
                                     </a>
                                 </h3>
 
-                                <p class="text-xs text-gray-600 mt-2.5 line-clamp-3 leading-relaxed">
+                                <p class="text-xs text-gray-600 mt-2.5 line-clamp-3 leading-relaxed text-justify">
                                     {{ Str::limit(strip_tags($art['desc'] ?? $art['content'] ?? ''), 130) }}
                                 </p>
                             </div>
@@ -304,7 +304,7 @@
                 </div>
                 <h4 class="text-sm font-black">Perpustakaan Digital (E-Book)</h4>
                 <p class="text-xs text-indigo-100 font-light leading-relaxed">
-                    Akses ratusan modul keislaman, kurikulum tahfidz, dan panduan parenting digital gratis untuk santri dan wali murid.
+                    Akses ratusan modul keislaman, kurikulum tahfidz, dan panduan parenting digital gratis untuk siswa dan wali murid.
                 </p>
                 <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="inline-block w-full py-2.5 rounded-xl text-xs font-bold bg-amber-400 hover:bg-amber-300 text-gray-900 text-center shadow-md transition">
                     Buka Rak E-Book Digital

@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Video Kegiatan & Dokumentasi - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Galeri video dokumentasi kegiatan, profil sekolah, murottal santri, dan event resmi ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
+@section('meta_description', 'Galeri video dokumentasi kegiatan, profil sekolah, murottal siswa, dan event resmi ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -27,7 +27,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Video Kegiatan &amp; Dokumentasi</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Saksikan liputan visual resmi kegiatan belajar, munaqosah tahfidz, seminar parenting, dan kebersamaan santri {{ $info['name'] }}.
+            Saksikan liputan visual resmi kegiatan belajar, munaqosah tahfidz, seminar parenting, dan kebersamaan siswa {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -60,7 +60,7 @@
                     SIT Robbani Official Channel
                 </h2>
                 <p class="text-xs text-slate-300 font-light mt-0.5">
-                    Liputan kegiatan, ceramah parenting, podcast edukasi, dan murottal santri.
+                    Liputan kegiatan, ceramah parenting, podcast edukasi, dan murottal siswa.
                 </p>
             </div>
         </div>
@@ -81,8 +81,18 @@
                         $embedId = $match[1];
                     }
                 }
+                $rawThumb = !empty($v['thumbnail']) ? $v['thumbnail'] : (!empty($v['image']) ? $v['image'] : '');
+                if (!empty($embedId) && (empty($rawThumb) || str_contains($rawThumb, 'mockup') || str_contains($rawThumb, 'logo-robbani') || str_contains($rawThumb, 'galeri-'))) {
+                    $videoThumb = "https://img.youtube.com/vi/{$embedId}/hqdefault.jpg";
+                } elseif (!empty($rawThumb)) {
+                    $videoThumb = (str_starts_with($rawThumb, 'http://') || str_starts_with($rawThumb, 'https://')) ? $rawThumb : asset($rawThumb);
+                } elseif (!empty($embedId)) {
+                    $videoThumb = "https://img.youtube.com/vi/{$embedId}/hqdefault.jpg";
+                } else {
+                    $videoThumb = asset('/images/mockup_desktop_4.png');
+                }
             @endphp
-            <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+            <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 flex flex-col justify-between group reveal-fade-up">
                 
                 {{-- THUMBNAIL WITH PLAY BUTTON --}}
                 <div class="relative h-48 sm:h-52 bg-slate-900 flex items-center justify-center overflow-hidden cursor-pointer"
@@ -91,11 +101,11 @@
                      @else
                         onclick="window.open('{{ $v['url'] ?? 'https://youtube.com' }}', '_blank')"
                      @endif>
-                    <img src="{{ asset($v['thumbnail'] ?? ($v['image'] ?? '/images/mockup_desktop_4.png')) }}" 
+                    <img src="{{ $videoThumb }}" 
                          alt="{{ $v['title'] }}" 
-                         class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/images/mockup_desktop_4.png'">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition duration-300"></div>
+                         class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500"
+                         onerror="this.onerror=null; @if(!empty($embedId)) this.src='https://img.youtube.com/vi/{{ $embedId }}/hqdefault.jpg'; @else this.src='/images/mockup_desktop_4.png'; @endif">
+                    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition duration-300"></div>
 
                     {{-- PLAY BUTTON BADGE --}}
                     <div class="absolute w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center text-xl shadow-2xl shadow-red-600/50 group-hover:scale-110 group-hover:bg-red-700 transition duration-300">

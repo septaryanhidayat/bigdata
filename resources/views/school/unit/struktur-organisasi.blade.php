@@ -163,7 +163,7 @@
                     {{ $info['principal_title'] ?? ('Kepala ' . $info['name']) }}
                 </p>
                 <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
-                    Mengemban tanggung jawab utama dalam memimpin proses manajerial, supervisi kurikulum, pembinaan guru dan santri, serta memastikan seluruh visi misi {{ $info['name'] }} terlaksana dengan standar keunggulan tinggi.
+                    Mengemban tanggung jawab utama dalam memimpin proses manajerial, supervisi kurikulum, pembinaan guru dan siswa, serta memastikan seluruh visi misi {{ $info['name'] }} terlaksana dengan standar keunggulan tinggi.
                 </p>
                 <div class="pt-2 flex flex-wrap gap-2 justify-center md:justify-start">
                     <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" 

@@ -280,6 +280,14 @@ class CmsController extends Controller
         $cleanCode = strtolower(trim($cleanCode));
         if ($cleanCode === 'kbtkit') $cleanCode = 'tkit';
 
+        $authenticFile = database_path('authentic_unit_data.json');
+        if (file_exists($authenticFile)) {
+            $authenticData = json_decode(file_get_contents($authenticFile), true);
+            if (!empty($authenticData[$cleanCode])) {
+                return $authenticData[$cleanCode];
+            }
+        }
+
         $defaults = [
             'tkit' => [
                 'name' => 'KB & TKIT Robbani Ogan Ilir',
@@ -596,8 +604,16 @@ class CmsController extends Controller
                 ];
             }
         }
-        $data['ekskul'] = !empty($processedEkskul) ? $processedEkskul : ($exData['ekskul'] ?? []);
-        $data['gallery'] = $exData['gallery'] ?? [];
+        $defaultInfo = $this->getUnitDefaultProfileData($cleanCode);
+        $data['ekskul'] = !empty($processedEkskul) ? $processedEkskul : ($exData['ekskul'] ?? ($defaultInfo['ekskul'] ?? []));
+        $data['gallery'] = $exData['gallery'] ?? ($defaultInfo['gallery'] ?? []);
+        $data['videos'] = $exData['videos'] ?? ($defaultInfo['videos'] ?? []);
+        $data['agenda'] = $exData['agenda'] ?? ($defaultInfo['agenda'] ?? []);
+        $data['announcements'] = $exData['announcements'] ?? ($defaultInfo['announcements'] ?? []);
+        $data['alumni'] = $exData['alumni'] ?? ($defaultInfo['alumni'] ?? []);
+        $data['history'] = $exData['history'] ?? ($defaultInfo['history'] ?? []);
+        $data['status'] = $exData['status'] ?? ($defaultInfo['status'] ?? 'AKTIF');
+        $data['prestasi'] = $exData['prestasi'] ?? ($defaultInfo['prestasi'] ?? []);
 
         // Handle Kepsek Photo upload
         if ($request->hasFile('principal_photo')) {

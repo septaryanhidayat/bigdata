@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Testimonial & Kata Mereka - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Kesan, pesan, dan testimoni nyata dari orang tua wali santri, alumni, dan tokoh masyarakat tentang mutu pendidikan di ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
+@section('meta_description', 'Kesan, pesan, dan testimoni nyata dari orang tua wali murid, alumni, dan tokoh masyarakat tentang mutu pendidikan di ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -18,7 +18,7 @@
         $alumniList = [
             [
                 'name' => 'dr. H. Hendra Saputra, Sp.A',
-                'title' => 'Wali Santri Angkatan VII',
+                'title' => 'Wali Murid Angkatan VII',
                 'category' => 'wali',
                 'text' => 'Alhamdulillah, ananda mengalami perubahan adab dan kemandirian yang luar biasa sejak bersekolah di SIT Robbani. Bimbingan tahfidz para ustadz sangat telaten dan suasana kekeluargaan sekolah begitu kental.',
                 'avatar' => '/images/avatar-gray-person.svg',
@@ -34,9 +34,9 @@
             ],
             [
                 'name' => 'Hj. Nurul Aini, S.Pd',
-                'title' => 'Wali Santri Kelas Tahfidz',
+                'title' => 'Wali Murid Kelas Tahfidz',
                 'category' => 'wali',
-                'text' => 'Sistem pembelajaran terpadu antara kurikulum nasional dan nilai keislaman sangat seimbang. Komunikasi sekolah dengan wali santri sangat transparan melalui sistem pelaporan digital yang rapi.',
+                'text' => 'Sistem pembelajaran terpadu antara kurikulum nasional dan nilai keislaman sangat seimbang. Komunikasi sekolah dengan wali murid sangat transparan melalui sistem pelaporan digital yang rapi.',
                 'avatar' => '/images/avatar-gray-person.svg',
                 'stars' => 5
             ],
@@ -60,7 +60,7 @@
                 'name' => 'Bunda Siti Maryam, M.Pd',
                 'title' => 'Wali Murid Berprestasi',
                 'category' => 'wali',
-                'text' => 'Program parenting rutin bagi orang tua sangat membantu kami menyelaraskan pola asuh di rumah dengan target pembinaan adab santri di sekolah. Sekolah pilihan terbaik bagi ananda!',
+                'text' => 'Program parenting rutin bagi orang tua sangat membantu kami menyelaraskan pola asuh di rumah dengan target pembinaan adab siswa di sekolah. Sekolah pilihan terbaik bagi ananda!',
                 'avatar' => '/images/avatar-gray-person.svg',
                 'stars' => 5
             ]
@@ -81,7 +81,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Testimonial &amp; Kata Mereka</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Ungkapan tulus dan apresiasi dari orang tua santri, alumni, dan mitra tentang pengalaman berharga bersama {{ $info['name'] }}.
+            Ungkapan tulus dan apresiasi dari orang tua murid, alumni, dan mitra tentang pengalaman berharga bersama {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -100,13 +100,13 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
         <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-xl border border-gray-100 text-center reveal-fade-up">
             <div class="text-2xl sm:text-4xl font-black text-unit-primary mb-1">98.6%</div>
-            <div class="text-xs font-bold text-gray-900">Kepuasan Wali Santri</div>
+            <div class="text-xs font-bold text-gray-900">Kepuasan Wali Murid</div>
             <div class="text-[11px] text-gray-500 mt-0.5">Survei Mutu Tahunan</div>
         </div>
 
         <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-xl border border-gray-100 text-center reveal-fade-up">
             <div class="text-2xl sm:text-4xl font-black text-amber-500 mb-1">100%</div>
-            <div class="text-xs font-bold text-gray-900">Kelulusan Santri</div>
+            <div class="text-xs font-bold text-gray-900">Kelulusan Siswa</div>
             <div class="text-[11px] text-gray-500 mt-0.5">Diterima Sekolah/PTN Favorit</div>
         </div>
 
@@ -147,7 +147,7 @@
                     @click="activeTab = 'wali'"
                     :class="activeTab === 'wali' ? 'bg-unit-primary text-white shadow-md' : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'"
                     class="px-4 py-2 rounded-full text-xs font-bold shrink-0 transition">
-                Wali Santri
+                Wali Murid
             </button>
             <button type="button" 
                     @click="activeTab = 'alumni'"
@@ -211,7 +211,7 @@
                             {{ $item['name'] }}
                         </h4>
                         <p class="text-[11px] text-gray-500 font-medium mt-0.5">
-                            {{ $item['title'] ?? 'Wali Santri SIT Robbani' }}
+                            {{ $item['title'] ?? 'Wali Murid SIT Robbani' }}
                         </p>
                     </div>
                 </div>
@@ -230,7 +230,7 @@
                 Pernah Menjadi Bagian dari {{ $info['name'] }}?
             </h3>
             <p class="text-xs sm:text-sm text-indigo-100 font-light leading-relaxed max-w-2xl">
-                Kesan dan pesan Anda sangat berharga bagi kami untuk terus berbenah dan menginspirasi calon santri generasi penerus. Kirimkan ulasan Anda langsung kepada kami.
+                Kesan dan pesan Anda sangat berharga bagi kami untuk terus berbenah dan menginspirasi calon siswa generasi penerus. Kirimkan ulasan Anda langsung kepada kami.
             </p>
             <div class="pt-3 flex flex-wrap gap-3">
                 <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $school->phone ?? $info['phone'] ?? '6281271708899') }}?text=Halo%20Humas%20{{ urlencode($info['name']) }}%2C%20saya%20ingin%20mengirimkan%20testimoni%20pengalaman%20saya%20bersama%20sekolah." 
@@ -242,7 +242,7 @@
                 <a href="{{ route('school.ppdb') }}" 
                    class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 transition">
                     <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Daftar Santri Baru (SPMB)</span>
+                    <span>Daftar Siswa Baru (SPMB)</span>
                 </a>
             </div>
         </div>

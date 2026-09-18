@@ -26,7 +26,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Mars JSIT &amp; Hymne Sekolah</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Lagu perjuangan dan syair kebangkitan pendidikan Islam terpadu yang menggelorakan semangat santri {{ $info['name'] }}.
+            Lagu perjuangan dan syair kebangkitan pendidikan Islam terpadu yang menggelorakan semangat siswa {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -121,7 +121,7 @@
                         <span>Nilai Luhur &amp; Karakter Robbani</span>
                     </span>
                     <p class="text-xs text-amber-800 font-light leading-relaxed">
-                        Lirik hymne mengingatkan setiap santri dan asatidz akan niat ikhlas lillahi ta'ala dalam menuntut ilmu dan beramal sholeh.
+                        Lirik hymne mengingatkan setiap siswa dan asatidz akan niat ikhlas lillahi ta'ala dalam menuntut ilmu dan beramal sholeh.
                     </p>
                 </div>
 

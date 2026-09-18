@@ -1,6 +1,6 @@
 @extends('school.unit.layouts.master')
 
-@section('title', 'Agenda Akademik & Santri - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
+@section('title', 'Agenda Akademik & Siswa - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
 @section('meta_description', 'Agenda akademik, kalender kegiatan, ujian tahfidz, dan event penting ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
 
 @php
@@ -27,7 +27,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Agenda Akademik &amp; Kegiatan</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Jadwal kegiatan terpadu, kalender akademik, ujian munaqosah tahfidz, dan agenda santri {{ $info['name'] }}.
+            Jadwal kegiatan terpadu, kalender akademik, ujian munaqosah tahfidz, dan agenda siswa {{ $info['name'] }}.
         </p>
     </div>
 </div>
@@ -42,7 +42,7 @@
             if (!matchesSearch) return false;
             if (this.filterCategory === 'all') return true;
             if (this.filterCategory === 'akademik') return ag.title.toLowerCase().includes('akademik') || ag.title.toLowerCase().includes('ujian') || ag.title.toLowerCase().includes('rapor') || ag.title.toLowerCase().includes('laporan');
-            if (this.filterCategory === 'santri') return ag.title.toLowerCase().includes('camping') || ag.title.toLowerCase().includes('renang') || ag.title.toLowerCase().includes('outbond') || ag.title.toLowerCase().includes('festival');
+            if (this.filterCategory === 'siswa') return ag.title.toLowerCase().includes('camping') || ag.title.toLowerCase().includes('renang') || ag.title.toLowerCase().includes('outbond') || ag.title.toLowerCase().includes('festival');
             if (this.filterCategory === 'tahfidz') return ag.title.toLowerCase().includes('tahfidz') || ag.title.toLowerCase().includes('munaqosah') || ag.title.toLowerCase().includes('tasmi');
             return true;
         }
@@ -83,10 +83,10 @@
                         Akademik &amp; Ujian
                     </button>
                     <button type="button" 
-                            @click="filterCategory = 'santri'"
-                            :class="filterCategory === 'santri' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            @click="filterCategory = 'siswa'"
+                            :class="filterCategory === 'siswa' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
                             class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition">
-                        Kegiatan Santri
+                        Kegiatan Siswa
                     </button>
                     <button type="button" 
                             @click="filterCategory = 'tahfidz'"
@@ -138,7 +138,7 @@
                             @endif
 
                             @if(!empty($ag['desc']))
-                                <p class="text-xs text-gray-600 leading-relaxed font-light line-clamp-2 pt-0.5">
+                                <p class="text-xs text-gray-600 leading-relaxed font-light line-clamp-2 pt-0.5 text-justify">
                                     {{ $ag['desc'] }}
                                 </p>
                             @endif

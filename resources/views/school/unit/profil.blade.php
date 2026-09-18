@@ -164,7 +164,7 @@
                 <h3 class="text-base font-extrabold text-gray-900 mt-0.5">Dewan Guru &amp; GTK</h3>
             </div>
             <p class="text-xs text-gray-600 leading-relaxed">
-                Para asatidz dan asatidzah berdedikasi tinggi, tersertifikasi, dan berjiwa pembimbing santri.
+                Para asatidz dan asatidzah berdedikasi tinggi, tersertifikasi, dan berjiwa pembimbing siswa.
             </p>
             <div>
                 <a href="{{ $unitUrl }}#guru" class="text-xs font-bold text-cyan-600 hover:text-cyan-800 transition flex items-center gap-1">
@@ -297,10 +297,10 @@
                     Rekam Jejak Kejuaraan
                 </span>
                 <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-                    Prestasi &amp; Penghargaan Santri
+                    Prestasi &amp; Penghargaan Siswa
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ikhtiar dan torehan kebanggaan santri {{ $info['name'] }} di tingkat kabupaten, provinsi, hingga nasional.
+                    Ikhtiar dan torehan kebanggaan siswa {{ $info['name'] }} di tingkat kabupaten, provinsi, hingga nasional.
                 </p>
                 <div class="w-20 h-1 bg-amber-500 rounded-full mx-auto"></div>
             </div>
@@ -346,7 +346,7 @@
                     Fasilitas Unggulan Kampus
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-                    Sarana pembelajaran representatif dan modern menunjang kenyamanan dan akselerasi potensi santri.
+                    Sarana pembelajaran representatif dan modern menunjang kenyamanan dan akselerasi potensi siswa.
                 </p>
                 <div class="w-20 h-1 bg-emerald-600 rounded-full mx-auto"></div>
             </div>
@@ -388,7 +388,7 @@
                     Ekstrakurikuler &amp; Life Skill
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-                    Wadah aktualisasi minat, bakat, kepemimpinan, dan kemandirian santri {{ $info['name'] }}.
+                    Wadah aktualisasi minat, bakat, kepemimpinan, dan kemandirian siswa {{ $info['name'] }}.
                 </p>
                 <div class="w-20 h-1 bg-blue-600 rounded-full mx-auto"></div>
             </div>
@@ -423,7 +423,7 @@
         <section id="galeri" class="space-y-6 sm:space-y-8 reveal-fade-up">
             <div class="text-center space-y-2">
                 <span class="inline-block bg-purple-100 text-purple-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
-                    Dokumentasi Santri
+                    Dokumentasi Siswa
                 </span>
                 <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
                     Galeri Dokumentasi Kegiatan
@@ -438,7 +438,7 @@
                 @foreach($galleryList as $gl)
                     <div class="rounded-2xl overflow-hidden shadow-md h-44 sm:h-56 bg-gray-100 group relative">
                         <img src="{{ asset($gl['image'] ?? '/images/logo-robbani-official.png') }}" 
-                             alt="{{ $gl['title'] ?? 'Dokumentasi Santri' }}" 
+                             alt="{{ $gl['title'] ?? 'Dokumentasi Siswa' }}" 
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
                              onerror="this.src='/images/logo-robbani-official.png'">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-3 sm:p-4">
@@ -532,7 +532,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @php
                 $testimonials = !empty($info['alumni']) ? $info['alumni'] : [
-                    ['name' => 'Wali Santri Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
+                    ['name' => 'Wali Murid Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
                     ['name' => 'Ahmad Faiz', 'title' => 'Alumni Prestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
                     ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp']
                 ];

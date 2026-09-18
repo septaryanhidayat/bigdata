@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Pusat Unduhan Berkas Publik - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Pusat unduhan dokumen publik, brosur SPMB, pedoman adab santri, kalender akademik, dan formulir administrasi ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
+@section('meta_description', 'Pusat unduhan dokumen publik, brosur SPMB, pedoman adab siswa, kalender akademik, dan formulir administrasi ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -20,16 +20,16 @@
             'format' => 'PDF',
             'size' => '2.8 MB',
             'downloads' => 1420,
-            'url' => asset($info['flyer'] ?: '/uploads/pedoman-adab-santri.pdf')
+            'url' => asset($info['flyer'] ?: '/uploads/pedoman-adab-siswa.pdf')
         ],
         [
-            'title' => 'Buku Saku Adab & Muwashofat Santri',
-            'desc' => 'Panduan adab harian islami, tata tertib santri, dan pembiasaan ibadah yaumiyah di sekolah dan rumah.',
+            'title' => 'Buku Saku Adab & Muwashofat Siswa',
+            'desc' => 'Panduan adab harian islami, tata tertib siswa, dan pembiasaan ibadah yaumiyah di sekolah dan rumah.',
             'category' => 'tatatertib',
             'format' => 'PDF',
             'size' => '1.4 MB',
             'downloads' => 980,
-            'url' => asset('/uploads/pedoman-adab-santri.pdf')
+            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
         ],
         [
             'title' => 'Kalender Akademik Terpadu TA 2026/2027',
@@ -38,7 +38,7 @@
             'format' => 'PDF',
             'size' => '850 KB',
             'downloads' => 2130,
-            'url' => asset('/uploads/pedoman-adab-santri.pdf')
+            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
         ],
         [
             'title' => 'Panduan Target Capaian Mutqin Tahfidz Al-Qur\'an',
@@ -47,7 +47,7 @@
             'format' => 'PDF',
             'size' => '1.9 MB',
             'downloads' => 1670,
-            'url' => asset('/uploads/pedoman-adab-santri.pdf')
+            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
         ],
         [
             'title' => 'Formulir Permohonan Izin Kunjungan / Studi Banding',
@@ -59,13 +59,13 @@
             'url' => url('/unit/' . $codeLower . '/layanan/kunjungan')
         ],
         [
-            'title' => 'Formulir Pengajuan Beasiswa Santri Berprestasi & Yatim',
-            'desc' => 'Berkas persyaratan permohonan keringanan biaya pendidikan dan beasiswa yayasan bagi santri berprestasi.',
+            'title' => 'Formulir Pengajuan Beasiswa Siswa Berprestasi & Yatim',
+            'desc' => 'Berkas persyaratan permohonan keringanan biaya pendidikan dan beasiswa yayasan bagi siswa berprestasi.',
             'category' => 'formulir',
             'format' => 'PDF',
             'size' => '640 KB',
             'downloads' => 780,
-            'url' => asset('/uploads/pedoman-adab-santri.pdf')
+            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
         ],
         [
             'title' => 'Paket Logo Resmi & Identitas Visual HD',

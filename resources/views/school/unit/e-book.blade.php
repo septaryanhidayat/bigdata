@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'E-Book & Modul Siswa - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'E-Library dan rak modul digital santri ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Akses modul belajar mandiri, buku saku tahfidz, dan suplemen kurikulum.')
+@section('meta_description', 'E-Library dan rak modul digital siswa ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Akses modul belajar mandiri, buku saku tahfidz, dan suplemen kurikulum.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -16,17 +16,17 @@
         [
             'title' => 'Modul Panduan Tahfidz & Tajwid Al-Qur\'an',
             'author' => 'Tim Pengembang Tahfidz Robbani',
-            'level' => 'Semua Jenjang Santri',
+            'level' => 'Semua Jenjang Siswa',
             'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
             'pages' => '84 Halaman',
             'size' => '4.2 MB',
             'desc' => 'Panduan makharijul huruf, sifat huruf, kaidah tajwid praktis, dan mutabaah hafalan harian.'
         ],
         [
-            'title' => 'Buku Saku 10 Muwashofat Santri Robbani',
+            'title' => 'Buku Saku 10 Muwashofat Siswa Robbani',
             'author' => 'Bidang Pembinaan Karakter & BPI',
-            'level' => 'Pegangan Santri & Wali',
-            'cover' => '/uploads/covers/cover-karakter-santri.webp',
+            'level' => 'Pegangan Siswa & Wali',
+            'cover' => '/uploads/covers/cover-karakter-siswa.webp',
             'pages' => '62 Halaman',
             'size' => '2.8 MB',
             'desc' => 'Ulasan 10 pilar karakter pribadi muslim unggul standar mutu JSIT Indonesia dan penerapannya di rumah.'
@@ -38,7 +38,7 @@
             'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
             'pages' => '96 Halaman',
             'size' => '3.5 MB',
-            'desc' => 'Kamus tematik percakapan harian, ungkapan islami, dan latihan dialog santri.'
+            'desc' => 'Kamus tematik percakapan harian, ungkapan islami, dan latihan dialog siswa.'
         ],
         [
             'title' => 'Buku Panduan Praktikum Sains & Nalar Kritis',
@@ -65,7 +65,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">E-Library &amp; Modul Pembelajaran</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Koleksi buku panduan digital, suplemen kurikulum terpadu, dan buku saku adab santri {{ $info['name'] }} yang dapat diakses mandiri di rumah.
+            Koleksi buku panduan digital, suplemen kurikulum terpadu, dan buku saku adab siswa {{ $info['name'] }} yang dapat diakses mandiri di rumah.
         </p>
     </div>
 </div>
@@ -75,7 +75,7 @@
 
     <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14 space-y-2">
         <span class="text-xs font-black uppercase tracking-wider text-unit-primary block">
-            Perpustakaan Digital Santri
+            Perpustakaan Digital Siswa
         </span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
             Rak Modul &amp; Sumber Belajar Mandiri
@@ -128,7 +128,7 @@
 
                 {{-- ACTION BUTTONS --}}
                 <div class="pt-4 mt-4 border-t border-gray-100 space-y-2">
-                    <a href="{{ asset('/uploads/pedoman-adab-santri.pdf') }}" 
+                    <a href="{{ asset('/uploads/pedoman-adab-siswa.pdf') }}" 
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-full text-xs font-bold bg-unit-primary text-white hover:brightness-110 shadow transition">
@@ -147,7 +147,7 @@
             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Gerakan Literasi Sekolah</span>
             <h3 class="text-lg sm:text-xl font-black">Budayakan Membaca &amp; Menghafal Al-Qur'an Setiap Hari</h3>
             <p class="text-xs text-slate-300 font-light leading-relaxed">
-                Seluruh santri dan wali murid dapat memanfaatkan koleksi digital ini untuk muraja'ah tahfidz dan penguatan materi akademis mandiri.
+                Seluruh siswa dan wali murid dapat memanfaatkan koleksi digital ini untuk muraja'ah tahfidz dan penguatan materi akademis mandiri.
             </p>
         </div>
         <a href="{{ url('/unit/' . $codeLower . '/download') }}" 

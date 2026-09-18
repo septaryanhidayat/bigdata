@@ -1,7 +1,7 @@
 @extends('school.unit.layouts.master')
 
 @section('title', 'Dewan Guru & GTK - ' . ($info['name'] ?? 'Sekolah Islam Terpadu'))
-@section('meta_description', 'Dewan Guru dan Tenaga Kependidikan (GTK) ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Pendidik profesional, berkarakter Qur\'ani, dan berdedikasi tinggi membimbing santri.')
+@section('meta_description', 'Dewan Guru dan Tenaga Kependidikan (GTK) ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Pendidik profesional, berkarakter Qur\'ani, dan berdedikasi tinggi membimbing siswa.')
 
 @php
     $uTheme = $info['theme'] ?? [
@@ -37,7 +37,7 @@
         </nav>
         <h1 class="text-2xl sm:text-4xl font-black tracking-tight">Dewan Guru &amp; GTK</h1>
         <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
-            Para asatidz dan tenaga kependidikan {{ $info['name'] }} yang berdedikasi, amanah, dan berkarakter Qur'ani membimbing santri meraih prestasi dunia dan akhirat.
+            Para asatidz dan tenaga kependidikan {{ $info['name'] }} yang berdedikasi, amanah, dan berkarakter Qur'ani membimbing siswa meraih prestasi dunia dan akhirat.
         </p>
     </div>
 </div>
@@ -122,6 +122,21 @@
     </div>
 
     {{-- TEACHERS GRID (4-COL DESKTOP, 2-COL MOBILE) --}}
+    @if(empty($teachersList))
+        <div class="bg-white rounded-3xl p-10 sm:p-14 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
+            <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+                <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-gray-900">Formasi Dewan Guru Sedang Dipersiapkan</h3>
+            <p class="text-xs sm:text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
+                @if($codeLower === 'smait')
+                    SMA IT Robbani saat ini dalam tahap persiapan operasional pembukaan. Formasi dewan asatidz dan tenaga kependidikan kualifikasi terbaik akan segera diumumkan.
+                @else
+                    Data dewan guru dan tenaga kependidikan {{ $info['name'] }} sedang diperbarui.
+                @endif
+            </p>
+        </div>
+    @else
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         @foreach($teachersList as $tc)
             <div x-show="matches({ name: '{{ addslashes($tc['name']) }}', role: '{{ addslashes($tc['role']) }}' })"
@@ -176,12 +191,13 @@
             </div>
         @endforeach
     </div>
+    @endif
 
     {{-- CALLOUT CONVERSION BANNER --}}
     <div class="mt-12 sm:mt-16 p-6 sm:p-10 rounded-3xl bg-gradient-to-r {{ $uTheme['nav_gradient'] }} text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/20 text-center sm:text-left">
         <div class="space-y-2 max-w-xl">
             <span class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-950">
-                Penerimaan Santri Baru
+                Penerimaan Siswa Baru
             </span>
             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">
                 Mari Bergabung Bersama Keluarga Besar {{ $info['name'] }}
