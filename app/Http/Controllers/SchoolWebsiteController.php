@@ -656,10 +656,22 @@ class SchoolWebsiteController extends Controller
             }, $allAnnouncements);
         }
 
+        $currentHost = request()->getHost();
+        $subdomains = ['tk', 'tkit', 'sd', 'sdit', 'smp', 'smpit', 'sma', 'smait', 'spmb'];
+        $parts = explode('.', $currentHost);
+        if (count($parts) >= 3 && in_array(strtolower($parts[0]), $subdomains)) {
+            array_shift($parts);
+            $portalUrl = request()->getScheme() . '://' . implode('.', $parts);
+        } elseif (str_contains($currentHost, 'sitrobbani.sch.id')) {
+            $portalUrl = 'https://sitrobbani.sch.id';
+        } else {
+            $portalUrl = config('app.url') ?: route('home');
+        }
+
         return view('school.unit', compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
             'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements',
-            'schoolCode'
+            'schoolCode', 'portalUrl'
         ));
     }
 

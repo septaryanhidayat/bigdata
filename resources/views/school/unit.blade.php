@@ -240,7 +240,7 @@
                 </a>
             </div>
             <div class="flex items-center gap-2 text-[11px] font-bold shrink-0">
-                <a href="{{ route('home') }}" class="hover:text-amber-300 dark:hover:text-[#c6f634] text-slate-200 transition-colors flex items-center gap-1">
+                <a href="{{ $portalUrl }}" class="hover:text-amber-300 dark:hover:text-[#c6f634] text-slate-200 transition-colors flex items-center gap-1">
                     <span>Portal SIT Robbani</span> ➔
                 </a>
             </div>
@@ -251,6 +251,19 @@
         $unitCodeLower = strtolower($info['code'] ?? 'sdit');
         if ($unitCodeLower === 'kbtkit') $unitCodeLower = 'tkit';
         $schoolCode = $schoolCode ?? $unitCodeLower;
+        if (empty($portalUrl)) {
+            $currentHost = request()->getHost();
+            $subdomains = ['tk', 'tkit', 'sd', 'sdit', 'smp', 'smpit', 'sma', 'smait', 'spmb'];
+            $parts = explode('.', $currentHost);
+            if (count($parts) >= 3 && in_array(strtolower($parts[0]), $subdomains)) {
+                array_shift($parts);
+                $portalUrl = request()->getScheme() . '://' . implode('.', $parts);
+            } elseif (str_contains($currentHost, 'sitrobbani.sch.id')) {
+                $portalUrl = 'https://sitrobbani.sch.id';
+            } else {
+                $portalUrl = config('app.url') ?: route('home');
+            }
+        }
 
         $themeConfig = [
             'tkit' => [
@@ -311,7 +324,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
             
             <!-- Logo Section -->
-            <a href="{{ route('home') }}" class="flex items-center group shrink-0" title="Beranda SIT Robbani">
+            <a href="{{ $portalUrl }}" class="flex items-center group shrink-0" title="Beranda SIT Robbani">
                 <div class="logo-badge-container shrink-0 p-1.5 sm:p-2 rounded-2xl bg-white dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] shadow-xs hover:shadow-md transition-all">
                     <img src="{{ asset($unitLogoPath) }}" alt="Logo {{ $info['name'] }}" width="150" height="46" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
                 </div>
@@ -357,7 +370,7 @@
 
     <!-- Mobile Navigation Drawer -->
     <div x-show="mobileMenuOpen" x-cloak x-transition class="xl:hidden bg-white dark:bg-[#061107] border-b border-slate-200 dark:border-[#1a381c] px-6 py-4 space-y-3 font-bold text-xs">
-        <a href="{{ route('home') }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏠 Beranda Utama SIT Robbani</a>
+        <a href="{{ $portalUrl }}" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🏠 Beranda Utama SIT Robbani</a>
         <a href="#sambutan" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">👤 Profil &amp; Sambutan Kepala Sekolah</a>
         <a href="#program" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">🌟 Program Unggulan &amp; Kurikulum</a>
         <a href="#agenda-pengumuman" @click="mobileMenuOpen = false" class="block py-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-[#1a381c]">📅 Agenda &amp; Pengumuman</a>
@@ -1219,7 +1232,7 @@
                         <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['phone'] ?? '811747472', '0') }}" target="_blank" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="WhatsApp">
                             <span class="material-symbols-outlined text-[18px]">chat</span>
                         </a>
-                        <a href="{{ route('home') }}" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="Portal Utama">
+                        <a href="{{ $portalUrl }}" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="Portal Utama">
                             <span class="material-symbols-outlined text-[18px]">language</span>
                         </a>
                         <a href="#video" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs" title="YouTube">
@@ -1255,7 +1268,7 @@
                         <li><a href="#galeri" class="hover:text-amber-300 transition-colors block py-0.5">Galeri Foto</a></li>
                         <li><a href="#video" class="hover:text-amber-300 transition-colors block py-0.5">Galeri Video</a></li>
                         <li><a href="#alumni" class="hover:text-amber-300 transition-colors block py-0.5">Testimoni Alumni</a></li>
-                        <li><a href="{{ route('home') }}" class="hover:text-cyan-300 transition-colors block py-0.5 text-cyan-400">Portal SIT Robbani</a></li>
+                        <li><a href="{{ $portalUrl }}" class="hover:text-cyan-300 transition-colors block py-0.5 text-cyan-400">Portal SIT Robbani</a></li>
                     </ul>
                 </div>
 
@@ -1296,7 +1309,7 @@
                     <span>© {{ date('Y') }} <strong>{{ $info['name'] }}</strong>. Yayasan Generasi Robbani Ogan Ilir.</span>
                 </div>
                 <div class="flex items-center justify-center gap-4 text-slate-400">
-                    <a href="{{ route('home') }}" class="hover:text-white transition-colors">Portal Utama</a>
+                    <a href="{{ $portalUrl }}" class="hover:text-white transition-colors">Portal Utama</a>
                     <span>•</span>
                     <a href="{{ route('school.ppdb') }}" class="hover:text-white transition-colors">SPMB Online</a>
                     <span>•</span>
