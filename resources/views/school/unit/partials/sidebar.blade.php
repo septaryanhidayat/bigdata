@@ -14,7 +14,7 @@
     <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 reveal-fade-up">
         <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
             <h3 class="font-extrabold text-sm sm:text-base text-gray-900 tracking-tight flex items-center gap-2">
-                <i class="fa-solid fa-newspaper text-indigo-600"></i>
+                <i class="fa-solid fa-newspaper text-unit-primary"></i>
                 <span>Kabar Sekolah</span>
             </h3>
             <a href="{{ url('/unit/' . $codeLower . '#berita') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1">
@@ -34,7 +34,7 @@
                              onerror="this.src='/images/logo-robbani-official.png'">
                     </div>
                     <div class="space-y-1 min-w-0 flex-1">
-                        <h4 class="text-xs font-bold text-gray-900 group-hover:text-indigo-600 transition line-clamp-2 leading-snug">
+                        <h4 class="text-xs font-bold text-gray-900 group-hover:text-unit-primary transition line-clamp-2 leading-snug">
                             {{ $item['title'] }}
                         </h4>
                         <span class="block text-[10px] text-gray-400 font-medium">
@@ -55,7 +55,7 @@
     <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 reveal-fade-up delay-1">
         <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
             <h3 class="font-extrabold text-sm sm:text-base text-gray-900 tracking-tight flex items-center gap-2">
-                <i class="fa-solid fa-calendar-check text-indigo-600"></i>
+                <i class="fa-solid fa-calendar-check text-unit-primary"></i>
                 <span>Agenda Terdekat</span>
             </h3>
             <a href="{{ url('/unit/' . $codeLower . '#agenda') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1">

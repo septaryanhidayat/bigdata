@@ -42,7 +42,7 @@
         {{-- CARD 1: ALAMAT --}}
         <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 flex flex-col justify-between reveal-fade-up">
             <div>
-                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-unit-primary flex items-center justify-center text-xl mb-4 border border-indigo-100">
+                <div class="w-12 h-12 rounded-2xl bg-slate-50 text-unit-primary flex items-center justify-center text-xl mb-4 border border-indigo-100">
                     <i class="fa-solid fa-location-dot"></i>
                 </div>
                 <h4 class="text-xs font-black uppercase tracking-wider text-gray-400 mb-1">Alamat Kampus</h4>
@@ -152,7 +152,7 @@
                         </label>
                         <input type="text" id="cf_name" required
                                placeholder="Nama lengkap wali murid / calon pendaftar"
-                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -162,14 +162,14 @@
                             </label>
                             <input type="tel" id="cf_hp" required
                                    placeholder="08xxxxxxxxxx"
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                                 Kategori Informasi <span class="text-rose-500">*</span>
                             </label>
                             <select id="cf_kategori" required
-                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                                 <option value="Informasi SPMB & Pendaftaran">Informasi SPMB &amp; Pendaftaran Siswa Baru</option>
                                 <option value="Biaya Pendidikan & E-SPP">Biaya Pendidikan &amp; E-SPP</option>
                                 <option value="Konsultasi Tahfidz & Akademik">Konsultasi Tahfidz &amp; Akademik JSIT</option>
@@ -185,7 +185,7 @@
                         </label>
                         <textarea id="cf_pesan" rows="4" required
                                   placeholder="Tuliskan pertanyaan atau pesan Anda secara rinci agar tim kami dapat memberikan penjelasan terbaik..."
-                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
+                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition"></textarea>
                     </div>
 
                     <div class="pt-3 flex items-center justify-between gap-4">
@@ -214,7 +214,7 @@
                         <i class="fa-solid fa-map-location-dot"></i>
                         Peta Lokasi Kampus
                     </h3>
-                    <a href="https://maps.google.com/?q={{ urlencode($schoolAddress) }}" target="_blank" rel="noopener" class="text-[11px] font-bold text-indigo-600 hover:underline">
+                    <a href="https://maps.google.com/?q={{ urlencode($schoolAddress) }}" target="_blank" rel="noopener" class="text-[11px] font-bold text-unit-primary hover:underline">
                         Buka di Google Maps <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
                     </a>
                 </div>

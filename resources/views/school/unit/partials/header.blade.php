@@ -47,24 +47,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16 sm:h-20">
             
-            {{-- LOGO & IDENTITAS SEKOLAH --}}
-            <a href="{{ $unitUrl }}" class="flex items-center space-x-2.5 sm:space-x-3 group min-w-0 pr-2">
-                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl bg-white p-1 sm:p-1.5 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition duration-300 border border-white/20 shrink-0">
+            {{-- LOGO RESMI SEKOLAH (GAMBAR ASLI TANPA TEKS BERLEBIH) --}}
+            <a href="{{ $unitUrl }}" class="flex items-center group py-1.5 shrink-0" aria-label="Beranda {{ $info['name'] }}">
+                <div class="h-12 sm:h-16 flex items-center py-1">
                     <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
-                         class="max-h-full max-w-full object-contain"
+                         class="max-h-12 sm:max-h-16 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-md"
                          onerror="this.src='/images/logo-robbani-official.png'">
-                </div>
-                <div class="text-left min-w-0">
-                    <span class="block text-[9px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-300 truncate">
-                        {{ $codeLower === 'tkit' ? 'Taman Kanak-Kanak IT' : ($codeLower === 'sdit' ? 'Sekolah Dasar IT' : ($codeLower === 'smpit' ? 'Sekolah Menengah Pertama IT' : 'Sekolah Menengah Atas IT')) }}
-                    </span>
-                    <span class="block text-sm sm:text-lg font-black tracking-tight text-white leading-tight drop-shadow-sm truncate">
-                        {{ $info['name'] }}
-                    </span>
-                    <span class="inline-block text-[8px] sm:text-[10px] font-bold text-slate-200 uppercase tracking-widest truncate">
-                        {{ $info['sub_badge'] ?? ($info['akreditasi'] ?? 'Terakreditasi B') }}
-                    </span>
                 </div>
             </a>
 
@@ -85,30 +74,30 @@
                     {{-- Safe Hover Bridge Container --}}
                     <div class="absolute left-0 top-full pt-1.5 w-64 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-user-tie w-5 text-indigo-600 mr-2 text-sm"></i> Sambutan Kepala Sekolah
+                            <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-user-tie w-5 text-unit-primary mr-2 text-sm"></i> Sambutan Kepala Sekolah
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-school w-5 text-indigo-600 mr-2 text-sm"></i> Profil Singkat Sekolah
+                            <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-school w-5 text-unit-primary mr-2 text-sm"></i> Profil Singkat Sekolah
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-compass w-5 text-indigo-600 mr-2 text-sm"></i> Visi dan Misi
+                            <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-compass w-5 text-unit-primary mr-2 text-sm"></i> Visi dan Misi
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/sejarah') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-landmark w-5 text-indigo-600 mr-2 text-sm"></i> Sejarah Sekolah
+                            <a href="{{ url('/unit/' . $codeLower . '/sejarah') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-landmark w-5 text-unit-primary mr-2 text-sm"></i> Sejarah Sekolah
                             </a>
                             <div class="border-t border-gray-100 my-1"></div>
-                            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-chalkboard-user w-5 text-indigo-600 mr-2 text-sm"></i> Dewan Guru &amp; GTK
+                            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-chalkboard-user w-5 text-unit-primary mr-2 text-sm"></i> Dewan Guru &amp; GTK
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-sitemap w-5 text-indigo-600 mr-2 text-sm"></i> Struktur Organisasi
+                            <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-sitemap w-5 text-unit-primary mr-2 text-sm"></i> Struktur Organisasi
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-layer-group w-5 text-indigo-600 mr-2 text-sm"></i> Fasilitas &amp; Sarana
+                            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-layer-group w-5 text-unit-primary mr-2 text-sm"></i> Fasilitas &amp; Sarana
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-star w-5 text-indigo-600 mr-2 text-sm"></i> Program Unggulan
+                            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-star w-5 text-unit-primary mr-2 text-sm"></i> Program Unggulan
                             </a>
                         </div>
                     </div>
@@ -122,24 +111,24 @@
                     </button>
                     <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-newspaper w-5 text-indigo-600 mr-2 text-sm"></i> Berita &amp; Prestasi
+                            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-newspaper w-5 text-unit-primary mr-2 text-sm"></i> Berita &amp; Prestasi
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-images w-5 text-indigo-600 mr-2 text-sm"></i> Galeri Foto Kegiatan
+                            <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-images w-5 text-unit-primary mr-2 text-sm"></i> Galeri Foto Kegiatan
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/video') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/video') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
                                 <i class="fa-brands fa-youtube w-5 text-red-600 mr-2 text-sm"></i> Video Dokumentasi
                             </a>
                             <div class="border-t border-gray-100 my-1"></div>
-                            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-calendar-days w-5 text-indigo-600 mr-2 text-sm"></i> Agenda Akademik
+                            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-calendar-days w-5 text-unit-primary mr-2 text-sm"></i> Agenda Akademik
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-bullhorn w-5 text-indigo-600 mr-2 text-sm"></i> Pengumuman Sekolah
+                            <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-bullhorn w-5 text-unit-primary mr-2 text-sm"></i> Pengumuman Sekolah
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/testimoni') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-comment-dots w-5 text-indigo-600 mr-2 text-sm"></i> Testimoni Wali &amp; Alumni
+                            <a href="{{ url('/unit/' . $codeLower . '/testimoni') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-comment-dots w-5 text-unit-primary mr-2 text-sm"></i> Testimoni Wali &amp; Alumni
                             </a>
                         </div>
                     </div>
@@ -153,17 +142,17 @@
                     </button>
                     <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-folder-open w-5 text-indigo-600 mr-2 text-sm"></i> Semua Berkas Publik
+                            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-folder-open w-5 text-unit-primary mr-2 text-sm"></i> Semua Berkas Publik
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-book-open-reader w-5 text-indigo-600 mr-2 text-sm"></i> E-Book &amp; Modul Siswa
+                            <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-book-open-reader w-5 text-unit-primary mr-2 text-sm"></i> E-Book &amp; Modul Siswa
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-music w-5 text-indigo-600 mr-2 text-sm"></i> Mars JSIT Indonesia
+                            <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-music w-5 text-unit-primary mr-2 text-sm"></i> Mars JSIT Indonesia
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-image w-5 text-indigo-600 mr-2 text-sm"></i> Logo Resmi Sekolah
+                            <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-image w-5 text-unit-primary mr-2 text-sm"></i> Logo Resmi Sekolah
                             </a>
                         </div>
                     </div>
@@ -177,18 +166,18 @@
                     </button>
                     <div class="absolute left-0 top-full pt-1.5 w-64 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-handshake-angle w-5 text-indigo-600 mr-2 text-sm"></i> Portal Layanan Terpadu
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-handshake-angle w-5 text-unit-primary mr-2 text-sm"></i> Portal Layanan Terpadu
                             </a>
                             <div class="border-t border-gray-100 my-1"></div>
-                            <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-bus w-5 text-indigo-600 mr-2 text-sm"></i> Izin Kunjungan Sekolah
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-bus w-5 text-unit-primary mr-2 text-sm"></i> Izin Kunjungan Sekolah
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/layanan/kerjasama') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-handshake w-5 text-indigo-600 mr-2 text-sm"></i> Permohonan Kerja Sama
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan/kerjasama') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-handshake w-5 text-unit-primary mr-2 text-sm"></i> Permohonan Kerja Sama
                             </a>
-                            <a href="{{ url('/unit/' . $codeLower . '/layanan/sewa') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-building-columns w-5 text-indigo-600 mr-2 text-sm"></i> Sewa Sarana &amp; Gedung
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan/sewa') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-slate-50 hover:text-unit-primary transition flex items-center">
+                                <i class="fa-solid fa-building-columns w-5 text-unit-primary mr-2 text-sm"></i> Sewa Sarana &amp; Gedung
                             </a>
                         </div>
                     </div>
@@ -241,67 +230,67 @@
         <div class="border-t border-slate-800 my-1 pt-1">
             <span class="block px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Profil Lembaga</span>
             <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-user-tie w-6 text-indigo-400"></i> Sambutan Kepala Sekolah
+                <i class="fa-solid fa-user-tie w-6 text-amber-300"></i> Sambutan Kepala Sekolah
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-school w-6 text-indigo-400"></i> Profil Singkat
+                <i class="fa-solid fa-school w-6 text-amber-300"></i> Profil Singkat
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-compass w-6 text-indigo-400"></i> Visi dan Misi
+                <i class="fa-solid fa-compass w-6 text-amber-300"></i> Visi dan Misi
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/sejarah') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-landmark w-6 text-indigo-400"></i> Sejarah Sekolah
+                <i class="fa-solid fa-landmark w-6 text-amber-300"></i> Sejarah Sekolah
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-chalkboard-user w-6 text-indigo-400"></i> Dewan Guru &amp; GTK
+                <i class="fa-solid fa-chalkboard-user w-6 text-amber-300"></i> Dewan Guru &amp; GTK
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-sitemap w-6 text-indigo-400"></i> Struktur Organisasi
+                <i class="fa-solid fa-sitemap w-6 text-amber-300"></i> Struktur Organisasi
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-layer-group w-6 text-indigo-400"></i> Fasilitas &amp; Sarana
+                <i class="fa-solid fa-layer-group w-6 text-amber-300"></i> Fasilitas &amp; Sarana
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-star w-6 text-indigo-400"></i> Program Unggulan
+                <i class="fa-solid fa-star w-6 text-amber-300"></i> Program Unggulan
             </a>
         </div>
         <div class="border-t border-slate-800 my-1 pt-1">
             <span class="block px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Kabar, Galeri &amp; Video</span>
             <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-newspaper w-6 text-indigo-400"></i> Berita &amp; Prestasi
+                <i class="fa-solid fa-newspaper w-6 text-amber-300"></i> Berita &amp; Prestasi
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-images w-6 text-indigo-400"></i> Galeri Foto Kegiatan
+                <i class="fa-solid fa-images w-6 text-amber-300"></i> Galeri Foto Kegiatan
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/video') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
                 <i class="fa-brands fa-youtube w-6 text-red-400"></i> Video Dokumentasi
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-calendar-days w-6 text-indigo-400"></i> Agenda Akademik
+                <i class="fa-solid fa-calendar-days w-6 text-amber-300"></i> Agenda Akademik
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-bullhorn w-6 text-indigo-400"></i> Pengumuman Sekolah
+                <i class="fa-solid fa-bullhorn w-6 text-amber-300"></i> Pengumuman Sekolah
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/testimoni') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-comment-dots w-6 text-indigo-400"></i> Testimoni Wali &amp; Alumni
+                <i class="fa-solid fa-comment-dots w-6 text-amber-300"></i> Testimoni Wali &amp; Alumni
             </a>
         </div>
         <div class="border-t border-slate-800 my-1 pt-1">
             <span class="block px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Download &amp; Layanan</span>
             <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-folder-open w-6 text-indigo-400"></i> Pusat Unduhan Berkas
+                <i class="fa-solid fa-folder-open w-6 text-amber-300"></i> Pusat Unduhan Berkas
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-book-open-reader w-6 text-indigo-400"></i> E-Book &amp; Modul
+                <i class="fa-solid fa-book-open-reader w-6 text-amber-300"></i> E-Book &amp; Modul
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-music w-6 text-indigo-400"></i> Mars JSIT Indonesia
+                <i class="fa-solid fa-music w-6 text-amber-300"></i> Mars JSIT Indonesia
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-image w-6 text-indigo-400"></i> Logo Resmi Sekolah
+                <i class="fa-solid fa-image w-6 text-amber-300"></i> Logo Resmi Sekolah
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-handshake-angle w-6 text-indigo-400"></i> Portal Layanan Terpadu
+                <i class="fa-solid fa-handshake-angle w-6 text-amber-300"></i> Portal Layanan Terpadu
             </a>
             <a href="{{ url('/unit/' . $codeLower . '/hubungi') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
                 <i class="fa-solid fa-map-location-dot w-6 text-amber-400"></i> Kontak &amp; Lokasi Kampus

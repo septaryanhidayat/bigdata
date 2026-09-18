@@ -10,7 +10,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {{-- BULETIN & KABAR SEKOLAH (Newsletter Subscription Bar) --}}
-        <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-blue-950 rounded-3xl p-6 sm:p-8 border border-indigo-900/60 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div class="bg-gradient-to-r {{ $uTheme['nav_gradient'] ?? 'from-indigo-950 via-slate-900 to-blue-950' }} rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
             <div class="space-y-1 text-center lg:text-left">
                 <span class="inline-block text-[11px] font-black uppercase tracking-wider text-amber-400">
                     Buletin &amp; Kabar Sekolah
@@ -20,13 +20,13 @@
                 </h3>
             </div>
             <form onsubmit="event.preventDefault(); alert('Terima kasih! Email Anda telah terdaftar untuk menerima info terupdate.'); this.reset();" 
-                  class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto max-w-md">
+                  class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full lg:w-auto max-w-md">
                 <input type="email" 
                        required
                        placeholder="Masukkan Email Anda" 
-                       class="w-full sm:w-72 px-5 py-3 rounded-full bg-white text-slate-800 placeholder-slate-400 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 border-0 shadow-inner">
+                       class="w-full sm:w-72 px-5 py-3 rounded-full bg-white text-slate-800 placeholder-slate-400 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 border-0 shadow-inner text-center sm:text-left">
                 <button type="submit" 
-                        class="w-full sm:w-auto px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 hover:brightness-105 active:scale-95 transition flex items-center justify-center space-x-2 shrink-0">
+                        class="w-full sm:w-auto px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 hover:brightness-105 active:scale-95 transition flex items-center justify-center space-x-2 shrink-0 cursor-pointer">
                     <i class="fa-solid fa-paper-plane"></i>
                     <span>Langganan</span>
                 </button>
@@ -34,24 +34,24 @@
         </div>
 
         {{-- MAIN INSTITUTIONAL FOOTER GRID --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b border-slate-800/80 text-left">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b border-slate-800/80 text-center md:text-left">
             
             {{-- KOLOM 1: LOGO & IDENTITAS SEKOLAH (3 Kolom) --}}
-            <div class="lg:col-span-3 flex flex-col items-start space-y-4">
+            <div class="lg:col-span-3 flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
                 <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white p-3 shadow-xl border border-white/20 flex items-center justify-center shrink-0">
                     <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
                          class="max-h-full max-w-full object-contain"
                          onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
-                <div class="space-y-1.5">
+                <div class="space-y-1.5 flex flex-col items-center md:items-start">
                     <p class="text-sm font-bold text-white tracking-wide">
                         {{ $info['name'] }}
                     </p>
-                    <p class="text-xs text-slate-400 leading-relaxed font-light">
+                    <p class="text-xs text-slate-400 leading-relaxed font-light max-w-sm md:max-w-none">
                         {{ $info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia' }}
                     </p>
-                    <div class="pt-2 flex flex-wrap gap-2">
+                    <div class="pt-2 flex flex-wrap gap-2 justify-center md:justify-start">
                         <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
                             NPSN: {{ $info['npsn'] ?? '69787455' }}
                         </span>
@@ -63,12 +63,12 @@
             </div>
 
             {{-- KOLOM 2: TAUTAN PROFIL & AKADEMIK (3 Kolom) --}}
-            <div class="lg:col-span-3 space-y-3">
-                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+            <div class="lg:col-span-3 space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center justify-center md:justify-start gap-2">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Tautan Cepat</span>
                 </h4>
-                <ul class="space-y-2 text-xs text-slate-300">
+                <ul class="space-y-2 text-xs text-slate-300 flex flex-col items-center md:items-start">
                     <li>
                         <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
                             <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Sambutan Kepala Sekolah
@@ -108,12 +108,12 @@
             </div>
 
             {{-- KOLOM 3: LAYANAN & DOKUMEN (3 Kolom) --}}
-            <div class="lg:col-span-3 space-y-3">
-                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+            <div class="lg:col-span-3 space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center justify-center md:justify-start gap-2">
                     <i class="fa-solid fa-folder-tree"></i>
                     <span>Layanan &amp; Unduhan</span>
                 </h4>
-                <ul class="space-y-2 text-xs text-slate-300">
+                <ul class="space-y-2 text-xs text-slate-300 flex flex-col items-center md:items-start">
                     <li>
                         <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
                             <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Pusat Unduhan Berkas
@@ -153,15 +153,15 @@
             </div>
 
             {{-- KOLOM 4: ALAMAT & KONTAK (3 Kolom) --}}
-            <div class="lg:col-span-3 space-y-3">
-                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+            <div class="lg:col-span-3 space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center justify-center md:justify-start gap-2">
                     <i class="fa-solid fa-map-location-dot"></i>
                     <span>Alamat &amp; Kontak</span>
                 </h4>
-                <p class="text-xs text-slate-300 leading-relaxed">
+                <p class="text-xs text-slate-300 leading-relaxed max-w-sm md:max-w-none">
                     {{ $info['address'] ?? 'Jalan Sarjana Kompleks SIT Robbani, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan' }}
                 </p>
-                <div class="space-y-2 pt-1 text-xs">
+                <div class="space-y-2 pt-1 text-xs flex flex-col items-center md:items-start">
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-phone text-amber-400 w-4"></i>
                         <span>{{ $info['phone'] ?? '0811747472' }}</span>
@@ -177,7 +177,7 @@
                 </div>
 
                 {{-- MEDIA SOSIAL ICONS --}}
-                <div class="pt-2 flex items-center space-x-2.5">
+                <div class="pt-2 flex items-center justify-center md:justify-start space-x-2.5">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
                        class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="Facebook">
@@ -200,14 +200,12 @@
                     </a>
                 </div>
 
-                <div class="pt-2 flex items-center space-x-3 text-xs text-slate-400 font-medium">
+                <div class="pt-2 flex items-center justify-center md:justify-start space-x-3 text-xs text-slate-400 font-medium">
                     <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="hover:text-amber-400 transition">Kebijakan Privasi</a>
                     <span>•</span>
                     <a href="{{ url('/unit/' . $codeLower . '/hubungi') }}" class="hover:text-amber-400 transition">Peta Lokasi</a>
                 </div>
             </div>
-
-        </div>
 
         </div>
 

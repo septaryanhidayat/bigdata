@@ -36,7 +36,7 @@
     <section class="bg-white rounded-3xl p-5 sm:p-12 shadow-xl border border-gray-100 reveal-fade-up">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
             <div class="lg:col-span-4 flex justify-center">
-                <div class="w-48 h-60 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-indigo-100 bg-indigo-50 relative group">
+                <div class="w-48 h-60 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-indigo-100 bg-slate-50 relative group">
                     <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
@@ -48,8 +48,8 @@
                 </div>
             </div>
             <div class="lg:col-span-8 space-y-4 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2 bg-indigo-100 text-indigo-800 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-user-tie text-indigo-600"></i>
+                <div class="inline-flex items-center space-x-2 bg-slate-100 text-unit-primary px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-user-tie text-unit-primary"></i>
                     <span>Sambutan Pimpinan</span>
                 </div>
                 <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="pt-2">
                     <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" 
-                       class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-full text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-indigo-500/20 transition">
+                       class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-full text-xs font-bold bg-unit-primary hover:brightness-110 text-white shadow-md hover:shadow-indigo-500/20 transition">
                         <span>Baca Sambutan Lengkap</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
@@ -116,18 +116,18 @@
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-fade-up delay-2">
         {{-- Card 1: Fasilitas --}}
         <div class="bg-white rounded-3xl p-7 shadow-xl border border-gray-100 space-y-4 hover:border-indigo-300 transition">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shadow-inner">
+            <div class="w-12 h-12 rounded-2xl bg-slate-50 text-unit-primary flex items-center justify-center text-xl shadow-inner">
                 <i class="fa-solid fa-layer-group"></i>
             </div>
             <div>
-                <span class="text-[10px] font-black uppercase tracking-wider text-indigo-600 block">Sarana Terbaik</span>
+                <span class="text-[10px] font-black uppercase tracking-wider text-unit-primary block">Sarana Terbaik</span>
                 <h3 class="text-base font-extrabold text-gray-900 mt-0.5">Fasilitas &amp; Laboratorium</h3>
             </div>
             <p class="text-xs text-gray-600 leading-relaxed">
                 Sarana laboratorium sains, ruang kelas ber-AC, perpustakaan, dan area olahraga representatif.
             </p>
             <div>
-                <a href="{{ $unitUrl }}#fasilitas" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition flex items-center gap-1">
+                <a href="{{ $unitUrl }}#fasilitas" class="text-xs font-bold text-unit-primary hover:text-unit-primary transition flex items-center gap-1">
                     <span>Lihat Sarana &amp; Fasilitas</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
@@ -178,31 +178,31 @@
     {{-- SEKSI 4: VISI & MISI DUA KOLOM --}}
     <section class="space-y-6 reveal-fade-up">
         <div class="text-center space-y-2">
-            <span class="inline-block bg-indigo-100 text-indigo-800 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+            <span class="inline-block bg-slate-100 text-unit-primary text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
                 Pedoman Pendidikan
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
                 Visi dan Misi {{ $info['name'] }}
             </h2>
-            <div class="w-16 h-1 bg-indigo-600 rounded-full mx-auto"></div>
+            <div class="w-16 h-1 bg-unit-primary rounded-full mx-auto"></div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             {{-- Kartu Visi --}}
             <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 space-y-4">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shadow-inner">
+                    <div class="w-10 h-10 rounded-xl bg-slate-50 text-unit-primary flex items-center justify-center text-lg shadow-inner">
                         <i class="fa-solid fa-compass"></i>
                     </div>
                     <h3 class="text-lg font-extrabold text-gray-900">Visi Sekolah</h3>
                 </div>
-                <div class="bg-gradient-to-r from-indigo-50/70 to-white p-5 rounded-2xl border-l-4 border-indigo-600">
+                <div class="bg-gradient-to-r from-indigo-50/70 to-white p-5 rounded-2xl border-l-4 border-unit-primary">
                     <p class="text-sm font-semibold text-gray-900 leading-relaxed font-serif italic">
                         “{{ $info['vision'] }}”
                     </p>
                 </div>
                 <div>
-                    <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition flex items-center gap-1">
+                    <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="text-xs font-bold text-unit-primary hover:text-unit-primary transition flex items-center gap-1">
                         <span>Baca Visi &amp; Misi Lengkap</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
@@ -220,7 +220,7 @@
                 <ul class="text-xs text-gray-600 space-y-2.5">
                     @foreach(array_slice($info['missions'] ?? [], 0, 4) as $idx => $m)
                         <li class="flex items-start space-x-2">
-                            <i class="fa-solid fa-circle-check text-indigo-600 text-xs mt-0.5 shrink-0"></i>
+                            <i class="fa-solid fa-circle-check text-unit-primary text-xs mt-0.5 shrink-0"></i>
                             <span>{{ is_array($m) ? ($m['title'] . ' - ' . $m['desc']) : $m }}</span>
                         </li>
                     @endforeach
@@ -238,7 +238,7 @@
     {{-- SEKSI 5: DIREKTORI LENGKAP DEWAN GURU & GTK --}}
     <section id="guru" class="space-y-6 sm:space-y-8 reveal-fade-up">
         <div class="text-center space-y-2">
-            <span class="inline-block bg-indigo-100 text-indigo-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+            <span class="inline-block bg-slate-100 text-unit-primary text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
                 Tenaga Pendidik &amp; Kependidikan
             </span>
             <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -247,7 +247,7 @@
             <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
                 Mengenal asatidz dan asatidzah berkompeten, berakhlak mulia, dan berdedikasi tinggi membimbing ananda tercinta di {{ $info['name'] }}.
             </p>
-            <div class="w-20 h-1 bg-indigo-600 rounded-full mx-auto"></div>
+            <div class="w-20 h-1 bg-unit-primary rounded-full mx-auto"></div>
         </div>
 
         @php
@@ -259,7 +259,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
             @foreach($allTeachers as $tc)
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1.5 transition duration-300 flex flex-col justify-between group">
-                    <div class="h-44 sm:h-64 overflow-hidden bg-indigo-50/60 relative">
+                    <div class="h-44 sm:h-64 overflow-hidden bg-slate-50/60 relative">
                         <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
                              alt="{{ $tc['name'] }}" 
                              class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
@@ -268,10 +268,10 @@
                     </div>
                     <div class="p-3.5 sm:p-5 text-center space-y-1.5 flex-1 flex flex-col justify-between">
                         <div>
-                            <h3 class="text-xs sm:text-sm font-black text-gray-900 line-clamp-1 group-hover:text-indigo-600 transition">
+                            <h3 class="text-xs sm:text-sm font-black text-gray-900 line-clamp-1 group-hover:text-unit-primary transition">
                                 {{ $tc['name'] }}
                             </h3>
-                            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100 max-w-full truncate">
+                            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-50 text-unit-primary border border-indigo-100 max-w-full truncate">
                                 {{ $tc['role'] ?? 'Guru' }}
                             </span>
                         </div>
@@ -470,13 +470,13 @@
                 {{-- Kolom Agenda --}}
                 <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 space-y-4">
                     <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2 pb-3 border-b border-gray-100">
-                        <i class="fa-solid fa-calendar-days text-indigo-600"></i>
+                        <i class="fa-solid fa-calendar-days text-unit-primary"></i>
                         <span>Kalender &amp; Agenda Kegiatan</span>
                     </h3>
                     <div class="space-y-3">
                         @foreach(array_slice($unitAgendas ?? [], 0, 6) as $ag)
                             <div class="flex items-start space-x-3.5 p-3 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-indigo-200 transition">
-                                <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200/60 flex flex-col items-center justify-center shrink-0">
+                                <div class="w-11 h-11 rounded-xl bg-slate-50 text-unit-primary border border-indigo-200/60 flex flex-col items-center justify-center shrink-0">
                                     <span class="text-xs font-black">{{ $ag['date_day'] ?? '15' }}</span>
                                     <span class="text-[8px] font-black uppercase tracking-wider">{{ $ag['date_month'] ?? 'AGU' }}</span>
                                 </div>
@@ -495,13 +495,13 @@
                 {{-- Kolom Pengumuman --}}
                 <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 space-y-4">
                     <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2 pb-3 border-b border-gray-100">
-                        <i class="fa-solid fa-bullhorn text-indigo-600"></i>
+                        <i class="fa-solid fa-bullhorn text-unit-primary"></i>
                         <span>Pengumuman Resmi Sekolah</span>
                     </h3>
                     <div class="space-y-3">
                         @foreach(array_slice($unitAnnouncements ?? [], 0, 5) as $an)
-                            <div class="p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-1">
-                                <span class="text-[9px] font-bold text-indigo-600 uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
+                            <div class="p-3.5 rounded-2xl bg-slate-50/60 border border-indigo-100 space-y-1">
+                                <span class="text-[9px] font-bold text-unit-primary uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
                                 <h4 class="text-xs font-bold text-gray-900">{{ $an['title'] }}</h4>
                                 @if(!empty($an['summary']))
                                     <p class="text-[11px] text-gray-600 leading-relaxed">{{ $an['summary'] }}</p>
@@ -563,7 +563,7 @@
         </div>
 
         <div class="text-center pt-2">
-            <a href="{{ $unitUrl }}#testimoni" class="w-full sm:w-auto inline-flex items-center justify-center space-x-1.5 px-6 py-2.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition">
+            <a href="{{ $unitUrl }}#testimoni" class="w-full sm:w-auto inline-flex items-center justify-center space-x-1.5 px-6 py-2.5 rounded-full text-xs font-bold bg-slate-50 text-unit-primary hover:bg-slate-100 transition">
                 <span>Lihat Semua Testimoni</span>
                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
             </a>
@@ -574,7 +574,7 @@
     <section class="bg-white rounded-3xl p-5 sm:p-10 shadow-xl border border-gray-100 space-y-5 sm:space-y-6 reveal-fade-up">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-center sm:text-left">
             <div class="space-y-1">
-                <span class="text-[10px] font-black uppercase tracking-wider text-indigo-600 block">
+                <span class="text-[10px] font-black uppercase tracking-wider text-unit-primary block">
                     Lokasi &amp; Kontak
                 </span>
                 <h3 class="text-lg sm:text-2xl font-extrabold text-gray-900 tracking-tight">
@@ -587,7 +587,7 @@
             <a href="https://maps.google.com/?q={{ urlencode($info['address'] ?? $info['name']) }}" 
                target="_blank" 
                rel="noopener noreferrer"
-               class="w-full sm:w-auto px-5 py-2.5 rounded-full text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
+               class="w-full sm:w-auto px-5 py-2.5 rounded-full text-xs font-bold bg-unit-primary hover:brightness-110 text-white shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
                 <i class="fa-solid fa-location-arrow text-[11px]"></i>
                 <span>Buka di Google Maps</span>
             </a>

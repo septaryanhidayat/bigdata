@@ -40,4 +40,5 @@ database/*.sql
 .claude/
 scratch/
 *.pdf
+!public/downloads/**
 layout/

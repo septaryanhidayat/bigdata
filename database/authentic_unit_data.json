@@ -625,7 +625,8 @@
                 "text": "Suasana sekolah bersih, aman dengan pantauan CCTV, dan makanannya selalu terpantau sehat serta bergizi.",
                 "avatar": "/uploads/dewan/kepala-sekolah.webp"
             }
-        ]
+        ],
+        "flyer": "/images/spmb/flyer-spmb-sit-robbani.webp"
     },
     "sdit": {
         "name": "SDIT Robbani Ogan Ilir",
@@ -1165,7 +1166,8 @@
                 "text": "Sekolahnya menyenangkan, bisa ikut ekskul renang dan futsal, serta belajar tahfidz setiap pagi bersama ustadz.",
                 "avatar": "/uploads/dewan/guru-kelas.webp"
             }
-        ]
+        ],
+        "flyer": "/images/spmb/flyer-spmb-sit-robbani.webp"
     },
     "smpit": {
         "name": "SMPIT Robbani Ogan Ilir",
@@ -1913,7 +1915,8 @@
                 "text": "Komunikasi para asatidz kepada orang tua sangat terbuka dan transparan. Perkembangan adab ananda di rumah sangat terlihat nyata.",
                 "avatar": "/uploads/dewan/kepala-sekolah.webp"
             }
-        ]
+        ],
+        "flyer": "/images/spmb/flyer-spmb-sit-robbani.webp"
     },
     "smait": {
         "name": "SMA IT Robbani",
@@ -1960,6 +1963,7 @@
         "announcements": [],
         "programs": [],
         "alumni": [],
-        "status": "BELUM_DIBUKA"
+        "status": "BELUM_DIBUKA",
+        "flyer": "/images/spmb/flyer-spmb-sit-robbani.webp"
     }
 }

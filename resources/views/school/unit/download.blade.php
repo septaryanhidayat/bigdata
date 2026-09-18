@@ -18,63 +18,80 @@
             'desc' => 'Informasi lengkap persyaratan pendaftaran, jadwal seleksi, kuota kelas, dan rincian biaya pendidikan.',
             'category' => 'spmb',
             'format' => 'PDF',
-            'size' => '2.8 MB',
+            'size' => '1.2 MB',
             'downloads' => 1420,
-            'url' => asset($info['flyer'] ?: '/uploads/pedoman-adab-siswa.pdf')
+            'url' => asset('downloads/brosur-spmb-sit-robbani.pdf'),
+            'filename' => 'Brosur-SPMB-SIT-Robbani.pdf'
         ],
         [
             'title' => 'Buku Saku Adab & Muwashofat Siswa',
             'desc' => 'Panduan adab harian islami, tata tertib siswa, dan pembiasaan ibadah yaumiyah di sekolah dan rumah.',
             'category' => 'tatatertib',
             'format' => 'PDF',
-            'size' => '1.4 MB',
+            'size' => '1.2 MB',
             'downloads' => 980,
-            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
+            'url' => asset('downloads/pedoman-adab-siswa.pdf'),
+            'filename' => 'Buku-Saku-Adab-Siswa.pdf'
         ],
         [
             'title' => 'Kalender Akademik Terpadu TA 2026/2027',
             'desc' => 'Jadwal masuk sekolah, penilaian tengah semester, asesmen sumatif, munaqosah tahfidz, dan hari libur nasional.',
             'category' => 'kurikulum',
             'format' => 'PDF',
-            'size' => '850 KB',
+            'size' => '1.2 MB',
             'downloads' => 2130,
-            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
+            'url' => asset('downloads/kalender-akademik-sit-robbani.pdf'),
+            'filename' => 'Kalender-Akademik-SIT-Robbani.pdf'
         ],
         [
             'title' => 'Panduan Target Capaian Mutqin Tahfidz Al-Qur\'an',
             'desc' => 'Silabus target hafalan per jenjang kelas, metode talaqqi mandiri, dan kisi-kisi munaqosah bersertifikat.',
             'category' => 'kurikulum',
             'format' => 'PDF',
-            'size' => '1.9 MB',
+            'size' => '1.2 MB',
             'downloads' => 1670,
-            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
+            'url' => asset('downloads/panduan-tahfidz-mutqin.pdf'),
+            'filename' => 'Panduan-Tahfidz-Mutqin.pdf'
         ],
         [
-            'title' => 'Formulir Permohonan Izin Kunjungan / Studi Banding',
+            'title' => 'Panduan Kurikulum JSIT Indonesia Terpadu',
+            'desc' => 'Standar kompetensi dan integrasi kurikulum nasional dengan nilai-nilai keislaman JSIT Indonesia.',
+            'category' => 'kurikulum',
+            'format' => 'PDF',
+            'size' => '1.2 MB',
+            'downloads' => 840,
+            'url' => asset('downloads/panduan-kurikulum-jsit.pdf'),
+            'filename' => 'Panduan-Kurikulum-JSIT.pdf'
+        ],
+        [
+            'title' => 'Formulir Permohonan Izin Kunjungan / Silaturahmi',
             'desc' => 'Format surat resmi pengajuan studi tiru atau silaturahmi instansi mitra ke kampus SIT Robbani.',
             'category' => 'formulir',
-            'format' => 'DOCX',
-            'size' => '320 KB',
+            'format' => 'PDF',
+            'size' => '1.2 MB',
             'downloads' => 450,
-            'url' => url('/unit/' . $codeLower . '/layanan/kunjungan')
+            'url' => asset('downloads/formulir-izin-kunjungan.pdf'),
+            'filename' => 'Formulir-Izin-Kunjungan.pdf'
         ],
         [
             'title' => 'Formulir Pengajuan Beasiswa Siswa Berprestasi & Yatim',
             'desc' => 'Berkas persyaratan permohonan keringanan biaya pendidikan dan beasiswa yayasan bagi siswa berprestasi.',
             'category' => 'formulir',
             'format' => 'PDF',
-            'size' => '640 KB',
+            'size' => '1.2 MB',
             'downloads' => 780,
-            'url' => asset('/uploads/pedoman-adab-siswa.pdf')
+            'url' => asset('downloads/formulir-pengajuan-beasiswa.pdf'),
+            'filename' => 'Formulir-Pengajuan-Beasiswa.pdf'
         ],
         [
             'title' => 'Paket Logo Resmi & Identitas Visual HD',
-            'desc' => 'Logo transparan PNG resolusi tinggi dan vektor lambang resmi SIT Robbani untuk publikasi.',
+            'desc' => 'Paket lambang resmi SIT Robbani resolusi tinggi untuk publikasi, spanduk, dan media mitra.',
             'category' => 'logo',
-            'format' => 'PNG/SVG',
-            'size' => '3.2 MB',
+            'format' => 'PDF',
+            'size' => '1.2 MB',
             'downloads' => 610,
-            'url' => url('/unit/' . $codeLower . '/logo')
+            'url' => asset('downloads/paket-logo-sit-robbani.pdf'),
+            'filename' => 'Paket-Logo-Resmi-SIT-Robbani.pdf'
         ]
     ];
 @endphp
@@ -129,7 +146,7 @@
                 <input type="text" 
                        x-model="search" 
                        placeholder="Cari berkas dokumen..." 
-                       class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                       class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-unit-primary shadow-sm">
             </div>
         </div>
     </div>
@@ -179,7 +196,7 @@
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 translate-y-2"
                  x-transition:enter-end="opacity-100 translate-y-0"
-                 class="bg-white rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-xl hover:border-indigo-200 border border-gray-100 transition duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 group">
+                 class="bg-white rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-xl hover:border-gray-300 border border-gray-100 transition duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 group">
                 
                 {{-- LEFT: ICON & DETAILS --}}
                 <div class="flex items-start space-x-4 min-w-0 flex-1">
@@ -214,6 +231,7 @@
                 {{-- RIGHT: DOWNLOAD ACTION BUTTON --}}
                 <div class="self-stretch md:self-center shrink-0 pt-2 md:pt-0">
                     <a href="{{ $f['url'] }}" 
+                       download="{{ $f['filename'] }}"
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="w-full md:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-full text-xs font-bold bg-unit-primary text-white hover:brightness-110 shadow-md transition group-hover:shadow-lg">

@@ -85,8 +85,8 @@
 
             {{-- LEVEL 3: WAKIL KEPALA & KOORDINATOR --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-indigo-50/70 border border-indigo-100 p-4 rounded-2xl text-center">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs mx-auto mb-2">
+                <div class="bg-slate-50/70 border border-indigo-100 p-4 rounded-2xl text-center">
+                    <div class="w-8 h-8 rounded-lg bg-unit-primary text-white flex items-center justify-center text-xs mx-auto mb-2">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
                     <h4 class="text-xs font-bold text-gray-900">Waka Kurikulum</h4>
@@ -145,7 +145,7 @@
     <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-xl">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
             <div class="md:col-span-4 flex justify-center">
-                <div class="w-44 h-56 sm:w-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-white ring-4 ring-indigo-100 bg-indigo-50">
+                <div class="w-44 h-56 sm:w-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-white ring-4 ring-indigo-100 bg-slate-50">
                     <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top"
@@ -153,7 +153,7 @@
                 </div>
             </div>
             <div class="md:col-span-8 space-y-3 text-center md:text-left">
-                <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-unit-primary">
+                <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-unit-primary">
                     Profil Pimpinan Unit
                 </span>
                 <h3 class="text-xl sm:text-2xl font-black text-gray-900">

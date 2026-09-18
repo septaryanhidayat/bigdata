@@ -11,8 +11,8 @@
         'gold' => '#f59e0b',
         'nav_gradient' => 'from-indigo-950 via-indigo-900 to-blue-950',
         'hero_gradient' => 'from-indigo-950 via-indigo-900 to-blue-950',
-        'btn_primary' => 'bg-indigo-600 hover:bg-indigo-700 text-white',
-        'accent_text' => 'text-indigo-600',
+        'btn_primary' => 'bg-unit-primary hover:brightness-110 text-white',
+        'accent_text' => 'text-unit-primary',
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     $unitUrl = url('/unit/' . $codeLower);
@@ -136,60 +136,60 @@
     <div class="bg-white rounded-3xl p-3 sm:p-6 shadow-2xl border border-gray-100">
         <div class="grid grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-4 text-center">
             
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">SPMB</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">SPMB</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+            <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-slate-100 text-unit-primary flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-school"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Profil</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Profil</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-chalkboard-user"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Guru &amp; GTK</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Guru &amp; GTK</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Fasilitas</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Fasilitas</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-star"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Unggulan</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Unggulan</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-trophy"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Prestasi</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Prestasi</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-calendar-days"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Agenda</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Agenda</span>
             </a>
 
-            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-folder-open"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Unduhan</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Unduhan</span>
             </a>
 
         </div>
@@ -200,21 +200,21 @@
      SESI 3: HIGHLIGHT SPMB EXCLUSIVE & EVENT BANNER
      ======================================================== --}}
 <section class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="bg-gradient-to-r from-indigo-950 via-indigo-900 to-blue-950 rounded-3xl p-5 sm:p-10 text-white shadow-2xl border border-indigo-500/30 reveal-fade-up relative overflow-hidden">
+    <div class="bg-gradient-to-r {{ $uTheme['nav_gradient'] }} rounded-3xl p-5 sm:p-10 text-white shadow-2xl border border-white/10 reveal-fade-up relative overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {{-- FLYER 3:4 SISI KIRI --}}
-            <div class="lg:col-span-4 flex justify-center">
-                <div class="w-full max-w-[240px] sm:w-72 rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-400/40 ring-4 ring-indigo-500/30 group">
-                    <img src="{{ asset($info['flyer'] ?: ($info['hero_image'] ?: '/images/logo-robbani-official.png')) }}" 
-                         alt="Flyer SPMB {{ $info['name'] }}" 
-                         class="w-full h-auto object-cover group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/images/logo-robbani-official.png'">
+            {{-- FLYER RESMI VERTIKAL SISI KIRI (SEIMBANG DENGAN KONTEN KANAN) --}}
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="w-full max-w-[280px] sm:max-w-[320px] rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-400/50 ring-4 ring-white/10 group bg-slate-900 aspect-[3/4] flex items-center justify-center">
+                    <img src="{{ asset('/images/spmb/flyer-spmb-sit-robbani.webp') }}" 
+                         alt="Brosur Resmi SPMB SIT Robbani" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                         onerror="this.onerror=null; this.src='/images/spmb/flyer-spmb-sit-robbani.jpg';">
                 </div>
             </div>
 
             {{-- INFORMASI BENEFIT & EVENT SISI KANAN --}}
-            <div class="lg:col-span-8 space-y-4 sm:space-y-5 text-center lg:text-left">
+            <div class="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
                 <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider">
                     <i class="fa-solid fa-sparkles"></i>
                     <span>{{ $isSmait ? 'Tahap Persiapan Operasional Pembukaan' : 'Pendaftaran Tahun Ajaran 2026/2027' }}</span>
@@ -222,7 +222,7 @@
                 <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
                     {{ $isSmait ? 'Menuju Pembukaan Resmi Jenjang SMA IT Robbani' : 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}
                 </h2>
-                <p class="text-xs sm:text-sm text-indigo-100 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p class="text-xs sm:text-sm text-slate-100 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0 text-justify">
                     {{ $isSmait ? 'SMA IT Robbani saat ini dalam tahap perampungan sarana prasarana modern dan perizinan operasional resmi. Insya Allah segera melayani pendidikan tingkat menengah atas berkarakter Qur\'ani dan unggul IPTEK.' : 'Wujudkan impian pendidikan ananda bersama ' . $info['name'] . '. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}
                 </p>
 
@@ -232,21 +232,21 @@
                         <i class="fa-solid fa-building-columns text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
                             <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Status Kampus' : 'Kuota Terbatas' }}</h4>
-                            <p class="text-[10px] text-indigo-200">{{ $isSmait ? 'Tahap Persiapan' : '24 Siswa / Kelas' }}</p>
+                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahap Persiapan' : '24 Siswa / Kelas' }}</p>
                         </div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
                         <i class="fa-solid fa-book-quran text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
                             <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Fokus Peminatan' : 'Cashback SPMB' }}</h4>
-                            <p class="text-[10px] text-indigo-200">{{ $isSmait ? 'Tahfidz & PTN' : 'Potongan Uang Masuk' }}</p>
+                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahfidz & PTN' : 'Potongan Uang Masuk' }}</p>
                         </div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
                         <i class="fa-solid fa-certificate text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
                             <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Kurikulum Terpadu' : 'Class Meeting' }}</h4>
-                            <p class="text-[10px] text-indigo-200">{{ $isSmait ? 'JSIT & Merdeka' : 'Lomba Antar Sekolah' }}</p>
+                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'JSIT & Merdeka' : 'Lomba Antar Sekolah' }}</p>
                         </div>
                     </div>
                 </div>
@@ -282,7 +282,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
             
             <div class="lg:col-span-4 flex justify-center">
-                <div class="w-48 h-60 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-indigo-100 bg-indigo-50 relative group">
+                <div class="w-48 h-60 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-slate-100 bg-slate-50 relative group">
                     <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
@@ -296,26 +296,27 @@
             </div>
 
             <div class="lg:col-span-8 space-y-4 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2 bg-indigo-100 text-indigo-800 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-user-tie text-indigo-600"></i>
-                    <span>Sambutan Pimpinan</span>
+                <div class="inline-flex items-center space-x-2 bg-slate-100 text-slate-800 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-user-tie text-unit-primary"></i>
+                    <span>Sambutan Pimpinan Sekolah</span>
                 </div>
-                <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                    Mendidik Generasi Qur'ani Berprestasi
+                <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight leading-tight">
+                    Mendidik Karakter Qur'ani &amp; Prestasi Holistik
                 </h2>
-                <div class="w-16 h-1 bg-indigo-600 rounded-full mx-auto lg:mx-0"></div>
-                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed text-justify">
-                    {{ $info['principal_greeting'] ?? ('Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi ' . $info['name'] . '. Kami hadir dengan komitmen tinggi mendidik dan membimbing ananda menjadi generasi robbani yang beraqidah lurus, berakhlak mulia, hafidz Al-Qur\'an, serta unggul dalam penguasaan sains dan teknologi.') }}
-                </p>
-                <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
+                <div class="space-y-2 text-xs sm:text-sm text-gray-600 leading-relaxed font-light text-justify">
+                    <p>
+                        {{ \Illuminate\Support\Str::limit($info['principal_greeting'] ?? 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi kami. Kami berkomitmen menyelenggarakan pendidikan terpadu berkualitas untuk mendidik putra-putri menjadi generasi sholeh, berakhlak mulia, dan berprestasi.', 320) }}
+                    </p>
+                </div>
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
                     <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" 
-                       class="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-indigo-500/20 transition flex items-center justify-center space-x-2">
+                       class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-full text-xs font-bold bg-unit-primary text-white hover:brightness-110 shadow-md transition">
                         <span>Baca Sambutan Lengkap</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                     <a href="{{ url('/unit/' . $codeLower . '/profil') }}" 
-                       class="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition flex items-center justify-center space-x-2">
-                        <span>Profil Lengkap</span>
+                       class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-full text-xs font-bold bg-slate-100 text-gray-700 hover:bg-slate-200 transition">
+                        <span>Tentang Kami</span>
                     </a>
                 </div>
             </div>
@@ -325,24 +326,30 @@
 </section>
 
 {{-- ========================================================
-     SESI 5: WARTA & KABAR KAMPUS (BERITA)
+     SESI 5: WARTA & BERITA TERKINI (1 Utama + 5 List Kanan)
      ======================================================== --}}
-<section id="berita" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-center sm:text-left">
-        <div>
-            <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Kabar Terkini</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Warta &amp; Informasi Kampus</h2>
+<section id="berita" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-gray-200 text-center sm:text-left">
+        <div class="space-y-1">
+            <span class="text-xs font-black uppercase tracking-wider text-unit-primary block">Kabar Terkini</span>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Warta &amp; Informasi Kampus</h2>
         </div>
-        <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center justify-center sm:justify-start gap-1 self-center sm:self-auto">
+        <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" 
+           class="inline-flex items-center justify-center sm:justify-start space-x-1 text-xs font-bold text-unit-primary hover:underline group shrink-0">
             <span>Lihat Semua Berita</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            <i class="fa-solid fa-arrow-right text-[10px] transform group-hover:translate-x-1 transition"></i>
         </a>
     </div>
 
     @php
-        $newsItems = !empty($unitNews) ? collect($unitNews)->take(4) : collect();
+        $rawNews = !empty($unitNews) ? collect($unitNews)->take(6) : collect();
+        $newsItems = $rawNews->map(function($item) {
+            $item['title'] = str_ireplace(['siswa putra', 'siswa putri', 'para siswa', 'wali siswa', 'siswa'], ['siswa putra', 'siswa putri', 'para siswa', 'wali murid', 'siswa'], $item['title'] ?? '');
+            $item['summary'] = str_ireplace(['siswa putra', 'siswa putri', 'para siswa', 'wali siswa', 'siswa'], ['siswa putra', 'siswa putri', 'para siswa', 'wali murid', 'siswa'], $item['summary'] ?? ($item['excerpt'] ?? ''));
+            return $item;
+        });
         $featuredNews = $newsItems->first();
-        $sideNews = $newsItems->slice(1);
+        $sideNews = $newsItems->slice(1)->take(5);
     @endphp
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -355,7 +362,7 @@
                          alt="{{ $featuredNews['title'] }}" 
                          class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                          onerror="this.src='/images/logo-robbani-official.png'">
-                    <span class="absolute top-4 left-4 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
+                    <span class="absolute top-4 left-4 bg-unit-primary text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
                         {{ $featuredNews['category'] ?? 'Berita Utama' }}
                     </span>
                 </div>
@@ -364,23 +371,23 @@
                         <i class="fa-regular fa-clock"></i>
                         <span>{{ $featuredNews['date'] ?? '18 Sep 2026' }}</span>
                     </span>
-                    <h3 class="text-lg sm:text-xl font-extrabold text-gray-900 group-hover:text-indigo-600 transition leading-snug">
+                    <h3 class="text-lg sm:text-xl font-extrabold text-gray-900 group-hover:text-unit-primary transition leading-snug">
                         <a href="{{ !empty($featuredNews['slug']) ? route('school.berita.show', $featuredNews['slug']) : '#' }}">
                             {{ $featuredNews['title'] }}
                         </a>
                     </h3>
                     <p class="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed text-justify">
-                        {{ $featuredNews['summary'] ?? ($info['name'] . ' terus menorehkan prestasi dan menyelenggarakan kegiatan positif untuk mendukung potensi siswa.') }}
+                        {{ $featuredNews['summary'] ?: ($info['name'] . ' terus menorehkan prestasi dan menyelenggarakan kegiatan positif untuk mendukung potensi siswa.') }}
                     </p>
                 </div>
             </div>
 
-            {{-- BERITA SAMPINGAN HORIZONTAL (KANAN - 5 Kolom) --}}
-            <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            {{-- 5 BERITA SAMPINGAN HORIZONTAL (KANAN - 5 Kolom) --}}
+            <div class="lg:col-span-5 space-y-3 flex flex-col justify-between">
                 @foreach($sideNews as $sItem)
                     <a href="{{ !empty($sItem['slug']) ? route('school.berita.show', $sItem['slug']) : '#' }}" 
-                       class="bg-white rounded-2xl p-4 shadow-md border border-gray-100 hover:border-indigo-300 transition group flex items-center space-x-4 reveal-fade-up">
-                        <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+                       class="bg-white rounded-2xl p-3.5 shadow-sm hover:shadow-md border border-gray-100 hover:border-slate-300 transition group flex items-center space-x-3.5 reveal-fade-up">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
                             <img src="{{ asset($sItem['image'] ?? '/images/logo-robbani-official.png') }}" 
                                  alt="{{ $sItem['title'] }}" 
                                  class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
@@ -390,7 +397,7 @@
                             <span class="text-[10px] text-gray-400 font-medium block">
                                 {{ $sItem['date'] ?? '18 Sep 2026' }}
                             </span>
-                            <h4 class="text-xs font-bold text-gray-900 group-hover:text-indigo-600 transition line-clamp-2 leading-snug">
+                            <h4 class="text-xs font-bold text-gray-900 group-hover:text-unit-primary transition line-clamp-2 leading-snug">
                                 {{ $sItem['title'] }}
                             </h4>
                         </div>
@@ -399,7 +406,7 @@
             </div>
         @else
             <div class="col-span-12 bg-white rounded-3xl p-8 sm:p-12 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
-                <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+                <div class="w-14 h-14 rounded-2xl bg-slate-100 text-unit-primary mx-auto flex items-center justify-center text-2xl shadow-inner">
                     <i class="fa-regular fa-newspaper"></i>
                 </div>
                 <h4 class="text-base font-bold text-gray-800">Belum Ada Warta Publikasi</h4>
@@ -421,7 +428,7 @@
      ======================================================== --}}
 <section id="program" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-        <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Kekhasan Sekolah</span>
+        <span class="text-xs font-black uppercase tracking-wider text-unit-primary block">Kekhasan Sekolah</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Program Unggulan {{ $info['name'] }}</h2>
         <div class="w-16 h-1 bg-amber-400 rounded-full mx-auto"></div>
     </div>
@@ -438,7 +445,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         @forelse($programs as $prog)
             <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-xl border border-gray-100 hover:border-amber-400 hover:-translate-y-1 transition duration-300 space-y-3 reveal-fade-up">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shadow-inner">
+                <div class="w-12 h-12 rounded-2xl bg-slate-50 text-unit-primary flex items-center justify-center text-2xl shadow-inner">
                     <span>{{ $prog['icon'] ?? '🌟' }}</span>
                 </div>
                 <h3 class="font-extrabold text-sm sm:text-base text-gray-900">{{ $prog['title'] }}</h3>
@@ -459,7 +466,7 @@
 
     <div class="text-center pt-2">
         <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" 
-           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
+           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-unit-primary text-white hover:brightness-110 shadow-md transition">
             <span>Lihat Seluruh Program Unggulan</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
@@ -471,9 +478,9 @@
      ======================================================== --}}
 <section id="guru" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-        <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Tenaga Pendidik</span>
+        <span class="text-xs font-black uppercase tracking-wider text-unit-primary block">Tenaga Pendidik</span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Dewan Guru &amp; Tenaga Kependidikan</h2>
-        <div class="w-16 h-1 bg-indigo-600 rounded-full mx-auto"></div>
+        <div class="w-16 h-1 bg-unit-primary rounded-full mx-auto"></div>
     </div>
 
     @php
@@ -483,7 +490,7 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
         @forelse($teacherList as $tc)
             <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition duration-300 reveal-fade-up text-center group">
-                <div class="h-44 sm:h-64 overflow-hidden bg-indigo-50">
+                <div class="h-44 sm:h-64 overflow-hidden bg-slate-50">
                     <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
                          alt="{{ $tc['name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
@@ -491,12 +498,12 @@
                 </div>
                 <div class="p-3 sm:p-4 space-y-1">
                     <h3 class="text-xs sm:text-sm font-bold text-gray-900 line-clamp-1">{{ $tc['name'] }}</h3>
-                    <p class="text-[10px] sm:text-xs text-indigo-600 font-semibold truncate">{{ $tc['role'] }}</p>
+                    <p class="text-[10px] sm:text-xs text-unit-primary font-semibold truncate">{{ $tc['role'] }}</p>
                 </div>
             </div>
         @empty
             <div class="col-span-2 sm:col-span-3 lg:col-span-4 bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-sm space-y-2 reveal-fade-up">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-xl shadow-inner">
+                <div class="w-12 h-12 rounded-2xl bg-slate-50 text-unit-primary mx-auto flex items-center justify-center text-xl shadow-inner">
                     <i class="fa-solid fa-chalkboard-user"></i>
                 </div>
                 <h4 class="text-sm font-bold text-gray-800">Formasi Pendidik Sedang Dipersiapkan</h4>
@@ -509,7 +516,7 @@
 
     <div class="text-center pt-2">
         <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" 
-           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
+           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-unit-primary text-white hover:brightness-110 shadow-md transition">
             <span>Lihat Semua Guru &amp; GTK ({{ count($info['teachers'] ?? []) }})</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
@@ -676,76 +683,159 @@
 </section>
 
 {{-- ========================================================
-     SESI 9: PENGUMUMAN & AGENDA AKADEMIK (2 Kolom)
+     SESI 9: PENGUMUMAN & AGENDA AKADEMIK (2 Kolom Sejajar)
      ======================================================== --}}
-<section id="agenda" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+<section id="agenda" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" x-data="{ activeAnnouncement: null }">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
         
-        {{-- KOLOM PENGUMUMAN --}}
-        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 space-y-5 reveal-fade-up">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
-                    <i class="fa-solid fa-bullhorn text-indigo-600"></i>
-                    <span>Pengumuman Resmi</span>
-                </h3>
-            </div>
-            <div class="space-y-3.5">
-                @php
-                    $displayAnnouncements = !empty($unitAnnouncements) ? array_slice($unitAnnouncements, 0, 3) : [
-                        [
-                            'category' => 'Akademik',
-                            'date' => '18 Sep 2026',
-                            'title' => 'Jadwal Penilaian Tengah Semester (PTS) TA 2026/2027',
-                            'summary' => 'Diharapkan seluruh siswa mempersiapkan diri dengan belajar tekun dan menjaga kesehatan.'
-                        ]
-                    ];
-                @endphp
-                @foreach($displayAnnouncements as $an)
-                    <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-1">
-                        <span class="text-[10px] font-bold text-indigo-600 uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
-                        <h4 class="text-xs font-bold text-gray-900">{{ $an['title'] }}</h4>
-                        @if(!empty($an['summary']))
-                            <p class="text-xs text-gray-600">{{ $an['summary'] }}</p>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-        </div>
+        {{-- KOLOM PENGUMUMAN RESMI --}}
+        @php
+            $displayAnnouncements = !empty($unitAnnouncements) ? array_slice($unitAnnouncements, 0, 3) : [
+                [
+                    'category' => 'Akademik',
+                    'date' => '18 Sep 2026',
+                    'title' => 'Jadwal Penilaian Tengah Semester (PTS) TA 2026/2027',
+                    'summary' => 'Diharapkan seluruh siswa mempersiapkan diri dengan belajar tekun dan menjaga kesehatan jasmani rohani.'
+                ],
+                [
+                    'category' => 'Tahfidz',
+                    'date' => '10 Sep 2026',
+                    'title' => 'Pendaftaran Ujian Munaqosah Tahfidz Al-Qur\'an Periode Ganjil',
+                    'summary' => 'Pendaftaran tasmi\' dan munaqosah terbuka bagi siswa yang telah menyelesaikan target hafalan mutqin.'
+                ],
+                [
+                    'category' => 'Wali Murid',
+                    'date' => '02 Sep 2026',
+                    'title' => 'Pertemuan Parenting & Laporan Perkembangan Karakter Siswa',
+                    'summary' => 'Undangan silaturahmi akbar dan parenting bersama pakar pendidikan keluarga Islam di kampus SIT Robbani.'
+                ]
+            ];
 
-        {{-- KOLOM AGENDA AKADEMIK --}}
-        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 space-y-5 reveal-fade-up delay-1">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
-                    <i class="fa-solid fa-calendar-days text-indigo-600"></i>
-                    <span>Agenda Kegiatan</span>
-                </h3>
-            </div>
-            <div class="space-y-3.5">
-                @php
-                    $agendas = !empty($unitAgendas) ? array_slice($unitAgendas, 0, 3) : [
-                        ['title' => 'Munaqosah & Ujian Tahfidz Al-Qur\'an', 'date_day' => '05', 'date_month' => 'JUL', 'location' => 'Masjid Kampus'],
-                        ['title' => 'Pendaftaran SPMB Gelombang Exclusive', 'date_day' => '25', 'date_month' => 'JUN', 'location' => 'Kantor SPMB / Online'],
-                        ['title' => 'Pembukaan Class Meeting Semester Genap', 'date_day' => '17', 'date_month' => 'JUN', 'location' => 'Lapangan Kampus']
-                    ];
-                @endphp
-                @foreach($agendas as $ag)
-                    <div class="flex items-start space-x-3.5 p-3 sm:p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-indigo-200 transition">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200/60 flex flex-col items-center justify-center shrink-0">
-                            <span class="text-xs font-black">{{ $ag['date_day'] ?? '15' }}</span>
-                            <span class="text-[9px] font-extrabold uppercase mt-0.5 tracking-wider">{{ $ag['date_month'] ?? 'JUL' }}</span>
-                        </div>
-                        <div class="space-y-1 min-w-0 flex-1">
-                            <h4 class="text-xs font-bold text-gray-900 line-clamp-1">{{ $ag['title'] }}</h4>
-                            <p class="text-[10px] text-gray-500 flex items-center gap-1 truncate">
-                                <i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i>
-                                <span>{{ $ag['location'] ?? 'Kampus Sekolah' }}</span>
+            $agendas = !empty($unitAgendas) ? array_slice($unitAgendas, 0, 3) : [
+                ['title' => 'Munaqosah & Ujian Tahfidz Al-Qur\'an', 'date_day' => '05', 'date_month' => 'JUL', 'location' => 'Masjid Kampus'],
+                ['title' => 'Pendaftaran SPMB Gelombang Exclusive', 'date_day' => '25', 'date_month' => 'JUN', 'location' => 'Kantor SPMB / Online'],
+                ['title' => 'Pembukaan Class Meeting Semester Genap', 'date_day' => '17', 'date_month' => 'JUN', 'location' => 'Lapangan Kampus']
+            ];
+        @endphp
+
+        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 flex flex-col justify-between h-full space-y-5 reveal-fade-up">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-bullhorn text-unit-primary"></i>
+                        <span>Pengumuman Resmi</span>
+                    </h3>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-unit-primary bg-slate-100 px-2.5 py-1 rounded-full">
+                        Warta Kampus
+                    </span>
+                </div>
+                <div class="space-y-3">
+                    @foreach($displayAnnouncements as $idx => $an)
+                        <div @click="activeAnnouncement = {{ Js::from($an) }}" 
+                             class="p-4 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-amber-400 transition cursor-pointer group space-y-1.5">
+                            <div class="flex items-center justify-between text-[10px] font-bold text-unit-primary uppercase">
+                                <span>{{ $an['category'] ?? 'Pengumuman' }}</span>
+                                <span class="text-slate-400 font-normal">{{ $an['date'] ?? 'Terbaru' }}</span>
+                            </div>
+                            <h4 class="text-xs font-bold text-gray-900 group-hover:text-unit-primary transition line-clamp-2">
+                                {{ $an['title'] }}
+                            </h4>
+                            <p class="text-[11px] text-gray-500 line-clamp-2 font-light text-justify">
+                                {{ $an['summary'] ?? ($an['desc'] ?? 'Pemberitahuan resmi dari pihak sekolah.') }}
                             </p>
+                            <div class="pt-1 flex items-center text-[10px] font-bold text-unit-primary group-hover:underline">
+                                <span>Lihat Detail Pengumuman</span>
+                                <i class="fa-solid fa-chevron-right text-[8px] ml-1"></i>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+            </div>
+            <div class="pt-4 border-t border-gray-100">
+                <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" 
+                   class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-2xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-gray-800 transition">
+                    <span>Lihat Semua Pengumuman</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
             </div>
         </div>
 
+        {{-- KOLOM AGENDA AKADEMIK (SEJAJAR DI BATAS BAWAH) --}}
+        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 flex flex-col justify-between h-full space-y-5 reveal-fade-up delay-1">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-unit-primary"></i>
+                        <span>Agenda Kegiatan</span>
+                    </h3>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">
+                        Jadwal Akademik
+                    </span>
+                </div>
+                <div class="space-y-3">
+                    @foreach($agendas as $ag)
+                        <div class="flex items-start space-x-3.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-400 transition">
+                            <div class="w-12 h-12 rounded-xl bg-white text-unit-primary border border-slate-200 shadow-sm flex flex-col items-center justify-center shrink-0">
+                                <span class="text-xs font-black">{{ $ag['date_day'] ?? '15' }}</span>
+                                <span class="text-[9px] font-extrabold uppercase mt-0.5 tracking-wider text-amber-600">{{ $ag['date_month'] ?? 'JUL' }}</span>
+                            </div>
+                            <div class="space-y-1 min-w-0 flex-1">
+                                <h4 class="text-xs font-bold text-gray-900 line-clamp-1">{{ $ag['title'] }}</h4>
+                                <p class="text-[10px] text-gray-500 flex items-center gap-1 truncate">
+                                    <i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i>
+                                    <span>{{ $ag['location'] ?? 'Kampus Sekolah' }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="pt-4 border-t border-gray-100">
+                <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" 
+                   class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-2xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-gray-800 transition">
+                    <span>Lihat Semua Agenda</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- MODAL DETAIL PENGUMUMAN RESMI --}}
+    <div x-show="activeAnnouncement" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
+         style="display: none;"
+         @keydown.escape.window="activeAnnouncement = null">
+        <div class="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 p-6 sm:p-8 space-y-4" @click.outside="activeAnnouncement = null">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-unit-primary text-white" x-text="activeAnnouncement?.category || 'Pengumuman Resmi'"></span>
+                <button @click="activeAnnouncement = null" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center text-sm transition cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span x-text="activeAnnouncement?.date || 'Terbaru'"></span>
+                </span>
+                <h3 class="text-base sm:text-lg font-black text-gray-900 leading-snug" x-text="activeAnnouncement?.title"></h3>
+                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light text-justify pt-1" x-text="activeAnnouncement?.summary || activeAnnouncement?.desc"></p>
+            </div>
+            <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
+                <a :href="'{{ url('/unit/' . $codeLower . '/pengumuman') }}'" class="text-xs font-bold text-unit-primary hover:underline">
+                    Buka Halaman Pengumuman &rarr;
+                </a>
+                <button @click="activeAnnouncement = null" class="px-5 py-2 rounded-full text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 transition cursor-pointer">
+                    Tutup
+                </button>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -754,7 +844,7 @@
      ======================================================== --}}
 <section id="galeri" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-        <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Dokumentasi Siswa</span>
+        <span class="text-xs font-black uppercase tracking-wider text-unit-primary block">Dokumentasi Siswa</span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Galeri Foto Siswa</h2>
         <div class="w-16 h-1 bg-amber-400 rounded-full mx-auto"></div>
     </div>
@@ -764,7 +854,7 @@
             $displayGallery = !empty($unitGallery) ? array_slice($unitGallery, 0, 6) : [];
         @endphp
         @forelse($displayGallery as $g)
-            <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group relative">
+            <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group relative reveal-fade-up">
                 <img src="{{ asset($g['image'] ?? '/images/logo-robbani-official.png') }}" 
                      alt="{{ $g['title'] ?? 'Dokumentasi Siswa' }}" 
                      class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
@@ -782,7 +872,7 @@
 
     <div class="text-center pt-2">
         <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" 
-           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
+           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-unit-primary text-white hover:brightness-110 shadow-md transition">
             <span>Lihat Semua Foto Kegiatan</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
@@ -793,7 +883,7 @@
      SESI 11: CALL-TO-ACTION HIGH CONVERSION BANNER
      ======================================================== --}}
 <section class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="rounded-3xl bg-gradient-to-r from-indigo-950 via-indigo-900 to-blue-950 p-6 sm:p-12 text-white shadow-2xl border border-indigo-500/30 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+    <div class="rounded-3xl bg-gradient-to-r {{ $uTheme['nav_gradient'] }} p-6 sm:p-12 text-white shadow-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left reveal-fade-up">
         <div class="space-y-2">
             <span class="inline-block bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
                 {{ $isSmait ? 'Tahap Persiapan' : 'Kuota Terbatas!' }}
@@ -801,7 +891,7 @@
             <h3 class="text-xl sm:text-3xl font-black text-white tracking-tight">
                 {{ $isSmait ? 'Pusat Informasi ' . $info['name'] : 'Daftar Sekarang di ' . $info['name'] }}
             </h3>
-            <p class="text-xs sm:text-sm text-indigo-200 font-light max-w-xl">
+            <p class="text-xs sm:text-sm text-slate-100 font-light max-w-xl text-justify">
                 {{ $isSmait ? 'Dapatkan update informasi jadwal pembukaan dan konsultasi kurikulum jenjang SMA IT Robbani.' : 'Amankan kursi belajar terbaik ananda sekarang juga sebelum kuota penerimaan terpenuhi.' }}
             </p>
         </div>
@@ -823,35 +913,263 @@
 </section>
 
 {{-- ========================================================
-     SESI 12: 5 BIDANG LITERASI KEHIDUPAN (Kurikulum)
+     SESI 12: SLIDER COVER BUKU DIGITAL & E-BOOK DOWNLOAD
      ======================================================== --}}
-<section class="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="bg-[#0f172a] rounded-3xl p-6 sm:p-12 text-white space-y-6 sm:space-y-8 border border-slate-800">
-        <div class="text-center space-y-2">
-            <span class="text-xs font-black uppercase tracking-wider text-amber-400 block">Kurikulum Holistik</span>
-            <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight">5 Bidang Literasi Kehidupan</h2>
+@php
+    $unitBookLibrary = [
+        'tkit' => [
+            [
+                'title' => 'Buku Saku Doa Harian & Adab Anak Shalih',
+                'category' => 'Adab & Karakter',
+                'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                'desc' => 'Koleksi doa harian, adab makan, tidur, dan pembiasaan islami anak usia dini.',
+                'size' => '1.4 MB'
+            ],
+            [
+                'title' => 'Metode Nasyid Hafalan Juz 30 Cilik',
+                'category' => 'Tahfidz Al-Qur\'an',
+                'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                'pdf' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                'desc' => 'Metode menyenangkan mengenalkan surat-surat pendek Juz Amma bagi anak prasekolah.',
+                'size' => '1.9 MB'
+            ],
+            [
+                'title' => 'Kamus Bergambar Kosakata Bilingual Kids',
+                'category' => 'Bahasa Arab & Inggris',
+                'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-kosakata-bilingual-arab-inggris.pdf',
+                'desc' => 'Kamus tematik visual percakapan dasar Bahasa Arab dan Inggris anak usia dini.',
+                'size' => '1.6 MB'
+            ],
+            [
+                'title' => 'Modul Sentra & Bermain Kreatif PAUD IT',
+                'category' => 'Sentra Edukatif',
+                'cover' => '/uploads/covers/cover-sentra-tkit.webp',
+                'pdf' => '/downloads/ebooks/modul-sentra-dan-bermain-kreatif-tkit.pdf',
+                'desc' => 'Panduan aktivitas stimulasi motorik halus, sensorik, dan kreativitas sentra.',
+                'size' => '1.8 MB'
+            ]
+        ],
+        'sdit' => [
+            [
+                'title' => 'Buku Saku 10 Karakter Muwashofat SDIT',
+                'category' => 'Adab & Karakter',
+                'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                'desc' => '10 indikator karakter pribadi muslim tangguh dan mandiri standar mutu JSIT Indonesia.',
+                'size' => '1.4 MB'
+            ],
+            [
+                'title' => 'Target Mutqin Tahfidz Juz 29 & 30 SDIT',
+                'category' => 'Tahfidz Al-Qur\'an',
+                'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                'pdf' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                'desc' => 'Silabus hafalan bergradasi, tata cara tasmi\', dan metode muroja\'ah mandiri siswa.',
+                'size' => '1.9 MB'
+            ],
+            [
+                'title' => 'Kamus Percakapan Bilingual SDIT',
+                'category' => 'Bahasa Arab & Inggris',
+                'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-kosakata-bilingual-arab-inggris.pdf',
+                'desc' => 'Ungkapan sehari-hari bilingual untuk percakapan di sekolah dan lingkungan rumah.',
+                'size' => '1.6 MB'
+            ],
+            [
+                'title' => 'Modul Literasi Sains Tematik SDIT',
+                'category' => 'Sains & Literasi',
+                'cover' => '/uploads/covers/cover-tematik-sdit.webp',
+                'pdf' => '/downloads/ebooks/modul-literasi-sains-tematik-sdit.pdf',
+                'desc' => 'Pembelajaran integrasi ayat-ayat kauniyah dan sains terapan dasar tingkat SD.',
+                'size' => '1.8 MB'
+            ]
+        ],
+        'smpit' => [
+            [
+                'title' => 'Panduan Kurikulum Tahfidz Mutqin 3 Juz',
+                'category' => 'Tahfidz Al-Qur\'an',
+                'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                'pdf' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                'desc' => 'Panduan tasmi\' bersanad, mutabaah munaqosah hafalan Al-Qur\'an 3 Juz SMPIT.',
+                'size' => '1.9 MB'
+            ],
+            [
+                'title' => 'Buku Saku Karakter Pemimpin Robbani',
+                'category' => 'Adab & Muwashofat',
+                'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                'desc' => 'Pedoman adab penuntut ilmu, manajemen waktu, dan integritas kepemimpinan islami.',
+                'size' => '1.4 MB'
+            ],
+            [
+                'title' => 'Petunjuk Praktikum Laboratorium IPA',
+                'category' => 'Sains & Riset',
+                'cover' => '/uploads/covers/cover-praktikum-sains.webp',
+                'pdf' => '/downloads/ebooks/petunjuk-praktikum-lab-ipa-terpadu.pdf',
+                'desc' => 'Buku kerja eksperimen biologi, fisika, dan kimia terapan berbasis nalar ilmiah.',
+                'size' => '1.8 MB'
+            ],
+            [
+                'title' => 'Modul Pembinaan Da\'i & Public Speaking',
+                'category' => 'Khitabah & Bahasa',
+                'cover' => '/uploads/covers/cover-dai-muda.webp',
+                'pdf' => '/downloads/ebooks/modul-pembinaan-dai-muda-public-speaking.pdf',
+                'desc' => 'Khitabah, teknik pidato 3 bahasa, dan latihan percaya diri tampil di depan publik.',
+                'size' => '1.5 MB'
+            ],
+            [
+                'title' => 'Kamus Kosakata Harian Bilingual SMPIT',
+                'category' => 'Language Center',
+                'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-kosakata-bilingual-arab-inggris.pdf',
+                'desc' => 'Koleksi kosakata tematik Arab-Inggris untuk percakapan aktif siswa sehari-hari.',
+                'size' => '1.6 MB'
+            ],
+            [
+                'title' => 'Panduan Sukses Asesmen Nasional & SNBT',
+                'category' => 'Prestasi Akademik',
+                'cover' => '/uploads/covers/cover-sukses-snbt.webp',
+                'pdf' => '/downloads/ebooks/panduan-sukses-asesmen-nasional-snbt.pdf',
+                'desc' => 'Strategi literasi, numerasi, dan penguatan konsep dasar materi tes skolastik.',
+                'size' => '2.1 MB'
+            ]
+        ],
+        'smait' => [
+            [
+                'title' => 'Panduan Kurikulum JSIT Lanjutan & PTN',
+                'category' => 'Persiapan PTN & Beasiswa',
+                'cover' => '/uploads/covers/cover-sukses-snbt.webp',
+                'pdf' => '/downloads/ebooks/panduan-sukses-asesmen-nasional-snbt.pdf',
+                'desc' => 'Strategi sukses tembus SNBP, UTBK SNBT, dan beasiswa perguruan tinggi unggulan.',
+                'size' => '2.1 MB'
+            ],
+            [
+                'title' => 'Modul Riset Karya Ilmiah Remaja & Al-Qur\'an',
+                'category' => 'Riset & Nalar Qur\'ani',
+                'cover' => '/uploads/covers/cover-praktikum-sains.webp',
+                'pdf' => '/downloads/ebooks/petunjuk-praktikum-lab-ipa-terpadu.pdf',
+                'desc' => 'Metodologi penelitian sains terintegrasi nilai-nilai keislaman bagi siswa SMA.',
+                'size' => '1.8 MB'
+            ],
+            [
+                'title' => 'Buku Saku Kepemimpinan Pemuda Muslim',
+                'category' => 'Karakter & Dakwah',
+                'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                'pdf' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                'desc' => 'Penguatan aqidah, wawasan kebangsaan, dan integritas moral generasi muda.',
+                'size' => '1.4 MB'
+            ],
+            [
+                'title' => 'Panduan Tahfidz Mutqin Lanjutan 5 Juz',
+                'category' => 'Tahfidz Al-Qur\'an',
+                'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                'pdf' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                'desc' => 'Metode menjaga kelancaran hafalan dan persiapan sertifikasi munaqosah 5 Juz.',
+                'size' => '1.9 MB'
+            ]
+        ]
+    ];
+    $activeBooks = $unitBookLibrary[$codeLower] ?? $unitBookLibrary['smpit'];
+@endphp
+
+<section class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" x-data="{
+    books: {{ Js::from($activeBooks) }},
+    currentIndex: 0,
+    maxIndex() {
+        return Math.max(0, this.books.length - (window.innerWidth >= 1024 ? 4 : (window.innerWidth >= 640 ? 2 : 1)));
+    },
+    next() {
+        if (this.currentIndex < this.maxIndex()) {
+            this.currentIndex++;
+        } else {
+            this.currentIndex = 0;
+        }
+    },
+    prev() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+        } else {
+            this.currentIndex = this.maxIndex();
+        }
+    }
+}">
+    <div class="bg-gradient-to-r {{ $uTheme['nav_gradient'] }} rounded-3xl p-6 sm:p-12 text-white space-y-6 sm:space-y-8 border border-white/10 shadow-2xl reveal-fade-up">
+        
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-2 border-b border-white/10 text-center sm:text-left">
+            <div class="space-y-1">
+                <span class="text-xs font-black uppercase tracking-wider text-amber-400 block">Kurikulum Holistik &amp; Perpustakaan Digital</span>
+                <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight">Etalase Modul &amp; E-Book Resmi Siswa</h2>
+                <p class="text-xs text-slate-300 font-light">Unduh gratis buku pedoman kurikulum, buku saku adab, dan modul suplemen resmi {{ $info['name'] }}.</p>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+                <button @click="prev()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" aria-label="Sebelumnya">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </button>
+                <button @click="next()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" aria-label="Berikutnya">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-tahfidz-mutqin.webp" alt="Literasi Al-Qur'an" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
-            </div>
-            <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-praktikum-sains.webp" alt="Literasi Sains" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
-            </div>
-            <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-bilingual-arab-inggris.webp" alt="Literasi Bahasa" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
-            </div>
-            <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-karakter-siswa.webp" alt="Literasi Karakter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
+
+        {{-- BOOK COVERS SLIDER --}}
+        <div class="overflow-hidden">
+            <div class="flex transition-transform duration-500 ease-out gap-4 sm:gap-6" 
+                 :style="'transform: translateX(-' + (currentIndex * (100 / (window.innerWidth >= 1024 ? 4 : (window.innerWidth >= 640 ? 2 : 1)))) + '%)'">
+                @foreach($activeBooks as $b)
+                    <div class="w-full sm:w-1/2 lg:w-1/4 shrink-0 bg-white rounded-3xl p-4 sm:p-5 text-gray-900 shadow-xl flex flex-col justify-between border border-gray-100 group">
+                        <div class="space-y-3">
+                            <div class="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-md border border-gray-100">
+                                <img src="{{ asset($b['cover']) }}" 
+                                     alt="{{ $b['title'] }}" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                     onerror="this.src='/images/logo-robbani-official.png'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-400 text-slate-950 shadow">
+                                    PDF &bull; {{ $b['size'] }}
+                                </span>
+                                <span class="absolute bottom-2.5 left-3 right-3 text-[10px] font-bold text-white truncate">
+                                    {{ $b['category'] }}
+                                </span>
+                            </div>
+                            <div class="space-y-1">
+                                <h3 class="text-xs sm:text-sm font-black text-gray-900 line-clamp-2 leading-snug group-hover:text-unit-primary transition">
+                                    {{ $b['title'] }}
+                                </h3>
+                                <p class="text-[11px] text-gray-500 line-clamp-2 font-light text-justify">
+                                    {{ $b['desc'] }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 mt-3 border-t border-gray-100 flex flex-col gap-2">
+                            <a href="{{ asset($b['pdf']) }}" 
+                               download 
+                               class="w-full inline-flex items-center justify-center space-x-1.5 py-2.5 rounded-xl font-bold text-xs bg-unit-primary text-white hover:brightness-110 shadow transition">
+                                <i class="fa-solid fa-download text-xs"></i>
+                                <span>Unduh PDF</span>
+                            </a>
+                            <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" 
+                               class="text-[10px] font-bold text-gray-500 hover:text-unit-primary text-center transition">
+                                Detail di Laman E-Book &rarr;
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-        <div class="text-center pt-2">
-            <a href="{{ url('/unit/' . $codeLower . '/profil') }}" 
-               class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 hover:brightness-105 transition">
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 text-center sm:text-left">
+            <span class="text-xs text-slate-300">
+                Menyediakan beragam modul literasi Qur'ani, sains terapan, pembinaan bahasa, dan adab karakter.
+            </span>
+            <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" 
+               class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20 hover:brightness-105 transition shrink-0">
                 <i class="fa-solid fa-book-open"></i>
-                <span>Pelajari Kurikulum Literasi</span>
+                <span>Buka Seluruh Etalase E-Book</span>
             </a>
         </div>
+
     </div>
 </section>
 
@@ -860,7 +1178,7 @@
      ======================================================== --}}
 <section id="testimoni" class="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-        <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Kesan &amp; Pengalaman</span>
+        <span class="text-xs font-black uppercase tracking-wider text-unit-primary block">Kesan &amp; Pengalaman</span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Testimoni Wali &amp; Alumni</h2>
         <div class="w-16 h-1 bg-amber-400 rounded-full mx-auto"></div>
     </div>
@@ -904,8 +1222,8 @@
      ======================================================== --}}
 <section class="py-6 sm:py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
-        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-indigo-600 hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
+        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-unit-primary hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-slate-50 text-unit-primary flex items-center justify-center text-lg sm:text-xl shrink-0">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <div>

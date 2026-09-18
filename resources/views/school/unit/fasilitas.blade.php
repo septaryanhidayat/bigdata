@@ -68,7 +68,7 @@
                 <input type="text" 
                        x-model="search" 
                        placeholder="Cari nama fasilitas..." 
-                       class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                       class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-unit-primary shadow-sm">
             </div>
         </div>
     </div>
@@ -114,7 +114,7 @@
     {{-- 3-COLUMN FACILITY CARDS GRID --}}
     @if(empty($facilitiesList))
         <div class="bg-white rounded-3xl p-10 sm:p-14 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
-            <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+            <div class="w-16 h-16 rounded-2xl bg-slate-50 text-unit-primary mx-auto flex items-center justify-center text-2xl shadow-inner">
                 <i class="fa-solid fa-layer-group"></i>
             </div>
             <h3 class="text-base sm:text-lg font-bold text-gray-900">Sarana &amp; Fasilitas Dalam Tahap Pembangunan</h3>
@@ -187,7 +187,7 @@
     <div class="mt-14 sm:mt-18 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-xl flex flex-col justify-between space-y-4">
             <div class="space-y-2">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-unit-primary flex items-center justify-center text-xl shadow-inner">
+                <div class="w-12 h-12 rounded-2xl bg-slate-50 text-unit-primary flex items-center justify-center text-xl shadow-inner">
                     <i class="fa-solid fa-building-columns"></i>
                 </div>
                 <h3 class="text-lg sm:text-xl font-black text-gray-900">

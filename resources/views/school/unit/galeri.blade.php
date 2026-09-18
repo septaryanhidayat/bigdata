@@ -79,7 +79,7 @@
                 <input type="text" 
                        x-model="search" 
                        placeholder="Cari momen foto..." 
-                       class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                       class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-unit-primary shadow-sm">
             </div>
         </div>
     </div>
@@ -125,7 +125,7 @@
     {{-- 4-COLUMN PHOTO GRID --}}
     @if(empty($galleryList))
         <div class="bg-white rounded-3xl p-10 sm:p-14 text-center border border-gray-100 shadow-sm space-y-3 reveal-fade-up">
-            <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center text-2xl shadow-inner">
+            <div class="w-16 h-16 rounded-2xl bg-slate-50 text-unit-primary mx-auto flex items-center justify-center text-2xl shadow-inner">
                 <i class="fa-solid fa-camera-retro"></i>
             </div>
             <h3 class="text-base sm:text-lg font-bold text-gray-900">Dokumentasi Galeri Belum Tersedia</h3>

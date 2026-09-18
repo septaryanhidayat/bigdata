@@ -179,7 +179,7 @@
                         <span><strong>Kawasan Bebas Asap Rokok:</strong> Dilarang keras merokok dan membawa rokok/vape di seluruh area kampus.</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-vest text-indigo-600 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-vest text-unit-primary mt-0.5 shrink-0"></i>
                         <span><strong>Adab &amp; Busana Islami:</strong> Panitia dan hadirin wajib berpakaian sopan dan menutup aurat.</span>
                     </li>
                     <li class="flex items-start gap-2.5">

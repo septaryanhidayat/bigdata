@@ -88,7 +88,7 @@
                         </label>
                         <input type="text" name="instansi" value="{{ old('instansi') }}" required
                                placeholder="Contoh: SMP IT Al-Fityan / Universitas Sriwijaya"
-                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                     </div>
 
                     {{-- NAMA PENANGGUNG JAWAB & NOMOR HP --}}
@@ -99,7 +99,7 @@
                             </label>
                             <input type="text" name="nama_pemohon" value="{{ old('nama_pemohon') }}" required
                                    placeholder="Contoh: Ustadz H. Abdullah, S.Pd.I"
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
@@ -107,7 +107,7 @@
                             </label>
                             <input type="tel" name="no_hp" value="{{ old('no_hp') }}" required
                                    placeholder="Contoh: 081234567890"
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
                         </label>
                         <input type="email" name="email" value="{{ old('email') }}" required
                                placeholder="Contoh: info@sekolah.sch.id / kontak@instansi.org"
-                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                     </div>
 
                     {{-- TANGGAL RENCANA & ESTIMASI JUMLAH PESERTA --}}
@@ -128,7 +128,7 @@
                                 Rencana Tanggal Kunjungan <span class="text-rose-500">*</span>
                             </label>
                             <input type="date" name="tgl_kunjungan" value="{{ old('tgl_kunjungan') }}" required
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
@@ -136,7 +136,7 @@
                             </label>
                             <input type="number" name="jumlah_peserta" value="{{ old('jumlah_peserta', 1) }}" min="1" required
                                    placeholder="Contoh: 25"
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">
                         </div>
                     </div>
 
@@ -147,7 +147,7 @@
                         </label>
                         <textarea name="tujuan" rows="4" required
                                   placeholder="Jelaskan bidang studi banding yang diminati (misal: kurikulum tahfidz al-qur'an, manajemen asrama, kesiswaan JSIT, laboratorium robotik, dll)..."
-                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">{{ old('tujuan') }}</textarea>
+                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-unit-primary transition">{{ old('tujuan') }}</textarea>
                     </div>
 
                     {{-- UPLOAD SURAT RESMI --}}

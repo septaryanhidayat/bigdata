@@ -73,9 +73,13 @@
 
         .bg-unit-primary { background-color: var(--color-primary) !important; }
         .bg-unit-primary-dark { background-color: var(--color-primary-dark) !important; }
+        .bg-unit-soft { background-color: color-mix(in srgb, var(--color-primary) 10%, white) !important; }
         .text-unit-primary { color: var(--color-primary) !important; }
         .border-unit-primary { border-color: var(--color-primary) !important; }
+        .hover\:bg-unit-primary:hover { background-color: var(--color-primary) !important; }
         .hover\:bg-unit-primary-dark:hover { background-color: var(--color-primary-dark) !important; }
+        .hover\:text-unit-primary:hover { color: var(--color-primary) !important; }
+        .hover\:border-unit-primary:hover { border-color: var(--color-primary) !important; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -84,12 +88,12 @@
             overflow-x: hidden;
         }
 
-        /* Micro-Interactions & Snappy Fast Scroll-Reveal */
+        /* Micro-Interactions & Smooth Scroll-Reveal Animation */
         .reveal-fade-up {
             opacity: 0;
-            transform: translate3d(0, 16px, 0);
-            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(0, 24px, 0);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-fade-up.is-revealed {
@@ -97,12 +101,12 @@
             transform: translate3d(0, 0, 0) !important;
         }
 
-        .delay-1 { transition-delay: 50ms; }
-        .delay-2 { transition-delay: 100ms; }
-        .delay-3 { transition-delay: 150ms; }
-        .delay-4 { transition-delay: 200ms; }
-        .delay-5 { transition-delay: 250ms; }
-        .delay-6 { transition-delay: 300ms; }
+        .delay-1 { transition-delay: 80ms; }
+        .delay-2 { transition-delay: 160ms; }
+        .delay-3 { transition-delay: 240ms; }
+        .delay-4 { transition-delay: 320ms; }
+        .delay-5 { transition-delay: 400ms; }
+        .delay-6 { transition-delay: 480ms; }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
@@ -160,6 +164,18 @@
     {{-- Scroll Animation & Back To Top Script --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Auto-tag major sections and cards with reveal-fade-up if not already present
+            document.querySelectorAll('section, article, .subpage-card, .grid > div, footer > div > div').forEach((el) => {
+                if (!el.classList.contains('reveal-fade-up') && 
+                    !el.closest('header') && 
+                    !el.closest('nav') && 
+                    !el.classList.contains('no-fade') &&
+                    el.tagName !== 'HEADER' &&
+                    el.tagName !== 'NAV') {
+                    el.classList.add('reveal-fade-up');
+                }
+            });
+
             // Scroll Reveal Observer
             const reveals = document.querySelectorAll('.reveal-fade-up');
             if ('IntersectionObserver' in window) {
@@ -170,7 +186,7 @@
                             observer.unobserve(entry.target);
                         }
                     });
-                }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+                }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
                 reveals.forEach(el => observer.observe(el));
             } else {
                 reveals.forEach(el => el.classList.add('is-revealed'));
@@ -180,11 +196,11 @@
             setTimeout(() => {
                 reveals.forEach(el => {
                     const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight) {
+                    if (rect.top < window.innerHeight + 50) {
                         el.classList.add('is-revealed');
                     }
                 });
-            }, 60);
+            }, 80);
 
             // Back to Top Visibility
             const backBtn = document.getElementById('backToTopBtn');
