@@ -259,7 +259,7 @@ class SchoolWebsiteController extends Controller
         return view('school.profil', compact('settings', 'schools', 'foundationProfile'));
     }
 
-    public function unitProfile($code)
+    public function getUnitData($code)
     {
         $cleanCode = strtolower(trim($code));
         if ($cleanCode === 'kbtkit') {
@@ -274,31 +274,135 @@ class SchoolWebsiteController extends Controller
         $dynamicUnitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
         $customUnit = $dynamicUnitSetting ? json_decode($dynamicUnitSetting, true) : null;
 
+        $themeTokens = [
+            'smpit' => [
+                'primary' => '#4338ca',
+                'primary_dark' => '#312e81',
+                'primary_light' => '#6366f1',
+                'electric_blue' => '#2563eb',
+                'gold' => '#f59e0b',
+                'gold_light' => '#fbbf24',
+                'dark' => '#0f172a',
+                'dark_container' => '#1e1b4b',
+                'nav_gradient' => 'from-indigo-950 via-indigo-900 to-blue-950',
+                'hero_gradient' => 'from-indigo-950 via-indigo-900 to-blue-950',
+                'badge_bg' => 'bg-indigo-100 text-indigo-800 border-indigo-200',
+                'badge_pill' => 'bg-indigo-50 text-indigo-700 border border-indigo-200',
+                'accent_text' => 'text-indigo-600',
+                'btn_primary' => 'bg-indigo-600 hover:bg-indigo-700 text-white',
+                'btn_gold' => 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950',
+                'border_accent' => 'border-indigo-600',
+                'bg_light' => 'bg-indigo-50/70',
+                'top_bar' => '#0f172a',
+            ],
+            'tkit' => [
+                'primary' => '#ea580c',
+                'primary_dark' => '#78350f',
+                'primary_light' => '#f97316',
+                'electric_blue' => '#ea580c',
+                'gold' => '#f59e0b',
+                'gold_light' => '#fbbf24',
+                'dark' => '#0f172a',
+                'dark_container' => '#431407',
+                'nav_gradient' => 'from-stone-950 via-orange-950 to-amber-950',
+                'hero_gradient' => 'from-[#78350f] via-[#c2410c] to-[#ea580c]',
+                'badge_bg' => 'bg-orange-100 text-orange-800 border-orange-200',
+                'badge_pill' => 'bg-orange-50 text-orange-700 border border-orange-200',
+                'accent_text' => 'text-orange-600',
+                'btn_primary' => 'bg-orange-600 hover:bg-orange-700 text-white',
+                'btn_gold' => 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950',
+                'border_accent' => 'border-orange-600',
+                'bg_light' => 'bg-orange-50/70',
+                'top_bar' => '#0f172a',
+            ],
+            'sdit' => [
+                'primary' => '#065f46',
+                'primary_dark' => '#003828',
+                'primary_light' => '#10b981',
+                'electric_blue' => '#059669',
+                'gold' => '#f59e0b',
+                'gold_light' => '#fbbf24',
+                'dark' => '#0f172a',
+                'dark_container' => '#022c22',
+                'nav_gradient' => 'from-stone-950 via-emerald-950 to-teal-950',
+                'hero_gradient' => 'from-[#003828] via-[#065f46] to-[#047857]',
+                'badge_bg' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                'badge_pill' => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+                'accent_text' => 'text-emerald-600',
+                'btn_primary' => 'bg-emerald-700 hover:bg-emerald-800 text-white',
+                'btn_gold' => 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950',
+                'border_accent' => 'border-emerald-600',
+                'bg_light' => 'bg-emerald-50/70',
+                'top_bar' => '#0f172a',
+            ],
+            'smait' => [
+                'primary' => '#6d28d9',
+                'primary_dark' => '#1e1b4b',
+                'primary_light' => '#8b5cf6',
+                'electric_blue' => '#7c3aed',
+                'gold' => '#f59e0b',
+                'gold_light' => '#fbbf24',
+                'dark' => '#0f172a',
+                'dark_container' => '#2e1065',
+                'nav_gradient' => 'from-stone-950 via-purple-950 to-indigo-950',
+                'hero_gradient' => 'from-[#1e1b4b] via-[#4c1d95] to-[#6d28d9]',
+                'badge_bg' => 'bg-purple-100 text-purple-800 border-purple-200',
+                'badge_pill' => 'bg-purple-50 text-purple-700 border border-purple-200',
+                'accent_text' => 'text-purple-600',
+                'btn_primary' => 'bg-purple-700 hover:bg-purple-800 text-white',
+                'btn_gold' => 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950',
+                'border_accent' => 'border-purple-600',
+                'bg_light' => 'bg-purple-50/70',
+                'top_bar' => '#0f172a',
+            ],
+        ];
+
         $unitMap = [
             'tkit' => [
                 'name' => 'KB & TKIT Robbani Ogan Ilir',
                 'code' => 'TKIT',
                 'npsn' => '69888765',
                 'akreditasi' => 'Terakreditasi Unggul (A)',
+                'sub_badge' => 'KABUPATEN OGAN ILIR - TERAKREDITASI A',
                 'kurikulum' => 'JSIT & Merdeka PAUD',
                 'tagline' => 'Tumbuh Ceria, Berakhlak Mulia, & Hafiz Juz 30 Cilik',
                 'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
                 'principal_photo' => '/uploads/media/gtk_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di KB/TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an melalui suasana bermain yang edukatif dan menggembirakan.',
+                'principal_quote' => 'Masa usia dini adalah golden age untuk menanamkan pondasi aqidah, adab islami, serta kecintaan pada Al-Qur\'an dalam suasana bahagia.',
+                'principal_greeting' => "Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\nSelamat datang di portal resmi KB & TKIT Robbani Ogan Ilir. Masa usia dini adalah masa keemasan (golden age) yang sangat berharga dalam membentuk fitrah, pondasi aqidah, kecintaan pada Al-Qur'an, dan adab Islami bagi anak-anak kita tercinta.\n\nDi KB & TKIT Robbani, kami menerapkan pendekatan sentra edukatif terintegrasi kurikulum JSIT Indonesia, memadukan stimulasi motorik terpadu, pembiasaan hafalan surat pendek Juz 30, doa harian, dan kemandirian dalam atmosfer belajar yang menggembirakan dan ramah anak.\n\nKami mengajak segenap orang tua dan masyarakat untuk bersama-sama membina tunas bangsa agar tumbuh cerdas, ceria, mandiri, dan berakhlak mulia.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.",
                 'description' => 'Kelompok Bermain & Taman Kanak-Kanak Islam Terpadu Terakreditasi A di Ogan Ilir. Membina fitrah anak sejak dini dengan pendekatan sentra, pembiasaan hafalan surat-surat pendek Juz 30, doa harian, kemandirian, dan stimulasi motorik terpadu.',
                 'vision' => 'Menjadi Lembaga PAUD Islam Terpadu Unggulan dalam Membentuk Karakter Anak Sholeh, Ceria, dan Berakhlak Qur\'ani.',
                 'missions' => [
-                    'Menanamkan aqidah yang lurus dan pembiasaan ibadah harian sejak usia dini.',
-                    'Membimbing hafalan Al-Qur\'an Juz 30 dengan metode nasyid yang menyenangkan.',
-                    'Mengembangkan potensi kecerdasan majemuk (multiple intelligences) dan motorik anak melalui bermain berbasis sentra.',
-                    'Membangun sinergi harmonis antara sekolah dan keluarga dalam mendampingi tumbuh kembang ananda.'
+                    ['title' => 'Pendidikan Aqidah & Adab Usia Dini', 'desc' => 'Menanamkan aqidah yang lurus dan pembiasaan ibadah harian serta doa-doa harian sejak usia dini.'],
+                    ['title' => 'Tahfidz Al-Qur\'an Juz 30 Cilik', 'desc' => 'Membimbing hafalan Al-Qur\'an Juz 30 dengan metode nasyid yang menyenangkan dan mudah dipahami.'],
+                    ['title' => 'Sentra Edukatif & Multiple Intelligences', 'desc' => 'Mengembangkan potensi kecerdasan majemuk dan stimulasi motorik anak melalui bermain berbasis sentra.'],
+                    ['title' => 'Sinergi Harmonis Keluarga & Sekolah', 'desc' => 'Membangun kemitraan dan sinergi berkesinambungan antara sekolah dan orang tua dalam mendampingi golden age ananda.']
+                ],
+                'history' => [
+                    'title' => 'Membangun Karakter Generasi Emas Usia Dini',
+                    'badge' => 'Jejak Langkah & Perkembangan',
+                    'image' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_07__c2bf2e5f.jpeg',
+                    'paragraphs' => [
+                        'KB & TKIT Robbani didirikan dengan tekad mulia menghadirkan lembaga pendidikan anak usia dini berbasis nilai-nilai Islam terpadu yang ramah anak di Kabupaten Ogan Ilir.',
+                        'Mengembangkan metode sentra edukatif, pembelajaran active learning, dan penanaman adab islami, KB & TKIT Robbani telah berhasil meraih Akreditasi A (Unggul) dari BAN PAUD PNF.',
+                        'Dengan fasilitas ruang bermain outdoor yang aman, lingkungan asri ber-CCTV, serta asatidzah berdedikasi tinggi, kami terus berkomitmen membina tunas bangsa agar tumbuh ceria, mandiri, dan berakhlak Qur\'ani.'
+                    ]
                 ],
                 'phone' => '0811747472',
+                'whatsapp' => '0811747472',
+                'email' => 'tkit@sitrobbani.sch.id',
+                'city' => 'Indralaya, Ogan Ilir, Sumatera Selatan',
+                'address' => 'Jalan Sarjana Kompleks SIT Robbani, Kelurahan Timbangan, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'domain' => 'sitrobbani.sch.id',
+                'logo' => '/images/logo-robbani-official.png',
+                'flyer' => '/uploads/media/tkit_post_Loker-scaled_a03171c9.jpeg',
+                'campus_photo' => '/uploads/media/tkit_post_WhatsApp-Image-2025-11-05-at-10_07__c2bf2e5f.jpeg',
                 'students_count' => 120,
                 'employees_count' => 14,
                 'classrooms_count' => 6,
                 'target_hafalan' => 'Juz 30 (Surah Pendek)',
+                'theme' => $themeTokens['tkit'],
                 'programs' => [
                     ['title' => 'Tahfidz Juz 30 Cilik', 'icon' => '📖', 'desc' => 'Metode hafalan Al-Qur\'an nada nasyid yang menyenangkan khusus anak usia 3-6 tahun.'],
                     ['title' => 'Adab & Doa Harian', 'icon' => '🤲', 'desc' => 'Pembiasaan sholat dhuha berjamaah, doa harian, dan adab islami harian.'],
@@ -312,12 +416,6 @@ class SchoolWebsiteController extends Controller
                     ['name' => 'Yunisa, S.Pd', 'role' => 'Guru Sentra Main Peran & Bahasa', 'photo' => '/uploads/media/gtk_tk_yunisa_2de7f85f.jpeg'],
                     ['name' => 'Zahrotun Jannati, S.Pd', 'role' => 'Guru Sentra Bahan Alam & Ibadah', 'photo' => '/uploads/media/gtk_tk_zahro_5e0084ad.jpeg'],
                     ['name' => 'Rojanah, S.E', 'role' => 'Staff Keuangan & Tata Usaha', 'photo' => '/uploads/media/gtk_tk_4-scaled_640e548f.jpg'],
-                    ['name' => 'Minarti, S.Pd', 'role' => 'Guru Sentra Seni & Kreativitas', 'photo' => '/uploads/media/gtk_tk_5-scaled_67583fbf.jpg'],
-                    ['name' => 'Neli Wati, S.Pd', 'role' => 'Guru Kelas Kelompok Bermain (KB)', 'photo' => '/uploads/media/gtk_tk_6-scaled_b4639f16.jpg'],
-                    ['name' => 'Putri Nabila, S.Pd', 'role' => 'Guru Pendamping & Motorik Anak', 'photo' => '/uploads/media/gtk_tk_7-scaled_b0b5f4cd.jpg'],
-                    ['name' => 'Rhodotun Nikmah, S.Pd', 'role' => 'Guru Sentra Imtaq & Doa Harian', 'photo' => '/uploads/media/gtk_tk_8-scaled_d8ee33e6.jpg'],
-                    ['name' => 'Rizqy Maharani B. P., S.Pd', 'role' => 'Guru Bilingual Basic Kids', 'photo' => '/uploads/media/gtk_tk_9-scaled_6b8397e4.jpg'],
-                    ['name' => 'Aisyah Enjelita, S.Pd', 'role' => 'Staff Administrasi & Layanan Siswa', 'photo' => '/uploads/media/gtk_tk_whatsapp-image-2025-10-08-at-085210_5e9ab9e6.jpeg']
                 ],
                 'alumni' => [
                     ['name' => 'Bunda Mazaya', 'title' => 'Wali Murid TKIT Robbani', 'text' => 'Anak saya Mazaya menjadi sangat mandiri, rajin sholat, dan hafal surah pendek dengan lagu yang fasih.', 'avatar' => '/uploads/media/galeri_tk_whatsapp-image-2025-11-24-at-100627_b216eee9.jpeg'],
@@ -335,25 +433,46 @@ class SchoolWebsiteController extends Controller
                 'code' => 'SDIT',
                 'npsn' => '69985678',
                 'akreditasi' => 'Terakreditasi B',
+                'sub_badge' => 'KABUPATEN OGAN ILIR - TERAKREDITASI B',
                 'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Mencetak Generasi Qur\'ani, Berkarakter Karimah, & Cerdas Sains',
                 'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'principal_title' => 'Kepala Sekolah SDIT Robbani Ogan Ilir',
                 'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di SDIT Robbani. Kami berkomitmen memberikan pendidikan dasar terbaik yang menyeimbangkan antara capaian hafalan Al-Qur\'an, akademik sains unggulan, serta kepemimpinan berakhlak mulia.',
-                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional Terintegrasi Kekhasan JSIT (Jaringan Sekolah Islam Terpadu), Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
+                'principal_quote' => 'Mendidik generasi dasar dengan keseimbangan iman, Al-Qur\'an, sains modern, dan adab islami yang kokoh.',
+                'principal_greeting' => "Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\nSelamat datang di portal resmi SDIT Robbani Ogan Ilir. Pendidikan dasar adalah tonggak fundamental pembentukan kecerdasan, adab, dan kepribadian generasi penerus umat.\n\nDi SDIT Robbani, kami memadukan Kurikulum Merdeka Nasional dengan kurikulum kekhasan JSIT (Jaringan Sekolah Islam Terpadu), pembinaan tahfidz 3-5 juz mutqin, olimpiade sains terpadu, koding digital, dan program pembinaan karakter Bina Pribadi Islam (BPI).\n\nDidukung oleh sarana belajar representatif seperti ruang kelas ber-AC, saung ibadah, aula pertemuan, dan kolam renang sekolah, kami berkomitmen mendampingi setiap santri menggali potensi terbaiknya demi meraih prestasi mulia di dunia dan akhirat.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.",
+                'description' => 'Sekolah Dasar Islam Terpadu berakreditasi B di Ogan Ilir. Memadukan Kurikulum Merdeka Nasional Terintegrasi Kekhasan JSIT, Tahfidz Al-Qur\'an 3-5 Juz Mutqin, Sains Olimpic Club, Koding Digital, & Pembentukan Karakter Islam.',
                 'vision' => 'Menjadi Sekolah Dasar Islam Terpadu Model dalam Mencetak Generasi Qur\'ani, Cerdas Berakhlak, dan Berprestasi Nasional.',
                 'missions' => [
-                    'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.',
-                    'Menerapkan Kurikulum Merdeka Terintegrasi Kekhasan JSIT dan pembiasaan ibadah harian.',
-                    'Mengembangkan minat bakat siswa dalam bidang sains, koding digital, seni, dan kepanduan.',
-                    'Membentuk karakter kepemimpinan islami melalui pembinaan Bina Pribadi Islam (BPI).'
+                    ['title' => 'Pendidikan Berbasis Al-Qur\'an & Sunnah', 'desc' => 'Menyelenggarakan bimbingan Al-Qur\'an dengan target kelulusan minimal 3-5 Juz secara mutqin.'],
+                    ['title' => 'Kurikulum Terpadu & Riset Digital', 'desc' => 'Menerapkan Kurikulum Merdeka Terintegrasi Kekhasan JSIT dan penguatan kecerdasan sains serta koding dasar.'],
+                    ['title' => 'Pembentukan Karakter & Adab Karimah', 'desc' => 'Membina kepemimpinan islami dan kemandirian santri melalui pembinaan rutin Bina Pribadi Islam (BPI).'],
+                    ['title' => 'Lingkungan Belajar Asri & Berprestasi', 'desc' => 'Mewujudkan fasilitas belajar representatif, kolam renang sekolah, pembinaan olimpiade sains, dan kepanduan JSIT.']
+                ],
+                'history' => [
+                    'title' => 'Dedikasi Membangun Pendidikan Dasar Islam Terpadu',
+                    'badge' => 'Jejak Langkah & Perkembangan',
+                    'image' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg',
+                    'paragraphs' => [
+                        'SDIT Robbani Ogan Ilir berdiri sebagai pelopor Sekolah Dasar Islam Terpadu di wilayah Ogan Ilir yang memadukan keunggulan ilmu umum dan agama.',
+                        'Berawal dari ruang belajar sederhana dengan beberapa santri, kini SDIT Robbani telah berkembang pesat mendidik lebih dari 450 santri dengan fasilitas modern seperti kelas ber-AC, saung ibadah, aula representatif, hingga kolam renang sekolah.',
+                        'Didukung tenaga pendidik berpengalaman, SDIT Robbani konsisten melahirkan juara di berbagai ajang Olimpiade Sains, Musabaqah Hifdzil Qur\'an (MHQ), dan olahraga kejuaraan daerah maupun provinsi.'
+                    ]
                 ],
                 'phone' => '0811747472',
+                'whatsapp' => '0811747472',
+                'email' => 'sdit@sitrobbani.sch.id',
+                'city' => 'Indralaya, Ogan Ilir, Sumatera Selatan',
+                'address' => 'Jalan Sarjana Kompleks SIT Robbani, Kelurahan Timbangan, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'domain' => 'sitrobbani.sch.id',
+                'logo' => '/images/logo-robbani-official.png',
+                'flyer' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg',
+                'campus_photo' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg',
                 'students_count' => 450,
                 'employees_count' => 38,
                 'classrooms_count' => 18,
                 'target_hafalan' => '3 - 5 Juz Mutqin',
+                'theme' => $themeTokens['sdit'],
                 'programs' => [
                     ['title' => 'Tahfidz Al-Qur\'an 3-5 Juz', 'icon' => '📖', 'desc' => 'Bimbingan tasmi\', murojaah harian, dan wisuda tahfidz tahunan bersama hafidz tersertifikasi.'],
                     ['title' => 'Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil untuk penanaman aqidah, karakter, dan kepemimpinan islami.'],
@@ -365,23 +484,6 @@ class SchoolWebsiteController extends Controller
                     ['name' => 'Dian Kemala Astuti, S.Pd', 'role' => 'Wakil Kepala Sekolah', 'photo' => '/uploads/media/gtk_sd_dian-kemala-astuti-spd_e347e53e.png'],
                     ['name' => 'Ranti Saputri, S.TP', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_ranti-saputri-s-tp_5199b18b.png'],
                     ['name' => 'Rini Nur Aisyah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_rini-nur-aisyah-spd_62500a42.png'],
-                    ['name' => 'Verda Novita Sari, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_verda-novita-sari-spd_ad452dad.png'],
-                    ['name' => 'Dwi Misgiyati, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_dwi-misgiyati-spd-1_e732e7cf.png'],
-                    ['name' => 'Marisa, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_marisa-spd_130e5322.png'],
-                    ['name' => 'Veti Susanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_veti-susanti-spd-1_59757bcc.png'],
-                    ['name' => 'Annisa Fatihah Salsabila, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_annisa-fatihah-salsabila-spd_44fd8f4a.png'],
-                    ['name' => 'Risfina Ayu Rochmayani, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_risfina-ayu-rochmayani-spd_3791bc4c.png'],
-                    ['name' => 'Yara Dwinadia, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_yara-dwinadia-spd_3fc4a612.png'],
-                    ['name' => 'Rika Damayanti, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_rika-damayanti-spd-1_7a98d317.png'],
-                    ['name' => 'Reni Zahara, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_reni-zahara-s-pd_bab4d1d8.png'],
-                    ['name' => 'Dita Irfaul Khasanah, S.Si', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_dita-irfaul-khasanah-ssi_57bffe6b.png'],
-                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru Kelas', 'photo' => '/uploads/media/gtk_sd_sarah-salsabilah-spd-1_f536c3f5.png'],
-                    ['name' => 'Anisa, S.Pd', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/media/gtk_sd_anisa-spd_c33d9a96.png'],
-                    ['name' => 'Apriliah, S.Ag', 'role' => 'Guru Kelas & Guru TTQ', 'photo' => '/uploads/media/gtk_sd_annisa-fatihah-salsabila-spd-2_d59d918b.png'],
-                    ['name' => 'Sholahuddin Gultom, S.Pd', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/media/gtk_sd_sholahudin-gultom-spd_b287c1f1.png'],
-                    ['name' => 'Ahmad Firdaus', 'role' => 'Guru Kelas & Guru Olahraga', 'photo' => '/uploads/media/gtk_sd_ahmad-firdaus_265113a5.png'],
-                    ['name' => 'Risma Nia, S.Sos', 'role' => 'Staff TU', 'photo' => '/uploads/media/gtk_sd_risma-nia-ssos_5f30d015.png'],
-                    ['name' => 'Fredy Kurniawan', 'role' => 'Security', 'photo' => '/uploads/media/gtk_sd_fredy-kurniawan_977beb19.png'],
                 ],
                 'alumni' => [
                     ['name' => 'Ecilia Oktarina, SE., MM.', 'title' => 'Wali Murid SDIT Robbani', 'text' => 'Pendidikan karakter dan kepemimpinan di SDIT Robbani sangat terasa perubahannya pada kebiasaan sholat anak di rumah.', 'avatar' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png'],
@@ -391,74 +493,78 @@ class SchoolWebsiteController extends Controller
                     ['title' => 'Kolam Renang Sekolah', 'badge' => 'Fasilitas Unggulan SDIT', 'icon' => '🏊‍♂️', 'desc' => 'SD Islam Terpadu Robbani memiliki kolam renang sendiri di sekolah dan memiliki ekskul renang yang rutin dilaksanakan.', 'image' => '/uploads/media/fasilitas_sd_img-20250117-wa0010-scaled_4afcf92f.jpg'],
                     ['title' => 'Ruang Kelas Ber-AC', 'badge' => 'Ruang Belajar', 'icon' => '❄️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruang kelas yang semuanya didesain senyaman mungkin melalui penyediaan fasilitas AC dan penerangan.', 'image' => '/uploads/media/fasilitas_sd_ruang-kls_a2b54fd4.jpg'],
                     ['title' => 'Mushola atau Saung', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'SD Islam Terpadu Robbani memiliki mushola atau saung yang didesain unik sehingga siswa terasa nyaman ketika beribadah.', 'image' => '/uploads/media/fasilitas_sd_saung_f3942ec8.jpg'],
-                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event, seminar, atau kegiatan upacara sekolah.', 'image' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg'],
-                    ['title' => 'Lapangan Olahraga', 'badge' => 'Area Ketangkasan', 'icon' => '⚽', 'desc' => 'SD Islam Terpadu Robbani mempunyai lapangan olahraga di ruang terbuka sebagai pelataran aktivitas fisik siswa.', 'image' => '/uploads/media/fasilitas_sd_img-20241105-110318-scaled_531016d4.jpg']
+                    ['title' => 'Aula Sekolah', 'badge' => 'Gedung Pertemuan', 'icon' => '🏛️', 'desc' => 'SD Islam Terpadu Robbani memiliki ruangan aula yang biasanya digunakan untuk event, seminar, atau kegiatan upacara sekolah.', 'image' => '/uploads/media/fasilitas_sd_img-20250719-wa0064-scaled_f5e59e9a.jpg']
                 ]
             ],
             'smpit' => [
-                'name' => 'SMP ISLAM TERPADU ROBBANI',
+                'name' => 'SMPS IT ISHLAHUL UMMAH PRABUMULIH',
                 'code' => 'SMPIT',
-                'npsn' => '70031580',
+                'npsn' => '69787455',
                 'akreditasi' => 'Terakreditasi B',
+                'sub_badge' => 'KOTA PRABUMULIH - TERAKREDITASI B',
                 'kurikulum' => 'Merdeka & Kekhasan JSIT',
-                'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
-                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
-                'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
-                'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
-                'vision' => 'Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.',
+                'tagline' => 'Membina Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Siap Memimpin Peradaban Masa Depan.',
+                'principal_name' => 'Anita Carlyna, S.IP., M.Pd., Gr',
+                'principal_title' => 'Kepala SMPS IT Ishlahul Ummah Prabumulih',
+                'principal_photo' => '/uploads/dewan/kepala-sekolah.webp',
+                'principal_quote' => 'Membina Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Siap Memimpin Peradaban Masa Depan.',
+                'principal_greeting' => "Bismillahirrohmanirrohim. Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\nSegala puji dan syukur kita panjatkan kehadirat Allah SWT yang senantiasa melimpahkan rahmat, taufik, dan inayah-Nya kepada kita semua. Sholawat beriring salam senantiasa tercurah kepada junjungan alam Nabi Besar Muhammad SAW, para keluarga, sahabat, dan pengikutnya hingga akhir zaman.\n\nSelamat datang di website resmi SMPS IT Ishlahul Ummah Prabumulih. Di era transformasi digital dan revolusi industri saat ini, kehadiran media informasi digital menjadi sarana vital untuk mempererat ukhuwah, menyajikan transparansi kegiatan sekolah, serta memberikan kemudahan akses informasi bagi para orang tua, santri, dan masyarakat luas.\n\nSebagai Sekolah Menengah Pertama Islam Terpadu di bawah naungan Yayasan Ishlahul Ummah Prabumulih, kami berkomitmen menghadirkan pendidikan holistik yang memadukan keunggulan kurikulum nasional, penguatan adab Islami, target hafalan Al-Qur'an 2 juz mutqin, kompetensi sains-teknologi, dan pembiasaan bahasa asing (Arab dan Inggris).\n\nKami mengucapkan terima kasih yang sebesar-besarnya kepada Pembina dan Pengurus Yayasan Ishlahul Ummah, seluruh asatidz dan asatidzah, staf kependidikan, serta para wali santri yang senantiasa membersamai langkah kami dalam mendidik generasi terbaik umat. Mari bersama-sama kita wujudkan anak-anak yang sholih-sholihah, cerdas, berprestasi, dan berakhlakul karimah.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.",
+                'description' => 'Sekolah Menengah Pertama Islam Terpadu unggulan di Prabumulih yang memadukan kurikulum nasional, kepesantrenan tahfidz 2 juz mutqin, kompetensi sains-teknologi, dan pembinaan karakter Qur\'ani.',
+                'vision' => '“Terwujudnya Generasi Ishum yang Beraqidah Kokoh, Berakhlak Qur\'ani, Unggul dalam Sains & Teknologi, serta Berwawasan Lingkungan dan Global.”',
                 'missions' => [
-                    'Memperkuat iman, takwa, dan karakter religius peserta didik melalui pembiasaan ibadah dan Pendidikan karakter.',
-                    'Mengembangkan kemandirian, kreativitas, dan nalar kritis peserta didik melalui pembelajaran bermakna dan berbasis proyek.',
-                    'Mengintegrasikan teknologi digital dalam pembelajaran dan penilaian untuk meningkatkan literasi serta keterampilan berpikir kritis dan kreatif.',
-                    'Membangun kolaborasi yang sinergis antara sekolah, orang tua, dan masyarakat dalam mendukung pengembangan potensi dan karakter peserta didik.'
+                    ['title' => 'Pendidikan Berbasis Al-Qur\'an & Sunnah', 'desc' => 'Menanamkan nilai-nilai Al-Qur\'an dan Sunnah secara terpadu melalui kurikulum tahfidz mutqin, kajian adab islami, serta pembiasaan ibadah harian berdisiplin tinggi.'],
+                    ['title' => 'Keunggulan Akademik, Sains & Riset Digital', 'desc' => 'Mengembangkan potensi akademik siswa dalam penguasaan sains, matematika, teknologi informasi modern, dan robotika berbasis kecerdasan bernalar ilmiah.'],
+                    ['title' => 'Pembentukan Karakter Mandiri & Kepemimpinan Ishum', 'desc' => 'Membentuk karakter santri yang amanah, santun, berjiwa kewirausahaan, disiplin, berintegritas moral, dan memiliki kecakapan memimpin peradaban masa depan.'],
+                    ['title' => 'Lingkungan Belajar Asri, Modern & Berwawasan Global', 'desc' => 'Mewujudkan iklim sekolah ramah anak, sarana laboratorium representatif, penguasaan bilingual (Arab-Inggris), dan kesadaran pelestarian lingkungan hidup.']
                 ],
-                'phone' => '085377193977',
-                'students_count' => 58,
-                'employees_count' => 16,
-                'classrooms_count' => 3,
-                'target_hafalan' => '3 - 5 Juz Mutqin',
+                'history' => [
+                    'title' => 'Membangun Generasi Emas Ishum di Bumi Caram Seguguk',
+                    'badge' => 'Jejak Langkah & Perkembangan',
+                    'image' => '/uploads/campus-smpit-ishum.webp',
+                    'paragraphs' => [
+                        'SMPS IT Ishlahul Ummah Prabumulih didirikan di bawah naungan Yayasan Ishlahul Ummah Prabumulih sebagai wujud kepedulian terhadap pentingnya pendidikan generasi muda Islam yang seimbang antara ilmu pengetahuan umum dan pemahaman agama yang mendalam.',
+                        'Berawal dari kesuksesan pembinaan di tingkat sekolah dasar (SDIT Ishlahul Ummah), masyarakat dan para wali santri mendambakan kelanjutan pendidikan tingkat pertama yang tetap mengusung nilai-nilai Qur\'ani dan pembiasaan adab Islami. Maka berdirilah SMPS IT Ishlahul Ummah Prabumulih untuk melayani kebutuhan masyarakat Prabumulih dan sekitarnya.',
+                        'Di bawah kepemimpinan Ibu Anita Carlyna, S.IP., M.Pd., Gr beserta jajaran dewan guru yang amanah dan kompeten, SMPS IT Ishlahul Ummah terus berinovasi dalam metode pembelajaran, sarana prasarana modern, pembinaan tahfidz 2 juz mutqin, serta prestasi siswa di berbagai ajang kejuaraan daerah dan nasional.'
+                    ]
+                ],
+                'phone' => '0852-6990-8696',
+                'whatsapp' => '0853-7897-4396',
+                'email' => 'smpitishlahulummah.2015@yahoo.com',
+                'city' => 'Prabumulih Timur, Sumatera Selatan',
+                'address' => 'Jalan Sadewa No. 45 RT 01 RW 04 Kelurahan Karang Raja, Kecamatan Prabumulih Timur, Kota Prabumulih, Sumatera Selatan 31113',
+                'domain' => 'smpitishum.sch.id',
+                'logo' => '/uploads/logo-ishum-square.png',
+                'flyer' => '/uploads/flyer-spmb-smpit-ishum.png',
+                'campus_photo' => '/uploads/campus-smpit-ishum.webp',
+                'students_count' => 180,
+                'employees_count' => 24,
+                'classrooms_count' => 8,
+                'target_hafalan' => '2 - 5 Juz Mutqin',
+                'theme' => $themeTokens['smpit'],
                 'programs' => [
-                    ['title' => 'SIPAKAR V2 Digital Learning', 'icon' => '💻', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.'],
-                    ['title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)', 'icon' => '📖', 'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.'],
-                    ['title' => 'Program Unggulan Bina Pribadi Islam (BPI)', 'icon' => '🌟', 'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.'],
-                    ['title' => 'Bilingual & Public Speaking Club', 'icon' => '🌍', 'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking santri.']
+                    ['title' => 'Tahfidz Al-Qur\'an 2 Juz Mutqin', 'icon' => '📖', 'desc' => 'Program tahfidz terpadu dengan metode talaqqi dan sertifikasi wisuda tahfidz.'],
+                    ['title' => 'Bilingual Arabic & English', 'icon' => '🗣️', 'desc' => 'Pembiasaan percakapan harian dua bahasa asing untuk wawasan santri global.'],
+                    ['title' => 'Sains & Riset Digital', 'icon' => '🔬', 'desc' => 'Laboratorium IPA terpadu, olimpiade matematika sains, dan literasi digital.'],
+                    ['title' => 'Karakter Mandiri & Kepemimpinan', 'icon' => '🌟', 'desc' => 'Mentoring kelompok kecil Bina Pribadi Islam (BPI) dan kepanduan Pramuka SIT.']
                 ],
                 'teachers' => [
-                    ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp', 'bio' => 'Lulusan Universitas Sriwijaya Pendidikan Biologi, Kepala Sekolah SMPIT Robbani berprestasi.'],
-                    ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/b2c738bc73172000c348fe9732dbecf6.webp', 'bio' => 'Guru mata pelajaran IPA dan pembina Tahsin Tahfidz Qur\'an (TTQ) serta BPI.'],
-                    ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/54a2d99ab10745e07564015cfc1228ee.webp', 'bio' => 'Lulusan STIT Raudhatul Ulum Ogan Ilir Jurusan PAI, pengajar PAI, Hadist dan TTQ.'],
-                    ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/d3e51bd52edb07d8614fe2565072e0c5.webp', 'bio' => 'Lulusan Universitas PGRI Palembang Jurusan Kesenian, pengajar IPS dan Seni Budaya.'],
-                    ['name' => 'Anita Septia, S.Pd', 'role' => 'Guru Bahasa Indonesia', 'photo' => '/uploads/media/1a306591b4f11e6554f591c37690d5b8.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, pengajar Bahasa Indonesia.'],
-                    ['name' => 'Rifda Saugina, S.Pd', 'role' => 'Guru Bahasa Inggris', 'photo' => '/uploads/media/1ab1778a6021f1ce288cf0e3b8031046.webp', 'bio' => 'Lulusan S1 Pendidikan Bahasa Inggris, pengajar Bahasa Inggris & English Club.'],
-                    ['name' => 'Nurbaiti Mafaza, Lc', 'role' => 'Guru Bahasa Arab & TTQ', 'photo' => '/uploads/media/8a9b894e3694bf33b6f404e78dbe0aa4.webp', 'bio' => 'Lulusan Universitas Al-Azhar Kairo Mesir, pengajar Bahasa Arab & TTQ.'],
-                    ['name' => 'Ega Maharani, S.Si., Gr.', 'role' => 'Guru Matematika & TIK', 'photo' => '/uploads/media/594dd0069de306c30552420e1b926084.webp', 'bio' => 'Lulusan FMIPA Jurusan Matematika Universitas Sriwijaya, pengajar Matematika & TIK.'],
-                    ['name' => 'Syaifudin, S.Sn., Gr.', 'role' => 'Guru PJOK & Prakarya', 'photo' => '/uploads/media/83f5cdfe22b97802cb88ecddf4a22486.webp', 'bio' => 'Lulusan Institut Seni Indonesia (ISI) Yogyakarta, pengajar PJOK, Seni Rupa, dan Digital Art.'],
-                    ['name' => 'Nurul Hamida Yanti, S.E.', 'role' => 'Guru PAI, Hadist & TTQ', 'photo' => '/uploads/media/b839d8b384fd3d66b6c08bdb59e54839.webp', 'bio' => 'Lulusan Fakultas Ekonomi Syariah IAI Al-Qur\'an Al-Ittifaqiah, pengajar PAI & TTQ.'],
-                    ['name' => 'Muhammad Yusuf, S.Sos', 'role' => 'Guru PKN & Bahasa Inggris', 'photo' => '/uploads/media/3c2fedb6aea0123567c6132ad53e8814.webp', 'bio' => 'Lulusan FISIP Jurusan Sosiologi, pengajar Pendidikan Pancasila & Kewarganegaraan.'],
-                    ['name' => 'Adelia Jesika, S.Pd', 'role' => 'Staff Tata Usaha', 'photo' => '/uploads/media/105be986293de8c41c1e9c49bd4c40ce.webp', 'bio' => 'Lulusan FKIP Universitas Sriwijaya, Staff Administrasi & Tata Usaha SMPIT.'],
-                    ['name' => 'Sarah Salsabilah, S.Pd', 'role' => 'Guru TTQ & BPI', 'photo' => '/uploads/media/f536c3f56567554b4572ef5b850803ce.webp', 'bio' => 'Guru pembina Tahsin Tahfidz Qur\'an (TTQ) dan Bina Pribadi Islam.'],
-                    ['name' => 'Ennja Carolin, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
-                    ['name' => 'Fadhila Putri Alya, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.'],
-                    ['name' => 'Ita Mahmudah, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_1.png', 'bio' => 'Pendidik SMPIT Robbani.'],
-                    ['name' => 'Kamila Sari, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_4.png', 'bio' => 'Pendidik SMPIT Robbani.'],
-                    ['name' => 'Kms M Ilham Pratama, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_5.png', 'bio' => 'Pendidik SMPIT Robbani.'],
-                    ['name' => 'Lia Maharani, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_2.png', 'bio' => 'Pendidik SMPIT Robbani.'],
-                    ['name' => 'Rici Alfarizi, S.Pd', 'role' => 'Guru SMPIT', 'photo' => '/images/mockup_mobile_3.png', 'bio' => 'Pendidik SMPIT Robbani.']
+                    ['name' => 'Anita Carlyna, S.IP., M.Pd., Gr', 'role' => 'Kepala Sekolah', 'photo' => '/uploads/dewan/kepala-sekolah.webp'],
+                    ['name' => 'Ustadz Pembina Tahfidz', 'role' => 'Guru Tahfidz & TTQ', 'photo' => '/uploads/dewan/guru-kelas.webp'],
+                    ['name' => 'Ustadzah Sains & Digital', 'role' => 'Guru Sains & Riset', 'photo' => '/uploads/dewan/guru-ipa.webp'],
+                    ['name' => 'Ustadzah Bahasa Asing', 'role' => 'Guru Bahasa Asing', 'photo' => '/uploads/dewan/guru-bahasa.webp'],
                 ],
                 'alumni' => [
-                    ['name' => 'Bismad Kuntakana Fadta Al-Rafly', 'title' => 'Siswa Berprestasi - Atlet Taekwondo PORPROV & Internasional', 'text' => 'Di SMP IT Robbani saya didukung penuh untuk berprestasi di tingkat nasional tanpa meninggalkan hafalan Al-Qur\'an.', 'avatar' => '/uploads/media/img20251124075603-scaled_0267776a.jpg'],
-                    ['name' => 'Faiz', 'title' => 'Alumni SMPIT Robbani', 'text' => 'Pendidikan di SMPIT Robbani melatih saya mandiri, disiplin ibadah harian, dan hafal Al-Qur\'an.', 'avatar' => '/images/mockup_mobile_5.png'],
-                    ['name' => 'Calvin', 'title' => 'Siswa SMPIT Robbani', 'text' => 'Fasilitas belajarnya lengkap, ruang kelas nyaman ber-AC, gurunya ramah dan selalu mendampingi siswa.', 'avatar' => '/images/mockup_mobile_4.png']
+                    ['name' => 'Wali Santri Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
+                    ['name' => 'Ahmad Faiz', 'title' => 'Alumni Prestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
+                    ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp']
                 ],
                 'facilities' => [
-                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏢', 'desc' => 'Gedung sekolah SMPIT Robbani yang bersih, kokoh, representatif, serta dilengkapi sistem pengamanan dan lingkungan asri.', 'image' => '/images/facilities/gedung_smpit.jpg'],
-                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'SMP IT Robbani memiliki ruang kelas yang nyaman. Setiap ruang kelas di SMP IT Robbani sudah memiliki fasilitas AC, Kipas Angin, Loker dan Pojok Baca.', 'image' => '/images/facilities/ruang_kelas_smpit.jpg'],
-                    ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'icon' => '🚾', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.', 'image' => '/images/facilities/toilet_smpit.jpg'],
-                    ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'icon' => '📱', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital.', 'image' => '/images/facilities/tablet_smpit.jpg'],
-                    ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'icon' => '🍱', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.', 'image' => '/images/facilities/kantin_smpit.jpg'],
-                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'icon' => '🏀', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri.', 'image' => '/images/facilities/lapangan_smpit.jpg']
+                    ['title' => 'Gedung Sekolah Representatif', 'badge' => 'Gedung Utama', 'icon' => '🏛️', 'desc' => 'Gedung kampus yang bersih, kokoh, asri, serta dilengkapi pengamanan CCTV 24 jam.', 'image' => '/uploads/campus-smpit-ishum.webp'],
+                    ['title' => 'Ruang Kelas Digital Ber-AC', 'badge' => 'Ruang Kelas', 'icon' => '💻', 'desc' => 'Ruang kelas ber-AC, proyektor multimedia, loker siswa, dan pencahayaan optimal.', 'image' => '/uploads/fasilitas/fasilitas-ruang-kelas.webp'],
+                    ['title' => 'Laboratorium IPA & Komputer', 'badge' => 'Praktikum Sains', 'icon' => '🔬', 'desc' => 'Fasilitas praktikum kimia fisika biologi dan simulasi komputer mandiri.', 'image' => '/uploads/fasilitas/fasilitas-lab-ipa.webp'],
+                    ['title' => 'Masjid & Sarana Ibadah', 'badge' => 'Sarana Ibadah', 'icon' => '🕌', 'desc' => 'Masjid representatif untuk sholat berjamaah, halaqah Qur\'an, dan kajian keislaman.', 'image' => '/uploads/fasilitas/fasilitas-masjid.webp'],
+                    ['title' => 'Perpustakaan & Pojok Baca', 'badge' => 'Pusat Belajar', 'icon' => '📚', 'desc' => 'Koleksi buku referensi, kitab islami, dan modul ajar yang nyaman untuk santri.', 'image' => '/uploads/fasilitas/fasilitas-perpustakaan.webp'],
+                    ['title' => 'Lapangan Olahraga & Panahan', 'badge' => 'Area Olahraga', 'icon' => '⚽', 'desc' => 'Lapangan futsal, basket, panahan sunnah, dan kegiatan kepanduan terbuka.', 'image' => '/uploads/fasilitas/fasilitas-lapangan.webp']
                 ]
             ],
             'smait' => [
@@ -466,25 +572,46 @@ class SchoolWebsiteController extends Controller
                 'code' => 'SMAIT',
                 'npsn' => '69983456',
                 'akreditasi' => 'Dalam Tahap Persiapan',
+                'sub_badge' => 'KABUPATEN OGAN ILIR - PERSIAPAN UNGGULAN',
                 'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Center of Excellence: Science, IT, Tahfidz 10-30 Juz, & Mentoring PTN',
-                'principal_name' => '—',
+                'principal_name' => 'Pimpinan SMAIT Robbani',
                 'principal_title' => 'Kepala Sekolah SMAIT Robbani',
-                'principal_photo' => '',
-                'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. SMAIT Robbani dipersiapkan untuk mengantarkan para siswa memimpin masa depan, unggul dalam seleksi UTBK PTN ternama (UI, ITB, UGM, UNSRI), serta berjiwa Huffazh Al-Qur\'an yang tangguh.',
-                'description' => 'Sekolah Menengah Atas Islam Terpadu jenjang lanjutan berfokus pada persiapan tembus PTN Favorit & Beasiswa Luar Negeri, Tahfidz Al-Qur\'an 10-30 Juz berijazah sanad, serta Riset Sains & Leadership (Coming Soon).',
+                'principal_photo' => '/images/mockup_desktop_1.png',
+                'principal_quote' => 'Mempersiapkan cendekiawan muslim masa depan yang menguasai sains tingkat tinggi dengan hati yang terikat pada Al-Qur\'an.',
+                'principal_greeting' => "Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\nSelamat datang di portal resmi SMAIT Robbani Ogan Ilir. SMAIT Robbani dipersiapkan untuk mengantarkan para santri menjadi pemimpin peradaban masa depan, unggul dalam seleksi UTBK PTN ternama nasional (UI, ITB, UGM, UNSRI) maupun universitas terkemuka dunia, serta berjiwa Huffazh Al-Qur'an yang tangguh.\n\nDengan fokus pada riset sains remaja, inovasi teknologi piranti lunak, dan kepemimpinan berintegritas, kami siap melahirkan generasi cerdas dan bertaqwa.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.",
+                'description' => 'Sekolah Menengah Atas Islam Terpadu jenjang lanjutan berfokus pada persiapan tembus PTN Favorit & Beasiswa Luar Negeri, Tahfidz Al-Qur\'an 10-30 Juz berijazah sanad, serta Riset Sains & Leadership.',
                 'vision' => 'Menjadi SMAIT Unggulan Nasional dalam Melahirkan Ilmuwan Muslim, Huffazh Al-Qur\'an, dan Pemimpin Masa Depan.',
                 'missions' => [
-                    'Menyelenggarakan bimbingan intensif UTBK-SNBT dan seleksi PTN / Beasiswa Luar Negeri.',
-                    'Melahirkan lulusan berjiwa Huffazh Al-Qur\'an target 10-30 Juz berijazah sanad.',
-                    'Mendorong riset sains remaja, inovasi koding digital, dan karya ilmiah tingkat nasional.',
-                    'Membentuk karakter kader dakwah dan pemimpin berintegritas tinggi.'
+                    ['title' => 'Bimbingan Intensif PTN & Beasiswa Global', 'desc' => 'Menyelenggarakan bimbingan intensif UTBK-SNBT dan seleksi PTN favorit serta beasiswa internasional.'],
+                    ['title' => 'Tahfidz 10-30 Juz & Ijazah Sanad', 'desc' => 'Melahirkan lulusan berjiwa Huffazh Al-Qur\'an dengan target 10-30 Juz mutqin berijazah sanad resmi.'],
+                    ['title' => 'Riset Sains Remaja & Koding Inovatif', 'desc' => 'Mendorong riset sains terapan, karya tulis ilmiah (KIR), dan proyek teknologi piranti lunak buatan santri.'],
+                    ['title' => 'Kepemimpinan & Diplomasi Internasional', 'desc' => 'Membentuk karakter kader dakwah, public speaking tiga bahasa, dan kecakapan kepemimpinan berintegritas tinggi.']
+                ],
+                'history' => [
+                    'title' => 'Visi Besar Menyiapkan Pemimpin Peradaban Masa Depan',
+                    'badge' => 'Jejak Langkah & Perkembangan',
+                    'image' => '/images/mockup_desktop_4.png',
+                    'paragraphs' => [
+                        'SMAIT Robbani dipersiapkan sebagai center of excellence pendidikan menengah atas Islam terpadu di Sumatera Selatan.',
+                        'Dirancang dengan fokus pada program tahfidz lanjutan 10-30 Juz bersanad, laboratorium riset sains terpadu, serta inkubator bimbingan tembus perguruan tinggi negeri terbaik (UI, ITB, UGM, UNSRI) dan universitas Timur Tengah.',
+                        'Dengan kurikulum yang mengintegrasikan kecerdasan spiritual, intelektual, dan kepemimpinan global, SMAIT Robbani siap mengantarkan generasi muda muslim berkiprah di panggung peradaban dunia.'
+                    ]
                 ],
                 'phone' => '0811747472',
+                'whatsapp' => '0811747472',
+                'email' => 'smait@sitrobbani.sch.id',
+                'city' => 'Indralaya, Ogan Ilir, Sumatera Selatan',
+                'address' => 'Jalan Sarjana Kompleks SIT Robbani, Kelurahan Timbangan, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan',
+                'domain' => 'sitrobbani.sch.id',
+                'logo' => '/images/logo-robbani-official.png',
+                'flyer' => '/images/mockup_desktop_1.png',
+                'campus_photo' => '/images/mockup_desktop_4.png',
                 'students_count' => 0,
                 'employees_count' => 0,
                 'classrooms_count' => 0,
                 'target_hafalan' => '10 - 30 Juz (Huffazh)',
+                'theme' => $themeTokens['smait'],
                 'programs' => [
                     ['title' => 'Bimbingan Intensif PTN & Beasiswa', 'icon' => '🎓', 'desc' => 'Tryout SNBT berkala, pemetaan jurusan, dan pendampingan lolos perguruan tinggi ternama.'],
                     ['title' => 'Tahfidz 10-30 Juz & Sanad', 'icon' => '📖', 'desc' => 'Program khusus siswa tahfidz dengan target mutqin dan persiapan pengambilan sanad.'],
@@ -597,7 +724,6 @@ class SchoolWebsiteController extends Controller
         $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
         $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
 
-        // Unit Videos: fallback to global video list if empty
         $unitVideos = $info['videos'] ?? [];
         if (empty($unitVideos)) {
             $globalVideos = $this->getVideoData();
@@ -613,7 +739,6 @@ class SchoolWebsiteController extends Controller
             }, $globalVideos);
         }
 
-        // Unit Agendas & Announcements loaded from XML backup files
         $xmlData = $this->getXmlUnitEventsAndAnnouncements($cleanCode);
         
         $unitAgendas = !empty($info['agenda']) ? $info['agenda'] : $xmlData['agenda'];
@@ -626,7 +751,7 @@ class SchoolWebsiteController extends Controller
                     'date_month' => $ag['date_month'] ?? 'AGU',
                     'date' => ($ag['date_day'] ?? '25') . ' ' . ($ag['date_month'] ?? 'AGU') . ' ' . ($ag['year'] ?? '2026'),
                     'time' => $ag['time'] ?? '08:00 WIB',
-                    'location' => $ag['location'] ?? 'Kampus SIT Robbani',
+                    'location' => $ag['location'] ?? 'Kampus Sekolah',
                     'desc' => $ag['category'] ?? 'Kegiatan Terjadwal Unit'
                 ];
             }, $allAgendas);
@@ -668,11 +793,55 @@ class SchoolWebsiteController extends Controller
             $portalUrl = config('app.url') ?: route('home');
         }
 
-        return view('school.unit', compact(
+        return compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
             'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements',
             'schoolCode', 'portalUrl'
-        ));
+        );
+    }
+
+    public function unitProfile($code)
+    {
+        $page = request()->query('page');
+        if ($page === 'visi-misi') {
+            return $this->unitVisiMisiPage($code);
+        }
+        if ($page === 'sambutan' || $page === 'sambutan-kepala-sekolah') {
+            return $this->unitSambutanPage($code);
+        }
+        if ($page === 'sejarah') {
+            return $this->unitSejarahPage($code);
+        }
+        if ($page === 'profil' || $page === 'tentang-kami') {
+            return $this->unitProfilPage($code);
+        }
+
+        $data = $this->getUnitData($code);
+        return view('school.unit.home', $data);
+    }
+
+    public function unitProfilPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.profil', $data);
+    }
+
+    public function unitVisiMisiPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.visi-misi', $data);
+    }
+
+    public function unitSambutanPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.sambutan', $data);
+    }
+
+    public function unitSejarahPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.sejarah', $data);
     }
 
     public function beritaIndex(\Illuminate\Http\Request $request)

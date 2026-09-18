@@ -51,12 +51,41 @@ Route::domain('{subdomain}.sitrobbani.sch.id')->group(function () {
         }
         return app(SchoolWebsiteController::class)->index();
     });
+
+    Route::get('/{page}', function ($subdomain, $page) {
+        $map = [
+            'tk' => 'tkit',
+            'tkit' => 'tkit',
+            'sd' => 'sdit',
+            'sdit' => 'sdit',
+            'smp' => 'smpit',
+            'smpit' => 'smpit',
+            'sma' => 'smait',
+            'smait' => 'smait',
+        ];
+        $code = $map[strtolower($subdomain)] ?? null;
+        if (!$code) {
+            return redirect('/');
+        }
+        $controller = app(SchoolWebsiteController::class);
+        if ($page === 'visi-misi' || $page === 'visi_misi') return $controller->unitVisiMisiPage($code);
+        if ($page === 'sambutan' || $page === 'sambutan-kepala-sekolah') return $controller->unitSambutanPage($code);
+        if ($page === 'sejarah') return $controller->unitSejarahPage($code);
+        if ($page === 'profil' || $page === 'tentang-kami') return $controller->unitProfilPage($code);
+        return $controller->unitProfile($code);
+    });
 });
 
 // Public School / Foundation Profile Website (Standard Routes)
 Route::get('/', [SchoolWebsiteController::class, 'index'])->name('home');
 Route::get('/profil', [SchoolWebsiteController::class, 'profil'])->name('school.profil');
 Route::get('/unit/{code}', [SchoolWebsiteController::class, 'unitProfile'])->name('school.unit');
+Route::get('/unit/{code}/profil', [SchoolWebsiteController::class, 'unitProfilPage'])->name('school.unit.profil');
+Route::get('/unit/{code}/tentang-kami', [SchoolWebsiteController::class, 'unitProfilPage'])->name('school.unit.tentang-kami');
+Route::get('/unit/{code}/visi-misi', [SchoolWebsiteController::class, 'unitVisiMisiPage'])->name('school.unit.visi-misi');
+Route::get('/unit/{code}/sambutan', [SchoolWebsiteController::class, 'unitSambutanPage'])->name('school.unit.sambutan');
+Route::get('/unit/{code}/sambutan-kepala-sekolah', [SchoolWebsiteController::class, 'unitSambutanPage'])->name('school.unit.sambutan-kepala-sekolah');
+Route::get('/unit/{code}/sejarah', [SchoolWebsiteController::class, 'unitSejarahPage'])->name('school.unit.sejarah');
 
 Route::get('/berita', [SchoolWebsiteController::class, 'beritaIndex'])->name('school.berita');
 Route::get('/berita/{slug}', [SchoolWebsiteController::class, 'beritaShow'])->name('school.berita.show');
