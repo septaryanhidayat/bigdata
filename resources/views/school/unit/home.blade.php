@@ -122,46 +122,46 @@
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Profil</span>
             </a>
 
-            <a href="#guru" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-chalkboard-user"></i>
                 </div>
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Guru &amp; GTK</span>
             </a>
 
-            <a href="#fasilitas" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Fasilitas</span>
             </a>
 
-            <a href="#program" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-star"></i>
                 </div>
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Unggulan</span>
             </a>
 
-            <a href="#berita" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-trophy"></i>
                 </div>
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Prestasi</span>
             </a>
 
-            <a href="#agenda" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-calendar-days"></i>
                 </div>
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Agenda</span>
             </a>
 
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
-                    <i class="fa-solid fa-file-pdf"></i>
+                    <i class="fa-solid fa-folder-open"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Brosur</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Unduhan</span>
             </a>
 
         </div>
@@ -303,7 +303,7 @@
             <span class="text-xs font-black uppercase tracking-wider text-indigo-600 block">Kabar Terkini</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Warta &amp; Informasi Kampus</h2>
         </div>
-        <a href="{{ route('school.berita') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1 self-start sm:self-auto">
+        <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1 self-start sm:self-auto">
             <span>Lihat Semua Berita</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
@@ -404,7 +404,7 @@
     </div>
 
     <div class="text-center pt-2">
-        <a href="{{ url('/unit/' . $codeLower . '/profil') }}#program" 
+        <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" 
            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
             <span>Lihat Seluruh Program Unggulan</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -446,7 +446,7 @@
     </div>
 
     <div class="text-center pt-2">
-        <a href="{{ url('/unit/' . $codeLower . '/profil') }}#guru" 
+        <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" 
            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
             <span>Lihat Semua Guru &amp; GTK ({{ count($info['teachers'] ?? []) }})</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -679,7 +679,7 @@
     </div>
 
     <div class="text-center pt-2">
-        <a href="{{ url('/unit/' . $codeLower . '/profil') }}#galeri" 
+        <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" 
            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
             <span>Lihat Semua Foto Kegiatan</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>

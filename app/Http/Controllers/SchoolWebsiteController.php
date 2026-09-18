@@ -543,9 +543,13 @@ class SchoolWebsiteController extends Controller
             $portalUrl = config('app.url') ?: route('home');
         }
 
+        $unitPrograms = !empty($info['programs']) ? $info['programs'] : ($defaultInfo['programs'] ?? $defaultInfo['ekskul'] ?? $unitEkskul);
+        $unitAlumni = !empty($info['alumni']) ? $info['alumni'] : [];
+
         return compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
             'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements', 'unitPrestasi',
+            'unitPrograms', 'unitAlumni',
             'schoolCode', 'portalUrl'
         );
     }
@@ -553,7 +557,7 @@ class SchoolWebsiteController extends Controller
     public function unitProfile($code)
     {
         $page = request()->query('page');
-        if ($page === 'visi-misi') {
+        if ($page === 'visi-misi' || $page === 'visi_misi' || $page === 'visi-dan-misi') {
             return $this->unitVisiMisiPage($code);
         }
         if ($page === 'sambutan' || $page === 'sambutan-kepala-sekolah') {
@@ -564,6 +568,63 @@ class SchoolWebsiteController extends Controller
         }
         if ($page === 'profil' || $page === 'tentang-kami') {
             return $this->unitProfilPage($code);
+        }
+        if ($page === 'dewan-guru' || $page === 'guru') {
+            return $this->unitDewanGuruPage($code);
+        }
+        if ($page === 'fasilitas') {
+            return $this->unitFasilitasPage($code);
+        }
+        if ($page === 'program-unggulan' || $page === 'program') {
+            return $this->unitProgramUnggulanPage($code);
+        }
+        if ($page === 'struktur-organisasi' || $page === 'struktur') {
+            return $this->unitStrukturOrganisasiPage($code);
+        }
+        if ($page === 'agenda') {
+            return $this->unitAgendaPage($code);
+        }
+        if ($page === 'pengumuman') {
+            return $this->unitPengumumanPage($code);
+        }
+        if ($page === 'galeri') {
+            return $this->unitGaleriPage($code);
+        }
+        if ($page === 'video') {
+            return $this->unitVideoPage($code);
+        }
+        if ($page === 'download') {
+            return $this->unitDownloadPage($code);
+        }
+        if ($page === 'e-book' || $page === 'ebook') {
+            return $this->unitEbookPage($code);
+        }
+        if ($page === 'hymne-mars' || $page === 'mars') {
+            return $this->unitHymneMarsPage($code);
+        }
+        if ($page === 'logo') {
+            return $this->unitLogoPage($code);
+        }
+        if ($page === 'layanan' || $page === 'layanan-terpadu') {
+            return $this->unitLayananPage($code);
+        }
+        if ($page === 'izin-sekolah' || $page === 'layanan/kunjungan' || $page === 'kunjungan') {
+            return $this->unitLayananKunjunganPage($code);
+        }
+        if ($page === 'permohonan-kerja-sama' || $page === 'layanan/kerjasama' || $page === 'kerjasama') {
+            return $this->unitLayananKerjasamaPage($code);
+        }
+        if ($page === 'sewa-barang' || $page === 'layanan/sewa' || $page === 'sewa') {
+            return $this->unitLayananSewaPage($code);
+        }
+        if ($page === 'hubungi' || $page === 'kontak') {
+            return $this->unitHubungiPage($code);
+        }
+        if ($page === 'testimoni' || $page === 'testimonial') {
+            return $this->unitTestimoniPage($code);
+        }
+        if ($page === 'artikel' || $page === 'berita') {
+            return $this->unitArtikelPage($code);
         }
 
         $data = $this->getUnitData($code);
@@ -592,6 +653,123 @@ class SchoolWebsiteController extends Controller
     {
         $data = $this->getUnitData($code);
         return view('school.unit.sejarah', $data);
+    }
+
+    public function unitDewanGuruPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.dewan-guru', $data);
+    }
+
+    public function unitFasilitasPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.fasilitas', $data);
+    }
+
+    public function unitProgramUnggulanPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.program-unggulan', $data);
+    }
+
+    public function unitStrukturOrganisasiPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.struktur-organisasi', $data);
+    }
+
+    public function unitAgendaPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.agenda', $data);
+    }
+
+    public function unitPengumumanPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.pengumuman', $data);
+    }
+
+    public function unitGaleriPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.galeri', $data);
+    }
+
+    public function unitVideoPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.video', $data);
+    }
+
+    public function unitDownloadPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.download', $data);
+    }
+
+    public function unitEbookPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.e-book', $data);
+    }
+
+    public function unitHymneMarsPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.hymne-mars', $data);
+    }
+
+    public function unitLogoPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.logo', $data);
+    }
+
+    public function unitLayananPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.layanan', $data);
+    }
+
+    public function unitLayananKunjunganPage($code)
+    {
+        $data = $this->getUnitData($code);
+        $activeTab = 'kunjungan';
+        return view('school.unit.layanan.kunjungan', array_merge($data, compact('activeTab')));
+    }
+
+    public function unitLayananKerjasamaPage($code)
+    {
+        $data = $this->getUnitData($code);
+        $activeTab = 'kerjasama';
+        return view('school.unit.layanan.kerjasama', array_merge($data, compact('activeTab')));
+    }
+
+    public function unitLayananSewaPage($code)
+    {
+        $data = $this->getUnitData($code);
+        $activeTab = 'sewa';
+        return view('school.unit.layanan.sewa', array_merge($data, compact('activeTab')));
+    }
+
+    public function unitHubungiPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.hubungi', $data);
+    }
+
+    public function unitTestimoniPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.testimoni', $data);
+    }
+
+    public function unitArtikelPage($code)
+    {
+        $data = $this->getUnitData($code);
+        return view('school.unit.artikel', $data);
     }
 
     public function beritaIndex(\Illuminate\Http\Request $request)
@@ -810,7 +988,7 @@ class SchoolWebsiteController extends Controller
         return view('school.layanan.index', compact('settings', 'activeTab'));
     }
 
-    public function storeLayananKunjungan(Request $request)
+    public function storeLayananKunjungan(Request $request, $code = null)
     {
         $request->validate([
             'instansi' => 'required|string|max:255',
@@ -836,13 +1014,13 @@ class SchoolWebsiteController extends Controller
             'phone_number' => $request->no_hp,
             'event_date' => $request->tgl_kunjungan,
             'participants_count' => $request->jumlah_peserta,
-            'facility_or_type' => 'Kunjungan & Studi Banding',
+            'facility_or_type' => 'Kunjungan & Studi Banding' . ($code ? ' - Unit ' . strtoupper($code) : ''),
             'purpose_description' => $request->tujuan,
             'document_path' => $docPath,
             'status' => 'PENDING',
         ]);
 
-        return redirect()->back()->with('success', 'Permohonan Izin Kunjungan Sekolah berhasil dikirim! Tim Humas Yayasan Generasi Robbani akan menghubungi Anda melalui WhatsApp/Email.');
+        return redirect()->back()->with('success', 'Permohonan Izin Kunjungan Sekolah berhasil dikirim! Tim Humas akan menghubungi Anda melalui WhatsApp/Email.');
     }
 
     public function layananKerjasama()
@@ -852,7 +1030,7 @@ class SchoolWebsiteController extends Controller
         return view('school.layanan.index', compact('settings', 'activeTab'));
     }
 
-    public function storeLayananKerjasama(Request $request)
+    public function storeLayananKerjasama(Request $request, $code = null)
     {
         $request->validate([
             'nama_lembaga' => 'required|string|max:255',
@@ -875,13 +1053,13 @@ class SchoolWebsiteController extends Controller
             'applicant_name' => $request->nama_kontak,
             'email' => $request->email,
             'phone_number' => $request->no_hp,
-            'facility_or_type' => $request->jenis_kerjasama,
+            'facility_or_type' => $request->jenis_kerjasama . ($code ? ' - Unit ' . strtoupper($code) : ''),
             'purpose_description' => $request->deskripsi,
             'document_path' => $docPath,
             'status' => 'PENDING',
         ]);
 
-        return redirect()->back()->with('success', 'Permohonan Kerjasama & Kemitraan telah diterima! Tim Kemitraan SIT Robbani Ogan Ilir akan memproses proposal Anda.');
+        return redirect()->back()->with('success', 'Permohonan Kerjasama & Kemitraan telah diterima! Tim Kemitraan SIT Robbani akan memproses proposal Anda.');
     }
 
     public function layananSewa()
@@ -892,7 +1070,7 @@ class SchoolWebsiteController extends Controller
         return view('school.layanan.index', compact('settings', 'facilityList', 'activeTab'));
     }
 
-    public function storeLayananSewa(Request $request)
+    public function storeLayananSewa(Request $request, $code = null)
     {
         $request->validate([
             'nama_penyewa' => 'required|string|max:255',

@@ -78,7 +78,7 @@
 
                 {{-- 2. Profil Dropdown --}}
                 <div class="relative group py-2">
-                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition {{ request()->is('*profil*', '*sambutan*', '*visi*', '*sejarah*') ? 'bg-white/20 text-white shadow-inner' : '' }}">
+                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition {{ request()->is('*profil*', '*sambutan*', '*visi*', '*sejarah*', '*guru*', '*struktur*', '*fasilitas*', '*program*') ? 'bg-white/20 text-white shadow-inner' : '' }}">
                         <span>Profil</span>
                         <i class="fa-solid fa-chevron-down text-[10px] ml-1.5 transition-transform duration-200 group-hover:rotate-180"></i>
                     </button>
@@ -98,13 +98,16 @@
                                 <i class="fa-solid fa-landmark w-5 text-indigo-600 mr-2 text-sm"></i> Sejarah Sekolah
                             </a>
                             <div class="border-t border-gray-100 my-1"></div>
-                            <a href="{{ $unitUrl }}#guru" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-chalkboard-user w-5 text-indigo-600 mr-2 text-sm"></i> Dewan Guru &amp; GTK
                             </a>
-                            <a href="{{ $unitUrl }}#fasilitas" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                                <i class="fa-solid fa-sitemap w-5 text-indigo-600 mr-2 text-sm"></i> Struktur Organisasi
+                            </a>
+                            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-layer-group w-5 text-indigo-600 mr-2 text-sm"></i> Fasilitas &amp; Sarana
                             </a>
-                            <a href="{{ $unitUrl }}#program" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-star w-5 text-indigo-600 mr-2 text-sm"></i> Program Unggulan
                             </a>
                         </div>
@@ -113,25 +116,29 @@
 
                 {{-- 3. Kabar & Galeri Dropdown --}}
                 <div class="relative group py-2">
-                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition">
+                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition {{ request()->is('*artikel*', '*berita*', '*galeri*', '*video*', '*agenda*', '*pengumuman*', '*testimoni*') ? 'bg-white/20 text-white shadow-inner' : '' }}">
                         <span>Kabar &amp; Galeri</span>
                         <i class="fa-solid fa-chevron-down text-[10px] ml-1.5 transition-transform duration-200 group-hover:rotate-180"></i>
                     </button>
                     <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ $unitUrl }}#berita" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-newspaper w-5 text-indigo-600 mr-2 text-sm"></i> Berita &amp; Prestasi
                             </a>
-                            <a href="{{ $unitUrl }}#galeri" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-images w-5 text-indigo-600 mr-2 text-sm"></i> Galeri Foto Kegiatan
                             </a>
-                            <a href="{{ $unitUrl }}#video" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/video') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-brands fa-youtube w-5 text-red-600 mr-2 text-sm"></i> Video Dokumentasi
                             </a>
-                            <a href="{{ $unitUrl }}#agenda" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-calendar-days w-5 text-indigo-600 mr-2 text-sm"></i> Agenda Akademik
                             </a>
-                            <a href="{{ $unitUrl }}#testimoni" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                                <i class="fa-solid fa-bullhorn w-5 text-indigo-600 mr-2 text-sm"></i> Pengumuman Sekolah
+                            </a>
+                            <a href="{{ url('/unit/' . $codeLower . '/testimoni') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-comment-dots w-5 text-indigo-600 mr-2 text-sm"></i> Testimoni Wali &amp; Alumni
                             </a>
                         </div>
@@ -140,22 +147,22 @@
 
                 {{-- 4. Download Dropdown --}}
                 <div class="relative group py-2">
-                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition">
+                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition {{ request()->is('*download*', '*e-book*', '*ebook*', '*hymne*', '*logo*') ? 'bg-white/20 text-white shadow-inner' : '' }}">
                         <span>Download</span>
                         <i class="fa-solid fa-chevron-down text-[10px] ml-1.5 transition-transform duration-200 group-hover:rotate-180"></i>
                     </button>
                     <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ asset('/uploads/pedoman-adab-santri.pdf') }}" target="_blank" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-file-pdf w-5 text-red-600 mr-2 text-sm"></i> Buku Saku Adab Santri
+                            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                                <i class="fa-solid fa-folder-open w-5 text-indigo-600 mr-2 text-sm"></i> Semua Berkas Publik
                             </a>
-                            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-book-quran w-5 text-indigo-600 mr-2 text-sm"></i> Panduan Mutqin Tahfidz
+                            <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                                <i class="fa-solid fa-book-open-reader w-5 text-indigo-600 mr-2 text-sm"></i> E-Book &amp; Modul Siswa
                             </a>
-                            <a href="{{ $unitUrl }}#elibrary" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
-                                <i class="fa-solid fa-book-open-reader w-5 text-indigo-600 mr-2 text-sm"></i> E-Book &amp; Modul Ajar
+                            <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                                <i class="fa-solid fa-music w-5 text-indigo-600 mr-2 text-sm"></i> Mars JSIT Indonesia
                             </a>
-                            <a href="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" target="_blank" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-image w-5 text-indigo-600 mr-2 text-sm"></i> Logo Resmi Sekolah
                             </a>
                         </div>
@@ -164,19 +171,23 @@
 
                 {{-- 5. Layanan Dropdown --}}
                 <div class="relative group py-2">
-                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition">
+                    <button type="button" class="px-3 py-2 rounded-xl inline-flex items-center hover:bg-white/15 transition {{ request()->is('*layanan*', '*izin*', '*sewa*', '*kerjasama*') ? 'bg-white/20 text-white shadow-inner' : '' }}">
                         <span>Layanan</span>
                         <i class="fa-solid fa-chevron-down text-[10px] ml-1.5 transition-transform duration-200 group-hover:rotate-180"></i>
                     </button>
-                    <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block transition-all duration-150 z-50">
+                    <div class="absolute left-0 top-full pt-1.5 w-64 hidden group-hover:block transition-all duration-150 z-50">
                         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 py-2.5 text-gray-800">
-                            <a href="{{ route('school.layanan.kunjungan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                                <i class="fa-solid fa-handshake-angle w-5 text-indigo-600 mr-2 text-sm"></i> Portal Layanan Terpadu
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-bus w-5 text-indigo-600 mr-2 text-sm"></i> Izin Kunjungan Sekolah
                             </a>
-                            <a href="{{ route('school.layanan.kerjasama') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan/kerjasama') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-handshake w-5 text-indigo-600 mr-2 text-sm"></i> Permohonan Kerja Sama
                             </a>
-                            <a href="{{ route('school.layanan.sewa') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ url('/unit/' . $codeLower . '/layanan/sewa') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-building-columns w-5 text-indigo-600 mr-2 text-sm"></i> Sewa Sarana &amp; Gedung
                             </a>
                             <a href="{{ route('school.espp') }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
@@ -187,7 +198,7 @@
                 </div>
 
                 {{-- 6. Kontak --}}
-                <a href="{{ $unitUrl }}#kontak" class="px-3 py-2 rounded-xl hover:bg-white/15 transition">
+                <a href="{{ url('/unit/' . $codeLower . '/hubungi') }}" class="px-3 py-2 rounded-xl hover:bg-white/15 transition {{ request()->is('*hubungi*', '*kontak*') ? 'bg-white/20 text-white shadow-inner' : '' }}">
                     Kontak
                 </a>
 
@@ -226,8 +237,8 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-4"
-         class="lg:hidden bg-slate-900/98 backdrop-blur-xl border-b border-indigo-900/80 px-4 pt-3 pb-6 space-y-2 text-sm text-white shadow-2xl">
-        <a href="{{ $unitUrl }}" class="block px-3.5 py-2.5 rounded-xl hover:bg-white/10 font-bold">
+         class="lg:hidden bg-slate-900/98 backdrop-blur-xl border-b border-indigo-900/80 px-4 pt-3 pb-6 space-y-2 text-sm text-white shadow-2xl max-h-[80vh] overflow-y-auto">
+        <a href="{{ $unitUrl }}" class="block px-3.5 py-2.5 rounded-xl hover:bg-white/10 font-bold {{ request()->is('unit/' . $codeLower) && !request()->is('unit/' . $codeLower . '/*') ? 'bg-white/15' : '' }}">
             <i class="fa-solid fa-house w-6 text-amber-400"></i> Beranda
         </a>
         <div class="border-t border-slate-800 my-1 pt-1">
@@ -244,17 +255,59 @@
             <a href="{{ url('/unit/' . $codeLower . '/sejarah') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
                 <i class="fa-solid fa-landmark w-6 text-indigo-400"></i> Sejarah Sekolah
             </a>
+            <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-chalkboard-user w-6 text-indigo-400"></i> Dewan Guru &amp; GTK
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-sitemap w-6 text-indigo-400"></i> Struktur Organisasi
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-layer-group w-6 text-indigo-400"></i> Fasilitas &amp; Sarana
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-star w-6 text-indigo-400"></i> Program Unggulan
+            </a>
         </div>
         <div class="border-t border-slate-800 my-1 pt-1">
-            <span class="block px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Informasi &amp; Galeri</span>
-            <a href="{{ $unitUrl }}#berita" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+            <span class="block px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Kabar, Galeri &amp; Video</span>
+            <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
                 <i class="fa-solid fa-newspaper w-6 text-indigo-400"></i> Berita &amp; Prestasi
             </a>
-            <a href="{{ $unitUrl }}#agenda" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+            <a href="{{ url('/unit/' . $codeLower . '/galeri') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-images w-6 text-indigo-400"></i> Galeri Foto Kegiatan
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/video') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-brands fa-youtube w-6 text-red-400"></i> Video Dokumentasi
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
                 <i class="fa-solid fa-calendar-days w-6 text-indigo-400"></i> Agenda Akademik
             </a>
-            <a href="{{ $unitUrl }}#galeri" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
-                <i class="fa-solid fa-images w-6 text-indigo-400"></i> Galeri Foto &amp; Video
+            <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-bullhorn w-6 text-indigo-400"></i> Pengumuman Sekolah
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/testimoni') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-comment-dots w-6 text-indigo-400"></i> Testimoni Wali &amp; Alumni
+            </a>
+        </div>
+        <div class="border-t border-slate-800 my-1 pt-1">
+            <span class="block px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Download &amp; Layanan</span>
+            <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-folder-open w-6 text-indigo-400"></i> Pusat Unduhan Berkas
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-book-open-reader w-6 text-indigo-400"></i> E-Book &amp; Modul
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-music w-6 text-indigo-400"></i> Mars JSIT Indonesia
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-image w-6 text-indigo-400"></i> Logo Resmi Sekolah
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-handshake-angle w-6 text-indigo-400"></i> Portal Layanan Terpadu
+            </a>
+            <a href="{{ url('/unit/' . $codeLower . '/hubungi') }}" class="block px-3.5 py-2 rounded-xl hover:bg-white/10 font-medium text-xs">
+                <i class="fa-solid fa-map-location-dot w-6 text-amber-400"></i> Kontak &amp; Lokasi Kampus
             </a>
         </div>
         <div class="pt-3">

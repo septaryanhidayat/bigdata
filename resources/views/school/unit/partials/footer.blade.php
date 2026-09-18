@@ -34,36 +34,134 @@
         </div>
 
         {{-- MAIN INSTITUTIONAL FOOTER GRID --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-800/80">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b border-slate-800/80 text-left">
             
-            {{-- KOLOM 1: LOGO SEKOLAH (3 Kolom) --}}
-            <div class="lg:col-span-3 flex flex-col items-center sm:items-start space-y-4 text-center sm:text-left">
-                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-white p-3 shadow-xl border border-white/20 flex items-center justify-center">
+            {{-- KOLOM 1: LOGO & IDENTITAS SEKOLAH (3 Kolom) --}}
+            <div class="lg:col-span-3 flex flex-col items-start space-y-4">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white p-3 shadow-xl border border-white/20 flex items-center justify-center shrink-0">
                     <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
                          class="max-h-full max-w-full object-contain"
                          onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
-                <div class="space-y-1">
-                    <p class="text-xs font-bold text-white tracking-wide">
+                <div class="space-y-1.5">
+                    <p class="text-sm font-bold text-white tracking-wide">
                         {{ $info['name'] }}
                     </p>
-                    <p class="text-[11px] text-slate-400 leading-relaxed font-light">
+                    <p class="text-xs text-slate-400 leading-relaxed font-light">
                         {{ $info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia' }}
                     </p>
+                    <div class="pt-2 flex flex-wrap gap-2">
+                        <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
+                            NPSN: {{ $info['npsn'] ?? '69787455' }}
+                        </span>
+                        <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 text-emerald-300 border border-white/10">
+                            {{ $info['akreditasi'] ?? 'Terakreditasi B' }}
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            {{-- KOLOM 2: ALAMAT KAMPUS (4 Kolom) --}}
-            <div class="lg:col-span-4 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
+            {{-- KOLOM 2: TAUTAN PROFIL & AKADEMIK (3 Kolom) --}}
+            <div class="lg:col-span-3 space-y-3">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Tautan Cepat</span>
+                </h4>
+                <ul class="space-y-2 text-xs text-slate-300">
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Sambutan Kepala Sekolah
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Profil &amp; Sejarah
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Visi &amp; Misi Sekolah
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Dewan Guru &amp; GTK
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Struktur Organisasi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Fasilitas &amp; Sarana
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Program Unggulan
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {{-- KOLOM 3: LAYANAN & DOKUMEN (3 Kolom) --}}
+            <div class="lg:col-span-3 space-y-3">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-folder-tree"></i>
+                    <span>Layanan &amp; Unduhan</span>
+                </h4>
+                <ul class="space-y-2 text-xs text-slate-300">
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Pusat Unduhan Berkas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> E-Book &amp; Modul Ajar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Mars JSIT Indonesia
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Logo &amp; Identitas Resmi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Portal Layanan Terpadu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Izin Kunjungan Sekolah
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="text-amber-400 font-bold hover:underline transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-graduation-cap text-[11px]"></i> Pendaftaran SPMB Online
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {{-- KOLOM 4: ALAMAT & KONTAK (3 Kolom) --}}
+            <div class="lg:col-span-3 space-y-3">
                 <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
                     <i class="fa-solid fa-map-location-dot"></i>
-                    <span>Alamat Kampus</span>
+                    <span>Alamat &amp; Kontak</span>
                 </h4>
-                <p class="text-xs text-slate-300 leading-relaxed max-w-sm">
+                <p class="text-xs text-slate-300 leading-relaxed">
                     {{ $info['address'] ?? 'Jalan Sarjana Kompleks SIT Robbani, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan' }}
                 </p>
-                <div class="space-y-2 pt-2 text-xs flex flex-col items-center sm:items-start">
+                <div class="space-y-2 pt-1 text-xs">
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-phone text-amber-400 w-4"></i>
                         <span>{{ $info['phone'] ?? '0811747472' }}</span>
@@ -74,75 +172,42 @@
                     </div>
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-envelope text-amber-400 w-4"></i>
-                        <span class="truncate max-w-[220px] sm:max-w-none">{{ $info['email'] ?? 'info@sitrobbani.sch.id' }}</span>
+                        <span class="truncate max-w-[200px]">{{ $info['email'] ?? 'info@sitrobbani.sch.id' }}</span>
                     </div>
                 </div>
-            </div>
 
-            {{-- KOLOM 3: MEDIA SOSIAL (3 Kolom) --}}
-            <div class="lg:col-span-3 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
-                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-share-nodes"></i>
-                    <span>Media Sosial</span>
-                </h4>
-                <p class="text-xs font-bold text-white">
-                    {{ $info['name'] }}
-                </p>
-                <div class="flex items-center space-x-3 pt-1">
+                {{-- MEDIA SOSIAL ICONS --}}
+                <div class="pt-2 flex items-center space-x-2.5">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-                       class="w-9 h-9 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
+                       class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f text-sm"></i>
+                        <i class="fa-brands fa-facebook-f text-xs"></i>
                     </a>
                     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
-                       class="w-9 h-9 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
+                       class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="Instagram">
-                        <i class="fa-brands fa-instagram text-sm"></i>
+                        <i class="fa-brands fa-instagram text-xs"></i>
                     </a>
                     <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
-                       class="w-9 h-9 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
+                       class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="YouTube">
-                        <i class="fa-brands fa-youtube text-sm"></i>
+                        <i class="fa-brands fa-youtube text-xs"></i>
                     </a>
                     <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}" target="_blank" rel="noopener noreferrer" 
-                       class="w-9 h-9 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
+                       class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <i class="fa-brands fa-whatsapp text-xs"></i>
                     </a>
                 </div>
-                <div class="pt-2">
-                    <span class="text-xs text-slate-300 flex items-center gap-1.5 font-medium">
-                        <i class="fa-solid fa-globe text-amber-400"></i>
-                        <span>{{ $info['domain'] ?? 'sitrobbani.sch.id' }}</span>
-                    </span>
-                </div>
-            </div>
 
-            {{-- KOLOM 4: PENGUNJUNG (2 Kolom) --}}
-            <div class="lg:col-span-2 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
-                <div class="flex items-center space-x-2">
-                    <h4 class="text-xs font-black uppercase tracking-wider text-amber-400">
-                        Pengunjung
-                    </h4>
-                    <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-indigo-950 text-amber-300 border border-amber-400/30">
-                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                        <span>Live</span>
-                    </span>
-                </div>
-                <div>
-                    <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                        {{ number_format($info['visitor_count'] ?? 12916, 0, ',', '.') }}
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-1 font-light">
-                        Kunjungan ke website resmi sekolah
-                    </p>
-                </div>
                 <div class="pt-2 flex items-center space-x-3 text-xs text-slate-400 font-medium">
                     <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="hover:text-amber-400 transition">Kebijakan Privasi</a>
                     <span>•</span>
-                    <a href="{{ url('/unit/' . $codeLower . '#kontak') }}" class="hover:text-amber-400 transition">Kontak</a>
+                    <a href="{{ url('/unit/' . $codeLower . '/hubungi') }}" class="hover:text-amber-400 transition">Peta Lokasi</a>
                 </div>
             </div>
+
+        </div>
 
         </div>
 
