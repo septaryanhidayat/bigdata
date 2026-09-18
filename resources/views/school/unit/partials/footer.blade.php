@@ -55,15 +55,15 @@
             </div>
 
             {{-- KOLOM 2: ALAMAT KAMPUS (4 Kolom) --}}
-            <div class="lg:col-span-4 space-y-3">
+            <div class="lg:col-span-4 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
                 <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
                     <i class="fa-solid fa-map-location-dot"></i>
                     <span>Alamat Kampus</span>
                 </h4>
-                <p class="text-xs text-slate-300 leading-relaxed">
+                <p class="text-xs text-slate-300 leading-relaxed max-w-sm">
                     {{ $info['address'] ?? ($codeLower === 'smpit' ? 'Jalan Sadewa No. 45 RT 01 RW 04 Kelurahan Karang Raja, Kecamatan Prabumulih Timur, Kota Prabumulih, Sumatera Selatan 31113' : 'Jalan Sarjana Kompleks SIT Robbani, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan') }}
                 </p>
-                <div class="space-y-2 pt-2 text-xs">
+                <div class="space-y-2 pt-2 text-xs flex flex-col items-center sm:items-start">
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-phone text-amber-400 w-4"></i>
                         <span>{{ $info['phone'] ?? '0852-6990-8696' }}</span>
@@ -74,13 +74,13 @@
                     </div>
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-envelope text-amber-400 w-4"></i>
-                        <span class="truncate">{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}</span>
+                        <span class="truncate max-w-[220px] sm:max-w-none">{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}</span>
                     </div>
                 </div>
             </div>
 
-            {{-- KOLOM 3: MEDIA SOSIAL (2.5 Kolom) --}}
-            <div class="lg:col-span-3 space-y-3">
+            {{-- KOLOM 3: MEDIA SOSIAL (3 Kolom) --}}
+            <div class="lg:col-span-3 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
                 <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
                     <i class="fa-solid fa-share-nodes"></i>
                     <span>Media Sosial</span>
@@ -118,8 +118,8 @@
                 </div>
             </div>
 
-            {{-- KOLOM 4: PENGUNJUNG (2.5 Kolom) --}}
-            <div class="lg:col-span-2 space-y-3">
+            {{-- KOLOM 4: PENGUNJUNG (2 Kolom) --}}
+            <div class="lg:col-span-2 space-y-3 flex flex-col items-center sm:items-start text-center sm:text-left">
                 <div class="flex items-center space-x-2">
                     <h4 class="text-xs font-black uppercase tracking-wider text-amber-400">
                         Pengunjung
@@ -147,7 +147,7 @@
         </div>
 
         {{-- BOTTOM SUB-FOOTER BAR --}}
-        <div class="pb-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div class="pb-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-slate-500">
             <div>
                 Copyright &copy; 2026 <strong class="text-slate-400 font-semibold">{{ $info['name'] }}</strong>. All Rights Reserved.
             </div>

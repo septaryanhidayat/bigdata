@@ -23,31 +23,31 @@
 
 @section('content')
 {{-- SUBPAGE HERO HEADER --}}
-<div class="bg-gradient-to-r {{ $uTheme['nav_gradient'] }} border-b border-indigo-950 text-white py-12">
+<div class="bg-gradient-to-r {{ $uTheme['nav_gradient'] }} border-b border-indigo-950 text-white py-8 sm:py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="text-xs text-indigo-200 mb-3 flex items-center space-x-2">
-            <a href="{{ url('/unit/' . $codeLower) }}" class="hover:text-white transition">Beranda</a>
+        <nav class="text-xs text-indigo-200 mb-2.5 sm:mb-3 flex items-center space-x-2 overflow-x-auto no-scrollbar whitespace-nowrap">
+            <a href="{{ url('/unit/' . $codeLower) }}" class="hover:text-white transition shrink-0">Beranda</a>
             <span>/</span>
-            <span>Profil</span>
+            <span class="shrink-0">Profil</span>
             <span>/</span>
-            <span class="text-amber-300 font-semibold">Sejarah</span>
+            <span class="text-amber-300 font-semibold shrink-0">Sejarah</span>
         </nav>
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Sejarah {{ $info['name'] }}</h1>
-        <p class="text-sm text-indigo-100 mt-2 font-light max-w-2xl">
+        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Sejarah {{ $info['name'] }}</h1>
+        <p class="text-xs sm:text-sm text-indigo-100 mt-1.5 sm:mt-2 font-light max-w-2xl">
             Jejak langkah pengabdian, dedikasi pendidik, dan perjalanan membangun peradaban pendidikan islam terpadu di {{ $codeLower === 'smpit' ? 'Kota Prabumulih' : 'Kabupaten Ogan Ilir' }}.
         </p>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10">
         
         {{-- KOLOM UTAMA (8/12) --}}
-        <div class="lg:col-span-8 space-y-8">
-            <article class="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-gray-100 reveal-fade-up space-y-6">
+        <div class="lg:col-span-8 space-y-6 sm:space-y-8">
+            <article class="bg-white rounded-3xl p-5 sm:p-12 shadow-xl border border-gray-100 reveal-fade-up space-y-5 sm:space-y-6">
                 
                 {{-- FOTO GEDUNG / KAMPUS SEKOLAH --}}
-                <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 max-h-96">
+                <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 max-h-64 sm:max-h-96">
                     <img src="{{ asset($historyData['image'] ?? '/uploads/campus-smpit-ishum.webp') }}" 
                          alt="Gedung Kampus {{ $info['name'] }}" 
                          class="w-full h-full object-cover"
@@ -55,10 +55,10 @@
                 </div>
 
                 <div class="border-b border-gray-100 pb-4">
-                    <span class="text-xs font-black uppercase tracking-wider text-orange-500 block">
+                    <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider text-orange-500 block">
                         {{ $historyData['badge'] ?? 'Jejak Langkah & Perkembangan' }}
                     </span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mt-1">
+                    <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mt-1">
                         {{ $historyData['title'] ?? ('Membangun Generasi Emas di ' . $info['name']) }}
                     </h2>
                     <div class="w-16 h-1 bg-unit-primary rounded-full mt-3"></div>

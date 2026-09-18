@@ -10,15 +10,15 @@
 @endphp
 
 {{-- TOP MINI BAR (Kontak Telepon, Email Resmi, & Lokasi) --}}
-<div class="bg-[#0f172a] text-slate-200 text-xs py-2 border-b border-indigo-950">
+<div class="bg-[#0f172a] text-slate-200 text-xs py-1.5 sm:py-2 border-b border-indigo-950">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <div class="flex items-center space-x-4 sm:space-x-6">
-            <a href="tel:{{ $info['phone'] ?? '0852-6990-8696' }}" class="flex items-center text-slate-200 hover:text-amber-300 transition text-xs font-semibold">
+        <div class="flex items-center space-x-3 sm:space-x-6">
+            <a href="tel:{{ $info['phone'] ?? '0852-6990-8696' }}" class="flex items-center text-slate-200 hover:text-amber-300 transition text-[11px] sm:text-xs font-semibold shrink-0">
                 <i class="fa-solid fa-phone mr-1.5 text-amber-400"></i>
                 <span>{{ $info['phone'] ?? '0852-6990-8696' }}</span>
             </a>
             <span class="text-slate-700 hidden sm:inline">|</span>
-            <a href="mailto:{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}" class="flex items-center text-slate-200 hover:text-amber-300 transition text-xs font-semibold">
+            <a href="mailto:{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}" class="hidden sm:flex items-center text-slate-200 hover:text-amber-300 transition text-xs font-semibold">
                 <i class="fa-solid fa-envelope mr-1.5 text-amber-400"></i>
                 <span class="truncate max-w-[200px] sm:max-w-none">{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}</span>
             </a>
@@ -28,7 +28,7 @@
                 <span>{{ $info['city'] ?? ($codeLower === 'smpit' ? 'Prabumulih Timur, Sumatera Selatan' : 'Indralaya, Ogan Ilir, Sumatera Selatan') }}</span>
             </span>
         </div>
-        <div class="flex items-center space-x-3 text-xs">
+        <div class="flex items-center space-x-2.5 sm:space-x-3 text-[11px] sm:text-xs shrink-0">
             <a href="{{ $portalUrl ?? route('home') }}" class="text-slate-300 hover:text-amber-300 transition flex items-center gap-1 font-medium">
                 <i class="fa-solid fa-globe text-[11px] text-amber-400"></i>
                 <span class="hidden sm:inline">Portal Utama</span>
@@ -45,24 +45,24 @@
 {{-- MAIN STICKY NAVBAR --}}
 <header class="sticky top-0 z-50 bg-gradient-to-r {{ $uTheme['nav_gradient'] }} shadow-xl border-b border-white/10 backdrop-blur-md transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
+        <div class="flex justify-between items-center h-16 sm:h-20">
             
             {{-- LOGO & IDENTITAS SEKOLAH --}}
-            <a href="{{ $unitUrl }}" class="flex items-center space-x-3 group flex-shrink-0">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition duration-300 border border-white/20">
+            <a href="{{ $unitUrl }}" class="flex items-center space-x-2.5 sm:space-x-3 group min-w-0 pr-2">
+                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl bg-white p-1 sm:p-1.5 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition duration-300 border border-white/20 shrink-0">
                     <img src="{{ asset($info['logo'] ?? '/uploads/logo-ishum-square.png') }}" 
                          alt="{{ $info['name'] }}" 
                          class="max-h-full max-w-full object-contain"
                          onerror="this.src='/uploads/logo-ishum-square.png'">
                 </div>
-                <div class="text-left">
-                    <span class="block text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
-                        {{ $codeLower === 'tkit' ? 'Taman Kanak-Kanak Islam Terpadu' : ($codeLower === 'sdit' ? 'Sekolah Dasar Islam Terpadu' : ($codeLower === 'smpit' ? 'Sekolah Menengah Pertama Islam Terpadu' : 'Sekolah Menengah Atas Islam Terpadu')) }}
+                <div class="text-left min-w-0">
+                    <span class="block text-[9px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-300 truncate">
+                        {{ $codeLower === 'tkit' ? 'Taman Kanak-Kanak IT' : ($codeLower === 'sdit' ? 'Sekolah Dasar IT' : ($codeLower === 'smpit' ? 'Sekolah Menengah Pertama IT' : 'Sekolah Menengah Atas IT')) }}
                     </span>
-                    <span class="block text-base sm:text-lg font-black tracking-tight text-white leading-tight drop-shadow-sm">
+                    <span class="block text-sm sm:text-lg font-black tracking-tight text-white leading-tight drop-shadow-sm truncate">
                         {{ $info['name'] }}
                     </span>
-                    <span class="inline-block text-[9px] sm:text-[10px] font-bold text-slate-200 uppercase tracking-widest">
+                    <span class="inline-block text-[8px] sm:text-[10px] font-bold text-slate-200 uppercase tracking-widest truncate">
                         {{ $info['sub_badge'] ?? ($info['akreditasi'] ?? 'Terakreditasi B') }}
                     </span>
                 </div>

@@ -94,26 +94,26 @@
         </div>
 
         {{-- CALLOUT BANNER: PENDAFTARAN SANTRI BARU (SPMB ONLINE) --}}
-        <div class="mt-10 p-6 sm:p-8 rounded-2xl bg-gradient-to-r {{ $uTheme['nav_gradient'] }} text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/20">
-            <div class="space-y-1 text-center sm:text-left">
-                <h4 class="text-lg font-black text-white tracking-tight">
+        <div class="mt-8 sm:mt-10 p-5 sm:p-8 rounded-2xl bg-gradient-to-r {{ $uTheme['nav_gradient'] }} text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6 border border-white/20 text-center sm:text-left">
+            <div class="space-y-1">
+                <h4 class="text-base sm:text-lg font-black text-white tracking-tight">
                     Pendaftaran Santri Baru (SPMB Online)
                 </h4>
                 <p class="text-xs text-indigo-200 font-light max-w-md">
                     Mari bergabung bersama keluarga besar {{ $info['name'] }}. Gelombang exclusive kuota terbatas telah dibuka.
                 </p>
             </div>
-            <div class="flex items-center space-x-3 shrink-0">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
                 <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
-                   class="px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:brightness-105 transition flex items-center space-x-1.5">
+                   class="w-full sm:w-auto px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:brightness-105 transition flex items-center justify-center space-x-1.5">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Daftar SPMB Online</span>
                 </a>
                 <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   class="px-4 py-2.5 rounded-full font-bold text-xs border border-white/30 text-white hover:bg-white/10 transition flex items-center space-x-1.5">
-                    <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                   class="w-full sm:w-auto px-4 py-2.5 rounded-full font-bold text-xs border border-white/30 text-white hover:bg-white/10 transition flex items-center justify-center space-x-1.5">
+                    <i class="fa-solid fa-phone text-xs"></i>
                     <span>Hubungi Kami</span>
                 </a>
             </div>
