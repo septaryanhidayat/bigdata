@@ -280,6 +280,19 @@ class SchoolWebsiteController extends Controller
             }
         }
 
+        if (!$customUnit) {
+            $cachePath = database_path('authentic_unit_data.json');
+            if (!file_exists($cachePath)) {
+                $cachePath = storage_path('app/authentic_unit_data.json');
+            }
+            if (file_exists($cachePath)) {
+                $cachedAll = json_decode(file_get_contents($cachePath), true);
+                if (!empty($cachedAll[$cleanCode])) {
+                    $customUnit = $cachedAll[$cleanCode];
+                }
+            }
+        }
+
         $themeTokens = [
             'smpit' => [
                 'primary' => '#4338ca',
@@ -459,6 +472,7 @@ class SchoolWebsiteController extends Controller
         $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
         $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
         $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
+        $unitPrestasi = !empty($info['prestasi']) ? $info['prestasi'] : ($defaultInfo['prestasi'] ?? []);
 
         $unitVideos = $info['videos'] ?? [];
         if (empty($unitVideos)) {
@@ -531,7 +545,7 @@ class SchoolWebsiteController extends Controller
 
         return compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
-            'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements',
+            'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements', 'unitPrestasi',
             'schoolCode', 'portalUrl'
         );
     }

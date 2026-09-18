@@ -235,6 +235,285 @@
         </div>
     </section>
 
+    {{-- SEKSI 5: DIREKTORI LENGKAP DEWAN GURU & GTK --}}
+    <section id="guru" class="space-y-6 sm:space-y-8 reveal-fade-up">
+        <div class="text-center space-y-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+                Tenaga Pendidik &amp; Kependidikan
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                Dewan Guru &amp; Tenaga Kependidikan (GTK)
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                Mengenal asatidz dan asatidzah berkompeten, berakhlak mulia, dan berdedikasi tinggi membimbing ananda tercinta di {{ $info['name'] }}.
+            </p>
+            <div class="w-20 h-1 bg-indigo-600 rounded-full mx-auto"></div>
+        </div>
+
+        @php
+            $allTeachers = !empty($info['teachers']) ? $info['teachers'] : [
+                ['name' => $info['principal_name'], 'role' => $info['principal_title'] ?? 'Kepala Sekolah', 'photo' => $info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp', 'bio' => 'Pemimpin pendidikan Islam Terpadu.']
+            ];
+        @endphp
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
+            @foreach($allTeachers as $tc)
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1.5 transition duration-300 flex flex-col justify-between group">
+                    <div class="h-44 sm:h-64 overflow-hidden bg-indigo-50/60 relative">
+                        <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
+                             alt="{{ $tc['name'] }}" 
+                             class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
+                             onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    </div>
+                    <div class="p-3.5 sm:p-5 text-center space-y-1.5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xs sm:text-sm font-black text-gray-900 line-clamp-1 group-hover:text-indigo-600 transition">
+                                {{ $tc['name'] }}
+                            </h3>
+                            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100 max-w-full truncate">
+                                {{ $tc['role'] ?? 'Guru' }}
+                            </span>
+                        </div>
+                        @if(!empty($tc['bio']))
+                            <p class="text-[11px] text-gray-500 line-clamp-2 leading-relaxed pt-1">
+                                {{ $tc['bio'] }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- SEKSI 6: PRESTASI & REKAM JEJAK JUARA --}}
+    @if(!empty($unitPrestasi) || !empty($info['prestasi']))
+        @php
+            $prestasiList = !empty($unitPrestasi) ? $unitPrestasi : ($info['prestasi'] ?? []);
+        @endphp
+        <section id="prestasi" class="space-y-6 sm:space-y-8 reveal-fade-up">
+            <div class="text-center space-y-2">
+                <span class="inline-block bg-amber-100 text-amber-900 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+                    Rekam Jejak Kejuaraan
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Prestasi &amp; Penghargaan Santri
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                    Ikhtiar dan torehan kebanggaan santri {{ $info['name'] }} di tingkat kabupaten, provinsi, hingga nasional.
+                </p>
+                <div class="w-20 h-1 bg-amber-500 rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                @foreach($prestasiList as $pr)
+                    <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-lg border border-gray-100 hover:border-amber-300 hover:shadow-xl transition duration-300 flex items-start space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center text-xl sm:text-2xl shadow-md shadow-amber-500/30 shrink-0">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <div class="space-y-1.5 min-w-0 flex-1">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-200">
+                                    {{ $pr['year'] ?? 'Prestasi' }}
+                                </span>
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-extrabold text-gray-900 leading-snug">
+                                {{ $pr['title'] }}
+                            </h4>
+                            @if(!empty($pr['desc']))
+                                <p class="text-xs text-gray-600 leading-relaxed">
+                                    {{ $pr['desc'] }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- SEKSI 7: FASILITAS & SARANA PRASARANA KAMPUS --}}
+    @if(!empty($unitFacilities) || !empty($info['facilities']))
+        @php
+            $facilitiesList = !empty($unitFacilities) ? $unitFacilities : ($info['facilities'] ?? []);
+        @endphp
+        <section id="fasilitas" class="space-y-6 sm:space-y-8 reveal-fade-up">
+            <div class="text-center space-y-2">
+                <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+                    Sarana &amp; Prasarana
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Fasilitas Unggulan Kampus
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                    Sarana pembelajaran representatif dan modern menunjang kenyamanan dan akselerasi potensi santri.
+                </p>
+                <div class="w-20 h-1 bg-emerald-600 rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($facilitiesList as $fc)
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition duration-300 flex flex-col justify-between group">
+                        <div class="h-48 sm:h-52 overflow-hidden bg-gray-100 relative">
+                            <img src="{{ asset($fc['image'] ?? '/uploads/fasilitas/fasilitas-gedung-utama.webp') }}" 
+                                 alt="{{ $fc['title'] }}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                 onerror="this.src='/uploads/fasilitas/fasilitas-gedung-utama.webp'">
+                        </div>
+                        <div class="p-5 space-y-2 flex-1">
+                            <h3 class="text-sm font-bold text-gray-900 group-hover:text-emerald-600 transition">
+                                {{ $fc['title'] }}
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                {{ $fc['desc'] ?? '' }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- SEKSI 8: EKSTRAKURIKULER & PENGEMBANGAN DIRI --}}
+    @if(!empty($unitEkskul) || !empty($info['ekskul']))
+        @php
+            $ekskulList = !empty($unitEkskul) ? $unitEkskul : ($info['ekskul'] ?? []);
+        @endphp
+        <section id="ekskul" class="space-y-6 sm:space-y-8 reveal-fade-up">
+            <div class="text-center space-y-2">
+                <span class="inline-block bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+                    Bakat &amp; Minat
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Ekstrakurikuler &amp; Life Skill
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                    Wadah aktualisasi minat, bakat, kepemimpinan, dan kemandirian santri {{ $info['name'] }}.
+                </p>
+                <div class="w-20 h-1 bg-blue-600 rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
+                @foreach($ekskulList as $ek)
+                    <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-md border border-gray-100 hover:border-blue-300 hover:shadow-xl transition duration-300 flex flex-col justify-between group">
+                        <div class="space-y-2.5">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg sm:text-xl group-hover:scale-110 transition duration-300">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <h3 class="text-xs sm:text-sm font-black text-gray-900 group-hover:text-blue-600 transition">
+                                {{ $ek['title'] }}
+                            </h3>
+                            @if(!empty($ek['desc']))
+                                <p class="text-[11px] sm:text-xs text-gray-500 line-clamp-3 leading-relaxed">
+                                    {{ $ek['desc'] }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- SEKSI 9: GALERI FOTO KEGIATAN --}}
+    @if(!empty($unitGallery) || !empty($info['gallery']))
+        @php
+            $galleryList = !empty($unitGallery) ? $unitGallery : ($info['gallery'] ?? []);
+        @endphp
+        <section id="galeri" class="space-y-6 sm:space-y-8 reveal-fade-up">
+            <div class="text-center space-y-2">
+                <span class="inline-block bg-purple-100 text-purple-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+                    Dokumentasi Santri
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Galeri Dokumentasi Kegiatan
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                    Momen keceriaan, kebersamaan, dan pembelajaran bermakna di lingkungan sekolah.
+                </p>
+                <div class="w-20 h-1 bg-purple-600 rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5">
+                @foreach($galleryList as $gl)
+                    <div class="rounded-2xl overflow-hidden shadow-md h-44 sm:h-56 bg-gray-100 group relative">
+                        <img src="{{ asset($gl['image'] ?? '/images/logo-robbani-official.png') }}" 
+                             alt="{{ $gl['title'] ?? 'Dokumentasi Santri' }}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
+                             onerror="this.src='/images/logo-robbani-official.png'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-3 sm:p-4">
+                            <span class="text-white text-[11px] sm:text-xs font-bold line-clamp-2">{{ $gl['title'] ?? 'Dokumentasi' }}</span>
+                            @if(!empty($gl['date']))
+                                <span class="text-gray-300 text-[9px] mt-1">{{ $gl['date'] }}</span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- SEKSI 10: AGENDA & PENGUMUMAN RESMI --}}
+    @if(!empty($unitAgendas) || !empty($unitAnnouncements))
+        <section id="agenda" class="space-y-6 sm:space-y-8 reveal-fade-up">
+            <div class="text-center space-y-2">
+                <span class="inline-block bg-orange-100 text-orange-800 text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full">
+                    Informasi Terjadwal
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Agenda Akademik &amp; Pengumuman
+                </h2>
+                <div class="w-20 h-1 bg-orange-500 rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                {{-- Kolom Agenda --}}
+                <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 space-y-4">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2 pb-3 border-b border-gray-100">
+                        <i class="fa-solid fa-calendar-days text-indigo-600"></i>
+                        <span>Kalender &amp; Agenda Kegiatan</span>
+                    </h3>
+                    <div class="space-y-3">
+                        @foreach(array_slice($unitAgendas ?? [], 0, 6) as $ag)
+                            <div class="flex items-start space-x-3.5 p-3 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-indigo-200 transition">
+                                <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200/60 flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-xs font-black">{{ $ag['date_day'] ?? '15' }}</span>
+                                    <span class="text-[8px] font-black uppercase tracking-wider">{{ $ag['date_month'] ?? 'AGU' }}</span>
+                                </div>
+                                <div class="space-y-0.5 min-w-0 flex-1">
+                                    <h4 class="text-xs font-bold text-gray-900 line-clamp-1">{{ $ag['title'] }}</h4>
+                                    <p class="text-[10px] text-gray-500 flex items-center gap-1 truncate">
+                                        <i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i>
+                                        <span>{{ $ag['location'] ?? 'Kampus Sekolah' }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Kolom Pengumuman --}}
+                <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 space-y-4">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2 pb-3 border-b border-gray-100">
+                        <i class="fa-solid fa-bullhorn text-indigo-600"></i>
+                        <span>Pengumuman Resmi Sekolah</span>
+                    </h3>
+                    <div class="space-y-3">
+                        @foreach(array_slice($unitAnnouncements ?? [], 0, 5) as $an)
+                            <div class="p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-1">
+                                <span class="text-[9px] font-bold text-indigo-600 uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
+                                <h4 class="text-xs font-bold text-gray-900">{{ $an['title'] }}</h4>
+                                @if(!empty($an['summary']))
+                                    <p class="text-[11px] text-gray-600 leading-relaxed">{{ $an['summary'] }}</p>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- SEKSI 5: KOMENTAR ALUMNI & ORANG TUA --}}
     <section class="space-y-6 reveal-fade-up">
         <div class="text-center space-y-2">

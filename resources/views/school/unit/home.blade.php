@@ -448,7 +448,7 @@
     <div class="text-center pt-2">
         <a href="{{ url('/unit/' . $codeLower . '/profil') }}#guru" 
            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-md transition">
-            <span>Lihat Profil Guru &amp; GTK</span>
+            <span>Lihat Semua Guru &amp; GTK ({{ count($info['teachers'] ?? []) }})</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </a>
     </div>
@@ -457,31 +457,37 @@
 {{-- ========================================================
      SESI 8: GALERI VIDEO YOUTUBE RESMI
      ======================================================== --}}
-<section id="video" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-slate-950 text-white">
+<section id="video" class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-slate-950 text-white" x-data="{ activeVideo: null, showAllVideos: false }">
     <div class="max-w-7xl mx-auto space-y-8 sm:space-y-10">
         <div class="text-center space-y-2">
             <span class="text-xs font-black uppercase tracking-wider text-amber-400 block">Dokumentasi Multimedia</span>
-            <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight">Galeri Video Resmi</h2>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight">Galeri Video Resmi ({{ count($unitVideos ?? []) }} Video)</h2>
             <div class="w-16 h-1 bg-red-600 rounded-full mx-auto"></div>
         </div>
 
         @php
-            $displayVideos = !empty($unitVideos) ? array_slice($unitVideos, 0, 3) : [];
+            $displayVideos = !empty($unitVideos) ? $unitVideos : [];
+            $initialVideos = array_slice($displayVideos, 0, 6);
+            $moreVideos = array_slice($displayVideos, 6);
         @endphp
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            @forelse($displayVideos as $v)
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            @forelse($initialVideos as $v)
                 <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between">
                     <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden">
-                        <img src="{{ asset($v['thumbnail'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-75 group-hover:scale-105 transition duration-500" onerror="this.src='/images/logo-robbani-official.png'">
-                        <a href="{{ $v['url'] ?? 'https://youtube.com' }}" target="_blank" rel="noopener noreferrer" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video">
-                            <i class="fa-solid fa-play"></i>
-                        </a>
-                        @if(!empty($v['duration']))
-                            <span class="absolute bottom-2 right-2 bg-black/80 text-[10px] font-bold px-2 py-0.5 rounded text-white">{{ $v['duration'] }}</span>
+                        <img src="{{ asset($v['thumbnail'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" onerror="this.src='/images/logo-robbani-official.png'">
+                        @if(!empty($v['embed_id']))
+                            <button @click="activeVideo = '{{ $v['embed_id'] }}'" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition cursor-pointer" aria-label="Putar Video">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        @else
+                            <a href="{{ $v['url'] ?? 'https://youtube.com' }}" target="_blank" rel="noopener noreferrer" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video">
+                                <i class="fa-solid fa-play"></i>
+                            </a>
                         @endif
                     </div>
-                    <div class="p-4">
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-amber-400 font-semibold">{{ $v['date'] ?? 'Video Resmi' }}</span>
                         <h4 class="text-xs font-bold text-white line-clamp-2 leading-snug">{{ $v['title'] }}</h4>
                     </div>
                 </div>
@@ -492,12 +498,77 @@
             @endforelse
         </div>
 
-        <div class="text-center pt-2">
+        @if(count($moreVideos) > 0)
+            <div x-show="showAllVideos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pt-4">
+                @foreach($moreVideos as $v)
+                    <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between">
+                        <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden">
+                            <img src="{{ asset($v['thumbnail'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" onerror="this.src='/images/logo-robbani-official.png'">
+                            @if(!empty($v['embed_id']))
+                                <button @click="activeVideo = '{{ $v['embed_id'] }}'" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition cursor-pointer" aria-label="Putar Video">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                            @else
+                                <a href="{{ $v['url'] ?? 'https://youtube.com' }}" target="_blank" rel="noopener noreferrer" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video">
+                                    <i class="fa-solid fa-play"></i>
+                                </a>
+                            @endif
+                        </div>
+                        <div class="p-4 space-y-1">
+                            <span class="text-[10px] text-amber-400 font-semibold">{{ $v['date'] ?? 'Video Resmi' }}</span>
+                            <h4 class="text-xs font-bold text-white line-clamp-2 leading-snug">{{ $v['title'] }}</h4>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            @if(count($moreVideos) > 0)
+                <button @click="showAllVideos = !showAllVideos" 
+                        class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-2.5 rounded-full font-bold text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 shadow-md transition cursor-pointer">
+                    <i class="fa-solid" :class="showAllVideos ? 'fa-chevron-up' : 'fa-film'"></i>
+                    <span x-text="showAllVideos ? 'Tampilkan Lebih Sedikit' : 'Lihat Semua ({{ count($unitVideos) }} Video)'"></span>
+                </button>
+            @endif
             <a href="https://youtube.com" target="_blank" 
-               class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full font-bold text-xs bg-red-600 hover:bg-red-700 text-white shadow-lg transition">
+               class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-2.5 rounded-full font-bold text-xs bg-red-600 hover:bg-red-700 text-white shadow-lg transition">
                 <i class="fa-brands fa-youtube text-base"></i>
-                <span>Lihat Saluran YouTube Resmi</span>
+                <span>Kunjungi Saluran YouTube</span>
             </a>
+        </div>
+
+        {{-- MODAL VIDEO PLAYER INTERAKTIF --}}
+        <div x-show="activeVideo" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+             style="display: none;"
+             @keydown.escape.window="activeVideo = null">
+            <div class="relative w-full max-w-4xl bg-slate-950 rounded-2xl overflow-hidden shadow-2xl border border-slate-800" @click.outside="activeVideo = null">
+                <div class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
+                    <span class="text-xs font-bold text-white flex items-center gap-2">
+                        <i class="fa-brands fa-youtube text-red-500"></i>
+                        <span>Pemutar Video Resmi SIT Robbani</span>
+                    </span>
+                    <button @click="activeVideo = null" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-sm transition cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="relative pt-[56.25%] w-full bg-black">
+                    <template x-if="activeVideo">
+                        <iframe :src="'https://www.youtube.com/embed/' + activeVideo + '?autoplay=1&rel=0'" 
+                                class="absolute inset-0 w-full h-full border-0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                        </iframe>
+                    </template>
+                </div>
+            </div>
         </div>
     </div>
 </section>

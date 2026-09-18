@@ -2041,7 +2041,7 @@
                                         {{ $topNews['title'] }}
                                     </h3>
                                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3 sm:line-clamp-4">
-                                        {{ $topNews['excerpt'] }}
+                                        {{ $topNews['excerpt'] ?? $topNews['summary'] ?? '' }}
                                     </p>
                                 </div>
                             </div>
@@ -2144,7 +2144,7 @@
                                         </h3>
                                     </a>
                                     <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium hidden sm:block">
-                                        {{ $item['excerpt'] }}
+                                        {{ $item['excerpt'] ?? $item['summary'] ?? '' }}
                                     </p>
                                 </div>
                             </div>

@@ -40,3 +40,4 @@ database/*.sql
 .claude/
 scratch/
 *.pdf
+layout/

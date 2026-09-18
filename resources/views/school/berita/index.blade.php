@@ -225,7 +225,7 @@
                             {{ $news['title'] }}
                         </h3>
                         <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed font-medium">
-                            {{ $news['excerpt'] }}
+                            {{ $news['excerpt'] ?? $news['summary'] ?? '' }}
                         </p>
                     </div>
                 </div>
