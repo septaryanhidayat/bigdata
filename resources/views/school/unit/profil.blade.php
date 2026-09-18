@@ -103,10 +103,10 @@
             </div>
             <div class="lg:col-span-5 order-1 lg:order-2">
                 <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 max-h-56 sm:max-h-72">
-                    <img src="{{ asset($info['history']['image'] ?? '/uploads/campus-smpit-ishum.webp') }}" 
+                    <img src="{{ asset($info['history']['image'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="Gedung Kampus {{ $info['name'] }}" 
                          class="w-full h-full object-cover"
-                         onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                         onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
             </div>
         </div>
@@ -272,7 +272,7 @@
                             <img src="{{ asset($testi['avatar'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
                                  alt="{{ $testi['name'] }}" 
                                  class="w-full h-full object-cover"
-                                 onerror="this.src='/uploads/logo-ishum-square.png'">
+                                 onerror="this.src='/images/logo-robbani-official.png'">
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-gray-900">{{ $testi['name'] }}</span>

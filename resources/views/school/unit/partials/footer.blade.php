@@ -39,10 +39,10 @@
             {{-- KOLOM 1: LOGO SEKOLAH (3 Kolom) --}}
             <div class="lg:col-span-3 flex flex-col items-center sm:items-start space-y-4 text-center sm:text-left">
                 <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-white p-3 shadow-xl border border-white/20 flex items-center justify-center">
-                    <img src="{{ asset($info['logo'] ?? '/uploads/logo-ishum-square.png') }}" 
+                    <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
                          class="max-h-full max-w-full object-contain"
-                         onerror="this.src='/uploads/logo-ishum-square.png'">
+                         onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
                 <div class="space-y-1">
                     <p class="text-xs font-bold text-white tracking-wide">
@@ -61,20 +61,20 @@
                     <span>Alamat Kampus</span>
                 </h4>
                 <p class="text-xs text-slate-300 leading-relaxed max-w-sm">
-                    {{ $info['address'] ?? ($codeLower === 'smpit' ? 'Jalan Sadewa No. 45 RT 01 RW 04 Kelurahan Karang Raja, Kecamatan Prabumulih Timur, Kota Prabumulih, Sumatera Selatan 31113' : 'Jalan Sarjana Kompleks SIT Robbani, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan') }}
+                    {{ $info['address'] ?? 'Jalan Sarjana Kompleks SIT Robbani, Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan' }}
                 </p>
                 <div class="space-y-2 pt-2 text-xs flex flex-col items-center sm:items-start">
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-phone text-amber-400 w-4"></i>
-                        <span>{{ $info['phone'] ?? '0852-6990-8696' }}</span>
+                        <span>{{ $info['phone'] ?? '0811747472' }}</span>
                     </div>
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-brands fa-whatsapp text-amber-400 w-4"></i>
-                        <span>{{ $info['whatsapp'] ?? $info['phone'] ?? '0853-7897-4396' }}</span>
+                        <span>{{ $info['whatsapp'] ?? $info['phone'] ?? '0811747472' }}</span>
                     </div>
                     <div class="flex items-center space-x-2.5">
                         <i class="fa-solid fa-envelope text-amber-400 w-4"></i>
-                        <span class="truncate max-w-[220px] sm:max-w-none">{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}</span>
+                        <span class="truncate max-w-[220px] sm:max-w-none">{{ $info['email'] ?? 'info@sitrobbani.sch.id' }}</span>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                 <div class="pt-2">
                     <span class="text-xs text-slate-300 flex items-center gap-1.5 font-medium">
                         <i class="fa-solid fa-globe text-amber-400"></i>
-                        <span>{{ $info['domain'] ?? ($codeLower === 'smpit' ? 'smpitishum.sch.id' : 'sitrobbani.sch.id') }}</span>
+                        <span>{{ $info['domain'] ?? 'sitrobbani.sch.id' }}</span>
                     </span>
                 </div>
             </div>

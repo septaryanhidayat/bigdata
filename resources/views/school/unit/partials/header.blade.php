@@ -13,19 +13,19 @@
 <div class="bg-[#0f172a] text-slate-200 text-xs py-1.5 sm:py-2 border-b border-indigo-950">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <div class="flex items-center space-x-3 sm:space-x-6">
-            <a href="tel:{{ $info['phone'] ?? '0852-6990-8696' }}" class="flex items-center text-slate-200 hover:text-amber-300 transition text-[11px] sm:text-xs font-semibold shrink-0">
+            <a href="tel:{{ $info['phone'] ?? '0811747472' }}" class="flex items-center text-slate-200 hover:text-amber-300 transition text-[11px] sm:text-xs font-semibold shrink-0">
                 <i class="fa-solid fa-phone mr-1.5 text-amber-400"></i>
-                <span>{{ $info['phone'] ?? '0852-6990-8696' }}</span>
+                <span>{{ $info['phone'] ?? '0811747472' }}</span>
             </a>
             <span class="text-slate-700 hidden sm:inline">|</span>
-            <a href="mailto:{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}" class="hidden sm:flex items-center text-slate-200 hover:text-amber-300 transition text-xs font-semibold">
+            <a href="mailto:{{ $info['email'] ?? 'info@sitrobbani.sch.id' }}" class="hidden sm:flex items-center text-slate-200 hover:text-amber-300 transition text-xs font-semibold">
                 <i class="fa-solid fa-envelope mr-1.5 text-amber-400"></i>
-                <span class="truncate max-w-[200px] sm:max-w-none">{{ $info['email'] ?? 'smpitishlahulummah.2015@yahoo.com' }}</span>
+                <span class="truncate max-w-[200px] sm:max-w-none">{{ $info['email'] ?? 'info@sitrobbani.sch.id' }}</span>
             </a>
             <span class="text-slate-700 hidden md:inline">|</span>
             <span class="hidden md:flex items-center text-slate-300 text-xs">
                 <i class="fa-solid fa-location-dot mr-1.5 text-amber-400"></i>
-                <span>{{ $info['city'] ?? ($codeLower === 'smpit' ? 'Prabumulih Timur, Sumatera Selatan' : 'Indralaya, Ogan Ilir, Sumatera Selatan') }}</span>
+                <span>{{ $info['city'] ?? 'Indralaya, Ogan Ilir, Sumatera Selatan' }}</span>
             </span>
         </div>
         <div class="flex items-center space-x-2.5 sm:space-x-3 text-[11px] sm:text-xs shrink-0">
@@ -50,10 +50,10 @@
             {{-- LOGO & IDENTITAS SEKOLAH --}}
             <a href="{{ $unitUrl }}" class="flex items-center space-x-2.5 sm:space-x-3 group min-w-0 pr-2">
                 <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl bg-white p-1 sm:p-1.5 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition duration-300 border border-white/20 shrink-0">
-                    <img src="{{ asset($info['logo'] ?? '/uploads/logo-ishum-square.png') }}" 
+                    <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
                          class="max-h-full max-w-full object-contain"
-                         onerror="this.src='/uploads/logo-ishum-square.png'">
+                         onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
                 <div class="text-left min-w-0">
                     <span class="block text-[9px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-300 truncate">
@@ -149,13 +149,13 @@
                             <a href="{{ asset('/uploads/pedoman-adab-santri.pdf') }}" target="_blank" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-file-pdf w-5 text-red-600 mr-2 text-sm"></i> Buku Saku Adab Santri
                             </a>
-                            <a href="{{ asset('/uploads/panduan-tahfidz-ishum.pdf') }}" target="_blank" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-book-quran w-5 text-indigo-600 mr-2 text-sm"></i> Panduan Mutqin Tahfidz
                             </a>
                             <a href="{{ $unitUrl }}#elibrary" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-book-open-reader w-5 text-indigo-600 mr-2 text-sm"></i> E-Book &amp; Modul Ajar
                             </a>
-                            <a href="{{ asset('/uploads/logo-ishum.png') }}" target="_blank" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
+                            <a href="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" target="_blank" class="block px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center">
                                 <i class="fa-solid fa-image w-5 text-indigo-600 mr-2 text-sm"></i> Logo Resmi Sekolah
                             </a>
                         </div>

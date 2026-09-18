@@ -21,17 +21,17 @@
         [
             'title' => 'Selamat Datang di Website Resmi ' . $info['name'],
             'subtitle' => $info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia',
-            'image' => asset($info['campus_photo'] ?? '/uploads/campus-smpit-ishum.webp')
+            'image' => asset($info['hero_bg_image'] ?: ($info['campus_photo'] ?: '/images/logo-robbani-official.png'))
         ],
         [
             'title' => 'Mencetak Generasi Unggul Berkarakter Qur\'ani',
             'subtitle' => 'Kurikulum Terpadu JSIT & Nasional dengan fasilitas modern representatif.',
-            'image' => asset('/uploads/galeri/galeri-kampus-terpadu.webp')
+            'image' => asset($info['hero_image'] ?: ($info['hero_bg_image'] ?: '/images/logo-robbani-official.png'))
         ],
         [
             'title' => 'Pendaftaran Santri Baru (SPMB) Telah Dibuka',
             'subtitle' => 'Daftarkan putra-putri tercinta sekarang, kuota terbatas per kelas.',
-            'image' => asset('/uploads/activities-smpit-ishum.webp')
+            'image' => asset($info['flyer'] ?: ($info['hero_image'] ?: '/images/logo-robbani-official.png'))
         ]
     ];
 @endphp
@@ -60,7 +60,7 @@
                  x-transition:leave-start="opacity-100" 
                  x-transition:leave-end="opacity-0" 
                  class="absolute inset-0">
-                <img :src="slide.image" :alt="slide.title" class="w-full h-full object-cover object-center brightness-60" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                <img :src="slide.image" :alt="slide.title" class="w-full h-full object-cover object-center brightness-60" onerror="this.src='/images/logo-robbani-official.png'">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40"></div>
 
                 <div class="absolute inset-0 flex items-center justify-center pt-2 pb-16 sm:pb-14">
@@ -157,11 +157,11 @@
                 <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Agenda</span>
             </a>
 
-            <a href="{{ asset('/uploads/panduan-tahfidz-ishum.pdf') }}" target="_blank" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
+            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-indigo-50 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
-                    <i class="fa-solid fa-download"></i>
+                    <i class="fa-solid fa-file-pdf"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Download</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-600 leading-tight line-clamp-1">Brosur</span>
             </a>
 
         </div>
@@ -178,10 +178,10 @@
             {{-- FLYER 3:4 SISI KIRI --}}
             <div class="lg:col-span-4 flex justify-center">
                 <div class="w-full max-w-[240px] sm:w-72 rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-400/40 ring-4 ring-indigo-500/30 group">
-                    <img src="{{ asset($info['flyer'] ?? '/uploads/flyer-spmb-smpit-ishum.png') }}" 
+                    <img src="{{ asset($info['flyer'] ?: ($info['hero_image'] ?: '/images/logo-robbani-official.png')) }}" 
                          alt="Flyer SPMB {{ $info['name'] }}" 
                          class="w-full h-auto object-cover group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/uploads/flyer-spmb-smpit-ishum.png'">
+                         onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
             </div>
 
@@ -230,7 +230,7 @@
                         <i class="fa-solid fa-graduation-cap"></i>
                         <span>Daftar Sekarang</span>
                     </a>
-                    <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}" 
+                    <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}" 
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition flex items-center justify-center space-x-2">
@@ -275,7 +275,7 @@
                 </h2>
                 <div class="w-16 h-1 bg-indigo-600 rounded-full mx-auto lg:mx-0"></div>
                 <p class="text-xs sm:text-sm text-gray-600 leading-relaxed text-justify">
-                    Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi {{ $info['name'] }}. Kami hadir dengan komitmen tinggi mendidik dan membimbing ananda menjadi generasi robbani yang beraqidah lurus, berakhlak mulia, hafidz Al-Qur'an, serta unggul dalam penguasaan sains dan teknologi.
+                    {{ $info['principal_greeting'] ?? ('Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi ' . $info['name'] . '. Kami hadir dengan komitmen tinggi mendidik dan membimbing ananda menjadi generasi robbani yang beraqidah lurus, berakhlak mulia, hafidz Al-Qur\'an, serta unggul dalam penguasaan sains dan teknologi.') }}
                 </p>
                 <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
                     <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" 
@@ -321,10 +321,10 @@
         @if($featuredNews)
             <div class="lg:col-span-7 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 group flex flex-col justify-between reveal-fade-up">
                 <div class="relative h-64 sm:h-80 overflow-hidden bg-gray-100">
-                    <img src="{{ asset($featuredNews['image'] ?? '/uploads/campus-smpit-ishum.webp') }}" 
+                    <img src="{{ asset($featuredNews['image'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $featuredNews['title'] }}" 
                          class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                         onerror="this.src='/images/logo-robbani-official.png'">
                     <span class="absolute top-4 left-4 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
                         {{ $featuredNews['category'] ?? 'Berita Utama' }}
                     </span>
@@ -352,10 +352,10 @@
                 <a href="{{ !empty($sItem['slug']) ? route('school.berita.show', $sItem['slug']) : '#' }}" 
                    class="bg-white rounded-2xl p-4 shadow-md border border-gray-100 hover:border-indigo-300 transition group flex items-center space-x-4 reveal-fade-up">
                     <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
-                        <img src="{{ asset($sItem['image'] ?? '/uploads/campus-smpit-ishum.webp') }}" 
+                        <img src="{{ asset($sItem['image'] ?? '/images/logo-robbani-official.png') }}" 
                              alt="{{ $sItem['title'] }}" 
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                             onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                             onerror="this.src='/images/logo-robbani-official.png'">
                     </div>
                     <div class="space-y-1 min-w-0 flex-1">
                         <span class="text-[10px] text-gray-400 font-medium block">
@@ -423,15 +423,12 @@
     </div>
 
     @php
-        $teacherList = !empty($info['teachers']) ? array_slice($info['teachers'], 0, 4) : [
-            ['name' => $info['principal_name'], 'role' => 'Kepala Sekolah', 'photo' => '/uploads/dewan/kepala-sekolah.webp'],
-            ['name' => 'Ustadz Pembina Tahfidz', 'role' => 'Guru Tahfidz & TTQ', 'photo' => '/uploads/dewan/guru-kelas.webp'],
-            ['name' => 'Ustadzah Sains & Digital', 'role' => 'Guru Sains & Riset', 'photo' => '/uploads/dewan/guru-ipa.webp'],
-            ['name' => 'Ustadzah Bahasa Asing', 'role' => 'Guru Bahasa Asing', 'photo' => '/uploads/dewan/guru-bahasa.webp']
+        $teacherList = !empty($info['teachers']) ? array_slice($info['teachers'], 0, 8) : [
+            ['name' => $info['principal_name'], 'role' => 'Kepala Sekolah', 'photo' => $info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp']
         ];
     @endphp
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
         @foreach($teacherList as $tc)
             <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition duration-300 reveal-fade-up text-center group">
                 <div class="h-44 sm:h-64 overflow-hidden bg-indigo-50">
@@ -468,40 +465,31 @@
             <div class="w-16 h-1 bg-red-600 rounded-full mx-auto"></div>
         </div>
 
+        @php
+            $displayVideos = !empty($unitVideos) ? array_slice($unitVideos, 0, 3) : [];
+        @endphp
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group">
-                <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center">
-                    <img src="/uploads/campus-smpit-ishum.webp" alt="Video Profil Sekolah" class="w-full h-full object-cover opacity-60">
-                    <a href="https://www.youtube.com" target="_blank" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video Profil">
-                        <i class="fa-solid fa-play"></i>
-                    </a>
+            @forelse($displayVideos as $v)
+                <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group flex flex-col justify-between">
+                    <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center overflow-hidden">
+                        <img src="{{ asset($v['thumbnail'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $v['title'] }}" class="w-full h-full object-cover opacity-75 group-hover:scale-105 transition duration-500" onerror="this.src='/images/logo-robbani-official.png'">
+                        <a href="{{ $v['url'] ?? 'https://youtube.com' }}" target="_blank" rel="noopener noreferrer" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video">
+                            <i class="fa-solid fa-play"></i>
+                        </a>
+                        @if(!empty($v['duration']))
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-[10px] font-bold px-2 py-0.5 rounded text-white">{{ $v['duration'] }}</span>
+                        @endif
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-xs font-bold text-white line-clamp-2 leading-snug">{{ $v['title'] }}</h4>
+                    </div>
                 </div>
-                <div class="p-4">
-                    <h4 class="text-xs font-bold text-white line-clamp-2">Profil Resmi &amp; Kiprah Santri {{ $info['name'] }}</h4>
+            @empty
+                <div class="col-span-3 text-center py-6 text-xs text-slate-400">
+                    Dokumentasi video resmi dapat dilihat pada saluran YouTube resmi SIT Robbani.
                 </div>
-            </div>
-            <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group">
-                <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center">
-                    <img src="/uploads/activities-smpit-ishum.webp" alt="Wisuda Tahfidz" class="w-full h-full object-cover opacity-60">
-                    <a href="https://www.youtube.com" target="_blank" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video Wisuda">
-                        <i class="fa-solid fa-play"></i>
-                    </a>
-                </div>
-                <div class="p-4">
-                    <h4 class="text-xs font-bold text-white line-clamp-2">Munaqosah &amp; Wisuda Akbar Tahfidz Al-Qur'an</h4>
-                </div>
-            </div>
-            <div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-xl group">
-                <div class="relative h-44 sm:h-48 bg-slate-800 flex items-center justify-center">
-                    <img src="/uploads/campus-smpit-ishum.webp" alt="Class Meeting" class="w-full h-full object-cover opacity-60">
-                    <a href="https://www.youtube.com" target="_blank" class="absolute w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition" aria-label="Putar Video Class Meeting">
-                        <i class="fa-solid fa-play"></i>
-                    </a>
-                </div>
-                <div class="p-4">
-                    <h4 class="text-xs font-bold text-white line-clamp-2">Semarak Class Meeting &amp; Pentas Seni Santri</h4>
-                </div>
-            </div>
+            @endforelse
         </div>
 
         <div class="text-center pt-2">
@@ -529,16 +517,25 @@
                 </h3>
             </div>
             <div class="space-y-3.5">
-                <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-1">
-                    <span class="text-[10px] font-bold text-indigo-600 uppercase">Akademik &bull; 18 Sep 2026</span>
-                    <h4 class="text-xs font-bold text-gray-900">Jadwal Penilaian Tengah Semester (PTS) TA 2026/2027</h4>
-                    <p class="text-xs text-gray-600">Diharapkan seluruh santri mempersiapkan diri dengan belajar tekun dan menjaga kesehatan.</p>
-                </div>
-                <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 space-y-1">
-                    <span class="text-[10px] font-bold text-amber-600 uppercase">SPMB &bull; 15 Sep 2026</span>
-                    <h4 class="text-xs font-bold text-gray-900">Pengumuman Kelulusan Jalur Prestasi Tahfidz Al-Qur'an</h4>
-                    <p class="text-xs text-gray-600">Hasil verifikasi berkas dan tes bacaan Al-Qur'an telah dikirimkan ke nomor WhatsApp wali santri.</p>
-                </div>
+                @php
+                    $displayAnnouncements = !empty($unitAnnouncements) ? array_slice($unitAnnouncements, 0, 3) : [
+                        [
+                            'category' => 'Akademik',
+                            'date' => '18 Sep 2026',
+                            'title' => 'Jadwal Penilaian Tengah Semester (PTS) TA 2026/2027',
+                            'summary' => 'Diharapkan seluruh santri mempersiapkan diri dengan belajar tekun dan menjaga kesehatan.'
+                        ]
+                    ];
+                @endphp
+                @foreach($displayAnnouncements as $an)
+                    <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-1">
+                        <span class="text-[10px] font-bold text-indigo-600 uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
+                        <h4 class="text-xs font-bold text-gray-900">{{ $an['title'] }}</h4>
+                        @if(!empty($an['summary']))
+                            <p class="text-xs text-gray-600">{{ $an['summary'] }}</p>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -590,24 +587,24 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group">
-            <img src="/uploads/galeri/galeri-kampus-terpadu.webp" alt="Kegiatan Kampus" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
-        </div>
-        <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group">
-            <img src="/uploads/galeri/galeri-suasana-kelas.webp" alt="Suasana Belajar" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='/uploads/activities-smpit-ishum.webp'">
-        </div>
-        <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group">
-            <img src="/uploads/galeri/galeri-lab-sains.webp" alt="Praktikum Sains" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
-        </div>
-        <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group">
-            <img src="/uploads/galeri/galeri-panahan-pramuka.webp" alt="Panahan & Pramuka" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='/uploads/activities-smpit-ishum.webp'">
-        </div>
-        <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group">
-            <img src="/uploads/galeri/galeri-perpustakaan.webp" alt="Perpustakaan Santri" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
-        </div>
-        <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group">
-            <img src="/uploads/galeri/galeri-wisuda-tahfidz.webp" alt="Wisuda Tahfidz" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='/uploads/activities-smpit-ishum.webp'">
-        </div>
+        @php
+            $displayGallery = !empty($unitGallery) ? array_slice($unitGallery, 0, 6) : [];
+        @endphp
+        @forelse($displayGallery as $g)
+            <div class="rounded-2xl overflow-hidden shadow-md h-52 sm:h-60 bg-gray-100 group relative">
+                <img src="{{ asset($g['image'] ?? '/images/logo-robbani-official.png') }}" 
+                     alt="{{ $g['title'] ?? 'Dokumentasi Santri' }}" 
+                     class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
+                     onerror="this.src='/images/logo-robbani-official.png'">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                    <span class="text-white text-xs font-bold line-clamp-1">{{ $g['title'] ?? 'Dokumentasi' }}</span>
+                </div>
+            </div>
+        @empty
+            <div class="col-span-3 text-center py-6 text-xs text-gray-400">
+                Dokumentasi foto kegiatan sekolah tersedia di laman profil.
+            </div>
+        @endforelse
     </div>
 
     <div class="text-center pt-2">
@@ -654,16 +651,16 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-tahfidz-mutqin.webp" alt="Literasi Al-Qur'an" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                <img src="/uploads/covers/cover-tahfidz-mutqin.webp" alt="Literasi Al-Qur'an" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
             </div>
             <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-praktikum-sains.webp" alt="Literasi Sains" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                <img src="/uploads/covers/cover-praktikum-sains.webp" alt="Literasi Sains" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
             </div>
             <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-bilingual-arab-inggris.webp" alt="Literasi Bahasa" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                <img src="/uploads/covers/cover-bilingual-arab-inggris.webp" alt="Literasi Bahasa" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
             </div>
             <div class="rounded-2xl overflow-hidden border border-slate-800 h-48 sm:h-52 group relative">
-                <img src="/uploads/covers/cover-karakter-santri.webp" alt="Literasi Karakter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                <img src="/uploads/covers/cover-karakter-santri.webp" alt="Literasi Karakter" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='/images/logo-robbani-official.png'">
             </div>
         </div>
         <div class="text-center pt-2">
@@ -708,7 +705,7 @@
                         <img src="{{ asset($t['avatar'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
                              alt="{{ $t['name'] }}" 
                              class="w-full h-full object-cover"
-                             onerror="this.src='/uploads/logo-ishum-square.png'">
+                             onerror="this.src='/images/logo-robbani-official.png'">
                     </div>
                     <div>
                         <span class="block text-xs font-bold text-gray-900">{{ $t['name'] }}</span>
@@ -735,7 +732,7 @@
             </div>
         </a>
 
-        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}" target="_blank" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-amber-500 hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
+        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}" target="_blank" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-amber-500 hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
             <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
                 <i class="fa-brands fa-whatsapp"></i>
             </div>

@@ -10,9 +10,9 @@
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     $historyData = $info['history'] ?? [
-        'title' => 'Membangun Generasi Emas Ishum di Bumi Caram Seguguk',
+        'title' => 'Membangun Generasi Robbani Berkarakter & Menguasai IPTEK',
         'badge' => 'Jejak Langkah & Perkembangan',
-        'image' => '/uploads/campus-smpit-ishum.webp',
+        'image' => '/images/logo-robbani-official.png',
         'paragraphs' => [
             $info['name'] . ' didirikan sebagai wujud kepedulian terhadap pentingnya pendidikan generasi muda Islam yang seimbang antara ilmu pengetahuan umum dan pemahaman agama yang mendalam.',
             'Berawal dari kesuksesan pembinaan di tingkat dasar, masyarakat mendambakan kelanjutan pendidikan yang tetap mengusung nilai-nilai Qur\'ani dan pembiasaan adab Islami secara konsisten.',
@@ -48,10 +48,10 @@
                 
                 {{-- FOTO GEDUNG / KAMPUS SEKOLAH --}}
                 <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 max-h-64 sm:max-h-96">
-                    <img src="{{ asset($historyData['image'] ?? '/uploads/campus-smpit-ishum.webp') }}" 
+                    <img src="{{ asset($historyData['image'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="Gedung Kampus {{ $info['name'] }}" 
                          class="w-full h-full object-cover"
-                         onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                         onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
 
                 <div class="border-b border-gray-100 pb-4">

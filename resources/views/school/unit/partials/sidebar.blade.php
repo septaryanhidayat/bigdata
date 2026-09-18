@@ -28,10 +28,10 @@
                 <a href="{{ !empty($item['slug']) ? route('school.berita.show', $item['slug']) : url('/unit/' . $codeLower . '#berita') }}" 
                    class="flex items-center space-x-3.5 group p-2 rounded-2xl hover:bg-gray-50 transition">
                     <div class="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 shadow-sm">
-                        <img src="{{ asset($item['image'] ?? '/uploads/campus-smpit-ishum.webp') }}" 
+                        <img src="{{ asset($item['image'] ?? '/images/logo-robbani-official.png') }}" 
                              alt="{{ $item['title'] }}" 
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                             onerror="this.src='/uploads/campus-smpit-ishum.webp'">
+                             onerror="this.src='/images/logo-robbani-official.png'">
                     </div>
                     <div class="space-y-1 min-w-0 flex-1">
                         <h4 class="text-xs font-bold text-gray-900 group-hover:text-indigo-600 transition line-clamp-2 leading-snug">
