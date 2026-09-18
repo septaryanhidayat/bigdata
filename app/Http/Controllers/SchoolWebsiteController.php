@@ -261,12 +261,11 @@ class SchoolWebsiteController extends Controller
 
     public function unitProfile($code)
     {
-        $cleanCode = strtolower($code);
+        $cleanCode = strtolower(trim($code));
         if ($cleanCode === 'kbtkit') {
             $cleanCode = 'tkit';
         }
-
-        $cleanCode = strtolower(trim($code));
+        $schoolCode = $cleanCode;
         $school = School::withCount(['students', 'employees', 'classrooms'])
             ->where('code', strtoupper($cleanCode))
             ->first();
@@ -659,7 +658,8 @@ class SchoolWebsiteController extends Controller
 
         return view('school.unit', compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
-            'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements'
+            'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements',
+            'schoolCode'
         ));
     }
 
@@ -1137,7 +1137,7 @@ class SchoolWebsiteController extends Controller
         return view('school.spmb_verify', compact('settings', 'registration'));
     }
 
-    public function eSppCheck(Request $request = null)
+    public function eSppCheck(?Request $request = null)
     {
         $request = $request ?? request();
         $settings = $this->getSettings();

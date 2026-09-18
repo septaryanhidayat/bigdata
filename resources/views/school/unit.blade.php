@@ -250,6 +250,7 @@
     @php
         $unitCodeLower = strtolower($info['code'] ?? 'sdit');
         if ($unitCodeLower === 'kbtkit') $unitCodeLower = 'tkit';
+        $schoolCode = $schoolCode ?? $unitCodeLower;
 
         $themeConfig = [
             'tkit' => [
