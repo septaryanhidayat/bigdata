@@ -449,8 +449,8 @@ class SchoolWebsiteController extends Controller
             }
 
             // Sanitasi dan validasi foto kepala sekolah & banner dari artefak dummy
-            if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan')) {
-                $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/images/avatar-gray-person.svg';
+            if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan') || str_contains($info['principal_photo'], 'kepsek_smpit')) {
+                $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp';
             }
             if (empty($info['hero_bg_image']) || str_contains($info['hero_bg_image'], 'herobg_smpit')) {
                 $info['hero_bg_image'] = $defaultInfo['hero_bg_image'] ?? '/uploads/cms/banner-hero.webp';
@@ -611,7 +611,7 @@ class SchoolWebsiteController extends Controller
                 $val = '/images/avatar-gray-person.svg';
             }
         });
-        if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan')) {
+        if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan') || str_contains($info['principal_photo'], 'kepsek_smpit')) {
             $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/images/avatar-gray-person.svg';
         }
 
@@ -1409,6 +1409,12 @@ class SchoolWebsiteController extends Controller
                         $uniqueMap[$key] = $item;
                     }
                 }
+                foreach ($uniqueMap as &$uItem) {
+                    if (!empty($uItem['image']) && (str_contains($uItem['image'], 'post_1787071061') || str_contains($uItem['image'], 'img20251124075603-scaled_0267776a'))) {
+                        $uItem['image'] = '/uploads/media/smpit_post_IMG20251124075603-scaled_6e6f5f2c.jpg';
+                    }
+                }
+                unset($uItem);
                 $data = array_values($uniqueMap);
                 usort($data, function($a, $b) {
                     $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
@@ -2735,8 +2741,8 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'kurikulum' => 'Merdeka & Kekhasan JSIT',
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
-                'principal_title' => 'Kepala Sekolah SMP IT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/cms/kepsek_smpit_6a910d345ced2_6a910d346d8ea.webp?v=1787890997',
+                'principal_title' => 'Kepala SMPIT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
                 'vision' => 'Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.',

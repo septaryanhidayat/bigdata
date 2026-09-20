@@ -6,7 +6,11 @@
         'gold' => '#f59e0b',
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
-    $unitUrl = url('/unit/' . $codeLower);
+    $currentHost = request()->getHost();
+    $subdomains = ['tk', 'tkit', 'sd', 'sdit', 'smp', 'smpit', 'sma', 'smait', 'spmb'];
+    $parts = explode('.', $currentHost);
+    $isSubdomain = count($parts) >= 3 && in_array(strtolower($parts[0]), $subdomains);
+    $unitUrl = $isSubdomain ? url('/') : url('/unit/' . $codeLower);
 @endphp
 
 {{-- TOP MINI BAR (Kontak Telepon, Email Resmi, & Lokasi) --}}
@@ -61,7 +65,7 @@
             <nav class="hidden lg:flex items-center space-x-1 font-bold text-xs text-white">
                 
                 {{-- 1. Beranda --}}
-                <a href="{{ $unitUrl }}" class="px-3 py-2 rounded-xl hover:bg-white/15 transition {{ request()->is('unit/' . $codeLower) && !request()->is('unit/' . $codeLower . '/*') && !request()->has('page') ? 'bg-white/20 text-white shadow-inner' : '' }}">
+                <a href="{{ $unitUrl }}" class="px-3 py-2 rounded-xl hover:bg-white/15 transition {{ ((request()->is('unit/' . $codeLower) || request()->path() === '/') && !request()->is('unit/' . $codeLower . '/*') && !request()->has('page')) ? 'bg-white/20 text-white shadow-inner' : '' }}">
                     Beranda
                 </a>
 
@@ -224,7 +228,7 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-4"
          class="lg:hidden bg-slate-900/98 backdrop-blur-xl border-b border-indigo-900/80 px-4 pt-3 pb-6 space-y-2 text-sm text-white shadow-2xl max-h-[80vh] overflow-y-auto">
-        <a href="{{ $unitUrl }}" class="block px-3.5 py-2.5 rounded-xl hover:bg-white/10 font-bold {{ request()->is('unit/' . $codeLower) && !request()->is('unit/' . $codeLower . '/*') ? 'bg-white/15' : '' }}">
+        <a href="{{ $unitUrl }}" class="block px-3.5 py-2.5 rounded-xl hover:bg-white/10 font-bold {{ ((request()->is('unit/' . $codeLower) || request()->path() === '/') && !request()->is('unit/' . $codeLower . '/*')) ? 'bg-white/15' : '' }}">
             <i class="fa-solid fa-house w-6 text-amber-400"></i> Beranda
         </a>
         <div class="border-t border-slate-800 my-1 pt-1">
