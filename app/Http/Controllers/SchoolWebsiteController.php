@@ -448,9 +448,46 @@ class SchoolWebsiteController extends Controller
                 $info[$key] = $userItems;
             }
 
+            // Sanitasi dan validasi foto kepala sekolah & banner dari artefak dummy
+            if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan')) {
+                $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/images/avatar-gray-person.svg';
+            }
+            if (empty($info['hero_bg_image']) || str_contains($info['hero_bg_image'], 'herobg_smpit')) {
+                $info['hero_bg_image'] = $defaultInfo['hero_bg_image'] ?? '/uploads/cms/banner-hero.webp';
+            }
+            if (empty($info['hero_image']) || str_contains($info['hero_image'], 'hero_smpit')) {
+                $info['hero_image'] = $defaultInfo['hero_image'] ?? $info['hero_bg_image'];
+            }
+            if (empty($info['campus_photo']) || str_contains($info['campus_photo'], 'herobg_smpit')) {
+                $info['campus_photo'] = $defaultInfo['campus_photo'] ?? $info['hero_bg_image'];
+            }
+
             if (empty($info['teachers'])) {
                 $info['teachers'] = $defaultInfo['teachers'] ?? [];
+            } else {
+                // Bersihkan referensi dummy /uploads/dewan dan path 404 pada data guru
+                foreach ($info['teachers'] as &$tcItem) {
+                    $p = $tcItem['photo'] ?? '';
+                    if (empty($p) || str_contains($p, 'uploads/dewan') || str_contains($p, 'guru_smpit')) {
+                        $matchedPhoto = null;
+                        foreach ($defaultInfo['teachers'] ?? [] as $dTeach) {
+                            if (strtolower(trim($dTeach['name'] ?? '')) === strtolower(trim($tcItem['name'] ?? ''))) {
+                                $matchedPhoto = $dTeach['photo'] ?? null;
+                                break;
+                            }
+                        }
+                        $tcItem['photo'] = $matchedPhoto ?: '/images/avatar-gray-person.svg';
+                    }
+                }
+                unset($tcItem);
             }
+
+            // Sanitasi seluruh referensi /uploads/dewan yang tersisa pada seluruh data info unit (alumni, fasilitas, ekskul, dll)
+            array_walk_recursive($info, function (&$val, $key) {
+                if (is_string($val) && str_contains($val, 'uploads/dewan')) {
+                    $val = '/images/avatar-gray-person.svg';
+                }
+            });
 
             $students = Student::where('school_id', $school->id ?? 1)->where(function($q) { $q->where('status', 'aktif')->orWhere('status', 'ACTIVE'); })->take(10)->get();
             $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
@@ -566,6 +603,16 @@ class SchoolWebsiteController extends Controller
 
             $unitPrograms = !empty($info['programs']) ? $info['programs'] : ($defaultInfo['programs'] ?? $defaultInfo['ekskul'] ?? $unitEkskul);
             $unitAlumni = !empty($info['alumni']) ? $info['alumni'] : [];
+        }
+
+        // Sanitasi global seluruh referensi /uploads/dewan yang tersisa pada seluruh data info unit (termasuk SMAIT)
+        array_walk_recursive($info, function (&$val, $key) {
+            if (is_string($val) && str_contains($val, 'uploads/dewan')) {
+                $val = '/images/avatar-gray-person.svg';
+            }
+        });
+        if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan')) {
+            $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/images/avatar-gray-person.svg';
         }
 
         if ($school) {
@@ -1399,7 +1446,7 @@ class SchoolWebsiteController extends Controller
                 'category' => 'SMPIT',
                 'date' => '31 Juli 2026',
                 'author' => 'Humas SIT Robbani',
-                'image' => '/uploads/media/img20251124075603-scaled_0267776a.jpg',
+                'image' => '/uploads/media/smpit_post_IMG20251124075603-scaled_6e6f5f2c.jpg',
                 'excerpt' => 'Alhamdulillah, Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir berhasil meraih Penghargaan Peserta Terbaik III dalam Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan.',
                 'content' => 'Ogan Ilir — Sebuah kebanggaan besar kembali diukir oleh keluarga besar Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Ibu Tia Wulandari, S.Pd., Kepala SMP IT Robbani Ogan Ilir, berhasil meraih penghargaan sebagai Peserta Terbaik III pada Diklat Manajemen Kepala Sekolah tingkat Provinsi Sumatera Selatan Tahun 2026.'
             ],
@@ -2717,9 +2764,12 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'domain' => 'sitrobbani.sch.id',
                 'logo' => '/images/logo_smpit.png',
                 'flyer' => '/images/spmb/flyer-spmb-sit-robbani.webp',
-                'campus_photo' => '/uploads/cms/herobg_smpit_6a848f3896b2c_6a848f389987e.webp?v=1787072312',
-                'hero_bg_image' => '/uploads/cms/herobg_smpit_6a848f3896b2c_6a848f389987e.webp?v=1787072312',
-                'hero_image' => '/uploads/cms/hero_smpit_6a848f38bf580_6a848f38c1bc5.webp?v=1787072312',
+                'campus_photo' => '/uploads/media/smpit_post_IMG20241017130510-scaled_9f90cc01.jpg',
+                'hero_bg_image' => '/uploads/media/smpit_post_20251119_082653-scaled_ca9746db.jpg',
+                'hero_image' => '/uploads/media/smpit_post_IMG-20260713-WA0032-scaled_b6afa939.jpg',
+                'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
+                'principal_title' => 'Kepala SMPIT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
                 'students_count' => 58,
                 'employees_count' => 12,
                 'classrooms_count' => 3,
@@ -2729,98 +2779,112 @@ public function getDefaultUnitMap(array $themeTokens): array
   0 => 
   array (
     'title' => 'SIPAKAR V2 Digital Learning',
-    'icon' => 'ud83dudcbb',
+    'icon' => '💻',
     'desc' => 'Pembelajaran digital terintegrasi sistem presensi RFID, modul CBT online, dan rekam jejak mutabaah yaumiyah siswa.',
   ),
   1 => 
   array (
     'title' => 'Program Unggulan Tahsin Tahfidz Qur\'an (5-10 Juz)',
-    'icon' => 'ud83dudcd6',
+    'icon' => '📖',
     'desc' => 'Pembinaan intensif membaca (Tahsin) & menghafal (Tahfidz) 5-10 Juz Al-Qur\'an dengan metode talaqqi dan murojaah berkala.',
   ),
   2 => 
   array (
     'title' => 'Program Unggulan Bina Pribadi Islam (BPI)',
-    'icon' => 'ud83cudf1f',
+    'icon' => '🌟',
     'desc' => 'Pembinaan karakter komprehensif (Fullday School) melalui mentoring kelompok kecil, sholat dhuha & dhuhur berjamaah, serta adab harian.',
   ),
   3 => 
   array (
     'title' => 'Bilingual & Public Speaking Club',
-    'icon' => 'ud83cudf0d',
+    'icon' => '🌍',
     'desc' => 'Pembiasaan percakapan harian Bahasa Arab & Inggris serta pelatihan kepemimpinan dan public speaking siswa.',
   ),
 ),
                 'teachers' => array (
   0 => 
   array (
-    'name' => 'Atika Junie Astuti, S.P',
-    'role' => 'Guru IPA, TTQ, & BPI',
-    'photo' => '/uploads/cms/guru_smpit_0_6a964505759bf_6a964505798b9.webp?v=1788232965',
-    'bio' => '',
+    'name' => 'Tia Wulandari, S.Pd., Gr.',
+    'role' => 'Kepala SMPIT Robbani',
+    'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
+    'bio' => 'Kepala Sekolah SMPIT Robbani berdedikasi memimpin pendidikan Islam terpadu berkualitas.',
   ),
   1 => 
   array (
-    'name' => 'Sulis Setya Ningsih, S.Pd',
-    'role' => 'Guru IPS & Seni Teater',
-    'photo' => '/uploads/cms/guru_smpit_1_6a96450589cf1_6a9645058bcfb.webp?v=1788232965',
-    'bio' => '',
+    'name' => 'Atika Junie Astuti, S.P',
+    'role' => 'Guru IPA, TTQ, & BPI',
+    'photo' => '/uploads/media/b2c738bc73172000c348fe9732dbecf6.webp',
+    'bio' => 'Guru mata pelajaran IPA, TTQ dan Pembina Karakter BPI siswa SMPIT Robbani.',
   ),
   2 => 
   array (
-    'name' => 'Nurbaiti Mafaza, Lc',
-    'role' => 'Guru Bahasa Arab & TTQ',
-    'photo' => '/uploads/cms/guru_smpit_2_6a96450598f4b_6a9645059a90b.webp?v=1788232965',
-    'bio' => '',
+    'name' => 'Sulis Setya Ningsih, S.Pd',
+    'role' => 'Guru IPS & Seni Teater',
+    'photo' => '/uploads/media/d3e51bd52edb07d8614fe2565072e0c5.webp',
+    'bio' => 'Guru mata pelajaran IPS dan pembimbing apresiasi seni teater siswa.',
   ),
   3 => 
   array (
-    'name' => 'Ega Maharani, S.Si., Gr.',
-    'role' => 'Guru Matematika & TIK',
-    'photo' => '/uploads/cms/guru_smpit_3_6a964505a9d99_6a964505abfdd.webp?v=1788232965',
-    'bio' => '',
+    'name' => 'Anita Septia, S.Pd',
+    'role' => 'Guru Bahasa Indonesia',
+    'photo' => '/uploads/media/1a306591b4f11e6554f591c37690d5b8.webp',
+    'bio' => 'Guru Bahasa Indonesia berdedikasi membina literasi dan kecakapan berbahasa.',
   ),
   4 => 
   array (
-    'name' => 'Anita Septia, S.Pd',
-    'role' => 'Guru Bahasa Indonesia',
-    'photo' => '/uploads/cms/guru_smpit_4_6a9646532143a_6a96465325458.webp?v=1788233299',
-    'bio' => '',
+    'name' => 'Nurbaiti Mafaza, Lc',
+    'role' => 'Guru Bahasa Arab & TTQ',
+    'photo' => '/uploads/media/8a9b894e3694bf33b6f404e78dbe0aa4.webp',
+    'bio' => 'Lulusan Al-Azhar Kairo, mengampu Bahasa Arab dan bimbingan TTQ mutqin.',
   ),
   5 => 
   array (
-    'name' => 'Tia Wulandari, S.Pd., Gr.',
-    'role' => 'Kepala Sekolah',
-    'photo' => '/uploads/media/8a9b894e3694bf33b6f404e78dbe0aa4.webp',
-    'bio' => '',
+    'name' => 'Ega Maharani, S.Si., Gr.',
+    'role' => 'Guru Matematika & TIK',
+    'photo' => '/uploads/media/594dd0069de306c30552420e1b926084.webp',
+    'bio' => 'Guru Matematika dan TIK membina logika sains dan keterampilan digital.',
   ),
   6 => 
   array (
-    'name' => 'Nurul Hamida Yanti, S.E.',
-    'role' => 'Guru PAI, Hadist & TTQ',
-    'photo' => '/uploads/cms/guru_smpit_6_6a96462bf1e0d_6a96462c00a34.webp?v=1788233260',
-    'bio' => '',
+    'name' => 'Syaifudin, S.Sn., Gr.',
+    'role' => 'Guru PJOK & Seni Rupa',
+    'photo' => '/uploads/media/83f5cdfe22b97802cb88ecddf4a22486.webp',
+    'bio' => 'Lulusan ISI Yogyakarta, mengajar PJOK dan seni rupa kriya siswa.',
   ),
   7 => 
   array (
-    'name' => 'Syaifudin, S.Sn., Gr.',
-    'role' => 'Guru PJOK dan Prakarya',
-    'photo' => '/uploads/media/83f5cdfe22b97802cb88ecddf4a22486.webp',
-    'bio' => '',
+    'name' => 'Nini Anggraini, S.Pd',
+    'role' => 'Guru Hadist, PAI & TTQ',
+    'photo' => '/uploads/media/54a2d99ab10745e07564015cfc1228ee.webp',
+    'bio' => 'Pembina mata pelajaran Hadist, PAI, serta pembiasaan hafalan Qur\'an.',
   ),
   8 => 
   array (
-    'name' => 'Nini Anggraini, S.Pd',
-    'role' => 'Guru Hadist, PAI & TTQ',
-    'photo' => '/uploads/cms/guru_smpit_8_6a9645e96452a_6a9645e966f13.webp?v=1788233193',
-    'bio' => '',
+    'name' => 'Rifda Saugina, S.Pd',
+    'role' => 'Guru Bahasa Inggris',
+    'photo' => '/uploads/media/1ab1778a6021f1ce288cf0e3b8031046.webp',
+    'bio' => 'Guru Bahasa Inggris dan pembina English Club SMPIT Robbani.',
   ),
   9 => 
   array (
+    'name' => 'Nurul Hamida Yanti, S.E.',
+    'role' => 'Guru PAI, Hadist & TTQ',
+    'photo' => '/uploads/media/b839d8b384fd3d66b6c08bdb59e54839.webp',
+    'bio' => 'Guru mata pelajaran PAI, Hadits dan Tahsin Tahfidz Al-Qur\'an.',
+  ),
+  10 => 
+  array (
     'name' => 'Adelia Jesika, S.Pd',
     'role' => 'Staff Tata Usaha',
-    'photo' => '/uploads/cms/guru_smpit_9_6a96462c12a86_6a96462c15c01.webp?v=1788233260',
-    'bio' => '',
+    'photo' => '/uploads/media/105be986293de8c41c1e9c49bd4c40ce.webp',
+    'bio' => 'Staff Tata Usaha dan pelayanan administrasi akademik SMPIT Robbani.',
+  ),
+  11 => 
+  array (
+    'name' => 'Muhammad Yusuf, S.Sos',
+    'role' => 'Staff Keuangan & Karakter',
+    'photo' => '/uploads/media/3c2fedb6aea0123567c6132ad53e8814.webp',
+    'bio' => 'Staff Keuangan dan pembina ketertiban serta karakter islami siswa.',
   ),
 ),
                 'facilities' => array (

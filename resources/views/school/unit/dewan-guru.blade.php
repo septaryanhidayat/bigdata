@@ -17,7 +17,7 @@
             [
                 'name' => $info['principal_name'],
                 'role' => $info['principal_title'] ?? 'Kepala Sekolah',
-                'photo' => $info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp',
+                'photo' => $info['principal_photo'] ?: '/images/avatar-gray-person.svg',
                 'bio' => 'Pendidik berdedikasi dan praktisi pendidikan karakter Islami.'
             ]
         ];
@@ -147,10 +147,10 @@
                 
                 {{-- PHOTO CONTAINER --}}
                 <div class="h-48 sm:h-64 overflow-hidden bg-gradient-to-b from-gray-50 to-indigo-50/50 relative">
-                    <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
+                    <img src="{{ asset($tc['photo'] ?? '/images/avatar-gray-person.svg') }}" 
                          alt="{{ $tc['name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                         onerror="this.src='/images/avatar-gray-person.svg'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
                     
                     {{-- TOP BADGE --}}

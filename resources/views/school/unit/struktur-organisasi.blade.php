@@ -146,10 +146,10 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
             <div class="md:col-span-4 flex justify-center">
                 <div class="w-44 h-56 sm:w-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-white ring-4 ring-indigo-100 bg-slate-50">
-                    <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
+                    <img src="{{ asset($info['principal_photo'] ?: '/images/avatar-gray-person.svg') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top"
-                         onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                         onerror="this.src='/images/avatar-gray-person.svg'">
                 </div>
             </div>
             <div class="md:col-span-8 space-y-3 text-center md:text-left">

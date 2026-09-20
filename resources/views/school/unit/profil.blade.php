@@ -37,10 +37,10 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
             <div class="lg:col-span-4 flex justify-center">
                 <div class="w-48 h-60 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-indigo-100 bg-slate-50 relative group">
-                    <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
+                    <img src="{{ asset($info['principal_photo'] ?: '/images/avatar-gray-person.svg') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                         onerror="this.src='/images/avatar-gray-person.svg'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                     <div class="absolute bottom-3 inset-x-0 text-center text-white px-2">
                         <span class="block text-xs sm:text-sm font-extrabold truncate">{{ $info['principal_name'] }}</span>
@@ -252,7 +252,7 @@
 
         @php
             $allTeachers = !empty($info['teachers']) ? $info['teachers'] : [
-                ['name' => $info['principal_name'], 'role' => $info['principal_title'] ?? 'Kepala Sekolah', 'photo' => $info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp', 'bio' => 'Pemimpin pendidikan Islam Terpadu.']
+                ['name' => $info['principal_name'], 'role' => $info['principal_title'] ?? 'Kepala Sekolah', 'photo' => $info['principal_photo'] ?: '/images/avatar-gray-person.svg', 'bio' => 'Pemimpin pendidikan Islam Terpadu.']
             ];
         @endphp
 
@@ -260,10 +260,10 @@
             @foreach($allTeachers as $tc)
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1.5 transition duration-300 flex flex-col justify-between group">
                     <div class="h-44 sm:h-64 overflow-hidden bg-slate-50/60 relative">
-                        <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
+                        <img src="{{ asset($tc['photo'] ?? '/images/avatar-gray-person.svg') }}" 
                              alt="{{ $tc['name'] }}" 
                              class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
-                             onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                             onerror="this.src='/images/avatar-gray-person.svg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
                     </div>
                     <div class="p-3.5 sm:p-5 text-center space-y-1.5 flex-1 flex flex-col justify-between">
@@ -532,9 +532,9 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @php
                 $testimonials = !empty($info['alumni']) ? $info['alumni'] : [
-                    ['name' => 'Wali Murid Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
-                    ['name' => 'Ahmad Faiz', 'title' => 'Alumni Prestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
-                    ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp']
+                    ['name' => 'Wali Murid Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Ahmad Faiz', 'title' => 'Alumni Prestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg']
                 ];
             @endphp
 
@@ -548,10 +548,10 @@
                     </div>
                     <div class="flex items-center space-x-3 pt-3 border-t border-gray-100">
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                            <img src="{{ asset($testi['avatar'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
+                            <img src="{{ asset($testi['avatar'] ?? '/images/avatar-gray-person.svg') }}" 
                                  alt="{{ $testi['name'] }}" 
                                  class="w-full h-full object-cover"
-                                 onerror="this.src='/images/logo-robbani-official.png'">
+                                 onerror="this.src='/images/avatar-gray-person.svg'">
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-gray-900">{{ $testi['name'] }}</span>

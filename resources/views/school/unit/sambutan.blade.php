@@ -35,10 +35,10 @@
         {{-- PROFIL PIMPINAN HEADER --}}
         <div class="flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-gray-100 text-center md:text-left">
             <div class="w-48 h-56 sm:w-52 sm:h-60 rounded-2xl overflow-hidden shadow-lg border-4 border-white ring-4 ring-indigo-100 flex-shrink-0 bg-indigo-50 mx-auto md:mx-0">
-                <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
+                <img src="{{ asset($info['principal_photo'] ?: '/images/avatar-gray-person.svg') }}" 
                      alt="{{ $info['principal_name'] }}" 
                      class="w-full h-full object-cover object-top" 
-                     onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                     onerror="this.src='/images/avatar-gray-person.svg'">
             </div>
             <div class="space-y-2 text-center md:text-left">
                 <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">

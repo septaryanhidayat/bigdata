@@ -283,10 +283,10 @@
             
             <div class="lg:col-span-4 flex justify-center">
                 <div class="w-48 h-60 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-slate-100 bg-slate-50 relative group">
-                    <img src="{{ asset($info['principal_photo'] ?: '/uploads/dewan/kepala-sekolah.webp') }}" 
+                    <img src="{{ asset($info['principal_photo'] ?: '/images/avatar-gray-person.svg') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                         onerror="this.src='/images/avatar-gray-person.svg'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                     <div class="absolute bottom-3 inset-x-0 text-center text-white px-2">
                         <span class="block text-xs sm:text-sm font-extrabold truncate">{{ $info['principal_name'] }}</span>
@@ -491,10 +491,10 @@
         @forelse($teacherList as $tc)
             <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition duration-300 reveal-fade-up text-center group">
                 <div class="h-44 sm:h-64 overflow-hidden bg-slate-50">
-                    <img src="{{ asset($tc['photo'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
+                    <img src="{{ asset($tc['photo'] ?? '/images/avatar-gray-person.svg') }}" 
                          alt="{{ $tc['name'] }}" 
                          class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
-                         onerror="this.src='/uploads/dewan/kepala-sekolah.webp'">
+                         onerror="this.src='/images/avatar-gray-person.svg'">
                 </div>
                 <div class="p-3 sm:p-4 space-y-1">
                     <h3 class="text-xs sm:text-sm font-bold text-gray-900 line-clamp-1">{{ $tc['name'] }}</h3>
@@ -1186,9 +1186,9 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         @php
             $testimonials = !empty($info['alumni']) ? $info['alumni'] : [
-                ['name' => 'Wali Murid Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
-                ['name' => 'Ahmad Faiz', 'title' => 'Alumni Berprestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp'],
-                ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/uploads/dewan/kepala-sekolah.webp']
+                ['name' => 'Wali Murid Angkatan 2025', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di sekolah ini luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
+                ['name' => 'Ahmad Faiz', 'title' => 'Alumni Berprestasi', 'text' => 'Fasilitas belajar modern dan bimbingan para guru sangat mendukung minat saya di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
+                ['name' => 'Bunda Siti', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg']
             ];
         @endphp
 
@@ -1202,10 +1202,10 @@
                 </div>
                 <div class="flex items-center space-x-3 pt-3 border-t border-gray-100">
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                        <img src="{{ asset($t['avatar'] ?? '/uploads/dewan/kepala-sekolah.webp') }}" 
+                        <img src="{{ asset($t['avatar'] ?? '/images/avatar-gray-person.svg') }}" 
                              alt="{{ $t['name'] }}" 
                              class="w-full h-full object-cover"
-                             onerror="this.src='/images/logo-robbani-official.png'">
+                             onerror="this.src='/images/avatar-gray-person.svg'">
                     </div>
                     <div>
                         <span class="block text-xs font-bold text-gray-900">{{ $t['name'] }}</span>
