@@ -104,7 +104,7 @@
                 </p>
             </div>
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
-                <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+                <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                    class="w-full sm:w-auto px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:brightness-105 transition flex items-center justify-center space-x-1.5">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Daftar SPMB Online</span>

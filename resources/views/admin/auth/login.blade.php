@@ -441,8 +441,8 @@ x-init="initClock()">
                         <span>←</span>
                         <span>Kembali ke Website Utama</span>
                     </a>
-                    <a href="{{ route('school.ppdb') }}" class="font-bold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-[#c6f634] transition-colors flex items-center gap-1.5">
-                        <span>Portal PPDB Online</span>
+                    <a href="{{ route('school.spmb') }}" class="font-bold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-[#c6f634] transition-colors flex items-center gap-1.5">
+                        <span>Portal SPMB Online</span>
                         <span>→</span>
                     </a>
                 </div>

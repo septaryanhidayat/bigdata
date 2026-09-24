@@ -16,7 +16,7 @@ class SchoolWebsiteController extends Controller
         $settings = [
             'school_name' => SiteSetting::get('school_name', 'Yayasan Generasi Robbani Sumatera Selatan'),
             'tagline' => SiteSetting::get('tagline', 'Official Website Sekolah Islam Terpadu Robbani Ogan Ilir (KB/TKIT, SDIT, SMPIT, SMAIT)'),
-            'hero_badge' => SiteSetting::get('hero_badge', '✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027'),
+            'hero_badge' => SiteSetting::get('hero_badge', '✨ Sistem Penerimaan Murid Baru (SPMB) 2026/2027'),
             'hero_title' => SiteSetting::get('hero_title', 'Sekolah Islam Terpadu Robbani Ogan Ilir'),
             'hero_desc' => SiteSetting::get('hero_desc', 'Mencetak Generasi Qur\'ani, Berakhlak Mulia, Cerdas, dan Berprestasi Nasional di Kabupaten Ogan Ilir, Sumatera Selatan.'),
             'hero_bg_image' => SiteSetting::get('hero_bg_image', '/uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp'),
@@ -24,8 +24,8 @@ class SchoolWebsiteController extends Controller
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
             'principal_name' => SiteSetting::get('principal_name', 'Sughesti wulandari, S.Pd'),
             'principal_title' => SiteSetting::get('principal_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
-            'ppdb_status' => SiteSetting::get('ppdb_status', 'SPMB / PPDB TELAH DIBUKA!'),
-            'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT.'),
+            'ppdb_status' => SiteSetting::get('ppdb_status', 'SPMB TELAH DIBUKA!'),
+            'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT melalui Portal SPMB Online.'),
             'contact_phone' => SiteSetting::get('contact_phone', '0811747472'),
             'contact_email' => SiteSetting::get('contact_email', 'info@sitrobbani.sch.id'),
             'contact_address' => SiteSetting::get('contact_address', 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan'),
@@ -116,9 +116,9 @@ class SchoolWebsiteController extends Controller
                 'icon' => '💻'
             ],
             [
-                'name' => 'PPDB Online',
-                'desc' => 'Portal Pendaftaran Peserta Didik Baru SIT Robbani Ogan Ilir.',
-                'url' => route('school.ppdb'),
+                'name' => 'SPMB Online',
+                'desc' => 'Portal Sistem Penerimaan Murid Baru SIT Robbani Ogan Ilir.',
+                'url' => route('school.spmb'),
                 'icon' => '📝'
             ]
         ];
@@ -929,7 +929,8 @@ class SchoolWebsiteController extends Controller
             ['loc' => $baseUrl . '/berita', 'priority' => '0.9', 'changefreq' => 'daily'],
             ['loc' => $baseUrl . '/artikel', 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['loc' => $baseUrl . '/fasilitas', 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['loc' => $baseUrl . '/ppdb', 'priority' => '0.9', 'changefreq' => 'daily'],
+            ['loc' => $baseUrl . '/spmb', 'priority' => '0.9', 'changefreq' => 'daily'],
+            ['loc' => $baseUrl . '/ppdb', 'priority' => '0.5', 'changefreq' => 'monthly'],
             ['loc' => $baseUrl . '/e-spp', 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['loc' => $baseUrl . '/sales', 'priority' => '0.7', 'changefreq' => 'monthly'],
         ];
@@ -1816,15 +1817,15 @@ class SchoolWebsiteController extends Controller
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
             'principal_name' => SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd'),
             'principal_title' => SiteSetting::get('principal_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
-            'ppdb_status' => SiteSetting::get('ppdb_status', 'SPMB / PPDB TELAH DIBUKA!'),
-            'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT.'),
+            'ppdb_status' => SiteSetting::get('ppdb_status', 'SPMB TELAH DIBUKA!'),
+            'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT melalui Portal SPMB Online.'),
             'contact_phone' => SiteSetting::get('contact_phone', '0811747472'),
             'contact_email' => SiteSetting::get('contact_email', 'info@sitrobbani.sch.id'),
             'contact_address' => SiteSetting::get('contact_address', 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan'),
             'website_theme' => SiteSetting::get('website_theme', 'theme-emerald'),
-            'school_logo' => SiteSetting::get('school_logo', SiteSetting::get('logo_light', '/images/smartedu_logo.jpg')),
-            'logo_light' => SiteSetting::get('logo_light', SiteSetting::get('school_logo', '/images/smartedu_logo.jpg')),
-            'logo_dark' => SiteSetting::get('logo_dark', SiteSetting::get('school_logo', '/images/smartedu_logo.jpg')),
+            'school_logo' => SiteSetting::get('school_logo', SiteSetting::get('logo_light', '/images/logo-robbani-official.png')),
+            'logo_light' => SiteSetting::get('logo_light', SiteSetting::get('school_logo', '/images/logo-robbani-official.png')),
+            'logo_dark' => SiteSetting::get('logo_dark', SiteSetting::get('school_logo', '/images/logo-robbani-official.png')),
         ];
     }
 
@@ -2218,11 +2219,11 @@ class SchoolWebsiteController extends Controller
                 'link' => route('school.berita.show', 'pengumuman-kelulusan-tahap-administrasi-rekrutmen-guru-dan-pegawai-sit-robbani-2026')
             ],
             [
-                'title' => 'Pembukaan Pendaftaran SPMB / PPDB Online Gelombang 1',
+                'title' => 'Pembukaan Pendaftaran SPMB Online Gelombang 1',
                 'date' => '01 April 2026',
-                'category' => 'PPDB Online',
-                'summary' => 'Pendaftaran peserta didik baru resmi dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir.',
-                'link' => route('school.ppdb')
+                'category' => 'SPMB Online',
+                'summary' => 'Pendaftaran murid baru resmi dibuka untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir.',
+                'link' => route('school.spmb')
             ],
             [
                 'title' => 'Edaran Pelaksanaan Penilaian Akhir Semester (PAS) Ganjil',
@@ -2386,7 +2387,7 @@ class SchoolWebsiteController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'status' => 'success',
-                'answer' => "Assalamu'alaikum! Terima kasih telah bertanya. SIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nSilakan kunjungi menu **Pendaftaran SPMB** (`/ppdb`) atau hubungi WhatsApp Hotline Admin di **0811747472**."
+                'answer' => "Assalamu'alaikum! Terima kasih telah bertanya. SIT Robbani Ogan Ilir menyelenggarakan jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.\n\nSilakan kunjungi menu **Pendaftaran SPMB** (`/spmb`) atau hubungi WhatsApp Hotline Admin di **0811747472**."
             ]);
         }
     }

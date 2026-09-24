@@ -101,7 +101,7 @@
                         <p class="text-xs sm:text-sm md:text-base text-slate-200 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-md" x-text="slide.subtitle"></p>
                         
                         <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
-                            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+                            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                                class="w-full sm:w-auto px-6 sm:px-8 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-graduation-cap"></i>
                                 <span>Daftar SPMB Sekarang</span>
@@ -136,7 +136,7 @@
     <div class="bg-white rounded-3xl p-3 sm:p-6 shadow-2xl border border-gray-100">
         <div class="grid grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-4 text-center">
             
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
+            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
@@ -254,7 +254,7 @@
                 {{-- TOMBOL AKSI --}}
                 <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
                     @if(!$isSmait)
-                    <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+                    <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                        class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-graduation-cap"></i>
                         <span>Daftar Sekarang</span>
@@ -903,7 +903,7 @@
                 <span>Konsultasi Informasi</span>
             </a>
         @else
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                class="w-full sm:w-auto px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>Daftar SPMB Online</span>
@@ -1222,7 +1222,7 @@
      ======================================================== --}}
 <section class="py-6 sm:py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
-        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-unit-primary hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
+        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-unit-primary hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
             <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-slate-50 text-unit-primary flex items-center justify-center text-lg sm:text-xl shrink-0">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>

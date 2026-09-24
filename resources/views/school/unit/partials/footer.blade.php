@@ -145,7 +145,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" class="text-amber-400 font-bold hover:underline transition flex items-center gap-1.5">
+                        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="text-amber-400 font-bold hover:underline transition flex items-center gap-1.5">
                             <i class="fa-solid fa-graduation-cap text-[11px]"></i> Pendaftaran SPMB Online
                         </a>
                     </li>

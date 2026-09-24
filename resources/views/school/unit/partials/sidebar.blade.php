@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    {{-- CARD 3: PPDB TELAH DIBUKA! (Conversion Callout Card) --}}
+    {{-- CARD 3: SPMB TELAH DIBUKA! (Conversion Callout Card) --}}
     <div class="bg-gradient-to-br from-[#1e1b4b] via-[#2d2568] to-[#1e1b4b] rounded-3xl p-7 text-white text-center space-y-4 shadow-2xl border border-indigo-500/20 reveal-fade-up delay-2 relative overflow-hidden">
         <div class="absolute -right-8 -top-8 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
         <div class="w-14 h-14 rounded-2xl bg-white/10 text-amber-400 mx-auto flex items-center justify-center text-2xl border border-white/10 shadow-inner">
@@ -97,16 +97,16 @@
         </div>
         <div class="space-y-2">
             <h3 class="text-xl font-black tracking-tight text-white">
-                PPDB Telah Dibuka!
+                SPMB Telah Dibuka!
             </h3>
             <p class="text-xs text-indigo-200 leading-relaxed font-light">
                 Wujudkan impian putra-putri Anda menjadi hafidz Qur'an yang cerdas sains bersama {{ $info['name'] }}.
             </p>
         </div>
         <div class="pt-2">
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                class="inline-block w-full py-3 px-6 rounded-full font-black text-xs uppercase tracking-wider bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-lg shadow-red-600/30 hover:shadow-red-600/50 transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200">
-                Daftar PPDB Online
+                Daftar SPMB Online
             </a>
         </div>
     </div>

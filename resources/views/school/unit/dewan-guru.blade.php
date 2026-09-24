@@ -206,7 +206,7 @@
                 Bimbingan intensif para asatidz berpengalaman menanti putra-putri tercinta untuk tumbuh menjadi generasi Qur'ani berprestasi.
             </p>
         </div>
-        <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
            class="px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
             <i class="fa-solid fa-graduation-cap text-sm"></i>
             <span>Daftar SPMB Online</span>

@@ -239,7 +239,7 @@
                     <i class="fa-solid fa-pen-to-square"></i>
                     <span>Kirim Testimoni via WhatsApp</span>
                 </a>
-                <a href="{{ route('school.ppdb') }}" 
+                <a href="{{ route('school.spmb') }}" 
                    class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 transition">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Daftar Siswa Baru (SPMB)</span>

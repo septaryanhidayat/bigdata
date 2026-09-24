@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#004532">
     <title>{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir</title>
     <meta name="description" content="{{ $settings['hero_desc'] }}">
-    <meta name="keywords" content="SIT Robbani Ogan Ilir, Sekolah Islam Terpadu Indralaya, KB TKIT Robbani, SDIT Robbani, SMPIT Robbani, SMAIT Robbani, PPDB SIT Robbani 2026/2027, Yayasan Generasi Robbani, Sekolah Islam Unggulan Sumatera Selatan">
+    <meta name="keywords" content="SIT Robbani Ogan Ilir, Sekolah Islam Terpadu Indralaya, KB TKIT Robbani, SDIT Robbani, SMPIT Robbani, SMAIT Robbani, SPMB SIT Robbani 2026/2027, Yayasan Generasi Robbani, Sekolah Islam Unggulan Sumatera Selatan">
     <meta name="author" content="SIT Robbani Ogan Ilir">
     <link rel="canonical" href="{{ url('/') }}">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -732,7 +732,7 @@
     <!-- TOP ANNOUNCEMENT STRIP (EMERALD & ORANGE GRADIENT - MOBILE OPTIMIZED) -->
     <div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#fd761a] dark:from-[#061107] dark:via-[#0c220f] dark:to-[#112413] text-white py-1.5 px-4 text-[10px] sm:text-xs font-semibold text-center flex items-center justify-center gap-1 sm:gap-2 shadow-inner relative z-50 border-b border-white/10 dark:border-[#1a381c]">
         <span class="truncate max-w-[80vw] sm:max-w-none">🔥 Pendaftaran SPMB Online TA 2026/2027 SIT Robbani Telah Dibuka!</span>
-        <a href="{{ route('school.ppdb') }}" class="underline font-extrabold text-amber-300 dark:text-[#c6f634] hover:text-amber-200 shrink-0">Daftar &rarr;</a>
+        <a href="{{ route('school.spmb') }}" class="underline font-extrabold text-amber-300 dark:text-[#c6f634] hover:text-amber-200 shrink-0">Daftar &rarr;</a>
     </div>
 
     <!-- TOP NAVIGATION BAR -->
@@ -767,7 +767,7 @@
                 <a class="hidden lg:inline-flex px-4 py-2 border border-emerald-700 text-emerald-800 dark:text-emerald-300 font-bold text-xs rounded-full hover:bg-emerald-700 hover:text-white transition-all items-center gap-xs" href="{{ route('admin.dashboard') }}">
                     Admin
                 </a>
-                <a class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs rounded-full transition-all flex items-center gap-xs shadow-md transform hover:scale-105" href="{{ route('school.ppdb') }}">
+                <a class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs rounded-full transition-all flex items-center gap-xs shadow-md transform hover:scale-105" href="{{ route('school.spmb') }}">
                     SPMB <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </a>
 
@@ -824,7 +824,7 @@
                 </span>
                 <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-200/60 dark:bg-[#c6f634]/20" x-text="darkMode ? 'DARK' : 'LIGHT'"></span>
             </button>
-            <a href="{{ route('school.ppdb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
+            <a href="{{ route('school.spmb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
                 <span>✨ Pendaftaran SPMB Online 2026/2027</span> ➔
             </a>
             <a href="{{ route('admin.dashboard') }}" class="w-full py-2.5 text-center rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-xs border border-slate-200 dark:border-slate-700">
@@ -863,7 +863,7 @@
                         </p>
                         
                         <div class="flex flex-wrap justify-center lg:justify-start gap-sm sm:gap-md pt-2">
-                            <a class="px-5 sm:px-7 py-3 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs sm:text-sm rounded-full transition-all flex items-center gap-xs sm:gap-sm shadow-lg transform hover:scale-105" href="{{ route('school.ppdb') }}">
+                            <a class="px-5 sm:px-7 py-3 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs sm:text-sm rounded-full transition-all flex items-center gap-xs sm:gap-sm shadow-lg transform hover:scale-105" href="{{ route('school.spmb') }}">
                                 Formulir SPMB Online <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </a>
                             <a class="px-5 sm:px-7 py-3 border-2 border-emerald-700 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold text-xs sm:text-sm rounded-full hover:bg-emerald-700 hover:text-white transition-all flex items-center gap-xs sm:gap-sm" href="{{ route('school.profil') }}">
@@ -1101,12 +1101,12 @@
                         <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-emerald-700 text-center leading-tight truncate w-full">Agenda</span>
                     </a>
 
-                    <!-- 8. PPDB (Orange) -->
-                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-orange-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.ppdb') }}">
+                    <!-- 8. SPMB (Orange) -->
+                    <a class="quick-menu-card bg-slate-50/80 dark:bg-[#0d1e0f] border border-slate-200/80 dark:border-[#1a381c] rounded-2xl p-2 sm:p-3 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:border-orange-500 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" href="{{ route('school.spmb') }}">
                         <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 dark:bg-[#c6f634] text-orange-700 dark:text-[#061107] flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
                             <span class="material-symbols-outlined text-[24px] sm:text-[28px] dark:text-[#061107]" data-weight="fill">how_to_reg</span>
                         </div>
-                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-orange-600 text-center leading-tight truncate w-full">PPDB</span>
+                        <span class="quick-menu-label text-[10px] sm:text-xs font-bold text-slate-700 dark:text-[#f7fee7] group-hover:text-orange-600 text-center leading-tight truncate w-full">SPMB</span>
                     </a>
 
                     <!-- 9. Galeri (Hijau) -->
@@ -2330,7 +2330,7 @@
                         <p class="text-xs sm:text-sm text-white/90 max-w-xl">Daftarkan putra-putri Anda secara online dengan proses yang mudah, cepat, dan terintegrasi.</p>
                     </div>
                     <div class="shrink-0 flex flex-wrap gap-3 justify-center">
-                        <a href="{{ route('school.ppdb') }}" class="spmb-btn-lime px-6 py-3 font-black text-xs sm:text-sm rounded-full transition-all transform hover:scale-105 flex items-center gap-2">
+                        <a href="{{ route('school.spmb') }}" class="spmb-btn-lime px-6 py-3 font-black text-xs sm:text-sm rounded-full transition-all transform hover:scale-105 flex items-center gap-2">
                             <span>Daftar SPMB Online Now</span>
                             <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                         </a>
@@ -2478,7 +2478,7 @@
                         <span class="material-symbols-outlined text-[16px] sm:text-[18px]">call</span>
                         <span>WhatsApp Admin</span>
                     </a>
-                    <a href="{{ route('school.ppdb') }}" class="px-5 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold text-[11px] sm:text-xs rounded-full flex items-center justify-center gap-1.5 shadow-lg transition-all hover:scale-105">
+                    <a href="{{ route('school.spmb') }}" class="px-5 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold text-[11px] sm:text-xs rounded-full flex items-center justify-center gap-1.5 shadow-lg transition-all hover:scale-105">
                         <span>Pendaftaran SPMB</span>
                         <span class="material-symbols-outlined text-[16px] sm:text-[18px]">arrow_forward</span>
                     </a>
@@ -2534,7 +2534,7 @@
                 <div class="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
                     <h3 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-headline border-b border-emerald-500/40 pb-1.5 inline-block mx-auto md:mx-0">Layanan &amp; Medsos</h3>
                     <ul class="space-y-2 text-[11px] sm:text-xs text-slate-300 mb-3 flex flex-col items-center md:items-start">
-                        <li><a href="{{ route('school.ppdb') }}" class="hover:text-amber-300 transition-colors">Penerimaan Siswa Baru (SPMB)</a></li>
+                        <li><a href="{{ route('school.spmb') }}" class="hover:text-amber-300 transition-colors">Sistem Penerimaan Murid Baru (SPMB)</a></li>
                         <li><a href="{{ route('school.layanan.sewa') }}" class="hover:text-amber-300 transition-colors">Permohonan Sewa Fasilitas</a></li>
                         <li><a href="{{ route('admin.dashboard') }}" class="text-amber-400 hover:underline font-bold">Portal Administrasi</a></li>
                     </ul>

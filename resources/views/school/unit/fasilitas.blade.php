@@ -216,7 +216,7 @@
                     Nikmati fasilitas pendidikan lengkap, lingkungan belajar terpadu, dan pembinaan karakter Qur'ani di {{ $info['name'] }}.
                 </p>
             </div>
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                class="inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg hover:brightness-105 transition self-start">
                 <span>Daftar Sekarang</span>
                 <i class="fa-solid fa-arrow-right text-[10px]"></i>

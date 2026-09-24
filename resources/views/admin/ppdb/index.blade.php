@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Manajemen PPDB Online')
+@section('title', 'Manajemen SPMB Online')
 
 @section('content')
 <div class="space-y-6" x-data="ppdbAdminManager()">
@@ -10,12 +10,12 @@
         <div>
             <div class="flex items-center gap-2">
                 <span class="px-3 py-1 rounded-full bg-cyan-100 text-cyan-800 font-black text-[10px] uppercase border border-cyan-300">
-                    Modul 13: SPMB / PPDB Manager & SmartEdu
+                    Modul 13: SPMB Manager & SmartEdu
                 </span>
                 <span class="w-2 h-2 rounded-full bg-cyan-500 animate-ping"></span>
             </div>
             <h1 class="text-2xl font-black text-slate-900 tracking-tight mt-1">
-                📋 Pengelolaan Pendaftaran PPDB / SPMB Online
+                📋 Pengelolaan Pendaftaran SPMB Online
             </h1>
             <p class="text-xs text-slate-500 font-medium mt-0.5">
                 Kelola pendaftar online & offline (walk-in), verifikasi berkas (Akta, KK, KTP), bukti bayar, kelulusan, serta sinkronisasi otomatis ke Master Data Siswa & SPP SmartEdu.
@@ -150,7 +150,7 @@
     <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
         <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <div>
-                <h3 class="font-black text-base text-slate-900">Daftar Calon Peserta Didik Baru (PPDB 2026/2027)</h3>
+                <h3 class="font-black text-base text-slate-900">Daftar Calon Murid Baru (SPMB 2026/2027)</h3>
                 <p class="text-xs text-slate-500 font-medium">Klik tombol 👁️ Detail untuk mengecek dokumen Akta, KK, KTP, dan bukti pembayaran.</p>
             </div>
             <span class="text-xs font-black px-3 py-1 rounded-full bg-slate-100 text-slate-700">

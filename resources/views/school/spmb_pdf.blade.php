@@ -457,7 +457,7 @@
                     <strong class="font-black text-slate-900">Panitia SPMB SIT Robbani</strong>
                 </div>
                 <div class="border-t border-slate-400 w-36 sm:w-44 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
-                    ( Panitia PPDB / SPMB )
+                    ( Panitia SPMB SIT Robbani )
                 </div>
             </div>
 

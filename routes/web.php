@@ -194,7 +194,7 @@ Route::get('/ppdb/daftar', [SchoolWebsiteController::class, 'ppdbForm'])->name('
 Route::post('/spmb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
 Route::post('/ppdb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
 Route::post('/ppdb', [SchoolWebsiteController::class, 'storePpdb'])->name('school.ppdb.store');
-Route::post('/spmb', [SchoolWebsiteController::class, 'storePpdb']);
+Route::post('/spmb', [SchoolWebsiteController::class, 'storePpdb'])->name('school.spmb.store');
 Route::get('/spmb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('school.spmb.check-status');
 Route::get('/ppdb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('school.ppdb.check-status');
 Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('school.spmb.download-pdf');

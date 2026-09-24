@@ -7,7 +7,7 @@
     
     <title>@yield('title', ($info['name'] ?? 'Sekolah Islam Terpadu') . ' - ' . ($info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia'))</title>
     <meta name="description" content="@yield('meta_description', $info['description'] ?? 'Official Website ' . ($info['name'] ?? 'Sekolah Islam Terpadu') . '. Lembaga Pendidikan Islam Terpadu berakreditasi unggul.')">
-    <meta name="keywords" content="@yield('meta_keywords', ($info['name'] ?? '') . ', JSIT Indonesia, PPDB Online, Tahfidz Qur\'an, Sekolah Islam Terpadu')">
+    <meta name="keywords" content="@yield('meta_keywords', ($info['name'] ?? '') . ', JSIT Indonesia, SPMB Online, Tahfidz Qur\'an, Sekolah Islam Terpadu')">
     <meta name="author" content="{{ $info['name'] ?? 'Sekolah Islam Terpadu' }}">
     <meta name="robots" content="index, follow">
 

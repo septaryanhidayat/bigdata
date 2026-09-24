@@ -8,7 +8,7 @@
     <title>{{ $news['title'] }} | {{ $settings['school_name'] ?? 'SIT Robbani Ogan Ilir' }}</title>
     <meta name="title" content="{{ $news['title'] }} | {{ $settings['school_name'] ?? 'SIT Robbani Ogan Ilir' }}">
     <meta name="description" content="{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($news['content']))), 160) }}">
-    <meta name="keywords" content="Berita SIT Robbani, {{ $news['category'] ?? 'Berita Sekolah' }}, SIT Robbani Ogan Ilir, TKIT SDIT SMPIT SMAIT Indralaya, Haflah Robbani, PPDB SIT Robbani, Sekolah Islam Unggulan Ogan Ilir">
+    <meta name="keywords" content="Berita SIT Robbani, {{ $news['category'] ?? 'Berita Sekolah' }}, SIT Robbani Ogan Ilir, TKIT SDIT SMPIT SMAIT Indralaya, Haflah Robbani, SPMB SIT Robbani, Sekolah Islam Unggulan Ogan Ilir">
     <meta name="author" content="{{ $news['author'] ?? 'Humas SIT Robbani' }}">
     <link rel="canonical" href="{{ url()->current() }}">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -483,7 +483,7 @@
                         <a href="{{ route('school.berita') }}" class="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-[#0c2210] text-slate-700 dark:text-slate-300 font-bold text-[10px] hover:bg-slate-200">
                             🏆 Prestasi Siswa
                         </a>
-                        <a href="{{ route('school.ppdb') }}" class="px-2.5 py-1 rounded-xl bg-amber-100 dark:bg-[#0c2210] text-amber-800 dark:text-amber-300 font-extrabold text-[10px] hover:bg-amber-500 hover:text-white">
+                        <a href="{{ route('school.spmb') }}" class="px-2.5 py-1 rounded-xl bg-amber-100 dark:bg-[#0c2210] text-amber-800 dark:text-amber-300 font-extrabold text-[10px] hover:bg-amber-500 hover:text-white">
                             ✨ SPMB Online
                         </a>
                     </div>
@@ -558,7 +558,7 @@
                             Penerimaan siswa baru KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani Ogan Ilir tahun ajaran 2026/2027.
                         </p>
                     </div>
-                    <a href="{{ route('school.ppdb') }}" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs text-center shadow-md block transition-all hover:scale-[1.02]">
+                    <a href="{{ route('school.spmb') }}" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs text-center shadow-md block transition-all hover:scale-[1.02]">
                         Daftar SPMB Online ➔
                     </a>
                 </div>

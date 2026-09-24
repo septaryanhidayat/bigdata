@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Pengaturan SPMB & Formulir PPDB')
+@section('title', 'Pengaturan SPMB & Formulir')
 
 @section('content')
 <div class="max-w-5xl space-y-6" x-data="spmbCmsApp()">
@@ -11,7 +11,7 @@
             🏛️ Web Portal Sekolah
         </a>
         <a href="{{ route('admin.settings.spmb') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-emerald-700 text-white shadow-md">
-            📝 SPMB & Formulir PPDB
+            📝 SPMB & Formulir
         </a>
         @if(Auth::user()->isSuperAdmin() || Auth::user()->isYayasan())
         <a href="{{ route('admin.settings.sales') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
@@ -22,7 +22,7 @@
             🏢 Profil Unit Sekolah
         </a>
         <a href="{{ route('admin.ppdb-admin.index') }}" class="px-4 py-2 rounded-xl text-xs font-black bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-            📋 Data Pendaftar PPDB
+            📋 Data Pendaftar SPMB
         </a>
     </div>
 
@@ -31,7 +31,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black text-[10px] uppercase border border-emerald-300">
-                    Modul 13: SPMB / PPDB Manager & CMS
+                    Modul 13: SPMB Manager & CMS
                 </span>
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             </div>
@@ -85,7 +85,7 @@
                 💬 Testimoni
             </button>
             <button type="button" @click="activeTab = 'form'" :class="activeTab === 'form' ? 'bg-white text-emerald-900 font-black shadow-sm' : 'text-slate-600 hover:text-slate-900 font-bold'" class="px-4 py-2 rounded-xl text-xs transition-all">
-                📝 Formulir Isian PPDB
+                📝 Formulir Isian SPMB
             </button>
         </div>
 
@@ -460,11 +460,11 @@
             </div>
         </div>
 
-        <!-- 7. TAB: FORMULIR ISIAN PPDB -->
+        <!-- 7. TAB: FORMULIR ISIAN SPMB -->
         <div x-show="activeTab === 'form'" class="space-y-6">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
                 <div class="border-b border-slate-100 pb-3">
-                    <h3 class="font-black text-base text-slate-900">📝 Pengaturan Teks Formulir Isian PPDB (/spmb/daftar)</h3>
+                    <h3 class="font-black text-base text-slate-900">📝 Pengaturan Teks Formulir Isian SPMB (/spmb/daftar)</h3>
                     <p class="text-xs text-slate-500 font-medium">Atur judul form, kode formulir, dan petunjuk yang muncul di bagian paling atas form pendaftaran.</p>
                 </div>
 

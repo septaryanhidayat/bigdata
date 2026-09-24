@@ -153,7 +153,7 @@
                     <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
                 </a>
                 <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
-                    <a href="{{ route('school.ppdb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
+                    <a href="{{ route('school.spmb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
                         <span>✨ Pendaftaran SPMB Online 2026/2027</span> ➔
                     </a>
                 </div>

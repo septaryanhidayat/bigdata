@@ -269,7 +269,7 @@
                     Kuota terbatas untuk kelas tahfidz dan reguler. Dapatkan diskon infaq pengembangan bagi pendaftar gelombang pertama.
                 </p>
                 <div class="pt-2">
-                    <a href="{{ route('school.ppdb') }}" class="inline-block py-2.5 px-5 rounded-xl text-xs font-black bg-gray-950 text-white hover:bg-gray-800 shadow-md transition">
+                    <a href="{{ route('school.spmb') }}" class="inline-block py-2.5 px-5 rounded-xl text-xs font-black bg-gray-950 text-white hover:bg-gray-800 shadow-md transition">
                         Daftar SPMB Online <i class="fa-solid fa-arrow-right ml-1"></i>
                     </a>
                 </div>

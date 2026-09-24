@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>SPMB SIT Robbani Ogan Ilir T.A 2026/2027 | Sistem Penerimaan Murid Baru</title>
-    <meta name="description" content="Official Portal Sistem Penerimaan Murid Baru (SPMB / PPDB) Sekolah Islam Terpadu Robbani Ogan Ilir T.A 2026/2027. Jenjang TPA, KB, TKIT, SDIT, SMPIT, dan SMAIT.">
+    <meta name="description" content="Official Portal Sistem Penerimaan Murid Baru (SPMB) Sekolah Islam Terpadu Robbani Ogan Ilir T.A 2026/2027. Jenjang TPA, KB, TKIT, SDIT, SMPIT, dan SMAIT.">
     
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=12">

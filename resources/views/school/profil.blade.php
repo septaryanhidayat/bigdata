@@ -133,8 +133,8 @@
                     <span x-show="darkMode" x-cloak>☀️ Mode Terang</span>
                 </button>
 
-                <a href="{{ route('school.ppdb') }}" class="px-5 py-2.5 rounded-xl bg-[#004532] hover:bg-emerald-800 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1">
-                    <span>Daftar PPDB</span>
+                <a href="{{ route('school.spmb') }}" class="px-5 py-2.5 rounded-xl bg-[#004532] hover:bg-emerald-800 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1">
+                    <span>Daftar SPMB</span>
                     <span>➔</span>
                 </a>
             </div>
@@ -159,7 +159,7 @@
             <a href="{{ route('school.berita') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">📰 Berita &amp; Kegiatan</a>
             <a href="{{ route('school.artikel') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">📖 Artikel Keislaman</a>
             <a href="{{ route('school.fasilitas') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">🏢 Fasilitas Sekolah</a>
-            <a href="{{ route('school.ppdb') }}" class="block px-4 py-2.5 rounded-xl font-black text-xs bg-orange-600 text-white text-center mt-2">✨ Pendaftaran PPDB Online</a>
+            <a href="{{ route('school.spmb') }}" class="block px-4 py-2.5 rounded-xl font-black text-xs bg-orange-600 text-white text-center mt-2">✨ Pendaftaran SPMB Online</a>
         </div>
     </header>
 
@@ -217,8 +217,8 @@
                         {!! $foundationProfile['chairman_greeting'] !!}
                     </div>
                     <div class="pt-2 flex flex-wrap items-center gap-4">
-                        <a href="{{ route('school.ppdb') }}" class="px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md transition-transform hover:scale-105 flex items-center gap-1.5">
-                            <span>Daftar PPDB Online</span> ➔
+                        <a href="{{ route('school.spmb') }}" class="px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md transition-transform hover:scale-105 flex items-center gap-1.5">
+                            <span>Daftar SPMB Online</span> ➔
                         </a>
                         <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="px-5 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs shadow-sm transition-transform hover:scale-105">
                             Hubungi Sekretariat Yayasan 💬

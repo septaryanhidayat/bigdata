@@ -466,7 +466,7 @@
                                 <span class="text-[10px] text-slate-500 font-medium">Pendaftar SPMB Online</span>
                             </div>
                         </div>
-                        <a href="{{ route('school.ppdb') }}" target="_blank" class="text-purple-700 font-bold hover:underline text-xs">Portal ↗</a>
+                        <a href="{{ route('school.spmb') }}" target="_blank" class="text-purple-700 font-bold hover:underline text-xs">Portal ↗</a>
                     </div>
 
                     <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between hover:bg-slate-100/70 transition-colors">

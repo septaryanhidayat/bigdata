@@ -73,7 +73,7 @@
                 <div class="lg:col-span-6 space-y-4">
                     <div>
                         <label class="font-bold text-slate-800 block mb-1">Status Badge Top Banner</label>
-                        <input type="text" name="hero_badge" value="{{ $heroSettings['hero_badge'] }}" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-semibold" placeholder="e.g. ✨ Penerimaan Peserta Didik Baru (PPDB) 2026/2027">
+                        <input type="text" name="hero_badge" value="{{ $heroSettings['hero_badge'] }}" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-semibold" placeholder="e.g. ✨ Sistem Penerimaan Murid Baru (SPMB) 2026/2027">
                     </div>
 
                     <div>
@@ -134,11 +134,11 @@
                 <input type="hidden" name="module" value="menu">
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Nama Menu</label>
-                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-semibold" placeholder="e.g. PPDB / Beasiswa">
+                    <input type="text" name="title" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-500 font-semibold" placeholder="e.g. SPMB / Beasiswa">
                 </div>
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">URL / Target Link</label>
-                    <input type="text" name="url" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold" placeholder="e.g. /ppdb atau #unit-sekolah">
+                    <input type="text" name="url" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold" placeholder="e.g. /spmb atau #unit-sekolah">
                 </div>
                 <button type="submit" class="w-full py-2.5 rounded-xl bg-theme-gradient text-white font-black shadow-md hover:opacity-90">Tambah Menu Header</button>
             </form>
@@ -751,7 +751,7 @@
                 </div>
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Target Link Target</label>
-                    <input type="text" name="link" value="{{ route('school.ppdb') }}" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold">
+                    <input type="text" name="link" value="{{ route('school.spmb') }}" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold">
                 </div>
                 <button type="submit" class="w-full py-2.5 rounded-xl bg-theme-gradient text-white font-black shadow-md">Simpan Pengumuman Baru</button>
             </form>

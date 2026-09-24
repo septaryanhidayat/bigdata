@@ -174,8 +174,8 @@
                     <button onclick="quickAsk('Siapa kepala sekolah TK, SD, dan SMP?')" class="px-3 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-900 hover:text-white text-slate-800 font-bold shrink-0 transition-all cursor-pointer">
                         🎓 Kepala Sekolah
                     </button>
-                    <button onclick="quickAsk('Bagaimana cara daftar PPDB dan syaratnya?')" class="px-3 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-900 hover:text-white text-slate-800 font-bold shrink-0 transition-all cursor-pointer">
-                        📝 Syarat PPDB
+                    <button onclick="quickAsk('Bagaimana cara daftar SPMB dan syaratnya?')" class="px-3 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-900 hover:text-white text-slate-800 font-bold shrink-0 transition-all cursor-pointer">
+                        📝 Syarat SPMB
                     </button>
                     <button onclick="quickAsk('Berapa biaya SPP dan cara bayarnya?')" class="px-3 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-900 hover:text-white text-slate-800 font-bold shrink-0 transition-all cursor-pointer">
                         💳 Info SPP
@@ -202,7 +202,7 @@
                 {{-- Chat Input Bar --}}
                 <div class="p-4 bg-white border-t-2 border-slate-200">
                     <form onsubmit="event.preventDefault(); sendTestChat();" class="flex items-center gap-2">
-                        <input type="text" id="testChatInput" placeholder="Ketik pertanyaan uji (misal: kepala tk, syarat ppdb, spp)..." class="flex-1 bg-slate-50 border-2 border-slate-300 rounded-2xl px-4 py-3 text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all">
+                        <input type="text" id="testChatInput" placeholder="Ketik pertanyaan uji (misal: kepala tk, syarat spmb, spp)..." class="flex-1 bg-slate-50 border-2 border-slate-300 rounded-2xl px-4 py-3 text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all">
                         <button type="submit" id="btnSendTest" class="px-5 py-3 rounded-2xl bg-theme-accent text-white hover:opacity-90 font-black text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer">
                             <span>Kirim</span>
                             <span class="text-xs">➔</span>

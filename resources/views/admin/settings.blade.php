@@ -105,9 +105,9 @@
             </div>
         </div>
 
-        <!-- 2. Sambutan Pimpinan & Info PPDB -->
+        <!-- 2. Sambutan Pimpinan & Info SPMB -->
         <div class="space-y-4 border-b border-slate-100 pb-6">
-            <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-theme-accent pl-3">Sambutan Pimpinan & Informasi PPDB</h3>
+            <h3 class="font-extrabold text-sm text-slate-900 border-l-4 border-theme-accent pl-3">Sambutan Pimpinan & Informasi SPMB</h3>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -127,12 +127,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Status Gelombang PPDB:</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Status Gelombang SPMB:</label>
                     <input type="text" name="ppdb_status" value="{{ $settings['ppdb_status'] ?? 'GELOMBANG 1 DIBUKA' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-amber-600">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Keterangan Ringkas PPDB:</label>
-                    <input type="text" name="ppdb_desc" value="{{ $settings['ppdb_desc'] ?? 'Penerimaan Peserta Didik Baru (PPDB) Tahun Ajaran 2026/2027' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-900">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Keterangan Ringkas SPMB:</label>
+                    <input type="text" name="ppdb_desc" value="{{ $settings['ppdb_desc'] ?? 'Sistem Penerimaan Murid Baru (SPMB) Tahun Ajaran 2026/2027' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-900">
                 </div>
             </div>
         </div>

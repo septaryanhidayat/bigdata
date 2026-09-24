@@ -107,7 +107,7 @@
                     <div>
                         <label class="block text-slate-700 mb-1">Status Operasional Unit</label>
                         <select name="is_active" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-extrabold">
-                            <option value="1" {{ $sc->is_active ? 'selected' : '' }}>🟢 Aktif (Beroperasi & Buka PPDB)</option>
+                            <option value="1" {{ $sc->is_active ? 'selected' : '' }}>🟢 Aktif (Beroperasi & Buka SPMB)</option>
                             <option value="0" {{ !$sc->is_active ? 'selected' : '' }}>🔒 Coming Soon / Tutup Akses (Sedang Persiapan)</option>
                         </select>
                     </div>

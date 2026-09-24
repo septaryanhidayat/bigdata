@@ -143,7 +143,7 @@
 
                 {{-- BUTTON CTA --}}
                 <div class="pt-6 mt-6 border-t border-gray-100">
-                    <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+                    <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                        class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-full font-bold text-xs bg-gray-50 text-gray-800 hover:bg-unit-primary hover:text-white transition group-hover:shadow-md">
                         <span>Daftar Melalui Program Ini</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -169,7 +169,7 @@
                     Aqidah yang bersih, ibadah yang benar, akhlak yang mulia, jasmani yang kuat, wawasan yang luas, teratur urusannya, mandiri, disiplin waktu, bermanfaat bagi orang lain, serta bersungguh-sungguh memerangi hawa nafsu.
                 </p>
             </div>
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                class="px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>Gabung Siswa Baru</span>

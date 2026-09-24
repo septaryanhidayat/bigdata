@@ -373,9 +373,9 @@
                     @endif
 
                     @if(Auth::user()->canAccessModule('cbt_ppdb'))
-                    <a href="{{ route('admin.ppdb-admin.index') }}" title="PPDB & SPMB Siswa Baru" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                    <a href="{{ route('admin.ppdb-admin.index') }}" title="SPMB Siswa Baru" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📋</span> 
-                        <span class="sidebar-text">PPDB & SPMB Siswa Baru</span>
+                        <span class="sidebar-text">SPMB Siswa Baru</span>
                     </a>
                     <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan Konten SPMB & Form" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">⚙️</span> 
@@ -510,9 +510,9 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">📰</span> 
                             <span class="sidebar-text">Publikasi Berita Unit</span>
                         </a>
-                        <a href="{{ route('admin.ppdb-admin.index') }}" title="Pendaftar PPDB Unit" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.ppdb-admin.index') }}" title="Pendaftar SPMB Unit" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">📋</span> 
-                            <span class="sidebar-text">Pendaftar PPDB Unit</span>
+                            <span class="sidebar-text">Pendaftar SPMB Unit</span>
                         </a>
                         <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan Konten SPMB & Form" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">⚙️</span> 
@@ -527,7 +527,7 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏛️</span> 
                             <span class="sidebar-text">Web Portal Utama</span>
                         </a>
-                        <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan SPMB & Formulir PPDB" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan SPMB & Formulir" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">📝</span> 
                             <span class="sidebar-text">Pengaturan SPMB & Form</span>
                         </a>

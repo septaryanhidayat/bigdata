@@ -14,8 +14,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
-    <meta property="og:title" content="Formulir SPMB / PPDB Online 2026/2027 | SIT Robbani">
-    <meta property="og:description" content="Penerimaan Peserta Didik Baru (PPDB / SPMB) SIT Robbani Ogan Ilir Jenjang TPA, KB, TKIT, SDIT, SMPIT, dan SMAIT T.A 2026/2027.">
+    <meta property="og:title" content="Formulir SPMB Online 2026/2027 | SIT Robbani">
+    <meta property="og:description" content="Sistem Penerimaan Murid Baru (SPMB) SIT Robbani Ogan Ilir Jenjang TPA, KB, TKIT, SDIT, SMPIT, dan SMAIT T.A 2026/2027.">
     <meta property="og:image" content="{{ asset('images/logo robbani light.png') }}">
     <meta name="theme-color" content="#047857">
 
@@ -494,7 +494,7 @@
         </div>
 
         <!-- MAIN FORM -->
-        <form id="spmbForm" action="{{ route('school.ppdb.store') }}" method="POST" enctype="multipart/form-data" class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
+        <form id="spmbForm" action="{{ route('school.spmb.store') }}" method="POST" enctype="multipart/form-data" class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
             @csrf
 
             <!-- ========================================================================= -->

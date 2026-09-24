@@ -194,7 +194,7 @@
 
                 {{-- ACTION CTA: DAFTAR SPMB (Radiant Gold Pill) --}}
                 <div class="pl-2">
-                    <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+                    <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                        class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200">
                         <i class="fa-solid fa-graduation-cap text-sm"></i>
                         <span>Daftar SPMB</span>
@@ -204,7 +204,7 @@
 
             {{-- MOBILE MENU TRIGGER BUTTON --}}
             <div class="flex items-center space-x-2 lg:hidden">
-                <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+                <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                    class="px-3.5 py-1.5 rounded-full font-black text-[11px] uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md">
                     SPMB
                 </a>
@@ -301,10 +301,10 @@
             </a>
         </div>
         <div class="pt-3">
-            <a href="{{ route('school.ppdb') }}?unit={{ $codeLower }}" 
+            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                class="w-full flex items-center justify-center space-x-2 py-3 rounded-xl font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg">
                 <i class="fa-solid fa-graduation-cap"></i>
-                <span>Daftar Siswa Baru (SPMB Online)</span>
+                <span>Daftar Murid Baru (SPMB Online)</span>
             </a>
         </div>
     </div>
