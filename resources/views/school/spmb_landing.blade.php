@@ -210,20 +210,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @php
                     $colorBadgeMap = [
-                        'purple' => 'bg-purple-100 text-purple-900',
-                        'pink' => 'bg-pink-100 text-pink-900',
-                        'amber' => 'bg-amber-100 text-amber-900',
-                        'emerald' => 'bg-emerald-100 text-emerald-900',
-                        'cyan' => 'bg-cyan-100 text-cyan-900',
-                        'indigo' => 'bg-indigo-100 text-indigo-900',
+                        'purple' => 'bg-purple-100 text-purple-900 border-purple-200',
+                        'pink' => 'bg-pink-100 text-pink-900 border-pink-200',
+                        'amber' => 'bg-amber-100 text-amber-900 border-amber-200',
+                        'emerald' => 'bg-emerald-100 text-emerald-900 border-emerald-200',
+                        'cyan' => 'bg-cyan-100 text-cyan-900 border-cyan-200',
+                        'indigo' => 'bg-indigo-100 text-indigo-900 border-indigo-200',
                     ];
-                    $colorBoxMap = [
-                        'purple' => 'bg-purple-50',
-                        'pink' => 'bg-pink-50',
-                        'amber' => 'bg-amber-50',
-                        'emerald' => 'bg-emerald-50',
-                        'cyan' => 'bg-cyan-50',
-                        'indigo' => 'bg-indigo-50',
+                    $circleGradMap = [
+                        'purple' => 'bg-gradient-to-b from-purple-100/70 to-purple-50/30 ring-purple-100',
+                        'pink' => 'bg-gradient-to-b from-pink-100/70 to-pink-50/30 ring-pink-100',
+                        'amber' => 'bg-gradient-to-b from-amber-100/70 to-amber-50/30 ring-amber-100',
+                        'emerald' => 'bg-gradient-to-b from-emerald-100/70 to-emerald-50/30 ring-emerald-100',
+                        'cyan' => 'bg-gradient-to-b from-cyan-100/70 to-cyan-50/30 ring-cyan-100',
+                        'indigo' => 'bg-gradient-to-b from-indigo-100/70 to-indigo-50/30 ring-indigo-100',
                     ];
                 @endphp
 
@@ -231,46 +231,64 @@
                     @if(!empty($unit['is_active']))
                         @php
                             $c = $unit['color'] ?? 'emerald';
-                            $badgeClass = $colorBadgeMap[$c] ?? 'bg-emerald-100 text-emerald-900';
-                            $boxClass = $colorBoxMap[$c] ?? 'bg-emerald-50';
+                            $badgeClass = $colorBadgeMap[$c] ?? 'bg-emerald-100 text-emerald-900 border-emerald-200';
+                            $circleClass = $circleGradMap[$c] ?? 'bg-gradient-to-b from-emerald-100/70 to-emerald-50/30 ring-emerald-100';
                         @endphp
-                        <div class="unit-card bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col justify-between space-y-5 fade-up text-center">
-                            <div class="space-y-3.5 text-center">
-                                <!-- Badge Usia & Nama Jenjang Rata Tengah -->
-                                <div class="flex flex-col items-center justify-center gap-1.5 text-center">
-                                    <span class="px-3.5 py-1 rounded-full text-[11px] font-black {{ $badgeClass }} uppercase tracking-wide">
+                        <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 hover:border-emerald-300 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-6 fade-up text-center">
+                            <div class="space-y-4">
+                                <!-- Top Row: Level & Age Badge -->
+                                <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                                    <span class="px-3 py-1 rounded-full text-[11px] font-black {{ $badgeClass }} border tracking-wide uppercase">
                                         {{ $unit['age_badge'] ?? '' }}
                                     </span>
-                                    <span class="text-xs font-bold text-slate-500 tracking-tight">{{ $unit['level'] ?? '' }}</span>
+                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{{ $unit['code'] ?? $uCode }}</span>
                                 </div>
 
-                                <!-- Nama Unit Rata Tengah -->
-                                <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight text-center">{{ $unit['name'] ?? $uCode }}</h3>
-                                
-                                <!-- Alamat Rata Tengah -->
-                                <p class="text-xs text-slate-500 leading-relaxed text-center flex items-center justify-center gap-1.5 max-w-xs mx-auto">
-                                    <span class="text-emerald-700 text-sm shrink-0">📍</span>
-                                    <span>{{ $unit['address'] ?? '' }}</span>
-                                </p>
-
-                                <!-- Ilustrasi Karakter Unit Rata Tengah -->
-                                <div class="py-2 text-center">
-                                    <div class="w-40 h-40 mx-auto rounded-3xl {{ $boxClass }} flex items-center justify-center p-3 shadow-inner">
+                                <!-- Mascot Character Circle with Soft Glow & Breathing Room -->
+                                <div class="py-2 flex items-center justify-center">
+                                    <div class="relative w-36 h-36 rounded-full {{ $circleClass }} ring-4 flex items-center justify-center p-3 transition-transform duration-300 group-hover:scale-105 shadow-inner">
                                         <img 
-                                            src="{{ asset(ltrim($unit['image'] ?? '', '/')) }}?v=2" 
+                                            src="{{ asset(ltrim($unit['image'] ?? '', '/')) }}?v=3" 
                                             alt="{{ $unit['name'] ?? $uCode }}" 
                                             class="w-full h-full object-contain filter drop-shadow-md"
                                             onerror="this.src='{{ asset('images/logo robbani light.png') }}'"
                                         >
                                     </div>
                                 </div>
+
+                                <!-- Unit Name & Level Typography -->
+                                <div class="space-y-1">
+                                    <span class="text-xs font-bold text-emerald-800 tracking-tight block">{{ $unit['level'] ?? '' }}</span>
+                                    <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">{{ $unit['name'] ?? $uCode }}</h3>
+                                    
+                                    <!-- Concise Campus Location Indicator -->
+                                    <p class="text-xs text-slate-500 flex items-center justify-center gap-1 pt-1" title="{{ $unit['address'] ?? '' }}">
+                                        <svg class="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        <span class="truncate max-w-[240px] font-medium">
+                                            {{ \Illuminate\Support\Str::contains($unit['address'] ?? '', 'Sarjana') ? 'Kampus Sarjana, Indralaya Utara' : 'Kampus Lintas Timur, Indralaya' }}
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- Registration Fee Box -->
+                                <div class="bg-slate-50 rounded-2xl p-3 border border-slate-100 flex items-center justify-between text-xs">
+                                    <span class="text-slate-500 font-medium">Biaya Formulir</span>
+                                    <span class="font-black text-slate-900">Rp {{ number_format($unit['fee'] ?? 450000, 0, ',', '.') }}</span>
+                                </div>
                             </div>
 
-                            <!-- Tombol Pendaftaran Rata Tengah -->
-                            <a href="{{ route('school.spmb.form', ['unit' => $unit['code'] ?? $uCode]) }}" class="btn-responsive w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 text-center">
-                                <span>👉</span>
-                                <span>Daftar Sekarang</span>
-                            </a>
+                            <!-- Modern CTA Button with Clean SVG Arrow -->
+                            <div>
+                                <a href="{{ route('school.spmb.form', ['unit' => $unit['code'] ?? $uCode]) }}" class="w-full py-3.5 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-black text-xs shadow-md shadow-emerald-700/20 hover:shadow-lg hover:shadow-emerald-700/30 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>Daftar Sekarang</span>
+                                    <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     @endif
                 @endforeach
@@ -550,18 +568,130 @@
         </div>
     </section>
 
-    <!-- 10. FOOTER (RATA TENGAH) -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-4">
-            <div class="flex items-center justify-center gap-2.5">
-                <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 w-auto">
-                <span class="text-white font-black text-sm">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</span>
+    <!-- 10. FOOTER (MODERN 4-COLUMN INSTITUTIONAL FOOTER) -->
+    <footer class="bg-slate-950 text-slate-300 text-xs pt-16 pb-12 border-t border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
+            <!-- 4 Columns Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+                
+                <!-- Col 1: Brand & Foundation -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-10 w-auto">
+                        <div>
+                            <span class="text-white font-black text-sm block tracking-tight leading-snug">SIT ROBBANI</span>
+                            <span class="text-[10px] text-emerald-400 font-bold tracking-wider uppercase block">Ogan Ilir, Sumatera Selatan</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Di bawah naungan <strong>Yayasan Generasi Robbani Sumatera Selatan</strong>. Menyelenggarakan pendidikan Islam terpadu yang unggul, berakhlak karimah, dan berwawasan global.
+                    </p>
+                    <div class="pt-1">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-[11px] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>Afiliasi JSIT Indonesia</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Col 2: Pilihan Jenjang Pendidikan -->
+                <div class="space-y-4">
+                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>Jenjang Sekolah</span>
+                    </h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        @if(!empty($spmb['units']))
+                            @foreach($spmb['units'] as $uCode => $u)
+                                @if(!empty($u['is_active']))
+                                <li>
+                                    <a href="{{ route('school.spmb.form', ['unit' => $u['code'] ?? $uCode]) }}" class="hover:text-emerald-400 transition-colors flex items-center justify-between group">
+                                        <span>{{ $u['name'] ?? $uCode }}</span>
+                                        <span class="text-[10px] text-slate-400 group-hover:text-emerald-400">↗</span>
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
+                        @else
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors">TPA Robbani (0 - 3 Tahun)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors">KB Robbani (3 - 4 Tahun)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors">TK IT Robbani (4 - 6 Tahun)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors">SD IT Robbani (SD Unggulan)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors">SMP IT Robbani (Boarding & Full Day)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors">SMA IT Robbani (Tahfidz & Sains)</a></li>
+                        @endif
+                    </ul>
+                </div>
+
+                <!-- Col 3: Layanan & Informasi SPMB -->
+                <div class="space-y-4">
+                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span>Informasi SPMB</span>
+                    </h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li>
+                            <a href="#jadwal" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                                <span>📅</span> Jadwal Gelombang & Kuota
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#syarat" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                                <span>📋</span> Persyaratan Berkas Pendaftaran
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#biaya" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                                <span>💳</span> Rekening Resmi & Biaya Formulir
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#cek-status" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                                <span>🔍</span> Cek Status Kelulusan / Berkas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ $spmb['brochure_url'] ?? '#' }}" target="_blank" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                                <span>📥</span> Unduh Brosur SPMB Lengkap
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Sekretariat & Narahubung -->
+                <div class="space-y-4">
+                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                        <span>Sekretariat SPMB</span>
+                    </h4>
+                    <div class="space-y-2.5 text-xs text-slate-400 leading-relaxed">
+                        <p class="flex items-start gap-2">
+                            <span class="text-emerald-400 shrink-0">📍</span>
+                            <span>Jl. Sarjana Blok C No. 14-17 & Jl. Lintas Timur Km 35, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir, Sumatera Selatan 30662</span>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <span class="text-emerald-400 shrink-0">🕒</span>
+                            <span>Senin – Sabtu: 07.30 – 16.00 WIB</span>
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                            <span>WhatsApp Panitia ({{ $spmb['wa_number'] ?? '0811-747-472' }})</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
-            <p class="text-xs text-slate-400 max-w-md mx-auto">
-                Sekolah Islam Terpadu Robbani Ogan Ilir. Kampus TPA, KB, TKIT, SDIT, SMPIT, dan SMAIT di Timbangan, Indralaya Utara, Ogan Ilir.
-            </p>
-            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-500">
-                &copy; {{ date('Y') }} SIT Robbani Ogan Ilir. Sistem Penerimaan Murid Baru Online SmartEdu.
+
+            <!-- Bottom Copyright Bar -->
+            <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 text-center sm:text-left">
+                <p>&copy; {{ date('Y') }} SIT Robbani Ogan Ilir. Hak Cipta Dilindungi Undang-Undang.</p>
+                <div class="flex items-center gap-4 text-slate-400">
+                    <span>Sistem Informasi SPMB SmartEdu</span>
+                    <span>•</span>
+                    <a href="#beranda" class="hover:text-emerald-400 transition-colors">Kembali ke Atas ↑</a>
+                </div>
             </div>
         </div>
     </footer>

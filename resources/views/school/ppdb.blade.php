@@ -85,16 +85,20 @@
     <!-- Main Container -->
     <main class="py-6 sm:py-10 max-w-4xl mx-auto px-3 sm:px-4 w-full space-y-6 flex-1">
         
-        <!-- Header Title (Rata Tengah) -->
-        <div class="text-center space-y-2">
-            <span class="px-3.5 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 uppercase tracking-wider inline-block">
-                {{ $spmb['form_badge'] ?? 'F-SPMB 2026-2027 / 2027-2028' }}
-            </span>
-            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <!-- Header Title (Responsive & Compact on Mobile) -->
+        <div class="text-center space-y-1 sm:space-y-2">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-emerald-100 text-emerald-800 uppercase tracking-wider">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>{{ $spmb['form_badge'] ?? 'F-SPMB 2026-2027 / 2027-2028' }}</span>
+            </div>
+            <h1 class="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 {{ $spmb['form_title'] ?? 'Formulir Penerimaan Peserta Didik Baru' }}
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-2xl mx-auto">
+            <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-2xl mx-auto hidden sm:block">
                 {{ $spmb['form_desc'] ?? 'Silakan lengkapi formulir pendaftaran di bawah ini dengan data yang benar dan teliti sesuai dokumen resmi (Kartu Keluarga & Akta Kelahiran).' }}
+            </p>
+            <p class="text-[11px] text-slate-500 font-medium sm:hidden max-w-sm mx-auto">
+                Lengkapi formulir resmi berikut sesuai dokumen Kartu Keluarga & Akta Kelahiran.
             </p>
         </div>
 
@@ -182,24 +186,58 @@
         </div>
         @endif
 
-        <!-- STEP WIZARD PILL NAVIGATION (RATA TENGAH) -->
-        <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs">
-            <div class="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto no-scrollbar py-0.5 text-xs font-bold">
-                <button type="button" onclick="validateAndGo(currentStep, 1)" id="pill-step-1" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]">
-                    1. Identitas Calon Siswa
+        <!-- STEP WIZARD NAVIGATION -->
+        <!-- Desktop / Tablet Wizard (Hidden on mobile) -->
+        <div class="hidden sm:block bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="grid grid-cols-5 gap-2 text-xs font-bold">
+                <button type="button" onclick="validateAndGo(currentStep, 1)" id="pill-step-1" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-active text-xs flex items-center justify-center gap-1.5">
+                    <span class="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-black shrink-0">1</span>
+                    <span class="truncate">Identitas Siswa</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 2)" id="pill-step-2" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    2. Sekolah & Prestasi
+                <button type="button" onclick="validateAndGo(currentStep, 2)" id="pill-step-2" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">2</span>
+                    <span class="truncate">Sekolah Asal</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 3)" id="pill-step-3" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    3. Kesehatan & Transport
+                <button type="button" onclick="validateAndGo(currentStep, 3)" id="pill-step-3" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">3</span>
+                    <span class="truncate">Kesehatan</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 4)" id="pill-step-4" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    4. Data Orang Tua
+                <button type="button" onclick="validateAndGo(currentStep, 4)" id="pill-step-4" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">4</span>
+                    <span class="truncate">Orang Tua</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 5)" id="pill-step-5" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    5. Berkas & Selesai
+                <button type="button" onclick="validateAndGo(currentStep, 5)" id="pill-step-5" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">5</span>
+                    <span class="truncate">Upload Berkas</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- Mobile Stepper Progress Bar (Clean, Zero-Clipping, Never Truncated) -->
+        <div class="sm:hidden bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2.5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-emerald-800 text-white font-black text-xs flex items-center justify-center shadow-xs" id="mobileStepBadge">1</span>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Langkah <span id="mobileStepNum">1</span> dari 5</span>
+                        <span class="text-xs font-black text-slate-900 block truncate" id="mobileStepTitle">Identitas Calon Siswa</span>
+                    </div>
+                </div>
+                <span class="text-[11px] font-extrabold text-emerald-800" id="mobileProgressPercent">20%</span>
+            </div>
+            
+            <!-- Progress Bar Track -->
+            <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div id="mobileProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-300" style="width: 20%;"></div>
+            </div>
+
+            <!-- 5 Quick Step Tap Targets for Mobile -->
+            <div class="grid grid-cols-5 gap-1.5 pt-1">
+                <button type="button" onclick="validateAndGo(currentStep, 1)" id="m-step-1" class="py-1 rounded-md text-[10px] font-black transition-all bg-emerald-700 text-white shadow-xs text-center">1</button>
+                <button type="button" onclick="validateAndGo(currentStep, 2)" id="m-step-2" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">2</button>
+                <button type="button" onclick="validateAndGo(currentStep, 3)" id="m-step-3" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">3</button>
+                <button type="button" onclick="validateAndGo(currentStep, 4)" id="m-step-4" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">4</button>
+                <button type="button" onclick="validateAndGo(currentStep, 5)" id="m-step-5" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">5</button>
             </div>
         </div>
 
@@ -991,6 +1029,16 @@
 
         function goToStep(step) {
             currentStep = step;
+            const stepTitles = [
+                '',
+                'Identitas Calon Siswa',
+                'Sekolah Asal & Prestasi',
+                'Kesehatan & Transportasi',
+                'Domisili & Data Orang Tua',
+                'Upload Berkas & Konfirmasi'
+            ];
+
+            // 1. Update Form Sections & Desktop Tabs
             for (let i = 1; i <= 5; i++) {
                 const section = document.getElementById(`step-section-${i}`);
                 const pill = document.getElementById(`pill-step-${i}`);
@@ -1002,13 +1050,46 @@
                     }
                 }
                 if (pill) {
+                    const numBadge = pill.querySelector('span:first-child');
                     if (i === step) {
-                        pill.className = "px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]";
+                        pill.className = "py-2.5 px-3 rounded-xl text-center transition-all step-pill-active text-xs flex items-center justify-center gap-1.5 shadow-sm";
+                        if (numBadge) numBadge.className = "w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-black shrink-0";
+                    } else if (i < step) {
+                        pill.className = "py-2.5 px-3 rounded-xl text-center transition-all bg-emerald-50 text-emerald-900 border border-emerald-200 text-xs flex items-center justify-center gap-1.5";
+                        if (numBadge) numBadge.className = "w-5 h-5 rounded-full bg-emerald-700 text-white flex items-center justify-center text-[10px] font-black shrink-0";
                     } else {
-                        pill.className = "px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]";
+                        pill.className = "py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5";
+                        if (numBadge) numBadge.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0";
                     }
                 }
             }
+
+            // 2. Update Mobile Stepper (Text, Percentage, Progress Bar, & Quick Step Badges)
+            const mTitle = document.getElementById('mobileStepTitle');
+            const mNum = document.getElementById('mobileStepNum');
+            const mBadge = document.getElementById('mobileStepBadge');
+            const mPct = document.getElementById('mobileProgressPercent');
+            const mBar = document.getElementById('mobileProgressBar');
+
+            if (mTitle) mTitle.innerText = stepTitles[step] || '';
+            if (mNum) mNum.innerText = step;
+            if (mBadge) mBadge.innerText = step;
+            if (mPct) mPct.innerText = `${step * 20}%`;
+            if (mBar) mBar.style.width = `${step * 20}%`;
+
+            for (let j = 1; j <= 5; j++) {
+                const mBtn = document.getElementById(`m-step-${j}`);
+                if (mBtn) {
+                    if (j === step) {
+                        mBtn.className = "py-1 rounded-md text-[10px] font-black transition-all bg-emerald-700 text-white shadow-xs text-center";
+                    } else if (j < step) {
+                        mBtn.className = "py-1 rounded-md text-[10px] font-bold transition-all bg-emerald-100 text-emerald-800 text-center";
+                    } else {
+                        mBtn.className = "py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center";
+                    }
+                }
+            }
+
             window.scrollTo({ top: 120, behavior: 'smooth' });
         }
 
