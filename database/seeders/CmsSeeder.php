@@ -618,8 +618,8 @@ class CmsSeeder extends Seeder
         $smpitData['kurikulum'] = 'Merdeka & Kekhasan JSIT';
         $smpitData['tagline'] = 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)';
         $smpitData['principal_name'] = 'Tia Wulandari, S.Pd., Gr.';
-        $smpitData['principal_title'] = 'Kepala Sekolah SMP IT Robbani Ogan Ilir';
-        $smpitData['principal_photo'] = '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp';
+        $smpitData['principal_title'] = 'Kepala SMPIT Robbani Ogan Ilir';
+        $smpitData['principal_photo'] = '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg';
         $smpitData['principal_greeting'] = "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.";
         $smpitData['description'] = "SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.";
         $smpitData['vision'] = "Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.";
@@ -635,7 +635,7 @@ class CmsSeeder extends Seeder
         $smpitData['classrooms_count'] = 3;
         $smpitData['target_hafalan'] = '3 - 5 Juz Mutqin';
         $smpitData['teachers'] = [
-            ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala Sekolah SMPIT', 'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp', 'bio' => 'Lulusan Universitas Sriwijaya Pendidikan Biologi, Kepala Sekolah SMPIT Robbani berprestasi.'],
+            ['name' => 'Tia Wulandari, S.Pd., Gr.', 'role' => 'Kepala SMPIT Robbani', 'photo' => '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg', 'bio' => 'Lulusan Universitas Sriwijaya Pendidikan Biologi, Kepala Sekolah SMPIT Robbani berprestasi.'],
             ['name' => 'Atika Junie Astuti, S.P', 'role' => 'Guru IPA, TTQ & BPI', 'photo' => '/uploads/media/b2c738bc73172000c348fe9732dbecf6.webp', 'bio' => 'Guru mata pelajaran IPA dan pembina Tahsin Tahfidz Qur\'an (TTQ) serta BPI.'],
             ['name' => 'Nini Anggraini, S.Pd', 'role' => 'Guru Hadist, PAI & TTQ', 'photo' => '/uploads/media/54a2d99ab10745e07564015cfc1228ee.webp', 'bio' => 'Lulusan STIT Raudhatul Ulum Ogan Ilir Jurusan PAI, pengajar PAI, Hadist dan TTQ.'],
             ['name' => 'Sulis Setya Ningsih, S.Pd', 'role' => 'Guru IPS & Seni Teater', 'photo' => '/uploads/media/d3e51bd52edb07d8614fe2565072e0c5.webp', 'bio' => 'Lulusan Universitas PGRI Palembang Jurusan Kesenian, pengajar IPS dan Seni Budaya.'],

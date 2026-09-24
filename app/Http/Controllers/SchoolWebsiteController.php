@@ -161,21 +161,21 @@ class SchoolWebsiteController extends Controller
                 'name' => 'KB/TKIT Robbani',
                 'principal_name' => 'Ani Oktar Yansi, S.Pd.I',
                 'principal_title' => 'Kepala KB/TKIT Robbani',
-                'principal_photo' => '/uploads/media/ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
+                'principal_photo' => '/uploads/media/kepsek_tk_ani-oktar-yansi-spd-i-scaled_0a6337c9.jpg',
                 'desc' => 'Kelompok Bermain & TK Islam Terpadu Terakreditasi A.'
             ],
             'sdit' => [
                 'name' => 'SDIT Robbani',
                 'principal_name' => 'Nur Amalia, S.Pd.,Gr',
                 'principal_title' => 'Kepala SDIT Robbani',
-                'principal_photo' => '/uploads/media/gtk_sd_nur-amalia-s-pd_99acbccf.png',
+                'principal_photo' => '/uploads/media/kepsek_sd_nur-amalia-s-pd_99acbccf.png',
                 'desc' => 'Sekolah Dasar Islam Terpadu Terakreditasi B & Program Tahfidz.'
             ],
             'smpit' => [
                 'name' => 'SMPIT Robbani',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
-                'principal_title' => 'Kepala Sekolah SMPIT',
-                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
+                'principal_title' => 'Kepala SMPIT Robbani Ogan Ilir',
+                'principal_photo' => '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
                 'desc' => 'Sekolah Menengah Pertama Islam Terpadu Terakreditasi B (Fullday School).'
             ],
             'smait' => [
@@ -190,7 +190,11 @@ class SchoolWebsiteController extends Controller
         foreach ($unitCodes as $c) {
             $json = SiteSetting::get("unit_profile_{$c}");
             $parsed = $json ? json_decode($json, true) : [];
-            $unitProfiles[$c] = array_merge($unitDefaults[$c], array_filter($parsed ?? [], fn($v) => !is_null($v) && $v !== ''));
+            $filtered = array_filter($parsed ?? [], fn($v) => !is_null($v) && $v !== '');
+            if (!empty($filtered['principal_photo']) && (str_contains($filtered['principal_photo'], 'press-release-employee-10') || str_contains($filtered['principal_photo'], 'kepsek_smpit') || str_contains($filtered['principal_photo'], 'avatar'))) {
+                unset($filtered['principal_photo']);
+            }
+            $unitProfiles[$c] = array_merge($unitDefaults[$c], $filtered);
         }
 
         return view('school.home', compact(
@@ -449,8 +453,8 @@ class SchoolWebsiteController extends Controller
             }
 
             // Sanitasi dan validasi foto kepala sekolah & banner dari artefak dummy
-            if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan') || str_contains($info['principal_photo'], 'kepsek_smpit')) {
-                $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp';
+            if ($cleanCode === 'smpit' || empty($info['principal_photo']) || $info['principal_photo'] === '/images/avatar-gray-person.svg' || str_contains($info['principal_photo'], 'uploads/dewan') || str_contains($info['principal_photo'], 'kepsek_smpit') || str_contains($info['principal_photo'], 'press-release-employee-10')) {
+                $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg';
             }
             if (empty($info['hero_bg_image']) || str_contains($info['hero_bg_image'], 'herobg_smpit')) {
                 $info['hero_bg_image'] = $defaultInfo['hero_bg_image'] ?? '/uploads/cms/banner-hero.webp';
@@ -465,18 +469,22 @@ class SchoolWebsiteController extends Controller
             if (empty($info['teachers'])) {
                 $info['teachers'] = $defaultInfo['teachers'] ?? [];
             } else {
-                // Bersihkan referensi dummy /uploads/dewan dan path 404 pada data guru
+                // Bersihkan referensi dummy /uploads/dewan dan cocokkan foto asli dari data default
                 foreach ($info['teachers'] as &$tcItem) {
                     $p = $tcItem['photo'] ?? '';
-                    if (empty($p) || str_contains($p, 'uploads/dewan') || str_contains($p, 'guru_smpit')) {
+                    if (empty($p) || $p === '/images/avatar-gray-person.svg' || str_contains($p, 'uploads/dewan') || str_contains($p, 'guru_smpit')) {
                         $matchedPhoto = null;
                         foreach ($defaultInfo['teachers'] ?? [] as $dTeach) {
-                            if (strtolower(trim($dTeach['name'] ?? '')) === strtolower(trim($tcItem['name'] ?? ''))) {
+                            $cleanD = preg_replace('/[^a-zA-Z]/', '', strtolower($dTeach['name'] ?? ''));
+                            $cleanT = preg_replace('/[^a-zA-Z]/', '', strtolower($tcItem['name'] ?? ''));
+                            if (!empty($cleanD) && !empty($cleanT) && ($cleanD === $cleanT || str_contains($cleanD, $cleanT) || str_contains($cleanT, $cleanD))) {
                                 $matchedPhoto = $dTeach['photo'] ?? null;
                                 break;
                             }
                         }
-                        $tcItem['photo'] = $matchedPhoto ?: '/images/avatar-gray-person.svg';
+                        if ($matchedPhoto) {
+                            $tcItem['photo'] = $matchedPhoto;
+                        }
                     }
                 }
                 unset($tcItem);
@@ -611,8 +619,8 @@ class SchoolWebsiteController extends Controller
                 $val = '/images/avatar-gray-person.svg';
             }
         });
-        if (empty($info['principal_photo']) || str_contains($info['principal_photo'], 'uploads/dewan') || str_contains($info['principal_photo'], 'kepsek_smpit')) {
-            $info['principal_photo'] = $defaultInfo['principal_photo'] ?? '/images/avatar-gray-person.svg';
+        if ($cleanCode === 'smpit' || empty($info['principal_photo']) || $info['principal_photo'] === '/images/avatar-gray-person.svg' || str_contains($info['principal_photo'], 'uploads/dewan') || str_contains($info['principal_photo'], 'press-release-employee-10') || str_contains($info['principal_photo'], 'kepsek_smpit')) {
+            $info['principal_photo'] = $defaultInfo['principal_photo'] ?? ($cleanCode === 'smpit' ? '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg' : '/images/avatar-gray-person.svg');
         }
 
         if ($school) {
@@ -3176,7 +3184,7 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'tagline' => 'Because Every Child is Unique (Berbasis Digital & Pendidikan Karakter)',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala SMPIT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
+                'principal_photo' => '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
                 'principal_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi SMP IT Robbani Ogan Ilir. Kami memadukan kecerdasan digital, pembinaan akhlak mulia, tahfidz Al-Qur\'an, dan pembelajaran berpusat pada keunikan setiap siswa (Because Every Child is Unique) untuk melahirkan generasi robbani yang beriman, bertaqwa, unggul dalam IPTEK, serta berwawasan global.',
                 'description' => 'SMP IT Robbani adalah sekolah menengah pertama Islam terpadu unggulan di Ogan Ilir yang memadukan kecerdasan digital (SIPAKAR V2), kemuliaan akhlak, tahfidz Al-Qur\'an, dan pendidikan karakter islami (Fullday School). Alamat: Jln. Sarjana Padang Guci, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan.',
                 'vision' => 'Terwujudnya Generasi Robbani yang Beriman, Mandiri, Kreatif, Adaptif, dan Bernalar Kritis dalam penguasaan ilmu pengetahuan dan teknologi.',
@@ -3209,7 +3217,7 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'hero_image' => '/uploads/media/smpit_post_IMG-20260713-WA0032-scaled_b6afa939.jpg',
                 'principal_name' => 'Tia Wulandari, S.Pd., Gr.',
                 'principal_title' => 'Kepala SMPIT Robbani Ogan Ilir',
-                'principal_photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
+                'principal_photo' => '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
                 'students_count' => 58,
                 'employees_count' => 12,
                 'classrooms_count' => 3,
@@ -3246,7 +3254,7 @@ public function getDefaultUnitMap(array $themeTokens): array
   array (
     'name' => 'Tia Wulandari, S.Pd., Gr.',
     'role' => 'Kepala SMPIT Robbani',
-    'photo' => '/uploads/media/094bd24f5cbf61735c098a3e594dd544.webp',
+    'photo' => '/uploads/media/kepsek_smp_whatsapp-image-2024-12-03-at-104531-1_094bd24f.jpeg',
     'bio' => 'Kepala Sekolah SMPIT Robbani berdedikasi memimpin pendidikan Islam terpadu berkualitas.',
   ),
   1 => 

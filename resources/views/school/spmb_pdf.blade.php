@@ -84,25 +84,28 @@
     <!-- Main Printable A4 Form Container -->
     <div class="pdf-container max-w-4xl mx-auto pdf-card rounded-2xl p-6 sm:p-10 space-y-5 text-xs text-slate-900">
         
-        <!-- Header Kop Surat Yayasan / Sekolah -->
-        <div class="flex items-center justify-between border-b-2 border-emerald-900 pb-3 gap-4">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-16 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
+        <!-- Header Kop Surat Sekolah Islam Terpadu Robbani -->
+        <div class="flex items-center justify-between border-b-2 border-emerald-900 pb-3 gap-3">
+            <div class="flex items-center gap-3.5">
+                <img src="{{ asset('images/logo-robbani-official.png') }}" alt="Logo SIT Robbani" class="h-16 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
                 <div>
-                    <h1 class="text-base sm:text-lg font-black tracking-tight uppercase text-emerald-900">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</h1>
-                    <h2 class="text-xs sm:text-sm font-black text-slate-900 uppercase">SEKOLAH ISLAM TERPADU ROBBANI OGAN ILIR</h2>
-                    <p class="text-[10px] text-slate-600">Alamat: Indralaya, Kab. Ogan Ilir, Sumatera Selatan | Telp/WA: 0811747472 | Website: sitrobbani.sch.id</p>
+                    <h1 class="text-base sm:text-lg font-black tracking-tight uppercase text-emerald-950 leading-tight">
+                        SEKOLAH ISLAM TERPADU ROBBANI
+                    </h1>
+                    <p class="text-[10px] sm:text-[11px] text-slate-700 font-medium leading-snug mt-0.5">
+                        KPA (Kantor Pelayanan Administrasi) Sekolah Islam Terpadu Robbani<br>
+                        Alamat: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan
+                    </p>
+                    <p class="text-[9px] text-slate-500 font-semibold leading-tight mt-0.5">
+                        Telp/WA: 0811747472 | Website: sitrobbani.sch.id
+                    </p>
                 </div>
             </div>
-            <div class="flex items-center gap-2.5 shrink-0">
-                <!-- QR Code Validasi Digital di Kop Surat -->
-                <div class="text-center p-1 border border-slate-300 rounded-lg bg-white shadow-xs">
-                    <img src="{{ $qrUrl }}" alt="QR Code Verifikasi" class="w-14 h-14 object-contain mx-auto">
-                    <span class="block text-[7px] font-bold text-slate-600 uppercase tracking-tighter mt-0.5">Scan Validasi</span>
-                </div>
-                <div class="text-right border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50 font-mono text-[11px] font-bold">
-                    <span class="block text-[9px] font-sans text-slate-500 uppercase">Kode Formulir</span>
-                    F - SPMB 2026/2027
+            <div class="shrink-0">
+                <!-- QR Code & Kode Formulir Bertumpuk Ringkas Simetris -->
+                <div class="flex flex-col items-center justify-center p-1.5 border border-slate-300 rounded-xl bg-white shadow-xs min-w-[76px]">
+                    <img src="{{ $qrUrl }}" alt="QR Code" class="w-12 h-12 object-contain mx-auto">
+                    <span class="text-[9px] font-mono font-black text-slate-800 tracking-tight mt-1 leading-none text-center">F - SPMB</span>
                 </div>
             </div>
         </div>
@@ -448,35 +451,26 @@
             </div>
         </div>
 
-        <!-- Tanda Tangan Official & Stempel QR Code Validasi Digital -->
-        <div class="pt-6 grid grid-cols-3 gap-4 text-center text-xs items-end">
+        <!-- Tanda Tangan Official Panitia & Orang Tua Siswa -->
+        <div class="pt-6 flex justify-between items-end px-8 sm:px-14 text-center text-xs">
             <!-- Kolom 1: Panitia SPMB -->
             <div class="space-y-14">
                 <div>
                     <span class="block text-slate-500 text-[10px]">Mengetahui,</span>
                     <strong class="font-black text-slate-900">Panitia SPMB SIT Robbani</strong>
                 </div>
-                <div class="border-t border-slate-400 w-36 sm:w-44 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
+                <div class="border-t border-slate-400 w-40 sm:w-48 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
                     ( Panitia SPMB SIT Robbani )
                 </div>
             </div>
 
-            <!-- Kolom 2: Stempel QR Code Validasi Digital -->
-            <div class="flex flex-col items-center justify-center space-y-1 pb-1">
-                <div class="p-1.5 border border-slate-300 rounded-xl bg-white shadow-xs">
-                    <img src="{{ $qrUrl }}" alt="QR Code Verifikasi Resmi" class="w-18 h-18 sm:w-20 sm:h-20 object-contain mx-auto">
-                </div>
-                <span class="font-mono text-[10px] font-black text-emerald-900 tracking-tight">{{ $registration->registration_number }}</span>
-                <span class="text-[8px] font-bold text-slate-500 uppercase tracking-wider block">Verifikasi Digital Resmi SIT Robbani</span>
-            </div>
-
-            <!-- Kolom 3: Orang Tua Siswa -->
+            <!-- Kolom 2: Orang Tua Siswa -->
             <div class="space-y-14">
                 <div>
                     <span class="block text-slate-500 text-[10px]">Indralaya, {{ $registration->created_at ? $registration->created_at->translatedFormat('d F Y') : date('d F Y') }}</span>
                     <strong class="font-black text-slate-900">Orang Tua / Wali Siswa</strong>
                 </div>
-                <div class="border-t border-slate-400 w-36 sm:w-44 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
+                <div class="border-t border-slate-400 w-40 sm:w-48 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
                     ( {{ $registration->parent_name }} )
                 </div>
             </div>
