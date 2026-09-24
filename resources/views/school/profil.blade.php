@@ -46,8 +46,9 @@
               }
             },
             fontFamily: {
-              body: ["Plus Jakarta Sans", "sans-serif"],
-              headline: ["Plus Jakarta Sans", "sans-serif"]
+              body: ["Inter", "sans-serif"],
+              headline: ["Montserrat", "sans-serif"],
+              sans: ["Inter", "sans-serif"]
             },
             keyframes: {
               'pulse-slow': {
@@ -69,12 +70,13 @@
     </script>
 
     <!-- Google Fonts & Alpine.js -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .font-headline { font-family: 'Montserrat', sans-serif; }
         [x-cloak] { display: none !important; }
     </style>
 
@@ -140,7 +142,7 @@
                 <!-- Left: Chairman Photo Frame -->
                 <div class="lg:col-span-4 text-center space-y-4">
                     <div class="relative w-48 sm:w-56 h-48 sm:h-56 mx-auto rounded-3xl overflow-hidden border-4 border-emerald-600 dark:border-[#c6f634] shadow-2xl bg-slate-900 group">
-                        <img src="{{ !empty($foundationProfile['chairman_photo']) ? asset($foundationProfile['chairman_photo']) : asset('uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp') }}" alt="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{{ asset('uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp') }}';">
+                        <img src="{{ !empty($foundationProfile['chairman_photo']) && !str_contains($foundationProfile['chairman_photo'], 'principal_photo_6a7f525a6292e') ? asset($foundationProfile['chairman_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                     </div>
                     <div class="space-y-1">
@@ -238,7 +240,7 @@
             <div class="max-w-sm mx-auto">
                 <div class="bg-white dark:bg-[#07170a] border-2 border-emerald-600 dark:border-[#c6f634] rounded-3xl p-6 text-center space-y-4 shadow-xl hover:shadow-2xl transition-all group">
                     <div class="w-48 h-48 mx-auto rounded-2xl overflow-hidden border-2 border-emerald-500 dark:border-[#c6f634] bg-slate-900 shadow-md">
-                        <img src="{{ asset($foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $foundationProfile['chairman_name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                        <img src="{{ !empty($foundationProfile['chairman_photo']) && !str_contains($foundationProfile['chairman_photo'], 'logo-robbani') ? asset($foundationProfile['chairman_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $foundationProfile['chairman_name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
                     </div>
                     <div class="space-y-1">
                         <h3 class="text-base font-black font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $foundationProfile['chairman_name'] }}</h3>

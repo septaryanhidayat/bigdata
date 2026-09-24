@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, activeTab: '{{ $activeTab ?? 'portal' }}' }" :class="darkMode ? 'dark' : ''">
+<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false, activeTab: '{{ $activeTab ?? 'portal' }}' }" :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,9 @@
               }
             },
             fontFamily: {
-              sans: ["Plus Jakarta Sans", "sans-serif"],
+              sans: ["Inter", "sans-serif"],
+              headline: ["Montserrat", "sans-serif"],
+              body: ["Inter", "sans-serif"],
             }
           }
         }
@@ -36,13 +38,14 @@
     </script>
 
     <!-- Google Fonts, Material Symbols & Alpine.js -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .font-headline { font-family: 'Montserrat', sans-serif; }
         [x-cloak] { display: none !important; }
 
         .reveal-fade-up {
@@ -109,7 +112,7 @@
                 </h2>
                 <div class="w-16 h-1 bg-emerald-600 dark:bg-[#c6f634] rounded-full mx-auto mt-2 mb-3"></div>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                    Seluruh permohonan diproses secara profesional oleh Kantor Pelayanan Administrasi (KPA) dan bagian Humas &amp; Sarana Prasarana Sekolah Islam Terpadu Robbani.
+                    Seluruh permohonan diproses secara profesional oleh Kantor Pusat Administrasi (KPA) dan bagian Humas &amp; Sarana Prasarana Sekolah Islam Terpadu Robbani.
                 </p>
             </div>
 
@@ -483,7 +486,7 @@
                 </div>
 
                 <div class="bg-slate-50 dark:bg-[#040d06] rounded-2xl p-6 border border-slate-200 dark:border-[#1a381c] space-y-3">
-                    <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Jam Operasional Kantor Pelayanan Administrasi (KPA):</h4>
+                    <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Jam Operasional Kantor Pusat Administrasi (KPA):</h4>
                     <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2">
                         <li class="flex items-center justify-between py-1 border-b border-slate-200 dark:border-[#1a381c]">
                             <span>Senin - Kamis</span>

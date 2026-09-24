@@ -22,6 +22,12 @@
         .table-field td {
             padding: 4px 8px;
             vertical-align: top;
+            text-transform: uppercase;
+        }
+
+        .table-field td.no-uppercase,
+        .table-field td a {
+            text-transform: none !important;
         }
 
         .table-field tr:nth-child(even) {
@@ -52,9 +58,29 @@
 <body class="p-3 sm:p-8 antialiased">
 
     @php
-        $d = is_array($registration->details_json) 
+        $rawD = is_array($registration->details_json) 
             ? $registration->details_json 
             : (is_string($registration->details_json) ? (json_decode($registration->details_json, true) ?? []) : []);
+        
+        $toUpperRec = function($data) use (&$toUpperRec) {
+            $res = [];
+            foreach ($data as $k => $v) {
+                if (is_array($v)) {
+                    $res[$k] = $toUpperRec($v);
+                } elseif (is_string($v)) {
+                    $lk = strtolower($k);
+                    if (str_contains($lk, 'email') || str_contains($lk, 'url') || str_contains($lk, 'file') || str_contains($lk, 'uploaded') || str_contains($lk, 'token')) {
+                        $res[$k] = $v;
+                    } else {
+                        $res[$k] = mb_strtoupper($v, 'UTF-8');
+                    }
+                } else {
+                    $res[$k] = $v;
+                }
+            }
+            return $res;
+        };
+        $d = $toUpperRec($rawD);
         $docs = $d['uploaded_docs'] ?? [];
         $verifyUrl = route('school.spmb.verify', $registration->registration_number);
         $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' . urlencode($verifyUrl);
@@ -97,7 +123,7 @@
                     SEKOLAH ISLAM TERPADU ROBBANI
                 </h1>
                 <p class="text-[10px] sm:text-xs text-slate-800 font-bold leading-snug mt-1">
-                    KPA (Kantor Pelayanan Administrasi) Sekolah Islam Terpadu Robbani
+                    KPA (Kantor Pusat Administrasi) Sekolah Islam Terpadu Robbani
                 </p>
                 <p class="text-[10px] sm:text-[11px] text-slate-700 font-medium leading-snug">
                     Alamat: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan

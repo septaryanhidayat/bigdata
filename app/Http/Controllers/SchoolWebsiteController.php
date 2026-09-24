@@ -34,7 +34,7 @@ class SchoolWebsiteController extends Controller
             'logo_dark' => SiteSetting::get('logo_dark', '/images/logo robbani dark.png'),
             'website_favicon' => SiteSetting::get('website_favicon', '/favicon.png'),
             'social_share_image' => SiteSetting::get('social_share_image', '/images/logo robbani light.png'),
-            'principal_photo' => SiteSetting::get('principal_photo', '/uploads/media/press-release-employee-10-scaled_b06e4c83.webp'),
+            'principal_photo' => (!empty(SiteSetting::get('principal_photo')) && !str_contains(SiteSetting::get('principal_photo'), 'principal_photo_6a7f525a6292e') && !str_contains(SiteSetting::get('principal_photo'), 'SmartEdu')) ? SiteSetting::get('principal_photo') : '/images/sughesti_wulandari.webp',
         ];
 
         $schools = School::withCount(['students', 'employees', 'classrooms'])->where('is_active', true)->get();
@@ -227,9 +227,12 @@ class SchoolWebsiteController extends Controller
             $data = [];
         }
 
-        $defaultPhoto = SiteSetting::get('principal_photo') ?: '/uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp';
+        $rawPhoto = SiteSetting::get('principal_photo');
+        $defaultPhoto = (!empty($rawPhoto) && !str_contains($rawPhoto, 'principal_photo_6a7f525a6292e') && !str_contains($rawPhoto, 'SmartEdu') && !str_contains($rawPhoto, 'logo-robbani')) 
+            ? $rawPhoto 
+            : '/images/sughesti_wulandari.webp';
         
-        $chairmanPhoto = !empty($data['chairman_photo']) && !str_contains($data['chairman_photo'], 'logo-robbani') 
+        $chairmanPhoto = !empty($data['chairman_photo']) && !str_contains($data['chairman_photo'], 'logo-robbani') && !str_contains($data['chairman_photo'], 'principal_photo_6a7f525a6292e') && !str_contains($data['chairman_photo'], 'SmartEdu')
             ? $data['chairman_photo'] 
             : $defaultPhoto;
 
@@ -1278,7 +1281,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'TPA ROBBANI',
                 'level' => 'Taman Pendidikan Anak',
                 'age_badge' => 'Usia 0 – 3 Tahun',
-                'address' => 'Jl. Sarjana, Blok C No. 17, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'address' => 'Jl. Sarjana, Blok C Nomor 17, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kab Ogan Ilir & Perum Griya Sejahtera Lr. Sejahtera 7 A4 No.5, Kel. Timbangan, Kec. Indralaya Utara, Ogan Ilir',
                 'image' => '/images/spmb/tpa.webp',
                 'fee' => 350000,
                 'color' => 'purple',
@@ -1289,7 +1292,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'KB ROBBANI',
                 'level' => 'Kelompok Bermain',
                 'age_badge' => 'Usia 3 – 4 Tahun',
-                'address' => 'Jl. Sarjana Blok C No. 14, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'address' => 'Jalan Sarjana Blok C Nomor 14, Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
                 'image' => '/images/spmb/kb.webp',
                 'fee' => 350000,
                 'color' => 'pink',
@@ -1300,7 +1303,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'TK IT ROBBANI',
                 'level' => 'TK Islam Terpadu',
                 'age_badge' => 'Usia 4 – 6 Tahun',
-                'address' => 'Jl. Sarjana Blok C No. 14, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'address' => 'Jalan Sarjana Blok C Nomor 14, Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
                 'image' => '/images/spmb/tk.webp',
                 'fee' => 350000,
                 'color' => 'amber',
@@ -1311,7 +1314,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SD IT ROBBANI',
                 'level' => 'SD Islam Terpadu',
                 'age_badge' => 'Usia Min. 6 Tahun',
-                'address' => 'Jl. Sarjana Blok A, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'address' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
                 'image' => '/images/spmb/sd.webp',
                 'fee' => 450000,
                 'color' => 'emerald',
@@ -1322,7 +1325,7 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SMP IT ROBBANI',
                 'level' => 'SMP Islam Terpadu',
                 'age_badge' => 'Lulusan SD / MI',
-                'address' => 'Jl. Sarjana Padang Guci, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'address' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
                 'image' => '/images/spmb/smp.png',
                 'fee' => 550000,
                 'color' => 'cyan',
@@ -1333,8 +1336,8 @@ class SchoolWebsiteController extends Controller
                 'name' => 'SMA IT ROBBANI',
                 'level' => 'SMA Islam Terpadu',
                 'age_badge' => 'Lulusan SMP / MTs',
-                'address' => 'Kompleks SIT Robbani, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
-                'image' => '/images/spmb/sma.jpg',
+                'address' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
+                'image' => '/images/spmb/sma.webp',
                 'fee' => 550000,
                 'color' => 'indigo',
                 'is_active' => true,
@@ -1347,28 +1350,32 @@ class SchoolWebsiteController extends Controller
             $units = $defaultUnits;
         }
 
-        // Auto update legacy naming if still present in saved json
-        $legacyLevels = [
-            'Taman Asuh Anak' => 'Taman Pendidikan Anak',
-            'Taman Kanak-Kanak IT' => 'TK Islam Terpadu',
-            'Taman Kanak-Kanak' => 'TK Islam Terpadu',
-            'Sekolah Dasar IT' => 'SD Islam Terpadu',
-            'Sekolah Dasar' => 'SD Islam Terpadu',
+        // Auto update addresses & legacy naming to user requested unified format
+        $fixedAddresses = [
+            'TPA' => 'Jl. Sarjana, Blok C Nomor 17, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kab Ogan Ilir & Perum Griya Sejahtera Lr. Sejahtera 7 A4 No.5, Kel. Timbangan, Kec. Indralaya Utara, Ogan Ilir',
+            'KB' => 'Jalan Sarjana Blok C Nomor 14, Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
+            'TKIT' => 'Jalan Sarjana Blok C Nomor 14, Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
+            'SDIT' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
+            'SMPIT' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
+            'SMAIT' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
         ];
-        $legacyNames = [
-            'TKIT ROBBANI' => 'TK IT ROBBANI',
-            'SDIT ROBBANI' => 'SD IT ROBBANI',
-            'SMPIT ROBBANI' => 'SMP IT ROBBANI',
-            'SMAIT ROBBANI' => 'SMA IT ROBBANI',
+        $unifiedNames = [
+            'TPA' => 'TPA ROBBANI',
+            'KB' => 'KB ROBBANI',
+            'TKIT' => 'TK IT ROBBANI',
+            'SDIT' => 'SD IT ROBBANI',
+            'SMPIT' => 'SMP IT ROBBANI',
+            'SMAIT' => 'SMA IT ROBBANI',
         ];
         foreach ($units as $uKey => &$uItem) {
-            if (isset($uItem['level']) && isset($legacyLevels[$uItem['level']])) {
-                $uItem['level'] = $legacyLevels[$uItem['level']];
+            if (isset($fixedAddresses[$uKey])) {
+                $uItem['address'] = $fixedAddresses[$uKey];
             }
-            if (isset($uItem['name']) && isset($legacyNames[$uItem['name']])) {
-                $uItem['name'] = $legacyNames[$uItem['name']];
+            if (isset($unifiedNames[$uKey])) {
+                $uItem['name'] = $unifiedNames[$uKey];
             }
         }
+        unset($uItem);
 
         $defaultPrograms = [
             [
@@ -1395,6 +1402,11 @@ class SchoolWebsiteController extends Controller
                 'title' => 'Ekskul Berkelas',
                 'desc' => 'Panahan, beladiri, dan sains kreatif',
                 'image' => '/images/spmb/ekskul.png',
+            ],
+            [
+                'title' => 'AI Learning & Smart Tech',
+                'desc' => 'Pembelajaran cerdas masa depan, coding usia dini & pendampingan AI Islami',
+                'image' => '/images/spmb/ai_learning.png',
             ],
         ];
         $programsJson = SiteSetting::get('spmb_programs_data');
@@ -1765,14 +1777,35 @@ class SchoolWebsiteController extends Controller
             'submitted_at' => now()->toDateTimeString(),
         ]);
 
+        // Auto uppercase all text fields for neat & formal administrative recording
+        $uppercaseFields = function($data) use (&$uppercaseFields) {
+            $result = [];
+            foreach ($data as $key => $val) {
+                if (is_array($val)) {
+                    $result[$key] = $uppercaseFields($val);
+                } elseif (is_string($val)) {
+                    $k = strtolower($key);
+                    if (str_contains($k, 'email') || str_contains($k, 'url') || str_contains($k, 'file') || str_contains($k, 'token') || str_contains($k, 'path') || str_contains($k, 'uploaded')) {
+                        $result[$key] = trim($val);
+                    } else {
+                        $result[$key] = mb_strtoupper(trim($val), 'UTF-8');
+                    }
+                } else {
+                    $result[$key] = $val;
+                }
+            }
+            return $result;
+        };
+        $allDetails = $uppercaseFields($allDetails);
+
         $reg = \App\Models\PpdbRegistration::create([
             'school_id' => $schoolObj->id ?? 1,
             'registration_number' => $noRegistrasi,
-            'full_name' => trim($request->nama_lengkap),
-            'parent_name' => trim($request->nama_ayah),
+            'full_name' => mb_strtoupper(trim($request->nama_lengkap), 'UTF-8'),
+            'parent_name' => mb_strtoupper(trim($request->nama_ayah), 'UTF-8'),
             'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
-            'target_level' => $schoolCode,
-            'previous_school' => $request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-'),
+            'target_level' => strtoupper($schoolCode),
+            'previous_school' => mb_strtoupper(trim($request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-')), 'UTF-8'),
             'status' => 'PENDING',
             'registration_fee' => $registrationFee,
             'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
@@ -1854,8 +1887,9 @@ class SchoolWebsiteController extends Controller
             'hero_title' => SiteSetting::get('hero_title', 'Membentuk Generasi Rabbani Berakhlak Mulia & Berprestasi Digital'),
             'hero_desc' => SiteSetting::get('hero_desc', 'Yayasan Generasi Robbani Sumatera Selatan menyelenggarakan pendidikan Islam Terpadu unggul dari jenjang KB/TKIT Robbani, SDIT Robbani, SMPIT Robbani, hingga SMAIT Robbani di Ogan Ilir dengan Kurikulum Merdeka, Kekhasan JSIT, Tahfidz Al-Qur\'an, dan Ekosistem Digital.'),
             'principal_greeting' => SiteSetting::get('principal_greeting', 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Selamat datang di portal resmi Yayasan Generasi Robbani Sumatera Selatan. Kami berkomitmen mendidik ananda menjadi pribadi beriman, bertakwa, berakhlak karimah, hafidz Al-Qur\'an, serta menguasai ilmu pengetahuan dan teknologi.'),
-            'principal_name' => SiteSetting::get('principal_name', 'Ustadz H. Ahmad Fauzi, S.Pd.I, M.Pd'),
+            'principal_name' => SiteSetting::get('principal_name', 'Sughesti Wulandari, S.Pd'),
             'principal_title' => SiteSetting::get('principal_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
+            'principal_photo' => (!empty(SiteSetting::get('principal_photo')) && !str_contains(SiteSetting::get('principal_photo'), 'principal_photo_6a7f525a6292e') && !str_contains(SiteSetting::get('principal_photo'), 'SmartEdu')) ? SiteSetting::get('principal_photo') : '/images/sughesti_wulandari.webp',
             'ppdb_status' => SiteSetting::get('ppdb_status', 'SPMB TELAH DIBUKA!'),
             'ppdb_desc' => SiteSetting::get('ppdb_desc', 'Ayo Menjadi Bagian SIT Robbani Ogan Ilir Tahun Ajaran 2026/2027 untuk jenjang KB/TKIT, SDIT, SMPIT, & SMAIT melalui Portal SPMB Online.'),
             'contact_phone' => SiteSetting::get('contact_phone', '0811747472'),
@@ -2371,22 +2405,34 @@ class SchoolWebsiteController extends Controller
                 ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
                 ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
                 ['title' => 'Layanan', 'url' => route('school.layanan'), 'is_active' => true],
-                ['title' => 'Unit', 'url' => route('home') . '#unit-sekolah', 'is_active' => true],
+                ['title' => 'Unit', 'url' => url('/#unit-sekolah'), 'is_active' => true],
                 ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
                 ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
                 ['title' => 'Fasilitas', 'url' => route('school.fasilitas'), 'is_active' => true],
-                ['title' => 'Galeri', 'url' => route('home') . '#galeri-sekolah', 'is_active' => true],
+                ['title' => 'Galeri', 'url' => url('/#galeri-sekolah'), 'is_active' => true],
             ];
         } else {
             $hasLayanan = false;
             foreach ($menus as &$m) {
-                if (isset($m['title']) && strtolower($m['title']) === 'layanan') {
+                $t = strtolower($m['title'] ?? '');
+                if ($t === 'beranda') {
+                    $m['url'] = route('home');
+                } elseif ($t === 'profil') {
+                    $m['url'] = route('school.profil');
+                } elseif ($t === 'layanan') {
                     $hasLayanan = true;
                     $m['url'] = route('school.layanan');
-                }
-                if (isset($m['title']) && (strtolower($m['title']) === 'sarana & prasarana' || strtolower($m['title']) === 'fasilitas')) {
+                } elseif ($t === 'unit' || str_contains($t, 'unit')) {
+                    $m['url'] = url('/#unit-sekolah');
+                } elseif ($t === 'berita') {
+                    $m['url'] = route('school.berita');
+                } elseif ($t === 'artikel') {
+                    $m['url'] = route('school.artikel');
+                } elseif ($t === 'sarana & prasarana' || $t === 'fasilitas' || str_contains($t, 'sarana')) {
                     $m['title'] = 'Fasilitas';
                     $m['url'] = route('school.fasilitas');
+                } elseif ($t === 'galeri' || str_contains($t, 'galeri')) {
+                    $m['url'] = url('/#galeri-sekolah');
                 }
             }
             unset($m);

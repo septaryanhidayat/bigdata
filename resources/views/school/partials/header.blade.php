@@ -15,27 +15,49 @@
             </a>
         </div>
 
-        <div class="hidden md:flex space-x-3 lg:space-x-5 items-center font-bold text-xs lg:text-sm">
+        <div class="hidden md:flex space-x-3 lg:space-x-5 items-center font-bold text-xs lg:text-sm font-sans" style="font-family: 'Inter', sans-serif;">
             @php
                 $currentUrl = url()->current();
                 $menus = $headerMenus ?? [
                     ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
                     ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
                     ['title' => 'Layanan', 'url' => route('school.layanan'), 'is_active' => true],
-                    ['title' => 'Unit', 'url' => route('home') . '#unit-sekolah', 'is_active' => true],
+                    ['title' => 'Unit', 'url' => url('/#unit-sekolah'), 'is_active' => true],
                     ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
                     ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
                     ['title' => 'Fasilitas', 'url' => route('school.fasilitas'), 'is_active' => true],
-                    ['title' => 'Galeri', 'url' => route('home') . '#galeri-sekolah', 'is_active' => true],
+                    ['title' => 'Galeri', 'url' => url('/#galeri-sekolah'), 'is_active' => true],
                 ];
             @endphp
 
             @foreach($menus as $menu)
                 @php
-                    $mTitle = strtolower($menu['title'] ?? '');
+                    $mTitle = strtolower(trim($menu['title'] ?? ''));
                     if (str_contains($mTitle, 'espp') || str_contains($mTitle, 'e-spp')) continue;
                     
-                    $mUrl = $menu['url'] ?? '#';
+                    if ($mTitle === 'beranda') {
+                        $mUrl = route('home');
+                    } elseif ($mTitle === 'profil') {
+                        $mUrl = route('school.profil');
+                    } elseif ($mTitle === 'layanan') {
+                        $mUrl = route('school.layanan');
+                    } elseif ($mTitle === 'unit' || str_contains($mTitle, 'unit')) {
+                        $mUrl = url('/#unit-sekolah');
+                    } elseif ($mTitle === 'berita') {
+                        $mUrl = route('school.berita');
+                    } elseif ($mTitle === 'artikel') {
+                        $mUrl = route('school.artikel');
+                    } elseif ($mTitle === 'fasilitas' || str_contains($mTitle, 'sarana')) {
+                        $mUrl = route('school.fasilitas');
+                    } elseif ($mTitle === 'galeri' || str_contains($mTitle, 'galeri')) {
+                        $mUrl = url('/#galeri-sekolah');
+                    } else {
+                        $mUrl = $menu['url'] ?? '#';
+                        if (str_starts_with($mUrl, '#')) {
+                            $mUrl = url('/' . $mUrl);
+                        }
+                    }
+                    
                     $isActive = false;
                     if ($mTitle === 'beranda' && (request()->routeIs('home') || $currentUrl === route('home'))) {
                         $isActive = true;
@@ -94,7 +116,7 @@
         <span class="flex items-center gap-2"><span>📋</span> <span>Layanan Publik (3 Layanan)</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('home') }}#unit-sekolah" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+    <a @click="mobileMenuOpen = false" href="{{ url('/#unit-sekolah') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
         <span class="flex items-center gap-2"><span>🏫</span> <span>4 Unit Sekolah</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
@@ -110,7 +132,7 @@
         <span class="flex items-center gap-2"><span>🏢</span> <span>Fasilitas Sekolah</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('home') }}#galeri-sekolah" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+    <a @click="mobileMenuOpen = false" href="{{ url('/#galeri-sekolah') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
         <span class="flex items-center gap-2"><span>🖼️</span> <span>Galeri Foto</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>

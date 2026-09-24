@@ -70,38 +70,38 @@
                 </h4>
                 <ul class="space-y-2 text-xs text-slate-300 flex flex-col items-center md:items-start">
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Sambutan Kepala Sekolah
+                        <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" class="hover:text-amber-300 transition block">
+                            Sambutan Kepala Sekolah
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Profil &amp; Sejarah
+                        <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="hover:text-amber-300 transition block">
+                            Profil &amp; Sejarah
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Visi &amp; Misi Sekolah
+                        <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="hover:text-amber-300 transition block">
+                            Visi &amp; Misi Sekolah
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Dewan Guru &amp; GTK
+                        <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="hover:text-amber-300 transition block">
+                            Dewan Guru &amp; GTK
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Struktur Organisasi
+                        <a href="{{ url('/unit/' . $codeLower . '/struktur-organisasi') }}" class="hover:text-amber-300 transition block">
+                            Struktur Organisasi
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Fasilitas &amp; Sarana
+                        <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="hover:text-amber-300 transition block">
+                            Fasilitas &amp; Sarana
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Program Unggulan
+                        <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="hover:text-amber-300 transition block">
+                            Program Unggulan
                         </a>
                     </li>
                 </ul>
@@ -115,38 +115,38 @@
                 </h4>
                 <ul class="space-y-2 text-xs text-slate-300 flex flex-col items-center md:items-start">
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Pusat Unduhan Berkas
+                        <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="hover:text-amber-300 transition block">
+                            Pusat Unduhan Berkas
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> E-Book &amp; Modul Ajar
+                        <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" class="hover:text-amber-300 transition block">
+                            E-Book &amp; Modul Ajar
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Mars JSIT Indonesia
+                        <a href="{{ url('/unit/' . $codeLower . '/hymne-mars') }}" class="hover:text-amber-300 transition block">
+                            Mars JSIT Indonesia
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Logo &amp; Identitas Resmi
+                        <a href="{{ url('/unit/' . $codeLower . '/logo') }}" class="hover:text-amber-300 transition block">
+                            Logo &amp; Identitas Resmi
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Portal Layanan Terpadu
+                        <a href="{{ url('/unit/' . $codeLower . '/layanan') }}" class="hover:text-amber-300 transition block">
+                            Portal Layanan Terpadu
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="hover:text-amber-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-angle-right text-[10px] text-amber-400"></i> Izin Kunjungan Sekolah
+                        <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="hover:text-amber-300 transition block">
+                            Izin Kunjungan Sekolah
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="text-amber-400 font-bold hover:underline transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-graduation-cap text-[11px]"></i> Pendaftaran SPMB Online
+                        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="text-amber-400 font-bold hover:underline transition block">
+                            Pendaftaran SPMB Online
                         </a>
                     </li>
                 </ul>

@@ -7,7 +7,7 @@
             <!-- Col 1: Identitas Resmi Sekolah -->
             <div class="space-y-4 flex flex-col items-center md:items-start">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
-                    <img alt="SIT Robbani Logo" width="180" height="48" loading="lazy" class="h-10 sm:h-12 w-auto object-contain brightness-0 invert" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                    <img alt="SIT Robbani Logo" width="180" height="48" loading="lazy" class="h-10 sm:h-12 w-auto object-contain" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 </a>
                 <p class="text-xs text-slate-300 leading-relaxed font-light">
                     {{ $settings['school_name'] ?? 'Sekolah Islam Terpadu Robbani' }} — Lembaga pendidikan Islam terpadu pelopor karakter Qur'ani, sains modern, dan teknologi digital di Kabupaten Ogan Ilir, Sumatera Selatan.
@@ -15,7 +15,7 @@
                 <div class="pt-1 text-[11px] text-slate-300 space-y-1">
                     <p class="flex items-center justify-center md:justify-start gap-2">
                         <span class="material-symbols-outlined text-[15px] text-amber-400">location_on</span>
-                        <span>Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kab. Ogan Ilir</span>
+                        <span>KPA SIT Robbani: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kab. Ogan Ilir</span>
                     </p>
                     <p class="flex items-center justify-center md:justify-start gap-2">
                         <span class="material-symbols-outlined text-[15px] text-amber-400">call</span>
@@ -89,7 +89,6 @@
             <p>© {{ date('Y') }} {{ $settings['school_name'] ?? 'SIT Robbani' }} (SIT Robbani Ogan Ilir, Sumsel). All rights reserved.</p>
             <a href="https://berandadigital.net" target="_blank" class="text-amber-400 hover:underline font-bold inline-flex items-center gap-1.5 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-emerald-800 hover:border-amber-400 transition-all text-[11px]">
                 <span>Powered by Beranda Teknologi Digital</span>
-                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
             </a>
         </div>
     </div>

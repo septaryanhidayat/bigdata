@@ -212,7 +212,7 @@
         </div>
 
         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200/70 space-y-3">
-            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Jam Operasional Kantor Pelayanan:</h4>
+            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Jam Operasional Kantor Pusat Administrasi (KPA):</h4>
             <ul class="text-xs text-gray-600 space-y-2">
                 <li class="flex items-center justify-between py-1 border-b border-gray-200/60">
                     <span>Senin - Kamis</span>

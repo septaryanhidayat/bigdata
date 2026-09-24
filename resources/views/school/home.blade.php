@@ -1031,7 +1031,7 @@
                     <!-- Foto & Name: Top on Mobile, Left Column on Desktop -->
                     <div class="flex-shrink-0 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full md:w-1/3">
                         <div class="w-24 h-24 sm:w-36 sm:h-36 mx-auto md:mx-0 rounded-full border-4 border-emerald-600 p-1 mb-3 sm:mb-4 shadow-lg">
-                            <img width="144" height="144" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-full bg-white" src="{{ $settings['principal_photo'] ?? '/images/logo-robbani-official.png' }}" alt="Ketua Yayasan Generasi Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                            <img width="144" height="144" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-full bg-white" src="{{ !empty($settings['principal_photo']) && !str_contains($settings['principal_photo'], 'principal_photo_6a7f525a6292e') && !str_contains($settings['principal_photo'], 'SmartEdu') ? asset($settings['principal_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $settings['principal_name'] ?? 'Sughesti Wulandari, S.Pd' }}" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
                         </div>
                         <span class="site-section-badge mb-1">Ketua Yayasan</span>
                         <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white mb-1">{{ $settings['principal_name'] }}</h3>
