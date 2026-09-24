@@ -8,20 +8,40 @@
         document.head.appendChild(script);
     }
 </script>
-<div x-data="robbaniAiChat" class="fixed bottom-5 right-5 z-50 font-sans">
+<div x-data="robbaniAiChat" class="fixed bottom-5 right-5 z-50 font-sans flex flex-col items-end gap-2.5">
 
-    <!-- Floating Trigger Button -->
-    <button @click="isOpen = !isOpen" aria-label="Buka Chat AI Assistant" class="group relative px-4 py-3.5 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 text-white font-extrabold text-xs shadow-2xl flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 border-2 border-white/20">
-        <div class="relative flex items-center justify-center">
-            <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-lg animate-pulse">🤖</span>
-            <span class="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-[#a3e635] border-2 border-emerald-800"></span>
-        </div>
-        <div class="text-left hidden sm:block">
-            <span class="block text-[10px] text-emerald-200 font-bold uppercase tracking-wider leading-none">Smart AI Assistant</span>
-            <span class="text-xs font-black leading-tight block">Tanya Robbani AI</span>
-        </div>
-        <span class="sm:hidden font-black text-xs">Chat AI</span>
+    <!-- Scroll to Top Indicator Button (Naik ke Atas) -->
+    <button 
+        x-show="showScrollTop" 
+        x-cloak 
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })" 
+        aria-label="Kembali ke Atas Halaman" 
+        title="Naik ke Atas"
+        class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 dark:bg-slate-800/95 text-emerald-700 dark:text-[#c6f634] shadow-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 dark:hover:text-white transition-all transform hover:-translate-y-1 active:scale-95 cursor-pointer backdrop-blur-md"
+    >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path>
+        </svg>
     </button>
+
+    <!-- Floating Trigger Button (Robbani AI - Lebih Kecil & Bulat) -->
+    <div class="relative group flex flex-col items-center">
+        <button 
+            @click="isOpen = !isOpen" 
+            aria-label="Buka Robbani AI" 
+            title="Robbani AI"
+            class="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-gradient-to-br from-[#004532] via-[#065f46] to-teal-700 text-white shadow-2xl flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 border-2 border-white/40 cursor-pointer"
+        >
+            <span class="text-xl sm:text-2xl animate-pulse">🤖</span>
+            <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-[#a3e635] border-2 border-[#004532]"></span>
+        </button>
+        <span class="mt-1 px-2 py-0.5 rounded-full bg-slate-900/90 dark:bg-black/90 text-white text-[9px] font-black tracking-tight shadow-md backdrop-blur-xs whitespace-nowrap">
+            Robbani AI
+        </span>
+        <span class="pointer-events-none absolute right-full mr-2.5 top-3.5 -translate-y-1/2 px-2.5 py-1 rounded-full bg-slate-900 text-white text-[10px] font-extrabold whitespace-nowrap shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block">
+            Robbani AI 💬
+        </span>
+    </div>
 
     <!-- Chat Modal Window (Strict Clean Light Mode) -->
     <div x-show="isOpen" x-cloak 
@@ -31,7 +51,7 @@
          x-transition:leave="transition ease-in duration-200 transform"
          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-         class="fixed bottom-20 right-4 sm:right-6 w-[92vw] sm:w-[420px] max-h-[82vh] h-[580px] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-50">
+         class="fixed bottom-24 right-4 sm:right-6 w-[92vw] sm:w-[420px] max-h-[82vh] h-[580px] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-50">
 
         <!-- Chat Header -->
         <div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#0f172a] p-4 text-white flex items-center justify-between shadow-md shrink-0">
@@ -41,13 +61,13 @@
                 </div>
                 <div>
                     <h3 class="font-extrabold text-xs sm:text-sm text-white flex items-center gap-1.5">
-                        <span>Robbani AI Assistant</span>
+                        <span>Robbani AI</span>
                         <span class="w-2 h-2 rounded-full bg-[#a3e635] animate-ping"></span>
                     </h3>
-                    <span class="text-[10px] text-emerald-200 font-semibold block">Asisten Cerdas SIT Robbani Ogan Ilir</span>
+                    <span class="text-[10px] text-emerald-200 font-semibold block">Asisten Cerdas Resmi SIT Robbani</span>
                 </div>
             </div>
-            <button @click="isOpen = false" aria-label="Tutup Chat AI" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs font-bold transition-colors">
+            <button @click="isOpen = false" aria-label="Tutup Robbani AI" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs font-bold transition-colors">
                 ✕
             </button>
         </div>
@@ -125,16 +145,21 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('robbaniAiChat', () => ({
             isOpen: false,
+            showScrollTop: false,
             messages: [
                 {
                     sender: 'ai',
                     time: 'Baru saja',
-                    text: 'Assalamu\'alaikum! 👋 Saya **Robbani SmartEdu AI Assistant**, asisten kecerdasan buatan resmi SIT Robbani Ogan Ilir.\n\nSaya telah mempelajari seluruh dokumen resmi sekolah, kurikulum tahfidz, dan data sistem SmartEdu. Silakan tanyakan seputar pendaftaran SPMB, biaya, dokumen SOP, atau sistem kami!'
+                    text: 'Assalamu\'alaikum! 👋 Saya **Robbani AI**, asisten kecerdasan buatan resmi SIT Robbani Ogan Ilir.\n\nSaya telah mempelajari seluruh informasi sekolah, kurikulum tahfidz, pendaftaran SPMB, dan sistem kami. Silakan tanyakan hal apa pun yang ingin Anda ketahui!'
                 }
             ],
             inputMessage: '',
             isLoading: false,
             init() {
+                this.showScrollTop = (window.pageYOffset > 250);
+                window.addEventListener('scroll', () => {
+                    this.showScrollTop = (window.pageYOffset > 250);
+                });
                 window.addEventListener('open-robbani-ai', (e) => {
                     this.isOpen = true;
                     if (e.detail && e.detail.query) {

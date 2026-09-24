@@ -437,5 +437,6 @@
             document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
         });
     </script>
+    @include('components.chat-ai-widget')
 </body>
 </html>

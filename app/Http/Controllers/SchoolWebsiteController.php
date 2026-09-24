@@ -1405,7 +1405,7 @@ class SchoolWebsiteController extends Controller
             ],
             [
                 'title' => 'AI Learning & Smart Tech',
-                'desc' => 'Pembelajaran cerdas masa depan, coding usia dini & pendampingan AI Islami',
+                'desc' => 'Edukasi koding & teknologi AI Islami',
                 'image' => '/images/spmb/ai_learning.png',
             ],
         ];

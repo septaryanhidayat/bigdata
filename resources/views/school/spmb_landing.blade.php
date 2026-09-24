@@ -264,21 +264,27 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-5 items-stretch">
                 @foreach($spmb['programs'] as $prog)
-                    <div class="group p-5 rounded-3xl bg-slate-50 border border-slate-200/90 text-center space-y-4 hover:shadow-lg hover:border-emerald-300 transition-all fade-up flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto flex items-center justify-center p-2 rounded-2xl bg-white shadow-xs group-hover:scale-105 transition-transform duration-300">
+                    <div class="group p-4 sm:p-5 rounded-3xl bg-slate-50 border border-slate-200/90 hover:bg-white text-center hover:shadow-xl hover:border-emerald-300 transition-all duration-300 fade-up flex flex-col justify-between h-full">
+                        <div class="space-y-3 flex flex-col items-center">
+                            <div class="w-28 h-28 sm:w-32 sm:h-32 lg:w-32 lg:h-32 xl:w-36 xl:h-36 mx-auto flex items-center justify-center p-1 rounded-2xl bg-white shadow-sm border border-slate-100 group-hover:scale-105 transition-transform duration-300 shrink-0">
                                 <img 
                                     src="{{ asset(ltrim($prog['image'] ?? '', '/')) }}" 
                                     alt="{{ $prog['title'] ?? '' }}" 
-                                    class="w-full h-full object-contain filter drop-shadow"
+                                    class="w-full h-full object-contain filter drop-shadow-sm"
                                     onerror="this.src='{{ asset('images/logo robbani light.png') }}'"
                                 >
                             </div>
-                            <h3 class="font-black text-xs sm:text-sm text-slate-900 leading-tight text-center">{{ $prog['title'] ?? '' }}</h3>
+                            <h3 class="font-black text-xs sm:text-sm text-slate-900 leading-snug text-center min-h-[36px] sm:min-h-[40px] flex items-center justify-center px-1">
+                                {{ $prog['title'] ?? '' }}
+                            </h3>
                         </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-500 leading-relaxed text-center">{{ $prog['desc'] ?? '' }}</p>
+                        <div class="mt-3 pt-2.5 border-t border-slate-200/60 min-h-[42px] flex items-center justify-center">
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 leading-snug text-center font-medium">
+                                {{ $prog['desc'] ?? '' }}
+                            </p>
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -743,5 +749,6 @@
             }
         });
     </script>
+    @include('components.chat-ai-widget')
 </body>
 </html>
