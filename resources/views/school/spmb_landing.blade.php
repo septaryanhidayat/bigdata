@@ -87,51 +87,48 @@
 <body class="antialiased pb-20 sm:pb-0" x-data="spmbLandingApp()">
 
     <!-- 1. TOP ANNOUNCEMENT BAR -->
-    <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-4 border-b border-emerald-900/60">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5 text-center sm:text-left">
-            <div class="flex items-center justify-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">
+    <div class="bg-emerald-950 text-emerald-200 text-xs py-1.5 px-4 border-b border-emerald-900/60">
+        <div class="max-w-6xl mx-auto flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">
                     Gelombang 1
                 </span>
-                <span class="font-bold text-[11px] sm:text-xs text-white">
-                    Pendaftaran: 12 Sept – 31 Des 2026
+                <span class="hidden sm:inline font-bold text-xs text-white">
+                    12 Sept – 31 Des 2026
                 </span>
             </div>
-            <a href="https://wa.me/62811747472?text=Assalamu'alaikum%20Panitia%20SPMB%20SIT%20Robbani" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300 hover:text-white transition-colors">
-                <span>💬 Bantuan WhatsApp: <strong>0811-747-472</strong></span>
+            <a href="https://wa.me/62811747472?text=Assalamu'alaikum%20Panitia%20SPMB%20SIT%20Robbani" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors">
+                WA: 0811-747-472
             </a>
         </div>
     </div>
 
-    <!-- 2. HEADER NAVIGASI (MOBILE-FIRST, TIDAK SESAK & TIDAK TERPOTONG) -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs">
+    <!-- 2. HEADER NAVIGASI (SIMPLE & RAPI, TIDAK TERPOTONG) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex items-center justify-between h-16 sm:h-20">
+            <div class="flex items-center justify-between h-14 sm:h-16">
                 <!-- Brand / Logo -->
-                <a href="{{ route('school.spmb') }}" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-9 sm:h-12 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
-                    <div class="text-left">
-                        <span class="block text-xs sm:text-sm font-black tracking-tight text-emerald-900 uppercase leading-none">SPMB SIT ROBBANI</span>
-                        <span class="block text-[9px] sm:text-[11px] font-semibold text-slate-500 leading-tight mt-0.5">Ogan Ilir, Sumatera Selatan</span>
-                    </div>
+                <a href="{{ route('school.spmb') }}" class="flex items-center gap-2.5 shrink-0">
+                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-10 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
+                    <span class="font-black text-sm sm:text-base tracking-tight text-emerald-950 uppercase">SPMB ROBBANI</span>
                 </a>
 
                 <!-- Desktop Nav Links -->
                 <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600">
                     <a href="#daftar" class="hover:text-emerald-700 transition-colors">Pilihan Unit</a>
                     <a href="#langkah" class="hover:text-emerald-700 transition-colors">Cara Daftar</a>
-                    <a href="#program" class="hover:text-emerald-700 transition-colors">Program Unggulan</a>
-                    <a href="#syarat-biaya" class="hover:text-emerald-700 transition-colors">Syarat & Biaya</a>
+                    <a href="#program" class="hover:text-emerald-700 transition-colors">Program</a>
+                    <a href="#syarat-biaya" class="hover:text-emerald-700 transition-colors">Syarat Berkas</a>
                     <a href="#cek-status" class="hover:text-emerald-700 transition-colors">Cek Status</a>
                 </nav>
 
-                <!-- Actions: Di HP Hanya 1 Tombol Rapi, Di Desktop Tombol Lengkap -->
+                <!-- Actions -->
                 <div class="flex items-center gap-2">
-                    <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
-                        <span>🔍 Cek Status</span>
+                    <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
+                        <span>Cek Status</span>
                     </a>
-                    <a href="#daftar" class="btn-responsive px-4 sm:px-5 py-2 text-xs font-black text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-md transition-all">
-                        <span>Daftar Sekarang</span>
+                    <a href="#daftar" class="px-4 py-2 text-xs font-black text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-sm transition-all shrink-0 whitespace-nowrap">
+                        Daftar
                     </a>
                 </div>
             </div>
@@ -236,19 +233,6 @@
                                 <img src="{{ asset('images/spmb/tpa.webp') }}" alt="TPA Robbani" class="w-full h-full object-contain filter drop-shadow-md">
                             </div>
                         </div>
-
-                        <!-- Keunggulan Singkat -->
-                        <div class="flex flex-wrap gap-1.5 text-[10px] font-bold text-purple-900">
-                            <span class="px-2 py-0.5 rounded-md bg-purple-50 border border-purple-200">👶 Asuhan Islami</span>
-                            <span class="px-2 py-0.5 rounded-md bg-purple-50 border border-purple-200">🍼 Stimulasi Motorik</span>
-                            <span class="px-2 py-0.5 rounded-md bg-purple-50 border border-purple-200">🧸 Lingkungan Asri</span>
-                        </div>
-
-                        <!-- Kotak Biaya -->
-                        <div class="p-3 rounded-2xl bg-purple-50/70 border border-purple-200 flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-purple-900">Biaya Formulir:</span>
-                            <span class="font-mono text-xl font-black text-purple-950">Rp 350.000</span>
-                        </div>
                     </div>
 
                     <!-- Tombol Sesuai Web Lama -->
@@ -280,19 +264,6 @@
                             <div class="w-40 h-40 mx-auto rounded-3xl bg-pink-50 flex items-center justify-center p-3 shadow-inner">
                                 <img src="{{ asset('images/spmb/kb.webp') }}" alt="KB Robbani" class="w-full h-full object-contain filter drop-shadow-md">
                             </div>
-                        </div>
-
-                        <!-- Keunggulan Singkat -->
-                        <div class="flex flex-wrap gap-1.5 text-[10px] font-bold text-pink-900">
-                            <span class="px-2 py-0.5 rounded-md bg-pink-50 border border-pink-200">🎨 Bermain Ceria</span>
-                            <span class="px-2 py-0.5 rounded-md bg-pink-50 border border-pink-200">🔤 Adab & Doa</span>
-                            <span class="px-2 py-0.5 rounded-md bg-pink-50 border border-pink-200">🌟 Kemandirian</span>
-                        </div>
-
-                        <!-- Kotak Biaya -->
-                        <div class="p-3 rounded-2xl bg-pink-50/70 border border-pink-200 flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-pink-900">Biaya Formulir:</span>
-                            <span class="font-mono text-xl font-black text-pink-950">Rp 350.000</span>
                         </div>
                     </div>
 
@@ -326,19 +297,6 @@
                                 <img src="{{ asset('images/spmb/tk.webp') }}" alt="TKIT Robbani" class="w-full h-full object-contain filter drop-shadow-md">
                             </div>
                         </div>
-
-                        <!-- Keunggulan Singkat -->
-                        <div class="flex flex-wrap gap-1.5 text-[10px] font-bold text-amber-950">
-                            <span class="px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200">📖 Tahfidz Juz 30</span>
-                            <span class="px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200">🕌 Sholat Dhuha</span>
-                            <span class="px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200">🌟 Calistung Ceria</span>
-                        </div>
-
-                        <!-- Kotak Biaya -->
-                        <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-amber-900">Biaya Formulir:</span>
-                            <span class="font-mono text-xl font-black text-amber-950">Rp 350.000</span>
-                        </div>
                     </div>
 
                     <!-- Tombol Sesuai Web Lama -->
@@ -348,12 +306,8 @@
                     </a>
                 </div>
 
-                <!-- 4. SDIT ROBBANI (FAVORIT / UTAMA) -->
-                <div class="unit-card bg-white rounded-3xl p-6 border-2 border-emerald-500 shadow-md flex flex-col justify-between space-y-5 relative fade-up delay-1">
-                    <div class="absolute -top-3 right-6 bg-emerald-600 text-white text-[10px] font-black px-3.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                        ⭐ Favorit Utama
-                    </div>
-
+                <!-- 4. SDIT ROBBANI -->
+                <div class="unit-card bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between space-y-5 fade-up delay-1">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="px-3 py-1 rounded-full text-[11px] font-black bg-emerald-100 text-emerald-900 uppercase">
@@ -375,23 +329,10 @@
                                 <img src="{{ asset('images/spmb/sd.webp') }}" alt="SDIT Robbani" class="w-full h-full object-contain filter drop-shadow-md">
                             </div>
                         </div>
-
-                        <!-- Keunggulan Singkat -->
-                        <div class="flex flex-wrap gap-1.5 text-[10px] font-bold text-emerald-950">
-                            <span class="px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">📖 Tahfidz Al-Qur'an</span>
-                            <span class="px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">💻 SmartEdu Digital</span>
-                            <span class="px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">🏆 Kelas Prestasi</span>
-                        </div>
-
-                        <!-- Kotak Biaya -->
-                        <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-emerald-900">Biaya Formulir:</span>
-                            <span class="font-mono text-xl font-black text-emerald-950">Rp 450.000</span>
-                        </div>
                     </div>
 
                     <!-- Tombol Sesuai Web Lama -->
-                    <a href="{{ route('school.spmb.form', ['unit' => 'SDIT']) }}" class="btn-responsive w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-lg shadow-emerald-700/25 transition-all flex items-center justify-center gap-2">
+                    <a href="{{ route('school.spmb.form', ['unit' => 'SDIT']) }}" class="btn-responsive w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2">
                         <span>👉</span>
                         <span>Daftar Sekarang</span>
                     </a>
@@ -420,19 +361,6 @@
                                 <img src="{{ asset('images/spmb/smp.png') }}" alt="SMPIT Robbani" class="w-full h-full object-contain filter drop-shadow-md">
                             </div>
                         </div>
-
-                        <!-- Keunggulan Singkat -->
-                        <div class="flex flex-wrap gap-1.5 text-[10px] font-bold text-cyan-950">
-                            <span class="px-2 py-0.5 rounded-md bg-cyan-50 border border-cyan-200">👑 Leadership Santri</span>
-                            <span class="px-2 py-0.5 rounded-md bg-cyan-50 border border-cyan-200">🎯 Tahfidz Intensif</span>
-                            <span class="px-2 py-0.5 rounded-md bg-cyan-50 border border-cyan-200">🌟 Bina Pribadi Islam</span>
-                        </div>
-
-                        <!-- Kotak Biaya -->
-                        <div class="p-3 rounded-2xl bg-cyan-50/70 border border-cyan-200 flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-cyan-900">Biaya Formulir:</span>
-                            <span class="font-mono text-xl font-black text-cyan-950">Rp 550.000</span>
-                        </div>
                     </div>
 
                     <!-- Tombol Sesuai Web Lama -->
@@ -459,24 +387,11 @@
                             <span>Kompleks SIT Robbani, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir</span>
                         </p>
 
-                        <!-- Ilustrasi SMA / Digital -->
+                        <!-- Ilustrasi SMA Siswa Asli Robbani -->
                         <div class="py-2 text-center">
                             <div class="w-40 h-40 mx-auto rounded-3xl bg-indigo-50 flex items-center justify-center p-3 shadow-inner">
-                                <img src="{{ asset('images/spmb/digital.png') }}" alt="SMAIT Robbani" class="w-full h-full object-contain filter drop-shadow-md">
+                                <img src="{{ asset('images/spmb/sma.jpg') }}" alt="SMAIT Robbani" class="w-full h-full object-contain filter drop-shadow-md">
                             </div>
-                        </div>
-
-                        <!-- Keunggulan Singkat -->
-                        <div class="flex flex-wrap gap-1.5 text-[10px] font-bold text-indigo-950">
-                            <span class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200">🎓 Masuk PTN Terbaik</span>
-                            <span class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200">🔬 Riset & Teknologi</span>
-                            <span class="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200">🧭 Karakter Pemimpin</span>
-                        </div>
-
-                        <!-- Kotak Biaya -->
-                        <div class="p-3 rounded-2xl bg-indigo-50/70 border border-indigo-200 flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-indigo-900">Biaya Formulir:</span>
-                            <span class="font-mono text-xl font-black text-indigo-950">Rp 550.000</span>
                         </div>
                     </div>
 
@@ -658,7 +573,7 @@
 
                     <!-- Ketentuan Singkat -->
                     <div class="p-3.5 rounded-2xl bg-emerald-950 border border-emerald-800 text-[11px] text-emerald-200 leading-relaxed space-y-1">
-                        <p>• Biaya pendaftaran formulir: TK/KB Rp 350.000, SD Rp 450.000, SMP Rp 550.000, SMA Rp 550.000.</p>
+                        <p>• Rincian biaya formulir pendaftaran tertera langsung pada halaman formulir isian masing-masing unit.</p>
                         <p>• Pembayaran juga dapat dilakukan langsung di Kantor Pelayanan Administrasi (KPA) SIT Robbani Ogan Ilir.</p>
                     </div>
                 </div>
@@ -738,8 +653,8 @@
                                 <span class="font-bold text-slate-800" x-text="searchResult.registration.parent_name"></span>
                             </div>
                             <div class="p-2.5 rounded-xl bg-slate-50">
-                                <span class="text-[10px] text-slate-400 block font-semibold">Biaya Formulir:</span>
-                                <span class="font-mono font-bold text-emerald-700" x-text="'Rp ' + Number(searchResult.registration.registration_fee).toLocaleString('id-ID')"></span>
+                                <span class="text-[10px] text-slate-400 block font-semibold">Status Berkas:</span>
+                                <span class="font-bold text-emerald-800" x-text="searchResult.registration.status === 'PASSED' ? 'Diterima' : 'Dalam Proses'"></span>
                             </div>
                         </div>
 

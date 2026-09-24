@@ -65,26 +65,18 @@
 <body class="antialiased min-h-screen pb-16 flex flex-col justify-between">
 
     <!-- Header Navigation Bar -->
-    <header class="py-3 px-4 sm:px-8 sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <header class="py-2.5 sm:py-3 px-4 sm:px-8 sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <!-- Brand Logo -->
-            <a href="{{ route('school.spmb') }}" class="flex items-center gap-3">
-                <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-10 sm:h-11 w-auto object-contain">
-                <div>
-                    <h2 class="font-black text-xs sm:text-sm tracking-tight text-slate-900 leading-tight">
-                        FORMULIR SPMB ONLINE
-                    </h2>
-                    <p class="text-[10px] sm:text-[11px] font-bold text-emerald-800 uppercase tracking-wider">
-                        SIT ROBBANI OGAN ILIR
-                    </p>
-                </div>
+            <a href="{{ route('school.spmb') }}" class="flex items-center gap-2.5 shrink-0">
+                <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-10 w-auto object-contain">
+                <span class="font-black text-sm sm:text-base tracking-tight text-emerald-950 uppercase">SPMB ROBBANI</span>
             </a>
 
             <!-- Right Controls -->
             <div class="flex items-center gap-2">
-                <a href="{{ route('school.spmb') }}" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1.5">
-                    <span>➔</span>
-                    <span>Landing Page SPMB</span>
+                <a href="{{ route('school.spmb') }}" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                    <span>← Beranda</span>
                 </a>
             </div>
         </div>
