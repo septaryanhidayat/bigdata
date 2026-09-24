@@ -56,6 +56,8 @@
             ? $registration->details_json 
             : (is_string($registration->details_json) ? (json_decode($registration->details_json, true) ?? []) : []);
         $docs = $d['uploaded_docs'] ?? [];
+        $verifyUrl = route('school.spmb.verify', $registration->registration_number);
+        $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' . urlencode($verifyUrl);
     @endphp
 
     <!-- Top Action Bar (Hidden when printing) -->
@@ -92,9 +94,16 @@
                     <p class="text-[10px] text-slate-600">Alamat: Indralaya, Kab. Ogan Ilir, Sumatera Selatan | Telp/WA: 0811747472 | Website: sitrobbani.sch.id</p>
                 </div>
             </div>
-            <div class="text-right shrink-0 border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50 font-mono text-[11px] font-bold">
-                <span class="block text-[9px] font-sans text-slate-500 uppercase">Kode Formulir</span>
-                F - SPMB 2026/2027
+            <div class="flex items-center gap-2.5 shrink-0">
+                <!-- QR Code Validasi Digital di Kop Surat -->
+                <div class="text-center p-1 border border-slate-300 rounded-lg bg-white shadow-xs">
+                    <img src="{{ $qrUrl }}" alt="QR Code Verifikasi" class="w-14 h-14 object-contain mx-auto">
+                    <span class="block text-[7px] font-bold text-slate-600 uppercase tracking-tighter mt-0.5">Scan Validasi</span>
+                </div>
+                <div class="text-right border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50 font-mono text-[11px] font-bold">
+                    <span class="block text-[9px] font-sans text-slate-500 uppercase">Kode Formulir</span>
+                    F - SPMB 2026/2027
+                </div>
             </div>
         </div>
 
@@ -439,24 +448,35 @@
             </div>
         </div>
 
-        <!-- Tanda Tangan Official (Sesuai Scan Form F-SPMB) -->
-        <div class="pt-6 grid grid-cols-2 gap-8 text-center text-xs">
-            <div class="space-y-16">
+        <!-- Tanda Tangan Official & Stempel QR Code Validasi Digital -->
+        <div class="pt-6 grid grid-cols-3 gap-4 text-center text-xs items-end">
+            <!-- Kolom 1: Panitia SPMB -->
+            <div class="space-y-14">
                 <div>
                     <span class="block text-slate-500 text-[10px]">Mengetahui,</span>
                     <strong class="font-black text-slate-900">Panitia SPMB SIT Robbani</strong>
                 </div>
-                <div class="border-t border-slate-400 w-48 mx-auto pt-1 font-bold text-slate-800">
+                <div class="border-t border-slate-400 w-36 sm:w-44 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
                     ( Panitia PPDB / SPMB )
                 </div>
             </div>
 
-            <div class="space-y-16">
+            <!-- Kolom 2: Stempel QR Code Validasi Digital -->
+            <div class="flex flex-col items-center justify-center space-y-1 pb-1">
+                <div class="p-1.5 border border-slate-300 rounded-xl bg-white shadow-xs">
+                    <img src="{{ $qrUrl }}" alt="QR Code Verifikasi Resmi" class="w-18 h-18 sm:w-20 sm:h-20 object-contain mx-auto">
+                </div>
+                <span class="font-mono text-[10px] font-black text-emerald-900 tracking-tight">{{ $registration->registration_number }}</span>
+                <span class="text-[8px] font-bold text-slate-500 uppercase tracking-wider block">Verifikasi Digital Resmi SIT Robbani</span>
+            </div>
+
+            <!-- Kolom 3: Orang Tua Siswa -->
+            <div class="space-y-14">
                 <div>
                     <span class="block text-slate-500 text-[10px]">Indralaya, {{ $registration->created_at ? $registration->created_at->translatedFormat('d F Y') : date('d F Y') }}</span>
-                    <strong class="font-black text-slate-900">Responden / Orang Tua Calon Siswa</strong>
+                    <strong class="font-black text-slate-900">Orang Tua / Wali Siswa</strong>
                 </div>
-                <div class="border-t border-slate-400 w-48 mx-auto pt-1 font-bold text-slate-800">
+                <div class="border-t border-slate-400 w-36 sm:w-44 mx-auto pt-1 font-bold text-slate-800 text-[11px]">
                     ( {{ $registration->parent_name }} )
                 </div>
             </div>

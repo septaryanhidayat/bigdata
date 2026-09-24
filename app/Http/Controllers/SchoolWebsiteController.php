@@ -1220,6 +1220,9 @@ class SchoolWebsiteController extends Controller
 
     public function ppdbForm(Request $request)
     {
+        if ($request->has('new') || $request->has('fresh')) {
+            session()->forget('spmb_success_data');
+        }
         $settings = $this->getSettings();
         $spmb = $this->getSpmbSettings();
         $schools = School::where('is_active', true)->get();
@@ -1751,7 +1754,12 @@ class SchoolWebsiteController extends Controller
             'registration_number' => $noRegistrasi,
             'student_name' => $reg->full_name,
             'target_level' => $schoolCode,
+            'parent_name' => $reg->parent_name,
             'parent_phone' => $reg->phone_number,
+            'registration_fee' => $registrationFee,
+            'fee_paid' => $reg->fee_paid,
+            'previous_school' => $reg->previous_school,
+            'details' => $allDetails,
             'date' => now()->translatedFormat('d F Y H:i'),
         ]);
     }

@@ -85,6 +85,309 @@
     <!-- Main Container -->
     <main class="py-6 sm:py-10 max-w-4xl mx-auto px-3 sm:px-4 w-full space-y-6 flex-1">
         
+        @if(session('spmb_success_data'))
+        @php 
+            $data = session('spmb_success_data'); 
+            $regId = $data['registration_id'] ?? null;
+            $regNumber = $data['registration_number'] ?? '';
+            $studentName = $data['student_name'] ?? '';
+            $targetLevel = $data['target_level'] ?? '';
+            $parentPhone = $data['parent_phone'] ?? '';
+            $parentName = $data['parent_name'] ?? '';
+            $date = $data['date'] ?? now()->translatedFormat('d F Y H:i');
+            
+            $regObj = $regId ? \App\Models\PpdbRegistration::find($regId) : null;
+            $d = $data['details'] ?? ($regObj ? (is_array($regObj->details_json) ? $regObj->details_json : (json_decode($regObj->details_json, true) ?? [])) : []);
+            
+            $verifyUrl = route('school.spmb.verify', $regNumber);
+            $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' . urlencode($verifyUrl);
+            $cleanWa = preg_replace('/[^0-9]/', '', $spmb['wa_number'] ?? '62811747472');
+            $regFee = $data['registration_fee'] ?? ($regObj->registration_fee ?? 450000);
+        @endphp
+
+        <!-- ========================================================================= -->
+        <!-- SUCCESS STATE: HASIL OUTPUT PENDAFTARAN & QR CODE SAJA (FORM DISEMBUNYIKAN) -->
+        <!-- ========================================================================= -->
+        <div class="space-y-6">
+            <!-- Hero Status Card -->
+            <div class="p-6 sm:p-9 rounded-3xl bg-gradient-to-br from-emerald-800 via-emerald-900 to-slate-950 text-white shadow-2xl space-y-6 relative overflow-hidden border border-emerald-700/50">
+                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Top Pill Badge -->
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-700/80 pb-4">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 text-xs font-black uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        ✓ Pendaftaran SPMB Berhasil Diterima
+                    </span>
+                    <span class="text-xs text-emerald-200/80 font-medium">Tercatat: {{ $date }} WIB</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-2 space-y-3 text-center sm:text-left">
+                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                            Alhamdulillah! Formulir Ananda <span class="text-amber-300">{{ $studentName }}</span> Telah Berhasil Terkirim.
+                        </h2>
+                        <p class="text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-medium">
+                            Data formulir resmi Anda telah berhasil disimpan di sistem SPMB SIT Robbani. Silakan simpan Nomor Registrasi resmi dan QR Code berikut sebagai identitas pendaftaran resmi yang sah.
+                        </p>
+
+                        <!-- Nomor Registrasi Prominen -->
+                        <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                            <div class="px-5 py-2.5 rounded-2xl bg-slate-950 border border-amber-400/40 shadow-inner flex items-center gap-3">
+                                <div>
+                                    <span class="text-[9px] text-slate-400 uppercase tracking-widest block font-sans">Nomor Registrasi Resmi</span>
+                                    <span class="font-mono text-xl sm:text-2xl font-black text-amber-300 tracking-wider" id="regNumberText">{{ $regNumber }}</span>
+                                </div>
+                            </div>
+                            <button type="button" onclick="copyRegNumber('{{ $regNumber }}')" class="px-3.5 py-2.5 rounded-xl bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 text-xs font-bold border border-emerald-600 transition-colors flex items-center gap-1.5 shadow-sm">
+                                <span>📋</span> <span id="copyBtnText">Salin Nomor</span>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1 text-xs text-emerald-200">
+                            <span>Jenjang Target: <strong class="text-white bg-emerald-700/60 px-2.5 py-0.5 rounded-lg">{{ $targetLevel }}</strong></span>
+                            <span>•</span>
+                            <span>WhatsApp Panitia: <strong class="text-white">{{ $spmb['wa_number'] ?? '0811-747-472' }}</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Digital Verification Box -->
+                    <div class="p-4 rounded-3xl bg-white text-center shadow-2xl shrink-0 mx-auto w-48 border border-emerald-100">
+                        <img src="{{ $qrUrl }}" alt="QR Code Pendaftaran" class="w-36 h-36 mx-auto rounded-xl object-contain">
+                        <div class="mt-2 space-y-0.5">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Verifikasi Digital</span>
+                            <a href="{{ $verifyUrl }}" target="_blank" class="text-xs font-black text-emerald-800 hover:text-emerald-900 hover:underline block">
+                                Cek Keaslian ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary Action Buttons Row -->
+                <div class="pt-4 border-t border-emerald-700/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <a href="{{ route('school.spmb.download-pdf', $regId) }}" target="_blank" class="py-3 px-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-amber-500/25 transition-all">
+                        <span>🖨️</span>
+                        <span>Cetak / Unduh Formulir PDF</span>
+                    </a>
+                    <a href="https://wa.me/{{ $cleanWa }}?text=Assalamu'alaikum%20Panitia%20SPMB,%20saya%20sudah%20mendaftar%20dengan%20No%20Registrasi%20{{ $regNumber }}%20atas%20nama%20ananda%20{{ urlencode($studentName) }}" target="_blank" class="py-3 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
+                        <span>💬</span>
+                        <span>Konfirmasi ke Panitia WA</span>
+                    </a>
+                    <a href="{{ route('school.spmb.form', ['new' => 1]) }}" class="py-3 px-4 rounded-2xl bg-white hover:bg-slate-100 text-emerald-950 font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md sm:col-span-2 lg:col-span-1">
+                        <span>➕</span>
+                        <span>Daftarkan Siswa Lain</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ringkasan Hasil Isian Formulir Resmi -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-200 gap-2">
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 inline-block">
+                            Output Formulir F-SPMB
+                        </span>
+                        <h3 class="text-lg sm:text-xl font-black text-slate-900 mt-1">Ringkasan Data Pendaftaran Calon Peserta Didik Baru</h3>
+                        <p class="text-xs text-slate-500">Berikut rincian data formulir resmi yang telah tersimpan dalam database:</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="{{ route('school.spmb.download-pdf', $regId) }}" target="_blank" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center gap-1.5">
+                            <span>🖨️ Cetak Versi PDF</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 1. Identitas Calon Siswa -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-black uppercase text-emerald-900 tracking-wider flex items-center gap-2">
+                        <span>🧒</span>
+                        <span>1. Identitas Calon Peserta Didik</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Nama Lengkap Siswa</span>
+                            <span class="font-extrabold text-slate-900 block">{{ $d['nama_lengkap'] ?? $studentName }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Nama Panggilan</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['nama_panggilan'] ?? '-' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">NIK Siswa</span>
+                            <span class="font-mono font-bold text-slate-800 block">{{ $d['nik_siswa'] ?? '-' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Jenis Kelamin</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['jenis_kelamin'] ?? '-' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Tempat, Tanggal Lahir</span>
+                            <span class="font-bold text-slate-800 block">
+                                {{ $d['tempat_lahir'] ?? '-' }}, {{ isset($d['tanggal_lahir']) ? \Carbon\Carbon::parse($d['tanggal_lahir'])->translatedFormat('d F Y') : '-' }}
+                            </span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Anak ke / Dari Saudara</span>
+                            <span class="font-bold text-slate-800 block">Anak ke-{{ $d['anak_ke'] ?? '1' }} dari {{ $d['jumlah_saudara'] ?? '1' }} bersaudara</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Status Tempat Tinggal</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['status_tempat_tinggal'] ?? '-' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Keadaan Jasmani</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['keadaan_jasmani'] ?? 'Sehat Walafiat' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Kewarganegaraan & Agama</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['kewarganegaraan'] ?? 'WNI' }} ({{ $d['agama'] ?? 'Islam' }})</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Unit Pilihan & Sekolah Asal -->
+                <div class="space-y-3 pt-2 border-t border-slate-100">
+                    <h4 class="text-xs font-black uppercase text-emerald-900 tracking-wider flex items-center gap-2">
+                        <span>🏫</span>
+                        <span>2. Unit Sekolah Tujuan & Riwayat Sekolah Asal</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-emerald-700 uppercase">Unit Sekolah Pilihan</span>
+                            <span class="font-extrabold text-emerald-900 block text-sm">{{ $d['school_code'] ?? $targetLevel }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Pilihan Kelas / Status</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['masuk_kelas'] ?? 'Siswa Baru' }} ({{ $d['status_siswa'] ?? 'Baru' }})</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Jalur Pendaftaran</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['jalur_pendaftaran'] ?? 'Reguler' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Sekolah Asal</span>
+                            <span class="font-bold text-slate-800 block truncate" title="{{ $d['sekolah_asal'] ?? ($data['previous_school'] ?? '-') }}">{{ $d['sekolah_asal'] ?? ($data['previous_school'] ?? '-') }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Data Orang Tua & Domisili -->
+                <div class="space-y-3 pt-2 border-t border-slate-100">
+                    <h4 class="text-xs font-black uppercase text-emerald-900 tracking-wider flex items-center gap-2">
+                        <span>👨‍👩‍👦</span>
+                        <span>3. Data Orang Tua & Kontak Domisili</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <!-- Ayah -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase block">Data Ayah Kandung</span>
+                            <span class="font-black text-slate-900 block text-sm">{{ $d['nama_ayah'] ?? ($parentName ?: '-') }}</span>
+                            <p class="text-slate-600 text-[11px]">
+                                NIK: <span class="font-mono font-bold">{{ $d['nik_ayah'] ?? '-' }}</span> | Profesi: <span class="font-medium">{{ $d['pekerjaan_ayah'] ?? '-' }} ({{ $d['instansi_ayah'] ?? '-' }})</span>
+                            </p>
+                            <p class="text-emerald-800 font-bold text-[11px] pt-0.5">
+                                No. WhatsApp: {{ $d['no_hp_ayah'] ?? ($parentPhone ?: '-') }}
+                            </p>
+                        </div>
+                        <!-- Ibu -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase block">Data Ibu Kandung</span>
+                            <span class="font-black text-slate-900 block text-sm">{{ $d['nama_ibu'] ?? '-' }}</span>
+                            <p class="text-slate-600 text-[11px]">
+                                NIK: <span class="font-mono font-bold">{{ $d['nik_ibu'] ?? '-' }}</span> | Profesi: <span class="font-medium">{{ $d['pekerjaan_ibu'] ?? '-' }} ({{ $d['instansi_ibu'] ?? '-' }})</span>
+                            </p>
+                            <p class="text-slate-600 font-medium text-[11px] pt-0.5">
+                                No. WhatsApp: {{ $d['no_hp_ibu'] ?? '-' }}
+                            </p>
+                        </div>
+                        <!-- Alamat Lengkap -->
+                        <div class="sm:col-span-2 p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase block">Alamat Domisili Tempat Tinggal</span>
+                            <p class="font-bold text-slate-800 text-xs">
+                                {{ $d['alamat'] ?? '-' }}
+                            </p>
+                            <p class="text-slate-500 text-[11px]">
+                                Kel/Desa: {{ $d['kelurahan'] ?? '-' }} | Kec: {{ $d['kecamatan'] ?? '-' }} | Kab/Kota: {{ $d['kabupaten'] ?? 'Ogan Ilir' }} | Prov: {{ $d['provinsi'] ?? 'Sumatera Selatan' }} {{ !empty($d['kode_pos']) ? '(' . $d['kode_pos'] . ')' : '' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Administrasi & Dokumen Berkas -->
+                <div class="space-y-3 pt-2 border-t border-slate-100">
+                    <h4 class="text-xs font-black uppercase text-emerald-900 tracking-wider flex items-center gap-2">
+                        <span>📑</span>
+                        <span>4. Administrasi Biaya & Berkas Unggahan</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-1">
+                            <span class="text-[10px] font-bold text-amber-900 uppercase block">Biaya Formulir Pendaftaran Unit</span>
+                            <span class="font-mono text-lg font-black text-amber-950 block">Rp {{ number_format($regFee, 0, ',', '.') }}</span>
+                            <p class="text-[11px] text-amber-800 font-medium">
+                                Status: {{ !empty($d['uploaded_docs']['bukti_transfer']) ? '✓ Bukti Pembayaran Telah Diunggah' : 'Menunggu Konfirmasi Pembayaran' }}
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5 text-[11px]">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase block">Status Kelengkapan Dokumen</span>
+                            <div class="grid grid-cols-2 gap-1 text-[11px]">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="{{ !empty($d['uploaded_docs']['akta_kelahiran']) ? 'text-emerald-700 font-bold' : 'text-slate-400' }}">{{ !empty($d['uploaded_docs']['akta_kelahiran']) ? '☑' : '☐' }}</span>
+                                    <span>Akta Kelahiran</span>
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="{{ !empty($d['uploaded_docs']['kartu_keluarga']) ? 'text-emerald-700 font-bold' : 'text-slate-400' }}">{{ !empty($d['uploaded_docs']['kartu_keluarga']) ? '☑' : '☐' }}</span>
+                                    <span>Kartu Keluarga</span>
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="{{ !empty($d['uploaded_docs']['ktp_ortu']) ? 'text-emerald-700 font-bold' : 'text-slate-400' }}">{{ !empty($d['uploaded_docs']['ktp_ortu']) ? '☑' : '☐' }}</span>
+                                    <span>KTP Orang Tua</span>
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="{{ !empty($d['uploaded_docs']['pas_foto']) ? 'text-emerald-700 font-bold' : 'text-slate-400' }}">{{ !empty($d['uploaded_docs']['pas_foto']) ? '☑' : '☐' }}</span>
+                                    <span>Pas Foto Siswa</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Callout Box: Daftarkan Calon Siswa Lain -->
+                <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                    <div class="space-y-0.5 text-center sm:text-left">
+                        <h5 class="text-xs font-black text-slate-900">Ingin mendaftarkan putra-putri lainnya?</h5>
+                        <p class="text-[11px] text-slate-500">Anda dapat langsung mengisi formulir pendaftaran baru untuk jenjang yang sama atau berbeda.</p>
+                    </div>
+                    <a href="{{ route('school.spmb.form', ['new' => 1]) }}" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition-all shadow-md shrink-0 flex items-center gap-1.5">
+                        <span>➕</span>
+                        <span>Isi Formulir untuk Siswa Lain</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function copyRegNumber(text) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    const temp = document.createElement("input");
+                    temp.value = text;
+                    document.body.appendChild(temp);
+                    temp.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(temp);
+                }
+                const btn = document.getElementById('copyBtnText');
+                if (btn) {
+                    const orig = btn.innerText;
+                    btn.innerText = 'Tersalin!';
+                    setTimeout(() => { btn.innerText = orig; }, 2000);
+                }
+            }
+        </script>
+
+        @else
+
         <!-- Header Title (Responsive & Compact on Mobile) -->
         <div class="text-center space-y-1 sm:space-y-2">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-emerald-100 text-emerald-800 uppercase tracking-wider">
@@ -101,57 +404,6 @@
                 Lengkapi formulir resmi berikut sesuai dokumen Kartu Keluarga & Akta Kelahiran.
             </p>
         </div>
-
-        <!-- Success Notification Banner -->
-        @if(session('spmb_success_data'))
-        @php 
-            $data = session('spmb_success_data'); 
-            $verifyUrl = route('school.spmb.verify', $data['registration_number']);
-            $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode($verifyUrl);
-            $cleanWa = preg_replace('/[^0-9]/', '', $spmb['wa_number'] ?? '62811747472');
-        @endphp
-        <div class="p-5 sm:p-8 rounded-3xl bg-emerald-800 text-white shadow-xl space-y-4">
-            <div class="flex items-center justify-between border-b border-emerald-700 pb-3">
-                <span class="px-3 py-1 rounded-full bg-emerald-700 text-emerald-100 font-black text-[10px] sm:text-xs uppercase">
-                    ✓ Pendaftaran SPMB Berhasil
-                </span>
-                <span class="text-xs text-emerald-200 font-medium">{{ $data['date'] }}</span>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
-                <div class="space-y-1.5 text-center sm:text-left">
-                    <h3 class="text-lg sm:text-xl font-black text-white">Alhamdulillah, Pendaftaran Ananda {{ $data['student_name'] }} Berhasil Diterima!</h3>
-                    <p class="text-xs text-emerald-200">Nomor Registrasi SPMB Resmi Ananda:</p>
-                    <div class="pt-1">
-                        <span class="px-4 py-2 rounded-2xl bg-slate-950 font-mono text-xl sm:text-2xl font-black text-amber-300 inline-block border border-amber-400/40 shadow-inner">
-                            {{ $data['registration_number'] }}
-                        </span>
-                    </div>
-                    <p class="text-[11px] text-emerald-200/90 pt-1">
-                        Jenjang Target: <strong>{{ $data['target_level'] }}</strong> | Kontak HP: <strong>{{ $data['parent_phone'] }}</strong>
-                    </p>
-                </div>
-
-                <!-- QR Code Box -->
-                <div class="p-3 rounded-2xl bg-white text-center shadow-md shrink-0 mx-auto sm:mx-0">
-                    <img src="{{ $qrUrl }}" alt="QR Code Pendaftaran" class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-lg">
-                    <a href="{{ $verifyUrl }}" target="_blank" class="text-[10px] font-bold text-emerald-800 hover:underline block mt-1">
-                        Verifikasi Digital ↗
-                    </a>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="pt-3 border-t border-emerald-700 flex flex-col sm:flex-row gap-2.5">
-                <a href="{{ route('school.spmb.download-pdf', $data['registration_id']) }}" target="_blank" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs text-center flex items-center justify-center gap-2 shadow-md transition-all">
-                    <span>🖨️</span> Unduh & Cetak Formulir PDF Resmi
-                </a>
-                <a href="https://wa.me/{{ $cleanWa }}?text=Assalamu'alaikum%20Panitia%20SPMB,%20saya%20sudah%20mendaftar%20dengan%20No%20Registrasi%20{{ $data['registration_number'] }}" target="_blank" class="w-full py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all">
-                    <span>💬</span> Konfirmasi Bukti ke Panitia WA
-                </a>
-            </div>
-        </div>
-        @endif
 
         @php
             $initialStep = 1;
@@ -954,6 +1206,7 @@
             </div>
 
         </form>
+        @endif
     </main>
 
     <!-- Footer Simple (Rata Tengah) -->
@@ -961,6 +1214,7 @@
         <p>&copy; {{ date('Y') }} Yayasan Generasi Robbani Sumatera Selatan. SPMB Online System.</p>
     </footer>
 
+    @if(!session('spmb_success_data'))
     <!-- Form Wizard Logic (Dinamis dari CMS Admin) -->
     <script>
         @php
@@ -1116,5 +1370,6 @@
             }
         });
     </script>
+    @endif
 </body>
 </html>
