@@ -306,7 +306,7 @@ class CmsController extends Controller
                     'fee' => (int) ($uData['fee'] ?? 350000),
                     'color' => $uData['color'] ?? 'emerald',
                     'image' => $uImage,
-                    'is_active' => isset($uData['is_active']) ? (bool)$uData['is_active'] : true,
+                    'is_active' => !empty($uData['is_active']),
                 ];
             }
             if (!empty($units)) {

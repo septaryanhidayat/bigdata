@@ -149,11 +149,30 @@
         </div>
         @endif
 
+        @php
+            $initialStep = 1;
+            if (isset($errors) && $errors->any()) {
+                $step1Keys = ['school_code', 'masuk_kelas', 'jalur_pendaftaran', 'status_siswa', 'nama_lengkap', 'nama_panggilan', 'nik_siswa', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'anak_ke', 'jumlah_saudara', 'jumlah_saudara_kandung', 'jumlah_saudara_tiri', 'agama', 'keadaan_jasmani', 'status_tempat_tinggal', 'kewarganegaraan', 'bahasa_sehari_hari'];
+                $step2Keys = ['jenjang_sekolah_asal', 'status_sekolah_asal', 'npsn_sekolah_asal', 'nisn', 'sekolah_asal', 'prestasi'];
+                $step3Keys = ['tinggi_badan', 'berat_badan', 'golongan_darah', 'penyakit_pernah', 'penyakit_sedang', 'kelainan_fisik', 'jarak_ke_sekolah', 'transportasi'];
+                $step4Keys = ['alamat', 'dusun', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'kode_pos', 'nama_ayah', 'nik_ayah', 'tempat_lahir_ayah', 'tanggal_lahir_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'instansi_ayah', 'jabatan_ayah', 'no_hp_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'tempat_lahir_ibu', 'tanggal_lahir_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'instansi_ibu', 'jabatan_ibu', 'no_hp_ibu', 'penghasilan_ibu', 'nama_wali', 'hubungan_wali', 'no_hp_wali'];
+                $step5Keys = ['info_pendaftaran', 'pas_foto', 'akta_kelahiran', 'kartu_keluarga', 'ktp_ortu', 'bukti_transfer'];
+
+                foreach ($errors->keys() as $key) {
+                    if (in_array($key, $step1Keys)) { $initialStep = 1; break; }
+                    if (in_array($key, $step2Keys)) { $initialStep = 2; break; }
+                    if (in_array($key, $step3Keys)) { $initialStep = 3; break; }
+                    if (in_array($key, $step4Keys)) { $initialStep = 4; break; }
+                    if (in_array($key, $step5Keys)) { $initialStep = 5; break; }
+                }
+            }
+        @endphp
+
         <!-- Validation Error Alert -->
         @if (isset($errors) && $errors->any())
         <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
             <div class="flex items-center gap-2 font-black">
-                <span>⚠️</span> Terdapat kolom yang belum terisi dengan benar:
+                <span>⚠️</span> Terdapat kolom yang belum terisi dengan benar (Langkah {{ $initialStep }}):
             </div>
             <ul class="list-disc list-inside space-y-0.5 text-[11px] text-rose-700 pl-1">
                 @foreach ($errors->all() as $err)
@@ -166,19 +185,19 @@
         <!-- STEP WIZARD PILL NAVIGATION (RATA TENGAH) -->
         <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs">
             <div class="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto no-scrollbar py-0.5 text-xs font-bold">
-                <button type="button" onclick="goToStep(1)" id="pill-step-1" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]">
+                <button type="button" onclick="validateAndGo(currentStep, 1)" id="pill-step-1" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]">
                     1. Identitas Calon Siswa
                 </button>
-                <button type="button" onclick="goToStep(2)" id="pill-step-2" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
+                <button type="button" onclick="validateAndGo(currentStep, 2)" id="pill-step-2" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
                     2. Sekolah & Prestasi
                 </button>
-                <button type="button" onclick="goToStep(3)" id="pill-step-3" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
+                <button type="button" onclick="validateAndGo(currentStep, 3)" id="pill-step-3" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
                     3. Kesehatan & Transport
                 </button>
-                <button type="button" onclick="goToStep(4)" id="pill-step-4" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
+                <button type="button" onclick="validateAndGo(currentStep, 4)" id="pill-step-4" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
                     4. Data Orang Tua
                 </button>
-                <button type="button" onclick="goToStep(5)" id="pill-step-5" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
+                <button type="button" onclick="validateAndGo(currentStep, 5)" id="pill-step-5" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
                     5. Berkas & Selesai
                 </button>
             </div>
@@ -208,7 +227,7 @@
                         <label class="block text-xs font-black text-slate-700 uppercase">Unit Sekolah Tujuan *</label>
                         <select name="school_code" id="school_code" onchange="updateUnitFeeInfo()" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             @php
-                                $selected = $selectedUnit ?? 'SDIT';
+                                $selected = old('school_code', $selectedUnit ?? 'SDIT');
                             @endphp
                             @if(!empty($spmb['units']))
                                 @foreach($spmb['units'] as $uCode => $u)
@@ -231,7 +250,7 @@
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Masuk di Kelas</label>
-                        <input type="text" name="masuk_kelas" id="masuk_kelas" placeholder="Contoh: TK A / SD Kelas 1 / SMP Kelas 7" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="text" name="masuk_kelas" id="masuk_kelas" value="{{ old('masuk_kelas') }}" placeholder="Contoh: TK A / SD Kelas 1 / SMP Kelas 7" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -239,18 +258,18 @@
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Jalur Pendaftaran *</label>
                         <select name="jalur_pendaftaran" id="jalur_pendaftaran" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="REGULER">Jalur Reguler (Umum)</option>
-                            <option value="PRESTASI">Jalur Prestasi (Akademik / Non-Akademik)</option>
-                            <option value="TAHFIDZ">Jalur Beasiswa Tahfidz Qur'an</option>
-                            <option value="PINDAHAN">Jalur Pindahan / Mutasi</option>
+                            <option value="REGULER" {{ old('jalur_pendaftaran', 'REGULER') == 'REGULER' ? 'selected' : '' }}>Jalur Reguler (Umum)</option>
+                            <option value="PRESTASI" {{ old('jalur_pendaftaran') == 'PRESTASI' ? 'selected' : '' }}>Jalur Prestasi (Akademik / Non-Akademik)</option>
+                            <option value="TAHFIDZ" {{ old('jalur_pendaftaran') == 'TAHFIDZ' ? 'selected' : '' }}>Jalur Beasiswa Tahfidz Qur'an</option>
+                            <option value="PINDAHAN" {{ old('jalur_pendaftaran') == 'PINDAHAN' ? 'selected' : '' }}>Jalur Pindahan / Mutasi</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Status Masuk Siswa *</label>
                         <select name="status_siswa" id="status_siswa" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Baru">Siswa Baru</option>
-                            <option value="Pindahan">Siswa Pindahan</option>
+                            <option value="Baru" {{ old('status_siswa', 'Baru') == 'Baru' ? 'selected' : '' }}>Siswa Baru</option>
+                            <option value="Pindahan" {{ old('status_siswa') == 'Pindahan' ? 'selected' : '' }}>Siswa Pindahan</option>
                         </select>
                     </div>
                 </div>
@@ -267,11 +286,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="sm:col-span-2 space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ananda (Huruf Kapital) *</label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap') }}" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Nama Panggilan</label>
-                        <input type="text" name="nama_panggilan" id="nama_panggilan" placeholder="Nama Panggilan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="text" name="nama_panggilan" id="nama_panggilan" value="{{ old('nama_panggilan') }}" placeholder="Nama Panggilan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -279,13 +298,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="sm:col-span-2 space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. NIK Siswa (16 Digit Angka KK)</label>
-                        <input type="text" name="nik_siswa" id="nik_siswa" maxlength="16" placeholder="16 Digit NIK dari Kartu Keluarga" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                        <input type="text" name="nik_siswa" id="nik_siswa" value="{{ old('nik_siswa') }}" maxlength="16" placeholder="16 Digit NIK dari Kartu Keluarga" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">4. Jenis Kelamin *</label>
                         <select name="jenis_kelamin" id="jenis_kelamin" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
+                            <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                         </select>
                     </div>
                 </div>
@@ -294,11 +313,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">5. Tempat Lahir *</label>
-                        <input type="text" name="tempat_lahir" id="tempat_lahir" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir') }}" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir *</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -306,19 +325,19 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">6. Anak ke -</label>
-                        <input type="number" name="anak_ke" id="anak_ke" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="anak_ke" id="anak_ke" value="{{ old('anak_ke') }}" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Dari Jml Saudara</label>
-                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" min="1" max="20" placeholder="3" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" value="{{ old('jumlah_saudara') }}" min="1" max="20" placeholder="3" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Jml Saudara Kandung</label>
-                        <input type="number" name="jumlah_saudara_kandung" id="jumlah_saudara_kandung" min="0" max="20" placeholder="2" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="jumlah_saudara_kandung" id="jumlah_saudara_kandung" value="{{ old('jumlah_saudara_kandung') }}" min="0" max="20" placeholder="2" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Jml Saudara Tiri</label>
-                        <input type="number" name="jumlah_saudara_tiri" id="jumlah_saudara_tiri" min="0" max="20" placeholder="0" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="jumlah_saudara_tiri" id="jumlah_saudara_tiri" value="{{ old('jumlah_saudara_tiri') }}" min="0" max="20" placeholder="0" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -326,25 +345,25 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">7. Agama</label>
-                        <input type="text" name="agama" id="agama" value="Islam" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 form-input text-xs font-bold text-slate-500 cursor-not-allowed">
+                        <input type="text" name="agama" id="agama" value="{{ old('agama', 'Islam') }}" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 form-input text-xs font-bold text-slate-500 cursor-not-allowed">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">8. Keadaan Jasmani</label>
                         <select name="keadaan_jasmani" id="keadaan_jasmani" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Sehat">Sehat Walafiat</option>
-                            <option value="Kurang Sehat">Kurang Sehat</option>
-                            <option value="Berkebutuhan Khusus">Berkebutuhan Khusus</option>
+                            <option value="Sehat" {{ old('keadaan_jasmani', 'Sehat') == 'Sehat' ? 'selected' : '' }}>Sehat Walafiat</option>
+                            <option value="Kurang Sehat" {{ old('keadaan_jasmani') == 'Kurang Sehat' ? 'selected' : '' }}>Kurang Sehat</option>
+                            <option value="Berkebutuhan Khusus" {{ old('keadaan_jasmani') == 'Berkebutuhan Khusus' ? 'selected' : '' }}>Berkebutuhan Khusus</option>
                         </select>
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">9. Status Tempat Tinggal</label>
                         <select name="status_tempat_tinggal" id="status_tempat_tinggal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Rumah Sendiri">Rumah Sendiri</option>
-                            <option value="Sewa / Kontrak">Sewa / Kontrak</option>
-                            <option value="Ikut Orang Tua">Ikut Orang Tua</option>
-                            <option value="Tinggal dikosan">Tinggal dikosan</option>
-                            <option value="Ikut Keluarga/Saudara">Ikut Keluarga / Saudara</option>
-                            <option value="Lainnya">Lainnya</option>
+                            <option value="Rumah Sendiri" {{ old('status_tempat_tinggal', 'Rumah Sendiri') == 'Rumah Sendiri' ? 'selected' : '' }}>Rumah Sendiri</option>
+                            <option value="Sewa / Kontrak" {{ old('status_tempat_tinggal') == 'Sewa / Kontrak' ? 'selected' : '' }}>Sewa / Kontrak</option>
+                            <option value="Ikut Orang Tua" {{ old('status_tempat_tinggal') == 'Ikut Orang Tua' ? 'selected' : '' }}>Ikut Orang Tua</option>
+                            <option value="Tinggal dikosan" {{ old('status_tempat_tinggal') == 'Tinggal dikosan' ? 'selected' : '' }}>Tinggal dikosan</option>
+                            <option value="Ikut Keluarga/Saudara" {{ old('status_tempat_tinggal') == 'Ikut Keluarga/Saudara' ? 'selected' : '' }}>Ikut Keluarga / Saudara</option>
+                            <option value="Lainnya" {{ old('status_tempat_tinggal') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
                     </div>
                 </div>
@@ -353,27 +372,27 @@
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">10. Kewarganegaraan</label>
                         <select name="kewarganegaraan" id="kewarganegaraan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="WNI">WNI (Warga Negara Indonesia)</option>
-                            <option value="WNA">WNA (Warga Negara Asing)</option>
+                            <option value="WNI" {{ old('kewarganegaraan', 'WNI') == 'WNI' ? 'selected' : '' }}>WNI (Warga Negara Indonesia)</option>
+                            <option value="WNA" {{ old('kewarganegaraan') == 'WNA' ? 'selected' : '' }}>WNA (Warga Negara Asing)</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">11. Bahasa Sehari-hari</label>
                         <select name="bahasa_sehari_hari" id="bahasa_sehari_hari" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Indonesia">Bahasa Indonesia</option>
-                            <option value="Daerah">Bahasa Daerah</option>
-                            <option value="Inggris">Bahasa Inggris</option>
-                            <option value="Arab">Bahasa Arab</option>
-                            <option value="Mandarin">Bahasa Mandarin</option>
-                            <option value="Lainnya">Lainnya</option>
+                            <option value="Indonesia" {{ old('bahasa_sehari_hari', 'Indonesia') == 'Indonesia' ? 'selected' : '' }}>Bahasa Indonesia</option>
+                            <option value="Daerah" {{ old('bahasa_sehari_hari') == 'Daerah' ? 'selected' : '' }}>Bahasa Daerah</option>
+                            <option value="Inggris" {{ old('bahasa_sehari_hari') == 'Inggris' ? 'selected' : '' }}>Bahasa Inggris</option>
+                            <option value="Arab" {{ old('bahasa_sehari_hari') == 'Arab' ? 'selected' : '' }}>Bahasa Arab</option>
+                            <option value="Mandarin" {{ old('bahasa_sehari_hari') == 'Mandarin' ? 'selected' : '' }}>Bahasa Mandarin</option>
+                            <option value="Lainnya" {{ old('bahasa_sehari_hari') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Tombol Navigasi Step 1 (Rata Tengah di HP) -->
                 <div class="pt-4 flex justify-center sm:justify-end">
-                    <button type="button" onclick="goToStep(2)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
+                    <button type="button" onclick="validateAndGo(1, 2)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
                         <span>Lanjut ke Langkah 2</span> <span>➔</span>
                     </button>
                 </div>
@@ -398,20 +417,20 @@
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Jenjang Sekolah Asal</label>
                         <select name="jenjang_sekolah_asal" id="jenjang_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="">-- Pilih Bila Ada --</option>
-                            <option value="Belum Sekolah / Dari Rumah">Belum Sekolah / Dari Rumah</option>
-                            <option value="PAUD / Kelompok Bermain">PAUD / Kelompok Bermain</option>
-                            <option value="TK / RA">TK / RA</option>
-                            <option value="SD / MI">SD / MI</option>
-                            <option value="SMP / MTs">SMP / MTs</option>
-                            <option value="Pondok Pesantren">Pondok Pesantren</option>
+                            <option value="Belum Sekolah / Dari Rumah" {{ old('jenjang_sekolah_asal') == 'Belum Sekolah / Dari Rumah' ? 'selected' : '' }}>Belum Sekolah / Dari Rumah</option>
+                            <option value="PAUD / Kelompok Bermain" {{ old('jenjang_sekolah_asal') == 'PAUD / Kelompok Bermain' ? 'selected' : '' }}>PAUD / Kelompok Bermain</option>
+                            <option value="TK / RA" {{ old('jenjang_sekolah_asal') == 'TK / RA' ? 'selected' : '' }}>TK / RA</option>
+                            <option value="SD / MI" {{ old('jenjang_sekolah_asal') == 'SD / MI' ? 'selected' : '' }}>SD / MI</option>
+                            <option value="SMP / MTs" {{ old('jenjang_sekolah_asal') == 'SMP / MTs' ? 'selected' : '' }}>SMP / MTs</option>
+                            <option value="Pondok Pesantren" {{ old('jenjang_sekolah_asal') == 'Pondok Pesantren' ? 'selected' : '' }}>Pondok Pesantren</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Status Sekolah Asal</label>
                         <select name="status_sekolah_asal" id="status_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Swasta">Swasta</option>
-                            <option value="Negeri">Negeri</option>
+                            <option value="Swasta" {{ old('status_sekolah_asal', 'Swasta') == 'Swasta' ? 'selected' : '' }}>Swasta</option>
+                            <option value="Negeri" {{ old('status_sekolah_asal') == 'Negeri' ? 'selected' : '' }}>Negeri</option>
                         </select>
                     </div>
                 </div>
@@ -419,32 +438,32 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. NPSN Sekolah Asal</label>
-                        <input type="text" name="npsn_sekolah_asal" id="npsn_sekolah_asal" placeholder="8 Digit NPSN (Bila Ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <input type="text" name="npsn_sekolah_asal" id="npsn_sekolah_asal" value="{{ old('npsn_sekolah_asal') }}" placeholder="8 Digit NPSN (Bila Ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">4. No. Peserta Ujian / NISN</label>
-                        <input type="text" name="nisn" id="nisn" placeholder="10 Digit NISN (Khusus lulusan SD/SMP)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <input type="text" name="nisn" id="nisn" value="{{ old('nisn') }}" placeholder="10 Digit NISN (Khusus lulusan SD/SMP)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-black text-slate-700 uppercase">5. Nama Sekolah Asal *</label>
-                    <input type="text" name="sekolah_asal" id="sekolah_asal" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ old('sekolah_asal') }}" required placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     <p class="text-[10px] text-slate-400">*) Diisikan data dari jenjang sebelumnya (misal pendaftar SD isi nama TK asal, pendaftar SMP isi nama SD asal).</p>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-black text-slate-700 uppercase">6. Prestasi Yang Pernah Diraih</label>
-                    <textarea name="prestasi" id="prestasi" rows="3" placeholder="Contoh: Juara 1 Tahfidz 1 Juz Tingkat Kabupaten, Juara 2 Lomba Menggambar, dll. (Kosongkan bila belum ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium"></textarea>
+                    <textarea name="prestasi" id="prestasi" rows="3" placeholder="Contoh: Juara 1 Tahfidz 1 Juz Tingkat Kabupaten, Juara 2 Lomba Menggambar, dll. (Kosongkan bila belum ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">{{ old('prestasi') }}</textarea>
                 </div>
 
                 <!-- Tombol Navigasi Step 2 (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="goToStep(1)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="validateAndGo(2, 1)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
-                    <button type="button" onclick="goToStep(3)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
+                    <button type="button" onclick="validateAndGo(2, 3)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
                         <span>Lanjut ke Langkah 3</span> <span>➔</span>
                     </button>
                 </div>
@@ -467,20 +486,20 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Tinggi Badan (cm)</label>
-                        <input type="number" name="tinggi_badan" id="tinggi_badan" placeholder="Contoh: 110" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="number" name="tinggi_badan" id="tinggi_badan" value="{{ old('tinggi_badan') }}" placeholder="Contoh: 110" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Berat Badan (kg)</label>
-                        <input type="number" name="berat_badan" id="berat_badan" placeholder="Contoh: 20" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="number" name="berat_badan" id="berat_badan" value="{{ old('berat_badan') }}" placeholder="Contoh: 20" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. Golongan Darah</label>
                         <select name="golongan_darah" id="golongan_darah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Belum Tahu">Belum Tahu</option>
-                            <option value="A">Golongan A</option>
-                            <option value="B">Golongan B</option>
-                            <option value="AB">Golongan AB</option>
-                            <option value="O">Golongan O</option>
+                            <option value="Belum Tahu" {{ old('golongan_darah') == 'Belum Tahu' ? 'selected' : '' }}>Belum Tahu</option>
+                            <option value="A" {{ old('golongan_darah') == 'A' ? 'selected' : '' }}>Golongan A</option>
+                            <option value="B" {{ old('golongan_darah') == 'B' ? 'selected' : '' }}>Golongan B</option>
+                            <option value="AB" {{ old('golongan_darah') == 'AB' ? 'selected' : '' }}>Golongan AB</option>
+                            <option value="O" {{ old('golongan_darah') == 'O' ? 'selected' : '' }}>Golongan O</option>
                         </select>
                     </div>
                 </div>
@@ -488,17 +507,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">4. Penyakit yang Pernah Diderita</label>
-                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" placeholder="Contoh: Asma, Tifus, DBD (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" value="{{ old('penyakit_pernah') }}" placeholder="Contoh: Asma, Tifus, DBD (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">5. Penyakit yang Sedang Diderita</label>
-                        <input type="text" name="penyakit_sedang" id="penyakit_sedang" placeholder="Tuliskan jika sedang dalam terapi atau rutin obat" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="penyakit_sedang" id="penyakit_sedang" value="{{ old('penyakit_sedang') }}" placeholder="Tuliskan jika sedang dalam terapi atau rutin obat" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-black text-slate-700 uppercase">6. Kelainan Fisik / Kebutuhan Khusus</label>
-                    <input type="text" name="kelainan_fisik" id="kelainan_fisik" placeholder="Tuliskan bila ada kebutuhan khusus / 'Tidak Ada'" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                    <input type="text" name="kelainan_fisik" id="kelainan_fisik" value="{{ old('kelainan_fisik') }}" placeholder="Tuliskan bila ada kebutuhan khusus / 'Tidak Ada'" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                 </div>
 
                 <!-- Moda Transportasi -->
@@ -508,22 +527,22 @@
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Jarak Tempat Tinggal ke Sekolah</label>
                             <select name="jarak_ke_sekolah" id="jarak_ke_sekolah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="Kurang dari 1 km">Kurang dari 1 km</option>
-                                <option value="1 - 3 km">1 - 3 km</option>
-                                <option value="3 - 5 km">3 - 5 km</option>
-                                <option value="5 - 10 km">5 - 10 km</option>
-                                <option value="Lebih dari 10 km">Lebih dari 10 km</option>
+                                <option value="Kurang dari 1 km" {{ old('jarak_ke_sekolah') == 'Kurang dari 1 km' ? 'selected' : '' }}>Kurang dari 1 km</option>
+                                <option value="1 - 3 km" {{ old('jarak_ke_sekolah') == '1 - 3 km' ? 'selected' : '' }}>1 - 3 km</option>
+                                <option value="3 - 5 km" {{ old('jarak_ke_sekolah') == '3 - 5 km' ? 'selected' : '' }}>3 - 5 km</option>
+                                <option value="5 - 10 km" {{ old('jarak_ke_sekolah') == '5 - 10 km' ? 'selected' : '' }}>5 - 10 km</option>
+                                <option value="Lebih dari 10 km" {{ old('jarak_ke_sekolah') == 'Lebih dari 10 km' ? 'selected' : '' }}>Lebih dari 10 km</option>
                             </select>
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. Transportasi yang Digunakan</label>
                             <select name="transportasi" id="transportasi" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="Sepeda Motor / Diantar Ortu">Sepeda Motor / Diantar Ortu</option>
-                                <option value="Mobil Pribadi">Mobil Pribadi</option>
-                                <option value="Jalan Kaki">Jalan Kaki</option>
-                                <option value="Antar Jemput Sekolah">Antar Jemput Sekolah</option>
-                                <option value="Angkutan Umum">Angkutan Umum</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="Sepeda Motor / Diantar Ortu" {{ old('transportasi') == 'Sepeda Motor / Diantar Ortu' ? 'selected' : '' }}>Sepeda Motor / Diantar Ortu</option>
+                                <option value="Mobil Pribadi" {{ old('transportasi') == 'Mobil Pribadi' ? 'selected' : '' }}>Mobil Pribadi</option>
+                                <option value="Jalan Kaki" {{ old('transportasi') == 'Jalan Kaki' ? 'selected' : '' }}>Jalan Kaki</option>
+                                <option value="Antar Jemput Sekolah" {{ old('transportasi') == 'Antar Jemput Sekolah' ? 'selected' : '' }}>Antar Jemput Sekolah</option>
+                                <option value="Angkutan Umum" {{ old('transportasi') == 'Angkutan Umum' ? 'selected' : '' }}>Angkutan Umum</option>
+                                <option value="Lainnya" {{ old('transportasi') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                         </div>
                     </div>
@@ -531,10 +550,10 @@
 
                 <!-- Tombol Navigasi Step 3 (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="goToStep(2)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="validateAndGo(3, 2)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
-                    <button type="button" onclick="goToStep(4)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
+                    <button type="button" onclick="validateAndGo(3, 4)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
                         <span>Lanjut ke Langkah 4</span> <span>➔</span>
                     </button>
                 </div>
@@ -560,36 +579,36 @@
                     
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Alamat Jalan / No. Rumah / Gang *</label>
-                        <input type="text" name="alamat" id="alamat" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                        <input type="text" name="alamat" id="alamat" value="{{ old('alamat') }}" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Dusun / RT-RW</label>
-                            <input type="text" name="dusun" id="dusun" placeholder="RT 02 / RW 01" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="dusun" id="dusun" value="{{ old('dusun') }}" placeholder="RT 02 / RW 01" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Desa / Kelurahan *</label>
-                            <input type="text" name="kelurahan" id="kelurahan" required placeholder="Contoh: Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="kelurahan" id="kelurahan" value="{{ old('kelurahan') }}" required placeholder="Contoh: Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kecamatan *</label>
-                            <input type="text" name="kecamatan" id="kecamatan" required placeholder="Contoh: Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="kecamatan" id="kecamatan" value="{{ old('kecamatan') }}" required placeholder="Contoh: Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kabupaten / Kota *</label>
-                            <input type="text" name="kabupaten" id="kabupaten" required placeholder="Contoh: Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="kabupaten" id="kabupaten" value="{{ old('kabupaten') }}" required placeholder="Contoh: Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Provinsi *</label>
-                            <input type="text" name="provinsi" id="provinsi" required placeholder="Contoh: Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="provinsi" id="provinsi" value="{{ old('provinsi') }}" required placeholder="Contoh: Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kode Pos</label>
-                            <input type="text" name="kode_pos" id="kode_pos" placeholder="Contoh: 30662" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                            <input type="text" name="kode_pos" id="kode_pos" value="{{ old('kode_pos') }}" placeholder="Contoh: 30662" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                         </div>
                     </div>
                 </div>
@@ -604,32 +623,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ayah *</label>
-                            <input type="text" name="nama_ayah" id="nama_ayah" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="nama_ayah" id="nama_ayah" value="{{ old('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ayah (16 Digit KK) *</label>
-                            <input type="text" name="nik_ayah" id="nik_ayah" required maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="nik_ayah" id="nik_ayah" value="{{ old('nik_ayah') }}" required maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">3. Tempat Lahir Ayah</label>
-                            <input type="text" name="tempat_lahir_ayah" id="tempat_lahir_ayah" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="tempat_lahir_ayah" id="tempat_lahir_ayah" value="{{ old('tempat_lahir_ayah') }}" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">4. Tanggal Lahir Ayah</label>
-                            <input type="date" name="tanggal_lahir_ayah" id="tanggal_lahir_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="date" name="tanggal_lahir_ayah" id="tanggal_lahir_ayah" value="{{ old('tanggal_lahir_ayah') }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">5. Pendidikan Terakhir</label>
                             <select name="pendidikan_ayah" id="pendidikan_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="S1">S1 / Sarjana</option>
-                                <option value="S2/S3">S2 / S3 (Pascasarjana)</option>
-                                <option value="D3/D4">D3 / D4 (Diploma)</option>
-                                <option value="SMA/SMK">SMA / SMK Sederajat</option>
-                                <option value="SMP">SMP Sederajat</option>
-                                <option value="SD">SD Sederajat</option>
+                                <option value="S1" {{ old('pendidikan_ayah', 'S1') == 'S1' ? 'selected' : '' }}>S1 / Sarjana</option>
+                                <option value="S2/S3" {{ old('pendidikan_ayah') == 'S2/S3' ? 'selected' : '' }}>S2 / S3 (Pascasarjana)</option>
+                                <option value="D3/D4" {{ old('pendidikan_ayah') == 'D3/D4' ? 'selected' : '' }}>D3 / D4 (Diploma)</option>
+                                <option value="SMA/SMK" {{ old('pendidikan_ayah') == 'SMA/SMK' ? 'selected' : '' }}>SMA / SMK Sederajat</option>
+                                <option value="SMP" {{ old('pendidikan_ayah') == 'SMP' ? 'selected' : '' }}>SMP Sederajat</option>
+                                <option value="SD" {{ old('pendidikan_ayah') == 'SD' ? 'selected' : '' }}>SD Sederajat</option>
                             </select>
                         </div>
                     </div>
@@ -637,31 +656,31 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ayah *</label>
-                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" required placeholder="PNS/TNI/Karyawan/Wiraswasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" required placeholder="PNS/TNI/Karyawan/Wiraswasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">7. Nama Instansi / Perusahaan</label>
-                            <input type="text" name="instansi_ayah" id="instansi_ayah" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="instansi_ayah" id="instansi_ayah" value="{{ old('instansi_ayah') }}" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">8. Jabatan</label>
-                            <input type="text" name="jabatan_ayah" id="jabatan_ayah" placeholder="Staff / Manager / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="jabatan_ayah" id="jabatan_ayah" value="{{ old('jabatan_ayah') }}" placeholder="Staff / Manager / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ayah *</label>
-                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" value="{{ old('no_hp_ayah') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
                             <select name="penghasilan_ayah" id="penghasilan_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="< Rp 1.000.000">&lt; Rp 1.000.000</option>
-                                <option value="Rp 1.000.000 - Rp 3.000.000">Rp 1.000.000 - Rp 3.000.000</option>
-                                <option value="Rp 3.000.000 - Rp 5.000.000" selected>Rp 3.000.000 - Rp 5.000.000</option>
-                                <option value="Rp 5.000.000 - Rp 10.000.000">Rp 5.000.000 - Rp 10.000.000</option>
-                                <option value="> Rp 10.000.000">&gt; Rp 10.000.000</option>
+                                <option value="< Rp 1.000.000" {{ old('penghasilan_ayah') == '< Rp 1.000.000' ? 'selected' : '' }}>&lt; Rp 1.000.000</option>
+                                <option value="Rp 1.000.000 - Rp 3.000.000" {{ old('penghasilan_ayah') == 'Rp 1.000.000 - Rp 3.000.000' ? 'selected' : '' }}>Rp 1.000.000 - Rp 3.000.000</option>
+                                <option value="Rp 3.000.000 - Rp 5.000.000" {{ old('penghasilan_ayah', 'Rp 3.000.000 - Rp 5.000.000') == 'Rp 3.000.000 - Rp 5.000.000' ? 'selected' : '' }}>Rp 3.000.000 - Rp 5.000.000</option>
+                                <option value="Rp 5.000.000 - Rp 10.000.000" {{ old('penghasilan_ayah') == 'Rp 5.000.000 - Rp 10.000.000' ? 'selected' : '' }}>Rp 5.000.000 - Rp 10.000.000</option>
+                                <option value="> Rp 10.000.000" {{ old('penghasilan_ayah') == '> Rp 10.000.000' ? 'selected' : '' }}>&gt; Rp 10.000.000</option>
                             </select>
                         </div>
                     </div>
@@ -677,32 +696,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ibu *</label>
-                            <input type="text" name="nama_ibu" id="nama_ibu" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="nama_ibu" id="nama_ibu" value="{{ old('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ibu (16 Digit KK) *</label>
-                            <input type="text" name="nik_ibu" id="nik_ibu" required maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="nik_ibu" id="nik_ibu" value="{{ old('nik_ibu') }}" required maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">3. Tempat Lahir Ibu</label>
-                            <input type="text" name="tempat_lahir_ibu" id="tempat_lahir_ibu" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="tempat_lahir_ibu" id="tempat_lahir_ibu" value="{{ old('tempat_lahir_ibu') }}" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">4. Tanggal Lahir Ibu</label>
-                            <input type="date" name="tanggal_lahir_ibu" id="tanggal_lahir_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="date" name="tanggal_lahir_ibu" id="tanggal_lahir_ibu" value="{{ old('tanggal_lahir_ibu') }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">5. Pendidikan Terakhir</label>
                             <select name="pendidikan_ibu" id="pendidikan_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="S1">S1 / Sarjana</option>
-                                <option value="S2/S3">S2 / S3 (Pascasarjana)</option>
-                                <option value="D3/D4">D3 / D4 (Diploma)</option>
-                                <option value="SMA/SMK">SMA / SMK Sederajat</option>
-                                <option value="SMP">SMP Sederajat</option>
-                                <option value="SD">SD Sederajat</option>
+                                <option value="S1" {{ old('pendidikan_ibu', 'S1') == 'S1' ? 'selected' : '' }}>S1 / Sarjana</option>
+                                <option value="S2/S3" {{ old('pendidikan_ibu') == 'S2/S3' ? 'selected' : '' }}>S2 / S3 (Pascasarjana)</option>
+                                <option value="D3/D4" {{ old('pendidikan_ibu') == 'D3/D4' ? 'selected' : '' }}>D3 / D4 (Diploma)</option>
+                                <option value="SMA/SMK" {{ old('pendidikan_ibu') == 'SMA/SMK' ? 'selected' : '' }}>SMA / SMK Sederajat</option>
+                                <option value="SMP" {{ old('pendidikan_ibu') == 'SMP' ? 'selected' : '' }}>SMP Sederajat</option>
+                                <option value="SD" {{ old('pendidikan_ibu') == 'SD' ? 'selected' : '' }}>SD Sederajat</option>
                             </select>
                         </div>
                     </div>
@@ -710,32 +729,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ibu *</label>
-                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" required placeholder="Ibu Rumah Tangga / PNS / Guru / Swasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" required placeholder="Ibu Rumah Tangga / PNS / Guru / Swasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">7. Nama Instansi / Perusahaan</label>
-                            <input type="text" name="instansi_ibu" id="instansi_ibu" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="instansi_ibu" id="instansi_ibu" value="{{ old('instansi_ibu') }}" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">8. Jabatan</label>
-                            <input type="text" name="jabatan_ibu" id="jabatan_ibu" placeholder="Staff / Guru / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="jabatan_ibu" id="jabatan_ibu" value="{{ old('jabatan_ibu') }}" placeholder="Staff / Guru / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ibu</label>
-                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ old('no_hp_ibu') }}" placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
                             <select name="penghasilan_ibu" id="penghasilan_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="Tidak Berpenghasilan">Tidak Berpenghasilan / IRT</option>
-                                <option value="< Rp 1.000.000">&lt; Rp 1.000.000</option>
-                                <option value="Rp 1.000.000 - Rp 3.000.000">Rp 1.000.000 - Rp 3.000.000</option>
-                                <option value="Rp 3.000.000 - Rp 5.000.000">Rp 3.000.000 - Rp 5.000.000</option>
-                                <option value="Rp 5.000.000 - Rp 10.000.000">Rp 5.000.000 - Rp 10.000.000</option>
-                                <option value="> Rp 10.000.000">&gt; Rp 10.000.000</option>
+                                <option value="Tidak Berpenghasilan" {{ old('penghasilan_ibu') == 'Tidak Berpenghasilan' ? 'selected' : '' }}>Tidak Berpenghasilan / IRT</option>
+                                <option value="< Rp 1.000.000" {{ old('penghasilan_ibu') == '< Rp 1.000.000' ? 'selected' : '' }}>&lt; Rp 1.000.000</option>
+                                <option value="Rp 1.000.000 - Rp 3.000.000" {{ old('penghasilan_ibu') == 'Rp 1.000.000 - Rp 3.000.000' ? 'selected' : '' }}>Rp 1.000.000 - Rp 3.000.000</option>
+                                <option value="Rp 3.000.000 - Rp 5.000.000" {{ old('penghasilan_ibu') == 'Rp 3.000.000 - Rp 5.000.000' ? 'selected' : '' }}>Rp 3.000.000 - Rp 5.000.000</option>
+                                <option value="Rp 5.000.000 - Rp 10.000.000" {{ old('penghasilan_ibu') == 'Rp 5.000.000 - Rp 10.000.000' ? 'selected' : '' }}>Rp 5.000.000 - Rp 10.000.000</option>
+                                <option value="> Rp 10.000.000" {{ old('penghasilan_ibu') == '> Rp 10.000.000' ? 'selected' : '' }}>&gt; Rp 10.000.000</option>
                             </select>
                         </div>
                     </div>
@@ -745,18 +764,18 @@
                 <div class="p-4 rounded-2xl bg-white border border-slate-200/80 space-y-3">
                     <span class="text-xs font-black text-slate-700 block uppercase">Data Wali (Opsional, Bila Tidak Tinggal Bersama Orang Tua Kandung):</span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <input type="text" name="nama_wali" id="nama_wali" placeholder="Nama Lengkap Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
-                        <input type="text" name="hubungan_wali" id="hubungan_wali" placeholder="Hubungan (Kakek/Paman/Bibi)" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
-                        <input type="text" name="no_hp_wali" id="no_hp_wali" placeholder="No. HP Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <input type="text" name="nama_wali" id="nama_wali" value="{{ old('nama_wali') }}" placeholder="Nama Lengkap Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="hubungan_wali" id="hubungan_wali" value="{{ old('hubungan_wali') }}" placeholder="Hubungan (Kakek/Paman/Bibi)" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="no_hp_wali" id="no_hp_wali" value="{{ old('no_hp_wali') }}" placeholder="No. HP Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
                 </div>
 
                 <!-- Tombol Navigasi Step 4 (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="goToStep(3)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="validateAndGo(4, 3)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
-                    <button type="button" onclick="goToStep(5)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
+                    <button type="button" onclick="validateAndGo(4, 5)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
                         <span>Lanjut ke Upload Berkas</span> <span>➔</span>
                     </button>
                 </div>
@@ -781,27 +800,27 @@
                     <label class="block text-xs font-black text-slate-700 uppercase">Informasi Pendaftaran Diperoleh Dari Mana?</label>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Brosur" class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Brosur" {{ old('info_pendaftaran') == 'Brosur' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Brosur</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Banner / Spanduk" class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Banner / Spanduk" {{ old('info_pendaftaran') == 'Banner / Spanduk' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Banner / Spanduk</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Media Sosial" checked class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Media Sosial" {{ old('info_pendaftaran', 'Media Sosial') == 'Media Sosial' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Media Sosial (IG/FB)</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Teman / Saudara" class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Teman / Saudara" {{ old('info_pendaftaran') == 'Teman / Saudara' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Teman / Saudara</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Guru / Tendik SIT Robbani" class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Guru / Tendik SIT Robbani" {{ old('info_pendaftaran') == 'Guru / Tendik SIT Robbani' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Guru / Tendik Robbani</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Lainnya" class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Lainnya" {{ old('info_pendaftaran') == 'Lainnya' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Lainnya</span>
                         </label>
                     </div>
@@ -887,7 +906,7 @@
 
                 <!-- Navigation & Submit (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="goToStep(4)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="validateAndGo(5, 4)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
                     <button type="submit" id="submitBtn" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-700/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
@@ -933,6 +952,8 @@
             'SMAIT' => 'Rp 550.000',
         ]) !!};
 
+        let currentStep = {{ $initialStep ?? 1 }};
+
         function updateUnitFeeInfo() {
             const sc = document.getElementById('school_code');
             const feeDisplay = document.getElementById('selectedUnitFeeDisplay');
@@ -942,7 +963,34 @@
             }
         }
 
+        function validateStep(step) {
+            const section = document.getElementById(`step-section-${step}`);
+            if (!section) return true;
+            const requiredFields = section.querySelectorAll('input[required], select[required], textarea[required]');
+            for (let el of requiredFields) {
+                if (!el.checkValidity()) {
+                    el.reportValidity();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function validateAndGo(fromStep, toStep) {
+            if (toStep > fromStep) {
+                for (let s = fromStep; s < toStep; s++) {
+                    if (!validateStep(s)) {
+                        goToStep(s);
+                        return false;
+                    }
+                }
+            }
+            goToStep(toStep);
+            return true;
+        }
+
         function goToStep(step) {
+            currentStep = step;
             for (let i = 1; i <= 5; i++) {
                 const section = document.getElementById(`step-section-${i}`);
                 const pill = document.getElementById(`pill-step-${i}`);
@@ -966,6 +1014,25 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             updateUnitFeeInfo();
+            goToStep(currentStep);
+
+            const form = document.getElementById('spmbForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    for (let s = 1; s <= 5; s++) {
+                        if (!validateStep(s)) {
+                            e.preventDefault();
+                            goToStep(s);
+                            return false;
+                        }
+                    }
+                    const btn = document.getElementById('submitBtn');
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<span>⏳ Memproses Pendaftaran...</span>';
+                    }
+                });
+            }
         });
     </script>
 </body>

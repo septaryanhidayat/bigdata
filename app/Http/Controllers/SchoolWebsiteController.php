@@ -1493,20 +1493,27 @@ class SchoolWebsiteController extends Controller
         $q = trim($request->input('q', $request->input('reg', '')));
         if (empty($q)) {
             if ($request->ajax() || $request->wantsJson()) {
-                return response()->json(['found' => false, 'message' => 'Masukkan nomor registrasi atau NISN.']);
+                return response()->json(['found' => false, 'message' => 'Masukkan nomor registrasi atau nomor WhatsApp.']);
             }
             return redirect()->route('school.spmb')->with('error', 'Silakan masukkan nomor registrasi SPMB Anda.');
         }
 
-        $registration = \App\Models\PpdbRegistration::where('registration_number', $q)
-            ->orWhere('registration_number', 'LIKE', '%' . $q . '%')
-            ->orWhere('phone_number', $q)
-            ->latest()
-            ->first();
+        $cleanDigits = preg_replace('/[^0-9]/', '', $q);
+
+        $query = \App\Models\PpdbRegistration::where(function($builder) use ($q, $cleanDigits) {
+            $builder->where('registration_number', $q)
+                ->orWhere('registration_number', 'LIKE', "%{$q}%")
+                ->orWhere('phone_number', $q);
+            if (!empty($cleanDigits) && strlen($cleanDigits) >= 5) {
+                $builder->orWhere('phone_number', 'LIKE', "%{$cleanDigits}%");
+            }
+        });
+
+        $registration = $query->latest()->first();
 
         if ($request->ajax() || $request->wantsJson()) {
             if (!$registration) {
-                return response()->json(['found' => false, 'message' => 'Data registrasi tidak ditemukan. Pastikan nomor pendaftaran sudah benar.']);
+                return response()->json(['found' => false, 'message' => 'Data registrasi tidak ditemukan. Pastikan nomor pendaftaran atau nomor WhatsApp sudah benar.']);
             }
 
             return response()->json([
@@ -1528,7 +1535,7 @@ class SchoolWebsiteController extends Controller
         }
 
         if (!$registration) {
-            return redirect()->route('school.spmb')->with('spmb_not_found', 'Nomor registrasi "' . $q . '" tidak ditemukan.');
+            return redirect()->route('school.spmb')->with('spmb_not_found', 'Nomor registrasi / WhatsApp "' . $q . '" tidak ditemukan.');
         }
 
         return redirect()->route('school.spmb')->with('spmb_found_record', $registration);
@@ -1537,84 +1544,107 @@ class SchoolWebsiteController extends Controller
     public function storePpdb(Request $request)
     {
         $validated = $request->validate([
-            'school_code' => 'required|string',
-            'jalur_pendaftaran' => 'nullable|string',
-            // IDENTITAS PESERTA DIDIK (F-SPMB)
-            'nama_lengkap' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/|max:255',
+            'school_code' => 'required|string|max:50',
+            'jalur_pendaftaran' => 'nullable|string|max:100',
+            // 1. IDENTITAS PESERTA DIDIK (F-SPMB)
+            'nama_lengkap' => 'required|string|max:255',
             'nama_panggilan' => 'nullable|string|max:100',
-            'nik_siswa' => 'nullable|numeric|digits:16',
-            'jenis_kelamin' => 'required|string',
-            'tempat_lahir' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/',
+            'nik_siswa' => 'nullable|string|max:30',
+            'jenis_kelamin' => 'required|string|max:50',
+            'tempat_lahir' => 'required|string|max:150',
             'tanggal_lahir' => 'required|date',
-            'anak_ke' => 'nullable|integer|min:1',
-            'jumlah_saudara' => 'nullable|integer|min:0',
-            'status_ortu' => 'nullable|string',
-            'tempat_tinggal_anak' => 'nullable|string',
-            'tempat_tinggal_lainnya' => 'nullable|string',
+            'anak_ke' => 'nullable|integer|min:1|max:30',
+            'jumlah_saudara' => 'nullable|integer|min:0|max:30',
+            'jumlah_saudara_kandung' => 'nullable|integer|min:0|max:30',
+            'jumlah_saudara_tiri' => 'nullable|integer|min:0|max:30',
+            'agama' => 'nullable|string|max:50',
+            'keadaan_jasmani' => 'nullable|string|max:100',
+            'status_ortu' => 'nullable|string|max:100',
+            'tempat_tinggal_anak' => 'nullable|string|max:100',
+            'tempat_tinggal_lainnya' => 'nullable|string|max:150',
+            'status_tempat_tinggal' => 'nullable|string|max:100',
             // ALAMAT
             'alamat' => 'required|string',
-            'dusun' => 'nullable|string',
-            'kelurahan' => 'nullable|string',
-            'kode_pos' => 'nullable|string',
-            'kecamatan' => 'nullable|string',
-            'kabupaten' => 'nullable|string',
-            'provinsi' => 'nullable|string',
-            'kewarganegaraan' => 'nullable|string',
-            'bahasa_sehari_hari' => 'nullable|string',
-            'bahasa_lainnya' => 'nullable|string',
-            // DATA SEKOLAH
-            'nisn' => 'nullable|numeric|digits_between:8,12',
-            'masuk_kelas' => 'nullable|string',
-            'status_siswa' => 'nullable|string',
-            'kategori_sekolah_asal' => 'nullable|string',
-            'sekolah_asal' => 'nullable|string',
+            'dusun' => 'nullable|string|max:150',
+            'kelurahan' => 'nullable|string|max:150',
+            'kode_pos' => 'nullable|string|max:20',
+            'kecamatan' => 'nullable|string|max:150',
+            'kabupaten' => 'nullable|string|max:150',
+            'provinsi' => 'nullable|string|max:150',
+            'kewarganegaraan' => 'nullable|string|max:50',
+            'bahasa_sehari_hari' => 'nullable|string|max:100',
+            'bahasa_lainnya' => 'nullable|string|max:100',
+            // 2. DATA SEKOLAH ASAL
+            'nisn' => 'nullable|string|max:30',
+            'masuk_kelas' => 'nullable|string|max:100',
+            'status_siswa' => 'nullable|string|max:100',
+            'kategori_sekolah_asal' => 'nullable|string|max:100',
+            'jenjang_sekolah_asal' => 'nullable|string|max:100',
+            'status_sekolah_asal' => 'nullable|string|max:100',
+            'npsn_sekolah_asal' => 'nullable|string|max:50',
+            'sekolah_asal' => 'nullable|string|max:255',
             'prestasi' => 'nullable|string',
-            // DATA KESEHATAN
-            'tinggi_badan' => 'nullable|numeric|min:30|max:250',
-            'berat_badan' => 'nullable|numeric|min:5|max:200',
-            'golongan_darah' => 'nullable|string',
+            // 3. DATA KESEHATAN & MODA TRANSPORTASI
+            'tinggi_badan' => 'nullable|numeric|min:20|max:250',
+            'berat_badan' => 'nullable|numeric|min:3|max:250',
+            'golongan_darah' => 'nullable|string|max:20',
             'penyakit_pernah' => 'nullable|string',
             'penyakit_sedang' => 'nullable|string',
             'kelainan_fisik' => 'nullable|string',
-            // MODA TRANSPORTASI
-            'jarak_ke_sekolah' => 'nullable|string',
-            'transportasi' => 'nullable|string',
-            // DATA AYAH KANDUNG
-            'nama_ayah' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/|max:255',
-            'tempat_lahir_ayah' => 'nullable|string',
+            'jarak_ke_sekolah' => 'nullable|string|max:100',
+            'transportasi' => 'nullable|string|max:100',
+            // 4. DATA AYAH KANDUNG
+            'nama_ayah' => 'required|string|max:255',
+            'tempat_lahir_ayah' => 'nullable|string|max:150',
             'tanggal_lahir_ayah' => 'nullable|date',
-            'nik_ayah' => 'nullable|numeric|digits:16',
-            'pendidikan_ayah' => 'nullable|string',
-            'pekerjaan_ayah' => 'nullable|string',
-            'instansi_ayah' => 'nullable|string',
-            'bidang_keahlian_ayah' => 'nullable|string',
-            'no_hp_ayah' => 'required|string|regex:/^[0-9\+\-\s]+$/',
-            'email_ortu' => 'nullable|email',
-            'penghasilan_ayah' => 'nullable|string',
+            'nik_ayah' => 'nullable|string|max:30',
+            'pendidikan_ayah' => 'nullable|string|max:100',
+            'pekerjaan_ayah' => 'nullable|string|max:150',
+            'instansi_ayah' => 'nullable|string|max:255',
+            'jabatan_ayah' => 'nullable|string|max:150',
+            'bidang_keahlian_ayah' => 'nullable|string|max:150',
+            'no_hp_ayah' => 'required|string|max:30',
+            'email_ortu' => 'nullable|email|max:150',
+            'penghasilan_ayah' => 'nullable|string|max:100',
             // DATA IBU KANDUNG
-            'nama_ibu' => 'required|string|regex:/^[a-zA-Z\s\.\,\'\-]+$/|max:255',
-            'tempat_lahir_ibu' => 'nullable|string',
+            'nama_ibu' => 'required|string|max:255',
+            'tempat_lahir_ibu' => 'nullable|string|max:150',
             'tanggal_lahir_ibu' => 'nullable|date',
-            'nik_ibu' => 'nullable|numeric|digits:16',
-            'pendidikan_ibu' => 'nullable|string',
-            'pekerjaan_ibu' => 'nullable|string',
-            'instansi_ibu' => 'nullable|string',
+            'nik_ibu' => 'nullable|string|max:30',
+            'pendidikan_ibu' => 'nullable|string|max:100',
+            'pekerjaan_ibu' => 'nullable|string|max:150',
+            'instansi_ibu' => 'nullable|string|max:255',
+            'jabatan_ibu' => 'nullable|string|max:150',
             'alamat_ibu' => 'nullable|string',
-            'no_hp_ibu' => 'nullable|string|regex:/^[0-9\+\-\s]+$/',
-            'penghasilan_ibu' => 'nullable|string',
+            'no_hp_ibu' => 'nullable|string|max:30',
+            'penghasilan_ibu' => 'nullable|string|max:100',
             // DATA WALI (OPSIONAL)
-            'nama_wali' => 'nullable|string',
-            'hubungan_wali' => 'nullable|string',
-            'no_hp_wali' => 'nullable|string',
-            // INFORMASI PENDAFTARAN
-            'info_pendaftaran' => 'nullable|string',
-            'info_pendaftaran_lainnya' => 'nullable|string',
-            // File Uploads
-            'pas_foto' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5000',
-            'ktp_ortu' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5000',
-            'kartu_keluarga' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5000',
-            'akta_kelahiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5000',
-            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5000',
+            'nama_wali' => 'nullable|string|max:255',
+            'hubungan_wali' => 'nullable|string|max:100',
+            'no_hp_wali' => 'nullable|string|max:30',
+            // 5. INFORMASI PENDAFTARAN & BERKAS
+            'info_pendaftaran' => 'nullable|string|max:100',
+            'info_pendaftaran_lainnya' => 'nullable|string|max:255',
+            'pas_foto' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5120',
+            'ktp_ortu' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'kartu_keluarga' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'akta_kelahiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+        ], [
+            'school_code.required' => 'Unit sekolah tujuan wajib dipilih.',
+            'nama_lengkap.required' => 'Nama lengkap ananda wajib diisi sesuai Akta Kelahiran.',
+            'jenis_kelamin.required' => 'Jenis kelamin ananda wajib dipilih.',
+            'tempat_lahir.required' => 'Tempat lahir ananda wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir ananda wajib diisi.',
+            'alamat.required' => 'Alamat tempat tinggal anak wajib diisi.',
+            'nama_ayah.required' => 'Nama lengkap ayah kandung wajib diisi.',
+            'no_hp_ayah.required' => 'Nomor WhatsApp ayah/orang tua wajib diisi untuk konfirmasi pendaftaran.',
+            'nama_ibu.required' => 'Nama lengkap ibu kandung wajib diisi.',
+            'pas_foto.max' => 'Ukuran file Pas Foto maksimal 5 MB.',
+            'ktp_ortu.max' => 'Ukuran file KTP Orang Tua maksimal 5 MB.',
+            'kartu_keluarga.max' => 'Ukuran file Kartu Keluarga maksimal 5 MB.',
+            'akta_kelahiran.max' => 'Ukuran file Akta Kelahiran maksimal 5 MB.',
+            'bukti_transfer.max' => 'Ukuran file Bukti Transfer maksimal 5 MB.',
         ]);
 
         $uploadedDocs = [];
@@ -1638,26 +1668,55 @@ class SchoolWebsiteController extends Controller
             }
         }
 
-        $schoolCode = strtoupper($request->school_code);
-        $schoolObj = School::where('code', $schoolCode)->first() ?? School::first();
-
-        $fees = [
-            'TPA' => 350000,
-            'KB' => 350000,
-            'TK' => 350000,
-            'TKIT' => 350000,
-            'SD' => 450000,
-            'SDIT' => 450000,
-            'SMP' => 550000,
-            'SMPIT' => 550000,
-            'SMA' => 550000,
-            'SMAIT' => 550000,
+        // Clean & normalize school code & map to School model
+        $schoolCode = strtoupper(trim($request->school_code));
+        $codeMap = [
+            'TPA' => 'TKIT',
+            'KB' => 'TKIT',
+            'TK' => 'TKIT',
+            'TKIT' => 'TKIT',
+            'SD' => 'SDIT',
+            'SDIT' => 'SDIT',
+            'SMP' => 'SMPIT',
+            'SMPIT' => 'SMPIT',
+            'SMA' => 'SMAIT',
+            'SMAIT' => 'SMAIT',
         ];
-        $registrationFee = $fees[$schoolCode] ?? 450000;
+        $targetSchoolCode = $codeMap[$schoolCode] ?? $schoolCode;
+        $schoolObj = School::where('code', $targetSchoolCode)->first() ?? School::where('code', $schoolCode)->first() ?? School::first();
+
+        // Calculate dynamic registration fee from CMS settings
+        $spmbSettings = $this->getSpmbSettings();
+        $units = $spmbSettings['units'] ?? [];
+        $registrationFee = null;
+        if (isset($units[$schoolCode]['fee']) && is_numeric($units[$schoolCode]['fee'])) {
+            $registrationFee = (float)$units[$schoolCode]['fee'];
+        } elseif (isset($units[$targetSchoolCode]['fee']) && is_numeric($units[$targetSchoolCode]['fee'])) {
+            $registrationFee = (float)$units[$targetSchoolCode]['fee'];
+        }
+        if (!$registrationFee) {
+            $defaultFees = [
+                'TPA' => 350000, 'KB' => 350000, 'TK' => 350000, 'TKIT' => 350000,
+                'SD' => 450000, 'SDIT' => 450000, 'SMP' => 550000, 'SMPIT' => 550000,
+                'SMA' => 550000, 'SMAIT' => 550000,
+            ];
+            $registrationFee = $defaultFees[$schoolCode] ?? ($defaultFees[$targetSchoolCode] ?? 450000);
+        }
+
+        // Clean values
+        $cleanPhone = preg_replace('/[^0-9\+]/', '', $request->no_hp_ayah);
+        $cleanNikSiswa = $request->nik_siswa ? preg_replace('/[^0-9]/', '', $request->nik_siswa) : null;
+        $cleanNikAyah = $request->nik_ayah ? preg_replace('/[^0-9]/', '', $request->nik_ayah) : null;
+        $cleanNikIbu = $request->nik_ibu ? preg_replace('/[^0-9]/', '', $request->nik_ibu) : null;
 
         $noRegistrasi = 'SPMB-2026-' . $schoolCode . '-' . rand(10000, 99999);
 
-        $detailsArray = array_merge($validated, [
+        // Capture complete form details
+        $allDetails = array_merge($request->except(['_token', 'pas_foto', 'ktp_ortu', 'kartu_keluarga', 'akta_kelahiran', 'bukti_transfer']), [
+            'nik_siswa' => $cleanNikSiswa,
+            'nik_ayah' => $cleanNikAyah,
+            'nik_ibu' => $cleanNikIbu,
+            'no_hp_ayah' => $cleanPhone,
             'registration_fee' => $registrationFee,
             'uploaded_docs' => $uploadedDocs,
             'submitted_at' => now()->toDateTimeString(),
@@ -1666,15 +1725,15 @@ class SchoolWebsiteController extends Controller
         $reg = \App\Models\PpdbRegistration::create([
             'school_id' => $schoolObj->id ?? 1,
             'registration_number' => $noRegistrasi,
-            'full_name' => $request->nama_lengkap,
-            'parent_name' => $request->nama_ayah,
-            'phone_number' => $request->no_hp_ayah,
+            'full_name' => trim($request->nama_lengkap),
+            'parent_name' => trim($request->nama_ayah),
+            'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
             'target_level' => $schoolCode,
-            'previous_school' => $request->sekolah_asal ?? 'Sekolah Asal',
+            'previous_school' => $request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-'),
             'status' => 'PENDING',
             'registration_fee' => $registrationFee,
             'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
-            'details_json' => $detailsArray,
+            'details_json' => $allDetails,
         ]);
 
         try {
@@ -1690,9 +1749,9 @@ class SchoolWebsiteController extends Controller
         return redirect()->back()->with('spmb_success_data', [
             'registration_id' => $reg->id,
             'registration_number' => $noRegistrasi,
-            'student_name' => $request->nama_lengkap,
+            'student_name' => $reg->full_name,
             'target_level' => $schoolCode,
-            'parent_phone' => $request->no_hp_ayah,
+            'parent_phone' => $reg->phone_number,
             'date' => now()->translatedFormat('d F Y H:i'),
         ]);
     }

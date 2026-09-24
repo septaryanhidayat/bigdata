@@ -38,7 +38,9 @@
 <body class="antialiased min-h-screen pb-16 flex flex-col justify-between">
 
     @php
-        $d = json_decode($registration->details_json, true) ?? [];
+        $d = is_array($registration->details_json) 
+            ? $registration->details_json 
+            : (is_string($registration->details_json) ? (json_decode($registration->details_json, true) ?? []) : []);
         $verifyUrl = route('school.spmb.verify', $registration->registration_number);
         $qrCodeApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' . urlencode($verifyUrl);
     @endphp
@@ -108,7 +110,7 @@
                 <div class="flex items-center gap-2">
                     <span class="font-bold text-emerald-200">Biaya Form:</span>
                     <span class="font-mono font-black text-lime-300">
-                        Rp {{ number_format($registration->registration_fee, 0, ',', '.') }} (LUNAS)
+                        Rp {{ number_format($registration->registration_fee, 0, ',', '.') }} ({{ $registration->fee_paid ? 'LUNAS' : 'MENUNGGU VERIFIKASI' }})
                     </span>
                 </div>
             </div>

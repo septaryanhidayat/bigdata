@@ -122,6 +122,7 @@ class CbtPpdbController extends Controller
         $statsBaseQuery = clone $query;
         $totalCount = (clone $statsBaseQuery)->count();
         $pendingCount = (clone $statsBaseQuery)->where('status', 'PENDING')->count();
+        $verifiedCount = (clone $statsBaseQuery)->where('status', 'DOCUMENT_VERIFIED')->count();
         $passedCount = (clone $statsBaseQuery)->where('status', 'PASSED')->count();
         $rejectedCount = (clone $statsBaseQuery)->where('status', 'REJECTED')->count();
         $totalRevenue = (clone $statsBaseQuery)->where('fee_paid', true)->sum('registration_fee');
@@ -135,6 +136,7 @@ class CbtPpdbController extends Controller
             'isGlobalAdmin',
             'totalCount',
             'pendingCount',
+            'verifiedCount',
             'passedCount',
             'rejectedCount',
             'totalRevenue'
@@ -153,9 +155,9 @@ class CbtPpdbController extends Controller
             'registration_fee' => 'required|numeric|min:0',
             'fee_paid' => 'nullable',
             'status' => 'required|in:PENDING,DOCUMENT_VERIFIED,PASSED,REJECTED',
-            'nik' => 'nullable|string|max:20',
-            'nisn' => 'nullable|string|max:20',
-            'gender' => 'nullable|in:M,F,L,P',
+            'nik' => 'nullable|string|max:30',
+            'nisn' => 'nullable|string|max:30',
+            'gender' => 'nullable|in:M,F,L,P,Laki-laki,Perempuan',
             'address' => 'nullable|string',
         ]);
 
@@ -169,14 +171,20 @@ class CbtPpdbController extends Controller
         $code = strtoupper($school->code ?? 'ROBBANI');
         $regNumber = 'SPMB-2026-' . $code . '-' . rand(10000, 99999);
 
+        $cleanPhone = preg_replace('/[^0-9\+]/', '', $request->phone_number);
+        $cleanNik = $request->nik ? preg_replace('/[^0-9]/', '', $request->nik) : null;
+        $cleanNisn = $request->nisn ? preg_replace('/[^0-9]/', '', $request->nisn) : null;
+
+        $genderFormatted = in_array($request->gender, ['M', 'L', 'Laki-laki']) ? 'Laki-laki' : 'Perempuan';
+
         $details = [
-            'nama_lengkap' => $request->full_name,
-            'nama_ayah' => $request->parent_name,
-            'no_hp_ayah' => $request->phone_number,
+            'nama_lengkap' => trim($request->full_name),
+            'nama_ayah' => trim($request->parent_name),
+            'no_hp_ayah' => $cleanPhone ?: $request->phone_number,
             'sekolah_asal' => $request->previous_school,
-            'nik_siswa' => $request->nik,
-            'nisn' => $request->nisn,
-            'jenis_kelamin' => in_array($request->gender, ['M', 'L']) ? 'Laki-laki' : 'Perempuan',
+            'nik_siswa' => $cleanNik,
+            'nisn' => $cleanNisn,
+            'jenis_kelamin' => $genderFormatted,
             'alamat' => $request->address ?? 'Alamat Siswa',
             'registration_fee' => (float)$request->registration_fee,
             'is_offline_walkin' => true,
@@ -187,14 +195,14 @@ class CbtPpdbController extends Controller
         $reg = PpdbRegistration::create([
             'school_id' => $school->id,
             'registration_number' => $regNumber,
-            'full_name' => $request->full_name,
-            'parent_name' => $request->parent_name,
-            'phone_number' => $request->phone_number,
+            'full_name' => trim($request->full_name),
+            'parent_name' => trim($request->parent_name),
+            'phone_number' => $cleanPhone ?: $request->phone_number,
             'target_level' => $request->target_level ?: $code,
             'previous_school' => $request->previous_school ?? '-',
             'status' => $request->status,
             'registration_fee' => (float)$request->registration_fee,
-            'fee_paid' => (bool)$request->input('fee_paid', false),
+            'fee_paid' => $request->boolean('fee_paid'),
             'details_json' => $details,
         ]);
 
@@ -224,7 +232,7 @@ class CbtPpdbController extends Controller
             return response()->json(['error' => 'Akses ditolak.'], 403);
         }
 
-        $details = $reg->details_json ?? [];
+        $details = is_array($reg->details_json) ? $reg->details_json : (json_decode($reg->details_json, true) ?? []);
         $uploadedDocs = $details['uploaded_docs'] ?? [];
 
         // Check if student is integrated in master data
@@ -243,7 +251,7 @@ class CbtPpdbController extends Controller
             'previous_school' => $reg->previous_school,
             'status' => $reg->status,
             'registration_fee' => $reg->registration_fee,
-            'fee_paid' => $reg->fee_paid,
+            'fee_paid' => (bool)$reg->fee_paid,
             'created_at' => $reg->created_at ? $reg->created_at->translatedFormat('d F Y H:i') : '-',
             'pdf_url' => route('admin.ppdb-admin.download-pdf', $reg->id),
             'details' => $details,
@@ -270,30 +278,40 @@ class CbtPpdbController extends Controller
             'registration_fee' => 'required|numeric|min:0',
             'fee_paid' => 'nullable',
             'status' => 'required|in:PENDING,DOCUMENT_VERIFIED,PASSED,REJECTED',
+            'nisn' => 'nullable|string|max:30',
+            'nik' => 'nullable|string|max:30',
+            'gender' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
         ]);
 
         $oldStatus = $reg->status;
         $newStatus = $request->status;
 
-        $details = $reg->details_json ?? [];
-        $details['nama_lengkap'] = $request->full_name;
-        $details['nama_ayah'] = $request->parent_name;
-        $details['no_hp_ayah'] = $request->phone_number;
+        $details = is_array($reg->details_json) ? $reg->details_json : (json_decode($reg->details_json, true) ?? []);
+        $details['nama_lengkap'] = trim($request->full_name);
+        $details['nama_ayah'] = trim($request->parent_name);
+        $details['no_hp_ayah'] = trim($request->phone_number);
         $details['sekolah_asal'] = $request->previous_school;
         if ($request->filled('nisn')) {
-            $details['nisn'] = $request->nisn;
+            $details['nisn'] = preg_replace('/[^0-9]/', '', $request->nisn);
+        }
+        if ($request->filled('nik')) {
+            $details['nik_siswa'] = preg_replace('/[^0-9]/', '', $request->nik);
+        }
+        if ($request->filled('gender')) {
+            $details['jenis_kelamin'] = in_array($request->gender, ['M', 'L', 'Laki-laki']) ? 'Laki-laki' : 'Perempuan';
         }
         if ($request->filled('address')) {
             $details['alamat'] = $request->address;
         }
 
         $reg->update([
-            'full_name' => $request->full_name,
-            'parent_name' => $request->parent_name,
-            'phone_number' => $request->phone_number,
+            'full_name' => trim($request->full_name),
+            'parent_name' => trim($request->parent_name),
+            'phone_number' => trim($request->phone_number),
             'previous_school' => $request->previous_school ?? $reg->previous_school,
             'registration_fee' => (float)$request->registration_fee,
-            'fee_paid' => (bool)$request->input('fee_paid', false),
+            'fee_paid' => $request->boolean('fee_paid'),
             'status' => $newStatus,
             'details_json' => $details,
         ]);
@@ -328,9 +346,15 @@ class CbtPpdbController extends Controller
             ? $request->status
             : 'PASSED';
 
-        $reg->update(['status' => $newStatus]);
+        $oldStatus = $reg->status;
+        $updates = ['status' => $newStatus];
+        if ($request->has('fee_paid')) {
+            $updates['fee_paid'] = $request->boolean('fee_paid');
+        }
 
-        if ($newStatus === 'PASSED') {
+        $reg->update($updates);
+
+        if ($newStatus === 'PASSED' && $oldStatus !== 'PASSED') {
             $this->provisionSmartEduStudent($reg);
         }
 
@@ -343,6 +367,15 @@ class CbtPpdbController extends Controller
                 'ip_address' => request()->ip(),
             ]);
         } catch(\Throwable $e) {}
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "✓ Status pendaftaran {$reg->full_name} berhasil diubah menjadi {$newStatus}!",
+                'status' => $newStatus,
+                'fee_paid' => $reg->fee_paid,
+            ]);
+        }
 
         return redirect()->back()->with('success', '✓ Status Kelulusan Pendaftar PPDB berhasil diperbarui!');
     }
@@ -444,6 +477,8 @@ class CbtPpdbController extends Controller
         $targetSchoolId = $reg->school_id ?? School::first()?->id ?? 1;
         $classroomId = Classroom::where('school_id', $targetSchoolId)->first()?->id;
 
+        $details = is_array($reg->details_json) ? $reg->details_json : (json_decode($reg->details_json, true) ?? []);
+
         $guardian = null;
         if ($reg->parent_name) {
             try {
@@ -452,14 +487,17 @@ class CbtPpdbController extends Controller
                     [
                         'full_name' => $reg->parent_name,
                         'type' => 'FATHER',
-                        'occupation' => 'Wali Calon Siswa',
+                        'occupation' => $details['pekerjaan_ayah'] ?? 'Wali Calon Siswa',
                     ]
                 );
             } catch (\Throwable $e) {}
         }
 
-        $details = $reg->details_json ?? [];
-        $nisn = $details['nisn'] ?? ('006' . str_pad($reg->id, 7, '0', STR_PAD_LEFT));
+        $nisn = !empty($details['nisn']) ? $details['nisn'] : ('006' . str_pad($reg->id, 7, '0', STR_PAD_LEFT));
+        $gender = isset($details['jenis_kelamin']) && str_starts_with(strtolower($details['jenis_kelamin']), 'p') ? 'F' : 'M';
+        $pob = $details['tempat_lahir'] ?? null;
+        $dob = !empty($details['tanggal_lahir']) ? $details['tanggal_lahir'] : null;
+        $nickname = $details['nama_panggilan'] ?? null;
 
         $student = Student::firstOrCreate(
             ['nis' => '2026' . str_pad($reg->id, 4, '0', STR_PAD_LEFT)],
@@ -469,7 +507,10 @@ class CbtPpdbController extends Controller
                 'guardian_id' => $guardian?->id,
                 'nisn' => $nisn,
                 'full_name' => $reg->full_name,
-                'gender' => isset($details['jenis_kelamin']) && str_starts_with(strtolower($details['jenis_kelamin']), 'p') ? 'F' : 'M',
+                'nickname' => $nickname,
+                'gender' => $gender,
+                'pob' => $pob,
+                'dob' => $dob,
                 'rfid_tag' => null,
                 'savings_balance' => 0,
                 'canteen_balance' => 0,
@@ -477,24 +518,26 @@ class CbtPpdbController extends Controller
             ]
         );
 
-        // Auto create initial SPP bill in Finance Module
+        // Auto create initial SPP bill in Finance Module if academic year exists
         try {
             $academicYear = AcademicYear::where('is_active', true)->first() ?? AcademicYear::first();
-            SppBill::firstOrCreate(
-                [
-                    'student_id' => $student->id,
-                    'month_period' => date('F Y'),
-                ],
-                [
-                    'school_id' => $targetSchoolId,
-                    'academic_year_id' => $academicYear ? $academicYear->id : 1,
-                    'amount' => 350000,
-                    'discount_amount' => 0,
-                    'paid_amount' => 0,
-                    'status' => 'UNPAID',
-                    'due_date' => now()->endOfMonth()->toDateString(),
-                ]
-            );
+            if ($academicYear) {
+                SppBill::firstOrCreate(
+                    [
+                        'student_id' => $student->id,
+                        'month_period' => date('F Y'),
+                    ],
+                    [
+                        'school_id' => $targetSchoolId,
+                        'academic_year_id' => $academicYear->id,
+                        'amount' => 350000,
+                        'discount_amount' => 0,
+                        'paid_amount' => 0,
+                        'status' => 'UNPAID',
+                        'due_date' => now()->endOfMonth()->toDateString(),
+                    ]
+                );
+            }
         } catch (\Throwable $e) {}
     }
 
@@ -506,7 +549,7 @@ class CbtPpdbController extends Controller
             abort(403, 'Akses ditolak: Pendaftaran ini milik unit sekolah lain.');
         }
 
-        $settings = [];
+        $settings = app(\App\Http\Controllers\SchoolWebsiteController::class)->getSettings();
         return view('school.spmb_pdf', compact('registration', 'settings'));
     }
 

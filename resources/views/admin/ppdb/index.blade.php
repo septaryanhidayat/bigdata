@@ -52,33 +52,39 @@
     </div>
     @endif
 
-    <!-- 4 Stats Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+    <!-- 6 Stats Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
             <span class="text-[10px] font-black uppercase text-slate-400">Total Pendaftar</span>
             <div class="text-2xl font-black text-slate-900">{{ number_format($totalCount) }}</div>
-            <span class="text-[10px] text-slate-500 font-semibold block">Semua Jalur & Unit</span>
+            <span class="text-[10px] text-slate-500 font-semibold block">Semua Jalur</span>
         </div>
 
-        <div class="bg-white p-5 rounded-3xl border border-amber-200 shadow-sm space-y-1">
+        <div class="bg-white p-4 rounded-3xl border border-amber-200 shadow-sm space-y-1">
             <span class="text-[10px] font-black uppercase text-amber-600">Verifikasi Berkas</span>
             <div class="text-2xl font-black text-amber-600">{{ number_format($pendingCount) }}</div>
             <span class="text-[10px] text-amber-700/80 font-semibold block">Menunggu Konfirmasi</span>
         </div>
 
-        <div class="bg-white p-5 rounded-3xl border border-emerald-200 shadow-sm space-y-1">
+        <div class="bg-white p-4 rounded-3xl border border-cyan-200 shadow-sm space-y-1">
+            <span class="text-[10px] font-black uppercase text-cyan-600">Berkas Lengkap</span>
+            <div class="text-2xl font-black text-cyan-600">{{ number_format($verifiedCount ?? 0) }}</div>
+            <span class="text-[10px] text-cyan-700/80 font-semibold block">Valid Siap Seleksi</span>
+        </div>
+
+        <div class="bg-white p-4 rounded-3xl border border-emerald-200 shadow-sm space-y-1">
             <span class="text-[10px] font-black uppercase text-emerald-700">Diterima / Lulus</span>
             <div class="text-2xl font-black text-emerald-700">{{ number_format($passedCount) }}</div>
-            <span class="text-[10px] text-emerald-600 font-semibold block">Otomatis Masuk SmartEdu</span>
+            <span class="text-[10px] text-emerald-600 font-semibold block">Masuk SmartEdu</span>
         </div>
 
-        <div class="bg-white p-5 rounded-3xl border border-rose-200 shadow-sm space-y-1">
+        <div class="bg-white p-4 rounded-3xl border border-rose-200 shadow-sm space-y-1">
             <span class="text-[10px] font-black uppercase text-rose-600">Ditolak / Batal</span>
             <div class="text-2xl font-black text-rose-600">{{ number_format($rejectedCount) }}</div>
-            <span class="text-[10px] text-rose-500 font-semibold block">Tidak Memenuhi Syarat</span>
+            <span class="text-[10px] text-rose-500 font-semibold block">Tidak Lulus</span>
         </div>
 
-        <div class="bg-gradient-to-br from-emerald-900 to-emerald-950 p-5 rounded-3xl text-white shadow-sm space-y-1 col-span-2 lg:col-span-1">
+        <div class="bg-gradient-to-br from-emerald-900 to-emerald-950 p-4 rounded-3xl text-white shadow-sm space-y-1 col-span-2 sm:col-span-1 lg:col-span-1">
             <span class="text-[10px] font-black uppercase text-emerald-300">Biaya Terkumpul</span>
             <div class="text-xl font-black text-amber-300 font-mono">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</div>
             <span class="text-[10px] text-emerald-200 font-medium block">Formulir Pendaftaran</span>
@@ -400,6 +406,31 @@
                     </a>
                 </div>
 
+                <!-- Quick Status Action Bar -->
+                <div class="p-3 bg-slate-100 rounded-2xl flex flex-wrap items-center justify-between gap-2 border border-slate-200">
+                    <span class="text-[11px] font-bold text-slate-700">Aksi Cepat Status:</span>
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <button type="button" @click="quickUpdateStatus(detailData.id, 'PASSED')" class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-[11px] flex items-center gap-1 shadow-xs transition-colors">
+                            ✓ Luluskan
+                        </button>
+                        <button type="button" @click="quickUpdateStatus(detailData.id, 'DOCUMENT_VERIFIED')" class="px-3 py-1.5 rounded-xl bg-cyan-700 hover:bg-cyan-800 text-white font-black text-[11px] flex items-center gap-1 shadow-xs transition-colors">
+                            📄 Berkas Valid
+                        </button>
+                        <button type="button" @click="quickUpdateStatus(detailData.id, 'PENDING')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] flex items-center gap-1 shadow-xs transition-colors">
+                            ⏳ Pending
+                        </button>
+                        <button type="button" @click="quickUpdateStatus(detailData.id, 'REJECTED')" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-[11px] flex items-center gap-1 shadow-xs transition-colors">
+                            ❌ Tolak
+                        </button>
+                        <button type="button" x-show="!detailData.fee_paid" @click="quickToggleFee(detailData.id, 1)" class="px-3 py-1.5 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white font-black text-[11px] flex items-center gap-1 shadow-xs transition-colors">
+                            💳 Set LUNAS
+                        </button>
+                        <button type="button" x-show="detailData.fee_paid" @click="quickToggleFee(detailData.id, 0)" class="px-3 py-1.5 rounded-xl bg-slate-600 hover:bg-slate-700 text-white font-bold text-[11px] flex items-center gap-1 shadow-xs transition-colors">
+                            Set Belum Lunas
+                        </button>
+                    </div>
+                </div>
+
                 <!-- 1. IDENTITAS PESERTA DIDIK -->
                 <div class="space-y-3">
                     <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-1.5">
@@ -580,9 +611,34 @@
                         </div>
                     </div>
 
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">NISN Calon Siswa:</label>
+                            <input type="text" name="nisn" x-model="editForm.nisn" placeholder="10 Digit NISN" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">NIK Siswa (16 Digit):</label>
+                            <input type="text" name="nik" x-model="editForm.nik" maxlength="16" placeholder="16 Digit NIK" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Jenis Kelamin:</label>
+                            <select name="gender" x-model="editForm.gender" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Sekolah Asal:</label>
+                            <input type="text" name="previous_school" x-model="editForm.previous_school" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+                    </div>
+
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Sekolah Asal:</label>
-                        <input type="text" name="previous_school" x-model="editForm.previous_school" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        <label class="block font-bold text-slate-700 mb-1">Alamat Tempat Tinggal:</label>
+                        <textarea name="address" x-model="editForm.address" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -641,6 +697,10 @@ function ppdbAdminManager() {
             parent_name: '',
             phone_number: '',
             previous_school: '',
+            nisn: '',
+            nik: '',
+            gender: 'Laki-laki',
+            address: '',
             registration_fee: 450000,
             fee_paid: false,
             status: 'PENDING'
@@ -661,6 +721,62 @@ function ppdbAdminManager() {
             }
         },
 
+        async quickUpdateStatus(id, newStatus) {
+            if (!confirm(`Ubah status pendaftaran menjadi ${newStatus}?`)) return;
+            try {
+                const res = await fetch(`/admin/ppdb-admin/${id}/status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _method: 'PUT',
+                        status: newStatus
+                    })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    this.detailData.status = newStatus;
+                    alert('Status berhasil diubah!');
+                    window.location.reload();
+                } else {
+                    alert(result.message || 'Gagal mengubah status');
+                }
+            } catch(e) {
+                alert('Terjadi kesalahan: ' + e.message);
+            }
+        },
+
+        async quickToggleFee(id, feePaid) {
+            try {
+                const res = await fetch(`/admin/ppdb-admin/${id}/status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _method: 'PUT',
+                        status: this.detailData.status,
+                        fee_paid: feePaid
+                    })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    this.detailData.fee_paid = !!feePaid;
+                    alert('Status pembayaran diperbarui!');
+                    window.location.reload();
+                } else {
+                    alert(result.message || 'Gagal mengubah status biaya');
+                }
+            } catch(e) {
+                alert('Terjadi kesalahan: ' + e.message);
+            }
+        },
+
         async openEditModal(id) {
             try {
                 const res = await fetch(`/admin/ppdb-admin/${id}/detail`);
@@ -673,6 +789,10 @@ function ppdbAdminManager() {
                     parent_name: data.parent_name,
                     phone_number: data.phone_number,
                     previous_school: data.previous_school,
+                    nisn: data.details?.nisn || '',
+                    nik: data.details?.nik_siswa || '',
+                    gender: data.details?.jenis_kelamin || 'Laki-laki',
+                    address: data.details?.alamat || '',
                     registration_fee: data.registration_fee,
                     fee_paid: data.fee_paid,
                     status: data.status

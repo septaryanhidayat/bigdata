@@ -3,5 +3,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/pesonaas/sitrobbani.sch.id
     - /bin/cp -R * $DEPLOYPATH
-    - cd $DEPLOYPATH && php artisan erapor:sync-sdm-koding
     - cd $DEPLOYPATH && php artisan optimize:clear
