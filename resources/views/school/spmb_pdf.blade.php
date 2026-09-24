@@ -386,6 +386,59 @@
             </table>
         </div>
 
+        <!-- VI. KELENGKAPAN BERKAS PERSYARATAN & BIAYA PENDAFTARAN -->
+        <div class="border border-slate-300 rounded-lg overflow-hidden">
+            <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase flex justify-between items-center">
+                <span>VI. KELENGKAPAN BERKAS PERSYARATAN & BIAYA PENDAFTARAN</span>
+                <span class="text-[10px] font-bold font-mono">Biaya: Rp {{ number_format($registration->registration_fee ?? 0, 0, ',', '.') }}</span>
+            </div>
+            <div class="p-2.5 bg-slate-50/50">
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px]">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">{{ !empty($d['uploaded_docs']['akta_kelahiran']) ? '☑' : '☐' }} 1. Akta Kelahiran Calon Siswa</span>
+                        @if(!empty($d['uploaded_docs']['akta_kelahiran']))
+                            <span class="text-[9px] text-emerald-700 font-bold">(Terlampir / Upload)</span>
+                        @else
+                            <span class="text-[9px] text-slate-400">(Fotokopi 1 Lembar)</span>
+                        @endif
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">{{ !empty($d['uploaded_docs']['kartu_keluarga']) ? '☑' : '☐' }} 2. Kartu Keluarga (KK)</span>
+                        @if(!empty($d['uploaded_docs']['kartu_keluarga']))
+                            <span class="text-[9px] text-emerald-700 font-bold">(Terlampir / Upload)</span>
+                        @else
+                            <span class="text-[9px] text-slate-400">(Fotokopi 1 Lembar)</span>
+                        @endif
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">{{ !empty($d['uploaded_docs']['ktp_ortu']) ? '☑' : '☐' }} 3. KTP Orang Tua (Ayah / Ibu)</span>
+                        @if(!empty($d['uploaded_docs']['ktp_ortu']))
+                            <span class="text-[9px] text-emerald-700 font-bold">(Terlampir / Upload)</span>
+                        @else
+                            <span class="text-[9px] text-slate-400">(Fotokopi 1 Lembar)</span>
+                        @endif
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">{{ !empty($d['uploaded_docs']['pas_foto']) ? '☑' : '☐' }} 4. Pas Foto Calon Siswa (3x4 & 2x3)</span>
+                        @if(!empty($d['uploaded_docs']['pas_foto']))
+                            <span class="text-[9px] text-emerald-700 font-bold">(Terlampir / Upload)</span>
+                        @else
+                            <span class="text-[9px] text-slate-400">(@ 2 Lembar)</span>
+                        @endif
+                    </div>
+                    <div class="flex items-center gap-2 col-span-2 pt-1 border-t border-slate-200">
+                        <span class="font-bold text-slate-800">{{ !empty($d['uploaded_docs']['bukti_transfer']) ? '☑' : '☐' }} 5. Bukti Transfer Biaya Pendaftaran Unit:</span>
+                        <span class="font-mono font-bold text-emerald-800">Rp {{ number_format($registration->registration_fee ?? 0, 0, ',', '.') }}</span>
+                        @if(!empty($d['uploaded_docs']['bukti_transfer']))
+                            <span class="text-[9px] text-emerald-700 font-bold">(Bukti Transfer Terlampir / Terverifikasi)</span>
+                        @else
+                            <span class="text-[9px] text-amber-700 font-bold">(Menunggu Pembayaran / Verifikasi)</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Tanda Tangan Official (Sesuai Scan Form F-SPMB) -->
         <div class="pt-6 grid grid-cols-2 gap-8 text-center text-xs">
             <div class="space-y-16">

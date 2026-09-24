@@ -256,7 +256,7 @@
                 <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
                     <span class="font-bold text-slate-700">Biaya Formulir Pendaftaran Unit Ini:</span>
                     <span id="selectedUnitFeeDisplay" class="font-mono font-black text-emerald-800 text-sm">
-                        Rp 250.000
+                        Rp 450.000
                     </span>
                 </div>
 
@@ -803,25 +803,28 @@
                             <p class="text-[10px] text-slate-400">Format foto 3x4 atau setara.</p>
                         </div>
 
+                        <!-- Akta Kelahiran Calon Siswa -->
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-300 space-y-1.5">
+                            <label class="block text-xs font-black text-emerald-950 flex items-center justify-between">
+                                <span>2. Akta Kelahiran Calon Siswa *</span>
+                                <span class="text-[10px] font-bold text-emerald-800 bg-emerald-200/80 px-2 py-0.5 rounded-full">WAJIB</span>
+                            </label>
+                            <input type="file" name="akta_kelahiran" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-600 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-800 file:text-white hover:file:bg-emerald-900 cursor-pointer">
+                            <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan Asli Akta Kelahiran calon siswa.</p>
+                        </div>
+
                         <!-- Kartu Keluarga -->
                         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-                            <label class="block text-xs font-bold text-slate-800">2. Kartu Keluarga (KK)</label>
+                            <label class="block text-xs font-bold text-slate-800">3. Kartu Keluarga (KK)</label>
                             <input type="file" name="kartu_keluarga" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
                             <p class="text-[10px] text-slate-400">Scan / Foto Kartu Keluarga jelas.</p>
                         </div>
 
                         <!-- KTP Orang Tua -->
                         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-                            <label class="block text-xs font-bold text-slate-800">3. KTP Orang Tua (Ayah / Ibu)</label>
+                            <label class="block text-xs font-bold text-slate-800">4. KTP Orang Tua (Ayah / Ibu)</label>
                             <input type="file" name="ktp_ortu" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
                             <p class="text-[10px] text-slate-400">Foto KTP Ayah / Ibu.</p>
-                        </div>
-
-                        <!-- Akta Kelahiran -->
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-                            <label class="block text-xs font-bold text-slate-800">4. Akta Kelahiran Anak</label>
-                            <input type="file" name="akta_kelahiran" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
-                            <p class="text-[10px] text-slate-400">Foto Akta Kelahiran.</p>
                         </div>
                     </div>
 
@@ -865,16 +868,16 @@
     <!-- Form Wizard Logic -->
     <script>
         const feesBySchool = {
-            'TPA': 'Rp 200.000',
-            'KB': 'Rp 200.000',
-            'TK': 'Rp 200.000',
-            'TKIT': 'Rp 200.000',
-            'SD': 'Rp 250.000',
-            'SDIT': 'Rp 250.000',
-            'SMP': 'Rp 300.000',
-            'SMPIT': 'Rp 300.000',
-            'SMA': 'Rp 350.000',
-            'SMAIT': 'Rp 350.000',
+            'TPA': 'Rp 350.000',
+            'KB': 'Rp 350.000',
+            'TK': 'Rp 350.000',
+            'TKIT': 'Rp 350.000',
+            'SD': 'Rp 450.000',
+            'SDIT': 'Rp 450.000',
+            'SMP': 'Rp 550.000',
+            'SMPIT': 'Rp 550.000',
+            'SMA': 'Rp 550.000',
+            'SMAIT': 'Rp 550.000',
         };
 
         function updateUnitFeeInfo() {
@@ -882,7 +885,7 @@
             const feeDisplay = document.getElementById('selectedUnitFeeDisplay');
             if (sc && feeDisplay) {
                 const val = sc.value.toUpperCase();
-                feeDisplay.innerText = feesBySchool[val] || 'Rp 250.000';
+                feeDisplay.innerText = feesBySchool[val] || 'Rp 450.000';
             }
         }
 

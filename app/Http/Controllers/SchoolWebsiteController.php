@@ -1379,18 +1379,18 @@ class SchoolWebsiteController extends Controller
         $schoolObj = School::where('code', $schoolCode)->first() ?? School::first();
 
         $fees = [
-            'TPA' => 200000,
-            'KB' => 200000,
-            'TK' => 200000,
-            'TKIT' => 200000,
-            'SD' => 250000,
-            'SDIT' => 250000,
-            'SMP' => 300000,
-            'SMPIT' => 300000,
-            'SMA' => 350000,
-            'SMAIT' => 350000,
+            'TPA' => 350000,
+            'KB' => 350000,
+            'TK' => 350000,
+            'TKIT' => 350000,
+            'SD' => 450000,
+            'SDIT' => 450000,
+            'SMP' => 550000,
+            'SMPIT' => 550000,
+            'SMA' => 550000,
+            'SMAIT' => 550000,
         ];
-        $registrationFee = $fees[$schoolCode] ?? 250000;
+        $registrationFee = $fees[$schoolCode] ?? 450000;
 
         $noRegistrasi = 'SPMB-2026-' . $schoolCode . '-' . rand(10000, 99999);
 

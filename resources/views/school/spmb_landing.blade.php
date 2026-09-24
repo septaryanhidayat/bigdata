@@ -202,20 +202,20 @@
                             <h4 class="text-xs font-black text-slate-700 uppercase tracking-wide">Biaya Formulir per Jenjang:</h4>
                             <div class="grid grid-cols-2 gap-2 text-xs">
                                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 flex justify-between items-center">
-                                    <span class="font-bold text-slate-700">TPA & KB/TKIT</span>
-                                    <span class="font-mono font-black text-emerald-700">Rp 200.000</span>
+                                    <span class="font-bold text-slate-700">TK & KB/TPA</span>
+                                    <span class="font-mono font-black text-emerald-700">Rp 350.000</span>
                                 </div>
                                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 flex justify-between items-center">
                                     <span class="font-bold text-slate-700">SDIT Robbani</span>
-                                    <span class="font-mono font-black text-emerald-700">Rp 250.000</span>
+                                    <span class="font-mono font-black text-emerald-700">Rp 450.000</span>
                                 </div>
                                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 flex justify-between items-center">
                                     <span class="font-bold text-slate-700">SMPIT Robbani</span>
-                                    <span class="font-mono font-black text-emerald-700">Rp 300.000</span>
+                                    <span class="font-mono font-black text-emerald-700">Rp 550.000</span>
                                 </div>
                                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 flex justify-between items-center">
                                     <span class="font-bold text-slate-700">SMAIT Robbani</span>
-                                    <span class="font-mono font-black text-emerald-700">Rp 350.000</span>
+                                    <span class="font-mono font-black text-emerald-700">Rp 550.000</span>
                                 </div>
                             </div>
                         </div>
@@ -399,23 +399,23 @@
 
                     <!-- Dokumen Checklist -->
                     <div class="space-y-2.5 pt-2">
-                        <h4 class="text-xs font-black text-slate-700 uppercase tracking-wide">Kelengkapan Dokumen / Lampiran:</h4>
+                        <h4 class="text-xs font-black text-slate-700 uppercase tracking-wide">Kelengkapan Dokumen / Berkas yang Diunggah:</h4>
                         <ul class="space-y-2 text-xs text-slate-600">
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-600 font-bold">✓</span>
-                                <span>Fotokopi Akte Kelahiran calon siswa (1 lembar / upload digital)</span>
+                                <span><strong class="text-slate-900">Akta Kelahiran Calon Siswa</strong> (Wajib diunggah saat pendaftaran online / fotokopi 1 lembar)</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-600 font-bold">✓</span>
-                                <span>Fotokopi Kartu Keluarga (KK) yang masih berlaku (1 lembar)</span>
+                                <span><strong class="text-slate-900">Kartu Keluarga (KK)</strong> yang masih berlaku (1 lembar / upload digital)</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-600 font-bold">✓</span>
-                                <span>Fotokopi KTP Orang Tua (Ayah dan Ibu)</span>
+                                <span><strong class="text-slate-900">KTP Orang Tua</strong> (Ayah dan Ibu kandung)</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-600 font-bold">✓</span>
-                                <span>Pas foto berwarna terbaru (3x4 & 2x3 @ 2 lembar / file upload)</span>
+                                <span><strong class="text-slate-900">Pas Foto Berwarna Terbaru</strong> (3x4 & 2x3 @ 2 lembar / file upload)</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-600 font-bold">✓</span>
@@ -423,7 +423,7 @@
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-600 font-bold">✓</span>
-                                <span>Bukti transfer biaya pendaftaran formulir</span>
+                                <span>Bukti transfer biaya formulir pendaftaran</span>
                             </li>
                         </ul>
                     </div>
@@ -477,7 +477,7 @@
                         </ul>
 
                         <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[11px] text-slate-600 mt-3">
-                            <p>• Biaya pendaftaran formulir tidak dapat ditarik kembali bila mengundurkan diri.</p>
+                            <p>• Biaya pendaftaran formulir: TK Rp 350.000, SD Rp 450.000, SMP Rp 550.000.</p>
                             <p>• Pembayaran biaya pendidikan dilakukan paling lambat 2 pekan sejak siswa dinyatakan lulus seleksi.</p>
                             <p>• Pembatalan/pengunduran diri setelah pelunasan biaya pendidikan dikenakan administrasi 30%.</p>
                         </div>
@@ -511,7 +511,7 @@
                             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-purple-100 text-purple-800 uppercase">
                                 Usia Dini / Batita
                             </span>
-                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 200rb</span>
+                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 350rb</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-900">TPA ROBBANI</h3>
                         <p class="text-xs text-slate-500 font-medium leading-relaxed">
@@ -534,7 +534,7 @@
                             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-pink-100 text-pink-800 uppercase">
                                 Kelompok Bermain
                             </span>
-                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 200rb</span>
+                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 350rb</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-900">KB ROBBANI</h3>
                         <p class="text-xs text-slate-500 font-medium leading-relaxed">
@@ -557,7 +557,7 @@
                             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 uppercase">
                                 TK Islam Terpadu
                             </span>
-                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 200rb</span>
+                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 350rb</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-900">TKIT ROBBANI</h3>
                         <p class="text-xs text-slate-500 font-medium leading-relaxed">
@@ -580,7 +580,7 @@
                             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 uppercase">
                                 SD Islam Terpadu
                             </span>
-                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 250rb</span>
+                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 450rb</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-900">SDIT ROBBANI</h3>
                         <p class="text-xs text-slate-500 font-medium leading-relaxed">
@@ -603,7 +603,7 @@
                             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-cyan-100 text-cyan-800 uppercase">
                                 SMP Islam Terpadu
                             </span>
-                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 300rb</span>
+                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 550rb</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-900">SMPIT ROBBANI</h3>
                         <p class="text-xs text-slate-500 font-medium leading-relaxed">
@@ -626,7 +626,7 @@
                             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-indigo-100 text-indigo-800 uppercase">
                                 SMA Islam Terpadu
                             </span>
-                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 350rb</span>
+                            <span class="font-mono font-black text-emerald-700 text-xs">Biaya: Rp 550rb</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-900">SMAIT ROBBANI</h3>
                         <p class="text-xs text-slate-500 font-medium leading-relaxed">
