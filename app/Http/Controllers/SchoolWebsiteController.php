@@ -1233,7 +1233,7 @@ class SchoolWebsiteController extends Controller
             'TPA' => [
                 'code' => 'TPA',
                 'name' => 'TPA ROBBANI',
-                'level' => 'Taman Asuh Anak',
+                'level' => 'Taman Pendidikan Anak',
                 'age_badge' => 'Usia 0 – 3 Tahun',
                 'address' => 'Jl. Sarjana, Blok C No. 17, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
                 'image' => '/images/spmb/tpa.webp',
@@ -1254,8 +1254,8 @@ class SchoolWebsiteController extends Controller
             ],
             'TKIT' => [
                 'code' => 'TKIT',
-                'name' => 'TKIT ROBBANI',
-                'level' => 'Taman Kanak-Kanak IT',
+                'name' => 'TK IT ROBBANI',
+                'level' => 'TK Islam Terpadu',
                 'age_badge' => 'Usia 4 – 6 Tahun',
                 'address' => 'Jl. Sarjana Blok C No. 14, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
                 'image' => '/images/spmb/tk.webp',
@@ -1265,8 +1265,8 @@ class SchoolWebsiteController extends Controller
             ],
             'SDIT' => [
                 'code' => 'SDIT',
-                'name' => 'SDIT ROBBANI',
-                'level' => 'Sekolah Dasar IT',
+                'name' => 'SD IT ROBBANI',
+                'level' => 'SD Islam Terpadu',
                 'age_badge' => 'Usia Min. 6 Tahun',
                 'address' => 'Jl. Sarjana Blok A, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
                 'image' => '/images/spmb/sd.webp',
@@ -1276,7 +1276,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SMPIT' => [
                 'code' => 'SMPIT',
-                'name' => 'SMPIT ROBBANI',
+                'name' => 'SMP IT ROBBANI',
                 'level' => 'SMP Islam Terpadu',
                 'age_badge' => 'Lulusan SD / MI',
                 'address' => 'Jl. Sarjana Padang Guci, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
@@ -1287,7 +1287,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SMAIT' => [
                 'code' => 'SMAIT',
-                'name' => 'SMAIT ROBBANI',
+                'name' => 'SMA IT ROBBANI',
                 'level' => 'SMA Islam Terpadu',
                 'age_badge' => 'Lulusan SMP / MTs',
                 'address' => 'Kompleks SIT Robbani, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
@@ -1302,6 +1302,29 @@ class SchoolWebsiteController extends Controller
         $units = $unitsJson ? json_decode($unitsJson, true) : $defaultUnits;
         if (!is_array($units) || empty($units)) {
             $units = $defaultUnits;
+        }
+
+        // Auto update legacy naming if still present in saved json
+        $legacyLevels = [
+            'Taman Asuh Anak' => 'Taman Pendidikan Anak',
+            'Taman Kanak-Kanak IT' => 'TK Islam Terpadu',
+            'Taman Kanak-Kanak' => 'TK Islam Terpadu',
+            'Sekolah Dasar IT' => 'SD Islam Terpadu',
+            'Sekolah Dasar' => 'SD Islam Terpadu',
+        ];
+        $legacyNames = [
+            'TKIT ROBBANI' => 'TK IT ROBBANI',
+            'SDIT ROBBANI' => 'SD IT ROBBANI',
+            'SMPIT ROBBANI' => 'SMP IT ROBBANI',
+            'SMAIT ROBBANI' => 'SMA IT ROBBANI',
+        ];
+        foreach ($units as $uKey => &$uItem) {
+            if (isset($uItem['level']) && isset($legacyLevels[$uItem['level']])) {
+                $uItem['level'] = $legacyLevels[$uItem['level']];
+            }
+            if (isset($uItem['name']) && isset($legacyNames[$uItem['name']])) {
+                $uItem['name'] = $legacyNames[$uItem['name']];
+            }
         }
 
         $defaultPrograms = [

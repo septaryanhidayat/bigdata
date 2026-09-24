@@ -133,7 +133,7 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block font-bold text-slate-700 mb-1">Keterangan Jenjang:</label>
-                                    <input type="text" name="units[{{ $code }}][level]" value="{{ $unit['level'] ?? '' }}" placeholder="Contoh: Sekolah Dasar IT" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                    <input type="text" name="units[{{ $code }}][level]" value="{{ $unit['level'] ?? '' }}" placeholder="Contoh: SD Islam Terpadu" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
                                 </div>
                                 <div>
                                     <label class="block font-bold text-slate-700 mb-1">Badge Usia / Syarat:</label>

@@ -234,23 +234,26 @@
                             $badgeClass = $colorBadgeMap[$c] ?? 'bg-emerald-100 text-emerald-900';
                             $boxClass = $colorBoxMap[$c] ?? 'bg-emerald-50';
                         @endphp
-                        <div class="unit-card bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between space-y-5 fade-up text-center sm:text-left">
-                            <div class="space-y-3">
-                                <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-1.5 sm:gap-2">
-                                    <span class="px-3 py-1 rounded-full text-[11px] font-black {{ $badgeClass }} uppercase">
+                        <div class="unit-card bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col justify-between space-y-5 fade-up text-center">
+                            <div class="space-y-3.5 text-center">
+                                <!-- Badge Usia & Nama Jenjang Rata Tengah -->
+                                <div class="flex flex-col items-center justify-center gap-1.5 text-center">
+                                    <span class="px-3.5 py-1 rounded-full text-[11px] font-black {{ $badgeClass }} uppercase tracking-wide">
                                         {{ $unit['age_badge'] ?? '' }}
                                     </span>
-                                    <span class="text-xs font-bold text-slate-400">{{ $unit['level'] ?? '' }}</span>
+                                    <span class="text-xs font-bold text-slate-500 tracking-tight">{{ $unit['level'] ?? '' }}</span>
                                 </div>
 
-                                <h3 class="text-xl font-black text-slate-900 tracking-tight text-center sm:text-left">{{ $unit['name'] ?? $uCode }}</h3>
+                                <!-- Nama Unit Rata Tengah -->
+                                <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight text-center">{{ $unit['name'] ?? $uCode }}</h3>
                                 
-                                <p class="text-xs text-slate-500 leading-relaxed flex items-center sm:items-start justify-center sm:justify-start gap-1.5 text-center sm:text-left">
+                                <!-- Alamat Rata Tengah -->
+                                <p class="text-xs text-slate-500 leading-relaxed text-center flex items-center justify-center gap-1.5 max-w-xs mx-auto">
                                     <span class="text-emerald-700 text-sm shrink-0">📍</span>
                                     <span>{{ $unit['address'] ?? '' }}</span>
                                 </p>
 
-                                <!-- Ilustrasi Karakter Unit -->
+                                <!-- Ilustrasi Karakter Unit Rata Tengah -->
                                 <div class="py-2 text-center">
                                     <div class="w-40 h-40 mx-auto rounded-3xl {{ $boxClass }} flex items-center justify-center p-3 shadow-inner">
                                         <img 
@@ -263,8 +266,8 @@
                                 </div>
                             </div>
 
-                            <!-- Tombol Pendaftaran (Rata Tengah) -->
-                            <a href="{{ route('school.spmb.form', ['unit' => $unit['code'] ?? $uCode]) }}" class="btn-responsive w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2">
+                            <!-- Tombol Pendaftaran Rata Tengah -->
+                            <a href="{{ route('school.spmb.form', ['unit' => $unit['code'] ?? $uCode]) }}" class="btn-responsive w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 text-center">
                                 <span>👉</span>
                                 <span>Daftar Sekarang</span>
                             </a>
