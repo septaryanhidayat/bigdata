@@ -30,10 +30,34 @@ use App\Http\Controllers\Admin\AiTrainerController;
 // ==========================================================================
 Route::domain('spmb.sitrobbani.sch.id')->group(function () {
     Route::get('/', [SchoolWebsiteController::class, 'spmbLanding'])->name('subdomain.spmb');
+    Route::get('/spmb', [SchoolWebsiteController::class, 'spmbLanding']);
+    Route::get('/ppdb', [SchoolWebsiteController::class, 'spmbLanding']);
     Route::get('/daftar', [SchoolWebsiteController::class, 'ppdbForm'])->name('subdomain.spmb.form');
+    Route::get('/spmb/daftar', [SchoolWebsiteController::class, 'ppdbForm']);
+    Route::get('/ppdb/daftar', [SchoolWebsiteController::class, 'ppdbForm']);
     Route::post('/daftar', [SchoolWebsiteController::class, 'storePpdb'])->name('subdomain.spmb.store');
+    Route::post('/spmb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/ppdb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
     Route::post('/', [SchoolWebsiteController::class, 'storePpdb']);
     Route::get('/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('subdomain.spmb.check-status');
+    Route::get('/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('subdomain.spmb.download-pdf');
+    Route::get('/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('subdomain.spmb.verify');
+});
+
+Route::domain('ppdb.sitrobbani.sch.id')->group(function () {
+    Route::get('/', [SchoolWebsiteController::class, 'spmbLanding'])->name('subdomain.ppdb');
+    Route::get('/spmb', [SchoolWebsiteController::class, 'spmbLanding']);
+    Route::get('/ppdb', [SchoolWebsiteController::class, 'spmbLanding']);
+    Route::get('/daftar', [SchoolWebsiteController::class, 'ppdbForm'])->name('subdomain.ppdb.form');
+    Route::get('/spmb/daftar', [SchoolWebsiteController::class, 'ppdbForm']);
+    Route::get('/ppdb/daftar', [SchoolWebsiteController::class, 'ppdbForm']);
+    Route::post('/daftar', [SchoolWebsiteController::class, 'storePpdb'])->name('subdomain.ppdb.store');
+    Route::post('/spmb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/ppdb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::get('/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('subdomain.ppdb.check-status');
+    Route::get('/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('subdomain.ppdb.download-pdf');
+    Route::get('/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('subdomain.ppdb.verify');
 });
 
 Route::domain('{subdomain}.sitrobbani.sch.id')->group(function () {
