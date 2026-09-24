@@ -1,982 +1,915 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth light">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Formulir SPMB Online T.A 2026/2027 | {{ $settings['school_name'] }}</title>
+    <title>Formulir Pendaftaran SPMB Online T.A 2026/2027 | SIT Robbani Ogan Ilir</title>
+    
     <!-- Favicon & Touch Icons -->
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=11">
-    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=11">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=11">
-    <link rel="image_src" href="{{ asset('images/og_share_robbani.png') }}?v=11">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}?v=12">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=12">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v=12">
 
-    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Yayasan Generasi Robbani Sumatera Selatan">
     <meta property="og:title" content="Formulir SPMB / PPDB Online 2026/2027 | SIT Robbani">
-    <meta property="og:description" content="Penerimaan Peserta Didik Baru (PPDB) SIT Robbani Ogan Ilir Jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT T.A 2026/2027.">
-    <meta property="og:image" content="{{ asset('images/og_share_robbani.png') }}?v=11">
-    <meta property="og:image:secure_url" content="{{ asset('images/og_share_robbani.png') }}?v=11">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="id_ID">
+    <meta property="og:description" content="Penerimaan Peserta Didik Baru (PPDB / SPMB) SIT Robbani Ogan Ilir Jenjang TPA, KB, TKIT, SDIT, SMPIT, dan SMAIT T.A 2026/2027.">
+    <meta property="og:image" content="{{ asset('images/logo robbani light.png') }}">
+    <meta name="theme-color" content="#047857">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         [x-cloak] { display: none !important; }
-        /* Light Mode Default (Emerald Green & Dynamic Orange with High-Contrast Dark Text) */
-        html.light {
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --border-card: #e2e8f0;
-            --bg-input: #ffffff;
-            --border-input: #cbd5e1;
-            --text-heading: #0f172a;
-            --text-body: #1e293b;
-            --text-muted: #64748b;
-            --brand-primary: #059669;
-            --brand-secondary: #ea580c;
-            --badge-bg: #ffedd5;
-            --badge-text: #c2410c;
-            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-        }
-
-        /* Dark Mode Option (Obsidian Black Green & Electric Neon Lime Palette) */
-        html.dark {
-            --bg-main: #040905;
-            --bg-card: #0b170d;
-            --border-card: #19331d;
-            --bg-input: #071208;
-            --border-input: #234928;
-            --text-heading: #ffffff;
-            --text-body: #f1f5f9;
-            --text-muted: #94a3b8;
-            --brand-primary: #a8f52c;
-            --brand-secondary: #10b981;
-            --badge-bg: #10240d;
-            --badge-text: #a8f52c;
-            --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-
-        /* Explicit Logo Display Rules for Light / Dark mode */
-        html.light .spmb-logo-light { display: block !important; }
-        html.light .spmb-logo-dark { display: none !important; }
-        html.dark .spmb-logo-light { display: none !important; }
-        html.dark .spmb-logo-dark { display: block !important; }
-
-        /* Guidance Cards Explicit Surface Styles for Light & Dark */
-        html.light .spmb-guide-card-1 { background-color: #ecfdf5 !important; border: 1px solid #a7f3d0 !important; color: #064e3b !important; }
-        html.light .spmb-guide-card-2 { background-color: #fff7ed !important; border: 1px solid #fed7aa !important; color: #7c2d12 !important; }
-        html.light .spmb-guide-card-3 { background-color: #f0fdfa !important; border: 1px solid #99f6e4 !important; color: #134e4a !important; }
-        html.light .spmb-guide-card-4 { background-color: #eff6ff !important; border: 1px solid #bfdbfe !important; color: #1e3a8a !important; }
-
-        html.dark .spmb-guide-card-1,
-        html.dark .spmb-guide-card-2,
-        html.dark .spmb-guide-card-3,
-        html.dark .spmb-guide-card-4 { 
-            background-color: #0e1e12 !important; 
-            border: 1px solid #1a381d !important; 
-            color: #f1f5f9 !important; 
-        }
-
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg-main); 
-            color: var(--text-body); 
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background-color: #f8fafc; 
+            color: #1e293b; 
         }
-
-        .spmb-card { 
-            background-color: var(--bg-card) !important; 
-            border: 1px solid var(--border-card) !important; 
-            box-shadow: var(--card-shadow);
+        .form-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
         }
-
-        .spmb-input { 
-            background-color: var(--bg-input) !important; 
-            border: 1px solid var(--border-input) !important; 
-            color: var(--text-heading) !important; 
+        .form-input {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            transition: all 0.2s ease;
         }
-
+        .form-input:focus {
+            border-color: #047857;
+            box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
+            outline: none;
+        }
         .step-pill-active {
-            background-color: var(--brand-primary) !important;
+            background-color: #047857 !important;
             color: #ffffff !important;
+            font-weight: 800;
         }
-        html.dark .step-pill-active {
-            color: #040905 !important;
-            font-weight: 900 !important;
-        }
-
         .step-pill-inactive {
-            background-color: var(--bg-input) !important;
-            color: var(--text-muted) !important;
-            border: 1px solid var(--border-input) !important;
+            background-color: #f1f5f9 !important;
+            color: #64748b !important;
+            border: 1px solid #e2e8f0 !important;
         }
-
-        .btn-gradient-action {
-            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%) !important;
-            color: #ffffff !important;
-        }
-        html.dark .btn-gradient-action {
-            background: #a8f52c !important;
-            color: #040905 !important;
-            font-weight: 900 !important;
-        }
-
-        /* Hide scrollbar for step pills horizontal scroll */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
-
-    <!-- Smooth Scroll Reveal Animation Styles -->
-    <style>
-        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .reveal-scale-up { transform: scale(0.93); }
-        .reveal-slide-left { transform: translateX(-35px); }
-        .reveal-slide-right { transform: translateX(35px); }
-
-        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
-        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
-            opacity: 1 !important;
-            transform: translateY(0) scale(1) translateX(0) !important;
-        }
-
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-        .delay-400 { transition-delay: 400ms; }
-        .delay-500 { transition-delay: 500ms; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="antialiased min-h-screen pb-20 flex flex-col justify-between">
+<body class="antialiased min-h-screen pb-16 flex flex-col justify-between">
 
-    <!-- Header Navigation Bar (Mobile Optimized Side Alignment) -->
-    <header class="py-2.5 sm:py-3.5 px-3 sm:px-8 sticky top-0 z-50 border-b transition-colors shadow-xs" style="background-color: var(--bg-card); border-color: var(--border-card);">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
-            
-            <!-- Brand Logo Header (Dynamic Light & Dark Mode Uncropped Logos) -->
-            <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
-                @php
-                    $logoLight = $settings['logo_light'] ?? $settings['school_logo'] ?? '/images/smartedu_logo.jpg';
-                    $logoDark = $settings['logo_dark'] ?? $settings['school_logo'] ?? $logoLight;
-                @endphp
-
-                <!-- Light Mode Logo -->
-                <img src="{{ $logoLight }}" alt="Logo Light {{ $settings['school_name'] ?? 'SIT Robbani' }}" class="h-8 sm:h-10 w-auto max-w-[120px] sm:max-w-[200px] object-contain shrink-0 spmb-logo-light">
-                
-                <!-- Dark Mode Logo -->
-                <img src="{{ $logoDark }}" alt="Logo Dark {{ $settings['school_name'] ?? 'SIT Robbani' }}" class="h-8 sm:h-10 w-auto max-w-[120px] sm:max-w-[200px] object-contain shrink-0 spmb-logo-dark">
-
+    <!-- Header Navigation Bar -->
+    <header class="py-3 px-4 sm:px-8 sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <!-- Brand Logo -->
+            <a href="{{ route('school.spmb') }}" class="flex items-center gap-3">
+                <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-10 sm:h-11 w-auto object-contain">
                 <div>
-                    <h2 class="font-black text-[11px] sm:text-base tracking-tight leading-tight flex items-center gap-1" style="color: var(--text-heading);">
-                        <span>PORTAL SPMB</span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                    <h2 class="font-black text-xs sm:text-sm tracking-tight text-slate-900 leading-tight">
+                        FORMULIR SPMB ONLINE
                     </h2>
-                    <p class="text-[8px] sm:text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">SIT ROBBANI OGAN ILIR</p>
+                    <p class="text-[10px] sm:text-[11px] font-bold text-emerald-800 uppercase tracking-wider">
+                        SIT ROBBANI OGAN ILIR
+                    </p>
                 </div>
             </a>
 
-            <!-- Header Action Controls & Theme Mode Switcher -->
-            <div class="flex items-center gap-1.5 shrink-0">
-                <a href="{{ route('home') }}" class="px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[11px] sm:text-xs hover:opacity-90 transition-all hidden sm:flex items-center gap-1">
-                    <span>🌐</span> Beranda
+            <!-- Right Controls -->
+            <div class="flex items-center gap-2">
+                <a href="{{ route('school.spmb') }}" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1.5">
+                    <span>➔</span>
+                    <span>Landing Page SPMB</span>
                 </a>
-
-                <!-- Light / Dark Mode Toggle Switcher -->
-                <button type="button" onclick="toggleSpmbTheme()" id="themeToggleBtn" class="px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-black text-[11px] sm:text-xs shadow-xs transition-all active:scale-95 flex items-center gap-1 shrink-0">
-                    <span id="themeIcon">☀️</span>
-                    <span id="themeText" class="text-[10px] sm:text-xs">Mode Terang</span>
-                </button>
             </div>
         </div>
     </header>
 
-    <main class="py-4 sm:py-8 max-w-4xl mx-auto px-3 sm:px-4 w-full space-y-4 sm:space-y-6 flex-1">
+    <!-- Main Container -->
+    <main class="py-6 sm:py-10 max-w-4xl mx-auto px-3 sm:px-4 w-full space-y-6 flex-1">
         
-        <!-- Banner Title Header -->
-        <div class="text-center space-y-1.5 sm:space-y-2.5">
-            <span class="px-3 py-1 sm:px-4 sm:py-1.5 rounded-full font-black text-[9px] sm:text-xs uppercase tracking-wider inline-block" style="background-color: var(--badge-bg); color: var(--badge-text);">
-                ✨ SELEKSI PENERIMAAN MURID BARU (SPMB T.A 2026/2027)
+        <!-- Header Title -->
+        <div class="text-center space-y-2">
+            <span class="px-3.5 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 uppercase tracking-wider inline-block">
+                F-SPMB 2026-2027 / 2027-2028
             </span>
-            <h1 class="text-lg sm:text-3xl md:text-4xl font-black tracking-tight leading-tight" style="color: var(--text-heading);">
-                Formulir Pendaftaran SPMB Online
+            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                Formulir Penerimaan Peserta Didik Baru
             </h1>
-            <p class="text-[11px] sm:text-sm font-medium max-w-2xl mx-auto px-1" style="color: var(--text-muted);">
-                Ayo menjadi bagian dari SIT Robbani Ogan Ilir untuk jenjang KB/TKIT, SDIT, SMPIT, dan SMAIT Robbani.
+            <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-2xl mx-auto">
+                Silakan lengkapi formulir pendaftaran di bawah ini dengan data yang benar dan teliti sesuai dokumen resmi (Kartu Keluarga & Akta Kelahiran).
             </p>
         </div>
 
-        <!-- Success Notification Banner / Modal -->
+        <!-- Success Notification Banner -->
         @if(session('spmb_success_data'))
         @php 
             $data = session('spmb_success_data'); 
             $verifyUrl = route('school.spmb.verify', $data['registration_number']);
             $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode($verifyUrl);
         @endphp
-        <div class="p-4 sm:p-7 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-orange-600 shadow-xl text-white space-y-3.5 animate-fade-in">
-            <div class="flex items-center justify-between">
-                <span class="px-2.5 py-0.5 rounded-full bg-white text-emerald-950 font-black text-[9px] sm:text-xs uppercase">✓ PENDAFTARAN SPMB BERHASIL</span>
-                <span class="text-[9px] sm:text-xs text-emerald-100 font-bold">{{ $data['date'] }}</span>
+        <div class="p-5 sm:p-8 rounded-3xl bg-emerald-800 text-white shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-emerald-700 pb-3">
+                <span class="px-3 py-1 rounded-full bg-emerald-700 text-emerald-100 font-black text-[10px] sm:text-xs uppercase">
+                    ✓ Pendaftaran SPMB Berhasil
+                </span>
+                <span class="text-xs text-emerald-200 font-medium">{{ $data['date'] }}</span>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
-                <div class="space-y-1 text-center sm:text-left">
-                    <h3 class="text-sm sm:text-xl font-black text-white">Selamat, Pendaftaran Ananda {{ $data['student_name'] }} Berhasil Ditambahkan!</h3>
-                    <p class="text-[11px] text-emerald-100 font-medium">Nomor Registrasi Resmi SPMB Online Anda adalah:</p>
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-5">
+                <div class="space-y-1.5 text-center sm:text-left">
+                    <h3 class="text-lg sm:text-xl font-black text-white">Alhamdulillah, Pendaftaran Ananda {{ $data['student_name'] }} Berhasil Diterima!</h3>
+                    <p class="text-xs text-emerald-200">Nomor Registrasi SPMB Resmi Ananda:</p>
                     <div class="pt-1">
-                        <span class="px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-2xl bg-slate-950 border border-amber-300 font-mono text-base sm:text-2xl font-black text-amber-300 inline-block shadow-inner">
+                        <span class="px-4 py-2 rounded-2xl bg-slate-950 font-mono text-xl sm:text-2xl font-black text-amber-300 inline-block border border-amber-400/40 shadow-inner">
                             {{ $data['registration_number'] }}
                         </span>
                     </div>
+                    <p class="text-[11px] text-emerald-200/90 pt-1">
+                        Jenjang Target: <strong>{{ $data['target_level'] }}</strong> | Kontak HP: <strong>{{ $data['parent_phone'] }}</strong>
+                    </p>
                 </div>
 
-                <!-- Live Scannable QR Code Box -->
-                <div class="p-2.5 rounded-2xl bg-white text-center shadow-md shrink-0">
-                    <img src="{{ $qrUrl }}" alt="QR Code Pendaftaran" class="w-20 h-20 sm:w-28 sm:h-28 mx-auto rounded-lg">
-                    <a href="{{ $verifyUrl }}" target="_blank" class="text-[9px] font-bold text-emerald-800 hover:underline block mt-1">
-                        Scan QR Verifikasi ↗
+                <!-- QR Code Box -->
+                <div class="p-3 rounded-2xl bg-white text-center shadow-md shrink-0">
+                    <img src="{{ $qrUrl }}" alt="QR Code Pendaftaran" class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-lg">
+                    <a href="{{ $verifyUrl }}" target="_blank" class="text-[10px] font-bold text-emerald-800 hover:underline block mt-1">
+                        Verifikasi Digital ↗
                     </a>
                 </div>
             </div>
 
-            <p class="text-[11px] sm:text-xs text-emerald-100 font-medium leading-relaxed">
-                Panitia SPMB SIT Robbani akan mengonfirmasi jadwal tes pemetaan via WhatsApp ke nomor <strong class="text-amber-200">{{ $data['parent_phone'] }}</strong>. QR Code di atas dapat discan kapan saja untuk mengakses & mendownload ulang Bukti Registrasi PDF.
-            </p>
-            
-            <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                <a href="https://api.whatsapp.com/send?phone=6285377193977&text=Halo%20Panitia%20SPMB%20SIT%20Robbani,%20saya%20sudah%20mendaftar%20dengan%20No%20Reg:%20{{ $data['registration_number'] }}" target="_blank" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white text-emerald-900 font-black text-xs shadow-md hover:bg-slate-100 transition-all flex items-center justify-center gap-1.5">
-                    <span>💬</span> Konfirmasi via WhatsApp Panitia
+            <!-- Action Buttons -->
+            <div class="pt-3 border-t border-emerald-700 flex flex-col sm:flex-row gap-2.5">
+                <a href="{{ route('school.spmb.download-pdf', $data['registration_id']) }}" target="_blank" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs text-center flex items-center justify-center gap-2 shadow-md transition-all">
+                    <span>🖨️</span> Unduh & Cetak Formulir PDF Resmi
                 </a>
-                @if(isset($data['registration_id']))
-                <a href="{{ route('school.spmb.download-pdf', $data['registration_id']) }}" target="_blank" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs shadow-md hover:bg-amber-300 transition-all flex items-center justify-center gap-1.5">
-                    <span>📄</span> Download / Cetak Bukti PDF Lengkap
-                </a>
-                @endif
-                <a href="{{ $verifyUrl }}" target="_blank" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900 text-lime-300 font-black text-xs shadow-md hover:bg-slate-800 transition-all flex items-center justify-center gap-1.5">
-                    <span>🔍</span> Halaman Cek Status & QR ↗
+                <a href="https://wa.me/62811747472?text=Assalamu'alaikum%20Panitia%20SPMB,%20saya%20sudah%20mendaftar%20dengan%20No%20Registrasi%20{{ $data['registration_number'] }}" target="_blank" class="w-full py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all">
+                    <span>💬</span> Konfirmasi Bukti ke Panitia WA
                 </a>
             </div>
         </div>
         @endif
 
-        <!-- Form Guidance & Auto-Save Instruction Banner (Responsive Mobile Cards) -->
-        <div class="spmb-card p-3.5 sm:p-6 rounded-3xl space-y-3 border-l-4 border-l-orange-500 shadow-sm">
-            <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2">
-                <span class="px-2.5 py-1 rounded-full bg-orange-500/10 text-orange-700 dark:text-orange-400 font-black text-[10px] sm:text-xs uppercase">
-                    📌 Petunjuk Penting Pendaftaran SPMB Online
-                </span>
-                <span id="unitFeeBadge" class="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-mono font-black text-[10px] sm:text-xs shadow-xs self-start xs:self-auto">
-                    Biaya Form SDIT: Rp 250.000
-                </span>
+        <!-- Validation Error Alert -->
+        @if (isset($errors) && $errors->any())
+        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
+            <div class="flex items-center gap-2 font-black">
+                <span>⚠️</span> Terdapat kolom yang belum terisi dengan benar:
             </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 text-xs">
-                <!-- Card 1 (Emerald) -->
-                <div class="spmb-guide-card-1 p-3 rounded-2xl flex items-start gap-2.5 shadow-2xs">
-                    <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-black text-[11px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">📄</span>
-                    <div>
-                        <h4 class="font-black text-xs">1. Dokumen Resmi</h4>
-                        <p class="text-[10px] sm:text-[11px] opacity-90 mt-0.5 leading-snug font-medium">Siapkan data sesuai Akta Kelahiran Ananda & Kartu Keluarga (KK) yang sah.</p>
-                    </div>
-                </div>
-
-                <!-- Card 2 (Orange) -->
-                <div class="spmb-guide-card-2 p-3 rounded-2xl flex items-start gap-2.5 shadow-2xs">
-                    <span class="w-6 h-6 rounded-lg bg-orange-600 text-white font-black text-[11px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">💾</span>
-                    <div>
-                        <h4 class="font-black text-xs">2. Simpan Draf Otomatis</h4>
-                        <p class="text-[10px] sm:text-[11px] opacity-90 mt-0.5 leading-snug font-medium">Data tersimpan otomatis saat Anda mengetik. Isian aman walau browser tertutup.</p>
-                    </div>
-                </div>
-
-                <!-- Card 3 (Teal) -->
-                <div class="spmb-guide-card-3 p-3 rounded-2xl flex items-start gap-2.5 shadow-2xs">
-                    <span class="w-6 h-6 rounded-lg bg-teal-600 text-white font-black text-[11px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">📁</span>
-                    <div>
-                        <h4 class="font-black text-xs">3. Upload File Berkas</h4>
-                        <p class="text-[10px] sm:text-[11px] opacity-90 mt-0.5 leading-snug font-medium">Upload Pas Foto, KTP Ortu, KK, & Bukti Transfer Pembayaran Form.</p>
-                    </div>
-                </div>
-
-                <!-- Card 4 (Blue) -->
-                <div class="spmb-guide-card-4 p-3 rounded-2xl flex items-start gap-2.5 shadow-2xs">
-                    <span class="w-6 h-6 rounded-lg bg-blue-600 text-white font-black text-[11px] flex items-center justify-center shrink-0 shadow-xs mt-0.5">🔍</span>
-                    <div>
-                        <h4 class="font-black text-xs">4. Pratinjau & Cetak PDF</h4>
-                        <p class="text-[10px] sm:text-[11px] opacity-90 mt-0.5 leading-snug font-medium">Periksa pratinjau lengkap sebelum submit & cetak dokumen Bukti PDF.</p>
-                    </div>
-                </div>
-            </div>
+            <ul class="list-disc list-inside space-y-0.5 text-[11px] text-rose-700 pl-1">
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
         </div>
+        @endif
 
-        <!-- Auto-Saved Draft Notification Bar -->
-        <div id="draftNoticeBar" class="hidden p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-bold text-amber-600 dark:text-amber-300">
-            <div class="flex items-center gap-2">
-                <span>⚡</span>
-                <span class="text-[11px]">Draft pendaftaran sebelumnya berhasil dipulihkan secara otomatis.</span>
-            </div>
-            <button type="button" onclick="clearSpmbDraft()" class="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 font-black hover:opacity-90 transition-all text-[11px] shrink-0 self-end sm:self-auto">
-                Hapus Draft
-            </button>
-        </div>
-
-        <!-- Stepper Wizard Progress Bar Header -->
-        <div class="spmb-card p-3.5 sm:p-6 rounded-3xl space-y-3">
-            <div class="flex flex-col xs:flex-row xs:items-center justify-between gap-1 text-[11px] sm:text-xs font-black" style="color: var(--text-heading);">
-                <span id="stepTitleText" class="tracking-tight">LANGKAH 1 DARI 5: PILIHAN JENJANG & JALUR</span>
-                <span id="stepPercentText" class="text-emerald-600 dark:text-lime-400 shrink-0 font-extrabold self-end xs:self-auto">20% SELESAI</span>
-            </div>
-
-            <!-- Progress Bar Bar -->
-            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                <div id="progressBarFill" class="h-2 rounded-full transition-all duration-500" style="width: 20%; background-color: var(--brand-primary);"></div>
-            </div>
-
-            <!-- Step Pills Navigation Bar (Scrollable on Mobile) -->
-            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1 pb-0.5 text-xs font-black">
+        <!-- STEP WIZARD PILL NAVIGATION -->
+        <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 text-xs font-bold">
                 <button type="button" onclick="goToStep(1)" id="pill-step-1" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]">
-                    1. Jenjang
+                    1. Identitas Calon Siswa
                 </button>
                 <button type="button" onclick="goToStep(2)" id="pill-step-2" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    2. Siswa
+                    2. Sekolah & Prestasi
                 </button>
                 <button type="button" onclick="goToStep(3)" id="pill-step-3" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    3. Ortu
+                    3. Kesehatan & Transport
                 </button>
                 <button type="button" onclick="goToStep(4)" id="pill-step-4" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    4. Domisili
+                    4. Data Orang Tua
                 </button>
                 <button type="button" onclick="goToStep(5)" id="pill-step-5" class="px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]">
-                    5. Finish
+                    5. Berkas & Selesai
                 </button>
             </div>
         </div>
 
-        <!-- Main Standard SPMB Form Wizard -->
-        <form id="spmbForm" action="{{ route('school.ppdb.store') }}" method="POST" enctype="multipart/form-data" class="p-3.5 sm:p-10 rounded-3xl spmb-card space-y-5 sm:space-y-8">
+        <!-- MAIN FORM -->
+        <form id="spmbForm" action="{{ route('school.ppdb.store') }}" method="POST" enctype="multipart/form-data" class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
             @csrf
-            
-            <!-- STEP 1: Pilihan Jenjang & Jalur -->
-            <div id="step-section-1" class="step-section space-y-4">
-                <div class="border-b pb-2.5 border-slate-200 dark:border-slate-800">
-                    <h3 class="text-xs sm:text-base font-black flex items-center gap-1.5" style="color: var(--text-heading);">
-                        <span>🏫</span> STEP 1: Pilihan Jenjang Unit Sekolah & Jalur SPMB *
+
+            <!-- ========================================================================= -->
+            <!-- STEP 1: IDENTITAS PESERTA DIDIK (WAJIB DIISI) -->
+            <!-- ========================================================================= -->
+            <div id="step-section-1" class="step-section space-y-5">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        Bagian 1 dari 5
+                    </span>
+                    <h3 class="text-base font-black text-slate-900 mt-1 flex items-center gap-2">
+                        <span>🧒</span> IDENTITAS PESERTA DIDIK (WAJIB DIISI)
                     </h3>
-                    <p class="text-[11px] sm:text-xs font-medium mt-0.5" style="color: var(--text-muted);">Pilih unit tujuan pendaftaran dan jalur penerimaan peserta didik baru.</p>
+                    <p class="text-xs text-slate-500 font-medium">Mohon diisi dengan huruf kapital sesuai Akta Kelahiran & Kartu Keluarga.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- Unit & Jalur Pendaftaran -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Unit Sekolah Tujuan *</label>
-                        <select name="school_code" id="school_code" onchange="updateUnitFeeInfo()" required class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            @foreach($schools as $sc)
-                            <option value="{{ strtolower($sc->code) }}" {{ !$sc->is_active ? 'disabled' : '' }}>
-                                🏫 {{ $sc->name }} ({{ $sc->code }}) {{ !$sc->is_active ? '— 🔒 COMING SOON (Belum Dibuka)' : '' }}
-                            </option>
-                            @endforeach
+                        <label class="block text-xs font-black text-slate-700 uppercase">Unit Sekolah Tujuan *</label>
+                        <select name="school_code" id="school_code" onchange="updateUnitFeeInfo()" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            @php
+                                $selected = $selectedUnit ?? 'SDIT';
+                            @endphp
+                            <option value="TPA" {{ $selected == 'TPA' ? 'selected' : '' }}>TPA ROBBANI (Taman Pengasuhan Anak)</option>
+                            <option value="KB" {{ $selected == 'KB' ? 'selected' : '' }}>KB ROBBANI (Kelompok Bermain)</option>
+                            <option value="TKIT" {{ ($selected == 'TKIT' || $selected == 'TK') ? 'selected' : '' }}>TKIT ROBBANI (Taman Kanak-Kanak)</option>
+                            <option value="SDIT" {{ ($selected == 'SDIT' || $selected == 'SD') ? 'selected' : '' }}>SDIT ROBBANI (Sekolah Dasar)</option>
+                            <option value="SMPIT" {{ ($selected == 'SMPIT' || $selected == 'SMP') ? 'selected' : '' }}>SMPIT ROBBANI (Sekolah Menengah Pertama)</option>
+                            <option value="SMAIT" {{ ($selected == 'SMAIT' || $selected == 'SMA') ? 'selected' : '' }}>SMAIT ROBBANI (Sekolah Menengah Atas)</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Jalur SPMB *</label>
-                        <select name="jalur_pendaftaran" id="jalur_pendaftaran" required class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Masuk di Kelas</label>
+                        <input type="text" name="masuk_kelas" id="masuk_kelas" placeholder="Contoh: TK A / SD Kelas 1 / SMP Kelas 7" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Jalur Pendaftaran *</label>
+                        <select name="jalur_pendaftaran" id="jalur_pendaftaran" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="REGULER">Jalur Reguler (Umum)</option>
-                            <option value="PRESTASI">Jalur Prestasi Akademik / Non-Akademik</option>
-                            <option value="TAHFIDZ">Jalur Beasiswa Tahfidz Al-Qur'an</option>
+                            <option value="PRESTASI">Jalur Prestasi (Akademik / Non-Akademik)</option>
+                            <option value="TAHFIDZ">Jalur Beasiswa Tahfidz Qur'an</option>
                             <option value="PINDAHAN">Jalur Pindahan / Mutasi</option>
                         </select>
                     </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Status Masuk Siswa *</label>
+                        <select name="status_siswa" id="status_siswa" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Baru">Siswa Baru</option>
+                            <option value="Pindahan">Siswa Pindahan</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Fee Info Banner per Unit (Light / Dark Mode Clean Styling) -->
-                <div class="p-3.5 rounded-2xl bg-emerald-50 dark:bg-slate-900 border border-emerald-200 dark:border-slate-800 flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm">💳</span>
-                        <span class="font-bold text-slate-800 dark:text-slate-200 text-[11px] sm:text-xs">Biaya Formulir Unit Selected:</span>
-                    </div>
-                    <span id="selectedUnitFeeDisplay" class="font-mono font-black text-emerald-700 dark:text-lime-400 text-xs sm:text-sm">
+                <!-- Fee banner preview -->
+                <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
+                    <span class="font-bold text-slate-700">Biaya Formulir Pendaftaran Unit Ini:</span>
+                    <span id="selectedUnitFeeDisplay" class="font-mono font-black text-emerald-800 text-sm">
                         Rp 250.000
                     </span>
                 </div>
 
-                <div class="pt-3 flex justify-end">
-                    <button type="button" onclick="goToStep(2)" class="w-full sm:w-auto px-6 py-3 rounded-2xl btn-gradient-action font-black text-xs shadow-md flex items-center justify-center gap-2">
-                        <span>Lanjut ke Data Siswa</span> <span>➔</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 2: Data Calon Siswa (Ananda) & Strict Format Enforcement -->
-            <div id="step-section-2" class="step-section space-y-4 hidden">
-                <div class="border-b pb-2.5 border-slate-200 dark:border-slate-800">
-                    <h3 class="text-xs sm:text-base font-black flex items-center gap-1.5" style="color: var(--text-heading);">
-                        <span>🎓</span> STEP 2: Data Calon Siswa (Ananda) & Integrasi Akun Wali
-                    </h3>
-                    <p class="text-[11px] sm:text-xs font-medium mt-0.5" style="color: var(--text-muted);">Isikan identitas lengkap calon siswa. Kolom nama khusus huruf, NIK/NISN khusus angka.</p>
-                </div>
-
-                <div class="space-y-1">
-                    <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Nama Lengkap Ananda (Khusus Huruf Sesuai Akta) *</label>
-                    <input type="text" name="nama_lengkap" id="nama_lengkap" required placeholder="Contoh: Fathan Al-Ghazali" oninput="this.value = this.value.replace(/[^a-zA-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <p class="text-[10px] text-slate-400">Hanya menerima karakter huruf dan spasi.</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">NIK Siswa (Wajib 16 Digit Angka KK)</label>
-                        <input type="text" name="nik_siswa" id="nik_siswa" maxlength="16" placeholder="16 Digit Angka NIK dari KK" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <p class="text-[10px] text-slate-400">Khusus angka 0-9 (Maksimal 16 Digit).</p>
+                <!-- Nama Lengkap & Panggilan -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2 space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ananda (Huruf Kapital) *</label>
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">NISN Siswa (Khusus Angka)</label>
-                        <input type="text" name="nisn" id="nisn" maxlength="12" placeholder="10-12 Digit Angka NISN" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <p class="text-[10px] text-slate-400">Khusus angka 0-9.</p>
+                        <label class="block text-xs font-black text-slate-700 uppercase">2. Nama Panggilan</label>
+                        <input type="text" name="nama_panggilan" id="nama_panggilan" placeholder="Nama Panggilan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                <!-- NIK & Jenis Kelamin -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2 space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">3. NIK Siswa (16 Digit Angka KK)</label>
+                        <input type="text" name="nik_siswa" id="nik_siswa" maxlength="16" placeholder="16 Digit NIK dari Kartu Keluarga" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                    </div>
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Jenis Kelamin *</label>
-                        <select name="jenis_kelamin" id="jenis_kelamin" required class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-700 uppercase">4. Jenis Kelamin *</label>
+                        <select name="jenis_kelamin" id="jenis_kelamin" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
                     </div>
+                </div>
+
+                <!-- Tempat, Tanggal Lahir -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Tempat Lahir (Khusus Huruf) *</label>
-                        <input type="text" name="tempat_lahir" id="tempat_lahir" required placeholder="Kota lahir ananda" oninput="this.value = this.value.replace(/[^a-zA-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-700 uppercase">5. Tempat Lahir *</label>
+                        <input type="text" name="tempat_lahir" id="tempat_lahir" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Tanggal Lahir *</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" required class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir *</label>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                <!-- Anak ke & Saudara -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Sekolah Asal (TK / SD / SMP)</label>
-                        <input type="text" name="sekolah_asal" id="sekolah_asal" placeholder="Contoh: TKIT Robbani" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-700 uppercase">6. Anak ke -</label>
+                        <input type="number" name="anak_ke" id="anak_ke" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Anak Ke- (Angka)</label>
-                        <input type="number" name="anak_ke" id="anak_ke" value="1" min="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Dari ... Saudara</label>
+                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" min="0" max="20" placeholder="2" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
-                    <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Jumlah Saudara (Angka)</label>
-                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" value="2" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <div class="sm:col-span-2 space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">7. Status Orang Tua *</label>
+                        <select name="status_ortu" id="status_ortu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Ayah dan Ibu Masih Ada">Ayah dan Ibu Masih Ada</option>
+                            <option value="Anak Yatim">Anak Yatim (Ayah Wafat)</option>
+                            <option value="Anak Piatu">Anak Piatu (Ibu Wafat)</option>
+                            <option value="Yatim Piatu">Yatim Piatu (Kedua Wafat)</option>
+                        </select>
                     </div>
                 </div>
 
-                <!-- Existing Sibling Integration Field -->
-                <div class="p-3.5 sm:p-5 rounded-2xl bg-purple-50/80 dark:bg-slate-900/90 border border-purple-200 dark:border-slate-800 space-y-2.5">
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-sm">👨‍👩‍👧‍👦</span>
-                        <h4 class="font-black text-xs text-purple-950 dark:text-purple-300 uppercase">Integrasi Akun Wali: Saudara Kandung di SIT Robbani</h4>
+                <!-- Tempat Tinggal Anak & Kewarganegaraan -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">8. Tempat Tinggal Anak</label>
+                        <select name="tempat_tinggal_anak" id="tempat_tinggal_anak" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Ikut Orang Tua">Ikut Orang Tua</option>
+                            <option value="Tinggal dikosan">Tinggal dikosan</option>
+                            <option value="Ikut Keluarga/Saudara">Ikut Keluarga / Saudara</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">10. Kewarganegaraan</label>
+                        <select name="kewarganegaraan" id="kewarganegaraan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="WNI">WNI (Warga Negara Indonesia)</option>
+                            <option value="WNA">WNA (Warga Negara Asing)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">11. Bahasa Sehari-hari</label>
+                        <select name="bahasa_sehari_hari" id="bahasa_sehari_hari" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Indonesia">Bahasa Indonesia</option>
+                            <option value="Daerah">Bahasa Daerah</option>
+                            <option value="Inggris">Bahasa Inggris</option>
+                            <option value="Arab">Bahasa Arab</option>
+                            <option value="Mandarin">Bahasa Mandarin</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-end">
+                    <button type="button" onclick="goToStep(2)" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center gap-2">
+                        <span>Lanjut: Data Sekolah & Prestasi</span> <span>➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================================================= -->
+            <!-- STEP 2: DATA SEKOLAH ASAL & PRESTASI -->
+            <!-- ========================================================================= -->
+            <div id="step-section-2" class="step-section space-y-5 hidden">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        Bagian 2 dari 5
+                    </span>
+                    <h3 class="text-base font-black text-slate-900 mt-1 flex items-center gap-2">
+                        <span>🏫</span> DATA SEKOLAH ASAL & PRESTASI
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium">Informasi sekolah jenjang sebelumnya dan riwayat capaian ananda.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">1. NISN (Jika Ada)</label>
+                        <input type="text" name="nisn" id="nisn" maxlength="12" placeholder="Nomor Induk Siswa Nasional (10-12 Angka)" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">4. Kategori Sekolah Asal</label>
+                        <select name="kategori_sekolah_asal" id="kategori_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Luar SIT Robbani">Luar SIT Robbani</option>
+                            <option value="Alumni SIT Robbani">Alumni SIT Robbani</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-xs font-black text-slate-700 uppercase">5. Nama Sekolah Asal *</label>
+                    <input type="text" name="sekolah_asal" id="sekolah_asal" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    <p class="text-[10px] text-slate-400">*) Diisikan data dari jenjang sebelumnya (misal pendaftar SD isi nama TK asal, pendaftar SMP isi nama SD asal).</p>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-xs font-black text-slate-700 uppercase">6. Prestasi Yang Pernah Diraih</label>
+                    <textarea name="prestasi" id="prestasi" rows="3" placeholder="Contoh: Juara 1 Tahfidz 1 Juz Tingkat Kabupaten, Juara 2 Lomba Menggambar, dll. (Kosongkan bila belum ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium"></textarea>
+                </div>
+
+                <div class="pt-4 flex items-center justify-between">
+                    <button type="button" onclick="goToStep(1)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                        <span>⬅ Kembali</span>
+                    </button>
+                    <button type="button" onclick="goToStep(3)" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center gap-2">
+                        <span>Lanjut: Data Kesehatan & Transportasi</span> <span>➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================================================= -->
+            <!-- STEP 3: DATA KESEHATAN & MODA TRANSPORTASI -->
+            <!-- ========================================================================= -->
+            <div id="step-section-3" class="step-section space-y-5 hidden">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        Bagian 3 dari 5
+                    </span>
+                    <h3 class="text-base font-black text-slate-900 mt-1 flex items-center gap-2">
+                        <span>🩺</span> DATA KESEHATAN & MODA TRANSPORTASI
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium">Informasi fisik, rekam medis penunjang, dan jarak ke sekolah.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">1. Tinggi Badan (cm)</label>
+                        <input type="number" name="tinggi_badan" id="tinggi_badan" min="30" max="250" placeholder="Contoh: 120" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">2. Berat Badan (kg)</label>
+                        <input type="number" name="berat_badan" id="berat_badan" min="5" max="200" placeholder="Contoh: 25" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">3. Golongan Darah</label>
+                        <select name="golongan_darah" id="golongan_darah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Belum Tahu">Belum Tahu</option>
+                            <option value="A">Golongan A</option>
+                            <option value="B">Golongan B</option>
+                            <option value="AB">Golongan AB</option>
+                            <option value="O">Golongan O</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">4. Penyakit yang Pernah Diderita</label>
+                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" placeholder="Contoh: Asma, Tifus, DBD (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">5. Penyakit yang Sedang Diderita</label>
+                        <input type="text" name="penyakit_sedang" id="penyakit_sedang" placeholder="Tuliskan jika sedang dalam terapi atau rutin obat" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-xs font-black text-slate-700 uppercase">6. Kelainan Fisik / Kebutuhan Khusus</label>
+                    <input type="text" name="kelainan_fisik" id="kelainan_fisik" placeholder="Tuliskan bila ada kebutuhan khusus / 'Tidak Ada'" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                </div>
+
+                <!-- Moda Transportasi -->
+                <div class="border-t border-slate-200 pt-4">
+                    <h4 class="text-xs font-black text-slate-900 uppercase tracking-wide mb-3">Moda Transportasi Peserta Didik:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">1. Jarak Tempat Tinggal ke Sekolah</label>
+                            <select name="jarak_ke_sekolah" id="jarak_ke_sekolah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                                <option value="Kurang dari 1 km">Kurang dari 1 km</option>
+                                <option value="1 - 3 km">1 - 3 km</option>
+                                <option value="3 - 5 km">3 - 5 km</option>
+                                <option value="5 - 10 km">5 - 10 km</option>
+                                <option value="Lebih dari 10 km">Lebih dari 10 km</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">2. Transportasi yang Digunakan</label>
+                            <select name="transportasi" id="transportasi" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                                <option value="Sepeda Motor / Diantar Ortu">Sepeda Motor / Diantar Ortu</option>
+                                <option value="Mobil Pribadi">Mobil Pribadi</option>
+                                <option value="Jalan Kaki">Jalan Kaki</option>
+                                <option value="Antar Jemput Sekolah">Antar Jemput Sekolah</option>
+                                <option value="Angkutan Umum">Angkutan Umum</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex items-center justify-between">
+                    <button type="button" onclick="goToStep(2)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                        <span>⬅ Kembali</span>
+                    </button>
+                    <button type="button" onclick="goToStep(4)" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center gap-2">
+                        <span>Lanjut: Data Orang Tua & Domisili</span> <span>➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================================================= -->
+            <!-- STEP 4: ALAMAT DOMISILI & DATA ORANG TUA (AYAH & IBU KANDUNG) -->
+            <!-- ========================================================================= -->
+            <div id="step-section-4" class="step-section space-y-6 hidden">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        Bagian 4 dari 5
+                    </span>
+                    <h3 class="text-base font-black text-slate-900 mt-1 flex items-center gap-2">
+                        <span>🏡</span> ALAMAT TEMPAT TINGGAL & DATA ORANG TUA KANDUNG
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium">Data ayah & ibu kandung wajib diisi untuk verifikasi panitia SPMB.</p>
+                </div>
+
+                <!-- ALAMAT DOMISILI LENGKAP -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-black text-slate-800 uppercase tracking-wide">Alamat Tempat Tinggal Anak:</h4>
+                    
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Alamat Jalan / No. Rumah / Gang *</label>
+                        <input type="text" name="alamat" id="alamat" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Dusun / RT-RW</label>
+                            <input type="text" name="dusun" id="dusun" placeholder="RT 02 / RW 01" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Kelurahan / Desa</label>
+                            <input type="text" name="kelurahan" id="kelurahan" placeholder="Kelurahan Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Kode Pos</label>
+                            <input type="text" name="kode_pos" id="kode_pos" maxlength="7" placeholder="30662" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Kecamatan</label>
+                            <input type="text" name="kecamatan" id="kecamatan" placeholder="Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Kabupaten / Kota</label>
+                            <input type="text" name="kabupaten" id="kabupaten" placeholder="Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Provinsi</label>
+                            <input type="text" name="provinsi" id="provinsi" placeholder="Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATA AYAH KANDUNG (WAJIB DIISI) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+                    <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+                        <span class="text-sm">👨</span>
+                        <h4 class="text-xs font-black text-slate-900 uppercase tracking-wide">DATA AYAH KANDUNG (WAJIB DIISI)</h4>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-700 dark:text-slate-300">Memiliki Saudara Kandung Bersekolah di SIT Robbani?</label>
-                            <select name="has_sibling" id="has_sibling" onchange="toggleSiblingInput()" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
-                                <option value="TIDAK">Tidak (Pendaftaran Anak Pertama / Baru)</option>
-                                <option value="YA">Ya (Sudah Ada Kakak / Adik di Robbani)</option>
-                            </select>
+                            <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ayah *</label>
+                            <input type="text" name="nama_ayah" id="nama_ayah" required placeholder="Nama Lengkap Ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
-
-                        <div id="siblingInputContainer" class="hidden space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-700 dark:text-slate-300">NIS / Nama Saudara Kandung di Robbani *</label>
-                            <input type="text" name="sibling_info" id="sibling_info" placeholder="Contoh: 20260001 - Fathan Al-Ghazali (SDIT)" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">3. NIK Ayah (16 Digit KK)</label>
+                            <input type="text" name="nik_ayah" id="nik_ayah" maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                         </div>
                     </div>
-                    <p class="text-[10px] sm:text-[11px] text-purple-900 dark:text-purple-200 leading-snug font-medium">
-                        💡 <strong>Fungsi Integrasi Wali:</strong> Mengisi data saudara ini akan otomatis menghubungkan pendaftaran ananda baru ke <strong>Portal / Aplikasi Wali Murid (Parent Portal)</strong> yang sama, sehingga Ayah/Ibu dapat memantau seluruh anak dari 1 Akun Wali Murid.
-                    </p>
-                </div>
 
-                <div class="pt-3 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5">
-                    <button type="button" onclick="goToStep(1)" class="w-full sm:w-auto px-5 py-2.5 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">
-                        ⬅ Kembali
-                    </button>
-                    <button type="button" onclick="goToStep(3)" class="w-full sm:w-auto px-6 py-3 rounded-2xl btn-gradient-action font-black text-xs shadow-md flex items-center justify-center gap-2">
-                        <span>Lanjut ke Data Orang Tua</span> <span>➔</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 3: Data Orang Tua Kandung & Strict Format Controls -->
-            <div id="step-section-3" class="step-section space-y-4 hidden">
-                <div class="border-b pb-2.5 border-slate-200 dark:border-slate-800">
-                    <h3 class="text-xs sm:text-base font-black flex items-center gap-1.5" style="color: var(--text-heading);">
-                        <span>👨‍👩‍👦</span> STEP 3: Data Orang Tua Kandung (Ayah & Ibu)
-                    </h3>
-                    <p class="text-[11px] sm:text-xs font-medium mt-0.5" style="color: var(--text-muted);">Nama wajib huruf, Nomor WhatsApp wajib angka 10-15 digit, Email wajib format email valid.</p>
-                </div>
-
-                <!-- Data Ayah Card (High Contrast Light Mode Surface) -->
-                <div class="p-3.5 sm:p-5 rounded-2xl bg-emerald-50 dark:bg-slate-900/90 border border-emerald-200 dark:border-slate-800 space-y-3">
-                    <span class="text-xs font-black text-emerald-900 dark:text-lime-300 block uppercase flex items-center gap-1.5">
-                        <span>👨</span> Data Ayah Kandung
-                    </span>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Nama Lengkap Ayah (Khusus Huruf) *</label>
-                            <input type="text" name="nama_ayah" id="nama_ayah" required placeholder="Nama sesuai KTP" oninput="this.value = this.value.replace(/[^a-zA-Z\s\.\,\'\-]/g, '')" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
+                            <label class="block text-xs font-black text-slate-700 uppercase">2. Tempat Lahir Ayah</label>
+                            <input type="text" name="tempat_lahir_ayah" id="tempat_lahir_ayah" placeholder="Kota Lahir Ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">No. WhatsApp Ayah (Khusus Angka) *</label>
-                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" maxlength="15" required placeholder="081234567890" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-mono font-bold text-xs">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Email Aktif Ortu (Format Email) *</label>
-                            <input type="email" name="email_ortu" id="email_ortu" required placeholder="nama@gmail.com" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir Ayah</label>
+                            <input type="date" name="tanggal_lahir_ayah" id="tanggal_lahir_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                         <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Pekerjaan Ayah (Khusus Huruf)</label>
-                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" placeholder="Contoh: PNS / Wiraswasta" oninput="this.value = this.value.replace(/[^a-zA-Z\s\.\,\'\-]/g, '')" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Pendidikan Terakhir</label>
-                            <select name="pendidikan_ayah" id="pendidikan_ayah" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
-                                <option value="S1">S1 / Sarjana</option>
-                                <option value="S2">S2 / Magister</option>
-                                <option value="S3">S3 / Doktor</option>
-                                <option value="SMA">SMA / Sederajat</option>
-                                <option value="D3">D3 / Diploma</option>
+                            <label class="block text-xs font-black text-slate-700 uppercase">4. Pendidikan Terakhir</label>
+                            <select name="pendidikan_ayah" id="pendidikan_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                                <option value="S-1">S-1 (Sarjana)</option>
+                                <option value="SMA">SMA / SMK / MA</option>
+                                <option value="SMP">SMP / MTs</option>
+                                <option value="SD">SD / Sederajat</option>
+                                <option value="D3/D4">D3 / D4</option>
+                                <option value="S-2">S-2 (Magister)</option>
+                                <option value="S-3">S-3 (Doktor)</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Penghasilan Bulanan</label>
-                            <select name="penghasilan_ayah" id="penghasilan_ayah" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
+                            <label class="block text-xs font-black text-slate-700 uppercase">5. Pekerjaan Ayah</label>
+                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" placeholder="PNS / Wiraswasta / Karyawan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">6. Tempat Instansi Bekerja</label>
+                            <input type="text" name="instansi_ayah" id="instansi_ayah" placeholder="Nama Kantor / Perusahaan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">7. Bidang Keahlian</label>
+                            <input type="text" name="bidang_keahlian_ayah" id="bidang_keahlian_ayah" placeholder="Keahlian / Profesi" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">8. No. HP / WhatsApp Ayah *</label>
+                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">9. Penghasilan Bulanan</label>
+                            <select name="penghasilan_ayah" id="penghasilan_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                                <option value="Rp 3.000.000 - Rp 5.000.000">Rp 3.000.000 - Rp 5.000.000</option>
+                                <option value="< Rp 1.000.000">&lt; Rp 1.000.000</option>
+                                <option value="Rp 1.000.000 - Rp 3.000.000">Rp 1.000.000 - Rp 3.000.000</option>
+                                <option value="Rp 5.000.000 - Rp 10.000.000">Rp 5.000.000 - Rp 10.000.000</option>
+                                <option value="> Rp 10.000.000">&gt; Rp 10.000.000</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATA IBU KANDUNG (WAJIB DIISI) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+                    <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+                        <span class="text-sm">👩</span>
+                        <h4 class="text-xs font-black text-slate-900 uppercase tracking-wide">DATA IBU KANDUNG (WAJIB DIISI)</h4>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ibu *</label>
+                            <input type="text" name="nama_ibu" id="nama_ibu" required placeholder="Nama Lengkap Ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">3. NIK Ibu (16 Digit KK)</label>
+                            <input type="text" name="nik_ibu" id="nik_ibu" maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">2. Tempat Lahir Ibu</label>
+                            <input type="text" name="tempat_lahir_ibu" id="tempat_lahir_ibu" placeholder="Kota Lahir Ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir Ibu</label>
+                            <input type="date" name="tanggal_lahir_ibu" id="tanggal_lahir_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">4. Pendidikan Terakhir</label>
+                            <select name="pendidikan_ibu" id="pendidikan_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                                <option value="S-1">S-1 (Sarjana)</option>
+                                <option value="SMA">SMA / SMK / MA</option>
+                                <option value="SMP">SMP / MTs</option>
+                                <option value="SD">SD / Sederajat</option>
+                                <option value="D3/D4">D3 / D4</option>
+                                <option value="S-2">S-2 (Magister)</option>
+                                <option value="S-3">S-3 (Doktor)</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">5. Pekerjaan Ibu</label>
+                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" placeholder="Ibu Rumah Tangga / PNS / Guru" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">6. Tempat Instansi Bekerja</label>
+                            <input type="text" name="instansi_ibu" id="instansi_ibu" placeholder="Nama Kantor / Tempat Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">8. Alamat Rumah Ibu</label>
+                            <input type="text" name="alamat_ibu" id="alamat_ibu" placeholder="Sama dengan alamat siswa / tuliskan jika beda" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ibu</label>
+                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
+                            <select name="penghasilan_ibu" id="penghasilan_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                                <option value="Tidak Berpenghasilan">Tidak Berpenghasilan / IRT</option>
+                                <option value="< Rp 1.000.000">&lt; Rp 1.000.000</option>
+                                <option value="Rp 1.000.000 - Rp 3.000.000">Rp 1.000.000 - Rp 3.000.000</option>
                                 <option value="Rp 3.000.000 - Rp 5.000.000">Rp 3.000.000 - Rp 5.000.000</option>
                                 <option value="Rp 5.000.000 - Rp 10.000.000">Rp 5.000.000 - Rp 10.000.000</option>
-                                <option value="> Rp 10.000.000">> Rp 10.000.000</option>
-                                <option value="< Rp 3.000.000">< Rp 3.000.000</option>
+                                <option value="> Rp 10.000.000">&gt; Rp 10.000.000</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- Data Ibu Card (High Contrast Light Mode Surface) -->
-                <div class="p-3.5 sm:p-5 rounded-2xl bg-orange-50 dark:bg-slate-900/90 border border-orange-200 dark:border-slate-800 space-y-3">
-                    <span class="text-xs font-black text-orange-900 dark:text-amber-300 block uppercase flex items-center gap-1.5">
-                        <span>👩</span> Data Ibu Kandung
+                <!-- DATA WALI (OPSIONAL) -->
+                <div class="p-4 rounded-2xl bg-white border border-slate-200/80 space-y-3">
+                    <span class="text-xs font-black text-slate-700 block uppercase">Data Wali (Opsional, Bila Tidak Tinggal Bersama Orang Tua Kandung):</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" name="nama_wali" id="nama_wali" placeholder="Nama Lengkap Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="hubungan_wali" id="hubungan_wali" placeholder="Hubungan (Kakek/Paman/Bibi)" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="no_hp_wali" id="no_hp_wali" placeholder="No. HP Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex items-center justify-between">
+                    <button type="button" onclick="goToStep(3)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                        <span>⬅ Kembali</span>
+                    </button>
+                    <button type="button" onclick="goToStep(5)" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-all flex items-center gap-2">
+                        <span>Lanjut: Upload Berkas & Pembayaran</span> <span>➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================================================= -->
+            <!-- STEP 5: INFORMASI PENDAFTARAN & UPLOAD BERKAS -->
+            <!-- ========================================================================= -->
+            <div id="step-section-5" class="step-section space-y-5 hidden">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        Bagian 5 dari 5 (Final)
                     </span>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Nama Lengkap Ibu (Khusus Huruf)</label>
-                            <input type="text" name="nama_ibu" id="nama_ibu" placeholder="Nama ibu sesuai KTP" oninput="this.value = this.value.replace(/[^a-zA-Z\s\.\,\'\-]/g, '')" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">No. WhatsApp Ibu (Khusus Angka)</label>
-                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" maxlength="15" placeholder="081398765432" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-mono font-bold text-xs">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Pekerjaan Ibu (Khusus Huruf)</label>
-                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" placeholder="Contoh: Ibu Rumah Tangga / Guru" oninput="this.value = this.value.replace(/[^a-zA-Z\s\.\,\'\-]/g, '')" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">Pendidikan Terakhir Ibu</label>
-                            <select name="pendidikan_ibu" id="pendidikan_ibu" class="w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs">
-                                <option value="S1">S1 / Sarjana</option>
-                                <option value="SMA">SMA / Sederajat</option>
-                                <option value="D3">D3 / Diploma</option>
-                                <option value="S2">S2 / Magister</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-3 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5">
-                    <button type="button" onclick="goToStep(2)" class="w-full sm:w-auto px-5 py-2.5 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">
-                        ⬅ Kembali
-                    </button>
-                    <button type="button" onclick="goToStep(4)" class="w-full sm:w-auto px-6 py-3 rounded-2xl btn-gradient-action font-black text-xs shadow-md flex items-center justify-center gap-2">
-                        <span>Lanjut ke Data Domisili & Berkas</span> <span>➔</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 4: Data Domisili & Upload Berkas Dokumen -->
-            <div id="step-section-4" class="step-section space-y-4 hidden">
-                <div class="border-b pb-2.5 border-slate-200 dark:border-slate-800">
-                    <h3 class="text-xs sm:text-base font-black flex items-center gap-1.5" style="color: var(--text-heading);">
-                        <span>🏡</span> STEP 4: Alamat Domisili & Upload File Berkas Dokumen
+                    <h3 class="text-base font-black text-slate-900 mt-1 flex items-center gap-2">
+                        <span>📑</span> INFORMASI PENDAFTARAN & UPLOAD DOKUMEN
                     </h3>
-                    <p class="text-[11px] sm:text-xs font-medium mt-0.5" style="color: var(--text-muted);">Alamat tinggal dan berkas persyaratan pendaftaran calon siswa baru.</p>
+                    <p class="text-xs text-slate-500 font-medium">Unggah berkas persyaratan dan konfirmasi pembayaran pendaftaran.</p>
                 </div>
 
-                <div class="space-y-1">
-                    <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Alamat Lengkap (Jalan, RT/RW, Dusun) *</label>
-                    <textarea name="alamat" id="alamat" rows="2" required placeholder="Contoh: Jln. Lintas Palembang-Indralaya KM 35, RT 02 RW 01" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold"></textarea>
+                <!-- Informasi Sumber Pendaftaran (Sesuai Scan Form F-SPMB) -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-black text-slate-700 uppercase">Informasi Pendaftaran Diperoleh Dari Mana?</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
+                            <input type="radio" name="info_pendaftaran" value="Brosur" class="text-emerald-700 focus:ring-emerald-500">
+                            <span class="font-bold text-slate-700">Brosur</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
+                            <input type="radio" name="info_pendaftaran" value="Banner / Spanduk" class="text-emerald-700 focus:ring-emerald-500">
+                            <span class="font-bold text-slate-700">Banner / Spanduk</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
+                            <input type="radio" name="info_pendaftaran" value="Media Sosial" checked class="text-emerald-700 focus:ring-emerald-500">
+                            <span class="font-bold text-slate-700">Media Sosial (IG/FB)</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
+                            <input type="radio" name="info_pendaftaran" value="Teman / Saudara" class="text-emerald-700 focus:ring-emerald-500">
+                            <span class="font-bold text-slate-700">Teman / Saudara</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
+                            <input type="radio" name="info_pendaftaran" value="Guru / Tendik SIT Robbani" class="text-emerald-700 focus:ring-emerald-500">
+                            <span class="font-bold text-slate-700">Guru / Tendik Robbani</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
+                            <input type="radio" name="info_pendaftaran" value="Lainnya" class="text-emerald-700 focus:ring-emerald-500">
+                            <span class="font-bold text-slate-700">Lainnya</span>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                    <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Desa / Kelurahan</label>
-                        <input type="text" name="kelurahan" id="kelurahan" placeholder="Kelurahan Timbangan" oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Kecamatan</label>
-                        <input type="text" name="kecamatan" id="kecamatan" value="Indralaya Utara" oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-[11px] sm:text-xs font-black uppercase" style="color: var(--text-body);">Kabupaten / Kota</label>
-                        <input type="text" name="kabupaten" id="kabupaten" value="Ogan Ilir" oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 sm:py-3 rounded-2xl spmb-input text-xs font-bold">
-                    </div>
-                </div>
-
-                <!-- File Upload Section -->
-                <div class="p-3.5 sm:p-5 rounded-2xl bg-teal-50 dark:bg-slate-900/90 border border-teal-200 dark:border-slate-800 space-y-3">
-                    <span class="text-xs font-black text-teal-900 dark:text-teal-300 block uppercase flex items-center gap-1.5">
-                        <span>📁</span> Upload File Berkas Syarat SPMB (Opsional / Dapat Menyusul)
+                <!-- Info Rekening Pembayaran Resmi -->
+                <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-400 block">
+                        💳 Rekening Resmi Pembayaran Biaya Pendaftaran Formulir:
                     </span>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">📸 Pas Foto Ananda (JPG/PNG)</label>
-                            <input type="file" name="pas_foto" id="pas_foto" accept="image/*" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-xs font-medium">
+                    <div class="font-mono text-xs space-y-1.5">
+                        <div class="p-2 rounded-xl bg-slate-800 flex justify-between items-center">
+                            <div>
+                                <span class="text-emerald-400 font-bold block">BANK SYARIAH INDONESIA (BSI)</span>
+                                <span>7206858502</span>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-sans">a.n. YAYASAN GENERASI ROBBANI</span>
                         </div>
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">🪪 KTP Orang Tua (JPG/PDF)</label>
-                            <input type="file" name="ktp_ortu" id="ktp_ortu" accept="image/*,.pdf" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-xs font-medium">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">📜 Kartu Keluarga / KK (JPG/PDF)</label>
-                            <input type="file" name="kartu_keluarga" id="kartu_keluarga" accept="image/*,.pdf" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-xs font-medium">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[10px] sm:text-[11px] font-black uppercase text-slate-800 dark:text-slate-200">💳 Bukti Transfer Form (<span id="fileFeeNotice">Rp 250.000</span>)</label>
-                            <input type="file" name="bukti_transfer" id="bukti_transfer" accept="image/*,.pdf" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-xs font-medium">
+                        <div class="p-2 rounded-xl bg-slate-800 flex justify-between items-center">
+                            <div>
+                                <span class="text-emerald-400 font-bold block">BANK MUAMALAT</span>
+                                <span>3610061740</span>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-sans">a.n. YAYASAN GENERASI ROBBANI SUMATERA SELATAN</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="pt-3 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5">
-                    <button type="button" onclick="goToStep(3)" class="w-full sm:w-auto px-5 py-2.5 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">
-                        ⬅ Kembali
+                <!-- File Upload Cards -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-black text-slate-800 uppercase tracking-wide">Unggah Berkas Pendukung (JPG, PNG, atau PDF):</h4>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Pas Foto -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-800">1. Pas Foto Calon Siswa (Terbaru)</label>
+                            <input type="file" name="pas_foto" accept="image/png,image/jpeg,image/webp" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            <p class="text-[10px] text-slate-400">Format foto 3x4 atau setara.</p>
+                        </div>
+
+                        <!-- Kartu Keluarga -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-800">2. Kartu Keluarga (KK)</label>
+                            <input type="file" name="kartu_keluarga" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            <p class="text-[10px] text-slate-400">Scan / Foto Kartu Keluarga jelas.</p>
+                        </div>
+
+                        <!-- KTP Orang Tua -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-800">3. KTP Orang Tua (Ayah / Ibu)</label>
+                            <input type="file" name="ktp_ortu" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            <p class="text-[10px] text-slate-400">Foto KTP Ayah / Ibu.</p>
+                        </div>
+
+                        <!-- Akta Kelahiran -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-800">4. Akta Kelahiran Anak</label>
+                            <input type="file" name="akta_kelahiran" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            <p class="text-[10px] text-slate-400">Foto Akta Kelahiran.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bukti Transfer -->
+                    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
+                        <label class="block text-xs font-black text-amber-950 uppercase">5. Bukti Transfer Biaya Formulir Pendaftaran</label>
+                        <input type="file" name="bukti_transfer" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-600 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
+                        <p class="text-[11px] text-amber-800">Unggah bukti transfer dari ATM / Mobile Banking untuk mempercepat verifikasi otomatis.</p>
+                    </div>
+                </div>
+
+                <!-- Pernyataan Keabsahan Data -->
+                <div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-700 space-y-2">
+                    <label class="flex items-start gap-2.5 cursor-pointer">
+                        <input type="checkbox" required class="mt-0.5 rounded text-emerald-700 focus:ring-emerald-500">
+                        <span class="text-[11px] leading-relaxed">
+                            Dengan ini saya menyatakan bahwa data yang saya isikan pada formulir pendaftaran SPMB SIT Robbani Ogan Ilir ini adalah benar, sah, dan dapat dipertanggungjawabkan.
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Navigation & Submit -->
+                <div class="pt-4 flex items-center justify-between">
+                    <button type="button" onclick="goToStep(4)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                        <span>⬅ Kembali</span>
                     </button>
-                    <button type="button" onclick="goToStep(5)" class="w-full sm:w-auto px-6 py-3 rounded-2xl btn-gradient-action font-black text-xs shadow-md flex items-center justify-center gap-2">
-                        <span>Lanjut ke Pratinjau Final</span> <span>➔</span>
+                    <button type="submit" id="submitBtn" class="px-8 py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-700/25 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <span>✓ KIRIM PENDAFTARAN SEKARANG</span>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 5: Konfirmasi Pratinjau Ringkasan & Submit -->
-            <div id="step-section-5" class="step-section space-y-4 hidden">
-                <div class="border-b pb-2.5 border-slate-200 dark:border-slate-800">
-                    <h3 class="text-xs sm:text-base font-black flex items-center gap-1.5" style="color: var(--text-heading);">
-                        <span>📋</span> STEP 5: Pratinjau Seluruh Isian Data Pendaftaran SPMB
-                    </h3>
-                    <p class="text-[11px] sm:text-xs font-medium mt-0.5" style="color: var(--text-muted);">Periksa kembali ringkasan seluruh data yang telah diisikan sebelum mengirim formulir secara resmi.</p>
-                </div>
-
-                <!-- Full Comprehensive Summary Card Grid -->
-                <div class="p-3.5 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 text-xs shadow-sm">
-                    <h4 class="font-black text-xs uppercase text-emerald-700 dark:text-lime-400 border-b pb-2 border-slate-200 dark:border-slate-800 flex items-center gap-1.5">
-                        <span>🔍</span> Summary Ringkasan Formulir SPMB
-                    </h4>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
-                            <span class="font-black text-[10px] uppercase text-orange-600 dark:text-orange-400 block">🏫 Unit & Biaya Form</span>
-                            <p class="font-bold text-slate-800 dark:text-white">Unit Sekolah: <span id="sum-unit" class="text-emerald-700 dark:text-lime-400 font-black">-</span></p>
-                            <p class="font-bold text-slate-800 dark:text-white">Jalur SPMB: <span id="sum-jalur" class="font-black">-</span></p>
-                            <p class="font-bold text-slate-800 dark:text-white">Biaya Pendaftaran: <span id="sum-biaya" class="font-mono text-emerald-700 dark:text-lime-400 font-black">-</span></p>
-                        </div>
-                        
-                        <div class="space-y-1 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
-                            <span class="font-black text-[10px] uppercase text-emerald-700 dark:text-lime-400 block">🎓 Calon Siswa & Saudara</span>
-                            <p class="font-bold text-slate-800 dark:text-white">Nama Akta: <span id="sum-nama" class="font-black">-</span></p>
-                            <p class="font-medium text-slate-600 dark:text-slate-300">NIK / NISN: <span id="sum-nik">-</span></p>
-                            <p class="font-medium text-slate-600 dark:text-slate-300">TTL / JK: <span id="sum-ttl">-</span></p>
-                            <p class="font-medium text-slate-600 dark:text-slate-300">Saudara di Robbani: <span id="sum-saudara" class="font-bold text-purple-700 dark:text-purple-400">-</span></p>
-                        </div>
-
-                        <div class="space-y-1 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
-                            <span class="font-black text-[10px] uppercase text-blue-600 dark:text-blue-400 block">👨‍👩‍JB Data Orang Tua</span>
-                            <p class="font-bold text-slate-800 dark:text-white">Ayah Kandung: <span id="sum-ayah" class="font-black">-</span> (WA: <span id="sum-wa-ayah">-</span>)</p>
-                            <p class="font-bold text-slate-800 dark:text-white">Ibu Kandung: <span id="sum-ibu" class="font-black">-</span></p>
-                            <p class="font-medium text-slate-600 dark:text-slate-300">Email Ortu: <span id="sum-email">-</span></p>
-                        </div>
-
-                        <div class="space-y-1 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
-                            <span class="font-black text-[10px] uppercase text-teal-600 dark:text-teal-400 block">🏡 Domisili & Lampiran Berkas</span>
-                            <p class="font-medium text-slate-600 dark:text-slate-300">Alamat: <span id="sum-alamat">-</span></p>
-                            <p class="font-medium text-slate-600 dark:text-slate-300">Status Berkas: <span id="sum-berkas" class="font-bold text-emerald-700 dark:text-lime-400">Siap Ditinjau Panitia</span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-3 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5">
-                    <button type="button" onclick="goToStep(4)" class="w-full sm:w-auto px-5 py-2.5 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">
-                        ⬅ Kembali Edit Data
-                    </button>
-                    <button type="submit" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl btn-gradient-action font-black text-xs uppercase tracking-wider shadow-2xl hover:opacity-95 transition-transform active:scale-95 flex items-center justify-center gap-2">
-                        <span>Submit Formulir SPMB Online</span>
-                        <span>➔</span>
-                    </button>
-                </div>
-            </div>
         </form>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="py-5 sm:py-8 text-center text-[11px] sm:text-xs font-semibold border-t transition-colors px-3" style="background-color: var(--bg-card); border-color: var(--border-card); color: var(--text-muted);">
-        <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
+    <!-- Footer Simple -->
+    <footer class="py-6 border-t border-slate-200 text-center text-xs text-slate-500">
+        <p>&copy; {{ date('Y') }} Yayasan Generasi Robbani Sumatera Selatan. SPMB Online System.</p>
     </footer>
 
-    <!-- Interactive Stepper & Auto-Save LocalStorage Script -->
+    <!-- Form Wizard Logic -->
     <script>
-        let currentStep = 1;
-
-        const unitFees = {
-            'tkit': 'Rp 200.000',
-            'sdit': 'Rp 250.000',
-            'smpit': 'Rp 300.000',
-            'smait': 'Rp 350.000'
+        const feesBySchool = {
+            'TPA': 'Rp 200.000',
+            'KB': 'Rp 200.000',
+            'TK': 'Rp 200.000',
+            'TKIT': 'Rp 200.000',
+            'SD': 'Rp 250.000',
+            'SDIT': 'Rp 250.000',
+            'SMP': 'Rp 300.000',
+            'SMPIT': 'Rp 300.000',
+            'SMA': 'Rp 350.000',
+            'SMAIT': 'Rp 350.000',
         };
 
         function updateUnitFeeInfo() {
-            const unit = (document.getElementById('school_code').value || 'sdit').toLowerCase();
-            const fee = unitFees[unit] || 'Rp 250.000';
-            const unitName = unit.toUpperCase();
-
-            document.getElementById('unitFeeBadge').innerText = `Biaya Form ${unitName}: ${fee}`;
-            document.getElementById('selectedUnitFeeDisplay').innerText = fee;
-            document.getElementById('fileFeeNotice').innerText = fee;
-        }
-
-        function toggleSiblingInput() {
-            const val = document.getElementById('has_sibling').value;
-            const container = document.getElementById('siblingInputContainer');
-            if (val === 'YA') {
-                container.classList.remove('hidden');
-            } else {
-                container.classList.add('hidden');
+            const sc = document.getElementById('school_code');
+            const feeDisplay = document.getElementById('selectedUnitFeeDisplay');
+            if (sc && feeDisplay) {
+                const val = sc.value.toUpperCase();
+                feeDisplay.innerText = feesBySchool[val] || 'Rp 250.000';
             }
         }
 
-        function goToStep(stepNum) {
-            // Validate basic required fields on current step before advancing
-            if (stepNum > currentStep) {
-                if (currentStep === 1) {
-                    const unit = document.getElementById('school_code').value;
-                    if (!unit) return alert('Silakan pilih unit sekolah terlebih dahulu.');
-                } else if (currentStep === 2) {
-                    const nama = document.getElementById('nama_lengkap').value;
-                    if (!nama || nama.trim().length < 3) return alert('Silakan isi nama lengkap ananda dengan benar (huruf saja, minimal 3 karakter).');
-                    
-                    const nik = document.getElementById('nik_siswa').value;
-                    if (nik && nik.length !== 16) return alert('NIK Siswa harus terdiri dari 16 digit angka (sesuai Kartu Keluarga).');
-                } else if (currentStep === 3) {
-                    const ayah = document.getElementById('nama_ayah').value;
-                    const wa = document.getElementById('no_hp_ayah').value;
-                    const email = document.getElementById('email_ortu').value;
-                    if (!ayah || ayah.trim().length < 3) return alert('Silakan isi nama ayah dengan benar (khusus huruf).');
-                    if (!wa || wa.length < 10) return alert('Silakan isi nomor WhatsApp ayah dengan benar (10-15 digit angka).');
-                    if (!email || !email.includes('@')) return alert('Silakan masukkan format alamat email ortu yang valid.');
-                }
-            }
-
-            // Hide all step sections
-            document.querySelectorAll('.step-section').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById('step-section-' + stepNum).classList.remove('hidden');
-
-            // Update step pills
+        function goToStep(step) {
             for (let i = 1; i <= 5; i++) {
-                const pill = document.getElementById('pill-step-' + i);
-                if (pill) {
-                    if (i === stepNum) {
-                        pill.className = 'px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]';
+                const section = document.getElementById(`step-section-${i}`);
+                const pill = document.getElementById(`pill-step-${i}`);
+                if (section) {
+                    if (i === step) {
+                        section.classList.remove('hidden');
                     } else {
-                        pill.className = 'px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]';
+                        section.classList.add('hidden');
+                    }
+                }
+                if (pill) {
+                    if (i === step) {
+                        pill.className = "px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-active text-[11px]";
+                    } else {
+                        pill.className = "px-3 py-1.5 rounded-xl text-center transition-all shrink-0 step-pill-inactive text-[11px]";
                     }
                 }
             }
-
-            // Update step progress percentage
-            const pct = stepNum * 20;
-            document.getElementById('progressBarFill').style.width = pct + '%';
-            document.getElementById('stepPercentText').innerText = pct + '% SELESAI';
-
-            const titles = [
-                'LANGKAH 1 DARI 5: PILIHAN JENJANG & JALUR',
-                'LANGKAH 2 DARI 5: DATA CALON SISWA (ANANDA)',
-                'LANGKAH 3 DARI 5: DATA ORANG TUA KANDUNG',
-                'LANGKAH 4 DARI 5: DOMISILI & UPLOAD BERKAS',
-                'LANGKAH 5 DARI 5: PRATINJAU RINGKASAN FINAL & SUBMIT'
-            ];
-            document.getElementById('stepTitleText').innerText = titles[stepNum - 1];
-
-            // Update full preview on step 5
-            if (stepNum === 5) {
-                const unitCode = (document.getElementById('school_code').value || 'sdit').toLowerCase();
-                const feeText = unitFees[unitCode] || 'Rp 250.000';
-                
-                document.getElementById('sum-unit').innerText = unitCode.toUpperCase();
-                document.getElementById('sum-jalur').innerText = document.getElementById('jalur_pendaftaran').value || 'REGULER';
-                document.getElementById('sum-biaya').innerText = feeText;
-                document.getElementById('sum-nama').innerText = document.getElementById('nama_lengkap').value || '-';
-                document.getElementById('sum-nik').innerText = (document.getElementById('nik_siswa').value || '-') + ' / ' + (document.getElementById('nisn').value || '-');
-                document.getElementById('sum-ttl').innerText = (document.getElementById('tempat_lahir').value || '-') + ', ' + (document.getElementById('tanggal_lahir').value || '-') + ' (' + (document.getElementById('jenis_kelamin').value || '-') + ')';
-                
-                const siblingVal = document.getElementById('has_sibling').value;
-                if (siblingVal === 'YA') {
-                    document.getElementById('sum-saudara').innerText = document.getElementById('sibling_info').value || 'Ada Saudara di Robbani';
-                } else {
-                    document.getElementById('sum-saudara').innerText = 'Tidak Ada (Pendaftaran Baru)';
-                }
-
-                document.getElementById('sum-ayah').innerText = document.getElementById('nama_ayah').value || '-';
-                document.getElementById('sum-wa-ayah').innerText = document.getElementById('no_hp_ayah').value || '-';
-                document.getElementById('sum-ibu').innerText = document.getElementById('nama_ibu').value || '-';
-                document.getElementById('sum-email').innerText = document.getElementById('email_ortu').value || '-';
-                document.getElementById('sum-alamat').innerText = document.getElementById('alamat').value || '-';
-            }
-
-            currentStep = stepNum;
             window.scrollTo({ top: 120, behavior: 'smooth' });
         }
 
-        // Auto-Save Draft to LocalStorage
-        function saveSpmbDraft() {
-            const form = document.getElementById('spmbForm');
-            const formData = new FormData(form);
-            const dataObj = {};
-            formData.forEach((value, key) => {
-                if (key !== '_token' && !(value instanceof File)) dataObj[key] = value;
-            });
-            localStorage.setItem('spmb_auto_draft_v7', JSON.stringify(dataObj));
-        }
-
-        function restoreSpmbDraft() {
-            const draftStr = localStorage.getItem('spmb_auto_draft_v7');
-            if (draftStr) {
-                try {
-                    const dataObj = JSON.parse(draftStr);
-                    let restoredCount = 0;
-                    Object.keys(dataObj).forEach(key => {
-                        const el = document.getElementById(key);
-                        if (el && dataObj[key] && el.type !== 'file') {
-                            el.value = dataObj[key];
-                            restoredCount++;
-                        }
-                    });
-                    if (restoredCount > 0) {
-                        const notice = document.getElementById('draftNoticeBar');
-                        if (notice) notice.classList.remove('hidden');
-                        toggleSiblingInput();
-                        updateUnitFeeInfo();
-                    }
-                } catch(e) {}
-            }
-        }
-
-        function clearSpmbDraft() {
-            localStorage.removeItem('spmb_auto_draft_v7');
-            const notice = document.getElementById('draftNoticeBar');
-            if (notice) notice.classList.add('hidden');
-        }
-
-        // Theme Switcher (Default: Light Mode)
-        function toggleSpmbTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
-            
-            if (html.classList.contains('light')) {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                localStorage.setItem('spmb_theme_preference', 'dark');
-                if (themeIcon) themeIcon.innerText = '🌙';
-                if (themeText) themeText.innerText = 'Mode Gelap';
-            } else {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                localStorage.setItem('spmb_theme_preference', 'light');
-                if (themeIcon) themeIcon.innerText = '☀️';
-                if (themeText) themeText.innerText = 'Mode Terang';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Restore theme preference or default to light
-            const savedTheme = localStorage.getItem('spmb_theme_preference') || 'light';
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
-
-            if (savedTheme === 'dark') {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                if (themeIcon) themeIcon.innerText = '🌙';
-                if (themeText) themeText.innerText = 'Mode Gelap';
-            } else {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                if (themeIcon) themeIcon.innerText = '☀️';
-                if (themeText) themeText.innerText = 'Mode Terang';
-            }
-
-            // Restore draft data
-            restoreSpmbDraft();
-            updateUnitFeeInfo();
-
-            // Auto save on input change
-            const form = document.getElementById('spmbForm');
-            if (form) {
-                form.addEventListener('input', saveSpmbDraft);
-                form.addEventListener('change', saveSpmbDraft);
-                form.addEventListener('submit', () => {
-                    localStorage.removeItem('spmb_auto_draft_v7');
-                });
-            }
-        });
-    </script>
-    @include('components.chat-ai-widget')
-
-
-    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -40px 0px',
-                threshold: 0.05
-            };
-
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        entry.target.classList.add('revealed');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
-            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
+            updateUnitFeeInfo();
         });
     </script>
 </body>

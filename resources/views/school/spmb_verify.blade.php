@@ -63,7 +63,7 @@
                 </div>
             </a>
             
-            <a href="{{ route('school.ppdb') }}" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all">
+            <a href="{{ route('school.spmb.form') }}" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all">
                 + Formulir Baru
             </a>
         </div>

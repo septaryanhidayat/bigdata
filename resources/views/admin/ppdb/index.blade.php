@@ -18,9 +18,14 @@
             <p class="text-xs text-slate-500 font-medium mt-0.5">Verifikasi pendaftaran calon siswa baru, dokumen syarat, pembayaran pendaftaran, & kelulusan.</p>
         </div>
 
-        <a href="{{ route('school.ppdb') }}" target="_blank" class="px-4 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-xs shadow-md hover:bg-slate-800 flex items-center gap-2">
-            <span>🌐</span> Buka Form PPDB Public ↗
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('school.spmb') }}" target="_blank" class="px-4 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-xs shadow-md hover:bg-slate-800 flex items-center gap-2">
+                <span>🌐</span> Landing Page SPMB ↗
+            </a>
+            <a href="{{ route('school.spmb.form') }}" target="_blank" class="px-4 py-2.5 rounded-2xl bg-emerald-700 text-white font-black text-xs shadow-md hover:bg-emerald-800 flex items-center gap-2">
+                <span>📝</span> Formulir SPMB ↗
+            </a>
+        </div>
     </div>
 
     <!-- Table of Registrations -->

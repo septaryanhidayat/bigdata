@@ -3,24 +3,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bukti Registrasi SPMB Online - {{ $registration->registration_number }}</title>
+    <title>Formulir F-SPMB Resmi - {{ $registration->registration_number }} | SIT Robbani</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f8fafc; 
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background-color: #f1f5f9; 
             color: #0f172a; 
         }
         
         .pdf-card {
             background-color: #ffffff;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #cbd5e1;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
-        .gradient-line {
-            background: linear-gradient(90deg, #059669 0%, #10b981 50%, #f97316 100%);
+        .table-field td {
+            padding: 4px 8px;
+            vertical-align: top;
+        }
+
+        .table-field tr:nth-child(even) {
+            background-color: #f8fafc;
         }
 
         @media print {
@@ -39,272 +44,376 @@
             }
             @page {
                 size: A4 portrait;
-                margin: 10mm;
+                margin: 8mm 10mm;
             }
         }
     </style>
-
-    <!-- Smooth Scroll Reveal Animation Styles -->
-    <style>
-        .scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .reveal-scale-up { transform: scale(0.93); }
-        .reveal-slide-left { transform: translateX(-35px); }
-        .reveal-slide-right { transform: translateX(35px); }
-
-        .scroll-reveal.is-visible, .reveal-fade-up.is-visible, .reveal-scale-up.is-visible,
-        .reveal-slide-left.is-visible, .reveal-slide-right.is-visible, .revealed {
-            opacity: 1 !important;
-            transform: translateY(0) scale(1) translateX(0) !important;
-        }
-
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-        .delay-400 { transition-delay: 400ms; }
-        .delay-500 { transition-delay: 500ms; }
-    </style>
 </head>
-<body class="p-4 sm:p-8 antialiased">
+<body class="p-3 sm:p-8 antialiased">
 
     @php
-        $d = json_decode($registration->details_json, true) ?? [];
+        $d = is_array($registration->details_json) 
+            ? $registration->details_json 
+            : (is_string($registration->details_json) ? (json_decode($registration->details_json, true) ?? []) : []);
         $docs = $d['uploaded_docs'] ?? [];
     @endphp
 
     <!-- Top Action Bar (Hidden when printing) -->
     <div class="no-print max-w-4xl mx-auto mb-6 p-4 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-orange-500 text-white font-black text-lg flex items-center justify-center shadow-md">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-black text-lg flex items-center justify-center shadow-md">
                 📄
             </div>
             <div>
-                <h4 class="font-black text-sm text-white">Bukti Pendaftaran SPMB Online Resmi</h4>
+                <h4 class="font-black text-sm text-white">Formulir Pendaftaran Siswa Baru (F-SPMB)</h4>
                 <p class="text-xs text-slate-300 font-medium">Nomor Registrasi: <span class="font-mono text-amber-300 font-bold">{{ $registration->registration_number }}</span></p>
             </div>
         </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-            <button onclick="window.print()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-lg transition-all flex items-center justify-center gap-2">
-                <span>🖨️</span> Cetak / Simpan Dokumen PDF
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+            <button onclick="window.print()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                <span>🖨️</span> Cetak / Simpan PDF
             </button>
+            <a href="{{ route('school.spmb') }}" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs">
+                Kembali
+            </a>
         </div>
     </div>
 
     <!-- Main Printable A4 Form Container -->
-    <div class="pdf-container max-w-4xl mx-auto pdf-card rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+    <div class="pdf-container max-w-4xl mx-auto pdf-card rounded-2xl p-6 sm:p-10 space-y-5 text-xs text-slate-900">
         
-        <!-- Header Kop Surat Yayasan -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b pb-6 border-slate-200">
-            <div class="flex items-center gap-4 text-center sm:text-left">
-                @php
-                    $logoPdf = $settings['logo_light'] ?? $settings['school_logo'] ?? null;
-                @endphp
-                @if($logoPdf)
-                <img src="{{ $logoPdf }}" alt="Logo {{ $settings['school_name'] ?? 'SIT Robbani' }}" class="h-16 w-auto max-w-[200px] object-contain shrink-0 mx-auto sm:mx-0">
-                @else
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-700 via-teal-600 to-orange-500 text-white font-black text-3xl flex items-center justify-center shadow-md shrink-0 mx-auto sm:mx-0">
-                    S
-                </div>
-                @endif
+        <!-- Header Kop Surat Yayasan / Sekolah -->
+        <div class="flex items-center justify-between border-b-2 border-emerald-900 pb-3 gap-4">
+            <div class="flex items-center gap-3">
+                <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-16 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
                 <div>
-                    <h1 class="text-lg sm:text-xl font-black tracking-tight text-slate-900 uppercase">{{ $settings['school_name'] ?? 'YAYASAN GENERASI ROBBANI SUMATERA SELATAN' }}</h1>
-                    <h2 class="text-xs sm:text-sm font-bold text-emerald-700 uppercase tracking-wide">SEKOLAH ISLAM TERPADU ROBBANI (KB/TKIT, SDIT, SMPIT, SMAIT)</h2>
-                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Alamat: {{ $settings['contact_address'] ?? 'Indralaya, Ogan Ilir, Sumatera Selatan' }} | Email: {{ $settings['contact_email'] ?? 'info@sitrobbani.sch.id' }}</p>
+                    <h1 class="text-base sm:text-lg font-black tracking-tight uppercase text-emerald-900">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</h1>
+                    <h2 class="text-xs sm:text-sm font-black text-slate-900 uppercase">SEKOLAH ISLAM TERPADU ROBBANI OGAN ILIR</h2>
+                    <p class="text-[10px] text-slate-600">Alamat: Indralaya, Kab. Ogan Ilir, Sumatera Selatan | Telp/WA: 0811747472 | Website: sitrobbani.sch.id</p>
                 </div>
             </div>
-            
-            <div class="text-center sm:text-right shrink-0 space-y-1">
-                <span class="px-3.5 py-1 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-800 font-mono font-black text-xs inline-block">
-                    SPMB T.A 2026/2027
-                </span>
-                <p class="text-[10px] text-slate-400 font-bold block uppercase">VERIFIED DIGITAL DOCUMENT</p>
+            <div class="text-right shrink-0 border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50 font-mono text-[11px] font-bold">
+                <span class="block text-[9px] font-sans text-slate-500 uppercase">Kode Formulir</span>
+                F - SPMB 2026/2027
             </div>
         </div>
 
-        <div class="h-1.5 w-full rounded-full gradient-line"></div>
-
-        <!-- Document Title Banner & QR Code -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-1">
-            <div class="text-center sm:text-left space-y-1">
-                <h2 class="text-base sm:text-lg font-black text-slate-900 uppercase tracking-wide">FORMULIR TANDA TERIMA BUKTI REGISTRASI SPMB ONLINE</h2>
-                <p class="text-xs text-slate-500 font-semibold">Panitia Penerimaan Murid Baru SIT Robbani Ogan Ilir</p>
-                
-                <div class="pt-1">
-                    <div class="px-5 py-2.5 rounded-2xl bg-slate-900 text-white border-2 border-amber-400 shadow-md inline-flex items-center gap-3">
-                        <span class="text-[11px] font-bold text-slate-300 uppercase tracking-wider">NO. REGISTRASI:</span>
-                        <span class="font-mono text-xl font-black text-amber-300">{{ $registration->registration_number }}</span>
-                    </div>
-                </div>
-            </div>
-
-            @php
-                $pdfVerifyUrl = route('school.spmb.verify', $registration->registration_number);
-                $pdfQrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode($pdfVerifyUrl);
-            @endphp
-            <div class="p-2 rounded-2xl bg-white border border-slate-200 text-center shadow-xs shrink-0">
-                <img src="{{ $pdfQrUrl }}" alt="QR Code Verifikasi" class="w-20 h-20 mx-auto rounded-lg">
-                <span class="text-[8px] font-bold text-slate-500 uppercase block mt-0.5">Scan Untuk Akses & Download Ulang</span>
+        <!-- Title of Form -->
+        <div class="text-center space-y-1">
+            <h3 class="text-sm sm:text-base font-black uppercase tracking-wide text-slate-900">
+                FORMULIR PENERIMAAN PESERTA DIDIK BARU SEKOLAH ISLAM TERPADU ROBBANI
+            </h3>
+            <div class="flex items-center justify-between text-[11px] font-bold text-slate-700 pt-1">
+                <span>Tanggal: {{ $registration->created_at ? $registration->created_at->translatedFormat('d / m / Y') : date('d / m / Y') }}</span>
+                <span>REG : <strong class="font-mono text-emerald-900 text-xs">{{ $registration->registration_number }}</strong></span>
             </div>
         </div>
 
-        <!-- Section I: Data Calon Siswa -->
-        <div class="rounded-2xl border border-slate-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-2 text-white font-black text-xs uppercase flex items-center justify-between">
-                <span>🎓 I. DATA CALON SISWA (ANANDA)</span>
-                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 font-mono font-black text-[10px] uppercase">
-                    UNIT: {{ $registration->target_level }}
-                </span>
+        <!-- I. IDENTITAS PESERTA DIDIK (WAJIB DIISI) -->
+        <div class="border border-slate-300 rounded-lg overflow-hidden">
+            <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase flex justify-between items-center">
+                <span>IDENTITAS PESERTA DIDIK (WAJIB DIISI)</span>
+                <span class="text-[9px] font-normal text-emerald-100">Mohon diisi dengan Huruf Kapital</span>
             </div>
-            <div class="p-4 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-3 text-xs bg-slate-50/50">
-                <div class="space-y-0.5">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">Nama Lengkap Ananda</span>
-                    <span class="font-black text-slate-900 text-sm block">{{ $registration->full_name }}</span>
+            <table class="w-full text-[11px] table-field">
+                <tbody>
+                    <tr>
+                        <td class="w-48 font-bold text-slate-700">1. Nama Lengkap</td>
+                        <td class="w-3">:</td>
+                        <td class="font-black uppercase text-slate-900">{{ $registration->full_name }}</td>
+                        <td class="w-36 font-bold text-slate-700">2. Nama Panggilan</td>
+                        <td class="w-3">:</td>
+                        <td class="font-bold text-slate-800">{{ $d['nama_panggilan'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">3. NIK Siswa</td>
+                        <td>:</td>
+                        <td class="font-mono font-bold">{{ $d['nik_siswa'] ?? '-' }}</td>
+                        <td class="font-bold text-slate-700">4. Jenis Kelamin</td>
+                        <td>:</td>
+                        <td class="font-bold">{{ $d['jenis_kelamin'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">5. Tempat, Tgl Lahir</td>
+                        <td>:</td>
+                        <td colspan="4" class="font-bold">
+                            {{ $d['tempat_lahir'] ?? '-' }}, {{ isset($d['tanggal_lahir']) ? \Carbon\Carbon::parse($d['tanggal_lahir'])->translatedFormat('d F Y') : '-' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">6. Anak ke -</td>
+                        <td>:</td>
+                        <td>{{ $d['anak_ke'] ?? '1' }} dari {{ $d['jumlah_saudara'] ?? '1' }} saudara</td>
+                        <td class="font-bold text-slate-700">7. Status Orang Tua</td>
+                        <td>:</td>
+                        <td class="font-bold">{{ $d['status_ortu'] ?? 'Ayah dan Ibu Masih Ada' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">8. Tempat Tinggal Anak</td>
+                        <td>:</td>
+                        <td colspan="4">{{ $d['tempat_tinggal_anak'] ?? 'Ikut Orang Tua' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">9. Alamat Tempat Tinggal</td>
+                        <td>:</td>
+                        <td colspan="4" class="font-medium">
+                            {{ $d['alamat'] ?? '-' }}
+                            <div class="text-[10px] text-slate-600 mt-0.5">
+                                Dusun/RT: {{ $d['dusun'] ?? '-' }} | Kel/Desa: {{ $d['kelurahan'] ?? '-' }} | Kode Pos: {{ $d['kode_pos'] ?? '-' }} | Kec: {{ $d['kecamatan'] ?? '-' }} | Kab/Kota: {{ $d['kabupaten'] ?? '-' }} | Prov: {{ $d['provinsi'] ?? '-' }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">10. Kewarganegaraan</td>
+                        <td>:</td>
+                        <td>{{ $d['kewarganegaraan'] ?? 'WNI' }}</td>
+                        <td class="font-bold text-slate-700">11. Bahasa Sehari-hari</td>
+                        <td>:</td>
+                        <td>{{ $d['bahasa_sehari_hari'] ?? 'Indonesia' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- II. DATA SEKOLAH -->
+        <div class="border border-slate-300 rounded-lg overflow-hidden">
+            <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase">
+                DATA SEKOLAH
+            </div>
+            <table class="w-full text-[11px] table-field">
+                <tbody>
+                    <tr>
+                        <td class="w-48 font-bold text-slate-700">1. NISN</td>
+                        <td class="w-3">:</td>
+                        <td class="font-mono font-bold">{{ $d['nisn'] ?? '-' }}</td>
+                        <td class="w-36 font-bold text-slate-700">2. Masuk di Kelas / Unit</td>
+                        <td class="w-3">:</td>
+                        <td class="font-black text-emerald-900">{{ $registration->target_level }} ({{ $d['masuk_kelas'] ?? '-' }})</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">3. Siswa Baru / Pindahan</td>
+                        <td>:</td>
+                        <td>{{ $d['status_siswa'] ?? 'Baru' }}</td>
+                        <td class="font-bold text-slate-700">4. Kategori Sekolah Asal</td>
+                        <td>:</td>
+                        <td>{{ $d['kategori_sekolah_asal'] ?? 'Luar SIT Robbani' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">5. Nama Sekolah Asal</td>
+                        <td>:</td>
+                        <td colspan="4" class="font-bold">{{ $registration->previous_school ?? $d['sekolah_asal'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">6. Prestasi Yang Pernah Diraih</td>
+                        <td>:</td>
+                        <td colspan="4">{{ $d['prestasi'] ?? '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- III. DATA KESEHATAN & MODA TRANSPORTASI -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Data Kesehatan -->
+            <div class="border border-slate-300 rounded-lg overflow-hidden">
+                <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase">
+                    DATA KESEHATAN
                 </div>
-                <div class="space-y-0.5">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">NIK Siswa / NISN</span>
-                    <span class="font-mono font-bold text-slate-800 block">{{ $d['nik_siswa'] ?? '-' }} / {{ $d['nisn'] ?? '-' }}</span>
+                <table class="w-full text-[11px] table-field">
+                    <tbody>
+                        <tr>
+                            <td class="w-36 font-bold text-slate-700">1. Tinggi Badan</td>
+                            <td class="w-2">:</td>
+                            <td>{{ $d['tinggi_badan'] ?? '-' }} cm</td>
+                            <td class="font-bold text-slate-700">2. Berat</td>
+                            <td class="w-2">:</td>
+                            <td>{{ $d['berat_badan'] ?? '-' }} kg</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">3. Golongan Darah</td>
+                            <td>:</td>
+                            <td colspan="4" class="font-bold">{{ $d['golongan_darah'] ?? 'Belum Tahu' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">4. Penyakit Pernah</td>
+                            <td>:</td>
+                            <td colspan="4">{{ $d['penyakit_pernah'] ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">5. Penyakit Sedang</td>
+                            <td>:</td>
+                            <td colspan="4">{{ $d['penyakit_sedang'] ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">6. Kelainan Fisik</td>
+                            <td>:</td>
+                            <td colspan="4">{{ $d['kelainan_fisik'] ?? 'Tidak Ada' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Moda Transportasi -->
+            <div class="border border-slate-300 rounded-lg overflow-hidden">
+                <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase">
+                    MODA TRANSPORTASI PESERTA DIDIK
                 </div>
-                <div class="space-y-0.5">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">Jenis Kelamin</span>
-                    <span class="font-bold text-slate-900 block">{{ $d['jenis_kelamin'] ?? 'Laki-laki' }}</span>
-                </div>
-                <div class="space-y-0.5">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">Tempat, Tgl Lahir</span>
-                    <span class="font-bold text-slate-900 block">{{ $d['tempat_lahir'] ?? 'Kota' }}, {{ isset($d['tanggal_lahir']) ? \Carbon\Carbon::parse($d['tanggal_lahir'])->translatedFormat('d F Y') : '-' }}</span>
-                </div>
-                <div class="space-y-0.5">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">Jalur Pendaftaran</span>
-                    <span class="font-black text-emerald-700 block uppercase">{{ $d['jalur_pendaftaran'] ?? 'REGULER' }}</span>
-                </div>
-                <div class="space-y-0.5">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">Sekolah Asal</span>
-                    <span class="font-bold text-slate-800 block">{{ $registration->previous_school ?? 'TK/SD Asal' }}</span>
-                </div>
+                <table class="w-full text-[11px] table-field">
+                    <tbody>
+                        <tr>
+                            <td class="w-40 font-bold text-slate-700">1. Jarak ke Sekolah</td>
+                            <td class="w-2">:</td>
+                            <td class="font-bold">{{ $d['jarak_ke_sekolah'] ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">2. Transportasi Digunakan</td>
+                            <td>:</td>
+                            <td class="font-bold">{{ $d['transportasi'] ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">3. Sumber Info SPMB</td>
+                            <td>:</td>
+                            <td>{{ $d['info_pendaftaran'] ?? 'Media Sosial' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-slate-700">4. Biaya Pendaftaran</td>
+                            <td>:</td>
+                            <td class="font-mono font-bold text-emerald-800">
+                                Rp {{ number_format($registration->registration_fee, 0, ',', '.') }}
+                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 ml-1 font-sans">
+                                    {{ $registration->fee_paid ? 'LUNAS' : 'MENUNGGU VERIFIKASI' }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Section II: Data Orang Tua Kandung -->
-        <div class="rounded-2xl border border-slate-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-2 text-white font-black text-xs uppercase flex items-center justify-between">
-                <span>👨‍👩‍👦 II. DATA ORANG TUA KANDUNG & KONTAK</span>
-                <span class="text-[10px] text-amber-300 font-bold">VERIFIED CONTACT</span>
+        <!-- IV. DATA AYAH KANDUNG (WAJIB DIISI) -->
+        <div class="border border-slate-300 rounded-lg overflow-hidden">
+            <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase">
+                DATA AYAH KANDUNG (WAJIB DIISI)
             </div>
-            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-xs bg-slate-50/50">
-                <div class="space-y-0.5 border-b sm:border-b-0 pb-2 sm:pb-0 border-slate-200">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">👨 Ayah Kandung</span>
-                    <span class="font-black text-slate-900 block">{{ $registration->parent_name }}</span>
-                    <span class="text-[11px] text-slate-600 block">Pekerjaan: {{ $d['pekerjaan_ayah'] ?? '-' }} ({{ $d['pendidikan_ayah'] ?? '-' }})</span>
-                    <span class="text-[11px] font-mono text-emerald-700 font-bold block">WA: {{ $registration->phone_number }}</span>
-                </div>
-                <div class="space-y-0.5 border-b sm:border-b-0 pb-2 sm:pb-0 border-slate-200">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">👩 Ibu Kandung</span>
-                    <span class="font-black text-slate-900 block">{{ $d['nama_ibu'] ?? '-' }}</span>
-                    <span class="text-[11px] text-slate-600 block">Pekerjaan: {{ $d['pekerjaan_ibu'] ?? '-' }} ({{ $d['pendidikan_ibu'] ?? '-' }})</span>
-                    <span class="text-[11px] font-mono text-orange-700 font-bold block">WA: {{ $d['no_hp_ibu'] ?? '-' }}</span>
-                </div>
-                <div class="space-y-0.5 col-span-1 sm:col-span-2 pt-2 border-t border-slate-200">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase block">Email Aktif Orang Tua</span>
-                    <span class="font-mono font-bold text-slate-900 block">{{ $d['email_ortu'] ?? '-' }}</span>
-                </div>
-            </div>
+            <table class="w-full text-[11px] table-field">
+                <tbody>
+                    <tr>
+                        <td class="w-48 font-bold text-slate-700">1. Nama Lengkap</td>
+                        <td class="w-3">:</td>
+                        <td class="font-black text-slate-900">{{ $registration->parent_name }}</td>
+                        <td class="w-36 font-bold text-slate-700">3. NIK Ayah</td>
+                        <td class="w-3">:</td>
+                        <td class="font-mono font-bold">{{ $d['nik_ayah'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">2. Tempat, Tgl Lahir</td>
+                        <td>:</td>
+                        <td>{{ $d['tempat_lahir_ayah'] ?? '-' }}, {{ isset($d['tanggal_lahir_ayah']) ? \Carbon\Carbon::parse($d['tanggal_lahir_ayah'])->translatedFormat('d F Y') : '-' }}</td>
+                        <td class="font-bold text-slate-700">4. Pendidikan Terakhir</td>
+                        <td>:</td>
+                        <td>{{ $d['pendidikan_ayah'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">5. Pekerjaan</td>
+                        <td>:</td>
+                        <td>{{ $d['pekerjaan_ayah'] ?? '-' }}</td>
+                        <td class="font-bold text-slate-700">6. Instansi Bekerja</td>
+                        <td>:</td>
+                        <td>{{ $d['instansi_ayah'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">7. Bidang Keahlian</td>
+                        <td>:</td>
+                        <td>{{ $d['bidang_keahlian_ayah'] ?? '-' }}</td>
+                        <td class="font-bold text-slate-700">8. No. HP / WhatsApp</td>
+                        <td>:</td>
+                        <td class="font-mono font-bold">{{ $registration->phone_number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">9. Penghasilan Bulanan</td>
+                        <td>:</td>
+                        <td colspan="4">{{ $d['penghasilan_ayah'] ?? '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- Section III: Data Domisili Siswa -->
-        <div class="rounded-2xl border border-slate-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-2 text-white font-black text-xs uppercase">
-                <span>🏡 III. ALAMAT DOMISILI SISWA</span>
+        <!-- V. DATA IBU KANDUNG (WAJIB DIISI) -->
+        <div class="border border-slate-300 rounded-lg overflow-hidden">
+            <div class="bg-emerald-800 text-white font-black text-[11px] px-3 py-1.5 uppercase">
+                DATA IBU KANDUNG (WAJIB DIISI)
             </div>
-            <div class="p-4 text-xs bg-slate-50/50 space-y-1">
-                <span class="font-bold text-slate-900 block">{{ $d['alamat'] ?? $registration->address ?? '-' }}</span>
-                <span class="text-slate-600 block">Desa/Kel: {{ $d['kelurahan'] ?? '-' }} | Kec: {{ $d['kecamatan'] ?? 'Indralaya Utara' }} | Kab: {{ $d['kabupaten'] ?? 'Ogan Ilir' }} | Prov: {{ $d['provinsi'] ?? 'Sumatera Selatan' }}</span>
-            </div>
+            <table class="w-full text-[11px] table-field">
+                <tbody>
+                    <tr>
+                        <td class="w-48 font-bold text-slate-700">1. Nama Lengkap</td>
+                        <td class="w-3">:</td>
+                        <td class="font-black text-slate-900">{{ $d['nama_ibu'] ?? '-' }}</td>
+                        <td class="w-36 font-bold text-slate-700">3. NIK Ibu</td>
+                        <td class="w-3">:</td>
+                        <td class="font-mono font-bold">{{ $d['nik_ibu'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">2. Tempat, Tgl Lahir</td>
+                        <td>:</td>
+                        <td>{{ $d['tempat_lahir_ibu'] ?? '-' }}, {{ isset($d['tanggal_lahir_ibu']) ? \Carbon\Carbon::parse($d['tanggal_lahir_ibu'])->translatedFormat('d F Y') : '-' }}</td>
+                        <td class="font-bold text-slate-700">4. Pendidikan Terakhir</td>
+                        <td>:</td>
+                        <td>{{ $d['pendidikan_ibu'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">5. Pekerjaan</td>
+                        <td>:</td>
+                        <td>{{ $d['pekerjaan_ibu'] ?? '-' }}</td>
+                        <td class="font-bold text-slate-700">6. Instansi Bekerja</td>
+                        <td>:</td>
+                        <td>{{ $d['instansi_ibu'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">7. Alamat Rumah</td>
+                        <td>:</td>
+                        <td>{{ $d['alamat_ibu'] ?? 'Sama dengan alamat siswa' }}</td>
+                        <td class="font-bold text-slate-700">8. No. HP / WhatsApp</td>
+                        <td>:</td>
+                        <td class="font-mono font-bold">{{ $d['no_hp_ibu'] ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold text-slate-700">9. Penghasilan Bulanan</td>
+                        <td>:</td>
+                        <td colspan="4">{{ $d['penghasilan_ibu'] ?? '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- Section IV: Checklist Berkas Dokumen Uploaded -->
-        <div class="rounded-2xl border border-slate-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-2 text-white font-black text-xs uppercase">
-                <span>📁 IV. CHECKLIST DOKUMEN LAMPIRAN BERKAS</span>
-            </div>
-            <div class="p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-50/50 font-bold">
-                <div class="flex items-center gap-1.5 {{ !empty($docs['pas_foto']) ? 'text-emerald-700' : 'text-slate-400' }}">
-                    <span>{{ !empty($docs['pas_foto']) ? '☑' : '☐' }}</span> Pas Foto Ananda
-                </div>
-                <div class="flex items-center gap-1.5 {{ !empty($docs['ktp_ortu']) ? 'text-emerald-700' : 'text-slate-400' }}">
-                    <span>{{ !empty($docs['ktp_ortu']) ? '☑' : '☐' }}</span> KTP Orang Tua
-                </div>
-                <div class="flex items-center gap-1.5 {{ !empty($docs['kartu_keluarga']) ? 'text-emerald-700' : 'text-slate-400' }}">
-                    <span>{{ !empty($docs['kartu_keluarga']) ? '☑' : '☐' }}</span> Kartu Keluarga (KK)
-                </div>
-                <div class="flex items-center gap-1.5 {{ !empty($docs['bukti_transfer']) ? 'text-emerald-700' : 'text-slate-400' }}">
-                    <span>{{ !empty($docs['bukti_transfer']) ? '☑' : '☐' }}</span> Bukti Transfer Form
-                </div>
-            </div>
-        </div>
-
-        <!-- Section V: Tanggung Jawab & Tanda Tangan Official -->
-        <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-6 items-end text-xs">
-            
-            <!-- Stamp Simulator -->
-            <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2">
-                <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-black text-[9px] uppercase">STAMP VERIFIED</span>
-                    <span class="font-bold text-slate-700 text-[10px]">SIT ROBBANI ADMISI</span>
-                </div>
-                <p class="text-[11px] text-slate-600 leading-relaxed">
-                    Dokumen ini merupakan bukti pendaftaran sah. Harap membawa dokumen cetak ini saat mengikuti tahapan <strong>observasi & tes pemetaan</strong> di kampus SIT Robbani Ogan Ilir.
-                </p>
-            </div>
-
-            <!-- Signature Box -->
-            <div class="text-center space-y-8 sm:pl-8">
+        <!-- Tanda Tangan Official (Sesuai Scan Form F-SPMB) -->
+        <div class="pt-6 grid grid-cols-2 gap-8 text-center text-xs">
+            <div class="space-y-16">
                 <div>
-                    <p class="font-bold text-slate-700">Ogan Ilir, {{ now()->translatedFormat('d F Y') }}</p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-0.5">Panitia SPMB SIT Robbani</p>
+                    <span class="block text-slate-500 text-[10px]">Mengetahui,</span>
+                    <strong class="font-black text-slate-900">Panitia SPMB SIT Robbani</strong>
                 </div>
-                <div class="border-b-2 border-slate-900 w-48 mx-auto"></div>
-                <div>
-                    <p class="font-black text-slate-900">Tim Admisi & SPMB Online</p>
-                    <p class="text-[9px] text-slate-500 font-bold uppercase">SIT ROBBANI OGAN ILIR</p>
+                <div class="border-t border-slate-400 w-48 mx-auto pt-1 font-bold text-slate-800">
+                    ( Panitia PPDB / SPMB )
                 </div>
             </div>
 
+            <div class="space-y-16">
+                <div>
+                    <span class="block text-slate-500 text-[10px]">Indralaya, {{ $registration->created_at ? $registration->created_at->translatedFormat('d F Y') : date('d F Y') }}</span>
+                    <strong class="font-black text-slate-900">Responden / Orang Tua Calon Siswa</strong>
+                </div>
+                <div class="border-t border-slate-400 w-48 mx-auto pt-1 font-bold text-slate-800">
+                    ( {{ $registration->parent_name }} )
+                </div>
+            </div>
         </div>
 
-        <!-- Footer Bar -->
-        <div class="pt-4 border-t border-slate-200 text-center text-[10px] font-semibold text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>© {{ date('Y') }} SIT Robbani Ogan Ilir (SmartEdu Digital System)</span>
-            <span>Printed on: {{ now()->translatedFormat('d F Y H:i:s') }}</span>
+        <div class="pt-4 border-t border-slate-200 text-[9px] text-slate-400 text-center flex justify-between items-center">
+            <span>Dokumen formulir resmi pendaftaran peserta didik baru SIT Robbani Ogan Ilir.</span>
+            <span>Dicetak secara elektronik pada {{ now()->translatedFormat('d F Y H:i') }} WIB</span>
         </div>
-
     </div>
 
-
-    <!-- Universal Smooth Scroll Reveal IntersectionObserver -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -40px 0px',
-                threshold: 0.05
-            };
-
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        entry.target.classList.add('revealed');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const selectors = '.scroll-reveal, .reveal-fade-up, .reveal-scale-up, .reveal-slide-left, .reveal-slide-right';
-            document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
-        });
-    </script>
 </body>
 </html>
