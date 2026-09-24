@@ -177,6 +177,8 @@ Route::get('/artikel/{slug}', [SchoolWebsiteController::class, 'artikelShow'])->
 
 Route::get('/fasilitas', [SchoolWebsiteController::class, 'fasilitas'])->name('school.fasilitas');
 
+Route::get('/layanan', [SchoolWebsiteController::class, 'layanan'])->name('school.layanan');
+Route::get('/layanan-terpadu', [SchoolWebsiteController::class, 'layanan']);
 Route::get('/layanan/kunjungan', [SchoolWebsiteController::class, 'layananKunjungan'])->name('school.layanan.kunjungan');
 Route::post('/layanan/kunjungan', [SchoolWebsiteController::class, 'storeLayananKunjungan'])->name('school.layanan.kunjungan.store');
 

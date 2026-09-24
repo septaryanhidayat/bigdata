@@ -101,6 +101,7 @@
     
     <!-- Google Fonts & Alpine.js -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
@@ -243,38 +244,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#060e07] text-slate-900 dark:text-[#f7fee7] antialiased min-h-screen pb-24 lg:pb-12 transition-colors duration-300">
 
-    <!-- Sticky Glassmorphism Header Bar (Responsive & Clean on all Screen Sizes) -->
-    <header class="sticky top-0 z-50 transition-colors duration-300 bg-white/95 dark:bg-[#07170a]/95 backdrop-blur-md border-b border-slate-200 dark:border-[#1a3d1e] shadow-xs">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between gap-2">
-            
-            <!-- Left Logo & Branding -->
-            <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 group shrink-0">
-                <img x-show="!darkMode" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" class="h-8 sm:h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <img x-show="darkMode" x-cloak src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" class="h-8 sm:h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <div class="hidden xs:block">
-                    <span class="font-black text-[11px] sm:text-xs block text-emerald-700 dark:text-[#c6f634] uppercase tracking-wider group-hover:text-emerald-600 leading-tight">PORTAL BERITA</span>
-                    <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 font-bold block leading-tight">SIT ROBBANI</span>
-                </div>
-            </a>
-
-            <!-- Header Action Controls (Optimized Single-Row Mobile Layout) -->
-            <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-                <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-[#0c2210] hover:bg-slate-200 dark:hover:bg-[#143319] text-slate-700 dark:text-slate-300 font-extrabold text-xs transition-colors border border-slate-200 dark:border-[#1a3d1e] hidden sm:inline-flex items-center gap-1.5">
-                    🏠 Beranda
-                </a>
-                
-                <a href="{{ route('school.berita') }}" class="px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-[11px] sm:text-xs shadow-xs transition-colors flex items-center gap-1">
-                    <span>←</span> <span class="hidden xs:inline">Semua </span><span>Berita</span>
-                </a>
-
-                <!-- Dark Mode Toggle Button -->
-                <button @click="darkMode = !darkMode" title="Ganti Mode Terang / Malam" class="p-1.5 sm:px-2.5 sm:py-2 rounded-xl bg-slate-100 dark:bg-[#0c2210] text-slate-800 dark:text-[#c6f634] hover:bg-slate-200 dark:hover:bg-[#143319] border border-slate-200 dark:border-[#1a3d1e] font-extrabold text-xs transition-all shadow-xs flex items-center justify-center">
-                    <span x-show="!darkMode">🌙</span>
-                    <span x-show="darkMode" x-cloak>☀️</span>
-                </button>
-            </div>
-        </div>
-    </header>
+    @include('school.partials.header')
 
     <!-- Main Container: 2-Column Desktop Layout (Left: Wide Article | Right: All Widgets) -->
     <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-10">
@@ -586,13 +556,7 @@
         });
     </script>
 
-    <!-- Footer Bar -->
-    <footer class="bg-white dark:bg-[#040c05] text-slate-600 dark:text-slate-400 text-xs py-8 text-center border-t border-slate-200 dark:border-[#1a3d1e] transition-colors">
-        <div class="max-w-7xl mx-auto px-4 space-y-2">
-            <p class="font-bold">© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
-            <p class="text-[11px] text-slate-400 dark:text-slate-500">Pendidikan Berkarakter Qur'ani &amp; Berprestasi Digital • Terakreditasi Unggul</p>
-        </div>
-    </footer>
+    @include('school.partials.footer')
 
 
     <!-- Universal Smooth Scroll Reveal IntersectionObserver -->

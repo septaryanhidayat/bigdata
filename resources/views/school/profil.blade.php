@@ -70,6 +70,7 @@
 
     <!-- Google Fonts & Alpine.js -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
@@ -104,64 +105,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#040d06] text-slate-900 dark:text-[#f0fdf4] antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
 
-    <!-- Full-Width Sticky Navigation Header -->
-    <header class="bg-white/95 dark:bg-[#07170a]/95 backdrop-blur-xl py-3.5 px-4 sm:px-8 lg:px-12 sticky top-0 z-50 border-b border-slate-200/90 dark:border-[#1a381c] shadow-xs transition-colors">
-        <div class="w-full max-w-[1400px] mx-auto flex items-center justify-between gap-4">
-            
-            <!-- Logo Header -->
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group shrink-0" title="Kembali ke Beranda SIT Robbani">
-                <img src="{{ !empty($settings['logo_light']) ? $settings['logo_light'] : '/images/logo-robbani-official.png' }}" class="h-9 sm:h-11 w-auto object-contain dark:hidden" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <img src="{{ !empty($settings['logo_dark']) ? $settings['logo_dark'] : '/images/logo-robbani-official.png' }}" class="h-9 sm:h-11 w-auto object-contain hidden dark:block" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <div>
-                    <span class="font-black text-xs block text-[#004532] dark:text-[#c6f634] uppercase tracking-wider">PROFIL YAYASAN</span>
-                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold block">SIT ROBBANI OGAN ILIR</span>
-                </div>
-            </a>
-
-            <!-- Desktop Header Navigation Controls -->
-            <div class="hidden md:flex items-center gap-2 lg:gap-3 text-xs font-extrabold">
-                <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">🏠 Beranda</a>
-                <a href="{{ route('school.profil') }}" class="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[#0d1e0f] text-[#004532] dark:text-[#c6f634] font-black border border-emerald-300 dark:border-[#1a381c]">👤 Profil Yayasan</a>
-                <a href="{{ route('school.layanan.kunjungan') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📋 Layanan</a>
-                <a href="{{ route('school.berita') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📰 Berita</a>
-                <a href="{{ route('school.artikel') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">📖 Artikel</a>
-                <a href="{{ route('school.fasilitas') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">🏢 Fasilitas</a>
-                
-                <!-- Dark Mode Toggle Button (Alpine JS) -->
-                <button @click="darkMode = !darkMode" class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-800 dark:text-[#c6f634] border border-slate-200/90 dark:border-[#1a381c] transition-all hover:scale-105 flex items-center gap-1.5 cursor-pointer shadow-xs" title="Ganti Mode Terang / Malam">
-                    <span x-show="!darkMode">🌙 Mode Malam</span>
-                    <span x-show="darkMode" x-cloak>☀️ Mode Terang</span>
-                </button>
-
-                <a href="{{ route('school.spmb') }}" class="px-5 py-2.5 rounded-xl bg-[#004532] hover:bg-emerald-800 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1">
-                    <span>Daftar SPMB</span>
-                    <span>➔</span>
-                </a>
-            </div>
-
-            <!-- Mobile Controls -->
-            <div class="flex items-center gap-2 md:hidden">
-                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-[#0d1e0f] text-slate-800 dark:text-[#c6f634] border border-slate-200 dark:border-[#1a381c] text-xs font-bold">
-                    <span x-show="!darkMode">🌙</span>
-                    <span x-show="darkMode" x-cloak>☀️</span>
-                </button>
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="px-3.5 py-2 rounded-xl bg-[#004532] text-white font-extrabold text-xs shadow-sm border border-emerald-600 flex items-center gap-1.5">
-                    <span x-show="!mobileMenuOpen">Menu ☰</span>
-                    <span x-show="mobileMenuOpen" x-cloak>Tutup ✕</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Menu Dropdown -->
-        <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden pt-3 pb-2 border-t border-slate-200 dark:border-[#1a381c] mt-3 space-y-1">
-            <a href="{{ route('home') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">🏠 Beranda Utama</a>
-            <a href="{{ route('school.profil') }}" class="block px-4 py-2.5 rounded-xl font-black text-xs bg-emerald-100 dark:bg-[#0d1e0f] text-[#004532] dark:text-[#c6f634]">👤 Profil Yayasan</a>
-            <a href="{{ route('school.berita') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">📰 Berita &amp; Kegiatan</a>
-            <a href="{{ route('school.artikel') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">📖 Artikel Keislaman</a>
-            <a href="{{ route('school.fasilitas') }}" class="block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-[#0d1e0f]">🏢 Fasilitas Sekolah</a>
-            <a href="{{ route('school.spmb') }}" class="block px-4 py-2.5 rounded-xl font-black text-xs bg-orange-600 text-white text-center mt-2">✨ Pendaftaran SPMB Online</a>
-        </div>
-    </header>
+    @include('school.partials.header')
 
     <!-- Main Content Container: Seamless Vertical Scroll Layout Top to Bottom -->
     <main class="flex-grow space-y-16 sm:space-y-20 pb-20">
@@ -196,7 +140,7 @@
                 <!-- Left: Chairman Photo Frame -->
                 <div class="lg:col-span-4 text-center space-y-4">
                     <div class="relative w-48 sm:w-56 h-48 sm:h-56 mx-auto rounded-3xl overflow-hidden border-4 border-emerald-600 dark:border-[#c6f634] shadow-2xl bg-slate-900 group">
-                        <img src="{{ asset($foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png') }}" alt="{{ $foundationProfile['chairman_name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                        <img src="{{ !empty($foundationProfile['chairman_photo']) ? asset($foundationProfile['chairman_photo']) : asset('uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp') }}" alt="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{{ asset('uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp') }}';">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                     </div>
                     <div class="space-y-1">
@@ -377,18 +321,7 @@
 
     </main>
 
-    <!-- Footer Showcase Banner -->
-    <footer class="bg-[#004532] dark:bg-[#07170a] text-white border-t border-emerald-800 dark:border-[#1a381c] py-10 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-            <div class="space-y-1">
-                <h3 class="font-black text-base text-white dark:text-[#c6f634]">{{ $foundationProfile['name'] ?? $settings['school_name'] }}</h3>
-                <p class="text-xs text-slate-200 dark:text-slate-400">Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan | WhatsApp: 0811747472</p>
-            </div>
-            <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 dark:bg-[#c6f634] dark:hover:bg-[#a3e635] text-white dark:text-[#040d06] font-black text-xs shadow-md transition-transform hover:scale-105 shrink-0 flex items-center gap-2">
-                <span>Hubungi Sekretariat Yayasan</span> ➔
-            </a>
-        </div>
-    </footer>
+    @include('school.partials.footer')
 
     @include('components.chat-ai-widget')
 

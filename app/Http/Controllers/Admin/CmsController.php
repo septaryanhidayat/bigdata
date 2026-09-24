@@ -998,6 +998,15 @@ class CmsController extends Controller
             }
         }
 
+        if (!empty($data['principal_photo'])) {
+            $fpJson = SiteSetting::get('foundation_profile_data');
+            $fpData = $fpJson ? json_decode($fpJson, true) : [];
+            if (is_array($fpData)) {
+                $fpData['chairman_photo'] = $data['principal_photo'];
+                SiteSetting::set('foundation_profile_data', json_encode($fpData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
+        }
+
         foreach ($data as $key => $val) {
             if (in_array($key, [
                 'hero_bg_file', 'hero_bg_base64', 
@@ -2252,13 +2261,26 @@ class CmsController extends Controller
 
     public function updateFoundationProfile(Request $request)
     {
+        $existingPhoto = SiteSetting::get('principal_photo') ?: '/uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp';
+        $photo = $request->input('chairman_photo', $existingPhoto);
+
+        if ($request->hasFile('chairman_photo_file')) {
+            $compressed = \App\Services\ImageOptimizer::compress($request->file('chairman_photo_file'), 'uploads/cms', 'principal_photo_' . uniqid());
+            if ($compressed) {
+                $photo = $compressed . '?v=' . time();
+                SiteSetting::set('principal_photo', $photo);
+            }
+        } elseif (!empty($photo) && !str_contains($photo, 'logo-robbani')) {
+            SiteSetting::set('principal_photo', $photo);
+        }
+
         $data = [
             'name' => $request->input('name', 'Yayasan Generasi Robbani Sumatera Selatan'),
             'tagline' => $request->input('tagline', 'Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, & SMAIT Robbani Ogan Ilir)'),
             'founded_year' => $request->input('founded_year', '2014'),
             'chairman_name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'),
             'chairman_title' => $request->input('chairman_title', 'Ketua Yayasan Generasi Robbani Sumatera Selatan'),
-            'chairman_photo' => $request->input('chairman_photo', '/images/logo-robbani-official.png'),
+            'chairman_photo' => $photo,
             'chairman_greeting' => $request->input('chairman_greeting', ''),
             'vision' => $request->input('vision', ''),
             'missions' => array_filter(array_map('trim', explode("\n", $request->input('missions', '')))),
@@ -2270,13 +2292,13 @@ class CmsController extends Controller
                 ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
             ],
             'executives' => [
-                ['name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'), 'role' => 'Ketua Yayasan', 'photo' => $request->input('chairman_photo', '/images/logo-robbani-official.png')]
+                ['name' => $request->input('chairman_name', 'Sughesti Wulandari, S.Pd'), 'role' => 'Ketua Yayasan', 'photo' => $photo]
             ]
         ];
 
         SiteSetting::set('foundation_profile_data', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        return redirect()->back()->with('success', '✨ Pengaturan Profil Yayasan berhasil disimpan & diperbarui!');
+        return redirect()->back()->with('success', '✨ Pengaturan Profil Yayasan & Foto Ketua berhasil disimpan!');
     }
 
     /**

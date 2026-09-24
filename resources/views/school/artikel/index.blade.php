@@ -24,6 +24,7 @@
     
     <!-- Google Fonts & Alpine.js -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
@@ -58,89 +59,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Sticky Glassmorphism Header Bar -->
-    <header class="sticky top-0 z-50 transition-colors duration-300 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                <img x-show="!darkMode" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" class="h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <img x-show="darkMode" x-cloak src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" class="h-10 w-auto object-contain" alt="Logo SIT Robbani" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <div>
-                    <span class="font-black text-xs block text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">ARTIKEL KEISLAMAN</span>
-                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold block">SIT ROBBANI OGAN ILIR</span>
-                </div>
-            </a>
-
-            <!-- Desktop Header Controls -->
-            <div class="hidden md:flex items-center gap-2.5 text-xs font-extrabold">
-                <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">🏠 Beranda</a>
-                <a href="{{ route('school.profil') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">👤 Profil</a>
-                <a href="{{ route('school.layanan.kunjungan') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">📋 Layanan</a>
-                <a href="{{ route('school.berita') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">📰 Berita</a>
-                <a href="{{ route('school.artikel') }}" class="px-3.5 py-2 rounded-xl bg-emerald-700 text-white font-black shadow-xs">📖 Artikel</a>
-                <a href="{{ route('school.fasilitas') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">🏢 Fasilitas</a>
-                <a href="{{ route('school.espp') }}" class="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">💳 E-SPP</a>
-
-                <!-- Dark Mode Toggle Button (Default: Light Mode) -->
-                <button @click="darkMode = !darkMode" title="Ganti Mode Terang / Malam" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 font-extrabold text-xs transition-all shadow-xs flex items-center gap-1.5">
-                    <span x-show="!darkMode" class="flex items-center gap-1">🌙 <span class="hidden md:inline">Mode Malam</span></span>
-                    <span x-show="darkMode" x-cloak class="flex items-center gap-1">☀️ <span class="hidden md:inline">Mode Terang</span></span>
-                </button>
-            </div>
-
-            <!-- Mobile Buttons (Dark Toggle & Hamburger) -->
-            <div class="flex items-center gap-2 md:hidden">
-                <button @click="darkMode = !darkMode" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-amber-300 border border-slate-200 dark:border-slate-700 text-xs font-bold">
-                    <span x-show="!darkMode">🌙</span>
-                    <span x-show="darkMode" x-cloak>☀️</span>
-                </button>
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="px-3 py-2 rounded-xl bg-emerald-700 text-white font-extrabold text-xs shadow-xs border border-emerald-600 flex items-center gap-1.5">
-                    <span x-show="!mobileMenuOpen" class="flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                        <span>Menu</span>
-                    </span>
-                    <span x-show="mobileMenuOpen" x-cloak class="flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span>Tutup</span>
-                    </span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Menu Modal Overlay -->
-        <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 mt-3 px-4">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-2xl space-y-1.5">
-                <a href="{{ route('home') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700">
-                    <span class="flex items-center gap-2"><span>🏠</span> <span>Beranda Utama</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
-                </a>
-                <a href="{{ route('school.profil') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700">
-                    <span class="flex items-center gap-2"><span>👤</span> <span>Profil &amp; Sambutan</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
-                </a>
-                <a href="{{ route('school.berita') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700">
-                    <span class="flex items-center gap-2"><span>📰</span> <span>Berita Kampus</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
-                </a>
-                <a href="{{ route('school.artikel') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs bg-emerald-700 text-white shadow-md">
-                    <span class="flex items-center gap-2"><span>📖</span> <span>Artikel &amp; Edukasi Islam</span></span>
-                    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-emerald-800">Aktif</span>
-                </a>
-                <a href="{{ route('school.fasilitas') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700">
-                    <span class="flex items-center gap-2"><span>🏢</span> <span>Fasilitas Kampus</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
-                </a>
-                <a href="{{ route('school.espp') }}" class="group flex items-center justify-between px-4 py-3 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700">
-                    <span class="flex items-center gap-2"><span>💳</span> <span>Portal E-SPP Online</span></span>
-                    <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
-                </a>
-                <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
-                    <a href="{{ route('school.spmb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
-                        <span>✨ Pendaftaran SPMB Online 2026/2027</span> ➔
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+    @include('school.partials.header')
 
     <!-- Main Content -->
     <main class="py-8 sm:py-12 max-w-6xl mx-auto px-4 sm:px-6 space-y-8 flex-1">
@@ -180,12 +99,7 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 text-xs py-8 text-center border-t border-slate-200 dark:border-slate-800 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 space-y-2">
-            <p>© {{ date('Y') }} {{ $settings['school_name'] }} (SIT Robbani Ogan Ilir, Sumatera Selatan).</p>
-        </div>
-    </footer>
+    @include('school.partials.footer')
 
     <!-- Robbani AI Assistant Chat Widget -->
     @include('components.chat-ai-widget')

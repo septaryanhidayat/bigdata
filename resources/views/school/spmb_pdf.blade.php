@@ -84,28 +84,34 @@
     <!-- Main Printable A4 Form Container -->
     <div class="pdf-container max-w-4xl mx-auto pdf-card rounded-2xl p-6 sm:p-10 space-y-5 text-xs text-slate-900">
         
-        <!-- Header Kop Surat Sekolah Islam Terpadu Robbani -->
-        <div class="flex items-center justify-between border-b-2 border-emerald-900 pb-3 gap-3">
-            <div class="flex items-center gap-3.5">
-                <img src="{{ asset('images/logo-robbani-official.png') }}" alt="Logo SIT Robbani" class="h-16 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
-                <div>
-                    <h1 class="text-base sm:text-lg font-black tracking-tight uppercase text-emerald-950 leading-tight">
-                        SEKOLAH ISLAM TERPADU ROBBANI
-                    </h1>
-                    <p class="text-[10px] sm:text-[11px] text-slate-700 font-medium leading-snug mt-0.5">
-                        KPA (Kantor Pelayanan Administrasi) Sekolah Islam Terpadu Robbani<br>
-                        Alamat: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan
-                    </p>
-                    <p class="text-[9px] text-slate-500 font-semibold leading-tight mt-0.5">
-                        Telp/WA: 0811747472 | Website: sitrobbani.sch.id
-                    </p>
-                </div>
+        <!-- Header Kop Surat Sekolah Islam Terpadu Robbani (Rata Tengah Simetris) -->
+        <div class="flex items-center justify-between border-b-2 border-emerald-950 pb-3 gap-2 sm:gap-4">
+            <!-- Logo Kiri -->
+            <div class="w-20 sm:w-24 shrink-0 flex items-center justify-center">
+                <img src="{{ asset('images/logo-robbani-official.png') }}" alt="Logo SIT Robbani" class="h-16 sm:h-20 w-auto object-contain mx-auto" onerror="this.src='{{ asset('favicon.png') }}'">
             </div>
-            <div class="shrink-0">
-                <!-- QR Code & Kode Formulir Bertumpuk Ringkas Simetris -->
-                <div class="flex flex-col items-center justify-center p-1.5 border border-slate-300 rounded-xl bg-white shadow-xs min-w-[76px]">
-                    <img src="{{ $qrUrl }}" alt="QR Code" class="w-12 h-12 object-contain mx-auto">
-                    <span class="text-[9px] font-mono font-black text-slate-800 tracking-tight mt-1 leading-none text-center">F - SPMB</span>
+            
+            <!-- Teks Kop Surat Rata Tengah -->
+            <div class="flex-1 text-center px-1">
+                <h1 class="text-base sm:text-xl font-black tracking-tight uppercase text-emerald-950 leading-tight">
+                    SEKOLAH ISLAM TERPADU ROBBANI
+                </h1>
+                <p class="text-[10px] sm:text-xs text-slate-800 font-bold leading-snug mt-1">
+                    KPA (Kantor Pelayanan Administrasi) Sekolah Islam Terpadu Robbani
+                </p>
+                <p class="text-[10px] sm:text-[11px] text-slate-700 font-medium leading-snug">
+                    Alamat: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan
+                </p>
+                <p class="text-[9px] sm:text-[10px] text-slate-600 font-semibold leading-tight mt-0.5">
+                    Telp/WA: 0811747472 | Website: sitrobbani.sch.id
+                </p>
+            </div>
+
+            <!-- QR Code Kanan Setara Ukuran Logo Kiri -->
+            <div class="w-20 sm:w-24 shrink-0 flex items-center justify-center">
+                <div class="p-1 border border-slate-300 rounded-xl bg-white shadow-xs flex flex-col items-center justify-center w-16 sm:w-20 h-16 sm:h-20">
+                    <img src="{{ $qrUrl }}" alt="QR Code" class="w-10 sm:w-12 h-10 sm:h-12 object-contain mx-auto">
+                    <span class="text-[8px] sm:text-[9px] font-mono font-black text-slate-800 tracking-tight leading-none text-center mt-1">F - SPMB</span>
                 </div>
             </div>
         </div>

@@ -222,18 +222,24 @@ class SchoolWebsiteController extends Controller
     public function getFoundationProfile()
     {
         $cmsJson = SiteSetting::get('foundation_profile_data');
-        if ($cmsJson) {
-            $data = json_decode($cmsJson, true);
-            if (is_array($data)) return $data;
+        $data = $cmsJson ? json_decode($cmsJson, true) : [];
+        if (!is_array($data)) {
+            $data = [];
         }
 
-        return [
+        $defaultPhoto = SiteSetting::get('principal_photo') ?: '/uploads/cms/principal_photo_6a7f525a6292e_1786729050.webp';
+        
+        $chairmanPhoto = !empty($data['chairman_photo']) && !str_contains($data['chairman_photo'], 'logo-robbani') 
+            ? $data['chairman_photo'] 
+            : $defaultPhoto;
+
+        $defaults = [
             'name' => 'Yayasan Generasi Robbani Sumatera Selatan',
             'tagline' => 'Penyelenggara Pendidikan Islam Terpadu (KB/TKIT, SDIT, SMPIT, & SMAIT Robbani Ogan Ilir)',
             'founded_year' => '2014',
             'chairman_name' => 'Sughesti Wulandari, S.Pd',
             'chairman_title' => 'Ketua Yayasan Generasi Robbani Sumatera Selatan',
-            'chairman_photo' => '/images/logo-robbani-official.png',
+            'chairman_photo' => $chairmanPhoto,
             'chairman_greeting' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh.<br><br>Alhamdulillah, puji dan syukur senantiasa kita panjatkan ke hadirat Allah SWT yang telah melimpahkan rahmat, hidayah, dan inayah-Nya kepada kita semua. Sholawat serta salam semoga senantiasa tercurah kepada junjungan kita Nabi Besar Muhammad SAW, keluarga, sahabat, dan para pengikutnya hingga akhir zaman.<br><br>Yayasan Generasi Robbani Sumatera Selatan berkomitmen penuh menghadirkan ekosistem pendidikan Islam Terpadu yang unggul, berkarakter Qur\'ani, dan adaptif terhadap perkembangan sains teknologi digital di Kabupaten Ogan Ilir.',
             'vision' => 'Menjadi Lembaga Pendidikan Islam Terpadu Pilihan Utama di Sumatera Selatan yang Mencetak Generasi Rabbani Beriman, Hafidz Al-Qur\'an, Berakhlak Karimah, Unggul Akademik, dan Siap Memimpin di Era Digital.',
             'missions' => [
@@ -250,17 +256,24 @@ class SchoolWebsiteController extends Controller
                 ['title' => 'Sinergi Orang Tua & Sekolah', 'desc' => 'Komunikasi intensif melalui Parenting Session dan POMG berkala.', 'icon' => '🤝']
             ],
             'executives' => [
-                ['name' => 'Sughesti Wulandari, S.Pd', 'role' => 'Ketua Yayasan', 'photo' => '/images/logo-robbani-official.png']
+                ['name' => 'Sughesti Wulandari, S.Pd', 'role' => 'Ketua Yayasan', 'photo' => $chairmanPhoto]
             ]
         ];
+
+        $merged = array_merge($defaults, $data);
+        if (empty($merged['chairman_photo']) || str_contains($merged['chairman_photo'], 'logo-robbani')) {
+            $merged['chairman_photo'] = $chairmanPhoto;
+        }
+        return $merged;
     }
 
     public function profil()
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
         $schools = School::where('is_active', true)->get();
         $foundationProfile = $this->getFoundationProfile();
-        return view('school.profil', compact('settings', 'schools', 'foundationProfile'));
+        return view('school.profil', compact('settings', 'headerMenus', 'schools', 'foundationProfile'));
     }
 
     public function getUnitData($code)
@@ -892,9 +905,10 @@ class SchoolWebsiteController extends Controller
     public function beritaIndex(\Illuminate\Http\Request $request)
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
         $newsList = $this->getNewsData();
         $activeCategory = strtolower($request->query('category') ?? $request->query('unit') ?? 'all');
-        return view('school.berita.index', compact('settings', 'newsList', 'activeCategory'));
+        return view('school.berita.index', compact('settings', 'headerMenus', 'newsList', 'activeCategory'));
     }
 
     public function beritaShow($slug)
@@ -1078,32 +1092,46 @@ class SchoolWebsiteController extends Controller
     public function artikelIndex()
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
         $articleList = $this->getArticleData();
-        return view('school.artikel.index', compact('settings', 'articleList'));
+        return view('school.artikel.index', compact('settings', 'headerMenus', 'articleList'));
     }
 
     public function artikelShow($slug)
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
         $articleList = $this->getArticleData();
         $article = collect($articleList)->firstWhere('slug', $slug) ?? $articleList[0];
         $recentArticles = collect($articleList)->where('slug', '!=', $article['slug'])->take(2);
 
-        return view('school.artikel.show', compact('settings', 'article', 'recentArticles'));
+        return view('school.artikel.show', compact('settings', 'headerMenus', 'article', 'recentArticles'));
     }
 
     public function fasilitas()
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
         $facilityList = $this->getFacilityData();
-        return view('school.fasilitas', compact('settings', 'facilityList'));
+        return view('school.fasilitas', compact('settings', 'headerMenus', 'facilityList'));
+    }
+
+    public function layanan(Request $request)
+    {
+        $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
+        $facilityList = $this->getFacilityData();
+        $activeTab = $request->query('tab', 'portal');
+        return view('school.layanan.index', compact('settings', 'headerMenus', 'facilityList', 'activeTab'));
     }
 
     public function layananKunjungan()
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
+        $facilityList = $this->getFacilityData();
         $activeTab = 'kunjungan';
-        return view('school.layanan.index', compact('settings', 'activeTab'));
+        return view('school.layanan.index', compact('settings', 'headerMenus', 'facilityList', 'activeTab'));
     }
 
     public function storeLayananKunjungan(Request $request, $code = null)
@@ -1144,8 +1172,10 @@ class SchoolWebsiteController extends Controller
     public function layananKerjasama()
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
+        $facilityList = $this->getFacilityData();
         $activeTab = 'kerjasama';
-        return view('school.layanan.index', compact('settings', 'activeTab'));
+        return view('school.layanan.index', compact('settings', 'headerMenus', 'facilityList', 'activeTab'));
     }
 
     public function storeLayananKerjasama(Request $request, $code = null)
@@ -1183,9 +1213,10 @@ class SchoolWebsiteController extends Controller
     public function layananSewa()
     {
         $settings = $this->getSettings();
+        $headerMenus = $this->getHeaderMenus();
         $facilityList = $this->getFacilityData();
         $activeTab = 'sewa';
-        return view('school.layanan.index', compact('settings', 'facilityList', 'activeTab'));
+        return view('school.layanan.index', compact('settings', 'headerMenus', 'facilityList', 'activeTab'));
     }
 
     public function storeLayananSewa(Request $request, $code = null)
@@ -2328,29 +2359,40 @@ class SchoolWebsiteController extends Controller
             }
         }
 
+        // Hapus menu e-spp secara permanen
+        $menus = array_values(array_filter($menus, function($m) {
+            $title = strtolower($m['title'] ?? '');
+            $url = strtolower($m['url'] ?? '');
+            return !str_contains($title, 'spp') && !str_contains($url, 'espp');
+        }));
+
         if (empty($menus)) {
             $menus = [
                 ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
                 ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
-                ['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true],
-                ['title' => 'Unit', 'url' => '#unit-sekolah', 'is_active' => true],
+                ['title' => 'Layanan', 'url' => route('school.layanan'), 'is_active' => true],
+                ['title' => 'Unit', 'url' => route('home') . '#unit-sekolah', 'is_active' => true],
                 ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
                 ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
-                ['title' => 'Sarana & Prasarana', 'url' => '#sarana-prasarana', 'is_active' => true],
-                ['title' => 'Galeri', 'url' => '#galeri-sekolah', 'is_active' => true],
-                ['title' => 'E-SPP', 'url' => route('school.espp'), 'is_active' => true],
+                ['title' => 'Fasilitas', 'url' => route('school.fasilitas'), 'is_active' => true],
+                ['title' => 'Galeri', 'url' => route('home') . '#galeri-sekolah', 'is_active' => true],
             ];
         } else {
             $hasLayanan = false;
-            foreach ($menus as $m) {
+            foreach ($menus as &$m) {
                 if (isset($m['title']) && strtolower($m['title']) === 'layanan') {
                     $hasLayanan = true;
-                    break;
+                    $m['url'] = route('school.layanan');
+                }
+                if (isset($m['title']) && (strtolower($m['title']) === 'sarana & prasarana' || strtolower($m['title']) === 'fasilitas')) {
+                    $m['title'] = 'Fasilitas';
+                    $m['url'] = route('school.fasilitas');
                 }
             }
+            unset($m);
             if (!$hasLayanan) {
                 // Insert Layanan right after Profil
-                array_splice($menus, 2, 0, [['title' => 'Layanan', 'url' => route('school.layanan.kunjungan'), 'is_active' => true]]);
+                array_splice($menus, 2, 0, [['title' => 'Layanan', 'url' => route('school.layanan'), 'is_active' => true]]);
             }
         }
 
