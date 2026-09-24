@@ -1386,6 +1386,57 @@ class SchoolWebsiteController extends Controller
             $testimonials = $defaultTestimonials;
         }
 
+        $defaultSyaratItems = [
+            [
+                'title' => 'Akta Kelahiran Calon Siswa (Wajib)',
+                'desc' => 'Foto asli atau fotokopi 1 lembar yang terbaca jelas.',
+                'is_mandatory' => true,
+            ],
+            [
+                'title' => 'Kartu Keluarga (KK)',
+                'desc' => 'Foto Kartu Keluarga yang masih berlaku.',
+                'is_mandatory' => true,
+            ],
+            [
+                'title' => 'KTP Orang Tua (Ayah / Ibu)',
+                'desc' => 'Foto KTP Ayah atau Ibu kandung.',
+                'is_mandatory' => true,
+            ],
+            [
+                'title' => 'Pas Foto Berwarna Anak',
+                'desc' => 'Foto wajah setengah badan terbaru yang sopan dan jelas.',
+                'is_mandatory' => false,
+            ],
+            [
+                'title' => 'Bukti Transfer Formulir',
+                'desc' => 'Struk ATM atau screenshot m-banking bukti pembayaran biaya pendaftaran.',
+                'is_mandatory' => false,
+            ],
+        ];
+        $syaratJson = SiteSetting::get('spmb_syarat_items');
+        $syaratItems = $syaratJson ? json_decode($syaratJson, true) : $defaultSyaratItems;
+        if (!is_array($syaratItems) || empty($syaratItems)) {
+            $syaratItems = $defaultSyaratItems;
+        }
+
+        $defaultBanks = [
+            [
+                'bank_name' => SiteSetting::get('spmb_bank1_name', 'Bank Syariah Indonesia (BSI)'),
+                'account_number' => SiteSetting::get('spmb_bank1_number', '7206858502'),
+                'account_holder' => SiteSetting::get('spmb_bank1_holder', 'YAYASAN GENERASI ROBBANI'),
+            ],
+            [
+                'bank_name' => SiteSetting::get('spmb_bank2_name', 'Bank Muamalat'),
+                'account_number' => SiteSetting::get('spmb_bank2_number', '3610061740'),
+                'account_holder' => SiteSetting::get('spmb_bank2_holder', 'YAYASAN GENERASI ROBBANI SUMSEL'),
+            ],
+        ];
+        $banksJson = SiteSetting::get('spmb_banks_data');
+        $banks = $banksJson ? json_decode($banksJson, true) : $defaultBanks;
+        if (!is_array($banks) || empty($banks)) {
+            $banks = $defaultBanks;
+        }
+
         return [
             // Top Bar
             'announcement_badge' => SiteSetting::get('spmb_announcement_badge', 'Gelombang 1'),
@@ -1415,14 +1466,16 @@ class SchoolWebsiteController extends Controller
             'syarat_title' => SiteSetting::get('spmb_syarat_title', 'Kelengkapan Berkas Pendaftaran'),
             'syarat_desc' => SiteSetting::get('spmb_syarat_desc', 'Cukup difoto menggunakan kamera HP Anda'),
             'syarat_tips' => SiteSetting::get('spmb_syarat_tips', 'Tips untuk Orang Tua: Tidak perlu mesin scanner atau pergi ke warnet. Semua dokumen cukup difoto dengan kamera HP Anda.'),
+            'syarat_items' => $syaratItems,
             
             // Rekening Pembayaran
-            'bank1_name' => SiteSetting::get('spmb_bank1_name', 'Bank Syariah Indonesia (BSI)'),
-            'bank1_number' => SiteSetting::get('spmb_bank1_number', '7206858502'),
-            'bank1_holder' => SiteSetting::get('spmb_bank1_holder', 'YAYASAN GENERASI ROBBANI'),
-            'bank2_name' => SiteSetting::get('spmb_bank2_name', 'Bank Muamalat'),
-            'bank2_number' => SiteSetting::get('spmb_bank2_number', '3610061740'),
-            'bank2_holder' => SiteSetting::get('spmb_bank2_holder', 'YAYASAN GENERASI ROBBANI SUMSEL'),
+            'banks' => $banks,
+            'bank1_name' => $banks[0]['bank_name'] ?? SiteSetting::get('spmb_bank1_name', 'Bank Syariah Indonesia (BSI)'),
+            'bank1_number' => $banks[0]['account_number'] ?? SiteSetting::get('spmb_bank1_number', '7206858502'),
+            'bank1_holder' => $banks[0]['account_holder'] ?? SiteSetting::get('spmb_bank1_holder', 'YAYASAN GENERASI ROBBANI'),
+            'bank2_name' => $banks[1]['bank_name'] ?? SiteSetting::get('spmb_bank2_name', 'Bank Muamalat'),
+            'bank2_number' => $banks[1]['account_number'] ?? SiteSetting::get('spmb_bank2_number', '3610061740'),
+            'bank2_holder' => $banks[1]['account_holder'] ?? SiteSetting::get('spmb_bank2_holder', 'YAYASAN GENERASI ROBBANI SUMSEL'),
             'payment_note' => SiteSetting::get('spmb_payment_note', 'Rincian biaya formulir pendaftaran tertera langsung pada halaman formulir isian masing-masing unit.'),
 
             // Testimoni

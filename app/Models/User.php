@@ -202,7 +202,8 @@ class User extends Authenticatable
                 self::ROLE_SUPER_ADMIN, self::ROLE_STAFF_KEUANGAN, self::ROLE_PETUGAS_KANTIN,
             ],
             'cbt_ppdb' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU, self::ROLE_PANITIA_PPDB,
+                self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER,
+                self::ROLE_STAFF_TU, self::ROLE_PANITIA_PPDB, self::ROLE_ADMIN_WEB_UNIT, self::ROLE_HUMAS,
             ],
             'hris' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER, self::ROLE_STAFF_KEUANGAN,

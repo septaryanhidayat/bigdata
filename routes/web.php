@@ -233,8 +233,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/public-services/{id}', [CmsController::class, 'destroyPublicServiceRequest'])->name('public-services.destroy');
         });
 
-        // 2c. Pengaturan Konten Landing Page & Formulir SPMB (Super Admin, Ketua Yayasan, TU, Humas, Panitia PPDB)
-        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,STAFF_TU,HUMAS,PANITIA_PPDB')->group(function () {
+        // 2c. Pengaturan Konten Landing Page & Formulir SPMB (Super Admin, Ketua Yayasan, Kepala Unit Sekolah, Admin Web Unit, TU, Humas, Panitia PPDB)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,ADMIN_WEB_UNIT,STAFF_TU,HUMAS,PANITIA_PPDB')->group(function () {
             Route::get('/settings/spmb', [CmsController::class, 'settingsSpmb'])->name('settings.spmb');
             Route::post('/settings/spmb', [CmsController::class, 'updateSettingsSpmb'])->name('settings.spmb.update');
         });
@@ -302,14 +302,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/mobile-hris/geofence/{id}', [MobileHrisAdminController::class, 'updateGeofence'])->name('mobile.geofence.update');
         });
 
-        // 5. Modul 12 & 13: CBT Ujian & PPDB Manager (Super Admin, Kepala Sekolah, TU, Panitia PPDB)
-        Route::middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,PANITIA_PPDB')->group(function () {
+        // 5. Modul 12 & 13: CBT Ujian & PPDB Manager (Super Admin, Ketua Yayasan, Kepala Unit Sekolah, Admin Web Unit, TU, Humas, Panitia PPDB)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,ADMIN_WEB_UNIT,STAFF_TU,HUMAS,PANITIA_PPDB')->group(function () {
             Route::get('/cbt', [CbtPpdbController::class, 'cbtIndex'])->name('cbt.index');
             Route::post('/cbt', [CbtPpdbController::class, 'storeCbtExam'])->name('cbt.store');
             Route::delete('/cbt/{id}', [CbtPpdbController::class, 'destroyExam'])->name('cbt.destroy');
             Route::post('/cbt/questions', [CbtPpdbController::class, 'storeQuestion'])->name('cbt.questions.store');
+            
+            // PPDB / SPMB Online Full CRUD & Export
             Route::get('/ppdb-admin', [CbtPpdbController::class, 'ppdbIndex'])->name('ppdb-admin.index');
+            Route::post('/ppdb-admin', [CbtPpdbController::class, 'storePpdbAdmin'])->name('ppdb-admin.store');
+            Route::get('/ppdb-admin/export', [CbtPpdbController::class, 'exportPpdb'])->name('ppdb-admin.export');
+            Route::get('/ppdb-admin/{id}/detail', [CbtPpdbController::class, 'detailPpdb'])->name('ppdb-admin.detail');
+            Route::put('/ppdb-admin/{id}', [CbtPpdbController::class, 'updatePpdbAdmin'])->name('ppdb-admin.update');
             Route::post('/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
+            Route::delete('/ppdb-admin/{id}', [CbtPpdbController::class, 'destroyPpdb'])->name('ppdb-admin.destroy');
             Route::get('/ppdb-admin/{id}/download-pdf', [CbtPpdbController::class, 'downloadSpmbPdf'])->name('ppdb-admin.download-pdf');
         });
 

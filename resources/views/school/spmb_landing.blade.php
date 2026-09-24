@@ -295,7 +295,7 @@
 
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6">
                 @foreach($spmb['programs'] as $prog)
-                    <div class="p-4 sm:p-5 rounded-3xl bg-slate-50 border border-slate-200 text-center space-y-3 hover:shadow-md transition-all fade-up">
+                    <div class="p-4 sm:p-5 rounded-3xl bg-slate-50 border border-slate-200 text-center space-y-3 hover:shadow-md transition-all fade-up last:odd:col-span-2 last:odd:max-w-xs last:odd:mx-auto last:odd:w-full md:last:odd:col-span-1 md:last:odd:max-w-none">
                         <img 
                             src="{{ asset(ltrim($prog['image'] ?? '', '/')) }}" 
                             alt="{{ $prog['title'] ?? '' }}" 
@@ -328,45 +328,19 @@
                     </div>
 
                     <div class="space-y-3 text-xs text-slate-700">
-                        <div class="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-300 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3">
+                        @foreach($spmb['syarat_items'] as $sIdx => $sItem)
+                        <div class="p-3.5 rounded-2xl {{ $loop->first ? 'bg-emerald-50/80 border border-emerald-300' : 'bg-slate-50 border border-slate-200' }} flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3">
                             <span class="text-emerald-700 font-black text-base shrink-0">✓</span>
                             <div>
-                                <strong class="text-emerald-950 font-black text-xs block">1. Akta Kelahiran Calon Siswa (Wajib)</strong>
-                                <span class="text-[11px] text-emerald-800 font-medium">Foto asli atau fotokopi 1 lembar yang terbaca jelas.</span>
+                                <strong class="{{ $loop->first ? 'text-emerald-950 font-black' : 'text-slate-900 font-bold' }} text-xs block">
+                                    {{ $sIdx + 1 }}. {{ $sItem['title'] }} {{ !empty($sItem['is_mandatory']) ? '(Wajib)' : '' }}
+                                </strong>
+                                <span class="text-[11px] {{ $loop->first ? 'text-emerald-800 font-medium' : 'text-slate-500' }}">
+                                    {{ $sItem['desc'] }}
+                                </span>
                             </div>
                         </div>
-
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3">
-                            <span class="text-emerald-700 font-black text-base shrink-0">✓</span>
-                            <div>
-                                <strong class="text-slate-900 font-bold text-xs block">2. Kartu Keluarga (KK)</strong>
-                                <span class="text-[11px] text-slate-500">Foto Kartu Keluarga yang masih berlaku.</span>
-                            </div>
-                        </div>
-
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3">
-                            <span class="text-emerald-700 font-black text-base shrink-0">✓</span>
-                            <div>
-                                <strong class="text-slate-900 font-bold text-xs block">3. KTP Orang Tua (Ayah / Ibu)</strong>
-                                <span class="text-[11px] text-slate-500">Foto KTP Ayah atau Ibu kandung.</span>
-                            </div>
-                        </div>
-
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3">
-                            <span class="text-emerald-700 font-black text-base shrink-0">✓</span>
-                            <div>
-                                <strong class="text-slate-900 font-bold text-xs block">4. Pas Foto Berwarna Anak</strong>
-                                <span class="text-[11px] text-slate-500">Foto wajah setengah badan terbaru yang sopan dan jelas.</span>
-                            </div>
-                        </div>
-
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3">
-                            <span class="text-emerald-700 font-black text-base shrink-0">✓</span>
-                            <div>
-                                <strong class="text-slate-900 font-bold text-xs block">5. Bukti Transfer Formulir</strong>
-                                <span class="text-[11px] text-slate-500">Struk ATM atau screenshot m-banking bukti pembayaran biaya pendaftaran.</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
 
                     <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-950 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2.5">
@@ -390,33 +364,20 @@
                     </div>
 
                     <div class="space-y-4">
-                        <!-- Rekening Bank 1 -->
+                        @foreach($spmb['banks'] as $bank)
                         <div class="p-4 sm:p-5 rounded-2xl bg-emerald-900/60 border border-emerald-700/60 space-y-2 text-center sm:text-left">
                             <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2">
-                                <span class="text-xs font-bold text-emerald-300">{{ $spmb['bank1_name'] ?? 'Bank Syariah Indonesia (BSI)' }}</span>
-                                <button @click="copyToClipboard('{{ $spmb['bank1_number'] ?? '7206858502' }}', '{{ $spmb['bank1_name'] ?? 'BSI' }}')" type="button" class="px-3 py-1 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-[11px] font-bold transition-all shadow-xs">
-                                    <span x-text="copiedBank === '{{ $spmb['bank1_name'] ?? 'BSI' }}' ? '✓ Tersalin' : 'Salin Nomor'"></span>
+                                <span class="text-xs font-bold text-emerald-300">{{ $bank['bank_name'] }}</span>
+                                <button @click="copyToClipboard('{{ $bank['account_number'] }}', '{{ $bank['bank_name'] }}')" type="button" class="px-3 py-1 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-[11px] font-bold transition-all shadow-xs">
+                                    <span x-text="copiedBank === '{{ $bank['bank_name'] }}' ? '✓ Tersalin' : 'Salin Nomor'"></span>
                                 </button>
                             </div>
                             <div class="font-mono text-2xl sm:text-3xl font-black text-amber-300 tracking-wider">
-                                {{ $spmb['bank1_number'] ?? '7206858502' }}
+                                {{ $bank['account_number'] }}
                             </div>
-                            <p class="text-xs text-emerald-200">a.n. <strong>{{ $spmb['bank1_holder'] ?? 'YAYASAN GENERASI ROBBANI' }}</strong></p>
+                            <p class="text-xs text-emerald-200">a.n. <strong>{{ $bank['account_holder'] }}</strong></p>
                         </div>
-
-                        <!-- Rekening Bank 2 -->
-                        <div class="p-4 sm:p-5 rounded-2xl bg-emerald-900/60 border border-emerald-700/60 space-y-2 text-center sm:text-left">
-                            <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2">
-                                <span class="text-xs font-bold text-emerald-300">{{ $spmb['bank2_name'] ?? 'Bank Muamalat' }}</span>
-                                <button @click="copyToClipboard('{{ $spmb['bank2_number'] ?? '3610061740' }}', '{{ $spmb['bank2_name'] ?? 'Muamalat' }}')" type="button" class="px-3 py-1 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-[11px] font-bold transition-all shadow-xs">
-                                    <span x-text="copiedBank === '{{ $spmb['bank2_name'] ?? 'Muamalat' }}' ? '✓ Tersalin' : 'Salin Nomor'"></span>
-                                </button>
-                            </div>
-                            <div class="font-mono text-2xl sm:text-3xl font-black text-amber-300 tracking-wider">
-                                {{ $spmb['bank2_number'] ?? '3610061740' }}
-                            </div>
-                            <p class="text-xs text-emerald-200">a.n. <strong>{{ $spmb['bank2_holder'] ?? 'YAYASAN GENERASI ROBBANI SUMSEL' }}</strong></p>
-                        </div>
+                        @endforeach
                     </div>
 
                     <!-- Ketentuan Singkat -->

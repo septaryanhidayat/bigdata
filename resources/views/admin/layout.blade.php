@@ -510,6 +510,14 @@
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">📰</span> 
                             <span class="sidebar-text">Publikasi Berita Unit</span>
                         </a>
+                        <a href="{{ route('admin.ppdb-admin.index') }}" title="Pendaftar PPDB Unit" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.ppdb-admin.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">📋</span> 
+                            <span class="sidebar-text">Pendaftar PPDB Unit</span>
+                        </a>
+                        <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan Konten SPMB & Form" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">⚙️</span> 
+                            <span class="sidebar-text">Pengaturan SPMB & Form</span>
+                        </a>
                     @else
                         <a href="{{ route('admin.users.index') }}" title="Manajemen Akun & Role Pengguna" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.users.*') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">👥</span> 

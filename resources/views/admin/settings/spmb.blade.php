@@ -3,7 +3,7 @@
 @section('title', 'Pengaturan SPMB & Formulir PPDB')
 
 @section('content')
-<div class="max-w-5xl space-y-6" x-data="{ activeTab: 'unit' }">
+<div class="max-w-5xl space-y-6" x-data="spmbCmsApp()">
 
     <!-- Sub-navigation Tabs -->
     <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
@@ -31,15 +31,15 @@
         <div>
             <div class="flex items-center gap-2">
                 <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black text-[10px] uppercase border border-emerald-300">
-                    Modul 13: SPMB / PPDB Manager
+                    Modul 13: SPMB / PPDB Manager & CMS
                 </span>
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             </div>
             <h1 class="text-2xl font-black text-slate-900 tracking-tight mt-1">
-                ⚙️ Pengaturan Konten SPMB & Formulir PPDB
+                ⚙️ Pengelolaan Konten SPMB & Landing Page
             </h1>
             <p class="text-xs text-slate-500 font-medium mt-0.5">
-                Kelola semua konten teks, informasi unit, biaya formulir, banner hero, rekening pembayaran, dan formulir isian secara dinamis.
+                Kelola fungsi CRUD lengkap: Tambah (+), Edit, dan Hapus (🗑️) untuk Pilihan Unit Sekolah, Program Unggulan, Testimoni, Syarat Berkas, serta Rekening Bank.
             </p>
         </div>
 
@@ -89,71 +89,82 @@
             </button>
         </div>
 
-        <!-- 1. TAB: PILIHAN UNIT & BIAYA FORMULIR -->
+        <!-- 1. TAB: PILIHAN UNIT & BIAYA FORMULIR (FULL CRUD) -->
         <div x-show="activeTab === 'unit'" class="space-y-6">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                <div class="border-b border-slate-100 pb-3">
-                    <h3 class="font-black text-base text-slate-900">🏫 Kelola 6 Pilihan Unit Sekolah & Biaya Pendaftaran</h3>
-                    <p class="text-xs text-slate-500 font-medium">
-                        Atur nama unit, badge usia/kategori, alamat, mascot/foto, dan nominal biaya pendaftaran yang akan dihitung otomatis pada formulir isian pendaftaran.
-                    </p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="font-black text-base text-slate-900">🏫 Kelola Pilihan Unit Sekolah & Biaya Pendaftaran</h3>
+                        <p class="text-xs text-slate-500 font-medium">
+                            Fungsi CRUD: Anda dapat menambah unit baru (+), mengubah data unit, mengatur nominal biaya formulir, serta menghapus unit yang tidak aktif.
+                        </p>
+                    </div>
+                    <button type="button" @click="addUnit()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                        <span>➕</span> Tambah Unit Sekolah
+                    </button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    @foreach($spmb['units'] as $code => $unit)
-                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 relative">
-                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                            <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 uppercase">
-                                Unit: {{ $code }}
-                            </span>
-                            <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
-                                <input type="checkbox" name="units[{{ $code }}][is_active]" value="1" {{ ($unit['is_active'] ?? true) ? 'checked' : '' }} class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
-                                <span>Buka Pendaftaran</span>
-                            </label>
-                        </div>
-
-                        <!-- Foto Mascot Preview & Upload -->
-                        <div class="flex items-center gap-4">
-                            <div class="w-20 h-20 rounded-2xl bg-white border border-slate-200 flex items-center justify-center p-2 shadow-inner shrink-0 overflow-hidden">
-                                <img src="{{ asset($unit['image'] ?? '') }}" alt="{{ $code }}" class="w-full h-full object-contain">
-                            </div>
-                            <div class="space-y-1.5 flex-1">
-                                <label class="block text-[11px] font-bold text-slate-700">Ganti Foto / Mascot:</label>
-                                <input type="file" name="unit_image_{{ $code }}" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200">
-                                <input type="hidden" name="units[{{ $code }}][image]" value="{{ $unit['image'] ?? '' }}">
-                            </div>
-                        </div>
-
-                        <div class="space-y-3 text-xs">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nama Unit:</label>
-                                <input type="text" name="units[{{ $code }}][name]" value="{{ $unit['name'] ?? '' }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-bold text-slate-700 mb-1">Keterangan Jenjang:</label>
-                                    <input type="text" name="units[{{ $code }}][level]" value="{{ $unit['level'] ?? '' }}" placeholder="Contoh: SD Islam Terpadu" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    <template x-for="(unit, index) in units" :key="unit.code">
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 relative">
+                            <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 uppercase" x-text="'Unit: ' + unit.code"></span>
+                                    <input type="hidden" :name="'units[' + unit.code + '][code]'" :value="unit.code">
                                 </div>
-                                <div>
-                                    <label class="block font-bold text-slate-700 mb-1">Badge Usia / Syarat:</label>
-                                    <input type="text" name="units[{{ $code }}][age_badge]" value="{{ $unit['age_badge'] ?? '' }}" placeholder="Contoh: Usia Min. 6 Tahun" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <div class="flex items-center gap-3">
+                                    <label class="inline-flex items-center gap-1.5 cursor-pointer text-xs font-bold text-slate-700">
+                                        <input type="checkbox" :name="'units[' + unit.code + '][is_active]'" value="1" :checked="unit.is_active" @change="unit.is_active = $event.target.checked" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                                        <span>Aktif</span>
+                                    </label>
+                                    <button type="button" @click="removeUnit(index)" title="Hapus Unit Ini" class="text-rose-600 hover:text-rose-800 text-xs font-black p-1 hover:bg-rose-50 rounded-lg transition-colors">
+                                        🗑️ Hapus
+                                    </button>
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Alamat Unit:</label>
-                                <textarea name="units[{{ $code }}][address]" rows="2" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">{{ $unit['address'] ?? '' }}</textarea>
+                            <!-- Foto Mascot Preview & Upload -->
+                            <div class="flex items-center gap-4">
+                                <div class="w-20 h-20 rounded-2xl bg-white border border-slate-200 flex items-center justify-center p-2 shadow-inner shrink-0 overflow-hidden">
+                                    <img :src="unit.image.startsWith('/') ? unit.image : '/' + unit.image" :alt="unit.code" class="w-full h-full object-contain" onerror="this.src='/images/logo robbani light.png'">
+                                </div>
+                                <div class="space-y-1.5 flex-1">
+                                    <label class="block text-[11px] font-bold text-slate-700">Ganti Foto / Mascot:</label>
+                                    <input type="file" :name="'unit_image_' + unit.code" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200">
+                                    <input type="hidden" :name="'units[' + unit.code + '][image]'" :value="unit.image">
+                                </div>
                             </div>
 
-                            <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
-                                <label class="block font-black text-emerald-950 mb-1">Biaya Formulir Pendaftaran (Rp):</label>
-                                <p class="text-[10px] text-emerald-700 mb-1.5">Nominal ini otomatis muncul dan ditagihkan saat calon siswa mengisi formulir pendaftaran.</p>
-                                <input type="number" name="units[{{ $code }}][fee]" value="{{ $unit['fee'] ?? 350000 }}" step="10000" class="w-full px-3 py-2 rounded-xl bg-white border border-emerald-300 font-mono font-black text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                            <div class="space-y-3 text-xs">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Nama Unit:</label>
+                                    <input type="text" :name="'units[' + unit.code + '][name]'" x-model="unit.name" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block font-bold text-slate-700 mb-1">Keterangan Jenjang:</label>
+                                        <input type="text" :name="'units[' + unit.code + '][level]'" x-model="unit.level" placeholder="Contoh: SD Islam Terpadu" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-slate-700 mb-1">Badge Usia / Syarat:</label>
+                                        <input type="text" :name="'units[' + unit.code + '][age_badge]'" x-model="unit.age_badge" placeholder="Contoh: Usia Min. 6 Tahun" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Alamat Unit:</label>
+                                    <textarea :name="'units[' + unit.code + '][address]'" x-model="unit.address" rows="2" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
+                                </div>
+
+                                <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                                    <label class="block font-black text-emerald-950 mb-1">Biaya Formulir Pendaftaran (Rp):</label>
+                                    <p class="text-[10px] text-emerald-700 mb-1.5">Nominal ini otomatis ditagihkan di formulir pendaftaran unit ini.</p>
+                                    <input type="number" :name="'units[' + unit.code + '][fee]'" x-model="unit.fee" step="10000" class="w-full px-3 py-2 rounded-xl bg-white border border-emerald-300 font-mono font-black text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
+                    </template>
                 </div>
             </div>
         </div>
@@ -221,8 +232,8 @@
                     </div>
 
                     <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
-                        <div class="w-24 h-24 rounded-2xl bg-emerald-900 flex items-center justify-center p-2 shrink-0">
-                            <img src="{{ asset($spmb['hero_image']) }}" alt="Hero Santri" class="w-full h-full object-contain">
+                        <div class="w-24 h-24 rounded-2xl bg-emerald-900 flex items-center justify-center p-2 shrink-0 overflow-hidden">
+                            <img src="{{ asset(ltrim($spmb['hero_image'], '/')) }}" alt="Hero Santri" class="w-full h-full object-contain">
                         </div>
                         <div class="space-y-1.5 flex-1">
                             <label class="block font-bold text-slate-700">Foto Ilustrasi Siswa / Santri Hero:</label>
@@ -249,12 +260,17 @@
             </div>
         </div>
 
-        <!-- 4. TAB: PROGRAM UNGGULAN -->
+        <!-- 4. TAB: PROGRAM UNGGULAN (FULL CRUD) -->
         <div x-show="activeTab === 'program'" class="space-y-6">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                <div class="border-b border-slate-100 pb-3">
-                    <h3 class="font-black text-base text-slate-900">🌟 Pengaturan 5 Program Unggulan Sekolah</h3>
-                    <p class="text-xs text-slate-500 font-medium">Ubah judul, deskripsi, dan ikon program keunggulan SIT Robbani.</p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="font-black text-base text-slate-900">🌟 Kelola Program Unggulan Sekolah</h3>
+                        <p class="text-xs text-slate-500 font-medium">Fungsi CRUD: Tambah program baru (+), edit judul & deskripsi, unggah ikon/gambar, atau hapus program.</p>
+                    </div>
+                    <button type="button" @click="addProgram()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                        <span>➕</span> Tambah Program Unggulan
+                    </button>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs mb-4">
@@ -269,140 +285,177 @@
                 </div>
 
                 <div class="space-y-4">
-                    @foreach($spmb['programs'] as $idx => $prog)
-                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
-                        <div class="w-16 h-16 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-2 shrink-0 overflow-hidden">
-                            <img src="{{ asset($prog['image'] ?? '') }}" alt="Prog {{ $idx }}" class="w-full h-full object-contain">
-                        </div>
+                    <template x-for="(prog, index) in programs" :key="index">
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-4 relative">
+                            <div class="w-16 h-16 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-2 shrink-0 overflow-hidden">
+                                <img :src="prog.image.startsWith('/') ? prog.image : '/' + prog.image" :alt="prog.title" class="w-full h-full object-contain" onerror="this.src='/images/logo robbani light.png'">
+                            </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1 text-xs w-full">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nama Program {{ $idx + 1 }}:</label>
-                                <input type="text" name="programs[{{ $idx }}][title]" value="{{ $prog['title'] ?? '' }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Keterangan:</label>
-                                <input type="text" name="programs[{{ $idx }}][desc]" value="{{ $prog['desc'] ?? '' }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                            </div>
-                            <div class="sm:col-span-2">
-                                <label class="block font-bold text-slate-700 mb-1">Ganti Ikon / Gambar:</label>
-                                <input type="file" name="program_image_{{ $idx }}" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-slate-200 file:text-slate-800">
-                                <input type="hidden" name="programs[{{ $idx }}][image]" value="{{ $prog['image'] ?? '' }}">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1 text-xs w-full">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1" x-text="'Nama Program #' + (index + 1) + ':'"></label>
+                                    <input type="text" :name="'programs[' + index + '][title]'" x-model="prog.title" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Keterangan Singkat:</label>
+                                    <input type="text" :name="'programs[' + index + '][desc]'" x-model="prog.desc" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Ganti Ikon / Gambar:</label>
+                                    <input type="file" :name="'program_image_' + index" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-slate-200 file:text-slate-800">
+                                    <input type="hidden" :name="'programs[' + index + '][image]'" :value="prog.image">
+                                </div>
+                                <div class="flex items-end justify-end">
+                                    <button type="button" @click="removeProgram(index)" class="px-3 py-2 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs flex items-center gap-1 transition-colors">
+                                        🗑️ Hapus Program Ini
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
+                    </template>
                 </div>
             </div>
         </div>
 
-        <!-- 5. TAB: SYARAT & REKENING PEMBAYARAN -->
+        <!-- 5. TAB: SYARAT BERKAS & REKENING PEMBAYARAN (FULL CRUD) -->
         <div x-show="activeTab === 'syarat'" class="space-y-6">
+            <!-- Kelengkapan Berkas CRUD -->
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                <div class="border-b border-slate-100 pb-3">
-                    <h3 class="font-black text-base text-slate-900">📋 Pengaturan Syarat Berkas & Rekening Resmi Pembayaran</h3>
-                    <p class="text-xs text-slate-500 font-medium">Atur nomor rekening yayasan, nama pemilik rekening, dan tips untuk orang tua calon siswa.</p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="font-black text-base text-slate-900">📋 Pengaturan Syarat & Kelengkapan Berkas</h3>
+                        <p class="text-xs text-slate-500 font-medium">Fungsi CRUD: Tambah syarat dokumen baru (+), ubah keterangan, tandai wajib/opsional, atau hapus syarat.</p>
+                    </div>
+                    <button type="button" @click="addSyarat()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                        <span>➕</span> Tambah Syarat Dokumen
+                    </button>
                 </div>
 
-                <div class="space-y-4 text-xs">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1">Judul Kelengkapan Berkas:</label>
-                            <input type="text" name="spmb_syarat_title" value="{{ $spmb['syarat_title'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1">Subjudul Berkas:</label>
-                            <input type="text" name="spmb_syarat_desc" value="{{ $spmb['syarat_desc'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                        </div>
-                    </div>
-
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div>
+                        <label class="block font-bold text-slate-700 mb-1">Judul Kelengkapan Berkas:</label>
+                        <input type="text" name="spmb_syarat_title" value="{{ $spmb['syarat_title'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Subjudul Berkas:</label>
+                        <input type="text" name="spmb_syarat_desc" value="{{ $spmb['syarat_desc'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    </div>
+                    <div class="sm:col-span-2">
                         <label class="block font-bold text-slate-700 mb-1">Pesan Tips untuk Orang Tua:</label>
                         <textarea name="spmb_syarat_tips" rows="2" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-600">{{ $spmb['syarat_tips'] }}</textarea>
                     </div>
+                </div>
 
-                    <!-- Rekening Bank 1 -->
-                    <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-3">
-                        <span class="px-2.5 py-1 rounded-full bg-emerald-200 text-emerald-900 font-black text-[10px] uppercase">
-                            Rekening Bank Utama (BSI)
-                        </span>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nama Bank 1:</label>
-                                <input type="text" name="spmb_bank1_name" value="{{ $spmb['bank1_name'] }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                <div class="space-y-3 pt-2">
+                    <h4 class="font-black text-xs text-slate-800 uppercase tracking-wider">Daftar Berkas Pendaftaran:</h4>
+                    <template x-for="(s, index) in syaratItems" :key="index">
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-3 text-xs">
+                            <div class="flex-1 space-y-2 w-full">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <input type="text" :name="'syarat_items[' + index + '][title]'" x-model="s.title" placeholder="Nama Dokumen (misal: Akta Kelahiran)" class="w-full px-3 py-1.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                    <input type="text" :name="'syarat_items[' + index + '][desc]'" x-model="s.desc" placeholder="Keterangan singkat dokumen" class="w-full px-3 py-1.5 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                </div>
                             </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nomor Rekening 1:</label>
-                                <input type="text" name="spmb_bank1_number" value="{{ $spmb['bank1_number'] }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-mono font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Atas Nama Rekening 1:</label>
-                                <input type="text" name="spmb_bank1_holder" value="{{ $spmb['bank1_holder'] }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                            <div class="flex items-center gap-3 shrink-0">
+                                <label class="inline-flex items-center gap-1.5 cursor-pointer font-bold text-slate-700 text-xs">
+                                    <input type="checkbox" :name="'syarat_items[' + index + '][is_mandatory]'" value="1" :checked="s.is_mandatory" @change="s.is_mandatory = $event.target.checked" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                                    <span>Wajib</span>
+                                </label>
+                                <button type="button" @click="removeSyarat(index)" title="Hapus Dokumen Ini" class="text-rose-600 hover:text-rose-800 text-xs font-bold p-1 hover:bg-rose-50 rounded-lg">
+                                    🗑️ Hapus
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </template>
+                </div>
+            </div>
 
-                    <!-- Rekening Bank 2 -->
-                    <div class="p-4 rounded-2xl bg-cyan-50 border border-cyan-200 space-y-3">
-                        <span class="px-2.5 py-1 rounded-full bg-cyan-200 text-cyan-900 font-black text-[10px] uppercase">
-                            Rekening Bank Kedua (Muamalat)
-                        </span>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nama Bank 2:</label>
-                                <input type="text" name="spmb_bank2_name" value="{{ $spmb['bank2_name'] }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nomor Rekening 2:</label>
-                                <input type="text" name="spmb_bank2_number" value="{{ $spmb['bank2_number'] }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-mono font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Atas Nama Rekening 2:</label>
-                                <input type="text" name="spmb_bank2_holder" value="{{ $spmb['bank2_holder'] }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                            </div>
-                        </div>
-                    </div>
-
+            <!-- Rekening Bank CRUD -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Catatan Tambahan Pembayaran:</label>
-                        <input type="text" name="spmb_payment_note" value="{{ $spmb['payment_note'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        <h3 class="font-black text-base text-slate-900">💳 Rekening Resmi Pembayaran Formulir</h3>
+                        <p class="text-xs text-slate-500 font-medium">Fungsi CRUD: Tambah nomor rekening baru (+), edit rekening, atau hapus rekening bank yayasan.</p>
                     </div>
+                    <button type="button" @click="addBank()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                        <span>➕</span> Tambah Rekening Bank
+                    </button>
+                </div>
+
+                <div class="space-y-3">
+                    <template x-for="(b, index) in banks" :key="index">
+                        <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900 font-black text-[10px] uppercase" x-text="'Rekening #' + (index + 1)"></span>
+                                <button type="button" @click="removeBank(index)" class="text-rose-600 hover:text-rose-800 text-xs font-bold p-1 hover:bg-rose-100 rounded-lg">
+                                    🗑️ Hapus Rekening
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Nama Bank:</label>
+                                    <input type="text" :name="'banks[' + index + '][bank_name]'" x-model="b.bank_name" placeholder="Contoh: Bank Syariah Indonesia" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Nomor Rekening:</label>
+                                    <input type="text" :name="'banks[' + index + '][account_number]'" x-model="b.account_number" placeholder="Nomor Rekening" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-mono font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Atas Nama Rekening:</label>
+                                    <input type="text" :name="'banks[' + index + '][account_holder]'" x-model="b.account_holder" placeholder="Atas Nama" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1 text-xs">Catatan Tambahan Pembayaran:</label>
+                    <input type="text" name="spmb_payment_note" value="{{ $spmb['payment_note'] }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs">
                 </div>
             </div>
         </div>
 
-        <!-- 6. TAB: TESTIMONI -->
+        <!-- 6. TAB: TESTIMONI (FULL CRUD) -->
         <div x-show="activeTab === 'testi'" class="space-y-6">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                <div class="border-b border-slate-100 pb-3">
-                    <h3 class="font-black text-base text-slate-900">💬 Pengaturan Testimoni Orang Tua Siswa</h3>
-                    <p class="text-xs text-slate-500 font-medium">Kelola ulasan dan pengalaman nyata orang tua wali murid yang ditampilkan di landing page SPMB.</p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="font-black text-base text-slate-900">💬 Kelola Testimoni Orang Tua Siswa</h3>
+                        <p class="text-xs text-slate-500 font-medium">Fungsi CRUD: Tambah ulasan baru (+), edit nama & kutipan, atau hapus testimoni.</p>
+                    </div>
+                    <button type="button" @click="addTestimonial()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                        <span>➕</span> Tambah Testimoni Baru
+                    </button>
                 </div>
 
                 <div class="space-y-4">
-                    @foreach($spmb['testimonials'] as $idx => $testi)
-                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
-                        <span class="px-2.5 py-1 rounded-full bg-slate-200 text-slate-800 font-black text-[10px] uppercase">
-                            Testimoni {{ $idx + 1 }}
-                        </span>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1">Nama Wali Murid:</label>
-                                <input type="text" name="testimonials[{{ $idx }}][name]" value="{{ $testi['name'] ?? '' }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                    <template x-for="(testi, index) in testimonials" :key="index">
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs relative">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-800 font-black text-[10px] uppercase" x-text="'Testimoni #' + (index + 1)"></span>
+                                <button type="button" @click="removeTestimonial(index)" class="text-rose-600 hover:text-rose-800 text-xs font-bold p-1 hover:bg-rose-100 rounded-lg">
+                                    🗑️ Hapus Testimoni
+                                </button>
                             </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Nama Wali Murid:</label>
+                                    <input type="text" :name="'testimonials[' + index + '][name]'" x-model="testi.name" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600" required>
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Jabatan / Profesi / Wali Siswa:</label>
+                                    <input type="text" :name="'testimonials[' + index + '][role]'" x-model="testi.role" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                </div>
+                            </div>
+
                             <div>
-                                <label class="block font-bold text-slate-700 mb-1">Jabatan / Profesi / Wali Siswa:</label>
-                                <input type="text" name="testimonials[{{ $idx }}][role]" value="{{ $testi['role'] ?? '' }}" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <label class="block font-bold text-slate-700 mb-1">Isi Kutipan Testimoni:</label>
+                                <textarea :name="'testimonials[' + index + '][quote]'" x-model="testi.quote" rows="3" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-600" required></textarea>
                             </div>
                         </div>
-
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1">Isi Kutipan Testimoni:</label>
-                            <textarea name="testimonials[{{ $idx }}][quote]" rows="3" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-600" required>{{ $testi['quote'] ?? '' }}</textarea>
-                        </div>
-                    </div>
-                    @endforeach
+                    </template>
                 </div>
             </div>
         </div>
@@ -432,9 +485,9 @@
                     </div>
 
                     <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 space-y-1">
-                        <strong class="font-black text-xs block">💡 Catatan Sinkronisasi Biaya:</strong>
+                        <strong class="font-black text-xs block">💡 Sinkronisasi Otomatis dengan Sistem SmartEdu:</strong>
                         <p class="text-[11px] leading-relaxed">
-                            Biaya pendaftaran masing-masing unit (TK, SD, SMP, SMA) diatur langsung di <strong>Tab "Pilihan Unit & Biaya"</strong>. Ketika nominal diubah di tab tersebut, biaya yang terhitung di dalam formulir isian otomatis mengikuti pembaruan Anda.
+                            Biaya pendaftaran masing-masing unit sekolah diatur pada <strong>Tab "Pilihan Unit & Biaya"</strong>. Ketika nominal diubah di tab tersebut, nominal yang ditagihkan di formulir pendaftaran serta modul Keuangan SPP otomatis disinkronkan.
                         </p>
                     </div>
                 </div>
@@ -444,14 +497,14 @@
         <!-- Sticky Submit Button -->
         <div class="sticky bottom-4 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-300 shadow-xl flex items-center justify-between gap-4">
             <div class="hidden sm:block text-xs text-slate-500 font-semibold">
-                Perubahan akan langsung diterapkan ke Landing Page & Formulir SPMB publik.
+                Perubahan CRUD akan langsung diterapkan ke Landing Page & Formulir SPMB publik.
             </div>
             <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
                 <a href="{{ route('admin.settings.spmb') }}" class="px-5 py-3 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200 transition-colors">
                     Reset
                 </a>
                 <button type="submit" class="px-7 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-lg shadow-emerald-700/25 transition-all transform hover:-translate-y-0.5">
-                    💾 Simpan Semua Perubahan
+                    💾 Simpan Semua Perubahan (CRUD)
                 </button>
             </div>
         </div>
@@ -459,4 +512,107 @@
     </form>
 
 </div>
+
+<script>
+function spmbCmsApp() {
+    return {
+        activeTab: 'unit',
+        units: @json(array_values($spmb['units'])),
+        programs: @json($spmb['programs']),
+        testimonials: @json($spmb['testimonials']),
+        syaratItems: @json($spmb['syarat_items'] ?? []),
+        banks: @json($spmb['banks'] ?? []),
+
+        addUnit() {
+            const rawCode = prompt('Masukkan Kode Singkatan Unit Baru (contoh: DAYCARE, MA, SMK):');
+            if (!rawCode) return;
+            const codeUpper = rawCode.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (!codeUpper) {
+                alert('Kode unit tidak valid!');
+                return;
+            }
+            if (this.units.some(u => u.code === codeUpper)) {
+                alert('Kode unit ' + codeUpper + ' sudah ada di daftar!');
+                return;
+            }
+            this.units.push({
+                code: codeUpper,
+                name: codeUpper + ' ROBBANI',
+                level: codeUpper + ' Islam Terpadu',
+                age_badge: 'Usia Standar',
+                address: 'Kampus Terpadu ROBBANI Ogan Ilir',
+                fee: 450000,
+                color: 'emerald',
+                image: '/images/spmb/sd.png',
+                is_active: true
+            });
+            alert('✓ Unit ' + codeUpper + ' berhasil ditambahkan ke daftar! Silakan lengkapi data dan klik Simpan.');
+        },
+
+        removeUnit(index) {
+            const u = this.units[index];
+            if (confirm('Yakin ingin menghapus unit ' + (u.name || u.code) + ' dari daftar pilihan landing page?')) {
+                this.units.splice(index, 1);
+            }
+        },
+
+        addProgram() {
+            this.programs.push({
+                title: 'Program Unggulan Baru',
+                desc: 'Keterangan keunggulan program pendidikan',
+                image: '/images/spmb/kurikulum.png'
+            });
+        },
+
+        removeProgram(index) {
+            if (confirm('Yakin ingin menghapus program ini?')) {
+                this.programs.splice(index, 1);
+            }
+        },
+
+        addTestimonial() {
+            this.testimonials.push({
+                name: 'Nama Wali Murid',
+                role: 'Wali Murid Siswa',
+                quote: 'Kesan dan pengalaman positif menyekolahkan ananda di SIT Robbani.',
+                initials: 'WM'
+            });
+        },
+
+        removeTestimonial(index) {
+            if (confirm('Yakin ingin menghapus testimoni ini?')) {
+                this.testimonials.splice(index, 1);
+            }
+        },
+
+        addSyarat() {
+            this.syaratItems.push({
+                title: 'Nama Dokumen / Syarat',
+                desc: 'Foto asli atau fotokopi 1 lembar yang terbaca jelas',
+                is_mandatory: true
+            });
+        },
+
+        removeSyarat(index) {
+            if (confirm('Yakin ingin menghapus berkas syarat ini?')) {
+                this.syaratItems.splice(index, 1);
+            }
+        },
+
+        addBank() {
+            this.banks.push({
+                bank_name: 'Bank Syariah Indonesia (BSI)',
+                account_number: '1234567890',
+                account_holder: 'YAYASAN GENERASI ROBBANI'
+            });
+        },
+
+        removeBank(index) {
+            if (confirm('Yakin ingin menghapus rekening bank ini?')) {
+                this.banks.splice(index, 1);
+            }
+        }
+    }
+}
+</script>
 @endsection

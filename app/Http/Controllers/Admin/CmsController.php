@@ -278,46 +278,49 @@ class CmsController extends Controller
             SiteSetting::set('spmb_hero_image', $request->input('spmb_hero_image'));
         }
 
-        // 3. Units data (6 units: TPA, KB, TKIT, SDIT, SMPIT, SMAIT)
-        $currentSpmb = app(\App\Http\Controllers\SchoolWebsiteController::class)->getSpmbSettings();
-        $units = $currentSpmb['units'];
+        // 3. Units data (Full CRUD: Add, Edit, Delete, Toggle Active)
         $unitsInput = $request->input('units', []);
-
-        if (is_array($unitsInput)) {
+        if (is_array($unitsInput) && count($unitsInput) > 0) {
+            $units = [];
             foreach ($unitsInput as $code => $uData) {
-                $codeUpper = strtoupper($code);
-                if (!isset($units[$codeUpper])) {
-                    $units[$codeUpper] = [];
-                }
-                $units[$codeUpper]['code'] = $codeUpper;
-                $units[$codeUpper]['name'] = $uData['name'] ?? ($units[$codeUpper]['name'] ?? $codeUpper . ' ROBBANI');
-                $units[$codeUpper]['level'] = $uData['level'] ?? ($units[$codeUpper]['level'] ?? '');
-                $units[$codeUpper]['age_badge'] = $uData['age_badge'] ?? ($units[$codeUpper]['age_badge'] ?? '');
-                $units[$codeUpper]['address'] = $uData['address'] ?? ($units[$codeUpper]['address'] ?? '');
-                $units[$codeUpper]['fee'] = (int) ($uData['fee'] ?? ($units[$codeUpper]['fee'] ?? 350000));
-                $units[$codeUpper]['color'] = $uData['color'] ?? ($units[$codeUpper]['color'] ?? 'emerald');
-                $units[$codeUpper]['is_active'] = isset($uData['is_active']) ? (bool)$uData['is_active'] : true;
+                if (empty($code) || empty($uData['name'])) continue;
+                $codeUpper = strtoupper(trim($code));
+                $uImage = $uData['image'] ?? ('/images/spmb/' . strtolower($codeUpper) . '.png');
 
                 // Handle unit image upload
                 if ($request->hasFile("unit_image_{$code}")) {
-                    $compressedUnit = \App\Services\ImageOptimizer::compress($request->file("unit_image_{$code}"), 'uploads/cms', 'unit_' . strtolower($code) . '_' . uniqid());
+                    $compressedUnit = \App\Services\ImageOptimizer::compress($request->file("unit_image_{$code}"), 'uploads/cms', 'unit_' . strtolower($codeUpper) . '_' . uniqid());
                     if ($compressedUnit) {
-                        $units[$codeUpper]['image'] = $compressedUnit . '?v=' . time();
+                        $uImage = $compressedUnit . '?v=' . time();
                     }
                 } elseif (!empty($uData['image'])) {
-                    $units[$codeUpper]['image'] = $uData['image'];
+                    $uImage = $uData['image'];
                 }
+
+                $units[$codeUpper] = [
+                    'code' => $codeUpper,
+                    'name' => trim($uData['name']),
+                    'level' => trim($uData['level'] ?? ''),
+                    'age_badge' => trim($uData['age_badge'] ?? ''),
+                    'address' => trim($uData['address'] ?? ''),
+                    'fee' => (int) ($uData['fee'] ?? 350000),
+                    'color' => $uData['color'] ?? 'emerald',
+                    'image' => $uImage,
+                    'is_active' => isset($uData['is_active']) ? (bool)$uData['is_active'] : true,
+                ];
             }
-            SiteSetting::set('spmb_units_data', json_encode($units, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            if (!empty($units)) {
+                SiteSetting::set('spmb_units_data', json_encode($units, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
         }
 
-        // 4. Programs data
+        // 4. Programs data (Full CRUD: Add, Edit, Delete)
         $programsInput = $request->input('programs', []);
-        if (is_array($programsInput) && count($programsInput) > 0) {
+        if (is_array($programsInput)) {
             $programs = [];
             foreach ($programsInput as $idx => $pData) {
                 if (empty($pData['title'])) continue;
-                $pImage = $pData['image'] ?? ($currentSpmb['programs'][$idx]['image'] ?? '/images/spmb/kurikulum.png');
+                $pImage = $pData['image'] ?? '/images/spmb/kurikulum.png';
                 if ($request->hasFile("program_image_{$idx}")) {
                     $comp = \App\Services\ImageOptimizer::compress($request->file("program_image_{$idx}"), 'uploads/cms', 'program_' . $idx . '_' . uniqid());
                     if ($comp) {
@@ -330,12 +333,14 @@ class CmsController extends Controller
                     'image' => $pImage,
                 ];
             }
-            SiteSetting::set('spmb_programs_data', json_encode($programs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            if (!empty($programs)) {
+                SiteSetting::set('spmb_programs_data', json_encode($programs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
         }
 
-        // 5. Testimonials data
+        // 5. Testimonials data (Full CRUD: Add, Edit, Delete)
         $testimonialsInput = $request->input('testimonials', []);
-        if (is_array($testimonialsInput) && count($testimonialsInput) > 0) {
+        if (is_array($testimonialsInput)) {
             $testimonials = [];
             foreach ($testimonialsInput as $tData) {
                 if (empty($tData['name'])) continue;
@@ -351,7 +356,53 @@ class CmsController extends Controller
                     'initials' => $initials ?: 'WM',
                 ];
             }
-            SiteSetting::set('spmb_testimonials_data', json_encode($testimonials, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            if (!empty($testimonials)) {
+                SiteSetting::set('spmb_testimonials_data', json_encode($testimonials, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
+        }
+
+        // 6. Syarat Berkas data (Full CRUD: Add, Edit, Delete)
+        $syaratInput = $request->input('syarat_items', []);
+        if (is_array($syaratInput)) {
+            $syaratItems = [];
+            foreach ($syaratInput as $sData) {
+                if (empty($sData['title'])) continue;
+                $syaratItems[] = [
+                    'title' => trim($sData['title']),
+                    'desc' => trim($sData['desc'] ?? ''),
+                    'is_mandatory' => isset($sData['is_mandatory']) ? (bool)$sData['is_mandatory'] : false,
+                ];
+            }
+            if (!empty($syaratItems)) {
+                SiteSetting::set('spmb_syarat_items', json_encode($syaratItems, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
+        }
+
+        // 7. Rekening Bank data (Full CRUD: Add, Edit, Delete)
+        $banksInput = $request->input('banks', []);
+        if (is_array($banksInput)) {
+            $banks = [];
+            foreach ($banksInput as $bData) {
+                if (empty($bData['bank_name']) || empty($bData['account_number'])) continue;
+                $banks[] = [
+                    'bank_name' => trim($bData['bank_name']),
+                    'account_number' => trim($bData['account_number']),
+                    'account_holder' => trim($bData['account_holder'] ?? 'YAYASAN GENERASI ROBBANI'),
+                ];
+            }
+            if (!empty($banks)) {
+                SiteSetting::set('spmb_banks_data', json_encode($banks, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                if (isset($banks[0])) {
+                    SiteSetting::set('spmb_bank1_name', $banks[0]['bank_name']);
+                    SiteSetting::set('spmb_bank1_number', $banks[0]['account_number']);
+                    SiteSetting::set('spmb_bank1_holder', $banks[0]['account_holder']);
+                }
+                if (isset($banks[1])) {
+                    SiteSetting::set('spmb_bank2_name', $banks[1]['bank_name']);
+                    SiteSetting::set('spmb_bank2_number', $banks[1]['account_number']);
+                    SiteSetting::set('spmb_bank2_holder', $banks[1]['account_holder']);
+                }
+            }
         }
 
         return redirect()->back()->with('success', '✓ Pengaturan Konten Landing Page & Formulir SPMB berhasil disimpan!');
