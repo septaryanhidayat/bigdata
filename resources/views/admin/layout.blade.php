@@ -377,6 +377,10 @@
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📋</span> 
                         <span class="sidebar-text">PPDB & SPMB Siswa Baru</span>
                     </a>
+                    <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan Konten SPMB & Form" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <span class="w-5 text-center text-sm shrink-0 opacity-80">⚙️</span> 
+                        <span class="sidebar-text">Pengaturan SPMB & Form</span>
+                    </a>
                     @endif
 
                     @if(Auth::user()->canAccessModule('library'))
@@ -514,6 +518,10 @@
                         <a href="{{ route('admin.settings.portal') }}" title="Web Portal Utama" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.portal') || request()->routeIs('admin.settings') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🏛️</span> 
                             <span class="sidebar-text">Web Portal Utama</span>
+                        </a>
+                        <a href="{{ route('admin.settings.spmb') }}" title="Pengaturan SPMB & Formulir PPDB" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.settings.spmb*') ? 'nav-link-active' : 'text-slate-300' }}">
+                            <span class="w-5 text-center text-sm shrink-0 opacity-80">📝</span> 
+                            <span class="sidebar-text">Pengaturan SPMB & Form</span>
                         </a>
                         <a href="{{ route('admin.cms.content') }}" title="Kelola Konten Web" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.cms.content') ? 'nav-link-active' : 'text-slate-300' }}">
                             <span class="w-5 text-center text-sm shrink-0 opacity-80">🎨</span> 

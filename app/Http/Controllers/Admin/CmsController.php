@@ -241,6 +241,122 @@ class CmsController extends Controller
         return view('admin.settings.sales', compact('settings'));
     }
 
+    public function settingsSpmb()
+    {
+        $spmb = app(\App\Http\Controllers\SchoolWebsiteController::class)->getSpmbSettings();
+        return view('admin.settings.spmb', compact('spmb'));
+    }
+
+    public function updateSettingsSpmb(Request $request)
+    {
+        // 1. Scalar settings
+        $scalarKeys = [
+            'spmb_announcement_badge', 'spmb_announcement_date', 'spmb_wa_number', 'spmb_wa_link',
+            'spmb_brand_title', 'spmb_hero_badge', 'spmb_hero_title', 'spmb_hero_desc',
+            'spmb_hero_point1', 'spmb_hero_point2', 'spmb_hero_point3',
+            'spmb_program_title', 'spmb_program_desc',
+            'spmb_syarat_title', 'spmb_syarat_desc', 'spmb_syarat_tips',
+            'spmb_bank1_name', 'spmb_bank1_number', 'spmb_bank1_holder',
+            'spmb_bank2_name', 'spmb_bank2_number', 'spmb_bank2_holder',
+            'spmb_payment_note',
+            'spmb_form_badge', 'spmb_form_title', 'spmb_form_desc',
+        ];
+
+        foreach ($scalarKeys as $key) {
+            if ($request->has($key)) {
+                SiteSetting::set($key, $request->input($key));
+            }
+        }
+
+        // 2. Handle hero image upload
+        if ($request->hasFile('spmb_hero_image_file')) {
+            $compressed = \App\Services\ImageOptimizer::compress($request->file('spmb_hero_image_file'), 'uploads/cms', 'spmb_hero_' . uniqid());
+            if ($compressed) {
+                SiteSetting::set('spmb_hero_image', $compressed . '?v=' . time());
+            }
+        } elseif ($request->filled('spmb_hero_image')) {
+            SiteSetting::set('spmb_hero_image', $request->input('spmb_hero_image'));
+        }
+
+        // 3. Units data (6 units: TPA, KB, TKIT, SDIT, SMPIT, SMAIT)
+        $currentSpmb = app(\App\Http\Controllers\SchoolWebsiteController::class)->getSpmbSettings();
+        $units = $currentSpmb['units'];
+        $unitsInput = $request->input('units', []);
+
+        if (is_array($unitsInput)) {
+            foreach ($unitsInput as $code => $uData) {
+                $codeUpper = strtoupper($code);
+                if (!isset($units[$codeUpper])) {
+                    $units[$codeUpper] = [];
+                }
+                $units[$codeUpper]['code'] = $codeUpper;
+                $units[$codeUpper]['name'] = $uData['name'] ?? ($units[$codeUpper]['name'] ?? $codeUpper . ' ROBBANI');
+                $units[$codeUpper]['level'] = $uData['level'] ?? ($units[$codeUpper]['level'] ?? '');
+                $units[$codeUpper]['age_badge'] = $uData['age_badge'] ?? ($units[$codeUpper]['age_badge'] ?? '');
+                $units[$codeUpper]['address'] = $uData['address'] ?? ($units[$codeUpper]['address'] ?? '');
+                $units[$codeUpper]['fee'] = (int) ($uData['fee'] ?? ($units[$codeUpper]['fee'] ?? 350000));
+                $units[$codeUpper]['color'] = $uData['color'] ?? ($units[$codeUpper]['color'] ?? 'emerald');
+                $units[$codeUpper]['is_active'] = isset($uData['is_active']) ? (bool)$uData['is_active'] : true;
+
+                // Handle unit image upload
+                if ($request->hasFile("unit_image_{$code}")) {
+                    $compressedUnit = \App\Services\ImageOptimizer::compress($request->file("unit_image_{$code}"), 'uploads/cms', 'unit_' . strtolower($code) . '_' . uniqid());
+                    if ($compressedUnit) {
+                        $units[$codeUpper]['image'] = $compressedUnit . '?v=' . time();
+                    }
+                } elseif (!empty($uData['image'])) {
+                    $units[$codeUpper]['image'] = $uData['image'];
+                }
+            }
+            SiteSetting::set('spmb_units_data', json_encode($units, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
+        // 4. Programs data
+        $programsInput = $request->input('programs', []);
+        if (is_array($programsInput) && count($programsInput) > 0) {
+            $programs = [];
+            foreach ($programsInput as $idx => $pData) {
+                if (empty($pData['title'])) continue;
+                $pImage = $pData['image'] ?? ($currentSpmb['programs'][$idx]['image'] ?? '/images/spmb/kurikulum.png');
+                if ($request->hasFile("program_image_{$idx}")) {
+                    $comp = \App\Services\ImageOptimizer::compress($request->file("program_image_{$idx}"), 'uploads/cms', 'program_' . $idx . '_' . uniqid());
+                    if ($comp) {
+                        $pImage = $comp . '?v=' . time();
+                    }
+                }
+                $programs[] = [
+                    'title' => trim($pData['title']),
+                    'desc' => trim($pData['desc'] ?? ''),
+                    'image' => $pImage,
+                ];
+            }
+            SiteSetting::set('spmb_programs_data', json_encode($programs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
+        // 5. Testimonials data
+        $testimonialsInput = $request->input('testimonials', []);
+        if (is_array($testimonialsInput) && count($testimonialsInput) > 0) {
+            $testimonials = [];
+            foreach ($testimonialsInput as $tData) {
+                if (empty($tData['name'])) continue;
+                $initials = '';
+                $words = explode(' ', trim($tData['name']));
+                foreach (array_slice($words, 0, 2) as $w) {
+                    $initials .= strtoupper(substr($w, 0, 1));
+                }
+                $testimonials[] = [
+                    'name' => trim($tData['name']),
+                    'role' => trim($tData['role'] ?? 'Wali Murid'),
+                    'quote' => trim($tData['quote'] ?? ''),
+                    'initials' => $initials ?: 'WM',
+                ];
+            }
+            SiteSetting::set('spmb_testimonials_data', json_encode($testimonials, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
+        return redirect()->back()->with('success', '✓ Pengaturan Konten Landing Page & Formulir SPMB berhasil disimpan!');
+    }
+
     public function settingsUnits()
     {
         $user = auth()->user();

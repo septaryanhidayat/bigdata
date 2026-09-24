@@ -233,6 +233,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/public-services/{id}', [CmsController::class, 'destroyPublicServiceRequest'])->name('public-services.destroy');
         });
 
+        // 2c. Pengaturan Konten Landing Page & Formulir SPMB (Super Admin, Ketua Yayasan, TU, Humas, Panitia PPDB)
+        Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,STAFF_TU,HUMAS,PANITIA_PPDB')->group(function () {
+            Route::get('/settings/spmb', [CmsController::class, 'settingsSpmb'])->name('settings.spmb');
+            Route::post('/settings/spmb', [CmsController::class, 'updateSettingsSpmb'])->name('settings.spmb.update');
+        });
+
         // 2c. Pengaturan Global Portal Yayasan, Manajemen Akun, Lisensi Sales, Modul, & Pusat Kontrol (Super Admin & Ketua Yayasan)
         Route::middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN')->group(function () {
             // Manajemen Akun & Hak Akses Pengguna

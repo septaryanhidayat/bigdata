@@ -1213,16 +1213,203 @@ class SchoolWebsiteController extends Controller
     public function spmbLanding(Request $request)
     {
         $settings = $this->getSettings();
+        $spmb = $this->getSpmbSettings();
         $schools = School::where('is_active', true)->get();
-        return view('school.spmb_landing', compact('settings', 'schools'));
+        return view('school.spmb_landing', compact('settings', 'spmb', 'schools'));
     }
 
     public function ppdbForm(Request $request)
     {
         $settings = $this->getSettings();
+        $spmb = $this->getSpmbSettings();
         $schools = School::where('is_active', true)->get();
         $selectedUnit = strtoupper($request->query('jenjang', $request->query('unit', $request->query('school_code', ''))));
-        return view('school.ppdb', compact('settings', 'schools', 'selectedUnit'));
+        return view('school.ppdb', compact('settings', 'spmb', 'schools', 'selectedUnit'));
+    }
+
+    public function getSpmbSettings()
+    {
+        $defaultUnits = [
+            'TPA' => [
+                'code' => 'TPA',
+                'name' => 'TPA ROBBANI',
+                'level' => 'Taman Asuh Anak',
+                'age_badge' => 'Usia 0 – 3 Tahun',
+                'address' => 'Jl. Sarjana, Blok C No. 17, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'image' => '/images/spmb/tpa.webp',
+                'fee' => 350000,
+                'color' => 'purple',
+                'is_active' => true,
+            ],
+            'KB' => [
+                'code' => 'KB',
+                'name' => 'KB ROBBANI',
+                'level' => 'Kelompok Bermain',
+                'age_badge' => 'Usia 3 – 4 Tahun',
+                'address' => 'Jl. Sarjana Blok C No. 14, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'image' => '/images/spmb/kb.webp',
+                'fee' => 350000,
+                'color' => 'pink',
+                'is_active' => true,
+            ],
+            'TKIT' => [
+                'code' => 'TKIT',
+                'name' => 'TKIT ROBBANI',
+                'level' => 'Taman Kanak-Kanak IT',
+                'age_badge' => 'Usia 4 – 6 Tahun',
+                'address' => 'Jl. Sarjana Blok C No. 14, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'image' => '/images/spmb/tk.webp',
+                'fee' => 350000,
+                'color' => 'amber',
+                'is_active' => true,
+            ],
+            'SDIT' => [
+                'code' => 'SDIT',
+                'name' => 'SDIT ROBBANI',
+                'level' => 'Sekolah Dasar IT',
+                'age_badge' => 'Usia Min. 6 Tahun',
+                'address' => 'Jl. Sarjana Blok A, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'image' => '/images/spmb/sd.webp',
+                'fee' => 450000,
+                'color' => 'emerald',
+                'is_active' => true,
+            ],
+            'SMPIT' => [
+                'code' => 'SMPIT',
+                'name' => 'SMPIT ROBBANI',
+                'level' => 'SMP Islam Terpadu',
+                'age_badge' => 'Lulusan SD / MI',
+                'address' => 'Jl. Sarjana Padang Guci, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'image' => '/images/spmb/smp.png',
+                'fee' => 550000,
+                'color' => 'cyan',
+                'is_active' => true,
+            ],
+            'SMAIT' => [
+                'code' => 'SMAIT',
+                'name' => 'SMAIT ROBBANI',
+                'level' => 'SMA Islam Terpadu',
+                'age_badge' => 'Lulusan SMP / MTs',
+                'address' => 'Kompleks SIT Robbani, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir',
+                'image' => '/images/spmb/sma.jpg',
+                'fee' => 550000,
+                'color' => 'indigo',
+                'is_active' => true,
+            ],
+        ];
+
+        $unitsJson = SiteSetting::get('spmb_units_data');
+        $units = $unitsJson ? json_decode($unitsJson, true) : $defaultUnits;
+        if (!is_array($units) || empty($units)) {
+            $units = $defaultUnits;
+        }
+
+        $defaultPrograms = [
+            [
+                'title' => 'Kurikulum Terpadu',
+                'desc' => 'Kurikulum Nasional dan Kekhasan JSIT',
+                'image' => '/images/spmb/kurikulum.png',
+            ],
+            [
+                'title' => 'Program Life Skill',
+                'desc' => 'Pembelajaran adab dan karakter mandiri',
+                'image' => '/images/spmb/lifeskill.png',
+            ],
+            [
+                'title' => 'Tahsin & Tahfidz',
+                'desc' => 'Metode Wafa intensif & bersanad',
+                'image' => '/images/spmb/tahsin.png',
+            ],
+            [
+                'title' => 'Digital SmartEdu',
+                'desc' => 'Manajemen modern berbasis aplikasi HP',
+                'image' => '/images/spmb/digital.png',
+            ],
+            [
+                'title' => 'Ekskul Berkelas',
+                'desc' => 'Panahan, beladiri, dan sains kreatif',
+                'image' => '/images/spmb/ekskul.png',
+            ],
+        ];
+        $programsJson = SiteSetting::get('spmb_programs_data');
+        $programs = $programsJson ? json_decode($programsJson, true) : $defaultPrograms;
+        if (!is_array($programs) || empty($programs)) {
+            $programs = $defaultPrograms;
+        }
+
+        $defaultTestimonials = [
+            [
+                'name' => 'ECILIA OKTARINA, SE, MM',
+                'role' => 'Bapenda Provinsi Sumsel',
+                'quote' => 'Sekolah Robbani pilihan yang sangat tepat bagi anak. Guru yang profesional dan berkompeten sangat menunjang pembelajaran. Yang paling penting pelajaran ilmu agamanya serta sopan santun yang diajarkan kepada murid.',
+                'initials' => 'EO',
+            ],
+            [
+                'name' => 'RENNI SUSANTI, A.Md. Kep',
+                'role' => 'Perawat RSUD Ogan Ilir',
+                'quote' => 'Sekolah pilihan terbaik masa sekarang ini. Gurunya ramah, muda, dan berkompeten. Nilai agamanya sangat kuat, dan tidak ada batasan antara guru, siswa, serta ortu—semua saling mendukung dalam satu ikatan silaturahmi.',
+                'initials' => 'RS',
+            ],
+            [
+                'name' => 'Bunda Mazaya',
+                'role' => 'Wali Murid Alumni SDIT Robbani',
+                'quote' => 'Alhamdulillah selama anak saya bersekolah di sini banyak ilmu yang didapat, terutama hafalan Al-Qur\'an dan adab ibadah. Anak semakin percaya diri dalam mengikuti perlombaan. Terima kasih Ustadz dan Bunda!',
+                'initials' => 'BM',
+            ],
+        ];
+        $testimonialsJson = SiteSetting::get('spmb_testimonials_data');
+        $testimonials = $testimonialsJson ? json_decode($testimonialsJson, true) : $defaultTestimonials;
+        if (!is_array($testimonials) || empty($testimonials)) {
+            $testimonials = $defaultTestimonials;
+        }
+
+        return [
+            // Top Bar
+            'announcement_badge' => SiteSetting::get('spmb_announcement_badge', 'Gelombang 1'),
+            'announcement_date' => SiteSetting::get('spmb_announcement_date', '12 Sept – 31 Des 2026'),
+            'wa_number' => SiteSetting::get('spmb_wa_number', '0811-747-472'),
+            'wa_link' => SiteSetting::get('spmb_wa_link', 'https://wa.me/62811747472'),
+            'brand_title' => SiteSetting::get('spmb_brand_title', 'SPMB ROBBANI'),
+
+            // Hero Section
+            'hero_badge' => SiteSetting::get('spmb_hero_badge', 'SPMB Online SIT Robbani T.A. 2026/2027'),
+            'hero_title' => SiteSetting::get('spmb_hero_title', 'Sekolah Berbasis Digital Pertama dengan Pendidikan Karakter di Ogan Ilir'),
+            'hero_desc' => SiteSetting::get('spmb_hero_desc', '"Mewujudkan Generasi Cerdas dan Berakhlak Mulia di Era Digital". Pendaftaran mudah dari HP Anda, tanpa repot antre panjang.'),
+            'hero_image' => SiteSetting::get('spmb_hero_image', '/images/spmb/hero-kid.webp'),
+            'hero_point1' => SiteSetting::get('spmb_hero_point1', '✓ Bisa Daftar dari HP'),
+            'hero_point2' => SiteSetting::get('spmb_hero_point2', '✓ Berkas Cukup Difoto'),
+            'hero_point3' => SiteSetting::get('spmb_hero_point3', '✓ Bantuan Panitia 24 Jam'),
+
+            // Unit Pilihan
+            'units' => $units,
+
+            // Program Unggulan
+            'program_title' => SiteSetting::get('spmb_program_title', 'Keunggulan Sekolah Islam Terpadu Robbani'),
+            'program_desc' => SiteSetting::get('spmb_program_desc', 'Kombinasi kurikulum nasional berstandar, kekhasan JSIT, nilai Al-Qur\'an, dan teknologi modern.'),
+            'programs' => $programs,
+
+            // Syarat Berkas
+            'syarat_title' => SiteSetting::get('spmb_syarat_title', 'Kelengkapan Berkas Pendaftaran'),
+            'syarat_desc' => SiteSetting::get('spmb_syarat_desc', 'Cukup difoto menggunakan kamera HP Anda'),
+            'syarat_tips' => SiteSetting::get('spmb_syarat_tips', 'Tips untuk Orang Tua: Tidak perlu mesin scanner atau pergi ke warnet. Semua dokumen cukup difoto dengan kamera HP Anda.'),
+            
+            // Rekening Pembayaran
+            'bank1_name' => SiteSetting::get('spmb_bank1_name', 'Bank Syariah Indonesia (BSI)'),
+            'bank1_number' => SiteSetting::get('spmb_bank1_number', '7206858502'),
+            'bank1_holder' => SiteSetting::get('spmb_bank1_holder', 'YAYASAN GENERASI ROBBANI'),
+            'bank2_name' => SiteSetting::get('spmb_bank2_name', 'Bank Muamalat'),
+            'bank2_number' => SiteSetting::get('spmb_bank2_number', '3610061740'),
+            'bank2_holder' => SiteSetting::get('spmb_bank2_holder', 'YAYASAN GENERASI ROBBANI SUMSEL'),
+            'payment_note' => SiteSetting::get('spmb_payment_note', 'Rincian biaya formulir pendaftaran tertera langsung pada halaman formulir isian masing-masing unit.'),
+
+            // Testimoni
+            'testimonials' => $testimonials,
+
+            // Form SPMB
+            'form_badge' => SiteSetting::get('spmb_form_badge', 'F-SPMB 2026-2027 / 2027-2028'),
+            'form_title' => SiteSetting::get('spmb_form_title', 'Formulir Penerimaan Peserta Didik Baru'),
+            'form_desc' => SiteSetting::get('spmb_form_desc', 'Silakan lengkapi formulir pendaftaran di bawah ini dengan data yang benar dan teliti sesuai dokumen resmi (Kartu Keluarga & Akta Kelahiran).'),
+        ];
     }
 
     public function checkSpmbStatus(Request $request)

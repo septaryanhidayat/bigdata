@@ -19,11 +19,14 @@
         </div>
 
         <div class="flex items-center gap-2">
+            <a href="{{ route('admin.settings.spmb') }}" class="px-4 py-2.5 rounded-2xl bg-amber-400 text-slate-950 font-black text-xs shadow-md hover:bg-amber-300 flex items-center gap-1.5 whitespace-nowrap">
+                <span>⚙️</span> Pengaturan SPMB & Form
+            </a>
             <a href="{{ route('school.spmb') }}" target="_blank" class="px-4 py-2.5 rounded-2xl bg-slate-900 text-white font-black text-xs shadow-md hover:bg-slate-800 flex items-center gap-2">
-                <span>🌐</span> Landing Page SPMB ↗
+                <span>🌐</span> Landing Page ↗
             </a>
             <a href="{{ route('school.spmb.form') }}" target="_blank" class="px-4 py-2.5 rounded-2xl bg-emerald-700 text-white font-black text-xs shadow-md hover:bg-emerald-800 flex items-center gap-2">
-                <span>📝</span> Formulir SPMB ↗
+                <span>📝</span> Formulir ↗
             </a>
         </div>
     </div>
