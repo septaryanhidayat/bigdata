@@ -257,7 +257,7 @@
                                 <div class="py-2 text-center">
                                     <div class="w-40 h-40 mx-auto rounded-3xl {{ $boxClass }} flex items-center justify-center p-3 shadow-inner">
                                         <img 
-                                            src="{{ asset(ltrim($unit['image'] ?? '', '/')) }}" 
+                                            src="{{ asset(ltrim($unit['image'] ?? '', '/')) }}?v=2" 
                                             alt="{{ $unit['name'] ?? $uCode }}" 
                                             class="w-full h-full object-contain filter drop-shadow-md"
                                             onerror="this.src='{{ asset('images/logo robbani light.png') }}'"
