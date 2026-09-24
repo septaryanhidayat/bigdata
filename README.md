@@ -119,6 +119,10 @@ Platform ini mengintegrasikan **23+ Modul Digital Terpadu** yang menghubungkan s
 
 > **Catatan**: `public/build/` sudah di-commit ke Git, sehingga **tidak perlu Node.js** di server cPanel.
 
+> 📚 **Panduan Dokumentasi Khusus cPanel:**
+> - [Panduan Master Deployment cPanel](DEPLOY_CPANEL.md)
+> - [Panduan Migrasi & Backup Subdomain spmb.sitrobbani.sch.id](PANDUAN_MIGRASI_SPMB_SUBDOMAIN.md)
+
 ---
 
 ## 🔑 Kredensial Pengujian Awal
