@@ -254,6 +254,11 @@ class CmsController extends Controller
             'spmb_announcement_badge', 'spmb_announcement_date', 'spmb_wa_number', 'spmb_wa_link',
             'spmb_brand_title', 'spmb_hero_badge', 'spmb_hero_title', 'spmb_hero_desc',
             'spmb_hero_point1', 'spmb_hero_point2', 'spmb_hero_point3',
+            'spmb_banner_badge', 'spmb_banner_title', 'spmb_banner_desc',
+            'spmb_banner_benefit1_title', 'spmb_banner_benefit1_sub',
+            'spmb_banner_benefit2_title', 'spmb_banner_benefit2_sub',
+            'spmb_banner_benefit3_title', 'spmb_banner_benefit3_sub',
+            'spmb_banner_btn_primary_text', 'spmb_banner_btn_secondary_text',
             'spmb_program_title', 'spmb_program_desc',
             'spmb_syarat_title', 'spmb_syarat_desc', 'spmb_syarat_tips',
             'spmb_bank1_name', 'spmb_bank1_number', 'spmb_bank1_holder',
@@ -276,6 +281,16 @@ class CmsController extends Controller
             }
         } elseif ($request->filled('spmb_hero_image')) {
             SiteSetting::set('spmb_hero_image', $request->input('spmb_hero_image'));
+        }
+
+        // 2b. Handle banner promo flyer upload (Choose File)
+        if ($request->hasFile('spmb_banner_flyer_file')) {
+            $compressedBanner = \App\Services\ImageOptimizer::compress($request->file('spmb_banner_flyer_file'), 'uploads/cms', 'spmb_flyer_' . uniqid());
+            if ($compressedBanner) {
+                SiteSetting::set('spmb_banner_flyer', $compressedBanner . '?v=' . time());
+            }
+        } elseif ($request->filled('spmb_banner_flyer')) {
+            SiteSetting::set('spmb_banner_flyer', $request->input('spmb_banner_flyer'));
         }
 
         // 3. Units data (Full CRUD: Add, Edit, Delete, Toggle Active)
@@ -814,6 +829,18 @@ class CmsController extends Controller
             $data['hero_image'] = $request->input('hero_image');
         } elseif (isset($exData['hero_image'])) {
             $data['hero_image'] = $exData['hero_image'];
+        }
+
+        // Handle Unit Custom SPMB Flyer
+        if ($request->hasFile('flyer_file')) {
+            $compressedFlyer = \App\Services\ImageOptimizer::compress($request->file('flyer_file'), 'uploads/cms', 'flyer_' . $cleanCode . '_' . uniqid());
+            if ($compressedFlyer) {
+                $data['flyer'] = $compressedFlyer . '?v=' . time();
+            }
+        } elseif ($request->filled('flyer')) {
+            $data['flyer'] = $request->input('flyer');
+        } elseif (isset($exData['flyer'])) {
+            $data['flyer'] = $exData['flyer'];
         }
 
         SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));

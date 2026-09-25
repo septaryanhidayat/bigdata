@@ -75,6 +75,9 @@
             <button type="button" @click="activeTab = 'hero'" :class="activeTab === 'hero' ? 'bg-white text-emerald-900 font-black shadow-sm' : 'text-slate-600 hover:text-slate-900 font-bold'" class="px-4 py-2 rounded-xl text-xs transition-all">
                 🚀 Banner Hero
             </button>
+            <button type="button" @click="activeTab = 'banner'" :class="activeTab === 'banner' ? 'bg-white text-emerald-900 font-black shadow-sm' : 'text-slate-600 hover:text-slate-900 font-bold'" class="px-4 py-2 rounded-xl text-xs transition-all">
+                🎯 Flyer &amp; Banner Promo SPMB
+            </button>
             <button type="button" @click="activeTab = 'program'" :class="activeTab === 'program' ? 'bg-white text-emerald-900 font-black shadow-sm' : 'text-slate-600 hover:text-slate-900 font-bold'" class="px-4 py-2 rounded-xl text-xs transition-all">
                 🌟 Program Unggulan
             </button>
@@ -254,6 +257,97 @@
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Poin Kemudahan 3:</label>
                             <input type="text" name="spmb_hero_point3" value="{{ $spmb['hero_point3'] }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3b. TAB: FLYER & BANNER PROMO SPMB RESMI (SESUAI BROSUR 3 SISWA) -->
+        <div x-show="activeTab === 'banner'" class="space-y-6">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+                <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-black text-base text-slate-900 flex items-center gap-2">
+                            <span>🎯</span> <span>Pengaturan Flyer &amp; Banner Promo SPMB Resmi</span>
+                        </h3>
+                        <p class="text-xs text-slate-500 font-medium mt-0.5">Kelola flyer poster vertikal resmi (Poster 3 Siswa Robbani), badge pendaftaran, judul promo banner, deskripsi sambutan, 3 kartu benefit, serta tombol WhatsApp &amp; pendaftaran.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start text-xs">
+                    <!-- Upload Flyer Vertikal Resmi (Choose File) -->
+                    <div class="lg:col-span-5 p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                        <label class="block font-black text-slate-900 uppercase tracking-wider">
+                            📸 Brosur / Flyer Resmi SPMB (Vertikal):
+                        </label>
+                        
+                        <div class="w-full max-w-[260px] mx-auto aspect-[3/4] rounded-2xl overflow-hidden shadow-xl border-4 border-amber-400 bg-slate-900 relative group flex items-center justify-center">
+                            <img id="spmbFlyerPreview" src="{{ asset(ltrim($spmb['banner_flyer'] ?? '/images/spmb/banner_spmb_official.jpg', '/')) }}" alt="Flyer Resmi SPMB" class="w-full h-full object-cover" onerror="this.src='/images/spmb/banner_spmb_official.jpg';">
+                            <span id="flyerUploadBadge" class="hidden absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-md animate-pulse">FOTO BARU DIPILIH</span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block font-bold text-slate-700">Pilih File Flyer Baru dari Komputer / HP (Choose File):</label>
+                            <input type="file" name="spmb_banner_flyer_file" accept="image/*" class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer" onchange="previewSpmbFlyer(this)">
+                            <input type="hidden" name="spmb_banner_flyer" value="{{ $spmb['banner_flyer'] ?? '/images/spmb/banner_spmb_official.jpg' }}">
+                            <p class="text-[11px] text-slate-400 leading-relaxed">
+                                Gunakan poster vertikal resmi (JPG/PNG/WEBP). Terpasang brosur resmi 3 siswa Robbani dengan pintu prioritas masuk.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Konten Banner Teks & Poin Benefit -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Badge Atas Banner Promo:</label>
+                            <input type="text" name="spmb_banner_badge" value="{{ $spmb['banner_badge'] ?? 'Pendaftaran Tahun Ajaran 2026/2027' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Judul Besar Banner Promo (H2):</label>
+                            <input type="text" name="spmb_banner_title" value="{{ $spmb['banner_title'] ?? 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-black text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Deskripsi / Penjelasan Promo:</label>
+                            <textarea name="spmb_banner_desc" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-600">{{ $spmb['banner_desc'] ?? 'Wujudkan impian pendidikan ananda bersama SIT Robbani Ogan Ilir. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}</textarea>
+                        </div>
+
+                        <!-- 3 Kartu Benefit Highlight -->
+                        <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-3">
+                            <label class="block font-black text-amber-950 uppercase tracking-wider">
+                                ⭐ 3 Kartu Benefit Highlight Banner Promo:
+                            </label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="space-y-1.5 p-2.5 rounded-xl bg-white border border-amber-200 shadow-2xs">
+                                    <span class="font-extrabold text-[11px] text-amber-900 block">Kartu 1 (Gedung/Kuota):</span>
+                                    <input type="text" name="spmb_banner_benefit1_title" value="{{ $spmb['banner_benefit1_title'] ?? 'Kuota Terbatas' }}" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 font-bold" placeholder="Judul">
+                                    <input type="text" name="spmb_banner_benefit1_sub" value="{{ $spmb['banner_benefit1_sub'] ?? '24 Siswa / Kelas' }}" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600" placeholder="Keterangan">
+                                </div>
+                                <div class="space-y-1.5 p-2.5 rounded-xl bg-white border border-amber-200 shadow-2xs">
+                                    <span class="font-extrabold text-[11px] text-amber-900 block">Kartu 2 (Beasiswa/Cashback):</span>
+                                    <input type="text" name="spmb_banner_benefit2_title" value="{{ $spmb['banner_benefit2_title'] ?? 'Cashback SPMB' }}" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 font-bold" placeholder="Judul">
+                                    <input type="text" name="spmb_banner_benefit2_sub" value="{{ $spmb['banner_benefit2_sub'] ?? 'Potongan Uang Masuk' }}" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600" placeholder="Keterangan">
+                                </div>
+                                <div class="space-y-1.5 p-2.5 rounded-xl bg-white border border-amber-200 shadow-2xs">
+                                    <span class="font-extrabold text-[11px] text-amber-900 block">Kartu 3 (Kegiatan/Lomba):</span>
+                                    <input type="text" name="spmb_banner_benefit3_title" value="{{ $spmb['banner_benefit3_title'] ?? 'Class Meeting' }}" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 font-bold" placeholder="Judul">
+                                    <input type="text" name="spmb_banner_benefit3_sub" value="{{ $spmb['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah' }}" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600" placeholder="Keterangan">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Teks Tombol Aksi -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Teks Tombol Utama (Daftar):</label>
+                                <input type="text" name="spmb_banner_btn_primary_text" value="{{ $spmb['banner_btn_primary_text'] ?? 'Daftar Sekarang' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Teks Tombol WhatsApp Panitia:</label>
+                                <input type="text" name="spmb_banner_btn_secondary_text" value="{{ $spmb['banner_btn_secondary_text'] ?? 'Hubungi Panitia SPMB' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-bold">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -612,6 +706,19 @@ function spmbCmsApp() {
                 this.banks.splice(index, 1);
             }
         }
+    }
+}
+
+function previewSpmbFlyer(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = document.getElementById('spmbFlyerPreview');
+            if (img) img.src = e.target.result;
+            var badge = document.getElementById('flyerUploadBadge');
+            if (badge) badge.classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
     }
 }
 </script>

@@ -89,9 +89,9 @@
 
                     <div>
                         <label class="font-bold text-slate-800 block mb-1">📁 Upload / Pilih File Gambar Background (Sekolah &amp; Masjid)</label>
-                        <input type="file" name="hero_bg_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white mb-2">
-                        <input type="text" name="hero_bg_image" value="{{ $heroSettings['hero_bg_image'] }}" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-semibold text-slate-600" placeholder="atau tempelkan URL gambar...">
-                        <span class="text-[10px] text-slate-400 block mt-1">Pilih file gambar langsung dari komputer atau perangkat Anda.</span>
+                        <input type="file" name="hero_bg_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 mb-1 cursor-pointer">
+                        <input type="hidden" name="hero_bg_image" value="{{ $heroSettings['hero_bg_image'] }}">
+                        <span class="text-[10px] text-slate-400 block">Pilih file gambar langsung dari komputer atau perangkat Anda.</span>
                     </div>
 
                     <button type="submit" class="px-6 py-3 bg-theme-gradient text-white font-black text-xs rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
@@ -559,9 +559,10 @@
                     </div>
                 </div>
                 <div>
-                    <label class="font-extrabold text-slate-800 block mb-1">📁 Upload / Pilih File Thumbnail Video</label>
-                    <input type="file" name="thumbnail_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white mb-2 cursor-pointer">
-                    <input type="text" name="thumbnail" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-xs" value="/images/mockup_desktop_1.png" placeholder="atau tempelkan URL gambar...">
+                    <label class="font-extrabold text-slate-800 block mb-1">📁 Upload / Pilih File Thumbnail Video (Choose File)</label>
+                    <input type="file" name="thumbnail_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-purple-600 file:text-white hover:file:bg-purple-700 mb-1 cursor-pointer">
+                    <input type="hidden" name="thumbnail" value="/images/mockup_desktop_1.png">
+                    <span class="text-[10px] text-slate-400 block">Pilih file gambar dari komputer/HP Anda.</span>
                 </div>
                 <div>
                     <label class="font-extrabold text-slate-800 block mb-1">Deskripsi Singkat</label>
@@ -608,7 +609,7 @@
                                     <img src="{{ $vid['thumbnail'] }}" class="w-16 h-12 object-cover rounded-xl border border-slate-300 shrink-0 shadow-xs" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                     <div class="space-y-1 w-full">
                                         <input type="file" name="items[{{ $idx }}][thumbnail_file]" accept="image/*" class="w-full text-xs font-semibold file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer">
-                                        <input type="text" name="items[{{ $idx }}][thumbnail]" value="{{ $vid['thumbnail'] }}" class="w-full px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 font-mono text-[11px]" placeholder="Path/URL thumbnail...">
+                                        <input type="hidden" name="items[{{ $idx }}][thumbnail]" value="{{ $vid['thumbnail'] }}">
                                     </div>
                                 </div>
                             </div>
@@ -876,9 +877,10 @@
                     <input type="text" name="category" value="Kegiatan Kampus" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold">
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">📁 Upload / Pilih File Gambar Foto Galeri</label>
-                    <input type="file" name="image_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white mb-2 cursor-pointer">
-                    <input type="text" name="image" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-semibold text-slate-600" placeholder="atau tempelkan URL gambar...">
+                    <label class="font-bold text-slate-700 block mb-1">📁 Upload / Pilih File Gambar Foto Galeri (Choose File)</label>
+                    <input type="file" name="image_file" accept="image/*" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-semibold file:mr-3 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 mb-1 cursor-pointer">
+                    <input type="hidden" name="image" value="">
+                    <span class="text-[10px] text-slate-400 block">Pilih file foto kegiatan dari perangkat Anda.</span>
                 </div>
                 <div>
                     <label class="font-bold text-slate-700 block mb-1">Deskripsi Foto</label>
@@ -915,7 +917,7 @@
                                     <img src="{{ $gal['image'] }}" class="w-16 h-12 object-cover rounded-xl border border-slate-300 shrink-0 shadow-xs" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                                     <div class="space-y-1 w-full">
                                         <input type="file" name="items[{{ $idx }}][image_file]" accept="image/*" class="w-full text-xs font-semibold file:mr-2 file:py-1 file:px-2.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
-                                        <input type="text" name="items[{{ $idx }}][image]" value="{{ $gal['image'] }}" class="w-full px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 font-mono text-[11px]" placeholder="Path/URL gambar...">
+                                        <input type="hidden" name="items[{{ $idx }}][image]" value="{{ $gal['image'] }}">
                                     </div>
                                 </div>
                             </div>
@@ -966,7 +968,7 @@
             <p class="text-xs text-slate-500 font-medium">Kelola informasi umum, nama pimpinan, kata sambutan, visi, misi, dan pilar pendidikan yayasan yang tampil pada halaman website profil depan.</p>
         </div>
 
-        <form action="{{ route('admin.cms.foundation-profile.update') }}" method="POST" class="space-y-6">
+        <form action="{{ route('admin.cms.foundation-profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1001,8 +1003,19 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">URL Foto Ketua Yayasan</label>
-                        <input type="text" name="chairman_photo" value="{{ $foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png' }}" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-500">
+                        <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">Foto Resmi Ketua Yayasan</label>
+                        <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center gap-4">
+                            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-slate-200 border-2 border-emerald-500 shadow-md shrink-0 flex items-center justify-center relative group">
+                                <img id="chairmanPhotoPreview" src="{{ asset(ltrim($foundationProfile['chairman_photo'] ?? '/images/logo-robbani-official.png', '/')) }}" alt="Foto Ketua Yayasan" class="w-full h-full object-cover">
+                                <span id="chairmanPhotoBadge" class="hidden absolute bottom-1 inset-x-1 bg-emerald-600/90 text-white text-[9px] font-black text-center py-0.5 rounded shadow">FOTO BARU</span>
+                            </div>
+                            <div class="space-y-1.5 w-full flex-1">
+                                <label class="block text-xs font-bold text-slate-700">Pilih File Foto Baru dari Perangkat (Choose File):</label>
+                                <input type="file" name="chairman_photo_file" accept="image/*" class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer" onchange="previewImage(this, 'chairmanPhotoPreview', 'chairmanPhotoBadge')">
+                                <input type="hidden" name="chairman_photo" value="{{ $foundationProfile['chairman_photo'] ?? '' }}">
+                                <p class="text-[11px] text-slate-400">Pilih file foto dari HP / Komputer Anda (JPG, PNG, atau WEBP). Otomatis dikompresi tanpa perlu repot mengetik link URL.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1038,6 +1051,24 @@
 
 @push('scripts')
 <script>
+/**
+ * Image preview helper for Choose File inputs
+ */
+function previewImage(input, previewId, badgeId) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = document.getElementById(previewId);
+            if (img) img.src = e.target.result;
+            if (badgeId) {
+                var badge = document.getElementById(badgeId);
+                if (badge) badge.classList.remove('hidden');
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 /**
  * SweetAlert2 Single Delete Confirmation
  */

@@ -122,12 +122,9 @@
                         @endif
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Upload Foto Baru (Gedung/Masjid):</label>
-                        <input type="file" name="hero_bg_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">atau Tempelkan URL Gambar Custom:</label>
-                        <input type="text" name="hero_bg_image" value="{{ old('hero_bg_image', $unitData['hero_bg_image'] ?? '') }}" placeholder="e.g. /uploads/cms/masjid_sdit.jpg" class="w-full text-xs font-medium rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Pilih Foto Background Baru (Choose File):</label>
+                        <input type="file" name="hero_bg_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50 cursor-pointer">
+                        <input type="hidden" name="hero_bg_image" value="{{ old('hero_bg_image', $unitData['hero_bg_image'] ?? '') }}">
                     </div>
                 </div>
 
@@ -145,12 +142,25 @@
                         @endif
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Upload Foto Utama Baru:</label>
-                        <input type="file" name="hero_image_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50">
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Pilih Foto Utama Baru (Choose File):</label>
+                        <input type="file" name="hero_image_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50 cursor-pointer">
+                        <input type="hidden" name="hero_image" value="{{ old('hero_image', $unitData['hero_image'] ?? '') }}">
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">atau Tempelkan URL Gambar Custom:</label>
-                        <input type="text" name="hero_image" value="{{ old('hero_image', $unitData['hero_image'] ?? '') }}" placeholder="e.g. /uploads/cms/siswa_sdit.jpg" class="w-full text-xs font-medium rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
+                </div>
+
+                <!-- SPMB Flyer Unit -->
+                <div class="space-y-3 p-4 bg-white rounded-xl border border-slate-200 shadow-xs md:col-span-2">
+                    <label class="block text-xs font-black text-slate-800 uppercase tracking-wider">🎯 Brosur / Flyer Resmi SPMB Unit (Vertikal):</label>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <div class="w-24 h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 shrink-0 flex items-center justify-center">
+                            <img src="{{ !empty($unitData['flyer']) ? asset(ltrim($unitData['flyer'], '/')) : asset('images/spmb/banner_spmb_official.jpg') }}" alt="Flyer Unit" class="w-full h-full object-cover">
+                        </div>
+                        <div class="space-y-1.5 flex-1 w-full">
+                            <label class="block text-[11px] font-bold text-slate-600">Pilih Flyer Baru Khusus Unit Ini (Choose File):</label>
+                            <input type="file" name="flyer_file" accept="image/*" class="w-full text-xs text-slate-600 border border-slate-300 rounded-xl p-2 bg-slate-50 cursor-pointer">
+                            <input type="hidden" name="flyer" value="{{ old('flyer', $unitData['flyer'] ?? '') }}">
+                            <p class="text-[10px] text-slate-400">Kosongkan jika ingin memakai Flyer SPMB Resmi (3 Siswa) dari Dashboard Pengaturan SPMB.</p>
+                        </div>
                     </div>
                 </div>
             </div>

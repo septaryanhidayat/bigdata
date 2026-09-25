@@ -206,10 +206,10 @@
             {{-- FLYER RESMI VERTIKAL SISI KIRI (SEIMBANG DENGAN KONTEN KANAN) --}}
             <div class="lg:col-span-5 flex justify-center">
                 <div class="w-full max-w-[280px] sm:max-w-[320px] rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-400/50 ring-4 ring-white/10 group bg-slate-900 aspect-[3/4] flex items-center justify-center">
-                    <img src="{{ asset('/images/spmb/flyer-spmb-sit-robbani.webp') }}" 
+                    <img src="{{ asset(ltrim($spmbSettings['banner_flyer'] ?? ($info['flyer'] ?? '/images/spmb/banner_spmb_official.jpg'), '/')) }}" 
                          alt="Brosur Resmi SPMB SIT Robbani" 
                          class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                         onerror="this.onerror=null; this.src='/images/spmb/flyer-spmb-sit-robbani.jpg';">
+                         onerror="this.onerror=null; this.src='/images/spmb/banner_spmb_official.jpg';">
                 </div>
             </div>
 
@@ -217,13 +217,13 @@
             <div class="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
                 <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider">
                     <i class="fa-solid fa-sparkles"></i>
-                    <span>{{ $isSmait ? 'Tahap Persiapan Operasional Pembukaan' : 'Pendaftaran Tahun Ajaran 2026/2027' }}</span>
+                    <span>{{ $isSmait ? 'Tahap Persiapan Operasional Pembukaan' : ($spmbSettings['banner_badge'] ?? 'Pendaftaran Tahun Ajaran 2026/2027') }}</span>
                 </div>
                 <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-                    {{ $isSmait ? 'Menuju Pembukaan Resmi Jenjang SMA IT Robbani' : 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}
+                    {{ $isSmait ? 'Menuju Pembukaan Resmi Jenjang SMA IT Robbani' : ($spmbSettings['banner_title'] ?? 'SPMB Gelombang Exclusive & Class Meeting Semester Genap') }}
                 </h2>
                 <p class="text-xs sm:text-sm text-slate-100 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0 text-justify">
-                    {{ $isSmait ? 'SMA IT Robbani saat ini dalam tahap perampungan sarana prasarana modern dan perizinan operasional resmi. Insya Allah segera melayani pendidikan tingkat menengah atas berkarakter Qur\'ani dan unggul IPTEK.' : 'Wujudkan impian pendidikan ananda bersama ' . $info['name'] . '. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}
+                    {{ $isSmait ? 'SMA IT Robbani saat ini dalam tahap perampungan sarana prasarana modern dan perizinan operasional resmi. Insya Allah segera melayani pendidikan tingkat menengah atas berkarakter Qur\'ani dan unggul IPTEK.' : ($spmbSettings['banner_desc'] ?? ('Wujudkan impian pendidikan ananda bersama ' . $info['name'] . '. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.')) }}
                 </p>
 
                 {{-- 3 KARTU BENEFIT --}}
@@ -231,22 +231,22 @@
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
                         <i class="fa-solid fa-building-columns text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
-                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Status Kampus' : 'Kuota Terbatas' }}</h4>
-                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahap Persiapan' : '24 Siswa / Kelas' }}</p>
+                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Status Kampus' : ($spmbSettings['banner_benefit1_title'] ?? 'Kuota Terbatas') }}</h4>
+                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahap Persiapan' : ($spmbSettings['banner_benefit1_sub'] ?? '24 Siswa / Kelas') }}</p>
                         </div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
                         <i class="fa-solid fa-book-quran text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
-                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Fokus Peminatan' : 'Cashback SPMB' }}</h4>
-                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahfidz & PTN' : 'Potongan Uang Masuk' }}</p>
+                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Fokus Peminatan' : ($spmbSettings['banner_benefit2_title'] ?? 'Cashback SPMB') }}</h4>
+                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahfidz & PTN' : ($spmbSettings['banner_benefit2_sub'] ?? 'Potongan Uang Masuk') }}</p>
                         </div>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
                         <i class="fa-solid fa-certificate text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
                         <div>
-                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Kurikulum Terpadu' : 'Class Meeting' }}</h4>
-                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'JSIT & Merdeka' : 'Lomba Antar Sekolah' }}</p>
+                            <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Kurikulum Terpadu' : ($spmbSettings['banner_benefit3_title'] ?? 'Class Meeting') }}</h4>
+                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'JSIT & Merdeka' : ($spmbSettings['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah') }}</p>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
                     <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
                        class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-graduation-cap"></i>
-                        <span>Daftar Sekarang</span>
+                        <span>{{ $spmbSettings['banner_btn_primary_text'] ?? 'Daftar Sekarang' }}</span>
                     </a>
                     @endif
                     <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar informasi persiapan ' . $info['name']) }}" 
@@ -265,7 +265,7 @@
                        rel="noopener noreferrer"
                        class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition flex items-center justify-center space-x-2">
                         <i class="fa-brands fa-whatsapp text-emerald-400"></i>
-                        <span>{{ $isSmait ? 'Konsultasi Informasi Pembukaan' : 'Hubungi Panitia SPMB' }}</span>
+                        <span>{{ $isSmait ? 'Konsultasi Informasi Pembukaan' : ($spmbSettings['banner_btn_secondary_text'] ?? 'Hubungi Panitia SPMB') }}</span>
                     </a>
                 </div>
             </div>

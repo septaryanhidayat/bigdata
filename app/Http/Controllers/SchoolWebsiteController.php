@@ -678,12 +678,13 @@ class SchoolWebsiteController extends Controller
 
         $unitPrograms = !empty($info['programs']) ? $info['programs'] : ($defaultInfo['programs'] ?? $defaultInfo['ekskul'] ?? $unitEkskul);
         $unitAlumni = !empty($info['alumni']) ? $info['alumni'] : [];
+        $spmbSettings = $this->getSpmbSettings();
 
         return compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
             'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements', 'unitPrestasi',
             'unitPrograms', 'unitAlumni',
-            'schoolCode', 'portalUrl'
+            'schoolCode', 'portalUrl', 'spmbSettings'
         );
     }
 
@@ -1508,6 +1509,20 @@ class SchoolWebsiteController extends Controller
             'hero_point1' => SiteSetting::get('spmb_hero_point1', '✓ Bisa Daftar dari HP'),
             'hero_point2' => SiteSetting::get('spmb_hero_point2', '✓ Berkas Cukup Difoto'),
             'hero_point3' => SiteSetting::get('spmb_hero_point3', '✓ Bantuan Panitia 24 Jam'),
+
+            // Banner Promo & Flyer Resmi SPMB (Sesuai Brosur Resmi 3 Siswa)
+            'banner_badge' => SiteSetting::get('spmb_banner_badge', 'Pendaftaran Tahun Ajaran 2026/2027'),
+            'banner_title' => SiteSetting::get('spmb_banner_title', 'SPMB Gelombang Exclusive & Class Meeting Semester Genap'),
+            'banner_desc' => SiteSetting::get('spmb_banner_desc', 'Wujudkan impian pendidikan ananda bersama Sekolah Islam Terpadu (SIT) Robbani Ogan Ilir. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.'),
+            'banner_flyer' => SiteSetting::get('spmb_banner_flyer', '/images/spmb/banner_spmb_official.jpg'),
+            'banner_benefit1_title' => SiteSetting::get('spmb_banner_benefit1_title', 'Kuota Terbatas'),
+            'banner_benefit1_sub' => SiteSetting::get('spmb_banner_benefit1_sub', '24 Siswa / Kelas'),
+            'banner_benefit2_title' => SiteSetting::get('spmb_banner_benefit2_title', 'Cashback SPMB'),
+            'banner_benefit2_sub' => SiteSetting::get('spmb_banner_benefit2_sub', 'Potongan Uang Masuk'),
+            'banner_benefit3_title' => SiteSetting::get('spmb_banner_benefit3_title', 'Class Meeting'),
+            'banner_benefit3_sub' => SiteSetting::get('spmb_banner_benefit3_sub', 'Lomba Antar Sekolah'),
+            'banner_btn_primary_text' => SiteSetting::get('spmb_banner_btn_primary_text', 'Daftar Sekarang'),
+            'banner_btn_secondary_text' => SiteSetting::get('spmb_banner_btn_secondary_text', 'Hubungi Panitia SPMB'),
 
             // Unit Pilihan
             'units' => $units,
