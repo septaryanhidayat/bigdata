@@ -26,27 +26,22 @@
     }
 @endphp
 
-{{-- TOP MINI BAR & OFFICIAL TAGLINE --}}
-<div class="bg-[#0f172a] text-slate-200 text-xs py-1.5 sm:py-2 border-b border-indigo-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-1.5 sm:gap-0">
-        <!-- Tagline Resmi Sekolah -->
-        <div class="flex items-center gap-1.5 font-black uppercase tracking-wider text-[10px] sm:text-xs">
-            <span class="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[9px] uppercase shadow-2xs">TAGLINE</span>
-            <div class="flex items-center gap-1.5 tracking-wide">
-                <span class="text-amber-300 font-extrabold">⚡ MANDIRI</span>
-                <span class="text-slate-500">•</span>
-                <span class="text-emerald-300 font-extrabold">📖 PINTER NGAJI</span>
-                <span class="text-slate-500">•</span>
-                <span class="text-cyan-300 font-extrabold">💻 JAGO IT!</span>
-            </div>
-        </div>
-
-        <div class="flex items-center space-x-3 sm:space-x-4 text-[11px] sm:text-xs shrink-0">
-            <a href="tel:{{ $info['phone'] ?? '0811747472' }}" class="hidden md:flex items-center text-slate-300 hover:text-amber-300 transition text-xs font-semibold">
+{{-- TOP MINI BAR (DESKTOP ONLY, TIDAK MENGGANGGU MOBILE) --}}
+<div class="hidden sm:block bg-[#0f172a] text-slate-200 text-xs py-1.5 sm:py-2 border-b border-indigo-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div class="flex items-center space-x-3 sm:space-x-4 text-[11px] sm:text-xs">
+            <a href="tel:{{ $info['phone'] ?? '0811747472' }}" class="flex items-center text-slate-300 hover:text-amber-300 transition text-xs font-semibold">
                 <i class="fa-solid fa-phone mr-1.5 text-amber-400"></i>
                 <span>{{ $info['phone'] ?? '0811747472' }}</span>
             </a>
             <span class="text-slate-700 hidden md:inline">|</span>
+            <span class="hidden md:flex items-center text-slate-300 text-xs">
+                <i class="fa-solid fa-location-dot mr-1.5 text-amber-400"></i>
+                <span>{{ $info['city'] ?? 'Indralaya, Ogan Ilir, Sumatera Selatan' }}</span>
+            </span>
+        </div>
+
+        <div class="flex items-center space-x-3 sm:space-x-4 text-[11px] sm:text-xs shrink-0">
             <a href="{{ $portalUrl }}" class="text-slate-300 hover:text-amber-300 transition flex items-center gap-1 font-semibold" title="Kunjungi Website Utama SIT Robbani">
                 <i class="fa-solid fa-globe text-[11px] text-amber-400"></i>
                 <span>Web Utama</span>
@@ -65,17 +60,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16 sm:h-20">
             
-            {{-- LOGO RESMI SEKOLAH & BRAND TAGLINE --}}
-            <a href="{{ $unitUrl }}" class="flex items-center gap-2.5 sm:gap-3 group py-1.5 shrink-0" aria-label="Beranda {{ $info['name'] }}">
+            {{-- LOGO RESMI SEKOLAH (LOGO SAJA DI KIRI ATAS TANPA TEKS DI SAMPINGNYA) --}}
+            <a href="{{ $unitUrl }}" class="flex items-center group py-1.5 shrink-0" aria-label="Beranda {{ $info['name'] }}">
                 <div class="h-11 sm:h-14 lg:h-16 flex items-center py-1">
                     <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
                          class="max-h-11 sm:max-h-14 lg:max-h-16 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-md"
                          onerror="this.src='/images/logo-robbani-official.png'">
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xs sm:text-sm lg:text-base font-black text-white uppercase tracking-tight leading-tight">{{ $info['name'] }}</span>
-                    <span class="text-[9px] sm:text-[10px] font-extrabold text-amber-300 uppercase tracking-wide leading-tight">MANDIRI • PINTER NGAJI • JAGO IT!</span>
                 </div>
             </a>
 

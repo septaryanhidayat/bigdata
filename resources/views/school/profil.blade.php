@@ -139,11 +139,10 @@
         <section class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="bg-white dark:bg-[#07170a] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
-                <!-- Left: Chairman Photo Frame -->
+                <!-- Left: Chairman Photo Frame (Bersih, Elegan, Tanpa Background Hitam) -->
                 <div class="lg:col-span-4 text-center space-y-4">
-                    <div class="relative w-48 sm:w-56 h-48 sm:h-56 mx-auto rounded-3xl overflow-hidden border-4 border-emerald-600 dark:border-[#c6f634] shadow-2xl bg-slate-900 group">
-                        <img src="{{ !empty($foundationProfile['chairman_photo']) && !str_contains($foundationProfile['chairman_photo'], 'principal_photo_6a7f525a6292e') ? asset($foundationProfile['chairman_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                    <div class="relative w-48 sm:w-56 h-48 sm:h-56 mx-auto rounded-3xl overflow-hidden border-4 border-emerald-500 shadow-xl bg-white p-1 ring-4 ring-emerald-500/20 group">
+                        <img src="{{ !empty($foundationProfile['chairman_photo']) && !str_contains($foundationProfile['chairman_photo'], 'principal_photo_6a7f525a6292e') ? asset($foundationProfile['chairman_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $foundationProfile['chairman_name'] ?? 'Sughesti Wulandari, S.Pd' }}" class="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500 bg-white" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
                     </div>
                     <div class="space-y-1">
                         <h3 class="text-lg sm:text-xl font-black font-headline text-slate-900 dark:text-white">{{ $foundationProfile['chairman_name'] }}</h3>
@@ -236,15 +235,15 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">Pengelola resmi penyelenggara pendidikan Islam Terpadu SIT Robbani Ogan Ilir.</p>
             </div>
 
-            <!-- Single Centered Ketua Yayasan Card -->
+            <!-- Single Centered Ketua Yayasan Card (Bersih & Tanpa Background Hitam Sesuai Permintaan) -->
             <div class="max-w-sm mx-auto">
-                <div class="bg-white dark:bg-[#07170a] border-2 border-emerald-600 dark:border-[#c6f634] rounded-3xl p-6 text-center space-y-4 shadow-xl hover:shadow-2xl transition-all group">
-                    <div class="w-48 h-48 mx-auto rounded-2xl overflow-hidden border-2 border-emerald-500 dark:border-[#c6f634] bg-slate-900 shadow-md">
-                        <img src="{{ !empty($foundationProfile['chairman_photo']) && !str_contains($foundationProfile['chairman_photo'], 'logo-robbani') ? asset($foundationProfile['chairman_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $foundationProfile['chairman_name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
+                <div class="bg-white border-2 border-emerald-500/40 rounded-3xl p-6 sm:p-8 text-center space-y-4 shadow-xl hover:shadow-2xl transition-all group">
+                    <div class="w-44 h-44 sm:w-48 sm:h-48 mx-auto rounded-full overflow-hidden border-4 border-emerald-500 bg-white p-1 ring-4 ring-emerald-500/20 shadow-md">
+                        <img src="{{ !empty($foundationProfile['chairman_photo']) && !str_contains($foundationProfile['chairman_photo'], 'logo-robbani') ? asset($foundationProfile['chairman_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $foundationProfile['chairman_name'] }}" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300 bg-white" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="text-base font-black font-headline text-slate-900 dark:text-white leading-snug group-hover:text-emerald-700 dark:group-hover:text-[#c6f634] transition-colors">{{ $foundationProfile['chairman_name'] }}</h3>
-                        <span class="text-xs font-bold text-orange-600 dark:text-[#c6f634] bg-orange-50 dark:bg-[#0d1e0f] px-3 py-1 rounded-full inline-block border border-orange-200 dark:border-[#1a381c]">{{ $foundationProfile['chairman_title'] }}</span>
+                    <div class="space-y-1.5 pt-1">
+                        <h3 class="text-lg font-black font-headline text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors">{{ $foundationProfile['chairman_name'] }}</h3>
+                        <span class="text-xs font-bold text-emerald-800 bg-emerald-100/90 px-4 py-1.5 rounded-full inline-block border border-emerald-200 shadow-2xs">{{ $foundationProfile['chairman_title'] }}</span>
                     </div>
                 </div>
             </div>

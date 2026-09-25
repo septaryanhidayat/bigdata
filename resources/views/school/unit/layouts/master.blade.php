@@ -143,8 +143,8 @@
     @include('school.unit.partials.footer')
 
     {{-- FLOATING WIDGETS --}}
-    {{-- 1. Floating WhatsApp Hotline & Translate (Kiri Bawah) --}}
-    <div class="fixed bottom-5 left-4 sm:left-6 z-40 flex flex-col items-start gap-2">
+    {{-- 1. Floating WhatsApp Hotline (Kiri Bawah, Di Atas Translate) --}}
+    <div class="fixed bottom-16 sm:bottom-18 left-4 sm:left-5 z-40">
         <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar pendaftaran siswa baru dan program ' . ($info['name'] ?? 'sekolah')) }}" 
            target="_blank" 
            rel="noopener noreferrer"
@@ -152,10 +152,10 @@
             <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
             <span class="text-xs font-bold hidden sm:inline group-hover:inline transition">Chat Panitia</span>
         </a>
-
-        {{-- Floating Google Translate --}}
-        @include('components.floating-translate', ['positionClass' => 'relative'])
     </div>
+
+    {{-- Floating Google Translate Sesuai Referensi Pengguna --}}
+    @include('components.floating-translate')
 
     {{-- 2. Floating Robbani AI Assistant Widget (Kanan Bawah) --}}
     @include('components.chat-ai-widget')

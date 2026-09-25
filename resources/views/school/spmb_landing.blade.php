@@ -86,24 +86,16 @@
 </head>
 <body class="antialiased pb-20 sm:pb-0" x-data="spmbLandingApp()">
 
-    <!-- 1. TOP ANNOUNCEMENT & OFFICIAL TAGLINE BAR (RATA & RAPI DI SEMUA LAYAR) -->
+    <!-- 1. TOP ANNOUNCEMENT BAR (BERSIH & RAPI) -->
     <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-3 sm:px-4 border-b border-emerald-900/60">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs gap-1.5 sm:gap-2 text-center sm:text-left">
-            <div class="flex flex-wrap items-center justify-center gap-2">
+        <div class="max-w-6xl mx-auto flex items-center justify-between text-xs gap-2">
+            <div class="flex items-center gap-2">
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">
                     {{ $spmb['announcement_badge'] ?? 'Gelombang 1' }}
                 </span>
                 <span class="font-bold text-xs text-white">
                     {{ $spmb['announcement_date'] ?? '12 Sept – 31 Des 2026' }}
                 </span>
-                <span class="hidden md:inline text-emerald-600">•</span>
-                <div class="hidden md:flex items-center gap-1.5 text-[11px] font-black tracking-wide">
-                    <span class="text-amber-300">⚡ MANDIRI</span>
-                    <span class="text-emerald-500">•</span>
-                    <span class="text-emerald-300">📖 PINTER NGAJI</span>
-                    <span class="text-emerald-500">•</span>
-                    <span class="text-cyan-300">💻 JAGO IT!</span>
-                </div>
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors flex items-center gap-1">
@@ -113,17 +105,13 @@
         </div>
     </div>
 
-    <!-- 2. HEADER NAVIGASI (BEBAS OVERLAP & RAPI DI MOBILE) -->
+    <!-- 2. HEADER NAVIGASI (LOGO SAJA DI KIRI ATAS TANPA TEKS) -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
         <div class="max-w-6xl mx-auto px-3 sm:px-6">
             <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
-                <!-- Brand / Logo -->
-                <a href="{{ url('/') }}" class="flex items-center gap-2 shrink-0 min-w-0" title="Beranda SPMB SIT Robbani">
-                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-7 sm:h-10 w-auto object-contain shrink-0" onerror="this.src='{{ asset('favicon.png') }}'">
-                    <div class="flex flex-col min-w-0">
-                        <span class="font-black text-xs sm:text-base tracking-tight text-emerald-950 uppercase truncate leading-tight">{{ $spmb['brand_title'] ?? 'SPMB ROBBANI' }}</span>
-                        <span class="text-[9px] sm:text-[10px] font-extrabold text-emerald-700 tracking-wider truncate leading-tight">MANDIRI • PINTER NGAJI • JAGO IT!</span>
-                    </div>
+                <!-- Brand / Logo (Logo Saja Tanpa Teks) -->
+                <a href="{{ url('/') }}" class="flex items-center shrink-0" title="Beranda SPMB SIT Robbani">
+                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-11 w-auto object-contain shrink-0" onerror="this.src='{{ asset('favicon.png') }}'">
                 </a>
 
                 <!-- Desktop Nav Links -->
@@ -161,18 +149,9 @@
                 
                 <!-- Teks Hero -->
                 <div class="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start">
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-800/90 border border-emerald-600/60 text-emerald-200 text-xs font-bold shadow-sm">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span>{{ $spmb['hero_badge'] ?? 'SPMB Online SIT Robbani T.A. 2026/2027' }}</span>
-                        </div>
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/50 shadow-md text-[10px] sm:text-xs font-black uppercase tracking-wider">
-                            <span class="text-amber-400">⚡ MANDIRI</span>
-                            <span class="text-slate-500">•</span>
-                            <span class="text-emerald-400">📖 PINTER NGAJI</span>
-                            <span class="text-slate-500">•</span>
-                            <span class="text-cyan-400">💻 JAGO IT!</span>
-                        </div>
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-800/90 border border-emerald-600/60 text-emerald-200 text-xs font-bold shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>{{ $spmb['hero_badge'] ?? 'SPMB Online SIT Robbani T.A. 2026/2027' }}</span>
                     </div>
 
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight text-center lg:text-left">
@@ -216,10 +195,13 @@
                                 onerror="this.src='{{ asset('images/spmb/robot-mascot-hero.png') }}'"
                             >
                             
-                            <!-- Mascot Tagline Badge -->
-                            <div class="absolute -bottom-2 sm:bottom-0 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-400/60 text-amber-300 text-[11px] sm:text-xs font-black uppercase tracking-wider shadow-2xl flex items-center gap-2 whitespace-nowrap">
-                                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-                                <span>🤖 ROBBI — Maskot SIT Robbani</span>
+                            <!-- Tagline Resmi Sekolah Di Bawah Maskot (Menggantikan Robbi) -->
+                            <div class="absolute -bottom-3 sm:bottom-0 left-1/2 -translate-x-1/2 px-4 sm:px-5 py-2 rounded-full bg-slate-950/90 backdrop-blur-md border border-amber-400/80 text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-2xl flex items-center gap-2 whitespace-nowrap">
+                                <span class="text-amber-400">⚡ MANDIRI</span>
+                                <span class="text-slate-500">•</span>
+                                <span class="text-emerald-400">📖 PINTER NGAJI</span>
+                                <span class="text-slate-500">•</span>
+                                <span class="text-cyan-400">💻 JAGO IT!</span>
                             </div>
                         </div>
                     </div>

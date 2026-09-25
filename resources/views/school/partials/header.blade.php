@@ -1,37 +1,27 @@
-<!-- TOP ANNOUNCEMENT & OFFICIAL TAGLINE STRIP (EMERALD & ORANGE GRADIENT) -->
-<div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#043324] dark:from-[#061107] dark:via-[#0c220f] dark:to-[#112413] text-white py-1.5 px-3 sm:px-4 text-[10px] sm:text-xs font-semibold shadow-inner relative z-50 border-b border-white/10 dark:border-[#1a381c]">
+<!-- TOP ANNOUNCEMENT (DESKTOP ONLY, TIDAK MENGGANGGU MOBILE) -->
+<div class="hidden sm:block bg-gradient-to-r from-[#004532] via-[#065f46] to-[#043324] dark:from-[#061107] dark:via-[#0c220f] dark:to-[#112413] text-white py-1.5 px-3 sm:px-4 text-[10px] sm:text-xs font-semibold shadow-inner relative z-50 border-b border-white/10 dark:border-[#1a381c]">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
-        <!-- Tagline Resmi Sekolah -->
-        <div class="flex items-center gap-1.5 font-black uppercase tracking-wider mx-auto sm:mx-0">
-            <span class="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[9px] uppercase shadow-2xs">TAGLINE</span>
-            <div class="flex items-center gap-1.5 tracking-wide text-[10px] sm:text-xs">
-                <span class="text-amber-300 font-extrabold">⚡ MANDIRI</span>
-                <span class="text-emerald-400 opacity-60">•</span>
-                <span class="text-emerald-200 font-extrabold">📖 PINTER NGAJI</span>
-                <span class="text-cyan-400 opacity-60">•</span>
-                <span class="text-cyan-300 font-extrabold">💻 JAGO IT!</span>
-            </div>
+        <div class="flex items-center gap-2 text-emerald-100">
+            <span>🔥 SPMB Online 2026/2027 Telah Dibuka Resmi!</span>
+            <a href="{{ route('school.spmb') }}" class="underline font-black text-amber-300 dark:text-[#c6f634] hover:text-amber-200">Daftar Sekarang &rarr;</a>
         </div>
-        <!-- SPMB Info Link (Desktop/Tablet) -->
-        <div class="hidden sm:flex items-center gap-2 shrink-0 text-emerald-100">
-            <span>🔥 SPMB Online 2026/2027 Dibuka!</span>
-            <a href="{{ route('school.spmb') }}" class="underline font-black text-amber-300 dark:text-[#c6f634] hover:text-amber-200">Daftar &rarr;</a>
+        <div class="flex items-center gap-3 text-xs">
+            <a href="https://wa.me/62811747472" target="_blank" class="text-emerald-200 hover:text-white transition flex items-center gap-1 font-bold">
+                <span>💬 Hotline: 0811-747-472</span>
+            </a>
         </div>
     </div>
 </div>
 
 <!-- TOP NAVIGATION BAR -->
-<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 left-0 w-full z-40 h-20 shadow-sm transition-all">
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 left-0 w-full z-40 h-16 sm:h-20 shadow-sm transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
         
-        <div class="flex items-center gap-4">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 logo-badge-container" title="SIT Robbani Ogan Ilir">
-                <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <div class="hidden xl:flex flex-col border-l border-slate-200 dark:border-slate-800 pl-3">
-                    <span class="text-[9px] font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400">Yayasan Generasi Robbani</span>
-                    <span class="text-[10px] font-extrabold tracking-tight bg-gradient-to-r from-amber-500 via-emerald-600 to-teal-600 dark:from-amber-400 dark:via-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">MANDIRI • PINTER NGAJI • JAGO IT!</span>
-                </div>
+        <!-- Logo Saja di Kiri Atas (Tanpa Teks di Sampingnya Sesuai Instruksi) -->
+        <div class="flex items-center">
+            <a href="{{ route('home') }}" class="flex items-center shrink-0" title="SIT Robbani Ogan Ilir">
+                <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-9 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-9 sm:h-12 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
             </a>
         </div>
 

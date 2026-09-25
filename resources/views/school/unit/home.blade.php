@@ -93,19 +93,10 @@
 
                 <div class="absolute inset-0 flex items-center justify-center pt-2 pb-16 sm:pb-14">
                     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center text-white space-y-3 sm:space-y-4">
-                        <div class="flex flex-wrap items-center justify-center gap-2">
-                            <span class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-widest bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30">
-                                <i class="fa-solid fa-star text-[10px]"></i>
-                                <span>{{ $info['name'] }} &bull; {{ $info['akreditasi'] ?? 'Terakreditasi B' }}</span>
-                            </span>
-                            <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/50 text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-lg">
-                                <span class="text-amber-400">⚡ MANDIRI</span>
-                                <span class="text-slate-500">•</span>
-                                <span class="text-emerald-400">📖 PINTER NGAJI</span>
-                                <span class="text-slate-500">•</span>
-                                <span class="text-cyan-400">💻 JAGO IT!</span>
-                            </div>
-                        </div>
+                        <span class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-widest bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30">
+                            <i class="fa-solid fa-star text-[10px]"></i>
+                            <span>{{ $info['name'] }} &bull; {{ $info['akreditasi'] ?? 'Terakreditasi B' }}</span>
+                        </span>
                         <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight drop-shadow-2xl leading-tight" x-text="slide.title"></h1>
                         <p class="text-xs sm:text-sm md:text-base text-slate-200 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-md" x-text="slide.subtitle"></p>
                         
