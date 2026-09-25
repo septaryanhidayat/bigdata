@@ -746,11 +746,18 @@
                     
                     <!-- Left Hero Column: Center aligned on Mobile & Tablet -->
                     <div class="lg:col-span-7 hero-glass-container backdrop-blur-xl border shadow-2xl rounded-3xl p-6 sm:p-8 space-y-4 text-center lg:text-left flex flex-col items-center lg:items-start reveal-fade-up">
-                        <div>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2">
                             <span class="site-section-badge flex items-center gap-1.5">
                                 <span class="w-2 h-2 rounded-full bg-emerald-800 dark:bg-[#061107] animate-ping"></span>
                                 <span class="dark:text-[#061107] font-black">{{ $settings['hero_badge'] }}</span>
                             </span>
+                            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/85 dark:bg-black/60 border border-amber-400/50 shadow-md text-[10px] sm:text-xs font-black uppercase tracking-wider text-white">
+                                <span class="text-amber-400">⚡ MANDIRI</span>
+                                <span class="text-slate-500">•</span>
+                                <span class="text-emerald-400">📖 PINTER NGAJI</span>
+                                <span class="text-slate-500">•</span>
+                                <span class="text-cyan-400">💻 JAGO IT!</span>
+                            </div>
                         </div>
                         
                         <h1 class="text-2xl sm:text-4xl md:text-5xl font-black font-headline leading-tight text-slate-900 dark:text-white drop-shadow-sm">
@@ -771,10 +778,12 @@
                         </div>
 
                         <!-- Highlights Feature Badges -->
-                        <div class="flex flex-wrap justify-center lg:justify-start gap-md text-xs font-semibold text-slate-700 dark:text-slate-300 pt-3 border-t border-slate-200/80 dark:border-slate-800">
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-2.5 sm:gap-md text-xs font-semibold text-slate-700 dark:text-slate-300 pt-3 border-t border-slate-200/80 dark:border-slate-800">
+                            <span class="flex items-center gap-1.5 font-bold"><span class="text-amber-500 font-bold">⚡</span> Mandiri</span>
+                            <span class="flex items-center gap-1.5 font-bold"><span class="text-emerald-600 font-bold">📖</span> Pinter Ngaji</span>
+                            <span class="flex items-center gap-1.5 font-bold"><span class="text-cyan-600 font-bold">💻</span> Jago IT</span>
                             <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Sekolah Digital</span>
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Pendidikan Karakter</span>
-                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum Merdeka & JSIT</span>
+                            <span class="flex items-center gap-1.5"><span class="text-emerald-600 dark:text-emerald-400 font-bold">✓</span> Kurikulum JSIT</span>
                         </div>
                     </div>
 

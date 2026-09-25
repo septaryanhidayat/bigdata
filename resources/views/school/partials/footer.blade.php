@@ -9,6 +9,13 @@
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
                     <img alt="SIT Robbani Logo" width="180" height="48" loading="lazy" class="h-10 sm:h-12 w-auto object-contain" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 </a>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-emerald-500/30 text-[10px] font-black tracking-wider uppercase shadow-inner">
+                    <span class="text-amber-400">⚡ MANDIRI</span>
+                    <span class="text-slate-500">•</span>
+                    <span class="text-emerald-400">📖 PINTER NGAJI</span>
+                    <span class="text-slate-500">•</span>
+                    <span class="text-cyan-400">💻 JAGO IT!</span>
+                </div>
                 <p class="text-xs text-slate-300 leading-relaxed font-light">
                     {{ $settings['school_name'] ?? 'Sekolah Islam Terpadu Robbani' }} — Lembaga pendidikan Islam terpadu pelopor karakter Qur'ani, sains modern, dan teknologi digital di Kabupaten Ogan Ilir, Sumatera Selatan.
                 </p>

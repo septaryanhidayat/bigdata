@@ -63,6 +63,14 @@
                             {{ $info['akreditasi'] ?? 'Terakreditasi B' }}
                         </span>
                     </div>
+                    <!-- Tagline Resmi Sekolah -->
+                    <div class="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-amber-400/40 text-[10px] font-black uppercase tracking-wider shadow-sm">
+                        <span class="text-amber-400">⚡ MANDIRI</span>
+                        <span class="text-slate-600">•</span>
+                        <span class="text-emerald-400">📖 PINTER NGAJI</span>
+                        <span class="text-slate-600">•</span>
+                        <span class="text-cyan-400">💻 JAGO IT!</span>
+                    </div>
                 </div>
             </div>
 

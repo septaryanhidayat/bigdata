@@ -86,31 +86,44 @@
 </head>
 <body class="antialiased pb-20 sm:pb-0" x-data="spmbLandingApp()">
 
-    <!-- 1. TOP ANNOUNCEMENT BAR (RATA TENGAH DI HP, DINAMIS CMS) -->
-    <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-4 border-b border-emerald-900/60">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between text-xs gap-1.5 sm:gap-0 text-center sm:text-left">
-            <div class="flex items-center justify-center gap-2">
+    <!-- 1. TOP ANNOUNCEMENT & OFFICIAL TAGLINE BAR (RATA & RAPI DI SEMUA LAYAR) -->
+    <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-3 sm:px-4 border-b border-emerald-900/60">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs gap-1.5 sm:gap-2 text-center sm:text-left">
+            <div class="flex flex-wrap items-center justify-center gap-2">
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">
                     {{ $spmb['announcement_badge'] ?? 'Gelombang 1' }}
                 </span>
                 <span class="font-bold text-xs text-white">
                     {{ $spmb['announcement_date'] ?? '12 Sept – 31 Des 2026' }}
                 </span>
+                <span class="hidden md:inline text-emerald-600">•</span>
+                <div class="hidden md:flex items-center gap-1.5 text-[11px] font-black tracking-wide">
+                    <span class="text-amber-300">⚡ MANDIRI</span>
+                    <span class="text-emerald-500">•</span>
+                    <span class="text-emerald-300">📖 PINTER NGAJI</span>
+                    <span class="text-emerald-500">•</span>
+                    <span class="text-cyan-300">💻 JAGO IT!</span>
+                </div>
             </div>
-            <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors">
-                WA Panitia: {{ $spmb['wa_number'] ?? '0811-747-472' }}
-            </a>
+            <div class="flex items-center gap-3">
+                <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors flex items-center gap-1">
+                    <span>💬</span> <span>WA Panitia: {{ $spmb['wa_number'] ?? '0811-747-472' }}</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- 2. HEADER NAVIGASI (SIMPLE & RAPI, TIDAK TERPOTONG) -->
+    <!-- 2. HEADER NAVIGASI (BEBAS OVERLAP & RAPI DI MOBILE) -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex items-center justify-between h-14 sm:h-16">
+        <div class="max-w-6xl mx-auto px-3 sm:px-6">
+            <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
                 <!-- Brand / Logo -->
-                <a href="{{ url('/') }}" class="flex items-center gap-2.5 shrink-0" title="Beranda SPMB SIT Robbani">
-                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-10 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
-                    <span class="font-black text-sm sm:text-base tracking-tight text-emerald-950 uppercase">{{ $spmb['brand_title'] ?? 'SPMB ROBBANI' }}</span>
+                <a href="{{ url('/') }}" class="flex items-center gap-2 shrink-0 min-w-0" title="Beranda SPMB SIT Robbani">
+                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-7 sm:h-10 w-auto object-contain shrink-0" onerror="this.src='{{ asset('favicon.png') }}'">
+                    <div class="flex flex-col min-w-0">
+                        <span class="font-black text-xs sm:text-base tracking-tight text-emerald-950 uppercase truncate leading-tight">{{ $spmb['brand_title'] ?? 'SPMB ROBBANI' }}</span>
+                        <span class="text-[9px] sm:text-[10px] font-extrabold text-emerald-700 tracking-wider truncate leading-tight">MANDIRI • PINTER NGAJI • JAGO IT!</span>
+                    </div>
                 </a>
 
                 <!-- Desktop Nav Links -->
@@ -121,15 +134,19 @@
                     <a href="#cek-status" class="hover:text-emerald-700 transition-colors">Cek Status</a>
                 </nav>
 
-                <!-- Actions -->
-                <div class="flex items-center gap-2">
-                    <a href="https://sitrobbani.sch.id" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all" title="Kunjungi Website Utama SIT Robbani">
+                <!-- Actions (Responsive: Never Wraps or Overlaps) -->
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <a href="https://sitrobbani.sch.id" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all whitespace-nowrap shrink-0" title="Kunjungi Website Utama SIT Robbani">
                         <span>🌐 Web Utama</span>
                     </a>
-                    <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
+                    <a href="https://sitrobbani.sch.id" class="sm:hidden px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all shrink-0 whitespace-nowrap flex items-center gap-1" title="Website Utama SIT Robbani">
+                        <span class="text-xs">🌐</span>
+                        <span class="text-[10px] font-black hidden min-[400px]:inline">Web</span>
+                    </a>
+                    <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all shrink-0 whitespace-nowrap">
                         <span>Cek Status</span>
                     </a>
-                    <a href="#daftar" class="px-4 py-2 text-xs font-black text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-sm transition-all shrink-0 whitespace-nowrap">
+                    <a href="#daftar" class="px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-black text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-sm transition-all shrink-0 whitespace-nowrap">
                         Daftar
                     </a>
                 </div>
@@ -144,9 +161,18 @@
                 
                 <!-- Teks Hero -->
                 <div class="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-800/90 border border-emerald-600/60 text-emerald-200 text-xs font-bold shadow-sm mx-auto lg:mx-0">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span>{{ $spmb['hero_badge'] ?? 'SPMB Online SIT Robbani T.A. 2026/2027' }}</span>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-800/90 border border-emerald-600/60 text-emerald-200 text-xs font-bold shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>{{ $spmb['hero_badge'] ?? 'SPMB Online SIT Robbani T.A. 2026/2027' }}</span>
+                        </div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/50 shadow-md text-[10px] sm:text-xs font-black uppercase tracking-wider">
+                            <span class="text-amber-400">⚡ MANDIRI</span>
+                            <span class="text-slate-500">•</span>
+                            <span class="text-emerald-400">📖 PINTER NGAJI</span>
+                            <span class="text-slate-500">•</span>
+                            <span class="text-cyan-400">💻 JAGO IT!</span>
+                        </div>
                     </div>
 
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight text-center lg:text-left">
@@ -296,7 +322,7 @@
 
             <!-- Grid Kartu Unit Dinamis dari CMS Admin Dashboard (Sesuai Referensi Pengguna) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                @foreach($spmb['units'] as $uCode => $unit)
+                @foreach(($spmb['units'] ?? []) as $uCode => $unit)
                     @if(!empty($unit['is_active']))
                         <div class="group bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 hover:border-emerald-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-6 fade-up text-center">
                             <div class="space-y-3">
