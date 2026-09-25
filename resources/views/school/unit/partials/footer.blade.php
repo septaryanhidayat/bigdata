@@ -4,6 +4,10 @@
         'gold' => '#f59e0b',
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
+    $currentHost = request()->getHost();
+    $portalUrl = str_contains($currentHost, 'sitrobbani.sch.id') ? 'https://sitrobbani.sch.id' : (config('app.url') ?: url('/'));
+    $loginUrl = rtrim($portalUrl, '/') . '/login';
+    $spmbUrl = str_contains($currentHost, 'sitrobbani.sch.id') ? 'https://spmb.sitrobbani.sch.id?unit=' . $codeLower : (route('school.spmb') . '?unit=' . $codeLower);
 @endphp
 
 <footer class="bg-[#0b1220] text-slate-300 pt-12 border-t border-slate-800 relative z-20">
@@ -104,6 +108,16 @@
                             Program Unggulan
                         </a>
                     </li>
+                    <li class="pt-2 border-t border-slate-800/80 w-full">
+                        <a href="{{ $portalUrl }}" class="text-amber-300 font-bold hover:underline transition flex items-center justify-center md:justify-start gap-1.5">
+                            <i class="fa-solid fa-globe text-xs"></i> <span>Web Utama SIT Robbani</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ $loginUrl }}" class="text-emerald-400 font-bold hover:underline transition flex items-center justify-center md:justify-start gap-1.5">
+                            <i class="fa-solid fa-lock text-xs"></i> <span>Login Portal Sekolah</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -145,7 +159,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="text-amber-400 font-bold hover:underline transition block">
+                        <a href="{{ $spmbUrl }}" class="text-amber-400 font-bold hover:underline transition block">
                             Pendaftaran SPMB Online
                         </a>
                     </li>

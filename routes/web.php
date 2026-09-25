@@ -26,22 +26,41 @@ use App\Http\Controllers\PublicLetterVerificationController;
 use App\Http\Controllers\Admin\AiTrainerController;
 
 // ==========================================================================
-// SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
+// SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, ppdb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
 // ==========================================================================
 Route::domain('spmb.sitrobbani.sch.id')->group(function () {
+    // 1. Landing Page SPMB
     Route::get('/', [SchoolWebsiteController::class, 'spmbLanding'])->name('subdomain.spmb');
     Route::get('/spmb', [SchoolWebsiteController::class, 'spmbLanding']);
     Route::get('/ppdb', [SchoolWebsiteController::class, 'spmbLanding']);
+
+    // 2. Formulir Registrasi Online
     Route::get('/daftar', [SchoolWebsiteController::class, 'ppdbForm'])->name('subdomain.spmb.form');
     Route::get('/spmb/daftar', [SchoolWebsiteController::class, 'ppdbForm']);
     Route::get('/ppdb/daftar', [SchoolWebsiteController::class, 'ppdbForm']);
+
+    // 3. Submit Pendaftaran (Mendukung Seluruh Endpoint POST)
     Route::post('/daftar', [SchoolWebsiteController::class, 'storePpdb'])->name('subdomain.spmb.store');
     Route::post('/spmb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
     Route::post('/ppdb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/spmb', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/ppdb', [SchoolWebsiteController::class, 'storePpdb']);
     Route::post('/', [SchoolWebsiteController::class, 'storePpdb']);
+
+    // 4. Cek Status & Unduh Berkas
     Route::get('/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('subdomain.spmb.check-status');
+    Route::get('/spmb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus']);
+    Route::get('/ppdb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus']);
     Route::get('/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('subdomain.spmb.download-pdf');
+    Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf']);
     Route::get('/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('subdomain.spmb.verify');
+    Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb']);
+
+    // 5. Navigasi ke Web Utama & Login Portal
+    Route::get('/web-utama', fn() => redirect()->to('https://sitrobbani.sch.id'));
+    Route::get('/portal', fn() => redirect()->to('https://sitrobbani.sch.id'));
+    Route::get('/login', fn() => redirect()->to('https://sitrobbani.sch.id/login'));
+    Route::get('/admin/{any?}', fn($any = '') => redirect()->to('https://sitrobbani.sch.id/admin' . ($any ? '/' . $any : '')))->where('any', '.*');
 });
 
 Route::domain('ppdb.sitrobbani.sch.id')->group(function () {
@@ -54,17 +73,95 @@ Route::domain('ppdb.sitrobbani.sch.id')->group(function () {
     Route::post('/daftar', [SchoolWebsiteController::class, 'storePpdb'])->name('subdomain.ppdb.store');
     Route::post('/spmb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
     Route::post('/ppdb/daftar', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/spmb', [SchoolWebsiteController::class, 'storePpdb']);
+    Route::post('/ppdb', [SchoolWebsiteController::class, 'storePpdb']);
     Route::post('/', [SchoolWebsiteController::class, 'storePpdb']);
     Route::get('/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('subdomain.ppdb.check-status');
+    Route::get('/spmb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus']);
+    Route::get('/ppdb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus']);
     Route::get('/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('subdomain.ppdb.download-pdf');
+    Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf']);
     Route::get('/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('subdomain.ppdb.verify');
+    Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb']);
+
+    Route::get('/web-utama', fn() => redirect()->to('https://sitrobbani.sch.id'));
+    Route::get('/portal', fn() => redirect()->to('https://sitrobbani.sch.id'));
+    Route::get('/login', fn() => redirect()->to('https://sitrobbani.sch.id/login'));
+    Route::get('/admin/{any?}', fn($any = '') => redirect()->to('https://sitrobbani.sch.id/admin' . ($any ? '/' . $any : '')))->where('any', '.*');
 });
 
 Route::domain('{subdomain}.sitrobbani.sch.id')->group(function () {
+    // 1. Auth & Admin Portal Redirection (Wajib ke Domain Utama Agar Session Aman)
+    Route::get('/login', fn() => redirect()->to('https://sitrobbani.sch.id/login'));
+    Route::get('/admin/{any?}', fn($any = '') => redirect()->to('https://sitrobbani.sch.id/admin' . ($any ? '/' . $any : '')))->where('any', '.*');
+    Route::get('/web-utama', fn() => redirect()->to('https://sitrobbani.sch.id'));
+    Route::get('/portal', fn() => redirect()->to('https://sitrobbani.sch.id'));
+    Route::get('/portal-utama', fn() => redirect()->to('https://sitrobbani.sch.id'));
+
+    // 2. Redirect SPMB ke Subdomain spmb.sitrobbani.sch.id dengan parameter unit sekolah terkait
+    Route::get('/spmb', function ($subdomain) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? '';
+        return redirect()->to('https://spmb.sitrobbani.sch.id' . ($code ? '?unit=' . $code : ''));
+    });
+    Route::get('/daftar', function ($subdomain) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? '';
+        return redirect()->to('https://spmb.sitrobbani.sch.id/daftar' . ($code ? '?unit=' . $code : ''));
+    });
+    Route::get('/ppdb', function ($subdomain) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? '';
+        return redirect()->to('https://spmb.sitrobbani.sch.id' . ($code ? '?unit=' . $code : ''));
+    });
+
+    // 3. Layanan Terpadu Two-Segment Subpages
+    Route::get('/layanan/kunjungan', function ($subdomain) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? null;
+        return $code ? app(SchoolWebsiteController::class)->unitLayananKunjunganPage($code) : redirect()->to('https://sitrobbani.sch.id');
+    });
+    Route::post('/layanan/kunjungan', function ($subdomain, \Illuminate\Http\Request $request) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? null;
+        return $code ? app(SchoolWebsiteController::class)->storeLayananKunjungan($request, $code) : redirect()->to('https://sitrobbani.sch.id');
+    });
+    Route::get('/layanan/kerjasama', function ($subdomain) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? null;
+        return $code ? app(SchoolWebsiteController::class)->unitLayananKerjasamaPage($code) : redirect()->to('https://sitrobbani.sch.id');
+    });
+    Route::post('/layanan/kerjasama', function ($subdomain, \Illuminate\Http\Request $request) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? null;
+        return $code ? app(SchoolWebsiteController::class)->storeLayananKerjasama($request, $code) : redirect()->to('https://sitrobbani.sch.id');
+    });
+    Route::get('/layanan/sewa', function ($subdomain) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? null;
+        return $code ? app(SchoolWebsiteController::class)->unitLayananSewaPage($code) : redirect()->to('https://sitrobbani.sch.id');
+    });
+    Route::post('/layanan/sewa', function ($subdomain, \Illuminate\Http\Request $request) {
+        $map = ['tk' => 'tkit', 'tkit' => 'tkit', 'kb' => 'tkit', 'tpa' => 'tkit', 'sd' => 'sdit', 'sdit' => 'sdit', 'smp' => 'smpit', 'smpit' => 'smpit', 'sma' => 'smait', 'smait' => 'smait'];
+        $code = $map[strtolower($subdomain)] ?? null;
+        return $code ? app(SchoolWebsiteController::class)->storeLayananSewa($request, $code) : redirect()->to('https://sitrobbani.sch.id');
+    });
+
+    // 4. Dukungan Prefix /unit/{code} & /unit/{code}/{page} pada Subdomain
+    Route::get('/unit/{code}', function ($subdomain, $code) {
+        return app(SchoolWebsiteController::class)->unitProfile($code);
+    });
+    Route::get('/unit/{code}/{page}', function ($subdomain, $code, $page) {
+        return redirect()->to('/' . $page);
+    });
+
+    // 5. Beranda Unit Subdomain
     Route::get('/', function ($subdomain) {
         $map = [
             'tk' => 'tkit',
             'tkit' => 'tkit',
+            'kb' => 'tkit',
+            'tpa' => 'tkit',
             'sd' => 'sdit',
             'sdit' => 'sdit',
             'smp' => 'smpit',
@@ -79,10 +176,13 @@ Route::domain('{subdomain}.sitrobbani.sch.id')->group(function () {
         return app(SchoolWebsiteController::class)->index();
     });
 
+    // 6. Seluruh Sub-halaman Profil Unit
     Route::get('/{page}', function ($subdomain, $page) {
         $map = [
             'tk' => 'tkit',
             'tkit' => 'tkit',
+            'kb' => 'tkit',
+            'tpa' => 'tkit',
             'sd' => 'sdit',
             'sdit' => 'sdit',
             'smp' => 'smpit',
@@ -92,7 +192,7 @@ Route::domain('{subdomain}.sitrobbani.sch.id')->group(function () {
         ];
         $code = $map[strtolower($subdomain)] ?? null;
         if (!$code) {
-            return redirect('/');
+            return redirect()->to('https://sitrobbani.sch.id');
         }
         $controller = app(SchoolWebsiteController::class);
         if ($page === 'visi-misi' || $page === 'visi_misi' || $page === 'visi-dan-misi') return $controller->unitVisiMisiPage($code);

@@ -108,7 +108,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex items-center justify-between h-14 sm:h-16">
                 <!-- Brand / Logo -->
-                <a href="{{ route('school.spmb') }}" class="flex items-center gap-2.5 shrink-0">
+                <a href="{{ url('/') }}" class="flex items-center gap-2.5 shrink-0" title="Beranda SPMB SIT Robbani">
                     <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-10 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
                     <span class="font-black text-sm sm:text-base tracking-tight text-emerald-950 uppercase">{{ $spmb['brand_title'] ?? 'SPMB ROBBANI' }}</span>
                 </a>
@@ -123,6 +123,9 @@
 
                 <!-- Actions -->
                 <div class="flex items-center gap-2">
+                    <a href="https://sitrobbani.sch.id" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all" title="Kunjungi Website Utama SIT Robbani">
+                        <span>🌐 Web Utama</span>
+                    </a>
                     <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all">
                         <span>Cek Status</span>
                     </a>
@@ -237,7 +240,7 @@
 
                             <!-- Tombol Daftar Sekarang Sesuai Desain Referensi -->
                             <div>
-                                <a href="{{ route('school.spmb.form', ['unit' => $unit['code'] ?? $uCode]) }}" class="w-full py-3.5 px-6 rounded-2xl bg-[#004532] hover:bg-[#065f46] text-white font-extrabold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group/btn">
+                                <a href="{{ url('/daftar?unit=' . ($unit['code'] ?? $uCode)) }}" class="w-full py-3.5 px-6 rounded-2xl bg-[#004532] hover:bg-[#065f46] text-white font-extrabold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group/btn">
                                     <span class="text-base">👆</span>
                                     <span>Daftar Sekarang</span>
                                 </a>
@@ -706,7 +709,7 @@
                     this.searchResult = null;
 
                     try {
-                        const response = await fetch(`{{ route('school.spmb.check-status') }}?q=${encodeURIComponent(this.searchQuery)}`, {
+                        const response = await fetch(`{{ url('/cek-status') }}?q=${encodeURIComponent(this.searchQuery)}`, {
                             headers: {
                                 'Accept': 'application/json',
                                 'X-Requested-With': 'XMLHttpRequest'

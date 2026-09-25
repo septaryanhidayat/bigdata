@@ -62,6 +62,8 @@
     @endphp
 
     <style>
+        [x-cloak] { display: none !important; }
+
         :root {
             --color-primary: {{ $uTheme['primary'] }};
             --color-primary-dark: {{ $uTheme['primary_dark'] }};

@@ -73,9 +73,8 @@ Setelah web lama dibackup, kini saatnya mengarahkan subdomain `spmb.sitrobbani.s
 3. Klik tombol **Manage** atau ikon pensil pada kolom **Document Root**.
 4. Ubah isi kolom **Document Root** menjadi:
    ```text
-   /home/pesonaas/bigdata.sitrobbani.sch.id/public
+   /home/pesonaas/sitrobbani.sch.id/public
    ```
-   *(Atau sesuaikan jika folder project Laravel Anda bernama `/home/pesonaas/sitrobbani.sch.id/public`)*.
 
    > ⚠️ **Catatan Kritis:** Wajib diakhiri dengan `/public`, karena pintu gerbang utama aplikasi Laravel berada di file `public/index.php`. Jangan mengarahkan ke folder root tanpa `/public`.
 
@@ -86,22 +85,20 @@ Setelah web lama dibackup, kini saatnya mengarahkan subdomain `spmb.sitrobbani.s
 
 ## 🛠️ TAHAP 3: Tarik Pembaruan & Bersihkan Cache di Server
 
-Buka menu **Terminal** di cPanel Anda, lalu jalankan rangkaian perintah berikut:
+Buka menu **Terminal** di cPanel Anda (`pesonaas`), lalu salin dan jalankan seluruh baris perintah berikut:
 
 ```bash
-# 1. Masuk ke folder aplikasi SmartEdu
-cd /home/pesonaas/bigdata.sitrobbani.sch.id
+# 1. Masuk ke folder repositori utama SmartEdu
+cd /home/pesonaas/sitrobbani.sch.id
 
-# 2. Tarik update terbaru dari repositori GitHub
+# 2. Amankan perubahan lokal/uncommitted jika ada, lalu tarik update terbaru dari GitHub
+git stash
 git pull origin main
 
 # 3. Bersihkan seluruh cache lama
-php artisan route:clear
-php artisan view:clear
-php artisan config:clear
-php artisan cache:clear
+php artisan optimize:clear
 
-# 4. Buat cache baru untuk performa maksimal
+# 4. Buat cache optimal baru
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache

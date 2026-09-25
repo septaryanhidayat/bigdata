@@ -7,10 +7,23 @@
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     $currentHost = request()->getHost();
-    $subdomains = ['tk', 'tkit', 'sd', 'sdit', 'smp', 'smpit', 'sma', 'smait', 'spmb'];
+    $subdomains = ['tk', 'tkit', 'sd', 'sdit', 'smp', 'smpit', 'sma', 'smait', 'spmb', 'ppdb', 'tpa', 'kb'];
     $parts = explode('.', $currentHost);
     $isSubdomain = count($parts) >= 3 && in_array(strtolower($parts[0]), $subdomains);
     $unitUrl = $isSubdomain ? url('/') : url('/unit/' . $codeLower);
+
+    // Dynamic absolute URLs guaranteeing correct redirection across all pointing subdomains
+    if (str_contains($currentHost, 'sitrobbani.sch.id')) {
+        $portalUrl = 'https://sitrobbani.sch.id';
+        $loginUrl = 'https://sitrobbani.sch.id/login';
+        $spmbUrl = 'https://spmb.sitrobbani.sch.id?unit=' . $codeLower;
+        $spmbDaftarUrl = 'https://spmb.sitrobbani.sch.id/daftar?unit=' . $codeLower;
+    } else {
+        $portalUrl = $portalUrl ?? (config('app.url') ?: url('/'));
+        $loginUrl = route('login');
+        $spmbUrl = route('school.spmb') . '?unit=' . $codeLower;
+        $spmbDaftarUrl = route('school.spmb.form', ['unit' => $codeLower]);
+    }
 @endphp
 
 {{-- TOP MINI BAR (Kontak Telepon, Email Resmi, & Lokasi) --}}
@@ -32,13 +45,13 @@
                 <span>{{ $info['city'] ?? 'Indralaya, Ogan Ilir, Sumatera Selatan' }}</span>
             </span>
         </div>
-        <div class="flex items-center space-x-2.5 sm:space-x-3 text-[11px] sm:text-xs shrink-0">
-            <a href="{{ $portalUrl ?? route('home') }}" class="text-slate-300 hover:text-amber-300 transition flex items-center gap-1 font-medium">
+        <div class="flex items-center space-x-2 sm:space-x-3 text-[11px] sm:text-xs shrink-0">
+            <a href="{{ $portalUrl }}" class="text-slate-300 hover:text-amber-300 transition flex items-center gap-1 font-semibold" title="Kunjungi Website Utama SIT Robbani">
                 <i class="fa-solid fa-globe text-[11px] text-amber-400"></i>
-                <span class="hidden sm:inline">Portal Utama</span>
+                <span>Web Utama</span>
             </a>
             <span class="text-slate-700">|</span>
-            <a href="{{ route('login') }}" class="text-slate-200 hover:text-amber-300 transition flex items-center gap-1 font-semibold">
+            <a href="{{ $loginUrl }}" class="text-slate-200 hover:text-amber-300 transition flex items-center gap-1 font-bold" title="Login Portal Sekolah">
                 <i class="fa-solid fa-lock text-[11px] text-amber-400"></i>
                 <span>Login</span>
             </a>
@@ -194,7 +207,7 @@
 
                 {{-- ACTION CTA: DAFTAR SPMB (Radiant Gold Pill) --}}
                 <div class="pl-2">
-                    <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
+                    <a href="{{ $spmbUrl }}" 
                        class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200">
                         <i class="fa-solid fa-graduation-cap text-sm"></i>
                         <span>Daftar SPMB</span>
@@ -204,7 +217,7 @@
 
             {{-- MOBILE MENU TRIGGER BUTTON --}}
             <div class="flex items-center space-x-2 lg:hidden">
-                <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
+                <a href="{{ $spmbUrl }}" 
                    class="px-3.5 py-1.5 rounded-full font-black text-[11px] uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md">
                     SPMB
                 </a>
@@ -219,8 +232,10 @@
         </div>
     </div>
 
-    {{-- MOBILE MENU DRAWER --}}
+    {{-- MOBILE MENU DRAWER (With x-cloak & display:none to prevent reload flash) --}}
     <div x-show="mobileMenuOpen" 
+         x-cloak
+         style="display: none;"
          x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 -translate-y-4"
          x-transition:enter-end="opacity-100 translate-y-0"
@@ -228,6 +243,19 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-4"
          class="lg:hidden bg-slate-900/98 backdrop-blur-xl border-b border-indigo-900/80 px-4 pt-3 pb-6 space-y-2 text-sm text-white shadow-2xl max-h-[80vh] overflow-y-auto">
+        
+        {{-- Akses Cepat Web Utama & Login di Mobile Drawer --}}
+        <div class="grid grid-cols-2 gap-2 pb-1 border-b border-slate-800">
+            <a href="{{ $portalUrl }}" class="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition">
+                <i class="fa-solid fa-globe text-amber-400"></i>
+                <span>Web Utama</span>
+            </a>
+            <a href="{{ $loginUrl }}" class="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs transition">
+                <i class="fa-solid fa-lock text-amber-300"></i>
+                <span>Login Portal</span>
+            </a>
+        </div>
+
         <a href="{{ $unitUrl }}" class="block px-3.5 py-2.5 rounded-xl hover:bg-white/10 font-bold {{ ((request()->is('unit/' . $codeLower) || request()->path() === '/') && !request()->is('unit/' . $codeLower . '/*')) ? 'bg-white/15' : '' }}">
             <i class="fa-solid fa-house w-6 text-amber-400"></i> Beranda
         </a>
@@ -301,7 +329,7 @@
             </a>
         </div>
         <div class="pt-3">
-            <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
+            <a href="{{ $spmbDaftarUrl }}" 
                class="w-full flex items-center justify-center space-x-2 py-3 rounded-xl font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-lg">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>Daftar Murid Baru (SPMB Online)</span>

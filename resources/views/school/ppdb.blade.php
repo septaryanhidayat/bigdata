@@ -68,15 +68,18 @@
     <header class="py-2.5 sm:py-3 px-4 sm:px-8 sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <!-- Brand Logo -->
-            <a href="{{ route('school.spmb') }}" class="flex items-center gap-2.5 shrink-0">
+            <a href="{{ url('/') }}" class="flex items-center gap-2.5 shrink-0" title="Beranda SPMB SIT Robbani">
                 <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-10 w-auto object-contain">
                 <span class="font-black text-sm sm:text-base tracking-tight text-emerald-950 uppercase">{{ $spmb['brand_title'] ?? 'SPMB ROBBANI' }}</span>
             </a>
 
             <!-- Right Controls -->
             <div class="flex items-center gap-2">
-                <a href="{{ route('school.spmb') }}" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-                    <span>← Beranda</span>
+                <a href="https://sitrobbani.sch.id" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors" title="Kunjungi Website Utama SIT Robbani">
+                    <span>🌐 Web Utama</span>
+                </a>
+                <a href="{{ url('/') }}" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs transition-colors flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+                    <span>← Beranda SPMB</span>
                 </a>
             </div>
         </div>
