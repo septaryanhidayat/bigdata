@@ -1024,33 +1024,33 @@
         <!-- ========================================== -->
         <!-- SAMBUTAN KETUA YAYASAN                     -->
         <!-- ========================================== -->
-        <section class="py-12 sm:py-16 bg-slate-50 reveal-fade-up">
+        <section class="py-12 sm:py-16 bg-slate-50 dark:bg-[#071308] reveal-fade-up">
             <div class="max-w-container-max mx-auto px-4 sm:px-6">
-                <div class="bg-white dark:bg-[#0e2010] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-5 sm:p-8 md:p-10 shadow-md flex flex-col md:flex-row gap-6 sm:gap-8 items-center relative overflow-hidden">
+                <div class="bg-white dark:bg-[#0e2010] border border-slate-200/80 dark:border-[#1a381c] rounded-3xl p-6 sm:p-8 md:p-10 shadow-md flex flex-col md:flex-row gap-6 md:gap-8 items-center relative overflow-hidden max-w-5xl mx-auto">
                     
-                    <!-- Foto & Name: Top on Mobile, Left Column on Desktop -->
-                    <div class="flex-shrink-0 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full md:w-1/3">
-                        <div class="w-24 h-24 sm:w-36 sm:h-36 mx-auto md:mx-0 rounded-full border-4 border-emerald-600 p-1 mb-3 sm:mb-4 shadow-lg">
+                    <!-- Foto & Name: Rata Tengah, Proporsional & Sedikit Geser ke Kiri Mendekati Teks -->
+                    <div class="flex-shrink-0 flex flex-col items-center text-center z-10 w-full md:w-64 lg:w-72">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 mx-auto rounded-full ring-4 ring-emerald-500/20 border-4 border-emerald-600 p-1 mb-3.5 shadow-lg">
                             <img width="144" height="144" loading="lazy" decoding="async" class="w-full h-full object-cover rounded-full bg-white" src="{{ !empty($settings['principal_photo']) && !str_contains($settings['principal_photo'], 'principal_photo_6a7f525a6292e') && !str_contains($settings['principal_photo'], 'SmartEdu') ? asset($settings['principal_photo']) : asset('images/sughesti_wulandari.webp') }}" alt="{{ $settings['principal_name'] ?? 'Sughesti Wulandari, S.Pd' }}" onerror="this.onerror=null; this.src='{{ asset('images/sughesti_wulandari.webp') }}';">
                         </div>
-                        <span class="site-section-badge mb-1">Ketua Yayasan</span>
-                        <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white mb-1">{{ $settings['principal_name'] }}</h3>
-                        <p class="text-[11px] sm:text-xs font-semibold text-emerald-700 dark:text-[#c6f634] max-w-[220px]">{{ $settings['principal_title'] }}</p>
+                        <span class="site-section-badge mb-1.5 mx-auto">Ketua Yayasan</span>
+                        <h3 class="text-base sm:text-lg font-black font-headline text-slate-900 dark:text-white mb-1 text-center">{{ $settings['principal_name'] }}</h3>
+                        <p class="text-[11px] sm:text-xs font-semibold text-emerald-700 dark:text-[#c6f634] text-center max-w-[240px] mx-auto leading-snug">{{ $settings['principal_title'] }}</p>
                     </div>
 
-                    <!-- Sambutan Quote & Buttons: Bottom on Mobile, Right Column on Desktop -->
-                    <div class="flex-grow z-10 w-full md:w-2/3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700 pt-4 md:pt-0 md:pl-6 text-center md:text-left flex flex-col items-center md:items-start">
-                        <span class="material-symbols-outlined text-[36px] sm:text-[48px] text-emerald-600/30 dark:text-emerald-400/30 mb-2 block md:inline-block">format_quote</span>
-                        <p class="text-xs sm:text-base md:text-lg font-semibold italic text-slate-800 dark:text-slate-200 mb-4 sm:mb-6 leading-relaxed">
+                    <!-- Sambutan Quote & Buttons: Dekat dengan Pembatas Garis Rapi & Simetris -->
+                    <div class="flex-grow z-10 w-full border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 pt-5 md:pt-0 md:pl-8 lg:pl-10 text-center md:text-left flex flex-col items-center md:items-start justify-center">
+                        <span class="material-symbols-outlined text-[36px] sm:text-[44px] text-emerald-600/30 dark:text-emerald-400/30 mb-1 block md:inline-block">format_quote</span>
+                        <p class="text-xs sm:text-base md:text-lg font-semibold italic text-slate-800 dark:text-slate-200 mb-5 leading-relaxed">
                             "{{ $settings['principal_greeting'] }}"
                         </p>
                         
                         <div class="flex flex-wrap justify-center md:justify-start gap-2.5 sm:gap-3">
-                            <a class="px-5 py-2.5 bg-emerald-700 text-white font-bold text-xs rounded-full hover:bg-emerald-800 transition-colors flex items-center gap-1 shadow-sm" href="{{ route('school.profil') }}">
-                                Sambutan Lengkap <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            <a class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-full transition-colors flex items-center gap-1.5 shadow-sm" href="{{ route('school.profil') }}">
+                                <span>Sambutan Lengkap</span> <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                             </a>
-                            <a class="px-5 py-2.5 bg-orange-600 text-white font-bold text-xs rounded-full hover:bg-orange-700 transition-opacity flex items-center gap-1 shadow-sm" href="{{ route('school.profil') }}#visi-misi">
-                                Visi &amp; Misi <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            <a class="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-full transition-colors flex items-center gap-1.5 shadow-sm" href="{{ route('school.profil') }}#visi-misi">
+                                <span>Visi &amp; Misi</span> <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                             </a>
                         </div>
                     </div>

@@ -24,15 +24,15 @@
         </svg>
     </button>
 
-    <!-- Floating Trigger Button (Robbani AI - Lebih Kecil & Bulat) -->
+    <!-- Floating Trigger Button (Robbani AI - Robot Mascot Icon) -->
     <div class="relative group flex flex-col items-center">
         <button 
             @click="isOpen = !isOpen" 
             aria-label="Buka Robbani AI" 
             title="Robbani AI"
-            class="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-gradient-to-br from-[#004532] via-[#065f46] to-teal-700 text-white shadow-2xl flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 border-2 border-white/40 cursor-pointer"
+            class="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-gradient-to-br from-[#004532] via-[#065f46] to-teal-700 text-white shadow-2xl flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 border-2 border-white/40 cursor-pointer overflow-visible"
         >
-            <span class="text-xl sm:text-2xl animate-pulse">🤖</span>
+            <img src="{{ asset('images/robbani-ai-mascot.webp') }}" alt="Robbani AI" class="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null; this.src='{{ asset('images/robbani-ai-mascot.png') }}';">
             <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-[#a3e635] border-2 border-[#004532]"></span>
         </button>
         <span class="mt-1 px-2 py-0.5 rounded-full bg-slate-900/90 dark:bg-black/90 text-white text-[9px] font-black tracking-tight shadow-md backdrop-blur-xs whitespace-nowrap">
@@ -56,8 +56,8 @@
         <!-- Chat Header -->
         <div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#0f172a] p-4 text-white flex items-center justify-between shadow-md shrink-0">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xl shrink-0 shadow-inner">
-                    🤖
+                <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center p-1.5 shrink-0 shadow-inner">
+                    <img src="{{ asset('images/robbani-ai-mascot.webp') }}" alt="Robbani AI" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='{{ asset('images/robbani-ai-mascot.png') }}';">
                 </div>
                 <div>
                     <h3 class="font-extrabold text-xs sm:text-sm text-white flex items-center gap-1.5">
@@ -83,7 +83,17 @@
                         
                         <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-1 text-[9px] font-bold"
                              :class="msg.sender === 'user' ? 'text-emerald-200 border-white/10' : 'text-emerald-700 border-slate-100'">
-                            <span x-text="msg.sender === 'user' ? 'Anda' : '🤖 Robbani AI'"></span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <template x-if="msg.sender === 'user'">
+                                    <span>👤 Anda</span>
+                                </template>
+                                <template x-if="msg.sender !== 'user'">
+                                    <span class="inline-flex items-center gap-1">
+                                        <img src="{{ asset('images/robbani-ai-mascot.webp') }}" alt="Robbani AI" class="w-3.5 h-3.5 object-contain inline-block" onerror="this.src='{{ asset('images/robbani-ai-mascot.png') }}'">
+                                        <span>Robbani AI</span>
+                                    </span>
+                                </template>
+                            </span>
                             <span x-text="msg.time" class="opacity-75"></span>
                         </div>
 
@@ -95,8 +105,8 @@
 
             <!-- Loading Spinner Indicator -->
             <div x-show="isLoading" class="flex justify-start">
-                <div class="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-none text-xs text-slate-600 flex items-center gap-2 shadow-xs">
-                    <span class="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span>
+                <div class="bg-white border border-slate-200 p-2.5 sm:p-3 rounded-2xl rounded-tl-none text-xs text-slate-600 flex items-center gap-2 shadow-xs">
+                    <img src="{{ asset('images/robbani-ai-mascot.webp') }}" class="w-4 h-4 object-contain animate-bounce" onerror="this.src='{{ asset('images/robbani-ai-mascot.png') }}'">
                     <span class="font-bold text-[11px]">Robbani AI sedang berpikir...</span>
                 </div>
             </div>

@@ -78,9 +78,6 @@
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3">
-            <!-- GTranslate Language Switcher (Desktop: ID, EN, AR) -->
-            <div class="gtranslate_wrapper hidden sm:flex items-center"></div>
-
             <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="p-2 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-full transition-colors hidden lg:flex items-center justify-center" title="Hubungi Kami" aria-label="Hubungi Kami via WhatsApp">
                 <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;">call</span>
             </a>
@@ -140,14 +137,6 @@
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
     <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
-        <!-- GTranslate Mobile Selector -->
-        <div class="py-2 px-3 rounded-2xl bg-slate-50 dark:bg-[#071509] border border-slate-200 dark:border-[#1a3d1e] flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                <span>🌐</span> <span>Bahasa / Language</span>
-            </span>
-            <div class="gtranslate_wrapper"></div>
-        </div>
-
         <button @click="darkMode = !darkMode" class="w-full py-2.5 px-4 rounded-2xl bg-emerald-50 dark:bg-[#071509] text-emerald-800 dark:text-[#c6f634] font-extrabold text-xs border border-emerald-200 dark:border-[#1a3d1e] flex items-center justify-between shadow-xs cursor-pointer">
             <span class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'opsz' 24;" x-show="!darkMode">dark_mode</span>
@@ -165,7 +154,7 @@
     </div>
 </div>
 
-<!-- GTranslate Multi-Language Script (Indonesian, English, Arabic) & Icon Font Weight Styles -->
+<!-- Icon Font Weight Styles -->
 <style>
     .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
@@ -174,40 +163,4 @@
     .material-symbols-fill {
         font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
     }
-    /* GTranslate Native Minimalist Dropdown */
-    .gtranslate_wrapper select.gt_selector {
-        background-color: #f8fafc !important;
-        color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 9999px !important;
-        padding: 4px 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        cursor: pointer !important;
-        outline: none !important;
-        transition: all 0.2s ease !important;
-        font-family: inherit !important;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
-    }
-    .dark .gtranslate_wrapper select.gt_selector {
-        background-color: #07170a !important;
-        color: #f8fafc !important;
-        border-color: #1a3d1e !important;
-    }
-    .gtranslate_wrapper select.gt_selector:hover {
-        border-color: #059669 !important;
-    }
-    body { top: 0px !important; }
-    .goog-te-banner-frame, .skiptranslate > iframe { display: none !important; }
 </style>
-<script>
-    window.gtranslateSettings = {
-        "default_language": "id",
-        "languages": ["id", "en", "ar"],
-        "wrapper_selector": ".gtranslate_wrapper",
-        "flag_size": 18,
-        "switcher_horizontal_position": "inline",
-        "alt_flags": {"en": "usa"}
-    };
-</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>

@@ -190,5 +190,9 @@
             document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el));
         });
     </script>
+
+    {{-- FLOATING WIDGETS --}}
+    @include('components.floating-translate')
+    @include('components.chat-ai-widget')
 </body>
 </html>

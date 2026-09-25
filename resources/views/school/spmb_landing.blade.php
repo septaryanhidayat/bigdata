@@ -175,16 +175,27 @@
                     </div>
                 </div>
 
-                <!-- Ilustrasi Santri / Mascot -->
+                <!-- Ilustrasi Robot Mascot Hero (Eye-catching & Menarik) -->
                 <div class="lg:col-span-5 flex justify-center lg:justify-end fade-up delay-1">
-                    <div class="relative">
-                        <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-tr from-emerald-500/20 to-amber-400/20 blur-2xl absolute inset-0 m-auto pointer-events-none"></div>
-                        <img 
-                            src="{{ asset(ltrim($spmb['hero_image'] ?? 'images/spmb/hero-kid.webp', '/')) }}" 
-                            alt="Siswa SIT Robbani" 
-                            class="relative z-10 w-60 sm:w-72 md:w-80 h-auto object-contain mx-auto filter drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
-                            onerror="this.src='{{ asset('images/logo robbani light.png') }}'"
-                        >
+                    <div class="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px] mx-auto">
+                        <!-- Glow Ambient Circle -->
+                        <div class="w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-emerald-400/25 via-teal-300/20 to-amber-400/30 blur-3xl absolute inset-0 m-auto pointer-events-none animate-pulse"></div>
+                        
+                        <!-- Floating Robot Mascot with Laptop Background -->
+                        <div class="relative z-10 p-2 sm:p-4 group">
+                            <img 
+                                src="{{ asset(ltrim($spmb['hero_image'] ?? 'images/spmb/robot-mascot-hero.png', '/')) }}" 
+                                alt="Maskot Resmi SIT Robbani" 
+                                class="w-full h-auto object-contain mx-auto filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.55)] transform group-hover:scale-105 transition-transform duration-500"
+                                onerror="this.src='{{ asset('images/spmb/robot-mascot-hero.png') }}'"
+                            >
+                            
+                            <!-- Mascot Tagline Badge -->
+                            <div class="absolute -bottom-2 sm:bottom-0 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-400/60 text-amber-300 text-[11px] sm:text-xs font-black uppercase tracking-wider shadow-2xl flex items-center gap-2 whitespace-nowrap">
+                                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                                <span>🤖 ROBBI — Maskot SIT Robbani</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -826,6 +837,7 @@
             }
         });
     </script>
+    @include('components.floating-translate')
     @include('components.chat-ai-widget')
 </body>
 </html>

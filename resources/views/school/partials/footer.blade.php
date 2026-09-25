@@ -93,3 +93,6 @@
         </div>
     </div>
 </footer>
+
+{{-- FLOATING GOOGLE TRANSLATE (KIRI BAWAH) --}}
+@include('components.floating-translate')

@@ -143,25 +143,22 @@
     @include('school.unit.partials.footer')
 
     {{-- FLOATING WIDGETS --}}
-    {{-- 1. Floating WhatsApp Hotline (Kiri Bawah) --}}
-    <div class="fixed bottom-6 left-6 z-40 flex items-center space-x-2">
+    {{-- 1. Floating WhatsApp Hotline & Translate (Kiri Bawah) --}}
+    <div class="fixed bottom-5 left-4 sm:left-6 z-40 flex flex-col items-start gap-2">
         <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar pendaftaran siswa baru dan program ' . ($info['name'] ?? 'sekolah')) }}" 
            target="_blank" 
            rel="noopener noreferrer"
-           class="flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-full shadow-xl hover:shadow-emerald-500/30 transform hover:-translate-y-1 transition duration-300 group">
-            <i class="fa-brands fa-whatsapp text-xl"></i>
+           class="flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-white px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full shadow-xl hover:shadow-emerald-500/30 transform hover:-translate-y-0.5 transition duration-300 group">
+            <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
             <span class="text-xs font-bold hidden sm:inline group-hover:inline transition">Chat Panitia</span>
         </a>
+
+        {{-- Floating Google Translate --}}
+        @include('components.floating-translate', ['positionClass' => 'relative'])
     </div>
 
-    {{-- 2. Floating Back-to-Top Button (Kanan Bawah) --}}
-    <button id="backToTopBtn" 
-            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-xl ring-2 ring-amber-400/40 opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 hover:bg-indigo-700"
-            style="background-color: {{ $uTheme['primary'] }};"
-            aria-label="Kembali ke atas">
-        <i class="fa-solid fa-arrow-up text-sm"></i>
-    </button>
+    {{-- 2. Floating Robbani AI Assistant Widget (Kanan Bawah) --}}
+    @include('components.chat-ai-widget')
 
     {{-- Scroll Animation & Back To Top Script --}}
     <script>

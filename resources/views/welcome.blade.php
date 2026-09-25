@@ -855,5 +855,9 @@
             });
         });
     </script>
+
+    {{-- FLOATING WIDGETS --}}
+    @include('components.floating-translate')
+    @include('components.chat-ai-widget')
 </body>
 </html>
