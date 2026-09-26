@@ -17,11 +17,11 @@
 <nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 left-0 w-full z-40 h-16 sm:h-20 shadow-xs transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
         
-        <!-- Logo Saja di Kiri Atas (Tanpa Teks di Sampingnya Sesuai Instruksi) -->
+        <!-- Logo Saja di Kiri Atas (Tanpa Teks di Sampingnya - Proporsi Rapi & Tidak Terlalu Besar) -->
         <div class="flex items-center">
             <a href="{{ route('home') }}" class="flex items-center shrink-0" title="SIT Robbani Ogan Ilir">
-                <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-9 sm:h-12 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
-                <img alt="SIT Robbani Logo" width="180" height="48" fetchpriority="high" class="h-9 sm:h-12 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                <img alt="SIT Robbani Logo" width="150" height="38" fetchpriority="high" class="h-7.5 sm:h-9 max-h-9 w-auto object-contain dark:hidden" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
+                <img alt="SIT Robbani Logo" width="150" height="38" fetchpriority="high" class="h-7.5 sm:h-9 max-h-9 w-auto object-contain hidden dark:block" src="{{ $settings['logo_dark'] ?? '/images/logo robbani dark.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
             </a>
         </div>
 

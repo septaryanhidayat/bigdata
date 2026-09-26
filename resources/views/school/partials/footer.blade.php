@@ -116,3 +116,57 @@
 
 {{-- FLOATING GOOGLE TRANSLATE (KIRI BAWAH) --}}
 @include('components.floating-translate')
+
+{{-- UNIVERSAL SILKY-SMOOTH SCROLL REVEAL FADE-UP ANIMATION FOR ALL SECTIONS --}}
+<style>
+    .reveal-fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+    }
+    .reveal-fade-up.is-visible,
+    .reveal-fade-up.is-revealed {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('section, article, .subpage-card, .grid > div, footer > div > div').forEach((el) => {
+            if (!el.classList.contains('reveal-fade-up') && !el.closest('header') && !el.closest('nav') && el.tagName !== 'HEADER' && el.tagName !== 'NAV') {
+                el.classList.add('reveal-fade-up');
+            }
+        });
+
+        const reveals = document.querySelectorAll('.reveal-fade-up, .scroll-reveal');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('is-revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -25px 0px' });
+            reveals.forEach(el => observer.observe(el));
+        } else {
+            reveals.forEach(el => {
+                el.classList.add('is-visible');
+                el.classList.add('is-revealed');
+            });
+        }
+
+        setTimeout(() => {
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight + 80) {
+                    el.classList.add('is-visible');
+                    el.classList.add('is-revealed');
+                }
+            });
+        }, 80);
+    });
+</script>

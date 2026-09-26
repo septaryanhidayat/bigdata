@@ -10,13 +10,13 @@
     $spmbUrl = str_contains($currentHost, 'sitrobbani.sch.id') ? 'https://spmb.sitrobbani.sch.id?unit=' . $codeLower : (route('school.spmb') . '?unit=' . $codeLower);
 @endphp
 
-<footer class="bg-[#0b1220] text-slate-300 pt-12 border-t border-slate-800 relative z-20">
+<footer class="{{ $codeLower === 'tkit' ? 'bg-gradient-to-b from-[#9a3412] via-[#7c2d12] to-[#431407] text-orange-100 border-t border-orange-700/60' : 'bg-[#0b1220] text-slate-300 border-t border-slate-800' }} pt-12 relative z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {{-- BULETIN & KABAR SEKOLAH (Newsletter Subscription Bar) --}}
-        <div class="bg-gradient-to-r {{ $uTheme['nav_gradient'] ?? 'from-indigo-950 via-slate-900 to-blue-950' }} rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+        <div class="bg-gradient-to-r {{ $codeLower === 'tkit' ? 'from-amber-500 via-orange-600 to-orange-700 text-white' : ($uTheme['nav_gradient'] ?? 'from-indigo-950 via-slate-900 to-blue-950') }} rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
             <div class="space-y-1 text-center lg:text-left">
-                <span class="inline-block text-[11px] font-black uppercase tracking-wider text-amber-400">
+                <span class="inline-block text-[11px] font-black uppercase tracking-wider text-amber-300">
                     Buletin &amp; Kabar Sekolah
                 </span>
                 <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">
@@ -38,24 +38,24 @@
         </div>
 
         {{-- MAIN INSTITUTIONAL FOOTER GRID --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b border-slate-800/80 text-center md:text-left">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b {{ $codeLower === 'tkit' ? 'border-orange-700/50' : 'border-slate-800/80' }} text-center md:text-left">
             
-            {{-- KOLOM 1: LOGO & IDENTITAS SEKOLAH (3 Kolom) --}}
+            {{-- KOLOM 1: LOGO & IDENTITAS SEKOLAH (Logo Saja, Rapi & Elegan) --}}
             <div class="lg:col-span-3 flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
-                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white p-3 shadow-xl border border-white/20 flex items-center justify-center shrink-0">
+                <div class="flex items-center justify-center md:justify-start">
                     <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
-                         class="max-h-full max-w-full object-contain"
+                         class="h-11 sm:h-12 w-auto object-contain"
                          onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
-                <div class="space-y-1.5 flex flex-col items-center md:items-start">
+                <div class="space-y-2 flex flex-col items-center md:items-start">
                     <p class="text-sm font-bold text-white tracking-wide">
                         {{ $info['name'] }}
                     </p>
-                    <p class="text-xs text-slate-400 leading-relaxed font-light max-w-sm md:max-w-none">
+                    <p class="text-xs {{ $codeLower === 'tkit' ? 'text-orange-200/90' : 'text-slate-400' }} leading-relaxed font-light max-w-sm md:max-w-none">
                         {{ $info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia' }}
                     </p>
-                    <div class="pt-2 flex flex-wrap gap-2 justify-center md:justify-start">
+                    <div class="pt-1 flex flex-wrap gap-2 justify-center md:justify-start">
                         <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
                             NPSN: {{ $info['npsn'] ?? '69787455' }}
                         </span>
@@ -64,11 +64,11 @@
                         </span>
                     </div>
                     <!-- Tagline Resmi Sekolah -->
-                    <div class="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-amber-400/40 text-[10px] font-black uppercase tracking-wider shadow-sm">
+                    <div class="mt-2 inline-flex flex-wrap items-center justify-center gap-1.5 px-3 py-1.5 rounded-full {{ $codeLower === 'tkit' ? 'bg-orange-950/80 border-orange-500/40' : 'bg-slate-900/90 border-amber-400/40' }} border text-[10px] font-black uppercase tracking-wider shadow-sm mx-auto md:mx-0">
                         <span class="text-amber-400">⚡ MANDIRI</span>
-                        <span class="text-slate-600">•</span>
+                        <span class="text-slate-500">•</span>
                         <span class="text-emerald-400">📖 PINTER NGAJI</span>
-                        <span class="text-slate-600">•</span>
+                        <span class="text-slate-500">•</span>
                         <span class="text-cyan-400">💻 JAGO IT!</span>
                     </div>
                 </div>

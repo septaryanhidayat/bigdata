@@ -86,8 +86,8 @@
 </head>
 <body class="antialiased" x-data="spmbLandingApp()">
 
-    <!-- 1. TOP ANNOUNCEMENT BAR (BERSIH, RAPI & BEBAS TERPOTONG DI HP) -->
-    <div class="bg-emerald-950 text-emerald-200 text-xs py-1.5 sm:py-2 px-3 sm:px-4 border-b border-emerald-900/60">
+    <!-- 1. TOP ANNOUNCEMENT BAR (DESKTOP ONLY, HAPUS DI HP AGAR TIDAK TERPOTONG) -->
+    <div class="hidden sm:block bg-emerald-950 text-emerald-200 text-xs py-1.5 sm:py-2 px-3 sm:px-4 border-b border-emerald-900/60">
         <div class="max-w-6xl mx-auto flex items-center justify-between text-xs gap-2">
             <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
                 <span class="px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide whitespace-nowrap shrink-0 inline-flex items-center leading-normal shadow-xs">
@@ -100,21 +100,19 @@
             <div class="flex items-center gap-2 shrink-0">
                 <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors flex items-center gap-1 whitespace-nowrap">
                     <span>💬</span>
-                    <span class="hidden sm:inline">WA Panitia:</span>
-                    <span class="sm:hidden">WA:</span>
-                    <span>{{ $spmb['wa_number'] ?? '0811-747-472' }}</span>
+                    <span>WA Panitia: {{ $spmb['wa_number'] ?? '0811-747-472' }}</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- 2. HEADER NAVIGASI (LOGO SAJA DI KIRI ATAS TANPA TEKS) -->
+    <!-- 2. HEADER NAVIGASI (LOGO SAJA DI KIRI ATAS - UKURAN SLEEK & PROPORSIONAL) -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
         <div class="max-w-6xl mx-auto px-3 sm:px-6">
             <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
                 <!-- Brand / Logo (Logo Saja Tanpa Teks) -->
                 <a href="{{ url('/') }}" class="flex items-center shrink-0" title="Beranda SPMB SIT Robbani">
-                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-8 sm:h-11 w-auto object-contain shrink-0" onerror="this.src='{{ asset('favicon.png') }}'">
+                    <img src="{{ asset('images/logo robbani light.png') }}" alt="Logo SIT Robbani" class="h-7 sm:h-8.5 w-auto object-contain shrink-0" onerror="this.src='{{ asset('favicon.png') }}'">
                 </a>
 
                 <!-- Desktop Nav Links -->
@@ -636,20 +634,16 @@
             <!-- 4 Columns Grid (Rata Tengah di HP, Rata Kiri di Desktop) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 text-center md:text-left">
                 
-                <!-- Col 1: Brand & Foundation -->
+                <!-- Col 1: Brand & Foundation (Logo Saja Tanpa Teks Sesuai Instruksi) -->
                 <div class="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
-                    <div class="flex items-center justify-center md:justify-start gap-3">
-                        <img src="{{ asset('images/logo-robbani-official.png') }}" alt="Logo SIT Robbani" class="h-10 w-auto" onerror="this.src='{{ asset('favicon.png') }}'">
-                        <div class="text-left">
-                            <span class="text-white font-black text-sm block tracking-tight leading-snug">SIT ROBBANI</span>
-                            <span class="text-[10px] text-emerald-400 font-bold tracking-wider uppercase block">Ogan Ilir, Sumatera Selatan</span>
-                        </div>
+                    <div class="flex items-center justify-center md:justify-start">
+                        <img src="{{ asset('images/logo-robbani-official.png') }}" alt="Logo SIT Robbani" class="h-10 sm:h-11 w-auto object-contain" onerror="this.src='{{ asset('favicon.png') }}'">
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed max-w-sm mx-auto md:mx-0">
                         Di bawah naungan <strong>Yayasan Generasi Robbani Sumatera Selatan</strong>. Menyelenggarakan pendidikan Islam terpadu yang unggul, berakhlak karimah, dan berwawasan global.
                     </p>
                     <div class="pt-1 flex justify-center md:justify-start">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-[11px] font-bold">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-[11px] font-bold shadow-xs">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             <span>Afiliasi JSIT Indonesia</span>
                         </span>
@@ -815,8 +809,15 @@
             };
         }
 
-        // IntersectionObserver for Fade-Up Animations
+        // IntersectionObserver for Silky-Smooth Fade-Up Animations Across All Sections
         document.addEventListener('DOMContentLoaded', function () {
+            // Auto-tag sections, articles, cards and grid elements if not tagged
+            document.querySelectorAll('section, article, .unit-card, .grid > div, footer > div > div').forEach((el) => {
+                if (!el.classList.contains('fade-up') && !el.closest('header') && !el.closest('nav') && el.tagName !== 'HEADER' && el.tagName !== 'NAV') {
+                    el.classList.add('fade-up');
+                }
+            });
+
             const elements = document.querySelectorAll('.fade-up');
             
             if ('IntersectionObserver' in window) {
@@ -828,7 +829,7 @@
                         }
                     });
                 }, {
-                    threshold: 0.08,
+                    threshold: 0.05,
                     rootMargin: '0px 0px -20px 0px'
                 });
 
@@ -836,6 +837,16 @@
             } else {
                 elements.forEach(el => el.classList.add('in-view'));
             }
+
+            // Fallback for elements already in viewport
+            setTimeout(() => {
+                elements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight + 80) {
+                        el.classList.add('in-view');
+                    }
+                });
+            }, 60);
         });
     </script>
     @include('components.floating-translate')

@@ -27,28 +27,28 @@
 @endphp
 
 {{-- TOP MINI BAR (DESKTOP ONLY, TIDAK MENGGANGGU MOBILE) --}}
-<div class="hidden sm:block bg-[#0f172a] text-slate-200 text-xs py-1.5 sm:py-2 border-b border-indigo-950">
+<div class="hidden sm:block text-white text-xs py-1.5 sm:py-2 border-b border-white/10" style="background-color: {{ $uTheme['top_bar'] ?? '#0f172a' }};">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <div class="flex items-center space-x-3 sm:space-x-4 text-[11px] sm:text-xs">
-            <a href="tel:{{ $info['phone'] ?? '0811747472' }}" class="flex items-center text-slate-300 hover:text-amber-300 transition text-xs font-semibold">
-                <i class="fa-solid fa-phone mr-1.5 text-amber-400"></i>
+            <a href="tel:{{ $info['phone'] ?? '0811747472' }}" class="flex items-center text-slate-100 hover:text-amber-200 transition text-xs font-semibold">
+                <i class="fa-solid fa-phone mr-1.5 text-amber-300"></i>
                 <span>{{ $info['phone'] ?? '0811747472' }}</span>
             </a>
-            <span class="text-slate-700 hidden md:inline">|</span>
-            <span class="hidden md:flex items-center text-slate-300 text-xs">
-                <i class="fa-solid fa-location-dot mr-1.5 text-amber-400"></i>
+            <span class="text-white/40 hidden md:inline">|</span>
+            <span class="hidden md:flex items-center text-slate-100 text-xs">
+                <i class="fa-solid fa-location-dot mr-1.5 text-amber-300"></i>
                 <span>{{ $info['city'] ?? 'Indralaya, Ogan Ilir, Sumatera Selatan' }}</span>
             </span>
         </div>
 
         <div class="flex items-center space-x-3 sm:space-x-4 text-[11px] sm:text-xs shrink-0">
-            <a href="{{ $portalUrl }}" class="text-slate-300 hover:text-amber-300 transition flex items-center gap-1 font-semibold" title="Kunjungi Website Utama SIT Robbani">
-                <i class="fa-solid fa-globe text-[11px] text-amber-400"></i>
+            <a href="{{ $portalUrl }}" class="text-slate-100 hover:text-amber-200 transition flex items-center gap-1 font-semibold" title="Kunjungi Website Utama SIT Robbani">
+                <i class="fa-solid fa-globe text-[11px] text-amber-300"></i>
                 <span>Web Utama</span>
             </a>
-            <span class="text-slate-700">|</span>
-            <a href="{{ $loginUrl }}" class="text-slate-200 hover:text-amber-300 transition flex items-center gap-1 font-bold" title="Login Portal Sekolah">
-                <i class="fa-solid fa-lock text-[11px] text-amber-400"></i>
+            <span class="text-white/40">|</span>
+            <a href="{{ $loginUrl }}" class="text-white hover:text-amber-200 transition flex items-center gap-1 font-bold" title="Login Portal Sekolah">
+                <i class="fa-solid fa-lock text-[11px] text-amber-300"></i>
                 <span>Login</span>
             </a>
         </div>
@@ -58,14 +58,14 @@
 {{-- MAIN STICKY NAVBAR --}}
 <header class="sticky top-0 z-50 bg-gradient-to-r {{ $uTheme['nav_gradient'] }} shadow-xl border-b border-white/10 backdrop-blur-md transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16 sm:h-20">
+        <div class="flex justify-between items-center h-16 sm:h-18">
             
-            {{-- LOGO RESMI SEKOLAH (LOGO SAJA DI KIRI ATAS TANPA TEKS DI SAMPINGNYA) --}}
+            {{-- LOGO RESMI SEKOLAH (LOGO SAJA DI KIRI ATAS - UKURAN RAPI & PROPORSIONAL) --}}
             <a href="{{ $unitUrl }}" class="flex items-center group py-1.5 shrink-0" aria-label="Beranda {{ $info['name'] }}">
-                <div class="h-11 sm:h-14 lg:h-16 flex items-center py-1">
+                <div class="h-9 sm:h-11 lg:h-12 flex items-center py-0.5">
                     <img src="{{ asset($info['logo'] ?? '/images/logo-robbani-official.png') }}" 
                          alt="{{ $info['name'] }}" 
-                         class="max-h-11 sm:max-h-14 lg:max-h-16 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-md"
+                         class="max-h-8 sm:max-h-10 lg:max-h-11 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-md"
                          onerror="this.src='/images/logo-robbani-official.png'">
                 </div>
             </a>

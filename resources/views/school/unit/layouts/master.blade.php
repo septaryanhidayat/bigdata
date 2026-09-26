@@ -142,22 +142,11 @@
     {{-- FOOTER (NEWSLETTER & INSTITUTIONAL MEGA FOOTER) --}}
     @include('school.unit.partials.footer')
 
-    {{-- FLOATING WIDGETS --}}
-    {{-- 1. Floating WhatsApp Hotline (Kiri Bawah, Di Atas Translate) --}}
-    <div class="fixed bottom-16 sm:bottom-18 left-4 sm:left-5 z-40">
-        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar pendaftaran siswa baru dan program ' . ($info['name'] ?? 'sekolah')) }}" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-white px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full shadow-xl hover:shadow-emerald-500/30 transform hover:-translate-y-0.5 transition duration-300 group">
-            <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
-            <span class="text-xs font-bold hidden sm:inline group-hover:inline transition">Chat Panitia</span>
-        </a>
-    </div>
-
-    {{-- Floating Google Translate Sesuai Referensi Pengguna --}}
+    {{-- FLOATING WIDGETS (SAMA PERSIS DENGAN WEB UTAMA: GTRANSLATE KIRI, ROBBANI AI KANAN) --}}
+    {{-- Floating Google Translate (Kiri Bawah) --}}
     @include('components.floating-translate')
 
-    {{-- 2. Floating Robbani AI Assistant Widget (Kanan Bawah) --}}
+    {{-- Floating Robbani AI Assistant Widget (Kanan Bawah) --}}
     @include('components.chat-ai-widget')
 
     {{-- Scroll Animation & Back To Top Script --}}
