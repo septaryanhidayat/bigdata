@@ -8,7 +8,7 @@
         document.head.appendChild(script);
     }
 </script>
-<div x-data="robbaniAiChat" class="fixed bottom-5 right-5 z-50 font-sans flex flex-col items-end gap-2.5">
+<div x-data="robbaniAiChat" class="fixed bottom-[74px] sm:bottom-5 right-3 sm:right-5 z-[60] font-sans flex flex-col items-end gap-2.5">
 
     <!-- Scroll to Top Indicator Button (Naik ke Atas) -->
     <button 
@@ -51,7 +51,7 @@
          x-transition:leave="transition ease-in duration-200 transform"
          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-         class="fixed bottom-24 right-4 sm:right-6 w-[92vw] sm:w-[420px] max-h-[82vh] h-[580px] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-50">
+         class="fixed bottom-20 sm:bottom-24 right-3 sm:right-6 w-[94vw] sm:w-[420px] max-h-[82vh] h-[580px] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-[70]">
 
         <!-- Chat Header -->
         <div class="bg-gradient-to-r from-[#004532] via-[#065f46] to-[#0f172a] p-4 text-white flex items-center justify-between shadow-md shrink-0">

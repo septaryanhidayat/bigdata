@@ -84,22 +84,25 @@
         }
     </style>
 </head>
-<body class="antialiased pb-20 sm:pb-0" x-data="spmbLandingApp()">
+<body class="antialiased pb-24 sm:pb-0" x-data="spmbLandingApp()">
 
-    <!-- 1. TOP ANNOUNCEMENT BAR (BERSIH & RAPI) -->
-    <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-3 sm:px-4 border-b border-emerald-900/60">
+    <!-- 1. TOP ANNOUNCEMENT BAR (BERSIH, RAPI & BEBAS TERPOTONG DI HP) -->
+    <div class="bg-emerald-950 text-emerald-200 text-xs py-1.5 sm:py-2 px-3 sm:px-4 border-b border-emerald-900/60">
         <div class="max-w-6xl mx-auto flex items-center justify-between text-xs gap-2">
-            <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">
+            <div class="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                <span class="px-2 sm:px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide shrink-0">
                     {{ $spmb['announcement_badge'] ?? 'Gelombang 1' }}
                 </span>
-                <span class="font-bold text-xs text-white">
+                <span class="font-bold text-[11px] sm:text-xs text-white truncate">
                     {{ $spmb['announcement_date'] ?? '12 Sept – 31 Des 2026' }}
                 </span>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors flex items-center gap-1">
-                    <span>💬</span> <span>WA Panitia: {{ $spmb['wa_number'] ?? '0811-747-472' }}</span>
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-white transition-colors flex items-center gap-1 whitespace-nowrap">
+                    <span>💬</span>
+                    <span class="hidden sm:inline">WA Panitia:</span>
+                    <span class="sm:hidden">WA:</span>
+                    <span>{{ $spmb['wa_number'] ?? '0811-747-472' }}</span>
                 </a>
             </div>
         </div>
@@ -129,7 +132,7 @@
                     </a>
                     <a href="https://sitrobbani.sch.id" class="sm:hidden px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all shrink-0 whitespace-nowrap flex items-center gap-1" title="Website Utama SIT Robbani">
                         <span class="text-xs">🌐</span>
-                        <span class="text-[10px] font-black hidden min-[400px]:inline">Web</span>
+                        <span class="text-[10px] font-black">Web Utama</span>
                     </a>
                     <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all shrink-0 whitespace-nowrap">
                         <span>Cek Status</span>
@@ -149,12 +152,12 @@
                 
                 <!-- Teks Hero -->
                 <div class="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-800/90 border border-emerald-600/60 text-emerald-200 text-xs font-bold shadow-sm">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span>{{ $spmb['hero_badge'] ?? 'SPMB Online SIT Robbani T.A. 2026/2027' }}</span>
+                    <div class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-emerald-800/90 border border-emerald-600/60 text-emerald-200 text-[10px] sm:text-xs font-bold shadow-sm max-w-full text-center">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                        <span class="truncate sm:whitespace-normal">{{ $spmb['hero_badge'] ?? 'SPMB Online SIT Robbani T.A. 2026/2027' }}</span>
                     </div>
 
-                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight text-center lg:text-left">
+                    <h1 class="text-xl sm:text-3xl lg:text-5xl font-black text-white leading-snug sm:leading-tight tracking-tight text-center lg:text-left max-w-2xl">
                         {{ $spmb['hero_title'] ?? 'Sekolah Berbasis Digital Pertama dengan Pendidikan Karakter di Ogan Ilir' }}
                     </h1>
 
@@ -164,27 +167,27 @@
 
                     <!-- Tombol Aksi Hero (Teks Singkat, Bebas Terpotong, Rata Tengah di Mobile) -->
                     <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
-                        <a href="#daftar" class="btn-responsive w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/25 transition-all transform hover:-translate-y-0.5">
+                        <a href="#daftar" class="btn-responsive w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-amber-500/25 transition-all transform hover:-translate-y-0.5">
                             <span>👉 Pilih Unit Sekolah</span>
                         </a>
-                        <a href="#cek-status" class="btn-responsive w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-emerald-800/90 hover:bg-emerald-800 text-white border border-emerald-600/70 font-bold text-sm transition-all">
+                        <a href="#cek-status" class="btn-responsive w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-emerald-800/90 hover:bg-emerald-800 text-white border border-emerald-600/70 font-bold text-xs sm:text-sm transition-all">
                             <span>🔍 Cek Status Pendaftaran</span>
                         </a>
                     </div>
 
                     <!-- 3 Poin Kemudahan (Rata Tengah di HP) -->
-                    <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-2.5 text-[11px] font-bold text-emerald-200 text-center">
-                        <span class="px-3 py-1 rounded-lg bg-emerald-900/70 border border-emerald-700/50">{{ $spmb['hero_point1'] ?? '✓ Bisa Daftar dari HP' }}</span>
-                        <span class="px-3 py-1 rounded-lg bg-emerald-900/70 border border-emerald-700/50">{{ $spmb['hero_point2'] ?? '✓ Berkas Cukup Difoto' }}</span>
-                        <span class="px-3 py-1 rounded-lg bg-emerald-900/70 border border-emerald-700/50">{{ $spmb['hero_point3'] ?? '✓ Bantuan Panitia 24 Jam' }}</span>
+                    <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-[10px] sm:text-[11px] font-bold text-emerald-200 text-center">
+                        <span class="px-2.5 sm:px-3 py-1 rounded-lg bg-emerald-900/70 border border-emerald-700/50">{{ $spmb['hero_point1'] ?? '✓ Bisa Daftar dari HP' }}</span>
+                        <span class="px-2.5 sm:px-3 py-1 rounded-lg bg-emerald-900/70 border border-emerald-700/50">{{ $spmb['hero_point2'] ?? '✓ Berkas Cukup Difoto' }}</span>
+                        <span class="px-2.5 sm:px-3 py-1 rounded-lg bg-emerald-900/70 border border-emerald-700/50">{{ $spmb['hero_point3'] ?? '✓ Bantuan Panitia 24 Jam' }}</span>
                     </div>
                 </div>
 
                 <!-- Ilustrasi Robot Mascot Hero (Eye-catching & Menarik) -->
                 <div class="lg:col-span-5 flex justify-center lg:justify-end fade-up delay-1">
-                    <div class="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px] mx-auto">
+                    <div class="relative w-full max-w-[340px] sm:max-w-[440px] lg:max-w-[500px] mx-auto">
                         <!-- Glow Ambient Circle -->
-                        <div class="w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-emerald-400/25 via-teal-300/20 to-amber-400/30 blur-3xl absolute inset-0 m-auto pointer-events-none animate-pulse"></div>
+                        <div class="w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-emerald-400/25 via-teal-300/20 to-amber-400/30 blur-3xl absolute inset-0 m-auto pointer-events-none animate-pulse"></div>
                         
                         <!-- Floating Robot Mascot with Laptop Background -->
                         <div class="relative z-10 p-2 sm:p-4 group">
@@ -196,7 +199,7 @@
                             >
                             
                             <!-- Tagline Resmi Sekolah Di Bawah Maskot (Menggantikan Robbi) -->
-                            <div class="absolute -bottom-3 sm:bottom-0 left-1/2 -translate-x-1/2 px-4 sm:px-5 py-2 rounded-full bg-slate-950/90 backdrop-blur-md border border-amber-400/80 text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-2xl flex items-center gap-2 whitespace-nowrap">
+                            <div class="absolute -bottom-3 sm:bottom-0 left-1/2 -translate-x-1/2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full bg-slate-950/90 backdrop-blur-md border border-amber-400/80 text-[9px] sm:text-xs font-black uppercase tracking-wider shadow-2xl flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap max-w-[95%]">
                                 <span class="text-amber-400">⚡ MANDIRI</span>
                                 <span class="text-slate-500">•</span>
                                 <span class="text-emerald-400">📖 PINTER NGAJI</span>
@@ -213,12 +216,12 @@
 
     <!-- 3b. BANNER HIGHLIGHT RESMI & BROSUR SPMB (DINAMIS DARI DASHBOARD ADMIN) -->
     <section class="py-6 sm:py-10 px-4 sm:px-6 max-w-6xl mx-auto -mt-6 sm:-mt-8 relative z-20">
-        <div class="bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-950 rounded-3xl p-6 sm:p-10 text-white shadow-2xl border border-emerald-500/20 relative overflow-hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-950 rounded-3xl p-5 sm:p-10 text-white shadow-2xl border border-emerald-500/20 relative overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
                 
                 {{-- FLYER RESMI VERTIKAL SISI KIRI (SEIMBANG DENGAN KONTEN KANAN) --}}
                 <div class="lg:col-span-5 flex justify-center">
-                    <div class="w-full max-w-[280px] sm:max-w-[320px] rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-400 ring-4 ring-white/10 group bg-slate-900 aspect-[3/4] flex items-center justify-center">
+                    <div class="w-full max-w-[260px] sm:max-w-[320px] mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-400 ring-4 ring-white/10 group bg-slate-900 aspect-[3/4] flex items-center justify-center">
                         <img src="{{ asset(ltrim($spmb['banner_flyer'] ?? '/images/spmb/banner_spmb_official.jpg', '/')) }}" 
                              alt="Brosur Resmi SPMB SIT Robbani" 
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
@@ -228,36 +231,36 @@
 
                 {{-- INFORMASI BENEFIT & EVENT SISI KANAN --}}
                 <div class="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
-                    <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider">
+                    <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
                         <span>✨</span>
                         <span>{{ $spmb['banner_badge'] ?? 'Pendaftaran Tahun Ajaran 2026/2027' }}</span>
                     </div>
                     <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
                         {{ $spmb['banner_title'] ?? 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-100 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0 text-justify">
+                    <p class="text-xs sm:text-sm text-slate-100 font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
                         {{ $spmb['banner_desc'] ?? 'Wujudkan impian pendidikan ananda bersama SIT Robbani Ogan Ilir. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}
                     </p>
 
                     {{-- 3 KARTU BENEFIT --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 text-left sm:text-center">
-                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 text-center sm:text-center">
+                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
                             <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🏛️</span>
-                            <div>
+                            <div class="text-left sm:text-center">
                                 <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit1_title'] ?? 'Kuota Terbatas' }}</h4>
                                 <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit1_sub'] ?? '24 Siswa / Kelas' }}</p>
                             </div>
                         </div>
-                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
+                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
                             <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🎁</span>
-                            <div>
+                            <div class="text-left sm:text-center">
                                 <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit2_title'] ?? 'Cashback SPMB' }}</h4>
                                 <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit2_sub'] ?? 'Potongan Uang Masuk' }}</p>
                             </div>
                         </div>
-                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
+                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
                             <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🏆</span>
-                            <div>
+                            <div class="text-left sm:text-center">
                                 <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit3_title'] ?? 'Class Meeting' }}</h4>
                                 <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah' }}</p>
                             </div>
@@ -490,7 +493,7 @@
                         type="text" 
                         x-model="searchQuery" 
                         placeholder="Contoh: 08123456789 atau SPMB-2026-..." 
-                        class="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-300 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-all text-center sm:text-left"
+                        class="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-300 text-base sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-all text-center sm:text-left"
                         required
                     >
                     <button 
@@ -627,25 +630,25 @@
         </div>
     </section>
 
-    <!-- 10. FOOTER (MODERN 4-COLUMN INSTITUTIONAL FOOTER) -->
-    <footer class="bg-slate-950 text-slate-300 text-xs pt-16 pb-12 border-t border-slate-800/80">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
-            <!-- 4 Columns Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+    <!-- 10. FOOTER (MODERN 4-COLUMN INSTITUTIONAL FOOTER - RATA TENGAH DI HP) -->
+    <footer class="bg-slate-950 text-slate-300 text-xs pt-14 sm:pt-16 pb-12 border-t border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-10 sm:space-y-12">
+            <!-- 4 Columns Grid (Rata Tengah di HP, Rata Kiri di Desktop) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 text-center md:text-left">
                 
                 <!-- Col 1: Brand & Foundation -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
+                <div class="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-3">
                         <img src="{{ asset('images/logo-robbani-official.png') }}" alt="Logo SIT Robbani" class="h-10 w-auto" onerror="this.src='{{ asset('favicon.png') }}'">
-                        <div>
+                        <div class="text-left">
                             <span class="text-white font-black text-sm block tracking-tight leading-snug">SIT ROBBANI</span>
                             <span class="text-[10px] text-emerald-400 font-bold tracking-wider uppercase block">Ogan Ilir, Sumatera Selatan</span>
                         </div>
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm mx-auto md:mx-0">
                         Di bawah naungan <strong>Yayasan Generasi Robbani Sumatera Selatan</strong>. Menyelenggarakan pendidikan Islam terpadu yang unggul, berakhlak karimah, dan berwawasan global.
                     </p>
-                    <div class="pt-1">
+                    <div class="pt-1 flex justify-center md:justify-start">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-[11px] font-bold">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             <span>Afiliasi JSIT Indonesia</span>
@@ -654,8 +657,8 @@
                 </div>
 
                 <!-- Col 2: Pilihan Jenjang Pendidikan -->
-                <div class="space-y-4">
-                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                <div class="space-y-4 text-center md:text-left">
+                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                         <span>Jenjang Sekolah</span>
                     </h4>
@@ -664,52 +667,52 @@
                             @foreach($spmb['units'] as $uCode => $u)
                                 @if(!empty($u['is_active']))
                                 <li>
-                                    <a href="{{ route('school.spmb.form', ['unit' => $u['code'] ?? $uCode]) }}" class="hover:text-emerald-400 transition-colors block">
+                                    <a href="{{ route('school.spmb.form', ['unit' => $u['code'] ?? $uCode]) }}" class="hover:text-emerald-400 transition-colors block text-center md:text-left">
                                         {{ $u['name'] ?? $uCode }}
                                     </a>
                                 </li>
                                 @endif
                             @endforeach
                         @else
-                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block">TPA Robbani (0 - 3 Tahun)</a></li>
-                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block">KB Robbani (3 - 4 Tahun)</a></li>
-                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block">TK IT Robbani (4 - 6 Tahun)</a></li>
-                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block">SD IT Robbani (SD Unggulan)</a></li>
-                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block">SMP IT Robbani (Boarding & Full Day)</a></li>
-                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block">SMA IT Robbani (Tahfidz & Sains)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block text-center md:text-left">TPA Robbani (0 - 3 Tahun)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block text-center md:text-left">KB Robbani (3 - 4 Tahun)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block text-center md:text-left">TK IT Robbani (4 - 6 Tahun)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block text-center md:text-left">SD IT Robbani (SD Unggulan)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block text-center md:text-left">SMP IT Robbani (Boarding & Full Day)</a></li>
+                            <li><a href="#daftar" class="hover:text-emerald-400 transition-colors block text-center md:text-left">SMA IT Robbani (Tahfidz & Sains)</a></li>
                         @endif
                     </ul>
                 </div>
 
                 <!-- Col 3: Layanan & Informasi SPMB -->
-                <div class="space-y-4">
-                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                <div class="space-y-4 text-center md:text-left">
+                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
                         <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                         <span>Informasi SPMB</span>
                     </h4>
                     <ul class="space-y-2 text-xs text-slate-400">
                         <li>
-                            <a href="#jadwal" class="hover:text-emerald-400 transition-colors block">
+                            <a href="#jadwal" class="hover:text-emerald-400 transition-colors block text-center md:text-left">
                                 Jadwal Gelombang & Kuota
                             </a>
                         </li>
                         <li>
-                            <a href="#syarat" class="hover:text-emerald-400 transition-colors block">
+                            <a href="#syarat-biaya" class="hover:text-emerald-400 transition-colors block text-center md:text-left">
                                 Persyaratan Berkas Pendaftaran
                             </a>
                         </li>
                         <li>
-                            <a href="#biaya" class="hover:text-emerald-400 transition-colors block">
+                            <a href="#syarat-biaya" class="hover:text-emerald-400 transition-colors block text-center md:text-left">
                                 Rekening Resmi & Biaya Formulir
                             </a>
                         </li>
                         <li>
-                            <a href="#cek-status" class="hover:text-emerald-400 transition-colors block">
+                            <a href="#cek-status" class="hover:text-emerald-400 transition-colors block text-center md:text-left">
                                 Cek Status Kelulusan / Berkas
                             </a>
                         </li>
                         <li>
-                            <a href="{{ $spmb['brochure_url'] ?? '#' }}" target="_blank" class="hover:text-emerald-400 transition-colors block">
+                            <a href="{{ $spmb['brochure_url'] ?? '#' }}" target="_blank" class="hover:text-emerald-400 transition-colors block text-center md:text-left">
                                 Unduh Brosur SPMB Lengkap
                             </a>
                         </li>
@@ -717,24 +720,24 @@
                 </div>
 
                 <!-- Col 4: Sekretariat & Narahubung -->
-                <div class="space-y-4">
-                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                <div class="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
+                    <h4 class="text-white font-black text-sm uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
                         <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
                         <span>Sekretariat SPMB</span>
                     </h4>
-                    <div class="space-y-2.5 text-xs text-slate-400 leading-relaxed">
-                        <p class="flex items-start gap-2">
+                    <div class="space-y-2.5 text-xs text-slate-400 leading-relaxed max-w-sm mx-auto md:mx-0">
+                        <p class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-1 sm:gap-2 text-center md:text-left">
                             <span class="text-emerald-400 shrink-0">📍</span>
                             <span>Jl. Sarjana Blok C No. 14-17 & Jl. Lintas Timur Km 35, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir, Sumatera Selatan 30662</span>
                         </p>
-                        <p class="flex items-center gap-2">
+                        <p class="flex items-center justify-center md:justify-start gap-2 text-center md:text-left">
                             <span class="text-emerald-400 shrink-0">🕒</span>
                             <span>Senin – Sabtu: 07.30 – 16.00 WIB</span>
                         </p>
                     </div>
-                    <div class="pt-2">
+                    <div class="pt-2 w-full max-w-xs mx-auto md:mx-0">
                         <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                            <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                             <span>WhatsApp Panitia ({{ $spmb['wa_number'] ?? '0811-747-472' }})</span>
                         </a>
                     </div>
@@ -743,19 +746,19 @@
             </div>
 
             <!-- Bottom Copyright Bar -->
-            <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 text-center sm:text-left">
-                <p>&copy; {{ date('Y') }} SIT Robbani Ogan Ilir. Hak Cipta Dilindungi Undang-Undang.</p>
-                <div class="flex items-center gap-4 text-slate-400">
+            <div class="pt-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 text-center md:text-left">
+                <p class="text-center md:text-left">&copy; {{ date('Y') }} SIT Robbani Ogan Ilir. Hak Cipta Dilindungi Undang-Undang.</p>
+                <div class="flex items-center justify-center gap-4 text-slate-400">
                     <span>Sistem Informasi SPMB SmartEdu</span>
                     <span>•</span>
-                    <a href="#beranda" class="hover:text-emerald-400 transition-colors">Kembali ke Atas ↑</a>
+                    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="hover:text-emerald-400 transition-colors">Kembali ke Atas ↑</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- 11. STICKY MOBILE BOTTOM BAR (UNTUK PENGGUNA HP, RATA TENGAH) -->
-    <div class="fixed bottom-0 inset-x-0 sm:hidden z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 p-2.5 shadow-2xl flex items-center justify-center gap-2">
+    <div class="fixed bottom-0 inset-x-0 sm:hidden z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2.5 shadow-2xl flex items-center justify-center gap-2.5">
         <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="btn-responsive flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-emerald-800 font-bold text-xs transition-colors">
             <span>💬 Bantuan WA</span>
         </a>

@@ -1,8 +1,23 @@
 <!-- Floating Google Translate Switcher Sesuai Referensi Pengguna (Bendera 3D + Kode Negara) -->
-<div class="gtranslate_wrapper {{ $positionClass ?? 'fixed bottom-5 left-4 sm:left-5 z-40' }}"></div>
+<div class="gtranslate_wrapper {{ $positionClass ?? 'fixed bottom-[74px] sm:bottom-5 left-3 sm:left-5 z-[60]' }}"></div>
 
 <style>
     /* Styling Floating Switcher Sesuai Screenshot Referensi Pengguna */
+    .gtranslate_wrapper {
+        z-index: 999999 !important;
+    }
+    #gt_float_wrapper {
+        position: fixed !important;
+        bottom: 74px !important;
+        left: 14px !important;
+        z-index: 999999 !important;
+    }
+    @media (min-width: 640px) {
+        #gt_float_wrapper {
+            bottom: 20px !important;
+            left: 20px !important;
+        }
+    }
     .gt_float_switcher {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
         font-size: 13px !important;
@@ -86,12 +101,17 @@
                     el.dataset.codeFormatted = 'true';
                 }
             });
+            // Ensure opacity is 1
+            document.querySelectorAll('.gt_float_switcher').forEach(el => {
+                el.style.opacity = '1';
+            });
         };
 
         const observer = new MutationObserver(() => formatLangCodes());
         observer.observe(document.body, { childList: true, subtree: true });
-        setTimeout(formatLangCodes, 600);
-        setTimeout(formatLangCodes, 1500);
+        setTimeout(formatLangCodes, 400);
+        setTimeout(formatLangCodes, 1000);
+        setTimeout(formatLangCodes, 2500);
     });
 </script>
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
