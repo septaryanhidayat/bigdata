@@ -118,24 +118,28 @@
             </a>
         </div>
 
-        <!-- Tombol Aksi Kanan (Bersih, Rapi & Elegan - Tanpa Icon Mismatch) -->
-        <div class="flex items-center gap-2 sm:gap-3">
-            <!-- Portal Admin / Guru Button -->
-            <a class="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] hover:border-emerald-600 dark:hover:border-[#c6f634] hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs transition-all shadow-xs" href="{{ route('admin.dashboard') }}" title="Portal Guru & Administrasi SIT Robbani">
-                <span class="material-symbols-outlined text-[16px] text-emerald-600 dark:text-[#c6f634]">lock</span>
-                <span>Portal Login</span>
-            </a>
+        <!-- Tombol Aksi Kanan (Rapi, Responsif & Elegan: Dark/Light Mode Icon, SPMB, & Menu) -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <!-- Dark / Light Mode Toggle Button (Desktop & Mobile) -->
+            <button @click="darkMode = !darkMode" 
+                    type="button" 
+                    aria-label="Ganti Mode Gelap / Terang" 
+                    title="Ganti Mode Gelap / Terang" 
+                    class="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center border border-slate-300 dark:border-slate-700 bg-slate-100/90 dark:bg-slate-800/90 text-slate-700 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:border-amber-400 dark:hover:border-amber-400 transition-all shadow-xs cursor-pointer shrink-0">
+                <span class="material-symbols-outlined text-[18px] sm:text-[20px]" x-show="!darkMode">dark_mode</span>
+                <span class="material-symbols-outlined text-[18px] sm:text-[20px]" x-show="darkMode" x-cloak>light_mode</span>
+            </button>
 
-            <!-- SPMB Online Button (Glowing CTA) -->
-            <a class="px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-xs rounded-full transition-all flex items-center gap-1.5 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap" href="{{ route('school.spmb') }}">
-                <span>SPMB Online</span>
-                <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+            <!-- SPMB Button (Glowing CTA - Sleek & Compact) -->
+            <a class="px-3 sm:px-4.5 py-1.5 sm:py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-xs rounded-full transition-all flex items-center gap-1 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap shrink-0" href="{{ route('school.spmb') }}" title="Pendaftaran SPMB Online">
+                <span>SPMB</span>
+                <span class="material-symbols-outlined text-[14px] sm:text-[15px]">arrow_forward</span>
             </a>
 
             <!-- Hamburger Button (Mobile Only) -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Buka Menu Navigasi Mobile" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                <span class="material-symbols-outlined" x-show="!mobileMenuOpen">menu</span>
-                <span class="material-symbols-outlined" x-show="mobileMenuOpen" x-cloak>close</span>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Buka Menu Navigasi Mobile" class="md:hidden p-1.5 sm:p-2 rounded-xl text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0">
+                <span class="material-symbols-outlined text-[20px]" x-show="!mobileMenuOpen">menu</span>
+                <span class="material-symbols-outlined text-[20px]" x-show="mobileMenuOpen" x-cloak>close</span>
             </button>
         </div>
     </div>

@@ -57,4 +57,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/announcements', [HrisMobileApiController::class, 'announcements']);
         });
     });
+
+    // 3. Webhook WhatsApp AI Auto-Responder (Fonnte / WABA / Custom Gateway)
+    Route::post('/webhook/whatsapp', [\App\Http\Controllers\Admin\GeminiAiController::class, 'whatsappWebhook']);
 });

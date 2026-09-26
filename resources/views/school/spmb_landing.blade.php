@@ -128,14 +128,14 @@
                     <a href="https://sitrobbani.sch.id" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all whitespace-nowrap shrink-0" title="Kunjungi Website Utama SIT Robbani">
                         <span>🌐 Web Utama</span>
                     </a>
-                    <a href="https://sitrobbani.sch.id" class="sm:hidden px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all shrink-0 whitespace-nowrap flex items-center gap-1" title="Website Utama SIT Robbani">
-                        <span class="text-xs">🌐</span>
-                        <span class="text-[10px] font-black">Web Utama</span>
+                    <a href="https://sitrobbani.sch.id" class="sm:hidden px-2 py-1.5 text-[11px] font-extrabold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all shrink-0 whitespace-nowrap flex items-center gap-1" title="Website Utama SIT Robbani">
+                        <span>🌐</span>
+                        <span class="text-[10px]">Web</span>
                     </a>
                     <a href="#cek-status" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all shrink-0 whitespace-nowrap">
                         <span>Cek Status</span>
                     </a>
-                    <a href="#daftar" class="px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-black text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-sm transition-all shrink-0 whitespace-nowrap">
+                    <a href="#daftar" class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-black text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-xs transition-all shrink-0 whitespace-nowrap">
                         Daftar
                     </a>
                 </div>

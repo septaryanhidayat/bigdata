@@ -201,27 +201,46 @@
                     Kontak
                 </a>
 
-                {{-- ACTION CTA: DAFTAR SPMB (Radiant Gold Pill) --}}
-                <div class="pl-2">
+                {{-- ACTION CTA: DARK MODE & SPMB --}}
+                <div class="pl-2 flex items-center space-x-2">
+                    {{-- Dark / Light Mode Toggle Button --}}
+                    <button @click="darkMode = !darkMode" 
+                            type="button" 
+                            aria-label="Ganti Mode Gelap / Terang" 
+                            title="Ganti Mode Gelap / Terang" 
+                            class="w-9 h-9 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/25 text-amber-300 hover:text-white border border-white/20 transition-all shadow-xs cursor-pointer shrink-0">
+                        <i class="fa-solid fa-moon text-sm" x-show="!darkMode"></i>
+                        <i class="fa-solid fa-sun text-sm text-amber-400" x-show="darkMode" x-cloak></i>
+                    </button>
+
                     <a href="{{ $spmbUrl }}" 
-                       class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200">
-                        <i class="fa-solid fa-graduation-cap text-sm"></i>
-                        <span>Daftar SPMB</span>
+                       class="inline-flex items-center space-x-1.5 px-4.5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200 shrink-0 whitespace-nowrap">
+                        <i class="fa-solid fa-graduation-cap text-xs"></i>
+                        <span>SPMB</span>
                     </a>
                 </div>
             </nav>
 
-            {{-- MOBILE MENU TRIGGER BUTTON --}}
-            <div class="flex items-center space-x-2 lg:hidden">
+            {{-- MOBILE MENU TRIGGER BUTTON (RESPONSIF & BEBAS OVERFLOW) --}}
+            <div class="flex items-center space-x-1.5 sm:space-x-2 lg:hidden shrink-0">
+                {{-- Dark / Light Mode Mobile Button --}}
+                <button type="button" 
+                        @click="darkMode = !darkMode"
+                        class="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-amber-300 transition focus:outline-none shrink-0"
+                        aria-label="Ganti Tema Gelap / Terang">
+                    <i class="fa-solid fa-moon text-xs" x-show="!darkMode"></i>
+                    <i class="fa-solid fa-sun text-xs text-amber-400" x-show="darkMode" x-cloak></i>
+                </button>
+
                 <a href="{{ $spmbUrl }}" 
-                   class="px-3.5 py-1.5 rounded-full font-black text-[11px] uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md">
+                   class="px-3 sm:px-3.5 py-1.5 rounded-full font-black text-[11px] uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md shrink-0 whitespace-nowrap">
                     SPMB
                 </a>
                 <button type="button" 
                         @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition focus:outline-none"
+                        class="p-1.5 sm:p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition focus:outline-none shrink-0"
                         aria-label="Menu Navigasi Mobile">
-                    <i class="fa-solid text-lg" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                    <i class="fa-solid text-base sm:text-lg" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
                 </button>
             </div>
 

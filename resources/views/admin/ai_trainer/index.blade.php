@@ -443,6 +443,197 @@
 
     </div>
 
+    {{-- ═══════════════════════════════════════════════════════════════════════
+         4. GOOGLE GEMINI AI MULTI-FEATURE HUB & LIVE SUITE
+    ═══════════════════════════════════════════════════════════════════════ --}}
+    <div class="bg-white border-2 border-slate-200 hover:border-slate-300 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center text-2xl shadow-md">
+                    ✨
+                </div>
+                <div>
+                    <h3 class="text-lg font-black text-slate-900">Google Gemini AI Multi-Feature Studio</h3>
+                    <p class="text-xs font-bold text-slate-500">Suite Otomasi & Kecerdasan Buatan Terintegrasi SIT Robbani Ogan Ilir</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-full text-[11px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    Gemini 2.0 / 1.5 Flash
+                </span>
+                <span class="px-3 py-1 rounded-full text-[11px] font-black bg-cyan-100 text-cyan-800 border border-cyan-300">
+                    Live Server Ready
+                </span>
+            </div>
+        </div>
+
+        {{-- Hub Navigation Tabs --}}
+        <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3" id="aiHubTabs">
+            <button onclick="switchAiTab('tab-ping')" id="btn-tab-ping" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-black bg-slate-900 text-white shadow-sm transition-all cursor-pointer">
+                📡 Tes Koneksi API
+            </button>
+            <button onclick="switchAiTab('tab-article')" id="btn-tab-article" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer">
+                ✍️ Generator Berita & Artikel
+            </button>
+            <button onclick="switchAiTab('tab-spmb')" id="btn-tab-spmb" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer">
+                🎯 Analisis Calon Santri SPMB
+            </button>
+            <button onclick="switchAiTab('tab-whatsapp')" id="btn-tab-whatsapp" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer">
+                💬 WhatsApp Auto-Responder
+            </button>
+            <button onclick="switchAiTab('tab-quiz')" id="btn-tab-quiz" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer">
+                📝 Generator Soal CBT / Kuis
+            </button>
+        </div>
+
+        {{-- TAB 1: Tes Koneksi API --}}
+        <div id="tab-ping" class="ai-tab-panel space-y-4">
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h4 class="text-sm font-black text-slate-900">Uji Roundtrip Google Gemini AI</h4>
+                        <p class="text-xs text-slate-600">Periksa ketersediaan kuota, latensi respon milidetik, dan model aktif di cloud.</p>
+                    </div>
+                    <button onclick="runAiPing()" id="btnRunPing" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                        <span>⚡ Uji Koneksi Sekarang</span>
+                    </button>
+                </div>
+                <div id="pingResultBox" class="hidden p-4 rounded-xl border text-xs font-medium space-y-1"></div>
+            </div>
+            <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 space-y-1">
+                <div class="font-black text-amber-950 flex items-center gap-1.5">
+                    <span>💡</span> <span>Petunjuk Konfigurasi Kunci API (GEMINI_API_KEY):</span>
+                </div>
+                <p>Kunci API didapatkan secara gratis dari <a href="https://aistudio.google.com" target="_blank" class="underline font-bold text-amber-900 hover:text-black">Google AI Studio &rarr;</a>. Masukkan ke file <code>.env</code> di root hosting: <code>GEMINI_API_KEY=AIzaSy...</code> lalu jalankan <code>php artisan config:clear</code>.</p>
+            </div>
+        </div>
+
+        {{-- TAB 2: Generator Berita & Artikel --}}
+        <div id="tab-article" class="ai-tab-panel hidden space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Topik / Rangkuman Peristiwa Berita *</label>
+                    <input type="text" id="aiArticleTopic" placeholder="Contoh: Santri SDIT Robbani Borong Medali Emas Olimpiade Sains Nasional 2026" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Kategori Publikasi</label>
+                    <select id="aiArticleCat" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800">
+                        <option value="Berita Prestasi">Berita Prestasi</option>
+                        <option value="Kegiatan Sekolah">Kegiatan Sekolah</option>
+                        <option value="Artikel Edukasi">Artikel Edukasi</option>
+                        <option value="Pengumuman Resmi">Pengumuman Resmi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-center justify-end">
+                <button onclick="runGenerateArticle()" id="btnGenArticle" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-xs shadow-md hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+                    <span>✨ Tulis Draf Berita dengan AI</span>
+                </button>
+            </div>
+            <div id="aiArticleResult" class="hidden p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-black text-emerald-800 uppercase tracking-wider">Hasil Draf Berita Siap Terbit</span>
+                    <button onclick="copyArticleContent()" class="text-xs font-bold text-slate-600 hover:text-emerald-700 px-3 py-1 rounded-lg bg-white border border-slate-200 cursor-pointer">📋 Salin Teks</button>
+                </div>
+                <div id="aiArticleTitle" class="text-base font-black text-slate-900 font-headline"></div>
+                <div id="aiArticleExcerpt" class="text-xs text-slate-600 italic bg-amber-50 p-2.5 rounded-lg border border-amber-200"></div>
+                <div id="aiArticleBody" class="prose prose-sm max-w-none text-xs text-slate-800 leading-relaxed space-y-2"></div>
+                <div id="aiArticleTags" class="flex flex-wrap gap-1.5 pt-2"></div>
+            </div>
+        </div>
+
+        {{-- TAB 3: Analisis Calon Santri SPMB --}}
+        <div id="tab-spmb" class="ai-tab-panel hidden space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Nama Calon Siswa *</label>
+                    <input type="text" id="aiSpmbName" placeholder="Contoh: Muhammad Fatih Robbani" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Jenjang Pilihan</label>
+                    <select id="aiSpmbUnit" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-800">
+                        <option value="KB / TKIT Robbani">KB / TKIT Robbani</option>
+                        <option value="SDIT Robbani">SDIT Robbani</option>
+                        <option value="SMPIT Robbani" selected>SMPIT Robbani</option>
+                        <option value="SMAIT Robbani">SMAIT Robbani</option>
+                    </select>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Asal Sekolah</label>
+                    <input type="text" id="aiSpmbPrev" placeholder="Contoh: SDIT Robbani / MIN 1 Ogan Ilir" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Minat / Bakat / Prestasi</label>
+                    <input type="text" id="aiSpmbTalents" placeholder="Contoh: Hafal Juz 30, Suka Robotik & Menggambar" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
+                </div>
+            </div>
+            <div class="flex items-center justify-end">
+                <button onclick="runAnalyzeSpmb()" id="btnAnalyzeSpmb" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-xs shadow-md hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+                    <span>🎯 Analisis Profil Calon Santri</span>
+                </button>
+            </div>
+            <div id="aiSpmbResult" class="hidden p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4"></div>
+        </div>
+
+        {{-- TAB 4: WhatsApp Auto-Responder --}}
+        <div id="tab-whatsapp" class="ai-tab-panel hidden space-y-4">
+            <div class="space-y-1.5">
+                <label class="text-xs font-black text-slate-700">Simulasikan Pertanyaan Masuk dari Calon Wali Santri *</label>
+                <textarea id="aiWaInput" rows="2" placeholder="Contoh: Assalamu'alaikum admin, pendaftaran untuk SMPIT gelombang 1 sampai tanggal berapa dan berapa rincian biayanya?" class="w-full p-3.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"></textarea>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="text-[11px] text-slate-500 flex items-center gap-1.5">
+                    <span>🔗</span> <span>Webhook Endpoint Aktif: <code>/api/webhook/whatsapp</code></span>
+                </div>
+                <button onclick="runSimulateWa()" id="btnSimulateWa" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                    <span>💬 Simulasikan Balasan WhatsApp AI</span>
+                </button>
+            </div>
+            <div id="aiWaResult" class="hidden p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-2.5">
+                <div class="text-xs font-black text-emerald-950 flex items-center gap-1.5">
+                    <span>📱</span> <span>Preview Balasan WhatsApp Otomatis:</span>
+                </div>
+                <div id="aiWaBubble" class="bg-white p-4 rounded-2xl border border-emerald-300 text-xs text-slate-800 leading-relaxed font-sans whitespace-pre-wrap shadow-xs"></div>
+            </div>
+        </div>
+
+        {{-- TAB 5: Generator Soal CBT / Kuis --}}
+        <div id="tab-quiz" class="ai-tab-panel hidden space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Mata Pelajaran *</label>
+                    <input type="text" id="aiQuizSubject" placeholder="Contoh: PAI & Budi Pekerti" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Topik / Kompetensi *</label>
+                    <input type="text" id="aiQuizTopic" placeholder="Contoh: Zakat Fitrah & Zakat Mal" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Jenjang Siswa</label>
+                    <select id="aiQuizGrade" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-800">
+                        <option value="SD Kelas 5-6">SD (Kelas 5-6)</option>
+                        <option value="SMP Kelas 7-9" selected>SMP (Kelas 7-9)</option>
+                        <option value="SMA Kelas 10-12">SMA (Kelas 10-12)</option>
+                    </select>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-black text-slate-700">Jumlah Soal</label>
+                    <select id="aiQuizCount" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-800">
+                        <option value="3">3 Butir Soal</option>
+                        <option value="5" selected>5 Butir Soal</option>
+                        <option value="10">10 Butir Soal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-center justify-end">
+                <button onclick="runGenerateQuiz()" id="btnGenerateQuiz" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-xs shadow-md hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+                    <span>📝 Buat Bank Soal Pilihan Ganda</span>
+                </button>
+            </div>
+            <div id="aiQuizResult" class="hidden p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4"></div>
+        </div>
+    </div>
+
 </div>
 @endsection
 
@@ -773,6 +964,296 @@ function formatMarkdown(text) {
 function escapeHtml(text) {
     const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+
+// ── Google Gemini AI Multi-Feature Studio Handlers ───────────────────────────
+function switchAiTab(tabId) {
+    document.querySelectorAll('.ai-tab-panel').forEach(p => p.classList.add('hidden'));
+    document.querySelectorAll('.ai-hub-tab').forEach(b => {
+        b.className = 'ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer';
+    });
+    const panel = document.getElementById(tabId);
+    const btn = document.getElementById('btn-' + tabId);
+    if (panel) panel.classList.remove('hidden');
+    if (btn) btn.className = 'ai-hub-tab px-4 py-2 rounded-xl text-xs font-black bg-slate-900 text-white shadow-sm transition-all cursor-pointer';
+}
+
+async function runAiPing() {
+    const btn = document.getElementById('btnRunPing');
+    const box = document.getElementById('pingResultBox');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳ Menghubungi Gemini Cloud...</span>';
+    box.className = 'p-4 rounded-xl border border-slate-200 bg-white text-xs space-y-1 block';
+    box.innerHTML = '<span class="text-slate-500 font-bold">Mengirim paket uji roundtrip ke Google AI Studio...</span>';
+
+    try {
+        const res = await fetch('{{ route("admin.ai-hub.test-connection") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+        });
+        const data = await res.json();
+        if (data.success) {
+            box.className = 'p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 text-xs space-y-1.5 block shadow-xs';
+            box.innerHTML = `
+                <div class="font-black text-emerald-900 flex items-center gap-1.5">
+                    <span>✅</span> <span>Koneksi Google Gemini AI Berhasil!</span>
+                </div>
+                <div class="text-xs font-semibold text-emerald-800">
+                    Model: <strong>${data.model}</strong> · Latensi: <strong>${data.latency_ms} ms</strong>
+                </div>
+                <div class="text-[11px] text-emerald-700 italic">${data.message}</div>
+            `;
+        } else {
+            box.className = 'p-4 rounded-xl border-2 border-red-500 bg-red-50 text-red-950 text-xs space-y-1.5 block shadow-xs';
+            box.innerHTML = `
+                <div class="font-black text-red-900 flex items-center gap-1.5">
+                    <span>❌</span> <span>Koneksi Gagal / API Key Belum Diisi</span>
+                </div>
+                <div class="text-xs text-red-800">${data.message}</div>
+            `;
+        }
+    } catch (e) {
+        box.className = 'p-4 rounded-xl border-2 border-red-500 bg-red-50 text-red-950 text-xs block';
+        box.innerHTML = '❌ Gagal terhubung ke endpoint internal server.';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>⚡ Uji Koneksi Sekarang</span>';
+    }
+}
+
+async function runGenerateArticle() {
+    const topic = document.getElementById('aiArticleTopic').value.trim();
+    const cat = document.getElementById('aiArticleCat').value;
+    const btn = document.getElementById('btnGenArticle');
+    const resultBox = document.getElementById('aiArticleResult');
+
+    if (!topic) {
+        Swal.fire({ icon: 'warning', title: 'Topik Wajib Diisi', text: 'Ketik topik atau peristiwa yang ingin dibuatkan naskah berita.' });
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>✨ Menulis Draf Berita (Gemini AI)...</span>';
+    resultBox.classList.add('hidden');
+
+    try {
+        const res = await fetch('{{ route("admin.ai-hub.generate-article") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: JSON.stringify({ topic, category: cat, tone: 'islami_inspiratif' })
+        });
+        const data = await res.json();
+        if (data.success && data.data) {
+            const d = data.data;
+            document.getElementById('aiArticleTitle').innerText = d.title || 'Naskah Berita';
+            document.getElementById('aiArticleExcerpt').innerText = d.excerpt || '';
+            document.getElementById('aiArticleBody').innerHTML = d.content || '';
+            const tagsBox = document.getElementById('aiArticleTags');
+            tagsBox.innerHTML = '';
+            (d.tags || ['SIT Robbani', cat]).forEach(t => {
+                tagsBox.innerHTML += `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-slate-200 text-slate-800">#${t}</span>`;
+            });
+            resultBox.classList.remove('hidden');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            Swal.fire({ icon: 'error', title: 'Gagal Membuat Artikel', text: data.message || 'Pastikan API key telah aktif.' });
+        }
+    } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Terjadi Kendala Jaringan' });
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>✨ Tulis Draf Berita dengan AI</span>';
+    }
+}
+
+function copyArticleContent() {
+    const title = document.getElementById('aiArticleTitle').innerText;
+    const body = document.getElementById('aiArticleBody').innerText;
+    navigator.clipboard.writeText(`${title}\n\n${body}`);
+    Swal.fire({ icon: 'success', title: 'Naskah Berita Disalin ke Clipboard!', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false });
+}
+
+async function runAnalyzeSpmb() {
+    const name = document.getElementById('aiSpmbName').value.trim();
+    const unit = document.getElementById('aiSpmbUnit').value;
+    const prev = document.getElementById('aiSpmbPrev').value.trim();
+    const talents = document.getElementById('aiSpmbTalents').value.trim();
+    const btn = document.getElementById('btnAnalyzeSpmb');
+    const resultBox = document.getElementById('aiSpmbResult');
+
+    if (!name) {
+        Swal.fire({ icon: 'warning', title: 'Nama Calon Siswa Wajib Diisi' });
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>🎯 Menganalisis Potensi Ananda...</span>';
+    resultBox.classList.add('hidden');
+
+    try {
+        const res = await fetch('{{ route("admin.ai-hub.analyze-spmb") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: JSON.stringify({ name, unit, previous_school: prev, talents })
+        });
+        const data = await res.json();
+        if (data.success && data.data) {
+            const d = data.data;
+            resultBox.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+                    <div>
+                        <h4 class="text-sm font-black text-slate-900">Analisis Calon Santri: ${escapeHtml(name)}</h4>
+                        <p class="text-xs text-slate-500">${unit} · Asal: ${escapeHtml(prev || '-')}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-500">Skor Kesiapan:</span>
+                        <span class="px-3.5 py-1.5 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-xs">${d.readiness_score || 88}/100</span>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <span class="text-xs font-black text-slate-700 uppercase">Ringkasan Karakter & Potensi:</span>
+                    <p class="text-xs text-slate-800 leading-relaxed">${escapeHtml(d.student_summary || '-')}</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                        <span class="text-[11px] font-black text-emerald-800 uppercase block">⭐ Kekuatan Utama:</span>
+                        <ul class="text-xs text-slate-700 list-disc list-inside space-y-0.5">
+                            ${(d.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                        <span class="text-[11px] font-black text-cyan-800 uppercase block">🚀 Rekomendasi Program / Ekskul:</span>
+                        <ul class="text-xs text-slate-700 list-disc list-inside space-y-0.5">
+                            ${(d.recommended_programs || []).map(p => `<li>${escapeHtml(p)}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
+                    <span class="text-[11px] font-black text-amber-900 uppercase block">🎙️ Catatan & Panduan Wawancara:</span>
+                    <p class="text-xs text-amber-950 font-medium">${escapeHtml(d.interview_notes || '-')}</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-300 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-black text-emerald-900 uppercase">💬 Sambutan Hangat untuk WhatsApp Orang Tua:</span>
+                        <button onclick="navigator.clipboard.writeText(\`${escapeHtml(d.parent_welcome_msg || '')}\`); Swal.fire({ icon: 'success', title: 'Pesan WA Disalin!', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false });" class="text-[10px] font-black px-2 py-0.5 rounded bg-white text-emerald-800 border border-emerald-300 cursor-pointer">Salin WA</button>
+                    </div>
+                    <p class="text-xs text-emerald-950 font-sans whitespace-pre-wrap">${escapeHtml(d.parent_welcome_msg || '-')}</p>
+                </div>
+            `;
+            resultBox.classList.remove('hidden');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            Swal.fire({ icon: 'error', title: 'Gagal Menganalisis Profil' });
+        }
+    } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Terjadi Gangguan Jaringan' });
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🎯 Analisis Profil Calon Santri</span>';
+    }
+}
+
+async function runSimulateWa() {
+    const message = document.getElementById('aiWaInput').value.trim();
+    const btn = document.getElementById('btnSimulateWa');
+    const resultBox = document.getElementById('aiWaResult');
+    const bubble = document.getElementById('aiWaBubble');
+
+    if (!message) {
+        Swal.fire({ icon: 'warning', title: 'Tuliskan Pertanyaan' });
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>💬 Memproses Balasan AI...</span>';
+    resultBox.classList.add('hidden');
+
+    try {
+        const res = await fetch('{{ route("admin.ai-hub.whatsapp-simulate") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        if (data.success) {
+            bubble.innerText = data.ai_reply || 'Tidak ada balasan.';
+            resultBox.classList.remove('hidden');
+        } else {
+            Swal.fire({ icon: 'error', title: 'Gagal Memproses WhatsApp Bot' });
+        }
+    } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Gangguan Jaringan' });
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>💬 Simulasikan Balasan WhatsApp AI</span>';
+    }
+}
+
+async function runGenerateQuiz() {
+    const subject = document.getElementById('aiQuizSubject').value.trim();
+    const topic = document.getElementById('aiQuizTopic').value.trim();
+    const grade = document.getElementById('aiQuizGrade').value;
+    const count = document.getElementById('aiQuizCount').value;
+    const btn = document.getElementById('btnGenerateQuiz');
+    const resultBox = document.getElementById('aiQuizResult');
+
+    if (!subject || !topic) {
+        Swal.fire({ icon: 'warning', title: 'Mata Pelajaran & Topik Wajib Diisi' });
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>📝 Menyusun Soal dengan AI...</span>';
+    resultBox.classList.add('hidden');
+
+    try {
+        const res = await fetch('{{ route("admin.ai-hub.generate-quiz") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: JSON.stringify({ subject, topic, grade, count })
+        });
+        const data = await res.json();
+        if (data.success && data.data && data.data.questions) {
+            const qs = data.data.questions;
+            let html = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <div>
+                        <h4 class="text-sm font-black text-slate-900">Bank Soal: ${escapeHtml(subject)} (${escapeHtml(topic)})</h4>
+                        <p class="text-xs text-slate-500">${grade} · ${qs.length} Butir Soal</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+            `;
+            qs.forEach((q, idx) => {
+                html += `
+                    <div class="p-4 rounded-xl bg-white border border-slate-200 space-y-2">
+                        <div class="text-xs font-black text-slate-900 leading-snug">${idx + 1}. ${escapeHtml(q.question)}</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-semibold text-slate-700 pt-1">
+                            ${Object.entries(q.options || {}).map(([key, val]) => `
+                                <div class="p-2 rounded-lg border ${key === q.correct_answer ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-black' : 'border-slate-200 bg-slate-50'}">
+                                    <span class="mr-1">${key}.</span> ${escapeHtml(val)} ${key === q.correct_answer ? '✅' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                            <strong>Pembahasan:</strong> ${escapeHtml(q.explanation || '-')}
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            resultBox.innerHTML = html;
+            resultBox.classList.remove('hidden');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            Swal.fire({ icon: 'error', title: 'Gagal Menyusun Bank Soal' });
+        }
+    } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Gangguan Jaringan' });
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>📝 Buat Bank Soal Pilihan Ganda</span>';
+    }
 }
 </script>
 @endpush

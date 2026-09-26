@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\MobileHrisAdminController;
 use App\Http\Controllers\Admin\EmployeeDossierController;
 use App\Http\Controllers\PublicLetterVerificationController;
 use App\Http\Controllers\Admin\AiTrainerController;
+use App\Http\Controllers\Admin\GeminiAiController;
 
 // ==========================================================================
 // SUBDOMAIN ROUTING (spmb.sitrobbani.sch.id, ppdb.sitrobbani.sch.id, tk/sd/smp/sma.sitrobbani.sch.id)
@@ -630,6 +631,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/auto-sync', [AiTrainerController::class, 'autoSync'])->name('auto-sync');
             Route::post('/test-chat', [AiTrainerController::class, 'testChat'])->name('test-chat');
             Route::post('/bulk-delete', [AiTrainerController::class, 'bulkDelete'])->name('bulk-delete');
+        });
+
+        // 18. Google Gemini AI Multi-Feature Hub (CMS Article, SPMB Analyzer, CBT Quiz, WhatsApp Auto-Responder)
+        Route::prefix('ai-hub')->name('ai-hub.')->middleware('role:SUPER_ADMIN,YAYASAN_CHAIRMAN,HEADMASTER,ADMIN_WEB_UNIT,STAFF_TU,HUMAS,TEACHER,PANITIA_PPDB')->group(function () {
+            Route::post('/test-connection', [GeminiAiController::class, 'testConnection'])->name('test-connection');
+            Route::post('/generate-article', [GeminiAiController::class, 'generateArticle'])->name('generate-article');
+            Route::post('/analyze-spmb', [GeminiAiController::class, 'analyzeSpmb'])->name('analyze-spmb');
+            Route::post('/generate-quiz', [GeminiAiController::class, 'generateQuiz'])->name('generate-quiz');
+            Route::post('/whatsapp-simulate', [GeminiAiController::class, 'whatsappSimulate'])->name('whatsapp-simulate');
         });
     });
 });
