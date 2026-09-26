@@ -84,13 +84,13 @@
         }
     </style>
 </head>
-<body class="antialiased pb-24 sm:pb-0" x-data="spmbLandingApp()">
+<body class="antialiased" x-data="spmbLandingApp()">
 
     <!-- 1. TOP ANNOUNCEMENT BAR (BERSIH, RAPI & BEBAS TERPOTONG DI HP) -->
     <div class="bg-emerald-950 text-emerald-200 text-xs py-1.5 sm:py-2 px-3 sm:px-4 border-b border-emerald-900/60">
         <div class="max-w-6xl mx-auto flex items-center justify-between text-xs gap-2">
-            <div class="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                <span class="px-2 sm:px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide shrink-0">
+            <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
+                <span class="px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide whitespace-nowrap shrink-0 inline-flex items-center leading-normal shadow-xs">
                     {{ $spmb['announcement_badge'] ?? 'Gelombang 1' }}
                 </span>
                 <span class="font-bold text-[11px] sm:text-xs text-white truncate">
@@ -756,16 +756,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- 11. STICKY MOBILE BOTTOM BAR (UNTUK PENGGUNA HP, RATA TENGAH) -->
-    <div class="fixed bottom-0 inset-x-0 sm:hidden z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2.5 shadow-2xl flex items-center justify-center gap-2.5">
-        <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" target="_blank" class="btn-responsive flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-emerald-800 font-bold text-xs transition-colors">
-            <span>💬 Bantuan WA</span>
-        </a>
-        <a href="#daftar" class="btn-responsive flex-1 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-md transition-colors">
-            <span>👉 Pilih Unit</span>
-        </a>
-    </div>
 
     <!-- TOAST NOTIFICATION COPY -->
     <div x-show="toastMessage" x-cloak class="fixed top-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-slate-900 text-amber-300 font-bold text-xs shadow-2xl transition-all" x-text="toastMessage"></div>

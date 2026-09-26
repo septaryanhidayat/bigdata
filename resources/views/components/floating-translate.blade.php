@@ -1,5 +1,5 @@
 <!-- Floating Google Translate Switcher Sesuai Referensi Pengguna (Bendera 3D + Kode Negara) -->
-<div class="gtranslate_wrapper {{ $positionClass ?? 'fixed bottom-[74px] sm:bottom-5 left-3 sm:left-5 z-[60]' }}"></div>
+<div class="gtranslate_wrapper {{ $positionClass ?? 'fixed bottom-4 sm:bottom-5 left-3 sm:left-5 z-[60]' }}"></div>
 
 <style>
     /* Styling Floating Switcher Sesuai Screenshot Referensi Pengguna */
@@ -8,7 +8,7 @@
     }
     #gt_float_wrapper {
         position: fixed !important;
-        bottom: 74px !important;
+        bottom: 16px !important;
         left: 14px !important;
         z-index: 999999 !important;
     }

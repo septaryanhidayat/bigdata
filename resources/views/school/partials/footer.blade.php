@@ -1,5 +1,5 @@
 <!-- FOOTER SECTION (EXECUTIVE UNIFIED 4-COLUMN) -->
-<footer class="bg-gradient-to-b from-[#003828] via-[#002b1f] to-[#011a13] text-white pt-12 sm:pt-16 pb-8 border-t border-emerald-900 transition-colors">
+<footer class="bg-gradient-to-b from-[#003828] via-[#002b1f] to-[#011a13] text-white pt-12 sm:pt-16 pb-8 border-t border-emerald-900/80 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 text-center md:text-left">
@@ -9,29 +9,42 @@
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
                     <img alt="SIT Robbani Logo" width="180" height="48" loading="lazy" class="h-10 sm:h-12 w-auto object-contain" src="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png';">
                 </a>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-emerald-500/30 text-[10px] font-black tracking-wider uppercase shadow-inner">
+
+                <!-- Tagline Badge Pill (Rapi & Elegan) -->
+                <div class="inline-flex flex-wrap items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-[10px] font-black tracking-wide uppercase text-white shadow-inner mx-auto md:mx-0">
                     <span class="text-amber-400">⚡ MANDIRI</span>
-                    <span class="text-slate-500">•</span>
-                    <span class="text-emerald-400">📖 PINTER NGAJI</span>
-                    <span class="text-slate-500">•</span>
-                    <span class="text-cyan-400">💻 JAGO IT!</span>
+                    <span class="text-emerald-500">•</span>
+                    <span class="text-emerald-300">📖 PINTER NGAJI</span>
+                    <span class="text-emerald-500">•</span>
+                    <span class="text-cyan-300">💻 JAGO IT!</span>
                 </div>
-                <p class="text-xs text-slate-300 leading-relaxed font-light">
+
+                <p class="text-xs text-slate-300/90 leading-relaxed font-normal text-center md:text-left max-w-sm">
                     {{ $settings['school_name'] ?? 'Sekolah Islam Terpadu Robbani' }} — Lembaga pendidikan Islam terpadu pelopor karakter Qur'ani, sains modern, dan teknologi digital di Kabupaten Ogan Ilir, Sumatera Selatan.
                 </p>
-                <div class="pt-1 text-[11px] text-slate-300 space-y-1">
-                    <p class="flex items-center justify-center md:justify-start gap-2">
-                        <span class="material-symbols-outlined text-[15px] text-amber-400">location_on</span>
-                        <span>KPA SIT Robbani: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kab. Ogan Ilir</span>
-                    </p>
-                    <p class="flex items-center justify-center md:justify-start gap-2">
-                        <span class="material-symbols-outlined text-[15px] text-amber-400">call</span>
-                        <span>Hotline/WA: 0811747472</span>
-                    </p>
-                    <p class="flex items-center justify-center md:justify-start gap-2">
-                        <span class="material-symbols-outlined text-[15px] text-amber-400">mail</span>
-                        <span>Email: {{ $settings['school_email'] ?? 'info@sitrobbani.sch.id' }}</span>
-                    </p>
+
+                <!-- Kontak Card List (Rapi, Sejajar, Tidak Berantakan di HP) -->
+                <div class="pt-1 text-xs text-slate-300 space-y-2 w-full max-w-sm">
+                    <div class="flex items-start gap-2.5 text-left bg-emerald-950/60 border border-emerald-900/60 p-2.5 rounded-xl shadow-xs">
+                        <span class="w-6 h-6 rounded-md bg-emerald-900 border border-emerald-700/60 text-amber-400 flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                            <span class="material-symbols-outlined text-[15px]">location_on</span>
+                        </span>
+                        <span class="text-[11px] leading-snug text-slate-200">KPA SIT Robbani: Jl. Sarjana Blok A.25, Timbangan, Indralaya, Kab. Ogan Ilir</span>
+                    </div>
+
+                    <div class="flex items-center gap-2.5 text-left bg-emerald-950/60 border border-emerald-900/60 p-2.5 rounded-xl shadow-xs">
+                        <span class="w-6 h-6 rounded-md bg-emerald-900 border border-emerald-700/60 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
+                            <span class="material-symbols-outlined text-[15px]">call</span>
+                        </span>
+                        <a href="https://wa.me/62811747472" target="_blank" class="text-[11px] font-bold text-slate-200 hover:text-amber-300 transition-colors">Hotline/WA: 0811-747-472</a>
+                    </div>
+
+                    <div class="flex items-center gap-2.5 text-left bg-emerald-950/60 border border-emerald-900/60 p-2.5 rounded-xl shadow-xs">
+                        <span class="w-6 h-6 rounded-md bg-emerald-900 border border-emerald-700/60 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
+                            <span class="material-symbols-outlined text-[15px]">mail</span>
+                        </span>
+                        <a href="mailto:{{ $settings['school_email'] ?? 'info@sitrobbani.sch.id' }}" class="text-[11px] text-slate-200 hover:text-amber-300 transition-colors truncate">{{ $settings['school_email'] ?? 'info@sitrobbani.sch.id' }}</a>
+                    </div>
                 </div>
             </div>
 
@@ -39,10 +52,10 @@
             <div class="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
                 <h3 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-headline border-b border-emerald-500/40 pb-1.5 inline-block mx-auto md:mx-0">Unit Pendidikan</h3>
                 <ul class="space-y-2 text-[11px] sm:text-xs text-slate-300 flex flex-col items-center md:items-start">
-                    <li><a href="{{ route('school.unit', 'tkit') }}" class="hover:text-amber-300 transition-colors">KB / TKIT Robbani</a></li>
-                    <li><a href="{{ route('school.unit', 'sdit') }}" class="hover:text-amber-300 transition-colors">SDIT Robbani</a></li>
-                    <li><a href="{{ route('school.unit', 'smpit') }}" class="hover:text-amber-300 transition-colors">SMPIT Robbani</a></li>
-                    <li><a href="{{ route('school.unit', 'smait') }}" class="hover:text-amber-300 transition-colors">SMAIT Robbani</a></li>
+                    <li><a href="{{ route('school.unit', 'tkit') }}" class="hover:text-amber-300 hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span>🎓</span> <span>KB / TKIT Robbani</span></a></li>
+                    <li><a href="{{ route('school.unit', 'sdit') }}" class="hover:text-amber-300 hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span>🏫</span> <span>SDIT Robbani</span></a></li>
+                    <li><a href="{{ route('school.unit', 'smpit') }}" class="hover:text-amber-300 hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span>🎒</span> <span>SMPIT Robbani</span></a></li>
+                    <li><a href="{{ route('school.unit', 'smait') }}" class="hover:text-amber-300 hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span>🏛️</span> <span>SMAIT Robbani</span></a></li>
                 </ul>
             </div>
 
@@ -50,12 +63,12 @@
             <div class="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
                 <h3 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-headline border-b border-emerald-500/40 pb-1.5 inline-block mx-auto md:mx-0">Navigasi Portal</h3>
                 <ul class="space-y-2 text-[11px] sm:text-xs text-slate-300 flex flex-col items-center md:items-start">
-                    <li><a href="{{ route('home') }}" class="hover:text-amber-300 transition-colors">Beranda Utama</a></li>
-                    <li><a href="{{ route('school.profil') }}" class="hover:text-amber-300 transition-colors">Profil Yayasan</a></li>
-                    <li><a href="{{ route('school.layanan') }}" class="hover:text-amber-300 transition-colors">Layanan Publik Terpadu</a></li>
-                    <li><a href="{{ route('school.berita') }}" class="hover:text-amber-300 transition-colors">Berita Kampus</a></li>
-                    <li><a href="{{ route('school.artikel') }}" class="hover:text-amber-300 transition-colors">Artikel Edukasi</a></li>
-                    <li><a href="{{ route('school.fasilitas') }}" class="hover:text-amber-300 transition-colors">Fasilitas Sekolah</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Beranda Utama</a></li>
+                    <li><a href="{{ route('school.profil') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Profil Yayasan</a></li>
+                    <li><a href="{{ route('school.layanan') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Layanan Publik Terpadu</a></li>
+                    <li><a href="{{ route('school.fasilitas') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Fasilitas Sekolah</a></li>
+                    <li><a href="{{ route('school.berita') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Berita Kampus</a></li>
+                    <li><a href="{{ route('school.artikel') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Artikel Edukasi</a></li>
                 </ul>
             </div>
 
@@ -63,11 +76,11 @@
             <div class="space-y-3 sm:space-y-4 flex flex-col items-center md:items-start">
                 <h3 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-headline border-b border-emerald-500/40 pb-1.5 inline-block mx-auto md:mx-0">Layanan &amp; Medsos</h3>
                 <ul class="space-y-2 text-[11px] sm:text-xs text-slate-300 mb-3 flex flex-col items-center md:items-start">
-                    <li><a href="{{ route('school.spmb') }}" class="hover:text-amber-300 transition-colors">Penerimaan Murid Baru (SPMB)</a></li>
-                    <li><a href="{{ route('school.layanan.kunjungan') }}" class="hover:text-amber-300 transition-colors">Izin Kunjungan Sekolah</a></li>
-                    <li><a href="{{ route('school.layanan.kerjasama') }}" class="hover:text-amber-300 transition-colors">Permohonan Kerja Sama</a></li>
-                    <li><a href="{{ route('school.layanan.sewa') }}" class="hover:text-amber-300 transition-colors">Pemanfaatan Sarana &amp; Fasilitas</a></li>
-                    <li><a href="{{ route('admin.dashboard') }}" class="text-amber-400 hover:underline font-bold">Portal Administrasi</a></li>
+                    <li><a href="{{ route('school.spmb') }}" class="text-amber-400 font-bold hover:underline inline-flex items-center gap-1"><span>✨</span> <span>SPMB Online 2026/2027</span></a></li>
+                    <li><a href="{{ route('school.layanan.kunjungan') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Izin Kunjungan Sekolah</a></li>
+                    <li><a href="{{ route('school.layanan.kerjasama') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Permohonan Kerja Sama</a></li>
+                    <li><a href="{{ route('school.layanan.sewa') }}" class="hover:text-amber-300 hover:translate-x-1 inline-block transition-all">Pemanfaatan Sarana &amp; Fasilitas</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}" class="hover:text-emerald-300 hover:underline font-bold inline-flex items-center gap-1"><span>🔐</span> <span>Portal Login Guru & Admin</span></a></li>
                 </ul>
 
                 <div class="pt-2 border-t border-emerald-800/80 w-full flex flex-col items-center md:items-start">
@@ -92,7 +105,7 @@
         </div>
 
         <!-- Bottom Copyright & Credit Bar -->
-        <div class="pt-6 sm:pt-8 border-t border-emerald-900 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 text-center md:text-left text-slate-400 text-[11px] sm:text-xs">
+        <div class="pt-6 sm:pt-8 border-t border-emerald-900/80 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 text-center md:text-left text-slate-400 text-[11px] sm:text-xs">
             <p>© {{ date('Y') }} {{ $settings['school_name'] ?? 'SIT Robbani' }} (SIT Robbani Ogan Ilir, Sumsel). All rights reserved.</p>
             <a href="https://berandadigital.net" target="_blank" class="text-amber-400 hover:underline font-bold inline-flex items-center gap-1.5 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-emerald-800 hover:border-amber-400 transition-all text-[11px]">
                 <span>Powered by Beranda Teknologi Digital</span>

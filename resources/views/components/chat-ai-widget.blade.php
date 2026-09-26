@@ -8,7 +8,7 @@
         document.head.appendChild(script);
     }
 </script>
-<div x-data="robbaniAiChat" class="fixed bottom-[74px] sm:bottom-5 right-3 sm:right-5 z-[60] font-sans flex flex-col items-end gap-2.5">
+<div x-data="robbaniAiChat" class="fixed bottom-4 sm:bottom-5 right-3 sm:right-5 z-[60] font-sans flex flex-col items-end gap-2.5">
 
     <!-- Scroll to Top Indicator Button (Naik ke Atas) -->
     <button 

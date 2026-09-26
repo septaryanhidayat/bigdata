@@ -14,7 +14,7 @@
 </div>
 
 <!-- TOP NAVIGATION BAR -->
-<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 left-0 w-full z-40 h-16 sm:h-20 shadow-sm transition-all">
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 left-0 w-full z-40 h-16 sm:h-20 shadow-xs transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
         
         <!-- Logo Saja di Kiri Atas (Tanpa Teks di Sampingnya Sesuai Instruksi) -->
@@ -25,86 +25,115 @@
             </a>
         </div>
 
-        <div class="hidden md:flex space-x-3 lg:space-x-5 items-center font-bold text-xs lg:text-sm font-sans" style="font-family: 'Inter', sans-serif;">
+        <!-- Desktop Menu Navigasi Lengkap & Rapi -->
+        <div class="hidden md:flex space-x-1 lg:space-x-3 items-center font-bold text-xs lg:text-sm font-sans" style="font-family: 'Inter', sans-serif;">
             @php
                 $currentUrl = url()->current();
-                $menus = $headerMenus ?? [
-                    ['title' => 'Beranda', 'url' => route('home'), 'is_active' => true],
-                    ['title' => 'Profil', 'url' => route('school.profil'), 'is_active' => true],
-                    ['title' => 'Layanan', 'url' => route('school.layanan'), 'is_active' => true],
-                    ['title' => 'Unit', 'url' => url('/#unit-sekolah'), 'is_active' => true],
-                    ['title' => 'Berita', 'url' => route('school.berita'), 'is_active' => true],
-                    ['title' => 'Artikel', 'url' => route('school.artikel'), 'is_active' => true],
-                    ['title' => 'Fasilitas', 'url' => route('school.fasilitas'), 'is_active' => true],
-                    ['title' => 'Galeri', 'url' => url('/#galeri-sekolah'), 'is_active' => true],
-                ];
             @endphp
 
-            @foreach($menus as $menu)
-                @php
-                    $mTitle = strtolower(trim($menu['title'] ?? ''));
-                    if (str_contains($mTitle, 'espp') || str_contains($mTitle, 'e-spp')) continue;
-                    
-                    if ($mTitle === 'beranda') {
-                        $mUrl = route('home');
-                    } elseif ($mTitle === 'profil') {
-                        $mUrl = route('school.profil');
-                    } elseif ($mTitle === 'layanan') {
-                        $mUrl = route('school.layanan');
-                    } elseif ($mTitle === 'unit' || str_contains($mTitle, 'unit')) {
-                        $mUrl = url('/#unit-sekolah');
-                    } elseif ($mTitle === 'berita') {
-                        $mUrl = route('school.berita');
-                    } elseif ($mTitle === 'artikel') {
-                        $mUrl = route('school.artikel');
-                    } elseif ($mTitle === 'fasilitas' || str_contains($mTitle, 'sarana')) {
-                        $mUrl = route('school.fasilitas');
-                    } elseif ($mTitle === 'galeri' || str_contains($mTitle, 'galeri')) {
-                        $mUrl = url('/#galeri-sekolah');
-                    } else {
-                        $mUrl = $menu['url'] ?? '#';
-                        if (str_starts_with($mUrl, '#')) {
-                            $mUrl = url('/' . $mUrl);
-                        }
-                    }
-                    
-                    $isActive = false;
-                    if ($mTitle === 'beranda' && (request()->routeIs('home') || $currentUrl === route('home'))) {
-                        $isActive = true;
-                    } elseif ($mTitle === 'profil' && (request()->routeIs('school.profil*') || str_contains($currentUrl, '/profil'))) {
-                        $isActive = true;
-                    } elseif ($mTitle === 'layanan' && (request()->routeIs('school.layanan*') || str_contains($currentUrl, '/layanan'))) {
-                        $isActive = true;
-                    } elseif ($mTitle === 'berita' && (request()->routeIs('school.berita*') || str_contains($currentUrl, '/berita'))) {
-                        $isActive = true;
-                    } elseif ($mTitle === 'artikel' && (request()->routeIs('school.artikel*') || str_contains($currentUrl, '/artikel'))) {
-                        $isActive = true;
-                    } elseif (($mTitle === 'fasilitas' || str_contains($mTitle, 'sarana')) && (request()->routeIs('school.fasilitas*') || str_contains($currentUrl, '/fasilitas'))) {
-                        $isActive = true;
-                    }
-                @endphp
-                <a class="px-2 py-1 transition-colors {{ $isActive ? 'text-emerald-700 dark:text-[#c6f634] font-black border-b-2 border-emerald-600 dark:border-[#c6f634]' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ $mUrl }}">{{ $menu['title'] }}</a>
-            @endforeach
+            <!-- Beranda -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors {{ request()->routeIs('home') || $currentUrl === route('home') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ route('home') }}">
+                Beranda
+            </a>
+
+            <!-- Profil -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors {{ request()->routeIs('school.profil*') || str_contains($currentUrl, '/profil') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ route('school.profil') }}">
+                Profil
+            </a>
+
+            <!-- Dropdown Unit Sekolah -->
+            <div class="relative" x-data="{ unitOpen: false }" @mouseenter="unitOpen = true" @mouseleave="unitOpen = false">
+                <button @click="unitOpen = !unitOpen" class="px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 font-bold {{ request()->routeIs('school.unit*') || str_contains($currentUrl, '/unit/') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+                    <span>Unit Sekolah</span>
+                    <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="unitOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div x-show="unitOpen" x-cloak
+                     x-transition:enter="transition ease-out duration-150"
+                     x-transition:enter-start="opacity-0 translate-y-1"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-100"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-1"
+                     class="absolute top-full left-0 mt-1 w-60 rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 p-2 z-50">
+                    <a href="{{ route('school.unit', 'tkit') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">
+                        <span class="text-base shrink-0">🎓</span>
+                        <div>
+                            <span class="block font-bold">KB / TKIT Robbani</span>
+                            <span class="text-[10px] text-slate-400 font-normal">Pendidikan Anak Usia Dini</span>
+                        </div>
+                    </a>
+                    <a href="{{ route('school.unit', 'sdit') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">
+                        <span class="text-base shrink-0">🏫</span>
+                        <div>
+                            <span class="block font-bold">SDIT Robbani</span>
+                            <span class="text-[10px] text-slate-400 font-normal">Sekolah Dasar Islam Terpadu</span>
+                        </div>
+                    </a>
+                    <a href="{{ route('school.unit', 'smpit') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">
+                        <span class="text-base shrink-0">🎒</span>
+                        <div>
+                            <span class="block font-bold">SMPIT Robbani</span>
+                            <span class="text-[10px] text-slate-400 font-normal">Sekolah Menengah Pertama</span>
+                        </div>
+                    </a>
+                    <a href="{{ route('school.unit', 'smait') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-[#c6f634] transition-colors">
+                        <span class="text-base shrink-0">🏛️</span>
+                        <div>
+                            <span class="block font-bold">SMAIT Robbani</span>
+                            <span class="text-[10px] text-slate-400 font-normal">Sekolah Menengah Atas</span>
+                        </div>
+                    </a>
+                    <div class="border-t border-slate-100 dark:border-slate-800 mt-1 pt-1.5">
+                        <a href="{{ url('/#unit-sekolah') }}" class="flex items-center justify-between px-3 py-1.5 rounded-lg text-[11px] font-semibold text-emerald-700 dark:text-[#c6f634] hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors">
+                            <span>Lihat Semua Unit di Beranda</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layanan -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors {{ request()->routeIs('school.layanan*') || str_contains($currentUrl, '/layanan') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ route('school.layanan') }}">
+                Layanan
+            </a>
+
+            <!-- Fasilitas -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors {{ request()->routeIs('school.fasilitas*') || str_contains($currentUrl, '/fasilitas') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ route('school.fasilitas') }}">
+                Fasilitas
+            </a>
+
+            <!-- Berita -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors {{ request()->routeIs('school.berita*') || str_contains($currentUrl, '/berita') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ route('school.berita') }}">
+                Berita
+            </a>
+
+            <!-- Artikel -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors {{ request()->routeIs('school.artikel*') || str_contains($currentUrl, '/artikel') ? 'text-emerald-700 dark:text-[#c6f634] font-black bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}" href="{{ route('school.artikel') }}">
+                Artikel
+            </a>
+
+            <!-- Galeri -->
+            <a class="px-2.5 py-1.5 rounded-lg transition-colors text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]" href="{{ url('/#galeri-sekolah') }}">
+                Galeri
+            </a>
         </div>
 
+        <!-- Tombol Aksi Kanan (Bersih, Rapi & Elegan - Tanpa Icon Mismatch) -->
         <div class="flex items-center gap-2 sm:gap-3">
-            <a href="https://api.whatsapp.com/send?phone=62811747472" target="_blank" class="p-2 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-full transition-colors hidden lg:flex items-center justify-center" title="Hubungi Kami" aria-label="Hubungi Kami via WhatsApp">
-                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;">call</span>
-            </a>
-            
-            <button @click="darkMode = !darkMode" class="p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors hidden lg:flex items-center justify-center cursor-pointer" title="Toggle Mode" aria-label="Toggle Tema Dark Mode">
-                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;" x-show="!darkMode">dark_mode</span>
-                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;" x-show="darkMode" x-cloak>light_mode</span>
-            </button>
-
-            <a class="hidden lg:inline-flex px-4 py-2 border border-emerald-700 text-emerald-800 dark:text-emerald-300 font-bold text-xs rounded-full hover:bg-emerald-700 hover:text-white transition-all items-center gap-1" href="{{ route('admin.dashboard') }}">
-                Admin
-            </a>
-            <a class="px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs rounded-full transition-all flex items-center gap-1 shadow-md transform hover:scale-105" href="{{ route('school.spmb') }}">
-                <span>SPMB</span> <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            <!-- Portal Admin / Guru Button -->
+            <a class="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-[#c6f634] hover:border-emerald-600 dark:hover:border-[#c6f634] hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs transition-all shadow-xs" href="{{ route('admin.dashboard') }}" title="Portal Guru & Administrasi SIT Robbani">
+                <span class="material-symbols-outlined text-[16px] text-emerald-600 dark:text-[#c6f634]">lock</span>
+                <span>Portal Login</span>
             </a>
 
-            <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Buka Menu Navigasi Mobile" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+            <!-- SPMB Online Button (Glowing CTA) -->
+            <a class="px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-xs rounded-full transition-all flex items-center gap-1.5 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap" href="{{ route('school.spmb') }}">
+                <span>SPMB Online</span>
+                <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+            </a>
+
+            <!-- Hamburger Button (Mobile Only) -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Buka Menu Navigasi Mobile" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                 <span class="material-symbols-outlined" x-show="!mobileMenuOpen">menu</span>
                 <span class="material-symbols-outlined" x-show="mobileMenuOpen" x-cloak>close</span>
             </button>
@@ -112,8 +141,8 @@
     </div>
 </nav>
 
-<!-- Mobile Menu Drawer (INTERACTIVE WITH SELECTION INDICATORS) -->
-<div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden fixed inset-x-4 top-24 z-50 bg-white/95 dark:bg-[#0c1a0e]/95 backdrop-blur-xl border border-slate-200 dark:border-[#1c401f] p-4 rounded-3xl space-y-1.5 shadow-2xl transition-all max-h-[85vh] overflow-y-auto">
+<!-- Mobile Menu Drawer (RESPONSIF, LENGKAP & RAPI DENGAN ACCORDION UNIT) -->
+<div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden fixed inset-x-4 top-20 z-50 bg-white/98 dark:bg-[#0c1a0e]/98 backdrop-blur-xl border border-slate-200 dark:border-[#1c401f] p-4 rounded-3xl space-y-1 shadow-2xl transition-all max-h-[85vh] overflow-y-auto" x-data="{ mobileUnitOpen: false }">
     <!-- Mobile Tagline Ribbon -->
     <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-950 text-center text-white border border-emerald-800/60 shadow-inner mb-2">
         <span class="text-[9px] font-black uppercase text-amber-400 tracking-wider block">TAGLINE RESMI SEKOLAH</span>
@@ -122,40 +151,77 @@
         </div>
     </div>
 
-    <a @click="mobileMenuOpen = false" href="{{ route('home') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('home') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
-        <span class="flex items-center gap-2"><span>🏠</span> <span>Beranda Utama</span></span>
+    <!-- Beranda -->
+    <a @click="mobileMenuOpen = false" href="{{ route('home') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('home') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+        <span class="flex items-center gap-2.5"><span>🏠</span> <span>Beranda Utama</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('school.profil') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.profil*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
-        <span class="flex items-center gap-2"><span>👤</span> <span>Profil Yayasan</span></span>
+
+    <!-- Profil -->
+    <a @click="mobileMenuOpen = false" href="{{ route('school.profil') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.profil*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+        <span class="flex items-center gap-2.5"><span>👤</span> <span>Profil Yayasan</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('school.layanan') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.layanan*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
-        <span class="flex items-center gap-2"><span>📋</span> <span>Layanan Publik (3 Layanan)</span></span>
+
+    <!-- Unit Sekolah Accordion -->
+    <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+        <button @click="mobileUnitOpen = !mobileUnitOpen" class="w-full flex items-center justify-between px-3.5 py-2.5 font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 transition-colors">
+            <span class="flex items-center gap-2.5"><span>🏫</span> <span>4 Unit Pendidikan</span></span>
+            <span class="text-xs transition-transform font-black" :class="mobileUnitOpen ? 'rotate-90' : ''">▼</span>
+        </button>
+        <div x-show="mobileUnitOpen" x-cloak class="bg-slate-50/80 dark:bg-slate-900/60 p-2 space-y-1 border-t border-slate-200 dark:border-slate-800">
+            <a @click="mobileMenuOpen = false" href="{{ route('school.unit', 'tkit') }}" class="flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+                <span>🎓 KB / TKIT Robbani</span>
+                <span class="text-[10px] text-slate-400">PAUD</span>
+            </a>
+            <a @click="mobileMenuOpen = false" href="{{ route('school.unit', 'sdit') }}" class="flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+                <span>🏫 SDIT Robbani</span>
+                <span class="text-[10px] text-slate-400">SD</span>
+            </a>
+            <a @click="mobileMenuOpen = false" href="{{ route('school.unit', 'smpit') }}" class="flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+                <span>🎒 SMPIT Robbani</span>
+                <span class="text-[10px] text-slate-400">SMP</span>
+            </a>
+            <a @click="mobileMenuOpen = false" href="{{ route('school.unit', 'smait') }}" class="flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+                <span>🏛️ SMAIT Robbani</span>
+                <span class="text-[10px] text-slate-400">SMA</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Layanan -->
+    <a @click="mobileMenuOpen = false" href="{{ route('school.layanan') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.layanan*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+        <span class="flex items-center gap-2.5"><span>📋</span> <span>Layanan Publik Terpadu</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ url('/#unit-sekolah') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
-        <span class="flex items-center gap-2"><span>🏫</span> <span>4 Unit Sekolah</span></span>
+
+    <!-- Fasilitas -->
+    <a @click="mobileMenuOpen = false" href="{{ route('school.fasilitas') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.fasilitas*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+        <span class="flex items-center gap-2.5"><span>🏢</span> <span>Fasilitas Sekolah</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('school.berita') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.berita*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
-        <span class="flex items-center gap-2"><span>📰</span> <span>Berita Kampus</span></span>
+
+    <!-- Berita -->
+    <a @click="mobileMenuOpen = false" href="{{ route('school.berita') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.berita*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+        <span class="flex items-center gap-2.5"><span>📰</span> <span>Berita Kampus</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('school.artikel') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.artikel*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
-        <span class="flex items-center gap-2"><span>📖</span> <span>Artikel Edukasi</span></span>
+
+    <!-- Artikel -->
+    <a @click="mobileMenuOpen = false" href="{{ route('school.artikel') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.artikel*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
+        <span class="flex items-center gap-2.5"><span>📖</span> <span>Artikel Edukasi</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ route('school.fasilitas') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs {{ request()->routeIs('school.fasilitas*') ? 'bg-emerald-700 text-white shadow-md' : 'text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]' }}">
-        <span class="flex items-center gap-2"><span>🏢</span> <span>Fasilitas Sekolah</span></span>
+
+    <!-- Galeri -->
+    <a @click="mobileMenuOpen = false" href="{{ url('/#galeri-sekolah') }}" class="group flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
+        <span class="flex items-center gap-2.5"><span>🖼️</span> <span>Galeri Dokumentasi</span></span>
         <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
     </a>
-    <a @click="mobileMenuOpen = false" href="{{ url('/#galeri-sekolah') }}" class="group flex items-center justify-between px-4 py-2.5 rounded-2xl font-extrabold text-xs text-slate-800 dark:text-slate-100 hover:bg-emerald-50 dark:hover:bg-emerald-950/80 hover:text-emerald-700 dark:hover:text-[#c6f634]">
-        <span class="flex items-center gap-2"><span>🖼️</span> <span>Galeri Foto</span></span>
-        <span class="text-xs transition-transform group-hover:translate-x-1 font-black">➔</span>
-    </a>
+
+    <!-- Bottom Actions inside Drawer -->
     <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
-        <button @click="darkMode = !darkMode" class="w-full py-2.5 px-4 rounded-2xl bg-emerald-50 dark:bg-[#071509] text-emerald-800 dark:text-[#c6f634] font-extrabold text-xs border border-emerald-200 dark:border-[#1a3d1e] flex items-center justify-between shadow-xs cursor-pointer">
+        <button @click="darkMode = !darkMode" class="w-full py-2.5 px-4 rounded-2xl bg-slate-100 dark:bg-[#071509] text-slate-800 dark:text-[#c6f634] font-extrabold text-xs border border-slate-200 dark:border-[#1a3d1e] flex items-center justify-between shadow-xs cursor-pointer">
             <span class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'opsz' 24;" x-show="!darkMode">dark_mode</span>
                 <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'opsz' 24;" x-show="darkMode" x-cloak>light_mode</span>
@@ -166,8 +232,9 @@
         <a href="{{ route('school.spmb') }}" class="w-full py-3 text-center rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2">
             <span>✨ Pendaftaran SPMB Online</span> ➔
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="w-full py-2 text-center rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-xs border border-slate-200 dark:border-slate-700">
-            ⚙️ Portal Admin Sekolah
+        <a href="{{ route('admin.dashboard') }}" class="w-full py-2.5 text-center rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-xs border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">lock</span>
+            <span>Portal Login Guru & Admin</span>
         </a>
     </div>
 </div>
@@ -182,3 +249,4 @@
         font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
     }
 </style>
+
