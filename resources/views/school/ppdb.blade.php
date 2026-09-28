@@ -117,20 +117,34 @@
 
                 <!-- Top Pill Badge -->
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-700/80 pb-4">
+                    @if(!empty($data['is_updated']))
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400 text-amber-950 text-xs font-black uppercase tracking-wider shadow-sm">
+                        <span>✓</span> Perubahan Data Formulir Berhasil Disimpan
+                    </span>
+                    @else
                     <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 text-xs font-black uppercase tracking-wider">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                         ✓ Pendaftaran SPMB Berhasil Diterima
                     </span>
+                    @endif
                     <span class="text-xs text-emerald-200/80 font-medium">Tercatat: {{ $date }} WIB</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                     <div class="md:col-span-2 space-y-3 text-center sm:text-left">
                         <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
-                            Alhamdulillah! Formulir Ananda <span class="text-amber-300">{{ $studentName }}</span> Telah Berhasil Terkirim.
+                            @if(!empty($data['is_updated']))
+                                Alhamdulillah! Perbaikan Data Ananda <span class="text-amber-300">{{ $studentName }}</span> Berhasil Disimpan.
+                            @else
+                                Alhamdulillah! Formulir Ananda <span class="text-amber-300">{{ $studentName }}</span> Telah Berhasil Terkirim.
+                            @endif
                         </h2>
                         <p class="text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-medium">
-                            Data formulir resmi Anda telah berhasil disimpan di sistem SPMB SIT Robbani. Silakan simpan Nomor Registrasi resmi dan QR Code berikut sebagai identitas pendaftaran resmi yang sah.
+                            @if(!empty($data['is_updated']))
+                                Seluruh pembaruan data dan berkas telah tersimpan. Silakan simpan kembali atau unduh ulang formulir PDF terbaru di bawah ini.
+                            @else
+                                Data formulir resmi Anda telah berhasil disimpan di sistem SPMB SIT Robbani. Silakan simpan Nomor Registrasi resmi dan QR Code berikut sebagai identitas pendaftaran resmi yang sah.
+                            @endif
                         </p>
 
                         <!-- Nomor Registrasi Prominen -->

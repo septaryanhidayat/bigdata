@@ -1899,7 +1899,12 @@ class SchoolWebsiteController extends Controller
             } catch(\Throwable $e) {}
         }
 
-        return redirect()->back()->with('spmb_success_data', [
+        $redirectUrl = route('school.spmb.form');
+        if (request()->routeIs('subdomain.spmb*') || request()->getHost() === 'spmb.sitrobbani.sch.id' || request()->getHost() === 'ppdb.sitrobbani.sch.id') {
+            $redirectUrl = route('subdomain.spmb.form');
+        }
+
+        return redirect()->to($redirectUrl)->with('spmb_success_data', [
             'registration_id' => $reg->id,
             'registration_number' => $noRegistrasi,
             'student_name' => $reg->full_name,
