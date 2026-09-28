@@ -444,23 +444,23 @@
         <!-- Desktop / Tablet Wizard (Hidden on mobile) -->
         <div class="hidden sm:block bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-xs">
             <div class="grid grid-cols-5 gap-2 text-xs font-bold">
-                <button type="button" onclick="validateAndGo(currentStep, 1)" id="pill-step-1" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-active text-xs flex items-center justify-center gap-1.5">
+                <button type="button" onclick="goToStep(1)" id="pill-step-1" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-active text-xs flex items-center justify-center gap-1.5">
                     <span class="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-black shrink-0">1</span>
                     <span class="truncate">Identitas Siswa</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 2)" id="pill-step-2" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                <button type="button" onclick="goToStep(2)" id="pill-step-2" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
                     <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">2</span>
                     <span class="truncate">Sekolah Asal</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 3)" id="pill-step-3" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                <button type="button" onclick="goToStep(3)" id="pill-step-3" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
                     <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">3</span>
                     <span class="truncate">Kesehatan</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 4)" id="pill-step-4" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                <button type="button" onclick="goToStep(4)" id="pill-step-4" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
                     <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">4</span>
                     <span class="truncate">Orang Tua</span>
                 </button>
-                <button type="button" onclick="validateAndGo(currentStep, 5)" id="pill-step-5" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
+                <button type="button" onclick="goToStep(5)" id="pill-step-5" class="py-2.5 px-3 rounded-xl text-center transition-all step-pill-inactive text-xs flex items-center justify-center gap-1.5">
                     <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">5</span>
                     <span class="truncate">Upload Berkas</span>
                 </button>
@@ -487,11 +487,11 @@
 
             <!-- 5 Quick Step Tap Targets for Mobile -->
             <div class="grid grid-cols-5 gap-1.5 pt-1">
-                <button type="button" onclick="validateAndGo(currentStep, 1)" id="m-step-1" class="py-1 rounded-md text-[10px] font-black transition-all bg-emerald-700 text-white shadow-xs text-center">1</button>
-                <button type="button" onclick="validateAndGo(currentStep, 2)" id="m-step-2" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">2</button>
-                <button type="button" onclick="validateAndGo(currentStep, 3)" id="m-step-3" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">3</button>
-                <button type="button" onclick="validateAndGo(currentStep, 4)" id="m-step-4" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">4</button>
-                <button type="button" onclick="validateAndGo(currentStep, 5)" id="m-step-5" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">5</button>
+                <button type="button" onclick="goToStep(1)" id="m-step-1" class="py-1 rounded-md text-[10px] font-black transition-all bg-emerald-700 text-white shadow-xs text-center">1</button>
+                <button type="button" onclick="goToStep(2)" id="m-step-2" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">2</button>
+                <button type="button" onclick="goToStep(3)" id="m-step-3" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">3</button>
+                <button type="button" onclick="goToStep(4)" id="m-step-4" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">4</button>
+                <button type="button" onclick="goToStep(5)" id="m-step-5" class="py-1 rounded-md text-[10px] font-bold transition-all bg-slate-100 text-slate-500 text-center">5</button>
             </div>
         </div>
 
@@ -1450,6 +1450,7 @@
                 });
             }
         });
+    </script>
     @endif
 
     {{-- FLOATING WIDGETS --}}
