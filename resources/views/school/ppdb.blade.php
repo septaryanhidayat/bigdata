@@ -517,7 +517,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Unit Sekolah Tujuan *</label>
-                        <select name="school_code" id="school_code" onchange="updateUnitFeeInfo()" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <select name="school_code" id="school_code" onchange="onSchoolCodeChange()" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             @php
                                 $selected = old('school_code', $selectedUnit ?? 'SDIT');
                             @endphp
@@ -542,7 +542,31 @@
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Masuk di Kelas</label>
-                        <input type="text" name="masuk_kelas" id="masuk_kelas" value="{{ old('masuk_kelas') }}" placeholder="Contoh: TK A / SD Kelas 1 / SMP Kelas 7" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <select name="masuk_kelas" id="masuk_kelas" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="">-- Kosongkan untuk KB / TPA --</option>
+                            <optgroup label="Taman Kanak-kanak (TK)">
+                                <option value="TK A" {{ old('masuk_kelas') == 'TK A' ? 'selected' : '' }}>TK A</option>
+                                <option value="TK B" {{ old('masuk_kelas') == 'TK B' ? 'selected' : '' }}>TK B</option>
+                            </optgroup>
+                            <optgroup label="Sekolah Dasar (SD)">
+                                <option value="Kelas 1" {{ old('masuk_kelas') == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
+                                <option value="Kelas 2" {{ old('masuk_kelas') == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
+                                <option value="Kelas 3" {{ old('masuk_kelas') == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
+                                <option value="Kelas 4" {{ old('masuk_kelas') == 'Kelas 4' ? 'selected' : '' }}>Kelas 4</option>
+                                <option value="Kelas 5" {{ old('masuk_kelas') == 'Kelas 5' ? 'selected' : '' }}>Kelas 5</option>
+                                <option value="Kelas 6" {{ old('masuk_kelas') == 'Kelas 6' ? 'selected' : '' }}>Kelas 6</option>
+                            </optgroup>
+                            <optgroup label="Sekolah Menengah Pertama (SMP)">
+                                <option value="Kelas 7" {{ old('masuk_kelas') == 'Kelas 7' ? 'selected' : '' }}>Kelas 7</option>
+                                <option value="Kelas 8" {{ old('masuk_kelas') == 'Kelas 8' ? 'selected' : '' }}>Kelas 8</option>
+                                <option value="Kelas 9" {{ old('masuk_kelas') == 'Kelas 9' ? 'selected' : '' }}>Kelas 9</option>
+                            </optgroup>
+                            <optgroup label="Sekolah Menengah Atas (SMA)">
+                                <option value="Kelas 10" {{ old('masuk_kelas') == 'Kelas 10' ? 'selected' : '' }}>Kelas 10</option>
+                                <option value="Kelas 11" {{ old('masuk_kelas') == 'Kelas 11' ? 'selected' : '' }}>Kelas 11</option>
+                                <option value="Kelas 12" {{ old('masuk_kelas') == 'Kelas 12' ? 'selected' : '' }}>Kelas 12</option>
+                            </optgroup>
+                        </select>
                     </div>
                 </div>
 
@@ -1257,6 +1281,87 @@
             }
         }
 
+        const classesByUnit = {
+            'TPA': [],
+            'KB': [],
+            'TK': ['TK A', 'TK B'],
+            'TKIT': ['TK A', 'TK B'],
+            'SD': ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'],
+            'SDIT': ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'],
+            'SMP': ['Kelas 7', 'Kelas 8', 'Kelas 9'],
+            'SMPIT': ['Kelas 7', 'Kelas 8', 'Kelas 9'],
+            'SMA': ['Kelas 10', 'Kelas 11', 'Kelas 12'],
+            'SMAIT': ['Kelas 10', 'Kelas 11', 'Kelas 12']
+        };
+
+        function updateClassOptions(preferredVal) {
+            const sc = document.getElementById('school_code');
+            const mk = document.getElementById('masuk_kelas');
+            if (!sc || !mk) return;
+
+            const unit = sc.value.toUpperCase();
+            const currentVal = (preferredVal !== undefined && preferredVal !== null && preferredVal !== '') 
+                ? preferredVal 
+                : mk.value;
+
+            if (unit === 'TPA' || unit === 'KB') {
+                mk.innerHTML = '<option value="">-- Dikosongkan (KB / TPA Tidak Ada Kelas) --</option>';
+                mk.value = '';
+                mk.classList.add('bg-slate-100', 'text-slate-500');
+                return;
+            }
+
+            mk.classList.remove('bg-slate-100', 'text-slate-500');
+
+            const validClasses = classesByUnit[unit];
+            if (validClasses && validClasses.length > 0) {
+                let html = '<option value="">-- Pilih Kelas --</option>';
+                validClasses.forEach(cls => {
+                    const sel = (currentVal === cls) ? 'selected' : '';
+                    html += `<option value="${cls}" ${sel}>${cls}</option>`;
+                });
+                mk.innerHTML = html;
+
+                if (validClasses.includes(currentVal)) {
+                    mk.value = currentVal;
+                } else if (!currentVal) {
+                    mk.value = validClasses[0];
+                }
+            } else {
+                mk.innerHTML = `
+                    <option value="">-- Pilih Kelas (Kosongkan bila KB / TPA) --</option>
+                    <optgroup label="Taman Kanak-kanak (TK)">
+                        <option value="TK A">TK A</option>
+                        <option value="TK B">TK B</option>
+                    </optgroup>
+                    <optgroup label="Sekolah Dasar (SD)">
+                        <option value="Kelas 1">Kelas 1</option>
+                        <option value="Kelas 2">Kelas 2</option>
+                        <option value="Kelas 3">Kelas 3</option>
+                        <option value="Kelas 4">Kelas 4</option>
+                        <option value="Kelas 5">Kelas 5</option>
+                        <option value="Kelas 6">Kelas 6</option>
+                    </optgroup>
+                    <optgroup label="Sekolah Menengah Pertama (SMP)">
+                        <option value="Kelas 7">Kelas 7</option>
+                        <option value="Kelas 8">Kelas 8</option>
+                        <option value="Kelas 9">Kelas 9</option>
+                    </optgroup>
+                    <optgroup label="Sekolah Menengah Atas (SMA)">
+                        <option value="Kelas 10">Kelas 10</option>
+                        <option value="Kelas 11">Kelas 11</option>
+                        <option value="Kelas 12">Kelas 12</option>
+                    </optgroup>
+                `;
+                if (currentVal) mk.value = currentVal;
+            }
+        }
+
+        function onSchoolCodeChange() {
+            updateUnitFeeInfo();
+            updateClassOptions();
+        }
+
         function clearStepErrors(step) {
             const section = document.getElementById(`step-section-${step}`);
             if (!section) return;
@@ -1430,6 +1535,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             updateUnitFeeInfo();
+            updateClassOptions(@json(old('masuk_kelas')));
             goToStep(currentStep);
 
             const form = document.getElementById('spmbForm');
