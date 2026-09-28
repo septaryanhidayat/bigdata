@@ -496,7 +496,7 @@
         </div>
 
         <!-- MAIN FORM -->
-        <form id="spmbForm" action="{{ route('school.spmb.store') }}" method="POST" enctype="multipart/form-data" class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
+        <form id="spmbForm" action="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.store') : route('school.spmb.store') }}" method="POST" enctype="multipart/form-data" novalidate class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
             @csrf
 
             <!-- ========================================================================= -->
@@ -740,9 +740,9 @@
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-black text-slate-700 uppercase">5. Nama Sekolah Asal *</label>
-                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ old('sekolah_asal') }}" required placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                    <p class="text-[10px] text-slate-400">*) Diisikan data dari jenjang sebelumnya (misal pendaftar SD isi nama TK asal, pendaftar SMP isi nama SD asal).</p>
+                    <label class="block text-xs font-black text-slate-700 uppercase">5. Nama Sekolah Asal</label>
+                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ old('sekolah_asal') }}" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    <p class="text-[10px] text-slate-400">*) Diisikan nama sekolah jenjang sebelumnya. Khusus pendaftar baru TPA / KB boleh dikosongkan.</p>
                 </div>
 
                 <div class="space-y-1">
@@ -752,7 +752,7 @@
 
                 <!-- Tombol Navigasi Step 2 (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="validateAndGo(2, 1)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="goToStep(1)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
                     <button type="button" onclick="validateAndGo(2, 3)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
@@ -842,7 +842,7 @@
 
                 <!-- Tombol Navigasi Step 3 (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="validateAndGo(3, 2)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="goToStep(2)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
                     <button type="button" onclick="validateAndGo(3, 4)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
@@ -880,23 +880,23 @@
                             <input type="text" name="dusun" id="dusun" value="{{ old('dusun') }}" placeholder="RT 02 / RW 01" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">Desa / Kelurahan *</label>
-                            <input type="text" name="kelurahan" id="kelurahan" value="{{ old('kelurahan') }}" required placeholder="Contoh: Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Desa / Kelurahan</label>
+                            <input type="text" name="kelurahan" id="kelurahan" value="{{ old('kelurahan') }}" placeholder="Contoh: Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">Kecamatan *</label>
-                            <input type="text" name="kecamatan" id="kecamatan" value="{{ old('kecamatan') }}" required placeholder="Contoh: Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Kecamatan</label>
+                            <input type="text" name="kecamatan" id="kecamatan" value="{{ old('kecamatan') }}" placeholder="Contoh: Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">Kabupaten / Kota *</label>
-                            <input type="text" name="kabupaten" id="kabupaten" value="{{ old('kabupaten') }}" required placeholder="Contoh: Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Kabupaten / Kota</label>
+                            <input type="text" name="kabupaten" id="kabupaten" value="{{ old('kabupaten', 'Ogan Ilir') }}" placeholder="Contoh: Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">Provinsi *</label>
-                            <input type="text" name="provinsi" id="provinsi" value="{{ old('provinsi') }}" required placeholder="Contoh: Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <label class="block text-xs font-black text-slate-700 uppercase">Provinsi</label>
+                            <input type="text" name="provinsi" id="provinsi" value="{{ old('provinsi', 'Sumatera Selatan') }}" placeholder="Contoh: Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kode Pos</label>
@@ -918,8 +918,8 @@
                             <input type="text" name="nama_ayah" id="nama_ayah" value="{{ old('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ayah (16 Digit KK) *</label>
-                            <input type="text" name="nik_ayah" id="nik_ayah" value="{{ old('nik_ayah') }}" required maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ayah (16 Digit KK)</label>
+                            <input type="text" name="nik_ayah" id="nik_ayah" value="{{ old('nik_ayah') }}" maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                     </div>
 
@@ -947,8 +947,8 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ayah *</label>
-                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" required placeholder="PNS/TNI/Karyawan/Wiraswasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ayah</label>
+                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="PNS/TNI/Karyawan/Wiraswasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">7. Nama Instansi / Perusahaan</label>
@@ -991,8 +991,8 @@
                             <input type="text" name="nama_ibu" id="nama_ibu" value="{{ old('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ibu (16 Digit KK) *</label>
-                            <input type="text" name="nik_ibu" id="nik_ibu" value="{{ old('nik_ibu') }}" required maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ibu (16 Digit KK)</label>
+                            <input type="text" name="nik_ibu" id="nik_ibu" value="{{ old('nik_ibu') }}" maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                     </div>
 
@@ -1020,8 +1020,8 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ibu *</label>
-                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" required placeholder="Ibu Rumah Tangga / PNS / Guru / Swasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ibu</label>
+                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Ibu Rumah Tangga / PNS / Guru / Swasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">7. Nama Instansi / Perusahaan</label>
@@ -1064,7 +1064,7 @@
 
                 <!-- Tombol Navigasi Step 4 (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="validateAndGo(4, 3)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="goToStep(3)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
                     <button type="button" onclick="validateAndGo(4, 5)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
@@ -1198,7 +1198,7 @@
 
                 <!-- Navigation & Submit (Rata Tengah di HP) -->
                 <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-                    <button type="button" onclick="validateAndGo(5, 4)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
+                    <button type="button" onclick="goToStep(4)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors text-center">
                         <span>⬅ Kembali</span>
                     </button>
                     <button type="submit" id="submitBtn" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-700/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
@@ -1217,7 +1217,7 @@
     </footer>
 
     @if(!session('spmb_success_data'))
-    <!-- Form Wizard Logic (Dinamis dari CMS Admin) -->
+    <!-- Form Wizard Logic (Dinamis dari CMS Admin & Interaktif Tanpa Macet) -->
     <script>
         @php
             $feeMap = [];
@@ -1257,26 +1257,105 @@
             }
         }
 
+        function clearStepErrors(step) {
+            const section = document.getElementById(`step-section-${step}`);
+            if (!section) return;
+            section.querySelectorAll('.spmb-field-error').forEach(el => el.remove());
+            section.querySelectorAll('.border-rose-500').forEach(el => {
+                el.classList.remove('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+            });
+            const alertBox = document.getElementById(`step-alert-${step}`);
+            if (alertBox) alertBox.remove();
+        }
+
         function validateStep(step) {
+            clearStepErrors(step);
             const section = document.getElementById(`step-section-${step}`);
             if (!section) return true;
+
             const requiredFields = section.querySelectorAll('input[required], select[required], textarea[required]');
+            let firstInvalid = null;
+
             for (let el of requiredFields) {
-                if (!el.checkValidity()) {
-                    el.reportValidity();
-                    return false;
+                let isInvalid = false;
+                if (el.type === 'checkbox') {
+                    if (!el.checked) isInvalid = true;
+                } else if (!el.value || el.value.trim() === '') {
+                    isInvalid = true;
+                }
+
+                if (isInvalid) {
+                    if (!firstInvalid) firstInvalid = el;
+
+                    el.classList.add('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+
+                    // Add inline error badge
+                    const parent = el.closest('.space-y-1') || el.parentElement;
+                    if (parent && !parent.querySelector('.spmb-field-error')) {
+                        const err = document.createElement('span');
+                        err.className = 'spmb-field-error text-[10px] font-bold text-rose-600 flex items-center gap-1 mt-1';
+                        err.innerHTML = '<span>⚠️</span><span>Kolom ini wajib diisi</span>';
+                        parent.appendChild(err);
+                    }
+
+                    // Auto clear error when input changes
+                    const clearInputError = () => {
+                        el.classList.remove('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+                        const errBadge = parent ? parent.querySelector('.spmb-field-error') : null;
+                        if (errBadge) errBadge.remove();
+                        const topAlert = document.getElementById(`step-alert-${step}`);
+                        if (topAlert && !section.querySelector('.border-rose-500')) {
+                            topAlert.remove();
+                        }
+                    };
+                    el.addEventListener('input', clearInputError, { once: true });
+                    el.addEventListener('change', clearInputError, { once: true });
                 }
             }
+
+            if (firstInvalid) {
+                // Show notification banner at top of section
+                if (!document.getElementById(`step-alert-${step}`)) {
+                    const alertDiv = document.createElement('div');
+                    alertDiv.id = `step-alert-${step}`;
+                    alertDiv.className = 'p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2.5 shadow-sm';
+                    alertDiv.innerHTML = '<span class="text-base shrink-0">⚠️</span><span class="font-bold">Mohon lengkapi kolom bertanda bintang (*) yang berwarna merah sebelum melanjutkan.</span>';
+                    const targetInsert = section.querySelector('div:first-child');
+                    if (targetInsert && targetInsert.nextSibling) {
+                        section.insertBefore(alertDiv, targetInsert.nextSibling);
+                    } else {
+                        section.prepend(alertDiv);
+                    }
+                }
+
+                // Smooth scroll directly to the first invalid element
+                const rect = firstInvalid.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const targetY = rect.top + scrollTop - 130;
+                window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+
+                setTimeout(() => {
+                    try { firstInvalid.focus({ preventScroll: true }); } catch (e) { firstInvalid.focus(); }
+                }, 300);
+
+                return false;
+            }
+
             return true;
         }
 
         function validateAndGo(fromStep, toStep) {
-            if (toStep > fromStep) {
-                for (let s = fromStep; s < toStep; s++) {
-                    if (!validateStep(s)) {
-                        goToStep(s);
-                        return false;
-                    }
+            // Allow going backward freely without validation
+            if (toStep <= fromStep) {
+                goToStep(toStep);
+                return true;
+            }
+
+            // Going forward: validate step-by-step
+            for (let s = fromStep; s < toStep; s++) {
+                if (!validateStep(s)) {
+                    goToStep(s);
+                    return false;
                 }
             }
             goToStep(toStep);
