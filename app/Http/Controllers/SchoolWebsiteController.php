@@ -1267,11 +1267,30 @@ class SchoolWebsiteController extends Controller
         if ($request->has('new') || $request->has('fresh')) {
             session()->forget('spmb_success_data');
         }
+
+        $editRegistration = null;
+        if ($request->has('edit')) {
+            $regId = $request->query('edit');
+            $reg = \App\Models\PpdbRegistration::find($regId);
+            if ($reg) {
+                if ($reg->status === 'PENDING') {
+                    $editRegistration = $reg;
+                    session()->forget('spmb_success_data');
+                } else {
+                    return redirect()->back()->with('error', 'Data pendaftaran nomor ' . $reg->registration_number . ' telah diproses/diverifikasi panitia dan tidak dapat diedit secara mandiri.');
+                }
+            }
+        }
+
         $settings = $this->getSettings();
         $spmb = $this->getSpmbSettings();
         $schools = School::where('is_active', true)->get();
         $selectedUnit = strtoupper($request->query('jenjang', $request->query('unit', $request->query('school_code', ''))));
-        return view('school.ppdb', compact('settings', 'spmb', 'schools', 'selectedUnit'));
+        if ($editRegistration && empty($selectedUnit)) {
+            $selectedUnit = $editRegistration->target_level;
+        }
+
+        return view('school.ppdb', compact('settings', 'spmb', 'schools', 'selectedUnit', 'editRegistration'));
     }
 
     public function getSpmbSettings()
@@ -1779,17 +1798,38 @@ class SchoolWebsiteController extends Controller
         $cleanNikAyah = $request->nik_ayah ? preg_replace('/[^0-9]/', '', $request->nik_ayah) : null;
         $cleanNikIbu = $request->nik_ibu ? preg_replace('/[^0-9]/', '', $request->nik_ibu) : null;
 
-        $noRegistrasi = 'SPMB-2026-' . $schoolCode . '-' . rand(10000, 99999);
+        $isUpdate = false;
+        $existingReg = null;
+        if ($request->filled('registration_id')) {
+            $existingReg = \App\Models\PpdbRegistration::find($request->registration_id);
+            if ($existingReg) {
+                if ($existingReg->status !== 'PENDING') {
+                    return redirect()->back()->with('error', 'Data pendaftaran nomor ' . $existingReg->registration_number . ' sudah diverifikasi panitia dan tidak dapat diubah lagi.');
+                }
+                $isUpdate = true;
+                $noRegistrasi = $existingReg->registration_number;
+                $schoolCode = $existingReg->target_level;
+
+                // Preserve old uploaded docs if new ones not re-uploaded
+                $prevDocs = $existingReg->details_json['uploaded_docs'] ?? [];
+                $uploadedDocs = array_merge($prevDocs, $uploadedDocs);
+            }
+        }
+
+        if (!$isUpdate) {
+            $noRegistrasi = 'SPMB-2026-' . $schoolCode . '-' . rand(10000, 99999);
+        }
 
         // Capture complete form details
-        $allDetails = array_merge($request->except(['_token', 'pas_foto', 'ktp_ortu', 'kartu_keluarga', 'akta_kelahiran', 'bukti_transfer']), [
+        $allDetails = array_merge($request->except(['_token', 'registration_id', 'pas_foto', 'ktp_ortu', 'kartu_keluarga', 'akta_kelahiran', 'bukti_transfer']), [
             'nik_siswa' => $cleanNikSiswa,
             'nik_ayah' => $cleanNikAyah,
             'nik_ibu' => $cleanNikIbu,
             'no_hp_ayah' => $cleanPhone,
             'registration_fee' => $registrationFee,
             'uploaded_docs' => $uploadedDocs,
-            'submitted_at' => now()->toDateTimeString(),
+            'submitted_at' => $isUpdate ? ($existingReg->details_json['submitted_at'] ?? now()->toDateTimeString()) : now()->toDateTimeString(),
+            'updated_at_spmb' => now()->toDateTimeString(),
         ]);
 
         // Auto uppercase all text fields for neat & formal administrative recording
@@ -1813,29 +1853,51 @@ class SchoolWebsiteController extends Controller
         };
         $allDetails = $uppercaseFields($allDetails);
 
-        $reg = \App\Models\PpdbRegistration::create([
-            'school_id' => $schoolObj->id ?? 1,
-            'registration_number' => $noRegistrasi,
-            'full_name' => mb_strtoupper(trim($request->nama_lengkap), 'UTF-8'),
-            'parent_name' => mb_strtoupper(trim($request->nama_ayah), 'UTF-8'),
-            'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
-            'target_level' => strtoupper($schoolCode),
-            'previous_school' => mb_strtoupper(trim($request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-')), 'UTF-8'),
-            'status' => 'PENDING',
-            'registration_fee' => $registrationFee,
-            'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
-            'details_json' => $allDetails,
-        ]);
-
-        try {
-            \App\Models\AuditLog::create([
-                'user_id' => 1,
-                'action' => 'PENDAFTARAN SPMB ONLINE',
-                'model_type' => 'PpdbRegistration',
-                'model_id' => $reg->id,
-                'ip_address' => request()->ip(),
+        if ($isUpdate) {
+            $existingReg->update([
+                'full_name' => mb_strtoupper(trim($request->nama_lengkap), 'UTF-8'),
+                'parent_name' => mb_strtoupper(trim($request->nama_ayah), 'UTF-8'),
+                'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
+                'previous_school' => mb_strtoupper(trim($request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-')), 'UTF-8'),
+                'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
+                'details_json' => $allDetails,
             ]);
-        } catch(\Throwable $e) {}
+            $reg = $existingReg;
+
+            try {
+                \App\Models\AuditLog::create([
+                    'user_id' => 1,
+                    'action' => 'PERBAIKAN DATA SPMB ONLINE',
+                    'model_type' => 'PpdbRegistration',
+                    'model_id' => $reg->id,
+                    'ip_address' => request()->ip(),
+                ]);
+            } catch(\Throwable $e) {}
+        } else {
+            $reg = \App\Models\PpdbRegistration::create([
+                'school_id' => $schoolObj->id ?? 1,
+                'registration_number' => $noRegistrasi,
+                'full_name' => mb_strtoupper(trim($request->nama_lengkap), 'UTF-8'),
+                'parent_name' => mb_strtoupper(trim($request->nama_ayah), 'UTF-8'),
+                'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
+                'target_level' => strtoupper($schoolCode),
+                'previous_school' => mb_strtoupper(trim($request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-')), 'UTF-8'),
+                'status' => 'PENDING',
+                'registration_fee' => $registrationFee,
+                'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
+                'details_json' => $allDetails,
+            ]);
+
+            try {
+                \App\Models\AuditLog::create([
+                    'user_id' => 1,
+                    'action' => 'PENDAFTARAN SPMB ONLINE',
+                    'model_type' => 'PpdbRegistration',
+                    'model_id' => $reg->id,
+                    'ip_address' => request()->ip(),
+                ]);
+            } catch(\Throwable $e) {}
+        }
 
         return redirect()->back()->with('spmb_success_data', [
             'registration_id' => $reg->id,
@@ -1848,8 +1910,9 @@ class SchoolWebsiteController extends Controller
             'fee_paid' => $reg->fee_paid,
             'previous_school' => $reg->previous_school,
             'details' => $allDetails,
+            'is_updated' => $isUpdate,
             'date' => now()->translatedFormat('d F Y H:i'),
-        ]);
+        ])->with('success', $isUpdate ? 'Data pendaftaran nomor ' . $noRegistrasi . ' berhasil diperbarui!' : null);
     }
 
     public function downloadSpmbPdf($id)

@@ -166,16 +166,20 @@
                 </div>
 
                 <!-- Primary Action Buttons Row -->
-                <div class="pt-4 border-t border-emerald-700/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div class="pt-4 border-t border-emerald-700/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     <a href="{{ route('school.spmb.download-pdf', $regId) }}" target="_blank" class="py-3 px-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-amber-500/25 transition-all">
                         <span>🖨️</span>
                         <span>Cetak / Unduh Formulir PDF</span>
+                    </a>
+                    <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['edit' => $regId]) : route('school.spmb.form', ['edit' => $regId]) }}" class="py-3 px-4 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
+                        <span>✏️</span>
+                        <span>Perbaiki / Ubah Data</span>
                     </a>
                     <a href="https://wa.me/{{ $cleanWa }}?text=Assalamu'alaikum%20Panitia%20SPMB,%20saya%20sudah%20mendaftar%20dengan%20No%20Registrasi%20{{ $regNumber }}%20atas%20nama%20ananda%20{{ urlencode($studentName) }}" target="_blank" class="py-3 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
                         <span>💬</span>
                         <span>Konfirmasi ke Panitia WA</span>
                     </a>
-                    <a href="{{ route('school.spmb.form', ['new' => 1]) }}" class="py-3 px-4 rounded-2xl bg-white hover:bg-slate-100 text-emerald-950 font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md sm:col-span-2 lg:col-span-1">
+                    <a href="{{ route('school.spmb.form', ['new' => 1]) }}" class="py-3 px-4 rounded-2xl bg-white hover:bg-slate-100 text-emerald-950 font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
                         <span>➕</span>
                         <span>Daftarkan Siswa Lain</span>
                     </a>
@@ -193,8 +197,11 @@
                         <p class="text-xs text-slate-500">Berikut rincian data formulir resmi yang telah tersimpan dalam database:</p>
                     </div>
                     <div class="flex items-center gap-2">
+                        <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['edit' => $regId]) : route('school.spmb.form', ['edit' => $regId]) }}" class="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-colors flex items-center gap-1.5">
+                            <span>✏️ Perbaiki Data</span>
+                        </a>
                         <a href="{{ route('school.spmb.download-pdf', $regId) }}" target="_blank" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center gap-1.5">
-                            <span>🖨️ Cetak Versi PDF</span>
+                            <span>🖨️ Cetak PDF</span>
                         </a>
                     </div>
                 </div>
@@ -353,6 +360,21 @@
                     </div>
                 </div>
 
+                <!-- Callout Box: Perbaiki Data Formulir -->
+                <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-amber-50/80 border border-amber-200">
+                    <div class="space-y-0.5 text-center sm:text-left">
+                        <h5 class="text-xs font-black text-amber-950 flex items-center justify-center sm:justify-start gap-1.5">
+                            <span>✏️</span>
+                            <span>Menemukan kesalahan data atau ingin melengkapi berkas?</span>
+                        </h5>
+                        <p class="text-[11px] text-amber-800 font-medium">Selama status pendaftaran masih menunggu verifikasi (PENDING), Anda dapat memperbarui informasi formulir kapan saja.</p>
+                    </div>
+                    <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['edit' => $regId]) : route('school.spmb.form', ['edit' => $regId]) }}" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs transition-all shadow-md shrink-0 flex items-center gap-1.5">
+                        <span>✏️</span>
+                        <span>Perbaiki Data Formulir Ini</span>
+                    </a>
+                </div>
+
                 <!-- Callout Box: Daftarkan Calon Siswa Lain -->
                 <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
                     <div class="space-y-0.5 text-center sm:text-left">
@@ -407,7 +429,25 @@
             </p>
         </div>
 
-        @php
+                @php
+            $editData = (!empty($editRegistration) && is_array($editRegistration->details_json)) ? $editRegistration->details_json : [];
+            $val = function($key, $default = '') use ($editData, $editRegistration) {
+                if (old($key) !== null) {
+                    return old($key);
+                }
+                if (isset($editData[$key]) && $editData[$key] !== '') {
+                    return $editData[$key];
+                }
+                if (!empty($editRegistration)) {
+                    if ($key === 'nama_lengkap') return $editRegistration->full_name;
+                    if ($key === 'nama_ayah') return $editRegistration->parent_name;
+                    if ($key === 'no_hp_ayah') return $editRegistration->phone_number;
+                    if ($key === 'school_code') return $editRegistration->target_level;
+                    if ($key === 'sekolah_asal') return $editRegistration->previous_school;
+                }
+                return $default;
+            };
+
             $initialStep = 1;
             if (isset($errors) && $errors->any()) {
                 $step1Keys = ['school_code', 'masuk_kelas', 'jalur_pendaftaran', 'status_siswa', 'nama_lengkap', 'nama_panggilan', 'nik_siswa', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'anak_ke', 'jumlah_saudara', 'jumlah_saudara_kandung', 'jumlah_saudara_tiri', 'agama', 'keadaan_jasmani', 'status_tempat_tinggal', 'kewarganegaraan', 'bahasa_sehari_hari'];
@@ -495,9 +535,37 @@
             </div>
         </div>
 
+                @if(!empty($editRegistration))
+        <!-- MODE PERBAIKAN DATA BANNER -->
+        <div class="p-4 sm:p-5 rounded-3xl bg-amber-50 border-2 border-amber-300 text-amber-950 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-start sm:items-center gap-3.5">
+                <span class="w-10 h-10 rounded-2xl bg-amber-200 text-amber-900 flex items-center justify-center text-xl shrink-0">✏️</span>
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded-full inline-block">
+                        Mode Perbaikan Formulir SPMB
+                    </span>
+                    <h3 class="text-sm sm:text-base font-black text-slate-900 mt-0.5">
+                        Memperbarui Data No. Registrasi: <span class="font-mono text-emerald-800">{{ $editRegistration->registration_number }}</span>
+                    </h3>
+                    <p class="text-xs text-slate-600">
+                        Ananda: <strong class="text-slate-900">{{ $editRegistration->full_name }}</strong> | Unit Tujuan: <strong class="text-slate-900">{{ $editRegistration->target_level }}</strong> (Terkunci Sesuai Registrasi)
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 self-stretch sm:self-auto justify-end">
+                <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['new' => 1]) : route('school.spmb.form', ['new' => 1]) }}" class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all text-center">
+                    Batal / Form Baru
+                </a>
+            </div>
+        </div>
+        @endif
+
         <!-- MAIN FORM -->
-        <form id="spmbForm" action="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.store') : route('school.spmb.store') }}" method="POST" enctype="multipart/form-data" novalidate class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
+                <form id="spmbForm" action="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.store') : route('school.spmb.store') }}" method="POST" enctype="multipart/form-data" novalidate class="p-4 sm:p-8 rounded-3xl form-card space-y-6">
             @csrf
+            @if(!empty($editRegistration))
+                <input type="hidden" name="registration_id" value="{{ $editRegistration->id }}">
+            @endif
 
             <!-- ========================================================================= -->
             <!-- STEP 1: IDENTITAS PESERTA DIDIK (WAJIB DIISI) -->
@@ -516,10 +584,22 @@
                 <!-- Unit & Jalur Pendaftaran -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">Unit Sekolah Tujuan *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">
+                            Unit Sekolah Tujuan *
+                            @if(!empty($editRegistration))
+                                <span class="text-[10px] font-bold text-amber-700 ml-1">(🔒 Terkunci Sesuai No. Registrasi)</span>
+                            @endif
+                        </label>
+                        @if(!empty($editRegistration))
+                            <input type="hidden" name="school_code" id="school_code" value="{{ $editRegistration->target_level }}">
+                            <div class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 flex items-center justify-between cursor-not-allowed">
+                                <span>{{ $editRegistration->target_level }} ROBBANI</span>
+                                <span class="text-[10px] font-bold text-slate-400">Unit Terkunci</span>
+                            </div>
+                        @else
                         <select name="school_code" id="school_code" onchange="onSchoolCodeChange()" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             @php
-                                $selected = old('school_code', $selectedUnit ?? 'SDIT');
+                                $selected = $val('school_code', $selectedUnit ?? 'SDIT');
                             @endphp
                             @if(!empty($spmb['units']))
                                 @foreach($spmb['units'] as $uCode => $u)
@@ -538,6 +618,7 @@
                                 <option value="SMAIT" {{ ($selected == 'SMAIT' || $selected == 'SMA') ? 'selected' : '' }}>SMA IT ROBBANI (SMA Islam Terpadu)</option>
                             @endif
                         </select>
+                        @endif
                     </div>
 
                     <div class="space-y-1">
@@ -545,26 +626,26 @@
                         <select name="masuk_kelas" id="masuk_kelas" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="">-- Kosongkan untuk KB / TPA --</option>
                             <optgroup label="Taman Kanak-kanak (TK)">
-                                <option value="TK A" {{ old('masuk_kelas') == 'TK A' ? 'selected' : '' }}>TK A</option>
-                                <option value="TK B" {{ old('masuk_kelas') == 'TK B' ? 'selected' : '' }}>TK B</option>
+                                <option value="TK A" {{ $val('masuk_kelas') == 'TK A' ? 'selected' : '' }}>TK A</option>
+                                <option value="TK B" {{ $val('masuk_kelas') == 'TK B' ? 'selected' : '' }}>TK B</option>
                             </optgroup>
                             <optgroup label="Sekolah Dasar (SD)">
-                                <option value="Kelas 1" {{ old('masuk_kelas') == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
-                                <option value="Kelas 2" {{ old('masuk_kelas') == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
-                                <option value="Kelas 3" {{ old('masuk_kelas') == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
-                                <option value="Kelas 4" {{ old('masuk_kelas') == 'Kelas 4' ? 'selected' : '' }}>Kelas 4</option>
-                                <option value="Kelas 5" {{ old('masuk_kelas') == 'Kelas 5' ? 'selected' : '' }}>Kelas 5</option>
-                                <option value="Kelas 6" {{ old('masuk_kelas') == 'Kelas 6' ? 'selected' : '' }}>Kelas 6</option>
+                                <option value="Kelas 1" {{ $val('masuk_kelas') == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
+                                <option value="Kelas 2" {{ $val('masuk_kelas') == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
+                                <option value="Kelas 3" {{ $val('masuk_kelas') == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
+                                <option value="Kelas 4" {{ $val('masuk_kelas') == 'Kelas 4' ? 'selected' : '' }}>Kelas 4</option>
+                                <option value="Kelas 5" {{ $val('masuk_kelas') == 'Kelas 5' ? 'selected' : '' }}>Kelas 5</option>
+                                <option value="Kelas 6" {{ $val('masuk_kelas') == 'Kelas 6' ? 'selected' : '' }}>Kelas 6</option>
                             </optgroup>
                             <optgroup label="Sekolah Menengah Pertama (SMP)">
-                                <option value="Kelas 7" {{ old('masuk_kelas') == 'Kelas 7' ? 'selected' : '' }}>Kelas 7</option>
-                                <option value="Kelas 8" {{ old('masuk_kelas') == 'Kelas 8' ? 'selected' : '' }}>Kelas 8</option>
-                                <option value="Kelas 9" {{ old('masuk_kelas') == 'Kelas 9' ? 'selected' : '' }}>Kelas 9</option>
+                                <option value="Kelas 7" {{ $val('masuk_kelas') == 'Kelas 7' ? 'selected' : '' }}>Kelas 7</option>
+                                <option value="Kelas 8" {{ $val('masuk_kelas') == 'Kelas 8' ? 'selected' : '' }}>Kelas 8</option>
+                                <option value="Kelas 9" {{ $val('masuk_kelas') == 'Kelas 9' ? 'selected' : '' }}>Kelas 9</option>
                             </optgroup>
                             <optgroup label="Sekolah Menengah Atas (SMA)">
-                                <option value="Kelas 10" {{ old('masuk_kelas') == 'Kelas 10' ? 'selected' : '' }}>Kelas 10</option>
-                                <option value="Kelas 11" {{ old('masuk_kelas') == 'Kelas 11' ? 'selected' : '' }}>Kelas 11</option>
-                                <option value="Kelas 12" {{ old('masuk_kelas') == 'Kelas 12' ? 'selected' : '' }}>Kelas 12</option>
+                                <option value="Kelas 10" {{ $val('masuk_kelas') == 'Kelas 10' ? 'selected' : '' }}>Kelas 10</option>
+                                <option value="Kelas 11" {{ $val('masuk_kelas') == 'Kelas 11' ? 'selected' : '' }}>Kelas 11</option>
+                                <option value="Kelas 12" {{ $val('masuk_kelas') == 'Kelas 12' ? 'selected' : '' }}>Kelas 12</option>
                             </optgroup>
                         </select>
                     </div>
@@ -574,18 +655,18 @@
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Jalur Pendaftaran *</label>
                         <select name="jalur_pendaftaran" id="jalur_pendaftaran" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="REGULER" {{ old('jalur_pendaftaran', 'REGULER') == 'REGULER' ? 'selected' : '' }}>Jalur Reguler (Umum)</option>
-                            <option value="PRESTASI" {{ old('jalur_pendaftaran') == 'PRESTASI' ? 'selected' : '' }}>Jalur Prestasi (Akademik / Non-Akademik)</option>
-                            <option value="TAHFIDZ" {{ old('jalur_pendaftaran') == 'TAHFIDZ' ? 'selected' : '' }}>Jalur Beasiswa Tahfidz Qur'an</option>
-                            <option value="PINDAHAN" {{ old('jalur_pendaftaran') == 'PINDAHAN' ? 'selected' : '' }}>Jalur Pindahan / Mutasi</option>
+                            <option value="REGULER" {{ $val('jalur_pendaftaran', 'REGULER') == 'REGULER' ? 'selected' : '' }}>Jalur Reguler (Umum)</option>
+                            <option value="PRESTASI" {{ $val('jalur_pendaftaran') == 'PRESTASI' ? 'selected' : '' }}>Jalur Prestasi (Akademik / Non-Akademik)</option>
+                            <option value="TAHFIDZ" {{ $val('jalur_pendaftaran') == 'TAHFIDZ' ? 'selected' : '' }}>Jalur Beasiswa Tahfidz Qur'an</option>
+                            <option value="PINDAHAN" {{ $val('jalur_pendaftaran') == 'PINDAHAN' ? 'selected' : '' }}>Jalur Pindahan / Mutasi</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Status Masuk Siswa *</label>
                         <select name="status_siswa" id="status_siswa" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Baru" {{ old('status_siswa', 'Baru') == 'Baru' ? 'selected' : '' }}>Siswa Baru</option>
-                            <option value="Pindahan" {{ old('status_siswa') == 'Pindahan' ? 'selected' : '' }}>Siswa Pindahan</option>
+                            <option value="Baru" {{ $val('status_siswa', 'Baru') == 'Baru' ? 'selected' : '' }}>Siswa Baru</option>
+                            <option value="Pindahan" {{ $val('status_siswa') == 'Pindahan' ? 'selected' : '' }}>Siswa Pindahan</option>
                         </select>
                     </div>
                 </div>
@@ -602,11 +683,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="sm:col-span-2 space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ananda (Huruf Kapital) *</label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap') }}" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ $val('nama_lengkap') }}" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Nama Panggilan</label>
-                        <input type="text" name="nama_panggilan" id="nama_panggilan" value="{{ old('nama_panggilan') }}" placeholder="Nama Panggilan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="text" name="nama_panggilan" id="nama_panggilan" value="{{ $val('nama_panggilan') }}" placeholder="Nama Panggilan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -614,13 +695,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="sm:col-span-2 space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. NIK Siswa (16 Digit Angka KK)</label>
-                        <input type="text" name="nik_siswa" id="nik_siswa" value="{{ old('nik_siswa') }}" maxlength="16" placeholder="16 Digit NIK dari Kartu Keluarga" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                        <input type="text" name="nik_siswa" id="nik_siswa" value="{{ $val('nik_siswa') }}" maxlength="16" placeholder="16 Digit NIK dari Kartu Keluarga" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">4. Jenis Kelamin *</label>
                         <select name="jenis_kelamin" id="jenis_kelamin" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                            <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                            <option value="Laki-laki" {{ $val('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ $val('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                         </select>
                     </div>
                 </div>
@@ -629,11 +710,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">5. Tempat Lahir *</label>
-                        <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir') }}" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ $val('tempat_lahir') }}" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir *</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ $val('tanggal_lahir') }}" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -641,19 +722,19 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">6. Anak ke -</label>
-                        <input type="number" name="anak_ke" id="anak_ke" value="{{ old('anak_ke') }}" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="anak_ke" id="anak_ke" value="{{ $val('anak_ke') }}" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Dari Jml Saudara</label>
-                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" value="{{ old('jumlah_saudara') }}" min="1" max="20" placeholder="3" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="jumlah_saudara" id="jumlah_saudara" value="{{ $val('jumlah_saudara') }}" min="1" max="20" placeholder="3" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Jml Saudara Kandung</label>
-                        <input type="number" name="jumlah_saudara_kandung" id="jumlah_saudara_kandung" value="{{ old('jumlah_saudara_kandung') }}" min="0" max="20" placeholder="2" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="jumlah_saudara_kandung" id="jumlah_saudara_kandung" value="{{ $val('jumlah_saudara_kandung') }}" min="0" max="20" placeholder="2" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Jml Saudara Tiri</label>
-                        <input type="number" name="jumlah_saudara_tiri" id="jumlah_saudara_tiri" value="{{ old('jumlah_saudara_tiri') }}" min="0" max="20" placeholder="0" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="jumlah_saudara_tiri" id="jumlah_saudara_tiri" value="{{ $val('jumlah_saudara_tiri') }}" min="0" max="20" placeholder="0" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
 
@@ -661,25 +742,25 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">7. Agama</label>
-                        <input type="text" name="agama" id="agama" value="{{ old('agama', 'Islam') }}" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 form-input text-xs font-bold text-slate-500 cursor-not-allowed">
+                        <input type="text" name="agama" id="agama" value="{{ $val('agama', 'Islam') }}" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 form-input text-xs font-bold text-slate-500 cursor-not-allowed">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">8. Keadaan Jasmani</label>
                         <select name="keadaan_jasmani" id="keadaan_jasmani" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Sehat" {{ old('keadaan_jasmani', 'Sehat') == 'Sehat' ? 'selected' : '' }}>Sehat Walafiat</option>
-                            <option value="Kurang Sehat" {{ old('keadaan_jasmani') == 'Kurang Sehat' ? 'selected' : '' }}>Kurang Sehat</option>
-                            <option value="Berkebutuhan Khusus" {{ old('keadaan_jasmani') == 'Berkebutuhan Khusus' ? 'selected' : '' }}>Berkebutuhan Khusus</option>
+                            <option value="Sehat" {{ $val('keadaan_jasmani', 'Sehat') == 'Sehat' ? 'selected' : '' }}>Sehat Walafiat</option>
+                            <option value="Kurang Sehat" {{ $val('keadaan_jasmani') == 'Kurang Sehat' ? 'selected' : '' }}>Kurang Sehat</option>
+                            <option value="Berkebutuhan Khusus" {{ $val('keadaan_jasmani') == 'Berkebutuhan Khusus' ? 'selected' : '' }}>Berkebutuhan Khusus</option>
                         </select>
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">9. Status Tempat Tinggal</label>
                         <select name="status_tempat_tinggal" id="status_tempat_tinggal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Rumah Sendiri" {{ old('status_tempat_tinggal', 'Rumah Sendiri') == 'Rumah Sendiri' ? 'selected' : '' }}>Rumah Sendiri</option>
-                            <option value="Sewa / Kontrak" {{ old('status_tempat_tinggal') == 'Sewa / Kontrak' ? 'selected' : '' }}>Sewa / Kontrak</option>
-                            <option value="Ikut Orang Tua" {{ old('status_tempat_tinggal') == 'Ikut Orang Tua' ? 'selected' : '' }}>Ikut Orang Tua</option>
-                            <option value="Tinggal dikosan" {{ old('status_tempat_tinggal') == 'Tinggal dikosan' ? 'selected' : '' }}>Tinggal dikosan</option>
-                            <option value="Ikut Keluarga/Saudara" {{ old('status_tempat_tinggal') == 'Ikut Keluarga/Saudara' ? 'selected' : '' }}>Ikut Keluarga / Saudara</option>
-                            <option value="Lainnya" {{ old('status_tempat_tinggal') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            <option value="Rumah Sendiri" {{ $val('status_tempat_tinggal', 'Rumah Sendiri') == 'Rumah Sendiri' ? 'selected' : '' }}>Rumah Sendiri</option>
+                            <option value="Sewa / Kontrak" {{ $val('status_tempat_tinggal') == 'Sewa / Kontrak' ? 'selected' : '' }}>Sewa / Kontrak</option>
+                            <option value="Ikut Orang Tua" {{ $val('status_tempat_tinggal') == 'Ikut Orang Tua' ? 'selected' : '' }}>Ikut Orang Tua</option>
+                            <option value="Tinggal dikosan" {{ $val('status_tempat_tinggal') == 'Tinggal dikosan' ? 'selected' : '' }}>Tinggal dikosan</option>
+                            <option value="Ikut Keluarga/Saudara" {{ $val('status_tempat_tinggal') == 'Ikut Keluarga/Saudara' ? 'selected' : '' }}>Ikut Keluarga / Saudara</option>
+                            <option value="Lainnya" {{ $val('status_tempat_tinggal') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
                     </div>
                 </div>
@@ -688,20 +769,20 @@
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">10. Kewarganegaraan</label>
                         <select name="kewarganegaraan" id="kewarganegaraan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="WNI" {{ old('kewarganegaraan', 'WNI') == 'WNI' ? 'selected' : '' }}>WNI (Warga Negara Indonesia)</option>
-                            <option value="WNA" {{ old('kewarganegaraan') == 'WNA' ? 'selected' : '' }}>WNA (Warga Negara Asing)</option>
+                            <option value="WNI" {{ $val('kewarganegaraan', 'WNI') == 'WNI' ? 'selected' : '' }}>WNI (Warga Negara Indonesia)</option>
+                            <option value="WNA" {{ $val('kewarganegaraan') == 'WNA' ? 'selected' : '' }}>WNA (Warga Negara Asing)</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">11. Bahasa Sehari-hari</label>
                         <select name="bahasa_sehari_hari" id="bahasa_sehari_hari" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Indonesia" {{ old('bahasa_sehari_hari', 'Indonesia') == 'Indonesia' ? 'selected' : '' }}>Bahasa Indonesia</option>
-                            <option value="Daerah" {{ old('bahasa_sehari_hari') == 'Daerah' ? 'selected' : '' }}>Bahasa Daerah</option>
-                            <option value="Inggris" {{ old('bahasa_sehari_hari') == 'Inggris' ? 'selected' : '' }}>Bahasa Inggris</option>
-                            <option value="Arab" {{ old('bahasa_sehari_hari') == 'Arab' ? 'selected' : '' }}>Bahasa Arab</option>
-                            <option value="Mandarin" {{ old('bahasa_sehari_hari') == 'Mandarin' ? 'selected' : '' }}>Bahasa Mandarin</option>
-                            <option value="Lainnya" {{ old('bahasa_sehari_hari') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            <option value="Indonesia" {{ $val('bahasa_sehari_hari', 'Indonesia') == 'Indonesia' ? 'selected' : '' }}>Bahasa Indonesia</option>
+                            <option value="Daerah" {{ $val('bahasa_sehari_hari') == 'Daerah' ? 'selected' : '' }}>Bahasa Daerah</option>
+                            <option value="Inggris" {{ $val('bahasa_sehari_hari') == 'Inggris' ? 'selected' : '' }}>Bahasa Inggris</option>
+                            <option value="Arab" {{ $val('bahasa_sehari_hari') == 'Arab' ? 'selected' : '' }}>Bahasa Arab</option>
+                            <option value="Mandarin" {{ $val('bahasa_sehari_hari') == 'Mandarin' ? 'selected' : '' }}>Bahasa Mandarin</option>
+                            <option value="Lainnya" {{ $val('bahasa_sehari_hari') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
                     </div>
                 </div>
@@ -733,20 +814,20 @@
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Jenjang Sekolah Asal</label>
                         <select name="jenjang_sekolah_asal" id="jenjang_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="">-- Pilih Bila Ada --</option>
-                            <option value="Belum Sekolah / Dari Rumah" {{ old('jenjang_sekolah_asal') == 'Belum Sekolah / Dari Rumah' ? 'selected' : '' }}>Belum Sekolah / Dari Rumah</option>
-                            <option value="PAUD / Kelompok Bermain" {{ old('jenjang_sekolah_asal') == 'PAUD / Kelompok Bermain' ? 'selected' : '' }}>PAUD / Kelompok Bermain</option>
-                            <option value="TK / RA" {{ old('jenjang_sekolah_asal') == 'TK / RA' ? 'selected' : '' }}>TK / RA</option>
-                            <option value="SD / MI" {{ old('jenjang_sekolah_asal') == 'SD / MI' ? 'selected' : '' }}>SD / MI</option>
-                            <option value="SMP / MTs" {{ old('jenjang_sekolah_asal') == 'SMP / MTs' ? 'selected' : '' }}>SMP / MTs</option>
-                            <option value="Pondok Pesantren" {{ old('jenjang_sekolah_asal') == 'Pondok Pesantren' ? 'selected' : '' }}>Pondok Pesantren</option>
+                            <option value="Belum Sekolah / Dari Rumah" {{ $val('jenjang_sekolah_asal') == 'Belum Sekolah / Dari Rumah' ? 'selected' : '' }}>Belum Sekolah / Dari Rumah</option>
+                            <option value="PAUD / Kelompok Bermain" {{ $val('jenjang_sekolah_asal') == 'PAUD / Kelompok Bermain' ? 'selected' : '' }}>PAUD / Kelompok Bermain</option>
+                            <option value="TK / RA" {{ $val('jenjang_sekolah_asal') == 'TK / RA' ? 'selected' : '' }}>TK / RA</option>
+                            <option value="SD / MI" {{ $val('jenjang_sekolah_asal') == 'SD / MI' ? 'selected' : '' }}>SD / MI</option>
+                            <option value="SMP / MTs" {{ $val('jenjang_sekolah_asal') == 'SMP / MTs' ? 'selected' : '' }}>SMP / MTs</option>
+                            <option value="Pondok Pesantren" {{ $val('jenjang_sekolah_asal') == 'Pondok Pesantren' ? 'selected' : '' }}>Pondok Pesantren</option>
                         </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Status Sekolah Asal</label>
                         <select name="status_sekolah_asal" id="status_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Swasta" {{ old('status_sekolah_asal', 'Swasta') == 'Swasta' ? 'selected' : '' }}>Swasta</option>
-                            <option value="Negeri" {{ old('status_sekolah_asal') == 'Negeri' ? 'selected' : '' }}>Negeri</option>
+                            <option value="Swasta" {{ $val('status_sekolah_asal', 'Swasta') == 'Swasta' ? 'selected' : '' }}>Swasta</option>
+                            <option value="Negeri" {{ $val('status_sekolah_asal') == 'Negeri' ? 'selected' : '' }}>Negeri</option>
                         </select>
                     </div>
                 </div>
@@ -754,24 +835,24 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. NPSN Sekolah Asal</label>
-                        <input type="text" name="npsn_sekolah_asal" id="npsn_sekolah_asal" value="{{ old('npsn_sekolah_asal') }}" placeholder="8 Digit NPSN (Bila Ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <input type="text" name="npsn_sekolah_asal" id="npsn_sekolah_asal" value="{{ $val('npsn_sekolah_asal') }}" placeholder="8 Digit NPSN (Bila Ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">4. No. Peserta Ujian / NISN</label>
-                        <input type="text" name="nisn" id="nisn" value="{{ old('nisn') }}" placeholder="10 Digit NISN (Khusus lulusan SD/SMP)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <input type="text" name="nisn" id="nisn" value="{{ $val('nisn') }}" placeholder="10 Digit NISN (Khusus lulusan SD/SMP)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-black text-slate-700 uppercase">5. Nama Sekolah Asal</label>
-                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ old('sekolah_asal') }}" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ $val('sekolah_asal') }}" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     <p class="text-[10px] text-slate-400">*) Diisikan nama sekolah jenjang sebelumnya. Khusus pendaftar baru TPA / KB boleh dikosongkan.</p>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-black text-slate-700 uppercase">6. Prestasi Yang Pernah Diraih</label>
-                    <textarea name="prestasi" id="prestasi" rows="3" placeholder="Contoh: Juara 1 Tahfidz 1 Juz Tingkat Kabupaten, Juara 2 Lomba Menggambar, dll. (Kosongkan bila belum ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">{{ old('prestasi') }}</textarea>
+                    <textarea name="prestasi" id="prestasi" rows="3" placeholder="Contoh: Juara 1 Tahfidz 1 Juz Tingkat Kabupaten, Juara 2 Lomba Menggambar, dll. (Kosongkan bila belum ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">{{ $val('prestasi') }}</textarea>
                 </div>
 
                 <!-- Tombol Navigasi Step 2 (Rata Tengah di HP) -->
@@ -802,20 +883,20 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Tinggi Badan (cm)</label>
-                        <input type="number" name="tinggi_badan" id="tinggi_badan" value="{{ old('tinggi_badan') }}" placeholder="Contoh: 110" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="number" name="tinggi_badan" id="tinggi_badan" value="{{ $val('tinggi_badan') }}" placeholder="Contoh: 110" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Berat Badan (kg)</label>
-                        <input type="number" name="berat_badan" id="berat_badan" value="{{ old('berat_badan') }}" placeholder="Contoh: 20" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="number" name="berat_badan" id="berat_badan" value="{{ $val('berat_badan') }}" placeholder="Contoh: 20" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. Golongan Darah</label>
                         <select name="golongan_darah" id="golongan_darah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Belum Tahu" {{ old('golongan_darah') == 'Belum Tahu' ? 'selected' : '' }}>Belum Tahu</option>
-                            <option value="A" {{ old('golongan_darah') == 'A' ? 'selected' : '' }}>Golongan A</option>
-                            <option value="B" {{ old('golongan_darah') == 'B' ? 'selected' : '' }}>Golongan B</option>
-                            <option value="AB" {{ old('golongan_darah') == 'AB' ? 'selected' : '' }}>Golongan AB</option>
-                            <option value="O" {{ old('golongan_darah') == 'O' ? 'selected' : '' }}>Golongan O</option>
+                            <option value="Belum Tahu" {{ $val('golongan_darah') == 'Belum Tahu' ? 'selected' : '' }}>Belum Tahu</option>
+                            <option value="A" {{ $val('golongan_darah') == 'A' ? 'selected' : '' }}>Golongan A</option>
+                            <option value="B" {{ $val('golongan_darah') == 'B' ? 'selected' : '' }}>Golongan B</option>
+                            <option value="AB" {{ $val('golongan_darah') == 'AB' ? 'selected' : '' }}>Golongan AB</option>
+                            <option value="O" {{ $val('golongan_darah') == 'O' ? 'selected' : '' }}>Golongan O</option>
                         </select>
                     </div>
                 </div>
@@ -823,17 +904,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">4. Penyakit yang Pernah Diderita</label>
-                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" value="{{ old('penyakit_pernah') }}" placeholder="Contoh: Asma, Tifus, DBD (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" value="{{ $val('penyakit_pernah') }}" placeholder="Contoh: Asma, Tifus, DBD (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">5. Penyakit yang Sedang Diderita</label>
-                        <input type="text" name="penyakit_sedang" id="penyakit_sedang" value="{{ old('penyakit_sedang') }}" placeholder="Tuliskan jika sedang dalam terapi atau rutin obat" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="penyakit_sedang" id="penyakit_sedang" value="{{ $val('penyakit_sedang') }}" placeholder="Tuliskan jika sedang dalam terapi atau rutin obat" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-black text-slate-700 uppercase">6. Kelainan Fisik / Kebutuhan Khusus</label>
-                    <input type="text" name="kelainan_fisik" id="kelainan_fisik" value="{{ old('kelainan_fisik') }}" placeholder="Tuliskan bila ada kebutuhan khusus / 'Tidak Ada'" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                    <input type="text" name="kelainan_fisik" id="kelainan_fisik" value="{{ $val('kelainan_fisik') }}" placeholder="Tuliskan bila ada kebutuhan khusus / 'Tidak Ada'" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                 </div>
 
                 <!-- Moda Transportasi -->
@@ -843,22 +924,22 @@
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Jarak Tempat Tinggal ke Sekolah</label>
                             <select name="jarak_ke_sekolah" id="jarak_ke_sekolah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="Kurang dari 1 km" {{ old('jarak_ke_sekolah') == 'Kurang dari 1 km' ? 'selected' : '' }}>Kurang dari 1 km</option>
-                                <option value="1 - 3 km" {{ old('jarak_ke_sekolah') == '1 - 3 km' ? 'selected' : '' }}>1 - 3 km</option>
-                                <option value="3 - 5 km" {{ old('jarak_ke_sekolah') == '3 - 5 km' ? 'selected' : '' }}>3 - 5 km</option>
-                                <option value="5 - 10 km" {{ old('jarak_ke_sekolah') == '5 - 10 km' ? 'selected' : '' }}>5 - 10 km</option>
-                                <option value="Lebih dari 10 km" {{ old('jarak_ke_sekolah') == 'Lebih dari 10 km' ? 'selected' : '' }}>Lebih dari 10 km</option>
+                                <option value="Kurang dari 1 km" {{ $val('jarak_ke_sekolah') == 'Kurang dari 1 km' ? 'selected' : '' }}>Kurang dari 1 km</option>
+                                <option value="1 - 3 km" {{ $val('jarak_ke_sekolah') == '1 - 3 km' ? 'selected' : '' }}>1 - 3 km</option>
+                                <option value="3 - 5 km" {{ $val('jarak_ke_sekolah') == '3 - 5 km' ? 'selected' : '' }}>3 - 5 km</option>
+                                <option value="5 - 10 km" {{ $val('jarak_ke_sekolah') == '5 - 10 km' ? 'selected' : '' }}>5 - 10 km</option>
+                                <option value="Lebih dari 10 km" {{ $val('jarak_ke_sekolah') == 'Lebih dari 10 km' ? 'selected' : '' }}>Lebih dari 10 km</option>
                             </select>
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. Transportasi yang Digunakan</label>
                             <select name="transportasi" id="transportasi" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="Sepeda Motor / Diantar Ortu" {{ old('transportasi') == 'Sepeda Motor / Diantar Ortu' ? 'selected' : '' }}>Sepeda Motor / Diantar Ortu</option>
-                                <option value="Mobil Pribadi" {{ old('transportasi') == 'Mobil Pribadi' ? 'selected' : '' }}>Mobil Pribadi</option>
-                                <option value="Jalan Kaki" {{ old('transportasi') == 'Jalan Kaki' ? 'selected' : '' }}>Jalan Kaki</option>
-                                <option value="Antar Jemput Sekolah" {{ old('transportasi') == 'Antar Jemput Sekolah' ? 'selected' : '' }}>Antar Jemput Sekolah</option>
-                                <option value="Angkutan Umum" {{ old('transportasi') == 'Angkutan Umum' ? 'selected' : '' }}>Angkutan Umum</option>
-                                <option value="Lainnya" {{ old('transportasi') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                <option value="Sepeda Motor / Diantar Ortu" {{ $val('transportasi') == 'Sepeda Motor / Diantar Ortu' ? 'selected' : '' }}>Sepeda Motor / Diantar Ortu</option>
+                                <option value="Mobil Pribadi" {{ $val('transportasi') == 'Mobil Pribadi' ? 'selected' : '' }}>Mobil Pribadi</option>
+                                <option value="Jalan Kaki" {{ $val('transportasi') == 'Jalan Kaki' ? 'selected' : '' }}>Jalan Kaki</option>
+                                <option value="Antar Jemput Sekolah" {{ $val('transportasi') == 'Antar Jemput Sekolah' ? 'selected' : '' }}>Antar Jemput Sekolah</option>
+                                <option value="Angkutan Umum" {{ $val('transportasi') == 'Angkutan Umum' ? 'selected' : '' }}>Angkutan Umum</option>
+                                <option value="Lainnya" {{ $val('transportasi') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                         </div>
                     </div>
@@ -895,36 +976,36 @@
                     
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Alamat Jalan / No. Rumah / Gang *</label>
-                        <input type="text" name="alamat" id="alamat" value="{{ old('alamat') }}" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                        <input type="text" name="alamat" id="alamat" value="{{ $val('alamat') }}" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Dusun / RT-RW</label>
-                            <input type="text" name="dusun" id="dusun" value="{{ old('dusun') }}" placeholder="RT 02 / RW 01" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="dusun" id="dusun" value="{{ $val('dusun') }}" placeholder="RT 02 / RW 01" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Desa / Kelurahan</label>
-                            <input type="text" name="kelurahan" id="kelurahan" value="{{ old('kelurahan') }}" placeholder="Contoh: Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="kelurahan" id="kelurahan" value="{{ $val('kelurahan') }}" placeholder="Contoh: Timbangan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kecamatan</label>
-                            <input type="text" name="kecamatan" id="kecamatan" value="{{ old('kecamatan') }}" placeholder="Contoh: Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="kecamatan" id="kecamatan" value="{{ $val('kecamatan') }}" placeholder="Contoh: Indralaya Utara" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kabupaten / Kota</label>
-                            <input type="text" name="kabupaten" id="kabupaten" value="{{ old('kabupaten', 'Ogan Ilir') }}" placeholder="Contoh: Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="kabupaten" id="kabupaten" value="{{ $val('kabupaten', 'Ogan Ilir') }}" placeholder="Contoh: Ogan Ilir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Provinsi</label>
-                            <input type="text" name="provinsi" id="provinsi" value="{{ old('provinsi', 'Sumatera Selatan') }}" placeholder="Contoh: Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                            <input type="text" name="provinsi" id="provinsi" value="{{ $val('provinsi', 'Sumatera Selatan') }}" placeholder="Contoh: Sumatera Selatan" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">Kode Pos</label>
-                            <input type="text" name="kode_pos" id="kode_pos" value="{{ old('kode_pos') }}" placeholder="Contoh: 30662" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                            <input type="text" name="kode_pos" id="kode_pos" value="{{ $val('kode_pos') }}" placeholder="Contoh: 30662" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                         </div>
                     </div>
                 </div>
@@ -939,32 +1020,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ayah *</label>
-                            <input type="text" name="nama_ayah" id="nama_ayah" value="{{ old('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="nama_ayah" id="nama_ayah" value="{{ $val('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ayah (16 Digit KK)</label>
-                            <input type="text" name="nik_ayah" id="nik_ayah" value="{{ old('nik_ayah') }}" maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="nik_ayah" id="nik_ayah" value="{{ $val('nik_ayah') }}" maxlength="16" placeholder="16 Digit NIK Ayah" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">3. Tempat Lahir Ayah</label>
-                            <input type="text" name="tempat_lahir_ayah" id="tempat_lahir_ayah" value="{{ old('tempat_lahir_ayah') }}" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="tempat_lahir_ayah" id="tempat_lahir_ayah" value="{{ $val('tempat_lahir_ayah') }}" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">4. Tanggal Lahir Ayah</label>
-                            <input type="date" name="tanggal_lahir_ayah" id="tanggal_lahir_ayah" value="{{ old('tanggal_lahir_ayah') }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="date" name="tanggal_lahir_ayah" id="tanggal_lahir_ayah" value="{{ $val('tanggal_lahir_ayah') }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">5. Pendidikan Terakhir</label>
                             <select name="pendidikan_ayah" id="pendidikan_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="S1" {{ old('pendidikan_ayah', 'S1') == 'S1' ? 'selected' : '' }}>S1 / Sarjana</option>
-                                <option value="S2/S3" {{ old('pendidikan_ayah') == 'S2/S3' ? 'selected' : '' }}>S2 / S3 (Pascasarjana)</option>
-                                <option value="D3/D4" {{ old('pendidikan_ayah') == 'D3/D4' ? 'selected' : '' }}>D3 / D4 (Diploma)</option>
-                                <option value="SMA/SMK" {{ old('pendidikan_ayah') == 'SMA/SMK' ? 'selected' : '' }}>SMA / SMK Sederajat</option>
-                                <option value="SMP" {{ old('pendidikan_ayah') == 'SMP' ? 'selected' : '' }}>SMP Sederajat</option>
-                                <option value="SD" {{ old('pendidikan_ayah') == 'SD' ? 'selected' : '' }}>SD Sederajat</option>
+                                <option value="S1" {{ $val('pendidikan_ayah', 'S1') == 'S1' ? 'selected' : '' }}>S1 / Sarjana</option>
+                                <option value="S2/S3" {{ $val('pendidikan_ayah') == 'S2/S3' ? 'selected' : '' }}>S2 / S3 (Pascasarjana)</option>
+                                <option value="D3/D4" {{ $val('pendidikan_ayah') == 'D3/D4' ? 'selected' : '' }}>D3 / D4 (Diploma)</option>
+                                <option value="SMA/SMK" {{ $val('pendidikan_ayah') == 'SMA/SMK' ? 'selected' : '' }}>SMA / SMK Sederajat</option>
+                                <option value="SMP" {{ $val('pendidikan_ayah') == 'SMP' ? 'selected' : '' }}>SMP Sederajat</option>
+                                <option value="SD" {{ $val('pendidikan_ayah') == 'SD' ? 'selected' : '' }}>SD Sederajat</option>
                             </select>
                         </div>
                     </div>
@@ -972,31 +1053,31 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ayah</label>
-                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="PNS/TNI/Karyawan/Wiraswasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" value="{{ $val('pekerjaan_ayah') }}" placeholder="PNS/TNI/Karyawan/Wiraswasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">7. Nama Instansi / Perusahaan</label>
-                            <input type="text" name="instansi_ayah" id="instansi_ayah" value="{{ old('instansi_ayah') }}" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="instansi_ayah" id="instansi_ayah" value="{{ $val('instansi_ayah') }}" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">8. Jabatan</label>
-                            <input type="text" name="jabatan_ayah" id="jabatan_ayah" value="{{ old('jabatan_ayah') }}" placeholder="Staff / Manager / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="jabatan_ayah" id="jabatan_ayah" value="{{ $val('jabatan_ayah') }}" placeholder="Staff / Manager / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ayah *</label>
-                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" value="{{ old('no_hp_ayah') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" value="{{ $val('no_hp_ayah') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
                             <select name="penghasilan_ayah" id="penghasilan_ayah" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="< Rp 1.000.000" {{ old('penghasilan_ayah') == '< Rp 1.000.000' ? 'selected' : '' }}>&lt; Rp 1.000.000</option>
-                                <option value="Rp 1.000.000 - Rp 3.000.000" {{ old('penghasilan_ayah') == 'Rp 1.000.000 - Rp 3.000.000' ? 'selected' : '' }}>Rp 1.000.000 - Rp 3.000.000</option>
-                                <option value="Rp 3.000.000 - Rp 5.000.000" {{ old('penghasilan_ayah', 'Rp 3.000.000 - Rp 5.000.000') == 'Rp 3.000.000 - Rp 5.000.000' ? 'selected' : '' }}>Rp 3.000.000 - Rp 5.000.000</option>
-                                <option value="Rp 5.000.000 - Rp 10.000.000" {{ old('penghasilan_ayah') == 'Rp 5.000.000 - Rp 10.000.000' ? 'selected' : '' }}>Rp 5.000.000 - Rp 10.000.000</option>
-                                <option value="> Rp 10.000.000" {{ old('penghasilan_ayah') == '> Rp 10.000.000' ? 'selected' : '' }}>&gt; Rp 10.000.000</option>
+                                <option value="< Rp 1.000.000" {{ $val('penghasilan_ayah') == '< Rp 1.000.000' ? 'selected' : '' }}>&lt; Rp 1.000.000</option>
+                                <option value="Rp 1.000.000 - Rp 3.000.000" {{ $val('penghasilan_ayah') == 'Rp 1.000.000 - Rp 3.000.000' ? 'selected' : '' }}>Rp 1.000.000 - Rp 3.000.000</option>
+                                <option value="Rp 3.000.000 - Rp 5.000.000" {{ $val('penghasilan_ayah', 'Rp 3.000.000 - Rp 5.000.000') == 'Rp 3.000.000 - Rp 5.000.000' ? 'selected' : '' }}>Rp 3.000.000 - Rp 5.000.000</option>
+                                <option value="Rp 5.000.000 - Rp 10.000.000" {{ $val('penghasilan_ayah') == 'Rp 5.000.000 - Rp 10.000.000' ? 'selected' : '' }}>Rp 5.000.000 - Rp 10.000.000</option>
+                                <option value="> Rp 10.000.000" {{ $val('penghasilan_ayah') == '> Rp 10.000.000' ? 'selected' : '' }}>&gt; Rp 10.000.000</option>
                             </select>
                         </div>
                     </div>
@@ -1012,32 +1093,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ibu *</label>
-                            <input type="text" name="nama_ibu" id="nama_ibu" value="{{ old('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="nama_ibu" id="nama_ibu" value="{{ $val('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ibu (16 Digit KK)</label>
-                            <input type="text" name="nik_ibu" id="nik_ibu" value="{{ old('nik_ibu') }}" maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="nik_ibu" id="nik_ibu" value="{{ $val('nik_ibu') }}" maxlength="16" placeholder="16 Digit NIK Ibu" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">3. Tempat Lahir Ibu</label>
-                            <input type="text" name="tempat_lahir_ibu" id="tempat_lahir_ibu" value="{{ old('tempat_lahir_ibu') }}" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="tempat_lahir_ibu" id="tempat_lahir_ibu" value="{{ $val('tempat_lahir_ibu') }}" placeholder="Kota / Kab Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">4. Tanggal Lahir Ibu</label>
-                            <input type="date" name="tanggal_lahir_ibu" id="tanggal_lahir_ibu" value="{{ old('tanggal_lahir_ibu') }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="date" name="tanggal_lahir_ibu" id="tanggal_lahir_ibu" value="{{ $val('tanggal_lahir_ibu') }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">5. Pendidikan Terakhir</label>
                             <select name="pendidikan_ibu" id="pendidikan_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="S1" {{ old('pendidikan_ibu', 'S1') == 'S1' ? 'selected' : '' }}>S1 / Sarjana</option>
-                                <option value="S2/S3" {{ old('pendidikan_ibu') == 'S2/S3' ? 'selected' : '' }}>S2 / S3 (Pascasarjana)</option>
-                                <option value="D3/D4" {{ old('pendidikan_ibu') == 'D3/D4' ? 'selected' : '' }}>D3 / D4 (Diploma)</option>
-                                <option value="SMA/SMK" {{ old('pendidikan_ibu') == 'SMA/SMK' ? 'selected' : '' }}>SMA / SMK Sederajat</option>
-                                <option value="SMP" {{ old('pendidikan_ibu') == 'SMP' ? 'selected' : '' }}>SMP Sederajat</option>
-                                <option value="SD" {{ old('pendidikan_ibu') == 'SD' ? 'selected' : '' }}>SD Sederajat</option>
+                                <option value="S1" {{ $val('pendidikan_ibu', 'S1') == 'S1' ? 'selected' : '' }}>S1 / Sarjana</option>
+                                <option value="S2/S3" {{ $val('pendidikan_ibu') == 'S2/S3' ? 'selected' : '' }}>S2 / S3 (Pascasarjana)</option>
+                                <option value="D3/D4" {{ $val('pendidikan_ibu') == 'D3/D4' ? 'selected' : '' }}>D3 / D4 (Diploma)</option>
+                                <option value="SMA/SMK" {{ $val('pendidikan_ibu') == 'SMA/SMK' ? 'selected' : '' }}>SMA / SMK Sederajat</option>
+                                <option value="SMP" {{ $val('pendidikan_ibu') == 'SMP' ? 'selected' : '' }}>SMP Sederajat</option>
+                                <option value="SD" {{ $val('pendidikan_ibu') == 'SD' ? 'selected' : '' }}>SD Sederajat</option>
                             </select>
                         </div>
                     </div>
@@ -1045,32 +1126,32 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">6. Pekerjaan Ibu</label>
-                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Ibu Rumah Tangga / PNS / Guru / Swasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" value="{{ $val('pekerjaan_ibu') }}" placeholder="Ibu Rumah Tangga / PNS / Guru / Swasta" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">7. Nama Instansi / Perusahaan</label>
-                            <input type="text" name="instansi_ibu" id="instansi_ibu" value="{{ old('instansi_ibu') }}" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="instansi_ibu" id="instansi_ibu" value="{{ $val('instansi_ibu') }}" placeholder="Nama Kantor / Usaha" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">8. Jabatan</label>
-                            <input type="text" name="jabatan_ibu" id="jabatan_ibu" value="{{ old('jabatan_ibu') }}" placeholder="Staff / Guru / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                            <input type="text" name="jabatan_ibu" id="jabatan_ibu" value="{{ $val('jabatan_ibu') }}" placeholder="Staff / Guru / Pemilik" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ibu</label>
-                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ old('no_hp_ibu') }}" placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ $val('no_hp_ibu') }}" placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
                             <select name="penghasilan_ibu" id="penghasilan_ibu" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                                <option value="Tidak Berpenghasilan" {{ old('penghasilan_ibu') == 'Tidak Berpenghasilan' ? 'selected' : '' }}>Tidak Berpenghasilan / IRT</option>
-                                <option value="< Rp 1.000.000" {{ old('penghasilan_ibu') == '< Rp 1.000.000' ? 'selected' : '' }}>&lt; Rp 1.000.000</option>
-                                <option value="Rp 1.000.000 - Rp 3.000.000" {{ old('penghasilan_ibu') == 'Rp 1.000.000 - Rp 3.000.000' ? 'selected' : '' }}>Rp 1.000.000 - Rp 3.000.000</option>
-                                <option value="Rp 3.000.000 - Rp 5.000.000" {{ old('penghasilan_ibu') == 'Rp 3.000.000 - Rp 5.000.000' ? 'selected' : '' }}>Rp 3.000.000 - Rp 5.000.000</option>
-                                <option value="Rp 5.000.000 - Rp 10.000.000" {{ old('penghasilan_ibu') == 'Rp 5.000.000 - Rp 10.000.000' ? 'selected' : '' }}>Rp 5.000.000 - Rp 10.000.000</option>
-                                <option value="> Rp 10.000.000" {{ old('penghasilan_ibu') == '> Rp 10.000.000' ? 'selected' : '' }}>&gt; Rp 10.000.000</option>
+                                <option value="Tidak Berpenghasilan" {{ $val('penghasilan_ibu') == 'Tidak Berpenghasilan' ? 'selected' : '' }}>Tidak Berpenghasilan / IRT</option>
+                                <option value="< Rp 1.000.000" {{ $val('penghasilan_ibu') == '< Rp 1.000.000' ? 'selected' : '' }}>&lt; Rp 1.000.000</option>
+                                <option value="Rp 1.000.000 - Rp 3.000.000" {{ $val('penghasilan_ibu') == 'Rp 1.000.000 - Rp 3.000.000' ? 'selected' : '' }}>Rp 1.000.000 - Rp 3.000.000</option>
+                                <option value="Rp 3.000.000 - Rp 5.000.000" {{ $val('penghasilan_ibu') == 'Rp 3.000.000 - Rp 5.000.000' ? 'selected' : '' }}>Rp 3.000.000 - Rp 5.000.000</option>
+                                <option value="Rp 5.000.000 - Rp 10.000.000" {{ $val('penghasilan_ibu') == 'Rp 5.000.000 - Rp 10.000.000' ? 'selected' : '' }}>Rp 5.000.000 - Rp 10.000.000</option>
+                                <option value="> Rp 10.000.000" {{ $val('penghasilan_ibu') == '> Rp 10.000.000' ? 'selected' : '' }}>&gt; Rp 10.000.000</option>
                             </select>
                         </div>
                     </div>
@@ -1080,9 +1161,9 @@
                 <div class="p-4 rounded-2xl bg-white border border-slate-200/80 space-y-3">
                     <span class="text-xs font-black text-slate-700 block uppercase">Data Wali (Opsional, Bila Tidak Tinggal Bersama Orang Tua Kandung):</span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <input type="text" name="nama_wali" id="nama_wali" value="{{ old('nama_wali') }}" placeholder="Nama Lengkap Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
-                        <input type="text" name="hubungan_wali" id="hubungan_wali" value="{{ old('hubungan_wali') }}" placeholder="Hubungan (Kakek/Paman/Bibi)" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
-                        <input type="text" name="no_hp_wali" id="no_hp_wali" value="{{ old('no_hp_wali') }}" placeholder="No. HP Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <input type="text" name="nama_wali" id="nama_wali" value="{{ $val('nama_wali') }}" placeholder="Nama Lengkap Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="hubungan_wali" id="hubungan_wali" value="{{ $val('hubungan_wali') }}" placeholder="Hubungan (Kakek/Paman/Bibi)" class="px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="text" name="no_hp_wali" id="no_hp_wali" value="{{ $val('no_hp_wali') }}" placeholder="No. HP Wali" class="px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
                 </div>
 
@@ -1116,27 +1197,27 @@
                     <label class="block text-xs font-black text-slate-700 uppercase">Informasi Pendaftaran Diperoleh Dari Mana?</label>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Brosur" {{ old('info_pendaftaran') == 'Brosur' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Brosur" {{ $val('info_pendaftaran') == 'Brosur' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Brosur</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Banner / Spanduk" {{ old('info_pendaftaran') == 'Banner / Spanduk' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Banner / Spanduk" {{ $val('info_pendaftaran') == 'Banner / Spanduk' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Banner / Spanduk</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Media Sosial" {{ old('info_pendaftaran', 'Media Sosial') == 'Media Sosial' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Media Sosial" {{ $val('info_pendaftaran', 'Media Sosial') == 'Media Sosial' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Media Sosial (IG/FB)</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Teman / Saudara" {{ old('info_pendaftaran') == 'Teman / Saudara' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Teman / Saudara" {{ $val('info_pendaftaran') == 'Teman / Saudara' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Teman / Saudara</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Guru / Tendik SIT Robbani" {{ old('info_pendaftaran') == 'Guru / Tendik SIT Robbani' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Guru / Tendik SIT Robbani" {{ $val('info_pendaftaran') == 'Guru / Tendik SIT Robbani' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Guru / Tendik Robbani</span>
                         </label>
                         <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Lainnya" {{ old('info_pendaftaran') == 'Lainnya' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
+                            <input type="radio" name="info_pendaftaran" value="Lainnya" {{ $val('info_pendaftaran') == 'Lainnya' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
                             <span class="font-bold text-slate-700">Lainnya</span>
                         </label>
                     </div>
@@ -1174,6 +1255,9 @@
                         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
                             <label class="block text-xs font-bold text-slate-800">1. Pas Foto Calon Siswa (Terbaru)</label>
                             <input type="file" name="pas_foto" accept="image/png,image/jpeg,image/webp" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            @if(!empty($editData['uploaded_docs']['pas_foto']))
+                                <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
+                            @endif
                             <p class="text-[10px] text-slate-400">Format foto 3x4 atau setara.</p>
                         </div>
 
@@ -1184,6 +1268,9 @@
                                 <span class="text-[10px] font-bold text-emerald-800 bg-emerald-200/80 px-2 py-0.5 rounded-full">WAJIB</span>
                             </label>
                             <input type="file" name="akta_kelahiran" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-600 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-800 file:text-white hover:file:bg-emerald-900 cursor-pointer">
+                            @if(!empty($editData['uploaded_docs']['akta_kelahiran']))
+                                <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
+                            @endif
                             <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan Asli Akta Kelahiran calon siswa.</p>
                         </div>
 
@@ -1191,6 +1278,9 @@
                         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
                             <label class="block text-xs font-bold text-slate-800">3. Kartu Keluarga (KK)</label>
                             <input type="file" name="kartu_keluarga" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            @if(!empty($editData['uploaded_docs']['kartu_keluarga']))
+                                <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
+                            @endif
                             <p class="text-[10px] text-slate-400">Scan / Foto Kartu Keluarga jelas.</p>
                         </div>
 
@@ -1198,6 +1288,9 @@
                         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
                             <label class="block text-xs font-bold text-slate-800">4. KTP Orang Tua (Ayah / Ibu)</label>
                             <input type="file" name="ktp_ortu" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            @if(!empty($editData['uploaded_docs']['ktp_ortu']))
+                                <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
+                            @endif
                             <p class="text-[10px] text-slate-400">Foto KTP Ayah / Ibu.</p>
                         </div>
                     </div>
@@ -1206,6 +1299,9 @@
                     <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
                         <label class="block text-xs font-black text-amber-950 uppercase">5. Bukti Transfer Biaya Formulir Pendaftaran</label>
                         <input type="file" name="bukti_transfer" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-600 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
+                        @if(!empty($editData['uploaded_docs']['bukti_transfer']))
+                            <p class="text-[10px] font-bold text-amber-900 bg-amber-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ Bukti transfer tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
+                        @endif
                         <p class="text-[11px] text-amber-800">Unggah bukti transfer dari ATM / Mobile Banking untuk mempercepat verifikasi otomatis.</p>
                     </div>
                 </div>
@@ -1213,7 +1309,7 @@
                 <!-- Pernyataan Keabsahan Data -->
                 <div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-700 space-y-2">
                     <label class="flex items-start gap-2.5 cursor-pointer">
-                        <input type="checkbox" required class="mt-0.5 rounded text-emerald-700 focus:ring-emerald-500">
+                        <input type="checkbox" required {{ !empty($editRegistration) ? "checked" : "" }} class="mt-0.5 rounded text-emerald-700 focus:ring-emerald-500">
                         <span class="text-[11px] leading-relaxed">
                             Dengan ini saya menyatakan bahwa data yang saya isikan pada formulir pendaftaran SPMB SIT Robbani Ogan Ilir ini adalah benar, sah, dan dapat dipertanggungjawabkan.
                         </span>
@@ -1226,7 +1322,11 @@
                         <span>⬅ Kembali</span>
                     </button>
                     <button type="submit" id="submitBtn" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-700/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                        <span>✓ Kirim Formulir Pendaftaran</span>
+                        @if(!empty($editRegistration))
+                            <span>💾 Simpan Perbaikan Data Formulir</span>
+                        @else
+                            <span>✓ Kirim Formulir Pendaftaran</span>
+                        @endif
                     </button>
                 </div>
             </div>
@@ -1535,7 +1635,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             updateUnitFeeInfo();
-            updateClassOptions(@json(old('masuk_kelas')));
+            updateClassOptions(@json($val('masuk_kelas')));
             goToStep(currentStep);
 
             const form = document.getElementById('spmbForm');
