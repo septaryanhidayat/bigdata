@@ -254,6 +254,10 @@
                             <span class="font-bold text-slate-800 block">Anak ke-{{ $d['anak_ke'] ?? '1' }} dari {{ $d['jumlah_saudara'] ?? '1' }} bersaudara</span>
                         </div>
                         <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Status Orang Tua</span>
+                            <span class="font-bold text-slate-800 block">{{ $d['status_ortu'] ?? 'Ayah dan Ibu Masih Ada' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
                             <span class="text-[10px] font-bold text-slate-400 uppercase">Status Tempat Tinggal</span>
                             <span class="font-bold text-slate-800 block">{{ $d['status_tempat_tinggal'] ?? '-' }}</span>
                         </div>
@@ -485,7 +489,7 @@
 
             $initialStep = 1;
             if (isset($errors) && $errors->any()) {
-                $step1Keys = ['school_code', 'masuk_kelas', 'jalur_pendaftaran', 'status_siswa', 'nama_lengkap', 'nama_panggilan', 'nik_siswa', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'anak_ke', 'jumlah_saudara', 'jumlah_saudara_kandung', 'jumlah_saudara_tiri', 'agama', 'keadaan_jasmani', 'status_tempat_tinggal', 'kewarganegaraan', 'bahasa_sehari_hari'];
+                $step1Keys = ['school_code', 'masuk_kelas', 'jalur_pendaftaran', 'status_siswa', 'nama_lengkap', 'nama_panggilan', 'nik_siswa', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'anak_ke', 'jumlah_saudara', 'jumlah_saudara_kandung', 'jumlah_saudara_tiri', 'status_ortu', 'agama', 'keadaan_jasmani', 'status_tempat_tinggal', 'kewarganegaraan', 'bahasa_sehari_hari'];
                 $step2Keys = ['kategori_sekolah_asal', 'jenjang_sekolah_asal', 'status_sekolah_asal', 'npsn_sekolah_asal', 'nisn', 'sekolah_asal', 'prestasi'];
                 $step3Keys = ['tinggi_badan', 'berat_badan', 'golongan_darah', 'penyakit_pernah', 'penyakit_sedang', 'kelainan_fisik', 'jarak_ke_sekolah', 'transportasi'];
                 $step4Keys = ['alamat', 'dusun', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'kode_pos', 'nama_ayah', 'nik_ayah', 'tempat_lahir_ayah', 'tanggal_lahir_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'instansi_ayah', 'jabatan_ayah', 'no_hp_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'tempat_lahir_ibu', 'tanggal_lahir_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'instansi_ibu', 'jabatan_ibu', 'no_hp_ibu', 'penghasilan_ibu', 'nama_wali', 'hubungan_wali', 'no_hp_wali'];
@@ -773,29 +777,45 @@
                     </div>
                 </div>
 
-                <!-- Agama & Keadaan Jasmani -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- 7. Status Orang Tua & 8. Tempat Tinggal Anak -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">7. Agama</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">7. Status Orang Tua *</label>
+                        <select name="status_ortu" id="status_ortu" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Ayah dan Ibu Masih Ada" {{ $val('status_ortu', 'Ayah dan Ibu Masih Ada') == 'Ayah dan Ibu Masih Ada' ? 'selected' : '' }}>Ayah dan Ibu Masih Ada (Lengkap)</option>
+                            <option value="Yatim (Ayah Meninggal)" {{ $val('status_ortu') == 'Yatim (Ayah Meninggal)' ? 'selected' : '' }}>Yatim (Ayah Meninggal Dunia)</option>
+                            <option value="Piatu (Ibu Meninggal)" {{ $val('status_ortu') == 'Piatu (Ibu Meninggal)' ? 'selected' : '' }}>Piatu (Ibu Meninggal Dunia)</option>
+                            <option value="Yatim Piatu" {{ $val('status_ortu') == 'Yatim Piatu' ? 'selected' : '' }}>Yatim Piatu (Ayah & Ibu Meninggal)</option>
+                            <option value="Orang Tua Cerai / Pisah" {{ $val('status_ortu') == 'Orang Tua Cerai / Pisah' ? 'selected' : '' }}>Orang Tua Cerai / Berpisah</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">8. Tempat Tinggal Anak *</label>
+                        <select name="status_tempat_tinggal" id="status_tempat_tinggal" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <option value="Ikut Orang Tua" {{ $val('status_tempat_tinggal', 'Ikut Orang Tua') == 'Ikut Orang Tua' ? 'selected' : '' }}>Ikut Orang Tua</option>
+                            <option value="Rumah Sendiri" {{ $val('status_tempat_tinggal') == 'Rumah Sendiri' ? 'selected' : '' }}>Rumah Sendiri</option>
+                            <option value="Sewa / Kontrak" {{ $val('status_tempat_tinggal') == 'Sewa / Kontrak' ? 'selected' : '' }}>Sewa / Kontrak</option>
+                            <option value="Ikut Wali / Saudara" {{ $val('status_tempat_tinggal') == 'Ikut Wali / Saudara' ? 'selected' : '' }}>Ikut Wali / Saudara</option>
+                            <option value="Tinggal dikosan" {{ $val('status_tempat_tinggal') == 'Tinggal dikosan' ? 'selected' : '' }}>Tinggal di Kosan / Asrama</option>
+                            <option value="Panti Asuhan" {{ $val('status_tempat_tinggal') == 'Panti Asuhan' ? 'selected' : '' }}>Panti Asuhan</option>
+                            <option value="Lainnya" {{ $val('status_tempat_tinggal') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Agama & Keadaan Jasmani -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-black text-slate-700 uppercase">Agama</label>
                         <input type="text" name="agama" id="agama" value="{{ $val('agama', 'Islam') }}" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 form-input text-xs font-bold text-slate-500 cursor-not-allowed">
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">8. Keadaan Jasmani</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">Keadaan Jasmani</label>
                         <select name="keadaan_jasmani" id="keadaan_jasmani" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Sehat" {{ $val('keadaan_jasmani', 'Sehat') == 'Sehat' ? 'selected' : '' }}>Sehat Walafiat</option>
                             <option value="Kurang Sehat" {{ $val('keadaan_jasmani') == 'Kurang Sehat' ? 'selected' : '' }}>Kurang Sehat</option>
                             <option value="Berkebutuhan Khusus" {{ $val('keadaan_jasmani') == 'Berkebutuhan Khusus' ? 'selected' : '' }}>Berkebutuhan Khusus</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">9. Status Tempat Tinggal</label>
-                        <select name="status_tempat_tinggal" id="status_tempat_tinggal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                            <option value="Rumah Sendiri" {{ $val('status_tempat_tinggal', 'Rumah Sendiri') == 'Rumah Sendiri' ? 'selected' : '' }}>Rumah Sendiri</option>
-                            <option value="Sewa / Kontrak" {{ $val('status_tempat_tinggal') == 'Sewa / Kontrak' ? 'selected' : '' }}>Sewa / Kontrak</option>
-                            <option value="Ikut Orang Tua" {{ $val('status_tempat_tinggal') == 'Ikut Orang Tua' ? 'selected' : '' }}>Ikut Orang Tua</option>
-                            <option value="Tinggal dikosan" {{ $val('status_tempat_tinggal') == 'Tinggal dikosan' ? 'selected' : '' }}>Tinggal dikosan</option>
-                            <option value="Ikut Keluarga/Saudara" {{ $val('status_tempat_tinggal') == 'Ikut Keluarga/Saudara' ? 'selected' : '' }}>Ikut Keluarga / Saudara</option>
-                            <option value="Lainnya" {{ $val('status_tempat_tinggal') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
                     </div>
                 </div>
@@ -856,10 +876,10 @@
                         <div>
                             <label class="text-xs font-black text-emerald-950 uppercase tracking-wide flex items-center gap-1.5">
                                 <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-                                <span>1. Kategori Calon Siswa <span class="text-rose-500">*</span></span>
+                                <span>4. Kategori Sekolah Asal <span class="text-rose-500">*</span></span>
                             </label>
                             <p class="text-xs text-slate-600 font-medium mt-0.5">
-                                Tentukan apakah calon siswa merupakan alumni/lulusan internal SIT Robbani atau pendaftar dari luar:
+                                Tentukan apakah calon siswa merupakan alumni/lulusan internal SIT Robbani atau pendaftar dari sekolah luar:
                             </p>
                         </div>
                         <span class="self-start sm:self-auto text-[10px] font-black uppercase text-emerald-800 bg-white border border-emerald-200 px-2.5 py-0.5 rounded-full shadow-xs">

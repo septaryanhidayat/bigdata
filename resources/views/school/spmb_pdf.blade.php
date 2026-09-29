@@ -195,7 +195,7 @@
                     <tr>
                         <td class="font-bold text-slate-700">8. Tempat Tinggal Anak</td>
                         <td>:</td>
-                        <td colspan="4">{{ $d['tempat_tinggal_anak'] ?? 'Ikut Orang Tua' }}</td>
+                        <td colspan="4">{{ $d['status_tempat_tinggal'] ?? ($d['tempat_tinggal_anak'] ?? 'Ikut Orang Tua') }}</td>
                     </tr>
                     <tr>
                         <td class="font-bold text-slate-700">9. Alamat Tempat Tinggal</td>

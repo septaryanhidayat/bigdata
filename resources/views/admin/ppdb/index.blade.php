@@ -476,6 +476,14 @@
                             <span class="text-slate-800 font-semibold" x-text="(detailData.details?.tempat_lahir || '-') + ', ' + (detailData.details?.tanggal_lahir || '-')"></span>
                         </div>
                         <div>
+                            <span class="text-slate-400 block text-[10px]">Status Orang Tua:</span>
+                            <span class="text-slate-800 font-semibold" x-text="detailData.details?.status_ortu || 'Ayah dan Ibu Masih Ada'"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block text-[10px]">Tempat Tinggal Anak:</span>
+                            <span class="text-slate-800 font-semibold" x-text="detailData.details?.status_tempat_tinggal || detailData.details?.tempat_tinggal_anak || '-'"></span>
+                        </div>
+                        <div>
                             <span class="text-slate-400 block text-[10px]">Sekolah Asal:</span>
                             <span class="text-slate-800 font-semibold" x-text="detailData.previous_school || '-'"></span>
                             <div class="mt-1" x-show="detailData.details?.kategori_sekolah_asal">

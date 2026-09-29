@@ -1853,6 +1853,17 @@ class SchoolWebsiteController extends Controller
         };
         $allDetails = $uppercaseFields($allDetails);
 
+        // Ensure status_ortu has default
+        if (empty($allDetails['status_ortu'])) {
+            $allDetails['status_ortu'] = 'AYAH DAN IBU MASIH ADA';
+        }
+        // Synchronize status_tempat_tinggal & tempat_tinggal_anak
+        if (!empty($allDetails['status_tempat_tinggal']) && empty($allDetails['tempat_tinggal_anak'])) {
+            $allDetails['tempat_tinggal_anak'] = $allDetails['status_tempat_tinggal'];
+        } elseif (!empty($allDetails['tempat_tinggal_anak']) && empty($allDetails['status_tempat_tinggal'])) {
+            $allDetails['status_tempat_tinggal'] = $allDetails['tempat_tinggal_anak'];
+        }
+
         // Default alumni previous school if left blank
         $sekolahAsalInput = trim($request->sekolah_asal ?? '');
         $katAsal = strtoupper(trim($request->kategori_sekolah_asal ?? ''));
