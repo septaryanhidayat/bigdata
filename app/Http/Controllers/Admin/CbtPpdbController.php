@@ -240,6 +240,23 @@ class CbtPpdbController extends Controller
             ->orWhere('nisn', $details['nisn'] ?? '___')
             ->first();
 
+        // Normalize doc paths and generate direct view URLs
+        $docKeys = ['akta_kelahiran', 'kartu_keluarga', 'ktp_ortu', 'pas_foto', 'bukti_transfer'];
+        $documentUrls = [];
+        $normalizedDocs = [];
+
+        foreach ($docKeys as $k) {
+            $val = $uploadedDocs[$k] ?? null;
+            if ($val) {
+                $cleanVal = strtolower(trim($val));
+                $normalizedDocs[$k] = $cleanVal;
+                $documentUrls[$k] = route('admin.ppdb-admin.document', ['id' => $reg->id, 'type' => $k]);
+            } else {
+                $normalizedDocs[$k] = null;
+                $documentUrls[$k] = null;
+            }
+        }
+
         return response()->json([
             'id' => $reg->id,
             'registration_number' => $reg->registration_number,
@@ -255,9 +272,139 @@ class CbtPpdbController extends Controller
             'created_at' => $reg->created_at ? $reg->created_at->translatedFormat('d F Y H:i') : '-',
             'pdf_url' => route('admin.ppdb-admin.download-pdf', $reg->id),
             'details' => $details,
-            'uploaded_docs' => $uploadedDocs,
+            'uploaded_docs' => $normalizedDocs,
+            'document_urls' => $documentUrls,
             'is_integrated' => $existingStudent !== null,
             'student_nis' => $existingStudent?->nis,
+        ]);
+    }
+
+    public function viewDocument($id, $type)
+    {
+        $reg = PpdbRegistration::findOrFail($id);
+        $user = auth()->user();
+        $userSchoolId = $user?->getEffectiveSchoolId();
+        if ($userSchoolId && !$user->isSuperAdmin() && !$user->isYayasan() && $reg->school_id != $userSchoolId) {
+            abort(403, 'Akses ditolak: Dokumen ini milik unit sekolah lain.');
+        }
+
+        $details = is_array($reg->details_json) ? $reg->details_json : (json_decode($reg->details_json, true) ?? []);
+        $uploadedDocs = $details['uploaded_docs'] ?? [];
+        $rawPath = $uploadedDocs[$type] ?? null;
+
+        if (!$rawPath) {
+            abort(404, 'Dokumen ' . $type . ' tidak ditemukan pada data pendaftaran ini.');
+        }
+
+        $filename = basename($rawPath);
+        $dir = public_path('uploads/spmb');
+        $resolvedPath = null;
+
+        // 1. Check exact or lowercase filename in public/uploads/spmb
+        if (file_exists($dir . DIRECTORY_SEPARATOR . $filename)) {
+            $resolvedPath = $dir . DIRECTORY_SEPARATOR . $filename;
+        } elseif (file_exists($dir . DIRECTORY_SEPARATOR . strtolower($filename))) {
+            $resolvedPath = $dir . DIRECTORY_SEPARATOR . strtolower($filename);
+        } else {
+            // 2. Case-insensitive scan
+            if (is_dir($dir)) {
+                $scanned = scandir($dir);
+                foreach ($scanned as $f) {
+                    if (strcasecmp($f, $filename) === 0) {
+                        $resolvedPath = $dir . DIRECTORY_SEPARATOR . $f;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 3. Fallback check inside storage/app/public/uploads/spmb
+        if (!$resolvedPath || !file_exists($resolvedPath)) {
+            $altDir = storage_path('app/public/uploads/spmb');
+            if (file_exists($altDir . DIRECTORY_SEPARATOR . $filename)) {
+                $resolvedPath = $altDir . DIRECTORY_SEPARATOR . $filename;
+            } elseif (file_exists($altDir . DIRECTORY_SEPARATOR . strtolower($filename))) {
+                $resolvedPath = $altDir . DIRECTORY_SEPARATOR . strtolower($filename);
+            }
+        }
+
+        if (!$resolvedPath || !file_exists($resolvedPath)) {
+            abort(404, 'File dokumen fisik (' . $filename . ') tidak ditemukan di folder penyimpanan server.');
+        }
+
+        $mimeType = @mime_content_type($resolvedPath) ?: 'application/octet-stream';
+        $originalExt = strtolower(pathinfo($resolvedPath, PATHINFO_EXTENSION));
+        if ($originalExt === 'pdf') {
+            $mimeType = 'application/pdf';
+        } elseif (in_array($originalExt, ['jpg', 'jpeg'])) {
+            $mimeType = 'image/jpeg';
+        } elseif ($originalExt === 'png') {
+            $mimeType = 'image/png';
+        } elseif ($originalExt === 'webp') {
+            $mimeType = 'image/webp';
+        }
+
+        return response()->file($resolvedPath, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . basename($resolvedPath) . '"',
+            'Cache-Control' => 'no-cache, private',
+        ]);
+    }
+
+    public function serveUpload($filename)
+    {
+        $filename = basename($filename);
+        $dir = public_path('uploads/spmb');
+        $resolvedPath = null;
+
+        // 1. Direct or lowercase match
+        if (file_exists($dir . DIRECTORY_SEPARATOR . $filename)) {
+            $resolvedPath = $dir . DIRECTORY_SEPARATOR . $filename;
+        } elseif (file_exists($dir . DIRECTORY_SEPARATOR . strtolower($filename))) {
+            $resolvedPath = $dir . DIRECTORY_SEPARATOR . strtolower($filename);
+        } else {
+            // 2. Case-insensitive scan
+            if (is_dir($dir)) {
+                $scanned = scandir($dir);
+                foreach ($scanned as $f) {
+                    if (strcasecmp($f, $filename) === 0) {
+                        $resolvedPath = $dir . DIRECTORY_SEPARATOR . $f;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 3. Fallback check inside storage/app/public/uploads/spmb
+        if (!$resolvedPath || !file_exists($resolvedPath)) {
+            $altDir = storage_path('app/public/uploads/spmb');
+            if (file_exists($altDir . DIRECTORY_SEPARATOR . $filename)) {
+                $resolvedPath = $altDir . DIRECTORY_SEPARATOR . $filename;
+            } elseif (file_exists($altDir . DIRECTORY_SEPARATOR . strtolower($filename))) {
+                $resolvedPath = $altDir . DIRECTORY_SEPARATOR . strtolower($filename);
+            }
+        }
+
+        if (!$resolvedPath || !file_exists($resolvedPath)) {
+            abort(404, 'Berkas pendaftaran SPMB (' . $filename . ') tidak ditemukan di server.');
+        }
+
+        $mimeType = @mime_content_type($resolvedPath) ?: 'application/octet-stream';
+        $originalExt = strtolower(pathinfo($resolvedPath, PATHINFO_EXTENSION));
+        if ($originalExt === 'pdf') {
+            $mimeType = 'application/pdf';
+        } elseif (in_array($originalExt, ['jpg', 'jpeg'])) {
+            $mimeType = 'image/jpeg';
+        } elseif ($originalExt === 'png') {
+            $mimeType = 'image/png';
+        } elseif ($originalExt === 'webp') {
+            $mimeType = 'image/webp';
+        }
+
+        return response()->file($resolvedPath, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . basename($resolvedPath) . '"',
+            'Cache-Control' => 'public, max-age=86400',
         ]);
     }
 

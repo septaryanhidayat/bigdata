@@ -56,6 +56,8 @@ Route::domain('spmb.sitrobbani.sch.id')->group(function () {
     Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf']);
     Route::get('/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('subdomain.spmb.verify');
     Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb']);
+    Route::get('/uploads/spmb/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
+    Route::get('/UPLOADS/SPMB/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
 
     // 5. Navigasi ke Web Utama & Login Portal
     Route::get('/web-utama', fn() => redirect()->to('https://sitrobbani.sch.id'));
@@ -84,6 +86,8 @@ Route::domain('ppdb.sitrobbani.sch.id')->group(function () {
     Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf']);
     Route::get('/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('subdomain.ppdb.verify');
     Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb']);
+    Route::get('/uploads/spmb/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
+    Route::get('/UPLOADS/SPMB/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
 
     Route::get('/web-utama', fn() => redirect()->to('https://sitrobbani.sch.id'));
     Route::get('/portal', fn() => redirect()->to('https://sitrobbani.sch.id'));
@@ -304,6 +308,9 @@ Route::get('/spmb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus
 Route::get('/ppdb/cek-status', [SchoolWebsiteController::class, 'checkSpmbStatus'])->name('school.ppdb.check-status');
 Route::get('/spmb/download-pdf/{id}', [SchoolWebsiteController::class, 'downloadSpmbPdf'])->name('school.spmb.download-pdf');
 Route::get('/spmb/verify/{regNumber}', [SchoolWebsiteController::class, 'verifySpmb'])->name('school.spmb.verify');
+Route::get('/uploads/spmb/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
+Route::get('/UPLOADS/SPMB/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
+Route::get('/uploads/SPMB/{filename}', [CbtPpdbController::class, 'serveUpload'])->where('filename', '.*');
 
 Route::get('/e-spp', [SchoolWebsiteController::class, 'eSppCheck'])->name('school.espp');
 Route::post('/chat-ai', [SchoolWebsiteController::class, 'chatAi'])->name('school.chat-ai');
@@ -443,6 +450,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/ppdb-admin', [CbtPpdbController::class, 'storePpdbAdmin'])->name('ppdb-admin.store');
             Route::get('/ppdb-admin/export', [CbtPpdbController::class, 'exportPpdb'])->name('ppdb-admin.export');
             Route::get('/ppdb-admin/{id}/detail', [CbtPpdbController::class, 'detailPpdb'])->name('ppdb-admin.detail');
+            Route::get('/ppdb-admin/{id}/document/{type}', [CbtPpdbController::class, 'viewDocument'])->name('ppdb-admin.document');
             Route::put('/ppdb-admin/{id}', [CbtPpdbController::class, 'updatePpdbAdmin'])->name('ppdb-admin.update');
             Route::post('/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
             Route::delete('/ppdb-admin/{id}', [CbtPpdbController::class, 'destroyPpdb'])->name('ppdb-admin.destroy');

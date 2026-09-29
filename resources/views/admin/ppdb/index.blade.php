@@ -533,11 +533,11 @@
                         <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-slate-900">1. Akta Kelahiran</span>
-                                <span x-show="detailData.uploaded_docs?.akta_kelahiran" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
-                                <span x-show="!detailData.uploaded_docs?.akta_kelahiran" class="text-slate-400 text-[10px]">Belum Ada</span>
+                                <span x-show="detailData.document_urls?.akta_kelahiran || detailData.uploaded_docs?.akta_kelahiran" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
+                                <span x-show="!detailData.document_urls?.akta_kelahiran && !detailData.uploaded_docs?.akta_kelahiran" class="text-slate-400 text-[10px]">Belum Ada</span>
                             </div>
-                            <template x-if="detailData.uploaded_docs?.akta_kelahiran">
-                                <a :href="detailData.uploaded_docs.akta_kelahiran" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
+                            <template x-if="detailData.document_urls?.akta_kelahiran || detailData.uploaded_docs?.akta_kelahiran">
+                                <a :href="detailData.document_urls?.akta_kelahiran || detailData.uploaded_docs?.akta_kelahiran" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
                                     🔍 Buka Akta Kelahiran ↗
                                 </a>
                             </template>
@@ -547,11 +547,11 @@
                         <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-slate-900">2. Kartu Keluarga (KK)</span>
-                                <span x-show="detailData.uploaded_docs?.kartu_keluarga" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
-                                <span x-show="!detailData.uploaded_docs?.kartu_keluarga" class="text-slate-400 text-[10px]">Belum Ada</span>
+                                <span x-show="detailData.document_urls?.kartu_keluarga || detailData.uploaded_docs?.kartu_keluarga" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
+                                <span x-show="!detailData.document_urls?.kartu_keluarga && !detailData.uploaded_docs?.kartu_keluarga" class="text-slate-400 text-[10px]">Belum Ada</span>
                             </div>
-                            <template x-if="detailData.uploaded_docs?.kartu_keluarga">
-                                <a :href="detailData.uploaded_docs.kartu_keluarga" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
+                            <template x-if="detailData.document_urls?.kartu_keluarga || detailData.uploaded_docs?.kartu_keluarga">
+                                <a :href="detailData.document_urls?.kartu_keluarga || detailData.uploaded_docs?.kartu_keluarga" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
                                     🔍 Buka Kartu Keluarga ↗
                                 </a>
                             </template>
@@ -561,11 +561,11 @@
                         <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-slate-900">3. KTP Orang Tua</span>
-                                <span x-show="detailData.uploaded_docs?.ktp_ortu" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
-                                <span x-show="!detailData.uploaded_docs?.ktp_ortu" class="text-slate-400 text-[10px]">Belum Ada</span>
+                                <span x-show="detailData.document_urls?.ktp_ortu || detailData.uploaded_docs?.ktp_ortu" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
+                                <span x-show="!detailData.document_urls?.ktp_ortu && !detailData.uploaded_docs?.ktp_ortu" class="text-slate-400 text-[10px]">Belum Ada</span>
                             </div>
-                            <template x-if="detailData.uploaded_docs?.ktp_ortu">
-                                <a :href="detailData.uploaded_docs.ktp_ortu" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
+                            <template x-if="detailData.document_urls?.ktp_ortu || detailData.uploaded_docs?.ktp_ortu">
+                                <a :href="detailData.document_urls?.ktp_ortu || detailData.uploaded_docs?.ktp_ortu" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
                                     🔍 Buka KTP Ortu ↗
                                 </a>
                             </template>
@@ -575,11 +575,11 @@
                         <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-slate-900">4. Pas Foto Anak</span>
-                                <span x-show="detailData.uploaded_docs?.pas_foto" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
-                                <span x-show="!detailData.uploaded_docs?.pas_foto" class="text-slate-400 text-[10px]">Belum Ada</span>
+                                <span x-show="detailData.document_urls?.pas_foto || detailData.uploaded_docs?.pas_foto" class="text-emerald-600 font-bold text-[10px]">✓ Ada</span>
+                                <span x-show="!detailData.document_urls?.pas_foto && !detailData.uploaded_docs?.pas_foto" class="text-slate-400 text-[10px]">Belum Ada</span>
                             </div>
-                            <template x-if="detailData.uploaded_docs?.pas_foto">
-                                <a :href="detailData.uploaded_docs.pas_foto" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
+                            <template x-if="detailData.document_urls?.pas_foto || detailData.uploaded_docs?.pas_foto">
+                                <a :href="detailData.document_urls?.pas_foto || detailData.uploaded_docs?.pas_foto" target="_blank" class="block w-full py-2 text-center rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 shadow-xs">
                                     🔍 Buka Pas Foto ↗
                                 </a>
                             </template>
@@ -589,11 +589,11 @@
                         <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2 sm:col-span-2">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-slate-900">5. Bukti Transfer Pembayaran</span>
-                                <span x-show="detailData.uploaded_docs?.bukti_transfer" class="text-emerald-600 font-bold text-[10px]">✓ Ada Bukti</span>
-                                <span x-show="!detailData.uploaded_docs?.bukti_transfer" class="text-slate-400 text-[10px]">Belum Ada Bukti</span>
+                                <span x-show="detailData.document_urls?.bukti_transfer || detailData.uploaded_docs?.bukti_transfer" class="text-emerald-600 font-bold text-[10px]">✓ Ada Bukti</span>
+                                <span x-show="!detailData.document_urls?.bukti_transfer && !detailData.uploaded_docs?.bukti_transfer" class="text-slate-400 text-[10px]">Belum Ada Bukti</span>
                             </div>
-                            <template x-if="detailData.uploaded_docs?.bukti_transfer">
-                                <a :href="detailData.uploaded_docs.bukti_transfer" target="_blank" class="block w-full py-2 text-center rounded-xl bg-cyan-700 text-white font-bold hover:bg-cyan-800 shadow-xs">
+                            <template x-if="detailData.document_urls?.bukti_transfer || detailData.uploaded_docs?.bukti_transfer">
+                                <a :href="detailData.document_urls?.bukti_transfer || detailData.uploaded_docs?.bukti_transfer" target="_blank" class="block w-full py-2 text-center rounded-xl bg-cyan-700 text-white font-bold hover:bg-cyan-800 shadow-xs">
                                     💳 Buka Bukti Pembayaran Transfer ↗
                                 </a>
                             </template>

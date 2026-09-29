@@ -1812,7 +1812,18 @@ class SchoolWebsiteController extends Controller
 
                 // Preserve old uploaded docs if new ones not re-uploaded
                 $prevDocs = $existingReg->details_json['uploaded_docs'] ?? [];
-                $uploadedDocs = array_merge($prevDocs, $uploadedDocs);
+                foreach ($uploadFields as $field) {
+                    if (empty($uploadedDocs[$field]) && !empty($prevDocs[$field])) {
+                        $uploadedDocs[$field] = $prevDocs[$field];
+                    }
+                }
+            }
+        }
+
+        // Normalize all uploaded doc paths to lowercase string
+        foreach ($uploadedDocs as $field => $path) {
+            if (is_string($path) && !empty($path)) {
+                $uploadedDocs[$field] = strtolower(trim($path));
             }
         }
 
@@ -1836,11 +1847,16 @@ class SchoolWebsiteController extends Controller
         $uppercaseFields = function($data) use (&$uppercaseFields) {
             $result = [];
             foreach ($data as $key => $val) {
+                if ($key === 'uploaded_docs') {
+                    // PRESERVE exact document path casing (never uppercase file URLs or names!)
+                    $result[$key] = $val;
+                    continue;
+                }
                 if (is_array($val)) {
                     $result[$key] = $uppercaseFields($val);
                 } elseif (is_string($val)) {
                     $k = strtolower($key);
-                    if (str_contains($k, 'email') || str_contains($k, 'url') || str_contains($k, 'file') || str_contains($k, 'token') || str_contains($k, 'path') || str_contains($k, 'uploaded')) {
+                    if (str_contains($k, 'email') || str_contains($k, 'url') || str_contains($k, 'file') || str_contains($k, 'token') || str_contains($k, 'path') || str_contains($k, 'uploaded') || str_starts_with($val, '/uploads/') || str_starts_with($val, 'uploads/')) {
                         $result[$key] = trim($val);
                     } else {
                         $result[$key] = mb_strtoupper(trim($val), 'UTF-8');
@@ -1852,6 +1868,7 @@ class SchoolWebsiteController extends Controller
             return $result;
         };
         $allDetails = $uppercaseFields($allDetails);
+        $allDetails['uploaded_docs'] = $uploadedDocs;
 
         // Ensure status_ortu has default
         if (empty($allDetails['status_ortu'])) {
