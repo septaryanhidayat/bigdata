@@ -1853,12 +1853,26 @@ class SchoolWebsiteController extends Controller
         };
         $allDetails = $uppercaseFields($allDetails);
 
+        // Default alumni previous school if left blank
+        $sekolahAsalInput = trim($request->sekolah_asal ?? '');
+        $katAsal = strtoupper(trim($request->kategori_sekolah_asal ?? ''));
+        if (empty($sekolahAsalInput) && str_contains($katAsal, 'ALUMNI')) {
+            $unitTarget = strtoupper(trim($request->school_code ?? ''));
+            if (in_array($unitTarget, ['SD', 'SDIT'])) $sekolahAsalInput = 'TKIT ROBBANI OGAN ILIR';
+            elseif (in_array($unitTarget, ['SMP', 'SMPIT'])) $sekolahAsalInput = 'SDIT ROBBANI OGAN ILIR';
+            elseif (in_array($unitTarget, ['SMA', 'SMAIT'])) $sekolahAsalInput = 'SMPIT ROBBANI OGAN ILIR';
+            elseif (in_array($unitTarget, ['TK', 'TKIT'])) $sekolahAsalInput = 'KB ROBBANI OGAN ILIR';
+            else $sekolahAsalInput = 'SIT ROBBANI OGAN ILIR';
+            $allDetails['sekolah_asal'] = $sekolahAsalInput;
+        }
+        $finalPreviousSchool = mb_strtoupper($sekolahAsalInput ?: ($allDetails['jenjang_sekolah_asal'] ?? '-'), 'UTF-8');
+
         if ($isUpdate) {
             $existingReg->update([
                 'full_name' => mb_strtoupper(trim($request->nama_lengkap), 'UTF-8'),
                 'parent_name' => mb_strtoupper(trim($request->nama_ayah), 'UTF-8'),
                 'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
-                'previous_school' => mb_strtoupper(trim($request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-')), 'UTF-8'),
+                'previous_school' => $finalPreviousSchool,
                 'fee_paid' => !empty($uploadedDocs['bukti_transfer']),
                 'details_json' => $allDetails,
             ]);
@@ -1881,7 +1895,7 @@ class SchoolWebsiteController extends Controller
                 'parent_name' => mb_strtoupper(trim($request->nama_ayah), 'UTF-8'),
                 'phone_number' => $cleanPhone ?: trim($request->no_hp_ayah),
                 'target_level' => strtoupper($schoolCode),
-                'previous_school' => mb_strtoupper(trim($request->sekolah_asal ?? ($allDetails['jenjang_sekolah_asal'] ?? '-')), 'UTF-8'),
+                'previous_school' => $finalPreviousSchool,
                 'status' => 'PENDING',
                 'registration_fee' => $registrationFee,
                 'fee_paid' => !empty($uploadedDocs['bukti_transfer']),

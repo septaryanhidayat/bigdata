@@ -199,8 +199,26 @@
                                 <span>💬</span> {{ $reg->phone_number }}
                             </a>
                         </td>
-                        <td class="p-4 font-semibold text-slate-600">
-                            {{ $reg->previous_school ?: '-' }}
+                        <td class="p-4">
+                            <span class="font-bold text-slate-800 block text-xs">{{ $reg->previous_school ?: '-' }}</span>
+                            @php
+                                $kategoriAsal = $reg->details_json['kategori_sekolah_asal'] ?? null;
+                            @endphp
+                            @if($kategoriAsal)
+                                @if(str_contains(strtoupper($kategoriAsal), 'ALUMNI'))
+                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300 mt-1">
+                                        ★ Alumni Robbani
+                                    </span>
+                                @elseif(str_contains(strtoupper($kategoriAsal), 'BELUM'))
+                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-50 text-amber-800 border border-amber-200 mt-1">
+                                        Belum Sekolah
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600 border border-slate-200 mt-1">
+                                        Luar SIT
+                                    </span>
+                                @endif
+                            @endif
                         </td>
                         <td class="p-4">
                             <div class="font-mono font-black text-slate-900">
@@ -460,6 +478,11 @@
                         <div>
                             <span class="text-slate-400 block text-[10px]">Sekolah Asal:</span>
                             <span class="text-slate-800 font-semibold" x-text="detailData.previous_school || '-'"></span>
+                            <div class="mt-1" x-show="detailData.details?.kategori_sekolah_asal">
+                                <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black"
+                                      :class="detailData.details?.kategori_sekolah_asal?.toUpperCase().includes('ALUMNI') ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : (detailData.details?.kategori_sekolah_asal?.toUpperCase().includes('BELUM') ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-slate-100 text-slate-700 border border-slate-200')"
+                                      x-text="detailData.details?.kategori_sekolah_asal"></span>
+                            </div>
                         </div>
                         <div class="col-span-2 sm:col-span-3">
                             <span class="text-slate-400 block text-[10px]">Alamat Lengkap:</span>

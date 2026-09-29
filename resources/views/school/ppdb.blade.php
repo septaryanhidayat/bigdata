@@ -274,7 +274,7 @@
                         <span>🏫</span>
                         <span>2. Unit Sekolah Tujuan & Riwayat Sekolah Asal</span>
                     </h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
                         <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-0.5">
                             <span class="text-[10px] font-bold text-emerald-700 uppercase">Unit Sekolah Pilihan</span>
                             <span class="font-extrabold text-emerald-900 block text-sm">{{ $d['school_code'] ?? $targetLevel }}</span>
@@ -286,6 +286,27 @@
                         <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
                             <span class="text-[10px] font-bold text-slate-400 uppercase">Jalur Pendaftaran</span>
                             <span class="font-bold text-slate-800 block">{{ $d['jalur_pendaftaran'] ?? 'Reguler' }}</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Kategori Calon Siswa</span>
+                            <div class="pt-0.5">
+                                @php
+                                    $katOutput = strtoupper((string)($d['kategori_sekolah_asal'] ?? ''));
+                                @endphp
+                                @if(str_contains($katOutput, 'ALUMNI'))
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                        <span>⭐</span> Alumni SIT Robbani
+                                    </span>
+                                @elseif(str_contains($katOutput, 'BELUM'))
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                                        <span>👶</span> Belum Sekolah
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                                        <span>🏫</span> Luar SIT Robbani
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                         <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-0.5">
                             <span class="text-[10px] font-bold text-slate-400 uppercase">Sekolah Asal</span>
@@ -465,7 +486,7 @@
             $initialStep = 1;
             if (isset($errors) && $errors->any()) {
                 $step1Keys = ['school_code', 'masuk_kelas', 'jalur_pendaftaran', 'status_siswa', 'nama_lengkap', 'nama_panggilan', 'nik_siswa', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'anak_ke', 'jumlah_saudara', 'jumlah_saudara_kandung', 'jumlah_saudara_tiri', 'agama', 'keadaan_jasmani', 'status_tempat_tinggal', 'kewarganegaraan', 'bahasa_sehari_hari'];
-                $step2Keys = ['jenjang_sekolah_asal', 'status_sekolah_asal', 'npsn_sekolah_asal', 'nisn', 'sekolah_asal', 'prestasi'];
+                $step2Keys = ['kategori_sekolah_asal', 'jenjang_sekolah_asal', 'status_sekolah_asal', 'npsn_sekolah_asal', 'nisn', 'sekolah_asal', 'prestasi'];
                 $step3Keys = ['tinggi_badan', 'berat_badan', 'golongan_darah', 'penyakit_pernah', 'penyakit_sedang', 'kelainan_fisik', 'jarak_ke_sekolah', 'transportasi'];
                 $step4Keys = ['alamat', 'dusun', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'kode_pos', 'nama_ayah', 'nik_ayah', 'tempat_lahir_ayah', 'tanggal_lahir_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'instansi_ayah', 'jabatan_ayah', 'no_hp_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'tempat_lahir_ibu', 'tanggal_lahir_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'instansi_ibu', 'jabatan_ibu', 'no_hp_ibu', 'penghasilan_ibu', 'nama_wali', 'hubungan_wali', 'no_hp_wali'];
                 $step5Keys = ['info_pendaftaran', 'pas_foto', 'akta_kelahiran', 'kartu_keluarga', 'ktp_ortu', 'bukti_transfer'];
@@ -823,9 +844,83 @@
                     <p class="text-xs text-slate-500 font-medium">Bagi pendaftar TPA / KB baru, data sekolah asal boleh dikosongkan.</p>
                 </div>
 
+                <!-- 1. Kategori Asal Calon Siswa (Alumni SIT Robbani / Luar) -->
+                @php
+                    $curKategori = strtoupper((string)$val('kategori_sekolah_asal', ''));
+                    if (empty($curKategori)) {
+                        $curKategori = in_array(strtoupper($targetLevel ?? ''), ['TPA', 'KB']) ? 'BELUM PERNAH SEKOLAH' : 'ALUMNI SIT ROBBANI';
+                    }
+                @endphp
+                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-emerald-50/70 via-emerald-50/30 to-slate-50 border border-emerald-200/80 shadow-xs space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                            <label class="text-xs font-black text-emerald-950 uppercase tracking-wide flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                <span>1. Kategori Calon Siswa <span class="text-rose-500">*</span></span>
+                            </label>
+                            <p class="text-xs text-slate-600 font-medium mt-0.5">
+                                Tentukan apakah calon siswa merupakan alumni/lulusan internal SIT Robbani atau pendaftar dari luar:
+                            </p>
+                        </div>
+                        <span class="self-start sm:self-auto text-[10px] font-black uppercase text-emerald-800 bg-white border border-emerald-200 px-2.5 py-0.5 rounded-full shadow-xs">
+                            Pilihan Wajib
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                        <!-- Option 1: Alumni SIT Robbani -->
+                        <label class="relative flex items-start gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all bg-white hover:border-emerald-500 hover:shadow-xs has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/80 has-[:checked]:ring-2 has-[:checked]:ring-emerald-500/20 group">
+                            <input type="radio" name="kategori_sekolah_asal" value="Alumni SIT Robbani" 
+                                {{ str_contains($curKategori, 'ALUMNI') ? 'checked' : '' }}
+                                onchange="handleKategoriSekolahChange(this.value)"
+                                class="mt-0.5 w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <div class="min-w-0 flex-1">
+                                <span class="block text-xs font-black text-slate-900 group-hover:text-emerald-800 flex items-center gap-1.5">
+                                    <span>⭐</span> Alumni SIT Robbani
+                                </span>
+                                <span class="block text-[11px] text-emerald-700 font-semibold mt-0.5 leading-tight">
+                                    Lulusan internal SIT Robbani Ogan Ilir
+                                </span>
+                            </div>
+                        </label>
+
+                        <!-- Option 2: Luar SIT Robbani -->
+                        <label class="relative flex items-start gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all bg-white hover:border-emerald-500 hover:shadow-xs has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/80 has-[:checked]:ring-2 has-[:checked]:ring-emerald-500/20 group">
+                            <input type="radio" name="kategori_sekolah_asal" value="Luar SIT Robbani" 
+                                {{ str_contains($curKategori, 'LUAR') ? 'checked' : '' }}
+                                onchange="handleKategoriSekolahChange(this.value)"
+                                class="mt-0.5 w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <div class="min-w-0 flex-1">
+                                <span class="block text-xs font-black text-slate-900 group-hover:text-emerald-800 flex items-center gap-1.5">
+                                    <span>🏫</span> Luar SIT Robbani
+                                </span>
+                                <span class="block text-[11px] text-slate-500 font-medium mt-0.5 leading-tight">
+                                    Pendaftar baru dari sekolah luar / umum
+                                </span>
+                            </div>
+                        </label>
+
+                        <!-- Option 3: Belum Pernah Sekolah -->
+                        <label class="relative flex items-start gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all bg-white hover:border-emerald-500 hover:shadow-xs has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/80 has-[:checked]:ring-2 has-[:checked]:ring-emerald-500/20 group">
+                            <input type="radio" name="kategori_sekolah_asal" value="Belum Pernah Sekolah" 
+                                {{ str_contains($curKategori, 'BELUM') ? 'checked' : '' }}
+                                onchange="handleKategoriSekolahChange(this.value)"
+                                class="mt-0.5 w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <div class="min-w-0 flex-1">
+                                <span class="block text-xs font-black text-slate-900 group-hover:text-emerald-800 flex items-center gap-1.5">
+                                    <span>👶</span> Belum Sekolah
+                                </span>
+                                <span class="block text-[11px] text-slate-500 font-medium mt-0.5 leading-tight">
+                                    Balita / belum sekolah / dari rumah
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">1. Jenjang Sekolah Asal</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">2. Jenjang Sekolah Asal</label>
                         <select name="jenjang_sekolah_asal" id="jenjang_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="">-- Pilih Bila Ada --</option>
                             <option value="Belum Sekolah / Dari Rumah" {{ $val('jenjang_sekolah_asal') == 'Belum Sekolah / Dari Rumah' ? 'selected' : '' }}>Belum Sekolah / Dari Rumah</option>
@@ -838,7 +933,7 @@
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">2. Status Sekolah Asal</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">3. Status Sekolah Asal</label>
                         <select name="status_sekolah_asal" id="status_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Swasta" {{ $val('status_sekolah_asal', 'Swasta') == 'Swasta' ? 'selected' : '' }}>Swasta</option>
                             <option value="Negeri" {{ $val('status_sekolah_asal') == 'Negeri' ? 'selected' : '' }}>Negeri</option>
@@ -848,24 +943,24 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">3. NPSN Sekolah Asal</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">4. NPSN Sekolah Asal</label>
                         <input type="text" name="npsn_sekolah_asal" id="npsn_sekolah_asal" value="{{ $val('npsn_sekolah_asal') }}" placeholder="8 Digit NPSN (Bila Ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">4. No. Peserta Ujian / NISN</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">5. No. Peserta Ujian / NISN</label>
                         <input type="text" name="nisn" id="nisn" value="{{ $val('nisn') }}" placeholder="10 Digit NISN (Khusus lulusan SD/SMP)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-black text-slate-700 uppercase">5. Nama Sekolah Asal</label>
+                    <label class="block text-xs font-black text-slate-700 uppercase">6. Nama Sekolah Asal</label>
                     <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ $val('sekolah_asal') }}" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     <p class="text-[10px] text-slate-400">*) Diisikan nama sekolah jenjang sebelumnya. Khusus pendaftar baru TPA / KB boleh dikosongkan.</p>
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-black text-slate-700 uppercase">6. Prestasi Yang Pernah Diraih</label>
+                    <label class="block text-xs font-black text-slate-700 uppercase">7. Prestasi Yang Pernah Diraih</label>
                     <textarea name="prestasi" id="prestasi" rows="3" placeholder="Contoh: Juara 1 Tahfidz 1 Juz Tingkat Kabupaten, Juara 2 Lomba Menggambar, dll. (Kosongkan bila belum ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">{{ $val('prestasi') }}</textarea>
                 </div>
 
@@ -1474,6 +1569,58 @@
         function onSchoolCodeChange() {
             updateUnitFeeInfo();
             updateClassOptions();
+            const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
+            if (checkedKategori && checkedKategori.value === 'Alumni SIT Robbani') {
+                handleKategoriSekolahChange('Alumni SIT Robbani');
+            }
+        }
+
+        function handleKategoriSekolahChange(val) {
+            const sc = document.getElementById('school_code');
+            const unit = sc ? sc.value.toUpperCase() : '';
+            const jenjang = document.getElementById('jenjang_sekolah_asal');
+            const statusSekolah = document.getElementById('status_sekolah_asal');
+            const namaSekolah = document.getElementById('sekolah_asal');
+
+            if (val === 'Alumni SIT Robbani') {
+                if (statusSekolah) statusSekolah.value = 'Swasta';
+                
+                let defaultNama = 'SIT ROBBANI OGAN ILIR';
+                let defaultJenjang = '';
+
+                if (unit === 'SD' || unit === 'SDIT') {
+                    defaultNama = 'TKIT ROBBANI OGAN ILIR';
+                    defaultJenjang = 'TK / RA';
+                } else if (unit === 'SMP' || unit === 'SMPIT') {
+                    defaultNama = 'SDIT ROBBANI OGAN ILIR';
+                    defaultJenjang = 'SD / MI';
+                } else if (unit === 'SMA' || unit === 'SMAIT') {
+                    defaultNama = 'SMPIT ROBBANI OGAN ILIR';
+                    defaultJenjang = 'SMP / MTs';
+                } else if (unit === 'TK' || unit === 'TKIT') {
+                    defaultNama = 'KB ROBBANI OGAN ILIR';
+                    defaultJenjang = 'PAUD / Kelompok Bermain';
+                } else if (unit === 'KB') {
+                    defaultNama = 'TPA ROBBANI OGAN ILIR';
+                    defaultJenjang = 'PAUD / Kelompok Bermain';
+                }
+
+                if (namaSekolah && (!namaSekolah.value || namaSekolah.value === '-' || namaSekolah.value.includes('ROBBANI') || namaSekolah.value.includes('Belum Sekolah'))) {
+                    namaSekolah.value = defaultNama;
+                }
+                if (jenjang && defaultJenjang && (!jenjang.value || jenjang.value === 'Belum Sekolah / Dari Rumah')) {
+                    jenjang.value = defaultJenjang;
+                }
+            } else if (val === 'Belum Pernah Sekolah') {
+                if (jenjang) jenjang.value = 'Belum Sekolah / Dari Rumah';
+                if (namaSekolah && (namaSekolah.value.includes('ROBBANI') || !namaSekolah.value)) {
+                    namaSekolah.value = '-';
+                }
+            } else if (val === 'Luar SIT Robbani') {
+                if (namaSekolah && (namaSekolah.value.includes('ROBBANI') || namaSekolah.value === '-')) {
+                    namaSekolah.value = '';
+                }
+            }
         }
 
         function clearStepErrors(step) {
@@ -1651,6 +1798,12 @@
             updateUnitFeeInfo();
             updateClassOptions(@json($val('masuk_kelas')));
             goToStep(currentStep);
+
+            const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
+            const namaSekolahEl = document.getElementById('sekolah_asal');
+            if (checkedKategori && checkedKategori.value === 'Alumni SIT Robbani' && (!namaSekolahEl || !namaSekolahEl.value)) {
+                handleKategoriSekolahChange('Alumni SIT Robbani');
+            }
 
             const form = document.getElementById('spmbForm');
             if (form) {
