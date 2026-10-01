@@ -760,20 +760,20 @@ function ppdbAdminManager() {
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({
-                        _method: 'PUT',
                         status: newStatus
                     })
                 });
-                const result = await res.json();
-                if (result.success) {
+                const result = await res.json().catch(() => null);
+                if (res.ok && result && result.success) {
                     this.detailData.status = newStatus;
                     alert('Status berhasil diubah!');
                     window.location.reload();
                 } else {
-                    alert(result.message || 'Gagal mengubah status');
+                    alert((result && (result.message || result.error)) || `Gagal mengubah status (HTTP ${res.status})`);
                 }
             } catch(e) {
                 alert('Terjadi kesalahan: ' + e.message);
@@ -787,21 +787,21 @@ function ppdbAdminManager() {
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({
-                        _method: 'PUT',
                         status: this.detailData.status,
                         fee_paid: feePaid
                     })
                 });
-                const result = await res.json();
-                if (result.success) {
+                const result = await res.json().catch(() => null);
+                if (res.ok && result && result.success) {
                     this.detailData.fee_paid = !!feePaid;
                     alert('Status pembayaran diperbarui!');
                     window.location.reload();
                 } else {
-                    alert(result.message || 'Gagal mengubah status biaya');
+                    alert((result && (result.message || result.error)) || `Gagal mengubah status biaya (HTTP ${res.status})`);
                 }
             } catch(e) {
                 alert('Terjadi kesalahan: ' + e.message);

@@ -77,7 +77,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
+            fn (Request $request) => $request->is('api/*') || $request->expectsJson() || $request->ajax(),
         );
 
         $exceptions->reportable(function (\Throwable $e) {

@@ -2120,8 +2120,7 @@ class SchoolWebsiteController extends Controller
             ]
         ];
 
-        // AUTOMATED SAFETY FILTER: Remove judol, pinjol, SARA, pornography, etc.
-        return \App\Services\ContentFilterService::filterCollection($newsList);
+        return $newsList;
     }
 
     public function getArticleData()
@@ -2175,8 +2174,7 @@ class SchoolWebsiteController extends Controller
             return $tB <=> $tA;
         });
 
-        // AUTOMATED SAFETY FILTER: Remove judol, pinjol, SARA, pornography, etc.
-        return \App\Services\ContentFilterService::filterCollection($data);
+        return $data;
     }
 
     public function getFacilityData()

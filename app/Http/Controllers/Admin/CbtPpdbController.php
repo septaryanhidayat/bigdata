@@ -465,7 +465,11 @@ class CbtPpdbController extends Controller
 
         // If status changed to PASSED, auto-provision
         if ($newStatus === 'PASSED' && $oldStatus !== 'PASSED') {
-            $this->provisionSmartEduStudent($reg);
+            try {
+                $this->provisionSmartEduStudent($reg);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Gagal auto-provision siswa SmartEdu PPDB #{$reg->id}: " . $e->getMessage());
+            }
         }
 
         try {
@@ -484,8 +488,15 @@ class CbtPpdbController extends Controller
     public function updatePpdbStatus(Request $request, $id)
     {
         $reg = PpdbRegistration::findOrFail($id);
-        $schoolId = auth()->user()?->getEffectiveSchoolId();
-        if ($schoolId && $reg->school_id && $reg->school_id != $schoolId) {
+        $user = auth()->user();
+        $schoolId = $user?->getEffectiveSchoolId();
+        if ($schoolId && $reg->school_id && $reg->school_id != $schoolId && !$user?->canManageUnit($reg->school_id)) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Akses ditolak: Calon siswa ini bukan dari unit sekolah Anda.'
+                ], 403);
+            }
             return redirect()->back()->with('error', 'Akses ditolak: Calon siswa ini bukan dari unit sekolah Anda.');
         }
 
@@ -502,7 +513,11 @@ class CbtPpdbController extends Controller
         $reg->update($updates);
 
         if ($newStatus === 'PASSED' && $oldStatus !== 'PASSED') {
-            $this->provisionSmartEduStudent($reg);
+            try {
+                $this->provisionSmartEduStudent($reg);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Gagal auto-provision siswa SmartEdu PPDB #{$reg->id}: " . $e->getMessage());
+            }
         }
 
         try {
@@ -633,7 +648,7 @@ class CbtPpdbController extends Controller
                     ['phone' => $reg->phone_number],
                     [
                         'full_name' => $reg->parent_name,
-                        'type' => 'FATHER',
+                        'relationship' => 'FATHER',
                         'occupation' => $details['pekerjaan_ayah'] ?? 'Wali Calon Siswa',
                     ]
                 );
@@ -641,14 +656,31 @@ class CbtPpdbController extends Controller
         }
 
         $nisn = !empty($details['nisn']) ? $details['nisn'] : ('006' . str_pad($reg->id, 7, '0', STR_PAD_LEFT));
-        $gender = isset($details['jenis_kelamin']) && str_starts_with(strtolower($details['jenis_kelamin']), 'p') ? 'F' : 'M';
+        $rawGender = $details['jenis_kelamin'] ?? '';
+        $gender = (str_starts_with(strtolower(trim((string)$rawGender)), 'p') || strtoupper(trim((string)$rawGender)) === 'F') ? 'F' : 'M';
         $pob = $details['tempat_lahir'] ?? null;
         $dob = !empty($details['tanggal_lahir']) ? $details['tanggal_lahir'] : null;
+        if (!empty($dob)) {
+            try {
+                $dob = \Carbon\Carbon::parse($dob)->format('Y-m-d');
+            } catch (\Throwable $e) {
+                $dob = null;
+            }
+        }
         $nickname = $details['nama_panggilan'] ?? null;
 
-        $student = Student::firstOrCreate(
-            ['nis' => '2026' . str_pad($reg->id, 4, '0', STR_PAD_LEFT)],
-            [
+        $student = Student::where('full_name', $reg->full_name)
+            ->where('school_id', $targetSchoolId)
+            ->first();
+
+        if (!$student) {
+            $candidateNis = '2026' . str_pad($reg->id, 4, '0', STR_PAD_LEFT);
+            while (Student::where('nis', $candidateNis)->exists()) {
+                $candidateNis = (string)((int)$candidateNis + 1);
+            }
+
+            $student = Student::create([
+                'nis' => $candidateNis,
                 'school_id' => $targetSchoolId,
                 'classroom_id' => $classroomId,
                 'guardian_id' => $guardian?->id,
@@ -662,13 +694,13 @@ class CbtPpdbController extends Controller
                 'savings_balance' => 0,
                 'canteen_balance' => 0,
                 'status' => 'ACTIVE',
-            ]
-        );
+            ]);
+        }
 
         // Auto create initial SPP bill in Finance Module if academic year exists
         try {
             $academicYear = AcademicYear::where('is_active', true)->first() ?? AcademicYear::first();
-            if ($academicYear) {
+            if ($academicYear && $student) {
                 SppBill::firstOrCreate(
                     [
                         'student_id' => $student->id,

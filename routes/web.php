@@ -452,7 +452,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/ppdb-admin/{id}/detail', [CbtPpdbController::class, 'detailPpdb'])->name('ppdb-admin.detail');
             Route::get('/ppdb-admin/{id}/document/{type}', [CbtPpdbController::class, 'viewDocument'])->name('ppdb-admin.document');
             Route::put('/ppdb-admin/{id}', [CbtPpdbController::class, 'updatePpdbAdmin'])->name('ppdb-admin.update');
-            Route::post('/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
+            Route::match(['POST', 'PUT'], '/ppdb-admin/{id}/status', [CbtPpdbController::class, 'updatePpdbStatus'])->name('ppdb-admin.update-status');
             Route::delete('/ppdb-admin/{id}', [CbtPpdbController::class, 'destroyPpdb'])->name('ppdb-admin.destroy');
             Route::get('/ppdb-admin/{id}/download-pdf', [CbtPpdbController::class, 'downloadSpmbPdf'])->name('ppdb-admin.download-pdf');
         });

@@ -97,4 +97,10 @@ class Student extends Model
     {
         $this->attributes['dob'] = $value;
     }
+
+    public function setGenderAttribute($value)
+    {
+        $val = strtoupper(trim((string)$value));
+        $this->attributes['gender'] = (str_starts_with($val, 'P') || $val === 'F') ? 'F' : 'M';
+    }
 }
