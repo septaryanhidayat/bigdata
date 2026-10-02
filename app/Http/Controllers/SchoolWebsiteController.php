@@ -1401,7 +1401,7 @@ class SchoolWebsiteController extends Controller
             ],
             'KB' => [
                 'registration' => 350000,
-                'promo' => 'Potongan Rp 500.000',
+                'promo' => 'Potongan Rp 500.000*',
                 'type' => 'single',
                 'items' => [
                     ['label' => 'BPPS', 'amount' => 2000000],
@@ -1412,7 +1412,7 @@ class SchoolWebsiteController extends Controller
             ],
             'TKIT' => [
                 'registration' => 350000,
-                'promo' => 'Potongan Rp 500.000',
+                'promo' => 'Potongan Rp 500.000*',
                 'type' => 'single',
                 'items' => [
                     ['label' => 'BPPS', 'amount' => 2000000],
@@ -1423,7 +1423,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SDIT' => [
                 'registration' => 450000,
-                'promo' => 'Potongan Rp 1.000.000',
+                'promo' => 'Potongan Rp 1.000.000*',
                 'type' => 'single',
                 'items' => [
                     ['label' => 'BPPS', 'amount' => 3900000],
@@ -1434,7 +1434,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SMPIT' => [
                 'registration' => 550000,
-                'promo' => 'Potongan Rp 1.000.000',
+                'promo' => 'Potongan Rp 1.000.000*',
                 'type' => 'single',
                 'items' => [
                     ['label' => 'BPPS', 'amount' => 6500000],
@@ -1445,7 +1445,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SMAIT' => [
                 'registration' => 550000,
-                'promo' => 'Potongan Rp 1.000.000',
+                'promo' => 'Potongan Rp 1.000.000*',
                 'type' => 'variants',
                 'variants' => [
                     'non_boarding' => [

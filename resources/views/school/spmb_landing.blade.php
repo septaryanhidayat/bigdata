@@ -319,16 +319,19 @@
                             <p class="text-[11px] text-slate-900 font-bold">
                                 Dapatkan potongan biaya pendaftaran langsung saat mendaftar online.
                             </p>
+                            <p class="text-[10px] text-slate-950/80 font-bold mt-0.5">
+                                *) Terbatas untuk 10 pendaftar pertama di masing-masing unit, jika kuota masih ada.
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                         <div class="px-3.5 sm:px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white">
                             <span class="text-[10px] font-bold text-slate-600 block">SD, SMP & SMA</span>
-                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 1.000.000</span>
+                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 1.000.000<span class="text-rose-600 font-black">*</span></span>
                         </div>
                         <div class="px-3.5 sm:px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white">
                             <span class="text-[10px] font-bold text-slate-600 block">KB & TK</span>
-                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 500.000</span>
+                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 500.000<span class="text-rose-600 font-black">*</span></span>
                         </div>
                     </div>
                 </div>
@@ -390,9 +393,9 @@
 
                                     <!-- 2. PROMO BADGE (Jika ada potongan 10 pendaftar pertama) -->
                                     @if(!empty($tuition['promo']))
-                                        <div class="px-3 py-1.5 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-900 flex items-center justify-center gap-1.5 text-[11px] font-bold shadow-2xs text-center">
+                                        <div class="px-3 py-1.5 rounded-xl bg-amber-50/90 border border-amber-200 text-amber-950 flex items-center justify-center gap-1.5 text-[11px] font-extrabold shadow-2xs text-center">
                                             <span class="text-xs">🎉</span>
-                                            <span class="leading-none">{{ $tuition['promo'] }}</span>
+                                            <span class="leading-none">{{ rtrim($tuition['promo'], '*') }}<span class="text-rose-600 font-black text-xs">*</span></span>
                                         </div>
                                     @endif
 
@@ -563,6 +566,14 @@
                         </div>
                     @endif
                 @endforeach
+            </div>
+            
+            <!-- Keterangan Promo Tanda Bintang (*) -->
+            <div class="max-w-3xl mx-auto text-center fade-up pt-4">
+                <p class="text-[11px] sm:text-xs text-slate-500 font-semibold flex items-center justify-center gap-1">
+                    <span class="text-rose-600 font-bold">*</span>
+                    <span>Potongan biaya pendidikan terbatas khusus untuk 10 pendaftar pertama di masing-masing unit, jika kuota masih ada.</span>
+                </p>
             </div>
         </div>
     </section>
