@@ -1445,7 +1445,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SMAIT' => [
                 'registration' => 550000,
-                'promo' => null,
+                'promo' => 'Potongan Rp 1.000.000 (10 Pendaftar Pertama)',
                 'type' => 'variants',
                 'variants' => [
                     'non_boarding' => [
