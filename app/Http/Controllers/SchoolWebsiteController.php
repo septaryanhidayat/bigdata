@@ -1820,6 +1820,7 @@ class SchoolWebsiteController extends Controller
             'kartu_keluarga' => !empty($prevDocs['kartu_keluarga']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
             'ktp_ortu' => !empty($prevDocs['ktp_ortu']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
             'bukti_transfer' => !empty($prevDocs['bukti_transfer']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'pernyataan_keabsahan' => 'accepted',
         ], [
             // Langkah 1
             'school_code.required' => 'Unit sekolah tujuan wajib dipilih.',
@@ -1852,7 +1853,7 @@ class SchoolWebsiteController extends Controller
             'no_hp_ibu.required' => 'Nomor WhatsApp / HP ibu kandung wajib diisi sebagai nomor kontak alternatif.',
             'email_ortu.email' => 'Format email orang tua tidak valid.',
 
-            // Langkah 5 (Berkas & Bukti Transfer)
+            // Langkah 5 (Berkas & Bukti Transfer & Pernyataan)
             'pas_foto.max' => 'Ukuran file Pas Foto maksimal 5 MB.',
             'pas_foto.mimes' => 'Format file Pas Foto harus berupa JPG, PNG, atau WebP.',
             'akta_kelahiran.required' => 'File Akta Kelahiran calon siswa wajib diunggah.',
@@ -1867,6 +1868,8 @@ class SchoolWebsiteController extends Controller
             'bukti_transfer.required' => 'Bukti transfer biaya formulir pendaftaran wajib diunggah.',
             'bukti_transfer.max' => 'Ukuran file Bukti Transfer maksimal 5 MB.',
             'bukti_transfer.mimes' => 'Format file Bukti Transfer harus berupa JPG, PNG, atau PDF.',
+            'pernyataan_keabsahan.accepted' => 'Anda wajib mencentang persetujuan pernyataan keabsahan dan kebenaran data formulir sebelum mengirimkan pendaftaran.',
+            'pernyataan_keabsahan.required' => 'Anda wajib mencentang persetujuan pernyataan keabsahan dan kebenaran data formulir sebelum mengirimkan pendaftaran.',
         ]);
 
         // Validasi conditional nama sekolah asal untuk Alumni SIT atau Luar SIT

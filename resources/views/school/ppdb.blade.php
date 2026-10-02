@@ -516,7 +516,8 @@
 
                 // Langkah 5: Berkas Persyaratan & Pembayaran
                 'info_pendaftaran' => 5, 'info_pendaftaran_lainnya' => 5, 'pas_foto' => 5, 
-                'akta_kelahiran' => 5, 'kartu_keluarga' => 5, 'ktp_ortu' => 5, 'bukti_transfer' => 5
+                'akta_kelahiran' => 5, 'kartu_keluarga' => 5, 'ktp_ortu' => 5, 'bukti_transfer' => 5,
+                'pernyataan_keabsahan' => 5
             ];
 
             $stepNames = [
@@ -524,7 +525,7 @@
                 2 => 'Langkah 2: Data Sekolah Asal',
                 3 => 'Langkah 3: Data Kesehatan & Fisik',
                 4 => 'Langkah 4: Data Orang Tua & Domisili',
-                5 => 'Langkah 5: Upload Berkas Persyaratan'
+                5 => 'Langkah 5: Upload Berkas & Konfirmasi'
             ];
 
             $fieldLabels = [
@@ -537,6 +538,7 @@
                 'kartu_keluarga' => 'File Kartu Keluarga (KK)',
                 'ktp_ortu' => 'File KTP Orang Tua',
                 'bukti_transfer' => 'Bukti Transfer Pembayaran',
+                'pernyataan_keabsahan' => 'Pernyataan Keabsahan Data',
                 'no_hp_ayah' => 'No. WhatsApp Ayah',
                 'no_hp_ibu' => 'No. WhatsApp Ibu',
                 'nama_ayah' => 'Nama Lengkap Ayah',
@@ -1738,14 +1740,20 @@
                     </div>
                 </div>
 
-                <!-- Pernyataan Keabsahan Data -->
-                <div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-700 space-y-2">
-                    <label class="flex items-start gap-2.5 cursor-pointer">
-                        <input type="checkbox" required {{ !empty($editRegistration) ? "checked" : "" }} class="mt-0.5 rounded text-emerald-700 focus:ring-emerald-500">
-                        <span class="text-[11px] leading-relaxed">
-                            Dengan ini saya menyatakan bahwa data yang saya isikan pada formulir pendaftaran SPMB SIT Robbani Ogan Ilir ini adalah benar, sah, dan dapat dipertanggungjawabkan.
+                <!-- Pernyataan Keabsahan Data (Wajib Dicentang Sebelum Kirim) -->
+                <div id="pernyataan_keabsahan_container" class="p-4 sm:p-5 rounded-2xl @error('pernyataan_keabsahan') bg-rose-50 border-2 border-rose-500 ring-2 ring-rose-200 @else bg-slate-100 border border-slate-200 @enderror text-xs text-slate-700 space-y-2 transition-all">
+                    <label for="pernyataan_keabsahan" class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" name="pernyataan_keabsahan" id="pernyataan_keabsahan" value="1" required {{ old('pernyataan_keabsahan') ? 'checked' : '' }} class="mt-0.5 rounded text-emerald-700 focus:ring-emerald-500 border-slate-400 w-4 h-4 cursor-pointer shrink-0">
+                        <span class="text-xs sm:text-[11px] leading-relaxed text-slate-800 select-none">
+                            <strong class="text-slate-900 font-black">PERNYATAAN KEABSAHAN DATA:</strong> Dengan ini saya menyatakan bahwa seluruh data dan dokumen yang saya isikan serta lampirkan pada formulir pendaftaran SPMB SIT Robbani Ogan Ilir ini adalah benar, sah, dan dapat dipertanggungjawabkan. <span class="text-rose-500 font-black">* (Wajib Dicentang)</span>
                         </span>
                     </label>
+                    <div id="pernyataan_error_msg" class="{{ $errors->has('pernyataan_keabsahan') ? '' : 'hidden' }}">
+                        <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1.5 mt-1">
+                            <span>⚠️</span>
+                            <span>{{ $errors->first('pernyataan_keabsahan') ?: 'Anda wajib mencentang persetujuan pernyataan keabsahan sebelum mengirimkan formulir pendaftaran.' }}</span>
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Navigation & Submit (Rata Tengah di HP) -->
@@ -2047,6 +2055,16 @@
             });
             const alertBox = document.getElementById(`step-alert-${step}`);
             if (alertBox) alertBox.remove();
+
+            if (step === 5) {
+                const container = document.getElementById('pernyataan_keabsahan_container');
+                if (container) {
+                    container.classList.remove('bg-rose-50', 'border-2', 'border-rose-500', 'ring-2', 'ring-rose-200');
+                    container.classList.add('bg-slate-100', 'border-slate-200');
+                }
+                const errDiv = document.getElementById('pernyataan_error_msg');
+                if (errDiv) errDiv.classList.add('hidden');
+            }
         }
 
         function validateStep(step) {
@@ -2070,29 +2088,54 @@
                 if (isInvalid) {
                     if (!firstInvalid) firstInvalid = el;
 
-                    el.classList.add('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
-
-                    // Add inline error badge
-                    const parent = el.closest('.space-y-1') || el.closest('.space-y-1.5') || el.parentElement;
-                    if (parent && !parent.querySelector('.spmb-field-error')) {
-                        const err = document.createElement('span');
-                        err.className = 'spmb-field-error text-[10px] font-bold text-rose-600 flex items-center gap-1 mt-1';
-                        err.innerHTML = '<span>⚠️</span><span>Kolom ini wajib diisi / diunggah</span>';
-                        parent.appendChild(err);
-                    }
-
-                    // Auto clear error when input changes
-                    const clearInputError = () => {
-                        el.classList.remove('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
-                        const errBadge = parent ? parent.querySelector('.spmb-field-error') : null;
-                        if (errBadge) errBadge.remove();
-                        const topAlert = document.getElementById(`step-alert-${step}`);
-                        if (topAlert && !section.querySelector('.border-rose-500')) {
-                            topAlert.remove();
+                    if (el.id === 'pernyataan_keabsahan') {
+                        const container = document.getElementById('pernyataan_keabsahan_container');
+                        if (container) {
+                            container.classList.remove('bg-slate-100', 'border-slate-200');
+                            container.classList.add('bg-rose-50', 'border-2', 'border-rose-500', 'ring-2', 'ring-rose-200');
                         }
-                    };
-                    el.addEventListener('input', clearInputError, { once: true });
-                    el.addEventListener('change', clearInputError, { once: true });
+                        const errDiv = document.getElementById('pernyataan_error_msg');
+                        if (errDiv) errDiv.classList.remove('hidden');
+
+                        const clearPernyataanError = () => {
+                            if (el.checked) {
+                                if (container) {
+                                    container.classList.remove('bg-rose-50', 'border-2', 'border-rose-500', 'ring-2', 'ring-rose-200');
+                                    container.classList.add('bg-slate-100', 'border-slate-200');
+                                }
+                                if (errDiv) errDiv.classList.add('hidden');
+                                const topAlert = document.getElementById(`step-alert-${step}`);
+                                if (topAlert && !section.querySelector('.border-rose-500')) {
+                                    topAlert.remove();
+                                }
+                            }
+                        };
+                        el.addEventListener('change', clearPernyataanError, { once: true });
+                    } else {
+                        el.classList.add('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+
+                        // Add inline error badge
+                        const parent = el.closest('.space-y-1') || el.closest('.space-y-1.5') || el.parentElement;
+                        if (parent && !parent.querySelector('.spmb-field-error')) {
+                            const err = document.createElement('span');
+                            err.className = 'spmb-field-error text-[10px] font-bold text-rose-600 flex items-center gap-1 mt-1';
+                            err.innerHTML = '<span>⚠️</span><span>Kolom ini wajib diisi / diunggah</span>';
+                            parent.appendChild(err);
+                        }
+
+                        // Auto clear error when input changes
+                        const clearInputError = () => {
+                            el.classList.remove('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+                            const errBadge = parent ? parent.querySelector('.spmb-field-error') : null;
+                            if (errBadge) errBadge.remove();
+                            const topAlert = document.getElementById(`step-alert-${step}`);
+                            if (topAlert && !section.querySelector('.border-rose-500')) {
+                                topAlert.remove();
+                            }
+                        };
+                        el.addEventListener('input', clearInputError, { once: true });
+                        el.addEventListener('change', clearInputError, { once: true });
+                    }
                 }
             }
 
@@ -2243,6 +2286,9 @@
                             draft.radios[el.name] = el.value;
                         }
                     } else if (el.type === 'checkbox') {
+                        if (el.name === 'pernyataan_keabsahan') {
+                            continue; // Selalu wajib dicentang secara sadar oleh pemohon saat submit
+                        }
                         if (el.name.endsWith('[]')) {
                             if (!draft.checkboxes[el.name]) draft.checkboxes[el.name] = [];
                             if (el.checked) draft.checkboxes[el.name].push(el.value);
@@ -2304,9 +2350,11 @@
                     }
                 }
 
-                // 2. Pulihkan Checkboxes
+                // 2. Pulihkan Checkboxes (Kecuali pernyataan keabsahan agar selalu dicentang ulang secara sadar)
                 if (draft.checkboxes) {
                     for (let name in draft.checkboxes) {
+                        if (name === 'pernyataan_keabsahan') continue;
+
                         const val = draft.checkboxes[name];
                         if (Array.isArray(val)) {
                             val.forEach(v => {
@@ -2423,6 +2471,21 @@
                 toggleInfoLainnya(true);
             }
 
+            const persetujuanEl = document.getElementById('pernyataan_keabsahan');
+            if (persetujuanEl) {
+                persetujuanEl.addEventListener('change', function() {
+                    const container = document.getElementById('pernyataan_keabsahan_container');
+                    const errDiv = document.getElementById('pernyataan_error_msg');
+                    if (this.checked) {
+                        if (container) {
+                            container.classList.remove('bg-rose-50', 'border-2', 'border-rose-500', 'ring-2', 'ring-rose-200');
+                            container.classList.add('bg-slate-100', 'border-slate-200');
+                        }
+                        if (errDiv) errDiv.classList.add('hidden');
+                    }
+                });
+            }
+
             const form = document.getElementById('spmbForm');
             if (form) {
                 // Pasang auto-save listener saat user mengetik atau mengubah pilihan
@@ -2433,10 +2496,47 @@
                     for (let s = 1; s <= 5; s++) {
                         if (!validateStep(s)) {
                             e.preventDefault();
+                            e.stopPropagation();
                             goToStep(s);
                             return false;
                         }
                     }
+
+                    // Pengecekan eksplisit wajib centang pernyataan keabsahan data sebelum submit
+                    const persetujuan = document.getElementById('pernyataan_keabsahan');
+                    if (!persetujuan || !persetujuan.checked) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        goToStep(5);
+
+                        const container = document.getElementById('pernyataan_keabsahan_container');
+                        if (container) {
+                            container.classList.remove('bg-slate-100', 'border-slate-200');
+                            container.classList.add('bg-rose-50', 'border-2', 'border-rose-500', 'ring-2', 'ring-rose-200');
+                        }
+                        const errDiv = document.getElementById('pernyataan_error_msg');
+                        if (errDiv) errDiv.classList.remove('hidden');
+
+                        if (persetujuan) {
+                            try { persetujuan.focus(); } catch (err) {}
+                            try { persetujuan.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) {}
+                        }
+
+                        const topAlert = document.getElementById('step-alert-5');
+                        if (!topAlert) {
+                            const alertDiv = document.createElement('div');
+                            alertDiv.id = 'step-alert-5';
+                            alertDiv.className = 'p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2.5 shadow-sm';
+                            alertDiv.innerHTML = '<span class="text-base shrink-0">⚠️</span><span class="font-bold">Mohon centang pernyataan keabsahan data di bagian bawah sebelum mengirim formulir pendaftaran.</span>';
+                            const section5 = document.getElementById('step-section-5');
+                            const targetInsert = section5 ? section5.querySelector('div:first-child') : null;
+                            if (section5 && targetInsert && targetInsert.nextSibling) {
+                                section5.insertBefore(alertDiv, targetInsert.nextSibling);
+                            }
+                        }
+                        return false;
+                    }
+
                     const btn = document.getElementById('submitBtn');
                     if (btn) {
                         btn.disabled = true;

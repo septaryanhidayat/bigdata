@@ -123,5 +123,6 @@ return [
         'ktp_ortu' => 'File KTP Orang Tua',
         'bukti_transfer' => 'Bukti Transfer Pembayaran',
         'pas_foto' => 'Pas Foto Calon Siswa',
+        'pernyataan_keabsahan' => 'Pernyataan Keabsahan Data',
     ],
 ];
