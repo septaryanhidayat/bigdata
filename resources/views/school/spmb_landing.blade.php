@@ -303,11 +303,47 @@
                 </p>
             </div>
 
+            <!-- Banner Promo Khusus 10 Pendaftar Pertama (Sesuai Brosur Resmi) -->
+            <div class="max-w-4xl mx-auto fade-up">
+                <div class="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/20 border-2 border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3.5 text-center sm:text-left">
+                        <span class="text-3xl sm:text-4xl shrink-0">🎁</span>
+                        <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black uppercase tracking-wider mb-1">
+                                Promo Khusus
+                            </span>
+                            <h3 class="text-sm sm:text-base font-black leading-tight text-slate-950">
+                                PROMO KHUSUS 10 PENDAFTAR PERTAMA!
+                            </h3>
+                            <p class="text-[11px] text-slate-900 font-bold">
+                                Dapatkan potongan biaya pendaftaran langsung saat mendaftar online.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                        <div class="px-3.5 sm:px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white">
+                            <span class="text-[10px] font-bold text-slate-600 block">SD & SMP</span>
+                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 1.000.000</span>
+                        </div>
+                        <div class="px-3.5 sm:px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white">
+                            <span class="text-[10px] font-bold text-slate-600 block">KB & TK</span>
+                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 500.000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Grid Kartu Unit Dinamis dari CMS Admin Dashboard (Sesuai Referensi Pengguna) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
                 @foreach(($spmb['units'] ?? []) as $uCode => $unit)
                     @if(!empty($unit['is_active']))
-                        <div class="group bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 hover:border-emerald-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-6 fade-up text-center">
+                        @php
+                            $tuition = $unit['tuition'] ?? null;
+                            $regFee = $tuition['registration'] ?? ($unit['fee'] ?? 0);
+                        @endphp
+                        <div class="group bg-white rounded-3xl p-5 sm:p-6 lg:p-7 border border-slate-200/90 hover:border-emerald-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5 fade-up text-center"
+                             x-data="{ activeVariant: 'non_boarding' }">
+                            
                             <div class="space-y-3">
                                 <!-- Nama Unit (Hanya 1 Kalimat Sesuai Permintaan) -->
                                 <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -315,13 +351,13 @@
                                 </h3>
 
                                 <!-- Alamat Lengkap Unit -->
-                                <p class="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed px-1 min-h-[52px] flex items-center justify-center">
+                                <p class="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed px-1 min-h-[48px] flex items-center justify-center">
                                     {{ $unit['address'] ?? '' }}
                                 </p>
 
                                 <!-- Mascot Character Circle (Ukuran Lebih Besar Menonjol Sesuai Referensi) -->
-                                <div class="py-4 flex items-center justify-center">
-                                    <div class="relative w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                                <div class="py-2 flex items-center justify-center">
+                                    <div class="relative w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                                         <img 
                                             src="{{ asset(ltrim($unit['image'] ?? '', '/')) }}?v=5" 
                                             alt="{{ $unit['name'] ?? $uCode }}" 
@@ -330,10 +366,157 @@
                                         >
                                     </div>
                                 </div>
+
+                                <!-- INFORMASI BIAYA PENDIDIKAN RESMI DI BAWAH FOTO & DI ATAS TOMBOL DAFTAR -->
+                                <div class="space-y-2.5 pt-1 text-left">
+                                    
+                                    <!-- 1. BIAYA PENDAFTARAN (Dibuat TERPISAH dari tabel dan diletakkan DI ATAS rincian biaya pendidikan) -->
+                                    <div class="p-3 sm:p-3.5 rounded-2xl bg-amber-500/10 border border-amber-400/40 flex items-center justify-between transition-all hover:bg-amber-500/15">
+                                        <div class="flex items-center gap-2.5">
+                                            <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center text-sm font-black shrink-0">
+                                                📝
+                                            </span>
+                                            <div>
+                                                <span class="text-[10px] font-black uppercase tracking-wider text-amber-900 block leading-tight">
+                                                    Uang Pendaftaran
+                                                </span>
+                                                <span class="text-[11px] text-slate-500 font-medium">Formulir & Administrasi</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-sm sm:text-base font-black text-amber-950 font-mono tracking-tight">
+                                                Rp {{ number_format($regFee, 0, ',', '.') }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. PROMO BADGE (Jika ada potongan 10 pendaftar pertama) -->
+                                    @if(!empty($tuition['promo']))
+                                        <div class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-50 via-emerald-50 to-teal-50 border border-amber-300/80 flex items-center gap-2 text-[10px] sm:text-[11px] font-black text-amber-950">
+                                            <span class="text-sm animate-pulse">🎉</span>
+                                            <span class="leading-tight">{{ $tuition['promo'] }}</span>
+                                        </div>
+                                    @endif
+
+                                    <!-- 3. TABEL RINCIAN BIAYA PENDIDIKAN -->
+                                    @if(!empty($tuition))
+                                        <div class="rounded-2xl border border-slate-200/90 overflow-hidden bg-white shadow-xs">
+                                            @if(($tuition['type'] ?? '') === 'variants')
+                                                <!-- Header SMA dengan Toggle Tab Non Boarding / Boarding -->
+                                                <div class="bg-slate-100/90 p-2 border-b border-slate-200 flex items-center justify-between gap-1.5">
+                                                    <span class="text-[11px] font-black uppercase tracking-wider text-slate-700 px-1 flex items-center gap-1">
+                                                        <span>📊</span> <span>Biaya SMA</span>
+                                                    </span>
+                                                    <div class="inline-flex p-0.5 rounded-xl bg-slate-200/90 text-[10px] font-black">
+                                                        <button type="button" 
+                                                                @click="activeVariant = 'non_boarding'" 
+                                                                :class="activeVariant === 'non_boarding' ? 'bg-white text-emerald-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+                                                                class="px-2.5 py-1 rounded-lg transition-all cursor-pointer">
+                                                            Non Boarding
+                                                        </button>
+                                                        <button type="button" 
+                                                                @click="activeVariant = 'boarding'" 
+                                                                :class="activeVariant === 'boarding' ? 'bg-white text-emerald-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+                                                                class="px-2.5 py-1 rounded-lg transition-all cursor-pointer">
+                                                            Boarding
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SMA Non Boarding -->
+                                                <div x-show="activeVariant === 'non_boarding'" class="transition-all">
+                                                    <table class="w-full text-xs">
+                                                        <tbody class="divide-y divide-slate-100">
+                                                            @foreach($tuition['variants']['non_boarding']['items'] as $item)
+                                                                <tr class="hover:bg-slate-50/80 transition-colors">
+                                                                    <td class="py-2 px-3 text-slate-600 font-semibold">{{ $item['label'] }}</td>
+                                                                    <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">
+                                                                        Rp {{ number_format($item['amount'], 0, ',', '.') }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr class="bg-gradient-to-r from-[#004532] to-emerald-900 text-white font-black border-t-2 border-emerald-950">
+                                                                <td class="py-2.5 px-3 text-amber-300 font-black tracking-wide text-[11px] uppercase">
+                                                                    TOTAL
+                                                                </td>
+                                                                <td class="py-2.5 px-3 text-right font-mono text-sm sm:text-base text-amber-300">
+                                                                    Rp {{ number_format($tuition['variants']['non_boarding']['total'], 0, ',', '.') }}
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+
+                                                <!-- SMA Boarding -->
+                                                <div x-show="activeVariant === 'boarding'" x-cloak class="transition-all">
+                                                    <table class="w-full text-xs">
+                                                        <tbody class="divide-y divide-slate-100">
+                                                            @foreach($tuition['variants']['boarding']['items'] as $item)
+                                                                <tr class="hover:bg-slate-50/80 transition-colors">
+                                                                    <td class="py-2 px-3 text-slate-600 font-semibold">{{ $item['label'] }}</td>
+                                                                    <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">
+                                                                        Rp {{ number_format($item['amount'], 0, ',', '.') }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr class="bg-gradient-to-r from-[#004532] to-emerald-900 text-white font-black border-t-2 border-emerald-950">
+                                                                <td class="py-2.5 px-3 text-amber-300 font-black tracking-wide text-[11px] uppercase">
+                                                                    TOTAL
+                                                                </td>
+                                                                <td class="py-2.5 px-3 text-right font-mono text-sm sm:text-base text-amber-300">
+                                                                    Rp {{ number_format($tuition['variants']['boarding']['total'], 0, ',', '.') }}
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+
+                                            @else
+                                                <!-- Unit Tunggal (TPA, KB, TKIT, SDIT, SMPIT) -->
+                                                <div class="bg-slate-100/90 py-1.5 px-3 border-b border-slate-200 flex items-center justify-between">
+                                                    <span class="text-[11px] font-black uppercase tracking-wider text-slate-700 flex items-center gap-1">
+                                                        <span>📊</span> <span>Rincian Biaya Pendidikan</span>
+                                                    </span>
+                                                    <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                                                        {{ $unit['name'] ?? $uCode }}
+                                                    </span>
+                                                </div>
+
+                                                <table class="w-full text-xs">
+                                                    <tbody class="divide-y divide-slate-100">
+                                                        @foreach(($tuition['items'] ?? []) as $item)
+                                                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                                                <td class="py-2 px-3 text-slate-600 font-semibold">{{ $item['label'] }}</td>
+                                                                <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">
+                                                                    Rp {{ number_format($item['amount'], 0, ',', '.') }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr class="bg-gradient-to-r from-[#004532] to-emerald-900 text-white font-black border-t-2 border-emerald-950">
+                                                            <td class="py-2.5 px-3 text-amber-300 font-black tracking-wide text-[11px] uppercase">
+                                                                TOTAL
+                                                            </td>
+                                                            <td class="py-2.5 px-3 text-right font-mono text-sm sm:text-base text-amber-300">
+                                                                Rp {{ number_format($tuition['total'] ?? 0, 0, ',', '.') }}
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            @endif
+                                        </div>
+                                    @endif
+
+                                </div>
                             </div>
 
                             <!-- Tombol Daftar Sekarang Sesuai Desain Referensi -->
-                            <div>
+                            <div class="pt-2">
                                 <a href="{{ url('/daftar?unit=' . ($unit['code'] ?? $uCode)) }}" class="w-full py-3.5 px-6 rounded-2xl bg-[#004532] hover:bg-[#065f46] text-white font-extrabold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group/btn">
                                     <span class="text-base">👆</span>
                                     <span>Daftar Sekarang</span>

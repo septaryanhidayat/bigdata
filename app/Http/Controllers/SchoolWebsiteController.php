@@ -1303,7 +1303,7 @@ class SchoolWebsiteController extends Controller
                 'age_badge' => 'Usia 0 – 3 Tahun',
                 'address' => 'Jl. Sarjana, Blok C Nomor 17, Kelurahan Timbangan, Kecamatan Indralaya Utara, Kab Ogan Ilir & Perum Griya Sejahtera Lr. Sejahtera 7 A4 No.5, Kel. Timbangan, Kec. Indralaya Utara, Ogan Ilir',
                 'image' => '/images/spmb/tpa.webp',
-                'fee' => 350000,
+                'fee' => 200000,
                 'color' => 'purple',
                 'is_active' => true,
             ],
@@ -1387,12 +1387,100 @@ class SchoolWebsiteController extends Controller
             'SMPIT' => 'SMP IT ROBBANI',
             'SMAIT' => 'SMA IT ROBBANI',
         ];
+
+        // Biaya Pendidikan Resmi Tiap Unit (Sesuai Brosur Resmi & Instruksi)
+        $tuitionFees = [
+            'TPA' => [
+                'registration' => 200000,
+                'promo' => null,
+                'type' => 'single',
+                'items' => [
+                    ['label' => 'SPP / Bulan', 'amount' => 1100000],
+                ],
+                'total' => 1300000,
+            ],
+            'KB' => [
+                'registration' => 350000,
+                'promo' => 'Potongan Rp 500.000 (10 Pendaftar Pertama)',
+                'type' => 'single',
+                'items' => [
+                    ['label' => 'BPPS', 'amount' => 2000000],
+                    ['label' => 'Uang Pendidikan', 'amount' => 4498000],
+                    ['label' => 'SPP / Bulan', 'amount' => 350000],
+                ],
+                'total' => 6848000,
+            ],
+            'TKIT' => [
+                'registration' => 350000,
+                'promo' => 'Potongan Rp 500.000 (10 Pendaftar Pertama)',
+                'type' => 'single',
+                'items' => [
+                    ['label' => 'BPPS', 'amount' => 2000000],
+                    ['label' => 'Uang Pendidikan', 'amount' => 4498000],
+                    ['label' => 'SPP / Bulan', 'amount' => 350000],
+                ],
+                'total' => 6848000,
+            ],
+            'SDIT' => [
+                'registration' => 450000,
+                'promo' => 'Potongan Rp 1.000.000 (10 Pendaftar Pertama)',
+                'type' => 'single',
+                'items' => [
+                    ['label' => 'BPPS', 'amount' => 3900000],
+                    ['label' => 'Uang Pendidikan', 'amount' => 6688000],
+                    ['label' => 'SPP / Bulan', 'amount' => 400000],
+                ],
+                'total' => 10988000,
+            ],
+            'SMPIT' => [
+                'registration' => 550000,
+                'promo' => 'Potongan Rp 1.000.000 (10 Pendaftar Pertama)',
+                'type' => 'single',
+                'items' => [
+                    ['label' => 'BPPS', 'amount' => 6500000],
+                    ['label' => 'Uang Pendidikan', 'amount' => 7943000],
+                    ['label' => 'SPP / Bulan', 'amount' => 450000],
+                ],
+                'total' => 14893000,
+            ],
+            'SMAIT' => [
+                'registration' => 550000,
+                'promo' => null,
+                'type' => 'variants',
+                'variants' => [
+                    'non_boarding' => [
+                        'name' => 'Non Boarding',
+                        'items' => [
+                            ['label' => 'BPPS', 'amount' => 6000000],
+                            ['label' => 'Uang Pendidikan', 'amount' => 10800000],
+                            ['label' => 'SPP / Bulan', 'amount' => 550000],
+                        ],
+                        'total' => 17350000,
+                    ],
+                    'boarding' => [
+                        'name' => 'Boarding (Asrama)',
+                        'items' => [
+                            ['label' => 'BPPS', 'amount' => 6000000],
+                            ['label' => 'Uang Pendidikan', 'amount' => 10800000],
+                            ['label' => 'SPP / Bulan', 'amount' => 550000],
+                            ['label' => 'Asrama', 'amount' => 1200000],
+                        ],
+                        'total' => 18550000,
+                    ],
+                ],
+            ],
+        ];
+
         foreach ($units as $uKey => &$uItem) {
             if (isset($fixedAddresses[$uKey])) {
                 $uItem['address'] = $fixedAddresses[$uKey];
             }
             if (isset($unifiedNames[$uKey])) {
                 $uItem['name'] = $unifiedNames[$uKey];
+            }
+            if (isset($tuitionFees[$uKey])) {
+                $uItem['tuition'] = $tuitionFees[$uKey];
+                $uItem['fee'] = $tuitionFees[$uKey]['registration'];
             }
         }
         unset($uItem);
