@@ -487,35 +487,124 @@
                 return $default;
             };
 
+            $fieldStepMap = [
+                // Langkah 1: Identitas
+                'school_code' => 1, 'masuk_kelas' => 1, 'jalur_pendaftaran' => 1, 'status_siswa' => 1, 
+                'nama_lengkap' => 1, 'nama_panggilan' => 1, 'nik_siswa' => 1, 'jenis_kelamin' => 1, 
+                'tempat_lahir' => 1, 'tanggal_lahir' => 1, 'anak_ke' => 1, 'jumlah_saudara' => 1, 
+                'jumlah_saudara_kandung' => 1, 'jumlah_saudara_tiri' => 1, 'status_ortu' => 1, 
+                'agama' => 1, 'keadaan_jasmani' => 1, 'status_tempat_tinggal' => 1, 
+                'kewarganegaraan' => 1, 'bahasa_sehari_hari' => 1,
+
+                // Langkah 2: Sekolah Asal
+                'kategori_sekolah_asal' => 2, 'jenjang_sekolah_asal' => 2, 'status_sekolah_asal' => 2, 
+                'npsn_sekolah_asal' => 2, 'nisn' => 2, 'sekolah_asal' => 2, 'prestasi' => 2,
+
+                // Langkah 3: Kesehatan & Fisik
+                'tinggi_badan' => 3, 'berat_badan' => 3, 'golongan_darah' => 3, 
+                'penyakit_pernah' => 3, 'penyakit_sedang' => 3, 'kelainan_fisik' => 3, 
+                'jarak_ke_sekolah' => 3, 'transportasi' => 3,
+
+                // Langkah 4: Orang Tua & Domisili
+                'alamat' => 4, 'dusun' => 4, 'kelurahan' => 4, 'kecamatan' => 4, 'kabupaten' => 4, 'provinsi' => 4, 'kode_pos' => 4,
+                'nama_ayah' => 4, 'nik_ayah' => 4, 'tempat_lahir_ayah' => 4, 'tanggal_lahir_ayah' => 4, 'pendidikan_ayah' => 4, 'pekerjaan_ayah' => 4, 'instansi_ayah' => 4, 'jabatan_ayah' => 4, 'no_hp_ayah' => 4, 'email_ortu' => 4, 'penghasilan_ayah' => 4,
+                'nama_ibu' => 4, 'nik_ibu' => 4, 'tempat_lahir_ibu' => 4, 'tanggal_lahir_ibu' => 4, 'pendidikan_ibu' => 4, 'pekerjaan_ibu' => 4, 'instansi_ibu' => 4, 'jabatan_ibu' => 4, 'no_hp_ibu' => 4, 'penghasilan_ibu' => 4,
+                'nama_wali' => 4, 'hubungan_wali' => 4, 'no_hp_wali' => 4,
+
+                // Langkah 5: Berkas Persyaratan & Pembayaran
+                'info_pendaftaran' => 5, 'info_pendaftaran_lainnya' => 5, 'pas_foto' => 5, 
+                'akta_kelahiran' => 5, 'kartu_keluarga' => 5, 'ktp_ortu' => 5, 'bukti_transfer' => 5
+            ];
+
+            $stepNames = [
+                1 => 'Langkah 1: Identitas Calon Siswa',
+                2 => 'Langkah 2: Data Sekolah Asal',
+                3 => 'Langkah 3: Data Kesehatan & Fisik',
+                4 => 'Langkah 4: Data Orang Tua & Domisili',
+                5 => 'Langkah 5: Upload Berkas Persyaratan'
+            ];
+
+            $fieldLabels = [
+                'berat_badan' => 'Berat Badan (kg)',
+                'tinggi_badan' => 'Tinggi Badan (cm)',
+                'anak_ke' => 'Kolom Anak Ke-',
+                'jumlah_saudara' => 'Jumlah Saudara',
+                'sekolah_asal' => 'Nama Sekolah Asal',
+                'akta_kelahiran' => 'File Akta Kelahiran',
+                'kartu_keluarga' => 'File Kartu Keluarga (KK)',
+                'ktp_ortu' => 'File KTP Orang Tua',
+                'bukti_transfer' => 'Bukti Transfer Pembayaran',
+                'no_hp_ayah' => 'No. WhatsApp Ayah',
+                'no_hp_ibu' => 'No. WhatsApp Ibu',
+                'nama_ayah' => 'Nama Lengkap Ayah',
+                'nama_ibu' => 'Nama Lengkap Ibu',
+                'alamat' => 'Alamat Tempat Tinggal',
+            ];
+
+            $errorsByStep = [];
             $initialStep = 1;
             if (isset($errors) && $errors->any()) {
-                $step1Keys = ['school_code', 'masuk_kelas', 'jalur_pendaftaran', 'status_siswa', 'nama_lengkap', 'nama_panggilan', 'nik_siswa', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'anak_ke', 'jumlah_saudara', 'jumlah_saudara_kandung', 'jumlah_saudara_tiri', 'status_ortu', 'agama', 'keadaan_jasmani', 'status_tempat_tinggal', 'kewarganegaraan', 'bahasa_sehari_hari'];
-                $step2Keys = ['kategori_sekolah_asal', 'jenjang_sekolah_asal', 'status_sekolah_asal', 'npsn_sekolah_asal', 'nisn', 'sekolah_asal', 'prestasi'];
-                $step3Keys = ['tinggi_badan', 'berat_badan', 'golongan_darah', 'penyakit_pernah', 'penyakit_sedang', 'kelainan_fisik', 'jarak_ke_sekolah', 'transportasi'];
-                $step4Keys = ['alamat', 'dusun', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'kode_pos', 'nama_ayah', 'nik_ayah', 'tempat_lahir_ayah', 'tanggal_lahir_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'instansi_ayah', 'jabatan_ayah', 'no_hp_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'tempat_lahir_ibu', 'tanggal_lahir_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'instansi_ibu', 'jabatan_ibu', 'no_hp_ibu', 'penghasilan_ibu', 'nama_wali', 'hubungan_wali', 'no_hp_wali'];
-                $step5Keys = ['info_pendaftaran', 'pas_foto', 'akta_kelahiran', 'kartu_keluarga', 'ktp_ortu', 'bukti_transfer'];
-
-                foreach ($errors->keys() as $key) {
-                    if (in_array($key, $step1Keys)) { $initialStep = 1; break; }
-                    if (in_array($key, $step2Keys)) { $initialStep = 2; break; }
-                    if (in_array($key, $step3Keys)) { $initialStep = 3; break; }
-                    if (in_array($key, $step4Keys)) { $initialStep = 4; break; }
-                    if (in_array($key, $step5Keys)) { $initialStep = 5; break; }
+                foreach ($errors->getMessages() as $fieldKey => $msgList) {
+                    $sNum = $fieldStepMap[$fieldKey] ?? 1;
+                    foreach ($msgList as $m) {
+                        // Humanize raw validation keys if any leak from default validator
+                        if (str_contains($m, 'validation.')) {
+                            $label = $fieldLabels[$fieldKey] ?? ucwords(str_replace('_', ' ', $fieldKey));
+                            if (str_contains($m, 'min.numeric')) {
+                                $m = "Kolom {$label} harus diisi dengan angka dan memenuhi batas minimal.";
+                            } elseif (str_contains($m, 'numeric')) {
+                                $m = "Kolom {$label} harus diisi dengan format angka.";
+                            } elseif (str_contains($m, 'required')) {
+                                $m = "Kolom {$label} wajib diisi / diunggah.";
+                            } else {
+                                $m = "Kolom {$label} belum diisi dengan benar.";
+                            }
+                        }
+                        $errorsByStep[$sNum][] = $m;
+                    }
                 }
+                ksort($errorsByStep);
+                $initialStep = !empty($errorsByStep) ? array_key_first($errorsByStep) : 1;
             }
         @endphp
 
-        <!-- Validation Error Alert -->
-        @if (isset($errors) && $errors->any())
-        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
-            <div class="flex items-center gap-2 font-black">
-                <span>⚠️</span> Terdapat kolom yang belum terisi dengan benar (Langkah {{ $initialStep }}):
+        <!-- Validation Error Alert (Dikelompokkan Per Langkah & Jelas Apa Yang Harus Diisi) -->
+        @if (!empty($errorsByStep))
+        <div class="p-4 sm:p-5 rounded-2xl bg-rose-50/95 border-2 border-rose-300 text-rose-900 text-xs shadow-md space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-rose-200 pb-2.5">
+                <div class="flex items-center gap-2 font-black text-sm text-rose-800">
+                    <span class="text-xl shrink-0">⚠️</span>
+                    <span>Terdapat Kolom Yang Perlu Dilengkapi / Diperbaiki:</span>
+                </div>
+                <span class="text-[11px] font-bold text-rose-700 bg-white border border-rose-300 px-3 py-0.5 rounded-full self-start sm:self-auto shadow-2xs">
+                    {{ count($errors->all()) }} Isian Belum Sesuai
+                </span>
             </div>
-            <ul class="list-disc list-inside space-y-0.5 text-[11px] text-rose-700 pl-1">
-                @foreach ($errors->all() as $err)
-                    <li>{{ $err }}</li>
+
+            <div class="space-y-2.5">
+                @foreach ($errorsByStep as $stepNum => $stepMsgs)
+                    <div class="p-3.5 rounded-xl bg-white border border-rose-200/90 shadow-2xs space-y-1.5">
+                        <div class="flex items-center justify-between gap-2 border-b border-rose-100 pb-1.5">
+                            <span class="font-black text-xs text-rose-950 flex items-center gap-1.5">
+                                <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">{{ $stepNum }}</span>
+                                <span>{{ $stepNames[$stepNum] ?? 'Langkah ' . $stepNum }}</span>
+                            </span>
+                            <button type="button" onclick="goToStep({{ $stepNum }})" class="text-[11px] font-black text-emerald-800 hover:text-emerald-950 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2.5 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1">
+                                <span>Buka Langkah Ini</span> <span>➔</span>
+                            </button>
+                        </div>
+                        <ul class="space-y-1 pl-4 list-disc text-rose-700 text-xs font-semibold">
+                            @foreach ($stepMsgs as $msg)
+                                <li>{{ $msg }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
+
+            <p class="text-[11px] text-rose-800 font-medium">
+                💡 <span class="font-bold">Petunjuk:</span> Klik tombol <span class="font-bold text-emerald-900 bg-white px-1.5 py-0.5 rounded border border-rose-200">Buka Langkah Ini ➔</span> di atas untuk langsung menuju ke halaman isian yang perlu dilengkapi.
+            </p>
         </div>
         @endif
 
@@ -722,7 +811,10 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="sm:col-span-2 space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ananda (Huruf Kapital) <span class="text-rose-500 font-bold">*</span></label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ $val('nama_lengkap') }}" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ $val('nama_lengkap') }}" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase @error('nama_lengkap') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        @error('nama_lengkap')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Nama Panggilan</label>
@@ -749,11 +841,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">5. Tempat Lahir <span class="text-rose-500 font-bold">*</span></label>
-                        <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ $val('tempat_lahir') }}" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ $val('tempat_lahir') }}" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold @error('tempat_lahir') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        @error('tempat_lahir')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir <span class="text-rose-500 font-bold">*</span></label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ $val('tanggal_lahir') }}" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ $val('tanggal_lahir') }}" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold @error('tanggal_lahir') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        @error('tanggal_lahir')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -761,7 +859,10 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">6. Anak ke -</label>
-                        <input type="number" name="anak_ke" id="anak_ke" value="{{ $val('anak_ke') }}" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <input type="number" name="anak_ke" id="anak_ke" value="{{ $val('anak_ke') }}" min="1" max="20" placeholder="1" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold @error('anak_ke') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        @error('anak_ke')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Dari Jml Saudara</label>
@@ -981,8 +1082,11 @@
                     <label class="block text-xs font-black text-slate-700 uppercase">
                         6. Nama Sekolah Asal <span id="star_sekolah_asal" class="text-rose-500 font-bold {{ in_array($curKategori, ['ALUMNI SIT ROBBANI', 'LUAR SIT ROBBANI']) ? '' : 'hidden' }}">*</span>
                     </label>
-                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ $val('sekolah_asal') }}" {{ in_array($curKategori, ['ALUMNI SIT ROBBANI', 'LUAR SIT ROBBANI']) ? 'required' : '' }} placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ $val('sekolah_asal') }}" {{ in_array($curKategori, ['ALUMNI SIT ROBBANI', 'LUAR SIT ROBBANI']) ? 'required' : '' }} placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold @error('sekolah_asal') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
                     <p class="text-[10px] text-slate-400">*) Wajib diisi untuk pendaftar Alumni SIT dan Luar SIT. Calon siswa yang belum pernah sekolah boleh dikosongkan.</p>
+                    @error('sekolah_asal')
+                        <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="space-y-1">
@@ -1018,11 +1122,19 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">1. Tinggi Badan (cm)</label>
-                        <input type="number" name="tinggi_badan" id="tinggi_badan" value="{{ $val('tinggi_badan') }}" placeholder="Contoh: 110" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="number" name="tinggi_badan" id="tinggi_badan" value="{{ $val('tinggi_badan') }}" min="20" max="250" placeholder="Contoh: 110" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs @error('tinggi_badan') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        <p class="text-[10px] text-slate-500">Boleh dikosongkan. Jika diisi minimal 20 cm.</p>
+                        @error('tinggi_badan')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Berat Badan (kg)</label>
-                        <input type="number" name="berat_badan" id="berat_badan" value="{{ $val('berat_badan') }}" placeholder="Contoh: 20" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <input type="number" name="berat_badan" id="berat_badan" value="{{ $val('berat_badan') }}" min="1" max="250" placeholder="Contoh: 20" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs @error('berat_badan') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        <p class="text-[10px] text-slate-500">Boleh dikosongkan. Jika diisi minimal 1 kg.</p>
+                        @error('berat_badan')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">3. Golongan Darah</label>
@@ -1111,7 +1223,10 @@
                     
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">Alamat Jalan / No. Rumah / Gang <span class="text-rose-500 font-bold">*</span></label>
-                        <input type="text" name="alamat" id="alamat" value="{{ $val('alamat') }}" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
+                        <input type="text" name="alamat" id="alamat" value="{{ $val('alamat') }}" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium @error('alamat') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        @error('alamat')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1155,7 +1270,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ayah <span class="text-rose-500 font-bold">*</span></label>
-                            <input type="text" name="nama_ayah" id="nama_ayah" value="{{ $val('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="nama_ayah" id="nama_ayah" value="{{ $val('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold @error('nama_ayah') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                            @error('nama_ayah')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ayah (16 Digit KK)</label>
@@ -1203,7 +1321,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ayah <span class="text-rose-500 font-bold">*</span></label>
-                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" value="{{ $val('no_hp_ayah') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="no_hp_ayah" id="no_hp_ayah" value="{{ $val('no_hp_ayah') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold @error('no_hp_ayah') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                            @error('no_hp_ayah')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
@@ -1228,7 +1349,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ibu <span class="text-rose-500 font-bold">*</span></label>
-                            <input type="text" name="nama_ibu" id="nama_ibu" value="{{ $val('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                            <input type="text" name="nama_ibu" id="nama_ibu" value="{{ $val('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold @error('nama_ibu') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                            @error('nama_ibu')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">2. NIK Ibu (16 Digit KK)</label>
@@ -1276,7 +1400,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ibu <span class="text-rose-500 font-bold">*</span></label>
-                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ $val('no_hp_ibu') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
+                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ $val('no_hp_ibu') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold @error('no_hp_ibu') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                            @error('no_hp_ibu')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
@@ -1496,17 +1623,20 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <!-- Pas Foto (Opsional) -->
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border @error('pas_foto') border-rose-400 bg-rose-50/40 ring-2 ring-rose-200 @else border-slate-200/80 @enderror space-y-1.5">
                             <label class="block text-xs font-bold text-slate-800">1. Pas Foto Calon Siswa (Terbaru)</label>
                             <input type="file" name="pas_foto" accept="image/png,image/jpeg,image/webp" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-800 cursor-pointer">
                             @if(!empty($editData['uploaded_docs']['pas_foto']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
                             <p class="text-[10px] text-slate-400">Format foto 3x4 atau setara.</p>
+                            @error('pas_foto')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Akta Kelahiran Calon Siswa (Wajib) -->
-                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-300 space-y-1.5">
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 @error('akta_kelahiran') border-rose-500 bg-rose-50/50 ring-2 ring-rose-200 @else border-emerald-300 @enderror space-y-1.5">
                             <label class="block text-xs font-black text-slate-900 flex items-center justify-between">
                                 <span>2. Akta Kelahiran Calon Siswa <span class="text-rose-500 font-bold">*</span></span>
                                 <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
@@ -1515,11 +1645,14 @@
                             @if(!empty($editData['uploaded_docs']['akta_kelahiran']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
-                            <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan Asli Akta Kelahiran calon siswa.</p>
+                            <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan Asli Akta Kelahiran calon siswa (JPG/PNG/PDF maks 5MB).</p>
+                            @error('akta_kelahiran')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Kartu Keluarga (Wajib) -->
-                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-300 space-y-1.5">
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 @error('kartu_keluarga') border-rose-500 bg-rose-50/50 ring-2 ring-rose-200 @else border-emerald-300 @enderror space-y-1.5">
                             <label class="block text-xs font-black text-slate-900 flex items-center justify-between">
                                 <span>3. Kartu Keluarga (KK) <span class="text-rose-500 font-bold">*</span></span>
                                 <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
@@ -1528,11 +1661,14 @@
                             @if(!empty($editData['uploaded_docs']['kartu_keluarga']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
-                            <p class="text-[10px] text-emerald-800 font-medium">Scan / Foto Kartu Keluarga (KK) jelas.</p>
+                            <p class="text-[10px] text-emerald-800 font-medium">Scan / Foto Kartu Keluarga (KK) jelas (JPG/PNG/PDF maks 5MB).</p>
+                            @error('kartu_keluarga')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- KTP Orang Tua (Wajib) -->
-                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-300 space-y-1.5">
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 @error('ktp_ortu') border-rose-500 bg-rose-50/50 ring-2 ring-rose-200 @else border-emerald-300 @enderror space-y-1.5">
                             <label class="block text-xs font-black text-slate-900 flex items-center justify-between">
                                 <span>4. KTP Orang Tua (Ayah / Ibu) <span class="text-rose-500 font-bold">*</span></span>
                                 <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
@@ -1541,12 +1677,15 @@
                             @if(!empty($editData['uploaded_docs']['ktp_ortu']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
-                            <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan KTP Ayah atau Ibu yang jelas.</p>
+                            <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan KTP Ayah atau Ibu yang jelas (JPG/PNG/PDF maks 5MB).</p>
+                            @error('ktp_ortu')
+                                <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <!-- Bukti Transfer (Wajib) -->
-                    <div class="p-4 rounded-2xl bg-amber-50/90 border-2 border-amber-300 space-y-1.5">
+                    <div class="p-4 rounded-2xl bg-amber-50/90 border-2 @error('bukti_transfer') border-rose-500 bg-rose-50/50 ring-2 ring-rose-200 @else border-amber-300 @enderror space-y-1.5">
                         <div class="flex items-center justify-between">
                             <label class="block text-xs font-black text-amber-950 uppercase">
                                 5. Bukti Transfer Biaya Formulir Pendaftaran <span class="text-rose-500 font-bold">*</span>
@@ -1558,6 +1697,9 @@
                             <p class="text-[10px] font-bold text-amber-900 bg-amber-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ Bukti transfer tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                         @endif
                         <p class="text-[11px] text-amber-800 font-medium">Unggah bukti struk ATM / mutasi / screenshot mobile banking untuk verifikasi cepat oleh panitia.</p>
+                        @error('bukti_transfer')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 

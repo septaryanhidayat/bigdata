@@ -1776,7 +1776,7 @@ class SchoolWebsiteController extends Controller
             'prestasi' => 'nullable|string',
             // 3. DATA KESEHATAN & MODA TRANSPORTASI
             'tinggi_badan' => 'nullable|numeric|min:20|max:250',
-            'berat_badan' => 'nullable|numeric|min:3|max:250',
+            'berat_badan' => 'nullable|numeric|min:1|max:250',
             'golongan_darah' => 'nullable|string|max:20',
             'penyakit_pernah' => 'nullable|string',
             'penyakit_sedang' => 'nullable|string',
@@ -1821,25 +1821,52 @@ class SchoolWebsiteController extends Controller
             'ktp_ortu' => !empty($prevDocs['ktp_ortu']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
             'bukti_transfer' => !empty($prevDocs['bukti_transfer']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
         ], [
+            // Langkah 1
             'school_code.required' => 'Unit sekolah tujuan wajib dipilih.',
             'nama_lengkap.required' => 'Nama lengkap ananda wajib diisi sesuai Akta Kelahiran.',
             'jenis_kelamin.required' => 'Jenis kelamin ananda wajib dipilih.',
             'tempat_lahir.required' => 'Tempat lahir ananda wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir ananda wajib diisi.',
+            'anak_ke.integer' => 'Kolom anak ke- harus diisi dengan angka bulat.',
+            'anak_ke.min' => 'Kolom anak ke- minimal angka 1.',
+            'jumlah_saudara.integer' => 'Jumlah saudara harus diisi dengan angka.',
+            'jumlah_saudara_kandung.integer' => 'Jumlah saudara kandung harus diisi dengan angka.',
+            'jumlah_saudara_tiri.integer' => 'Jumlah saudara tiri harus diisi dengan angka.',
+
+            // Langkah 2
+            'sekolah_asal.required' => 'Nama sekolah asal wajib diisi bagi pendaftar Alumni SIT maupun Luar SIT.',
+
+            // Langkah 3 (Kesehatan & Fisik)
+            'tinggi_badan.numeric' => 'Tinggi badan harus diisi dengan angka (contoh: 110).',
+            'tinggi_badan.min' => 'Tinggi badan minimal adalah 20 cm.',
+            'tinggi_badan.max' => 'Tinggi badan maksimal adalah 250 cm.',
+            'berat_badan.numeric' => 'Berat badan harus diisi dengan angka (contoh: 20).',
+            'berat_badan.min' => 'Berat badan minimal adalah 1 kg (contoh: 15).',
+            'berat_badan.max' => 'Berat badan maksimal adalah 250 kg.',
+
+            // Langkah 4
             'alamat.required' => 'Alamat tempat tinggal anak wajib diisi.',
             'nama_ayah.required' => 'Nama lengkap ayah kandung wajib diisi.',
-            'no_hp_ayah.required' => 'Nomor WhatsApp ayah/orang tua wajib diisi untuk konfirmasi pendaftaran.',
+            'no_hp_ayah.required' => 'Nomor WhatsApp ayah wajib diisi untuk konfirmasi pendaftaran.',
             'nama_ibu.required' => 'Nama lengkap ibu kandung wajib diisi.',
             'no_hp_ibu.required' => 'Nomor WhatsApp / HP ibu kandung wajib diisi sebagai nomor kontak alternatif.',
+            'email_ortu.email' => 'Format email orang tua tidak valid.',
+
+            // Langkah 5 (Berkas & Bukti Transfer)
             'pas_foto.max' => 'Ukuran file Pas Foto maksimal 5 MB.',
+            'pas_foto.mimes' => 'Format file Pas Foto harus berupa JPG, PNG, atau WebP.',
             'akta_kelahiran.required' => 'File Akta Kelahiran calon siswa wajib diunggah.',
             'akta_kelahiran.max' => 'Ukuran file Akta Kelahiran maksimal 5 MB.',
+            'akta_kelahiran.mimes' => 'Format file Akta Kelahiran harus berupa JPG, PNG, atau PDF.',
             'kartu_keluarga.required' => 'File Kartu Keluarga (KK) wajib diunggah.',
             'kartu_keluarga.max' => 'Ukuran file Kartu Keluarga maksimal 5 MB.',
+            'kartu_keluarga.mimes' => 'Format file Kartu Keluarga harus berupa JPG, PNG, atau PDF.',
             'ktp_ortu.required' => 'File KTP Orang Tua (Ayah / Ibu) wajib diunggah.',
             'ktp_ortu.max' => 'Ukuran file KTP Orang Tua maksimal 5 MB.',
+            'ktp_ortu.mimes' => 'Format file KTP Orang Tua harus berupa JPG, PNG, atau PDF.',
             'bukti_transfer.required' => 'Bukti transfer biaya formulir pendaftaran wajib diunggah.',
             'bukti_transfer.max' => 'Ukuran file Bukti Transfer maksimal 5 MB.',
+            'bukti_transfer.mimes' => 'Format file Bukti Transfer harus berupa JPG, PNG, atau PDF.',
         ]);
 
         // Validasi conditional nama sekolah asal untuk Alumni SIT atau Luar SIT
