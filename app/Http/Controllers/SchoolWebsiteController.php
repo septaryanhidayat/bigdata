@@ -1720,6 +1720,19 @@ class SchoolWebsiteController extends Controller
 
     public function storePpdb(Request $request)
     {
+        $isUpdate = false;
+        $existingReg = null;
+        if ($request->filled('registration_id')) {
+            $existingReg = \App\Models\PpdbRegistration::find($request->registration_id);
+            if ($existingReg) {
+                if ($existingReg->status !== 'PENDING') {
+                    return redirect()->back()->with('error', 'Data pendaftaran nomor ' . $existingReg->registration_number . ' sudah diverifikasi panitia dan tidak dapat diubah lagi.');
+                }
+                $isUpdate = true;
+            }
+        }
+        $prevDocs = ($isUpdate && $existingReg) ? ($existingReg->details_json['uploaded_docs'] ?? []) : [];
+
         $validated = $request->validate([
             'school_code' => 'required|string|max:50',
             'jalur_pendaftaran' => 'nullable|string|max:100',
@@ -1783,7 +1796,7 @@ class SchoolWebsiteController extends Controller
             'no_hp_ayah' => 'required|string|max:30',
             'email_ortu' => 'nullable|email|max:150',
             'penghasilan_ayah' => 'nullable|string|max:100',
-            // DATA IBU KANDUNG
+            // DATA IBU KANDUNG (WAJIB ADA NO HP IBU)
             'nama_ibu' => 'required|string|max:255',
             'tempat_lahir_ibu' => 'nullable|string|max:150',
             'tanggal_lahir_ibu' => 'nullable|date',
@@ -1793,20 +1806,20 @@ class SchoolWebsiteController extends Controller
             'instansi_ibu' => 'nullable|string|max:255',
             'jabatan_ibu' => 'nullable|string|max:150',
             'alamat_ibu' => 'nullable|string',
-            'no_hp_ibu' => 'nullable|string|max:30',
+            'no_hp_ibu' => 'required|string|max:30',
             'penghasilan_ibu' => 'nullable|string|max:100',
             // DATA WALI (OPSIONAL)
             'nama_wali' => 'nullable|string|max:255',
             'hubungan_wali' => 'nullable|string|max:100',
             'no_hp_wali' => 'nullable|string|max:30',
             // 5. INFORMASI PENDAFTARAN & BERKAS
-            'info_pendaftaran' => 'nullable|string|max:100',
+            'info_pendaftaran' => 'nullable',
             'info_pendaftaran_lainnya' => 'nullable|string|max:255',
             'pas_foto' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5120',
-            'ktp_ortu' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
-            'kartu_keluarga' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
-            'akta_kelahiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
-            'bukti_transfer' => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'akta_kelahiran' => !empty($prevDocs['akta_kelahiran']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'kartu_keluarga' => !empty($prevDocs['kartu_keluarga']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'ktp_ortu' => !empty($prevDocs['ktp_ortu']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
+            'bukti_transfer' => !empty($prevDocs['bukti_transfer']) ? 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:5120' : 'required|file|mimes:jpg,jpeg,png,pdf,webp|max:5120',
         ], [
             'school_code.required' => 'Unit sekolah tujuan wajib dipilih.',
             'nama_lengkap.required' => 'Nama lengkap ananda wajib diisi sesuai Akta Kelahiran.',
@@ -1817,12 +1830,28 @@ class SchoolWebsiteController extends Controller
             'nama_ayah.required' => 'Nama lengkap ayah kandung wajib diisi.',
             'no_hp_ayah.required' => 'Nomor WhatsApp ayah/orang tua wajib diisi untuk konfirmasi pendaftaran.',
             'nama_ibu.required' => 'Nama lengkap ibu kandung wajib diisi.',
+            'no_hp_ibu.required' => 'Nomor WhatsApp / HP ibu kandung wajib diisi sebagai nomor kontak alternatif.',
             'pas_foto.max' => 'Ukuran file Pas Foto maksimal 5 MB.',
-            'ktp_ortu.max' => 'Ukuran file KTP Orang Tua maksimal 5 MB.',
-            'kartu_keluarga.max' => 'Ukuran file Kartu Keluarga maksimal 5 MB.',
+            'akta_kelahiran.required' => 'File Akta Kelahiran calon siswa wajib diunggah.',
             'akta_kelahiran.max' => 'Ukuran file Akta Kelahiran maksimal 5 MB.',
+            'kartu_keluarga.required' => 'File Kartu Keluarga (KK) wajib diunggah.',
+            'kartu_keluarga.max' => 'Ukuran file Kartu Keluarga maksimal 5 MB.',
+            'ktp_ortu.required' => 'File KTP Orang Tua (Ayah / Ibu) wajib diunggah.',
+            'ktp_ortu.max' => 'Ukuran file KTP Orang Tua maksimal 5 MB.',
+            'bukti_transfer.required' => 'Bukti transfer biaya formulir pendaftaran wajib diunggah.',
             'bukti_transfer.max' => 'Ukuran file Bukti Transfer maksimal 5 MB.',
         ]);
+
+        // Validasi conditional nama sekolah asal untuk Alumni SIT atau Luar SIT
+        $kategoriAsal = trim((string)$request->kategori_sekolah_asal);
+        if (in_array($kategoriAsal, ['Alumni SIT Robbani', 'Luar SIT Robbani'])) {
+            $namaSekolahAsal = trim((string)$request->sekolah_asal);
+            if (empty($namaSekolahAsal) || $namaSekolahAsal === '-' || mb_strlen($namaSekolahAsal) < 2) {
+                return redirect()->back()->withInput()->withErrors([
+                    'sekolah_asal' => 'Nama sekolah asal wajib diisi bagi pendaftar Alumni SIT maupun Luar SIT.'
+                ]);
+            }
+        }
 
         $uploadedDocs = [];
         $uploadFields = ['pas_foto', 'ktp_ortu', 'kartu_keluarga', 'akta_kelahiran', 'bukti_transfer'];
@@ -1882,9 +1911,27 @@ class SchoolWebsiteController extends Controller
 
         // Clean values
         $cleanPhone = preg_replace('/[^0-9\+]/', '', $request->no_hp_ayah);
+        $cleanPhoneIbu = preg_replace('/[^0-9\+]/', '', $request->no_hp_ibu);
         $cleanNikSiswa = $request->nik_siswa ? preg_replace('/[^0-9]/', '', $request->nik_siswa) : null;
         $cleanNikAyah = $request->nik_ayah ? preg_replace('/[^0-9]/', '', $request->nik_ayah) : null;
         $cleanNikIbu = $request->nik_ibu ? preg_replace('/[^0-9]/', '', $request->nik_ibu) : null;
+
+        $infoPendaftaranStr = '';
+        if (is_array($request->info_pendaftaran)) {
+            $infoList = array_values(array_filter($request->info_pendaftaran));
+            if ($request->filled('info_pendaftaran_lainnya')) {
+                $lainnyaCustom = trim((string)$request->info_pendaftaran_lainnya);
+                $infoList = array_map(function($item) use ($lainnyaCustom) {
+                    return $item === 'Lainnya' ? ('Lainnya (' . $lainnyaCustom . ')') : $item;
+                }, $infoList);
+            }
+            $infoPendaftaranStr = implode(', ', $infoList);
+        } else {
+            $infoPendaftaranStr = (string)$request->info_pendaftaran;
+            if ($infoPendaftaranStr === 'Lainnya' && $request->filled('info_pendaftaran_lainnya')) {
+                $infoPendaftaranStr = 'Lainnya (' . trim((string)$request->info_pendaftaran_lainnya) . ')';
+            }
+        }
 
         $isUpdate = false;
         $existingReg = null;
@@ -1925,6 +1972,9 @@ class SchoolWebsiteController extends Controller
             'nik_ayah' => $cleanNikAyah,
             'nik_ibu' => $cleanNikIbu,
             'no_hp_ayah' => $cleanPhone,
+            'no_hp_ibu' => $cleanPhoneIbu,
+            'info_pendaftaran' => $infoPendaftaranStr,
+            'info_pendaftaran_lainnya' => $request->info_pendaftaran_lainnya,
             'registration_fee' => $registrationFee,
             'uploaded_docs' => $uploadedDocs,
             'submitted_at' => $isUpdate ? ($existingReg->details_json['submitted_at'] ?? now()->toDateTimeString()) : now()->toDateTimeString(),

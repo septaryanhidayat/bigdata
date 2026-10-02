@@ -624,7 +624,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">
-                            Unit Sekolah Tujuan *
+                            Unit Sekolah Tujuan <span class="text-rose-500 font-bold">*</span>
                             @if(!empty($editRegistration))
                                 <span class="text-[10px] font-bold text-amber-700 ml-1">(🔒 Terkunci Sesuai No. Registrasi)</span>
                             @endif
@@ -692,7 +692,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">Jalur Pendaftaran *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">Jalur Pendaftaran <span class="text-rose-500 font-bold">*</span></label>
                         <select name="jalur_pendaftaran" id="jalur_pendaftaran" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="REGULER" {{ $val('jalur_pendaftaran', 'REGULER') == 'REGULER' ? 'selected' : '' }}>Jalur Reguler (Umum)</option>
                             <option value="PRESTASI" {{ $val('jalur_pendaftaran') == 'PRESTASI' ? 'selected' : '' }}>Jalur Prestasi (Akademik / Non-Akademik)</option>
@@ -702,7 +702,7 @@
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">Status Masuk Siswa *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">Status Masuk Siswa <span class="text-rose-500 font-bold">*</span></label>
                         <select name="status_siswa" id="status_siswa" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Baru" {{ $val('status_siswa', 'Baru') == 'Baru' ? 'selected' : '' }}>Siswa Baru</option>
                             <option value="Pindahan" {{ $val('status_siswa') == 'Pindahan' ? 'selected' : '' }}>Siswa Pindahan</option>
@@ -721,7 +721,7 @@
                 <!-- Nama Lengkap & Panggilan -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="sm:col-span-2 space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ananda (Huruf Kapital) *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ananda (Huruf Kapital) <span class="text-rose-500 font-bold">*</span></label>
                         <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ $val('nama_lengkap') }}" required placeholder="NAMA LENGKAP SESUAI AKTA KELAHIRAN" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s\.\,\'\-]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold uppercase">
                     </div>
                     <div class="space-y-1">
@@ -737,7 +737,7 @@
                         <input type="text" name="nik_siswa" id="nik_siswa" value="{{ $val('nik_siswa') }}" maxlength="16" placeholder="16 Digit NIK dari Kartu Keluarga" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">4. Jenis Kelamin *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">4. Jenis Kelamin <span class="text-rose-500 font-bold">*</span></label>
                         <select name="jenis_kelamin" id="jenis_kelamin" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Laki-laki" {{ $val('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                             <option value="Perempuan" {{ $val('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
@@ -748,11 +748,11 @@
                 <!-- Tempat, Tanggal Lahir -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">5. Tempat Lahir *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">5. Tempat Lahir <span class="text-rose-500 font-bold">*</span></label>
                         <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ $val('tempat_lahir') }}" required placeholder="Kota / Kabupaten Lahir" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">Tanggal Lahir <span class="text-rose-500 font-bold">*</span></label>
                         <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ $val('tanggal_lahir') }}" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                     </div>
                 </div>
@@ -780,7 +780,7 @@
                 <!-- 7. Status Orang Tua & 8. Tempat Tinggal Anak -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">7. Status Orang Tua *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">7. Status Orang Tua <span class="text-rose-500 font-bold">*</span></label>
                         <select name="status_ortu" id="status_ortu" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Ayah dan Ibu Masih Ada" {{ $val('status_ortu', 'Ayah dan Ibu Masih Ada') == 'Ayah dan Ibu Masih Ada' ? 'selected' : '' }}>Ayah dan Ibu Masih Ada (Lengkap)</option>
                             <option value="Yatim (Ayah Meninggal)" {{ $val('status_ortu') == 'Yatim (Ayah Meninggal)' ? 'selected' : '' }}>Yatim (Ayah Meninggal Dunia)</option>
@@ -791,7 +791,7 @@
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">8. Tempat Tinggal Anak *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">8. Tempat Tinggal Anak <span class="text-rose-500 font-bold">*</span></label>
                         <select name="status_tempat_tinggal" id="status_tempat_tinggal" required class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Ikut Orang Tua" {{ $val('status_tempat_tinggal', 'Ikut Orang Tua') == 'Ikut Orang Tua' ? 'selected' : '' }}>Ikut Orang Tua</option>
                             <option value="Rumah Sendiri" {{ $val('status_tempat_tinggal') == 'Rumah Sendiri' ? 'selected' : '' }}>Rumah Sendiri</option>
@@ -941,7 +941,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">2. Jenjang Sekolah Asal</label>
-                        <select name="jenjang_sekolah_asal" id="jenjang_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                        <select name="jenjang_sekolah_asal" id="jenjang_sekolah_asal" onchange="handleJenjangSekolahChange(this.value)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="">-- Pilih Bila Ada --</option>
                             <option value="Belum Sekolah / Dari Rumah" {{ $val('jenjang_sekolah_asal') == 'Belum Sekolah / Dari Rumah' ? 'selected' : '' }}>Belum Sekolah / Dari Rumah</option>
                             <option value="PAUD / Kelompok Bermain" {{ $val('jenjang_sekolah_asal') == 'PAUD / Kelompok Bermain' ? 'selected' : '' }}>PAUD / Kelompok Bermain</option>
@@ -953,10 +953,14 @@
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">3. Status Sekolah Asal</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">
+                            3. Status Sekolah Asal
+                            <span id="hint_status_sekolah" class="text-[10px] font-normal text-slate-400 lowercase {{ str_contains($curKategori, 'BELUM') ? '' : 'hidden' }}">(tidak relevan / belum sekolah)</span>
+                        </label>
                         <select name="status_sekolah_asal" id="status_sekolah_asal" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                             <option value="Swasta" {{ $val('status_sekolah_asal', 'Swasta') == 'Swasta' ? 'selected' : '' }}>Swasta</option>
                             <option value="Negeri" {{ $val('status_sekolah_asal') == 'Negeri' ? 'selected' : '' }}>Negeri</option>
+                            <option value="Belum Sekolah / Tidak Ada" {{ $val('status_sekolah_asal') == 'Belum Sekolah / Tidak Ada' ? 'selected' : '' }}>Belum Sekolah / Tidak Ada</option>
                         </select>
                     </div>
                 </div>
@@ -968,15 +972,17 @@
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">5. No. Peserta Ujian / NISN</label>
-                        <input type="text" name="nisn" id="nisn" value="{{ $val('nisn') }}" placeholder="10 Digit NISN (Khusus lulusan SD/SMP)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <label class="block text-xs font-black text-slate-700 uppercase">5. NISN</label>
+                        <input type="text" name="nisn" id="nisn" value="{{ $val('nisn') }}" maxlength="10" placeholder="10 Digit NISN (Bila sudah memiliki)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-black text-slate-700 uppercase">6. Nama Sekolah Asal</label>
-                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ $val('sekolah_asal') }}" placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
-                    <p class="text-[10px] text-slate-400">*) Diisikan nama sekolah jenjang sebelumnya. Khusus pendaftar baru TPA / KB boleh dikosongkan.</p>
+                    <label class="block text-xs font-black text-slate-700 uppercase">
+                        6. Nama Sekolah Asal <span id="star_sekolah_asal" class="text-rose-500 font-bold {{ in_array($curKategori, ['ALUMNI SIT ROBBANI', 'LUAR SIT ROBBANI']) ? '' : 'hidden' }}">*</span>
+                    </label>
+                    <input type="text" name="sekolah_asal" id="sekolah_asal" value="{{ $val('sekolah_asal') }}" {{ in_array($curKategori, ['ALUMNI SIT ROBBANI', 'LUAR SIT ROBBANI']) ? 'required' : '' }} placeholder="Contoh: TKIT Robbani / SDN 01 Indralaya" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
+                    <p class="text-[10px] text-slate-400">*) Wajib diisi untuk pendaftar Alumni SIT dan Luar SIT. Calon siswa yang belum pernah sekolah boleh dikosongkan.</p>
                 </div>
 
                 <div class="space-y-1">
@@ -1032,8 +1038,8 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">4. Penyakit yang Pernah Diderita</label>
-                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" value="{{ $val('penyakit_pernah') }}" placeholder="Contoh: Asma, Tifus, DBD (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
+                        <label class="block text-xs font-black text-slate-700 uppercase">4. Riwayat Penyakit / Alergi yang Pernah Diderita</label>
+                        <input type="text" name="penyakit_pernah" id="penyakit_pernah" value="{{ $val('penyakit_pernah') }}" placeholder="Contoh: Asma, Alergi Makanan/Obat Tertentu, Tifus, dll. (Kosongkan bila tidak ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-black text-slate-700 uppercase">5. Penyakit yang Sedang Diderita</label>
@@ -1104,7 +1110,7 @@
                     <h4 class="text-xs font-black text-slate-800 uppercase tracking-wide">Alamat Tempat Tinggal Anak:</h4>
                     
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">Alamat Jalan / No. Rumah / Gang *</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase">Alamat Jalan / No. Rumah / Gang <span class="text-rose-500 font-bold">*</span></label>
                         <input type="text" name="alamat" id="alamat" value="{{ $val('alamat') }}" required placeholder="Contoh: Jl. Sarjana Komplek Griya Sejahtera Blok A4 No. 5" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-medium">
                     </div>
 
@@ -1148,7 +1154,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ayah *</label>
+                            <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ayah <span class="text-rose-500 font-bold">*</span></label>
                             <input type="text" name="nama_ayah" id="nama_ayah" value="{{ $val('nama_ayah') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
@@ -1196,7 +1202,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ayah *</label>
+                            <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ayah <span class="text-rose-500 font-bold">*</span></label>
                             <input type="text" name="no_hp_ayah" id="no_hp_ayah" value="{{ $val('no_hp_ayah') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                         <div class="space-y-1">
@@ -1221,7 +1227,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ibu *</label>
+                            <label class="block text-xs font-black text-slate-700 uppercase">1. Nama Lengkap Ibu <span class="text-rose-500 font-bold">*</span></label>
                             <input type="text" name="nama_ibu" id="nama_ibu" value="{{ $val('nama_ibu') }}" required placeholder="Nama Lengkap Beserta Gelar" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-bold">
                         </div>
                         <div class="space-y-1">
@@ -1269,8 +1275,8 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ibu</label>
-                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ $val('no_hp_ibu') }}" placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                            <label class="block text-xs font-black text-slate-700 uppercase">9. No. HP / WhatsApp Ibu <span class="text-rose-500 font-bold">*</span></label>
+                            <input type="text" name="no_hp_ibu" id="no_hp_ibu" value="{{ $val('no_hp_ibu') }}" required placeholder="08xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9\+\-\s]/g, '')" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-xs font-black text-slate-700 uppercase">10. Penghasilan Bulanan</label>
@@ -1321,117 +1327,237 @@
                     <p class="text-xs text-slate-500 font-medium">Unggah berkas persyaratan dan konfirmasi pembayaran pendaftaran.</p>
                 </div>
 
-                <!-- Informasi Sumber Pendaftaran (Sesuai Scan Form F-SPMB) -->
+                <!-- Informasi Sumber Pendaftaran (Boleh Pilih Banyak) -->
+                @php
+                    $infoRaw = $val('info_pendaftaran', ['Media Sosial (Instagram, Facebook, TikTok)']);
+                    if (is_string($infoRaw)) {
+                        $selectedInfo = array_map('trim', explode(',', $infoRaw));
+                    } elseif (is_array($infoRaw)) {
+                        $selectedInfo = $infoRaw;
+                    } else {
+                        $selectedInfo = [];
+                    }
+                    $hasLainnya = false;
+                    $lainnyaText = $val('info_pendaftaran_lainnya', '');
+                    foreach ($selectedInfo as $item) {
+                        if (str_starts_with($item, 'Lainnya')) {
+                            $hasLainnya = true;
+                            if (empty($lainnyaText) && preg_match('/Lainnya\s*\((.*)\)/i', $item, $matches)) {
+                                $lainnyaText = trim($matches[1]);
+                            }
+                        }
+                    }
+                    if (!empty($lainnyaText)) {
+                        $hasLainnya = true;
+                    }
+                @endphp
                 <div class="space-y-2">
-                    <label class="block text-xs font-black text-slate-700 uppercase">Informasi Pendaftaran Diperoleh Dari Mana?</label>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Brosur" {{ $val('info_pendaftaran') == 'Brosur' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
-                            <span class="font-bold text-slate-700">Brosur</span>
+                    <label class="block text-xs font-black text-slate-700 uppercase">
+                        Informasi Pendaftaran Diperoleh Dari Mana? 
+                        <span class="text-[10px] font-normal text-slate-400 lowercase">(bisa pilih lebih dari satu)</span>
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+                        <!-- Media Sosial -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="Media Sosial (Instagram, Facebook, TikTok)" {{ (in_array('Media Sosial (Instagram, Facebook, TikTok)', $selectedInfo) || in_array('Media Sosial', $selectedInfo)) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>📱</span> Media Sosial (IG, FB, TikTok)
+                            </span>
                         </label>
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Banner / Spanduk" {{ $val('info_pendaftaran') == 'Banner / Spanduk' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
-                            <span class="font-bold text-slate-700">Banner / Spanduk</span>
+
+                        <!-- YouTube -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="YouTube" {{ in_array('YouTube', $selectedInfo) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>▶️</span> YouTube SIT Robbani
+                            </span>
                         </label>
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Media Sosial" {{ $val('info_pendaftaran', 'Media Sosial') == 'Media Sosial' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
-                            <span class="font-bold text-slate-700">Media Sosial (IG/FB)</span>
+
+                        <!-- Website SIT Robbani -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="Website SIT Robbani" {{ in_array('Website SIT Robbani', $selectedInfo) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>🌐</span> Website Resmi SIT Robbani
+                            </span>
                         </label>
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Teman / Saudara" {{ $val('info_pendaftaran') == 'Teman / Saudara' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
-                            <span class="font-bold text-slate-700">Teman / Saudara</span>
+
+                        <!-- Brosur -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="Brosur" {{ in_array('Brosur', $selectedInfo) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>📄</span> Brosur / Flyer
+                            </span>
                         </label>
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Guru / Tendik SIT Robbani" {{ $val('info_pendaftaran') == 'Guru / Tendik SIT Robbani' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
-                            <span class="font-bold text-slate-700">Guru / Tendik Robbani</span>
+
+                        <!-- Banner / Spanduk -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="Banner / Spanduk" {{ in_array('Banner / Spanduk', $selectedInfo) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>🚩</span> Banner / Spanduk / Baliho
+                            </span>
                         </label>
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-colors">
-                            <input type="radio" name="info_pendaftaran" value="Lainnya" {{ $val('info_pendaftaran') == 'Lainnya' ? 'checked' : '' }} class="text-emerald-700 focus:ring-emerald-500">
-                            <span class="font-bold text-slate-700">Lainnya</span>
+
+                        <!-- Teman / Saudara -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="Teman / Saudara" {{ in_array('Teman / Saudara', $selectedInfo) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>👥</span> Teman / Saudara / Kerabat
+                            </span>
                         </label>
+
+                        <!-- Guru / Tendik SIT Robbani -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" value="Guru / Tendik SIT Robbani" {{ in_array('Guru / Tendik SIT Robbani', $selectedInfo) ? 'checked' : '' }} class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>👨‍🏫</span> Guru / Tendik SIT Robbani
+                            </span>
+                        </label>
+
+                        <!-- Lainnya -->
+                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 transition-all has-[:checked]:bg-emerald-50/80 has-[:checked]:border-emerald-600 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="checkbox" name="info_pendaftaran[]" id="info_check_lainnya" value="Lainnya" {{ $hasLainnya ? 'checked' : '' }} onchange="toggleInfoLainnya(this.checked)" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <span>✏️</span> Lainnya...
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Input teks bila memilih Lainnya -->
+                    <div id="info_lainnya_wrapper" class="p-3 rounded-xl bg-amber-50/80 border border-amber-200 space-y-1.5 {{ $hasLainnya ? '' : 'hidden' }}">
+                        <label class="block text-[11px] font-bold text-amber-900">
+                            Sebutkan Sumber Informasi Lainnya:
+                        </label>
+                        <input type="text" name="info_pendaftaran_lainnya" id="info_pendaftaran_lainnya" value="{{ $lainnyaText }}" placeholder="Misal: Acara Kajian Akbar, Rekomendasi Tetangga, Siaran Radio, dll." class="w-full px-3.5 py-2 rounded-lg bg-white border border-amber-300 form-input text-xs font-medium focus:ring-emerald-500">
                     </div>
                 </div>
 
-                <!-- Info Rekening Pembayaran Resmi (Dinamis dari Pengaturan Admin & Rata Tengah di HP) -->
-                <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2 text-center sm:text-left">
-                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-400 block text-center sm:text-left">
-                        💳 Rekening Resmi Pembayaran Biaya Pendaftaran Formulir:
-                    </span>
-                    <div class="font-mono text-xs space-y-1.5">
-                        <div class="p-2.5 rounded-xl bg-slate-800 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-1">
+                <!-- Info Rekening Pembayaran Resmi (Tombol Salin Jelas & Mudah Dikenali) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white space-y-3 shadow-md border border-slate-700/60">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-700/80 pb-2.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">💳</span>
                             <div>
-                                <span class="text-emerald-400 font-bold block">{{ $spmb['bank1_name'] ?? 'BANK SYARIAH INDONESIA (BSI)' }}</span>
-                                <span class="font-mono font-bold text-amber-300 text-sm">{{ $spmb['bank1_number'] ?? '7206858502' }}</span>
+                                <h4 class="text-xs font-black uppercase tracking-wider text-amber-400">Rekening Resmi Pembayaran Biaya Pendaftaran:</h4>
+                                <p class="text-[11px] text-slate-300">Silakan transfer biaya formulir ke salah satu rekening yayasan berikut:</p>
                             </div>
-                            <span class="text-[10px] text-slate-300 font-sans">a.n. {{ $spmb['bank1_holder'] ?? 'YAYASAN GENERASI ROBBANI' }}</span>
                         </div>
-                        <div class="p-2.5 rounded-xl bg-slate-800 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-1">
+                        <span class="self-start sm:self-auto text-[10px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-full">
+                            Verifikasi Cepat
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                        <!-- Rekening 1: BSI -->
+                        <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-emerald-500/50 transition-all flex flex-col justify-between gap-2.5">
                             <div>
-                                <span class="text-emerald-400 font-bold block">{{ $spmb['bank2_name'] ?? 'BANK MUAMALAT' }}</span>
-                                <span class="font-mono font-bold text-amber-300 text-sm">{{ $spmb['bank2_number'] ?? '3610061740' }}</span>
+                                <div class="flex items-center justify-between gap-2 mb-1">
+                                    <span class="text-xs font-black text-emerald-400 tracking-wide">{{ $spmb['bank1_name'] ?? 'BANK SYARIAH INDONESIA (BSI)' }}</span>
+                                    <span class="text-[9px] font-bold uppercase text-slate-400 bg-slate-900 px-2 py-0.5 rounded">Bank BSI</span>
+                                </div>
+                                <div class="font-mono font-black text-amber-300 text-lg tracking-wider select-all" id="bank1_num_text">
+                                    {{ $spmb['bank1_number'] ?? '7206858502' }}
+                                </div>
+                                <span class="text-[11px] text-slate-300 block mt-0.5">a.n. {{ $spmb['bank1_holder'] ?? 'YAYASAN GENERASI ROBBANI' }}</span>
                             </div>
-                            <span class="text-[10px] text-slate-300 font-sans">a.n. {{ $spmb['bank2_holder'] ?? 'YAYASAN GENERASI ROBBANI SUMATERA SELATAN' }}</span>
+                            <button type="button" onclick="copyRekening('{{ $spmb['bank1_number'] ?? '7206858502' }}', this)" class="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer transform active:scale-95">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                <span>Salin No. Rekening BSI</span>
+                            </button>
+                        </div>
+
+                        <!-- Rekening 2: Bank Muamalat -->
+                        <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-emerald-500/50 transition-all flex flex-col justify-between gap-2.5">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1">
+                                    <span class="text-xs font-black text-emerald-400 tracking-wide">{{ $spmb['bank2_name'] ?? 'BANK MUAMALAT' }}</span>
+                                    <span class="text-[9px] font-bold uppercase text-slate-400 bg-slate-900 px-2 py-0.5 rounded">Muamalat</span>
+                                </div>
+                                <div class="font-mono font-black text-amber-300 text-lg tracking-wider select-all" id="bank2_num_text">
+                                    {{ $spmb['bank2_number'] ?? '3610061740' }}
+                                </div>
+                                <span class="text-[11px] text-slate-300 block mt-0.5">a.n. {{ $spmb['bank2_holder'] ?? 'YAYASAN GENERASI ROBBANI SUMATERA SELATAN' }}</span>
+                            </div>
+                            <button type="button" onclick="copyRekening('{{ $spmb['bank2_number'] ?? '3610061740' }}', this)" class="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer transform active:scale-95">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                <span>Salin No. Rekening Muamalat</span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- File Upload Cards -->
                 <div class="space-y-3">
-                    <h4 class="text-xs font-black text-slate-800 uppercase tracking-wide">Unggah Berkas Pendukung (JPG, PNG, atau PDF):</h4>
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-wide">Unggah Berkas Pendukung (JPG, PNG, atau PDF):</h4>
+                        <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                            Tanda <span class="text-rose-500 font-bold">*</span> Wajib Diunggah
+                        </span>
+                    </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <!-- Pas Foto -->
+                        <!-- Pas Foto (Opsional) -->
                         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
                             <label class="block text-xs font-bold text-slate-800">1. Pas Foto Calon Siswa (Terbaru)</label>
-                            <input type="file" name="pas_foto" accept="image/png,image/jpeg,image/webp" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                            <input type="file" name="pas_foto" accept="image/png,image/jpeg,image/webp" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-800 cursor-pointer">
                             @if(!empty($editData['uploaded_docs']['pas_foto']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
                             <p class="text-[10px] text-slate-400">Format foto 3x4 atau setara.</p>
                         </div>
 
-                        <!-- Akta Kelahiran Calon Siswa -->
-                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-300 space-y-1.5">
-                            <label class="block text-xs font-black text-emerald-950 flex items-center justify-between">
-                                <span>2. Akta Kelahiran Calon Siswa *</span>
-                                <span class="text-[10px] font-bold text-emerald-800 bg-emerald-200/80 px-2 py-0.5 rounded-full">WAJIB</span>
+                        <!-- Akta Kelahiran Calon Siswa (Wajib) -->
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-300 space-y-1.5">
+                            <label class="block text-xs font-black text-slate-900 flex items-center justify-between">
+                                <span>2. Akta Kelahiran Calon Siswa <span class="text-rose-500 font-bold">*</span></span>
+                                <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
                             </label>
-                            <input type="file" name="akta_kelahiran" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-600 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-800 file:text-white hover:file:bg-emerald-900 cursor-pointer">
+                            <input type="file" name="akta_kelahiran" id="akta_kelahiran" accept="image/png,image/jpeg,image/webp,application/pdf" {{ empty($editData['uploaded_docs']['akta_kelahiran']) ? 'required' : '' }} class="block w-full text-xs text-slate-700 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
                             @if(!empty($editData['uploaded_docs']['akta_kelahiran']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
                             <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan Asli Akta Kelahiran calon siswa.</p>
                         </div>
 
-                        <!-- Kartu Keluarga -->
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-                            <label class="block text-xs font-bold text-slate-800">3. Kartu Keluarga (KK)</label>
-                            <input type="file" name="kartu_keluarga" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                        <!-- Kartu Keluarga (Wajib) -->
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-300 space-y-1.5">
+                            <label class="block text-xs font-black text-slate-900 flex items-center justify-between">
+                                <span>3. Kartu Keluarga (KK) <span class="text-rose-500 font-bold">*</span></span>
+                                <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
+                            </label>
+                            <input type="file" name="kartu_keluarga" id="kartu_keluarga" accept="image/png,image/jpeg,image/webp,application/pdf" {{ empty($editData['uploaded_docs']['kartu_keluarga']) ? 'required' : '' }} class="block w-full text-xs text-slate-700 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
                             @if(!empty($editData['uploaded_docs']['kartu_keluarga']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
-                            <p class="text-[10px] text-slate-400">Scan / Foto Kartu Keluarga jelas.</p>
+                            <p class="text-[10px] text-emerald-800 font-medium">Scan / Foto Kartu Keluarga (KK) jelas.</p>
                         </div>
 
-                        <!-- KTP Orang Tua -->
-                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-                            <label class="block text-xs font-bold text-slate-800">4. KTP Orang Tua (Ayah / Ibu)</label>
-                            <input type="file" name="ktp_ortu" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-500 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
+                        <!-- KTP Orang Tua (Wajib) -->
+                        <div class="p-3.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-300 space-y-1.5">
+                            <label class="block text-xs font-black text-slate-900 flex items-center justify-between">
+                                <span>4. KTP Orang Tua (Ayah / Ibu) <span class="text-rose-500 font-bold">*</span></span>
+                                <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
+                            </label>
+                            <input type="file" name="ktp_ortu" id="ktp_ortu" accept="image/png,image/jpeg,image/webp,application/pdf" {{ empty($editData['uploaded_docs']['ktp_ortu']) ? 'required' : '' }} class="block w-full text-xs text-slate-700 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer">
                             @if(!empty($editData['uploaded_docs']['ktp_ortu']))
                                 <p class="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ File tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                             @endif
-                            <p class="text-[10px] text-slate-400">Foto KTP Ayah / Ibu.</p>
+                            <p class="text-[10px] text-emerald-800 font-medium">Foto / Scan KTP Ayah atau Ibu yang jelas.</p>
                         </div>
                     </div>
 
-                    <!-- Bukti Transfer -->
-                    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
-                        <label class="block text-xs font-black text-amber-950 uppercase">5. Bukti Transfer Biaya Formulir Pendaftaran</label>
-                        <input type="file" name="bukti_transfer" accept="image/png,image/jpeg,image/webp,application/pdf" class="block w-full text-xs text-slate-600 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
+                    <!-- Bukti Transfer (Wajib) -->
+                    <div class="p-4 rounded-2xl bg-amber-50/90 border-2 border-amber-300 space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-black text-amber-950 uppercase">
+                                5. Bukti Transfer Biaya Formulir Pendaftaran <span class="text-rose-500 font-bold">*</span>
+                            </label>
+                            <span class="text-[10px] font-black text-rose-700 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">WAJIB</span>
+                        </div>
+                        <input type="file" name="bukti_transfer" id="bukti_transfer" accept="image/png,image/jpeg,image/webp,application/pdf" {{ empty($editData['uploaded_docs']['bukti_transfer']) ? 'required' : '' }} class="block w-full text-xs text-slate-700 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
                         @if(!empty($editData['uploaded_docs']['bukti_transfer']))
                             <p class="text-[10px] font-bold text-amber-900 bg-amber-100/80 px-2 py-0.5 rounded-md inline-block mt-1">✓ Bukti transfer tersimpan sebelumnya. Unggah hanya jika ingin mengganti.</p>
                         @endif
-                        <p class="text-[11px] text-amber-800">Unggah bukti transfer dari ATM / Mobile Banking untuk mempercepat verifikasi otomatis.</p>
+                        <p class="text-[11px] text-amber-800 font-medium">Unggah bukti struk ATM / mutasi / screenshot mobile banking untuk verifikasi cepat oleh panitia.</p>
                     </div>
                 </div>
 
@@ -1590,8 +1716,8 @@
             updateUnitFeeInfo();
             updateClassOptions();
             const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
-            if (checkedKategori && checkedKategori.value === 'Alumni SIT Robbani') {
-                handleKategoriSekolahChange('Alumni SIT Robbani');
+            if (checkedKategori) {
+                handleKategoriSekolahChange(checkedKategori.value);
             }
         }
 
@@ -1601,9 +1727,18 @@
             const jenjang = document.getElementById('jenjang_sekolah_asal');
             const statusSekolah = document.getElementById('status_sekolah_asal');
             const namaSekolah = document.getElementById('sekolah_asal');
+            const starSekolah = document.getElementById('star_sekolah_asal');
+            const hintStatus = document.getElementById('hint_status_sekolah');
 
             if (val === 'Alumni SIT Robbani') {
-                if (statusSekolah) statusSekolah.value = 'Swasta';
+                if (hintStatus) hintStatus.classList.add('hidden');
+                if (statusSekolah && statusSekolah.value === 'Belum Sekolah / Tidak Ada') {
+                    statusSekolah.value = 'Swasta';
+                }
+                if (namaSekolah) {
+                    namaSekolah.setAttribute('required', 'required');
+                }
+                if (starSekolah) starSekolah.classList.remove('hidden');
                 
                 let defaultNama = 'SIT ROBBANI OGAN ILIR';
                 let defaultJenjang = '';
@@ -1632,15 +1767,98 @@
                     jenjang.value = defaultJenjang;
                 }
             } else if (val === 'Belum Pernah Sekolah') {
-                if (jenjang) jenjang.value = 'Belum Sekolah / Dari Rumah';
-                if (namaSekolah && (namaSekolah.value.includes('ROBBANI') || !namaSekolah.value)) {
-                    namaSekolah.value = '-';
+                if (hintStatus) hintStatus.classList.remove('hidden');
+                if (statusSekolah) {
+                    statusSekolah.value = 'Belum Sekolah / Tidak Ada';
                 }
+                if (jenjang) jenjang.value = 'Belum Sekolah / Dari Rumah';
+                if (namaSekolah) {
+                    namaSekolah.removeAttribute('required');
+                    if (!namaSekolah.value || namaSekolah.value.includes('ROBBANI')) {
+                        namaSekolah.value = '-';
+                    }
+                }
+                if (starSekolah) starSekolah.classList.add('hidden');
             } else if (val === 'Luar SIT Robbani') {
-                if (namaSekolah && (namaSekolah.value.includes('ROBBANI') || namaSekolah.value === '-')) {
-                    namaSekolah.value = '';
+                if (hintStatus) hintStatus.classList.add('hidden');
+                if (statusSekolah && statusSekolah.value === 'Belum Sekolah / Tidak Ada') {
+                    statusSekolah.value = 'Swasta';
+                }
+                if (namaSekolah) {
+                    namaSekolah.setAttribute('required', 'required');
+                    if (namaSekolah.value.includes('ROBBANI') || namaSekolah.value === '-') {
+                        namaSekolah.value = '';
+                    }
+                }
+                if (starSekolah) starSekolah.classList.remove('hidden');
+            }
+        }
+
+        function handleJenjangSekolahChange(val) {
+            const statusSekolah = document.getElementById('status_sekolah_asal');
+            const hintStatus = document.getElementById('hint_status_sekolah');
+            if (val === 'Belum Sekolah / Dari Rumah') {
+                if (statusSekolah) statusSekolah.value = 'Belum Sekolah / Tidak Ada';
+                if (hintStatus) hintStatus.classList.remove('hidden');
+            } else {
+                if (hintStatus) hintStatus.classList.add('hidden');
+                if (statusSekolah && statusSekolah.value === 'Belum Sekolah / Tidak Ada') {
+                    statusSekolah.value = 'Swasta';
                 }
             }
+        }
+
+        function toggleInfoLainnya(checked) {
+            const wrapper = document.getElementById('info_lainnya_wrapper');
+            const input = document.getElementById('info_pendaftaran_lainnya');
+            if (wrapper) {
+                if (checked) {
+                    wrapper.classList.remove('hidden');
+                    if (input) input.focus();
+                } else {
+                    wrapper.classList.add('hidden');
+                    if (input) input.value = '';
+                }
+            }
+        }
+
+        function copyRekening(text, btn) {
+            if (!text) return;
+            const originalHTML = btn.innerHTML;
+            const originalClass = btn.className;
+
+            const onSuccess = () => {
+                btn.innerHTML = '<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg><span>✓ Nomor Rekening Tersalin!</span>';
+                btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
+                btn.classList.add('bg-amber-400', 'text-slate-950', 'font-black');
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.className = originalClass;
+                }, 2500);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+            } else {
+                fallbackCopy(text, onSuccess);
+            }
+        }
+
+        function fallbackCopy(text, cb) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "-9999px";
+            textArea.style.left = "-9999px";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful && cb) cb();
+            } catch (err) {}
+            document.body.removeChild(textArea);
         }
 
         function clearStepErrors(step) {
@@ -1666,6 +1884,8 @@
                 let isInvalid = false;
                 if (el.type === 'checkbox') {
                     if (!el.checked) isInvalid = true;
+                } else if (el.type === 'file') {
+                    if (!el.files || el.files.length === 0) isInvalid = true;
                 } else if (!el.value || el.value.trim() === '') {
                     isInvalid = true;
                 }
@@ -1676,11 +1896,11 @@
                     el.classList.add('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
 
                     // Add inline error badge
-                    const parent = el.closest('.space-y-1') || el.parentElement;
+                    const parent = el.closest('.space-y-1') || el.closest('.space-y-1.5') || el.parentElement;
                     if (parent && !parent.querySelector('.spmb-field-error')) {
                         const err = document.createElement('span');
                         err.className = 'spmb-field-error text-[10px] font-bold text-rose-600 flex items-center gap-1 mt-1';
-                        err.innerHTML = '<span>⚠️</span><span>Kolom ini wajib diisi</span>';
+                        err.innerHTML = '<span>⚠️</span><span>Kolom ini wajib diisi / diunggah</span>';
                         parent.appendChild(err);
                     }
 
@@ -1705,7 +1925,7 @@
                     const alertDiv = document.createElement('div');
                     alertDiv.id = `step-alert-${step}`;
                     alertDiv.className = 'p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2.5 shadow-sm';
-                    alertDiv.innerHTML = '<span class="text-base shrink-0">⚠️</span><span class="font-bold">Mohon lengkapi kolom bertanda bintang (*) yang berwarna merah sebelum melanjutkan.</span>';
+                    alertDiv.innerHTML = '<span class="text-base shrink-0">⚠️</span><span class="font-bold">Mohon lengkapi kolom bertanda bintang (<span class="text-rose-600 font-black">*</span>) yang berwarna merah sebelum melanjutkan.</span>';
                     const targetInsert = section.querySelector('div:first-child');
                     if (targetInsert && targetInsert.nextSibling) {
                         section.insertBefore(alertDiv, targetInsert.nextSibling);
@@ -1820,9 +2040,13 @@
             goToStep(currentStep);
 
             const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
-            const namaSekolahEl = document.getElementById('sekolah_asal');
-            if (checkedKategori && checkedKategori.value === 'Alumni SIT Robbani' && (!namaSekolahEl || !namaSekolahEl.value)) {
-                handleKategoriSekolahChange('Alumni SIT Robbani');
+            if (checkedKategori) {
+                handleKategoriSekolahChange(checkedKategori.value);
+            }
+
+            const checkLainnya = document.getElementById('info_check_lainnya');
+            if (checkLainnya && checkLainnya.checked) {
+                toggleInfoLainnya(true);
             }
 
             const form = document.getElementById('spmbForm');
