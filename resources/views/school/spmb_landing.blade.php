@@ -444,7 +444,7 @@
                                                     <!-- Header SMA dengan Toggle Tab Non Boarding / Boarding -->
                                                     <div class="bg-slate-100/90 p-2 border-b border-slate-200 flex items-center justify-between gap-1.5">
                                                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-700 px-1 flex items-center gap-1">
-                                                            <span>📊</span> <span>Biaya SMA</span>
+                                                            <span>📊</span> <span>Biaya SMA IT Plus Robbani</span>
                                                         </span>
                                                         <div class="inline-flex p-0.5 rounded-xl bg-slate-200/90 text-[10px] font-black">
                                                             <button type="button" 

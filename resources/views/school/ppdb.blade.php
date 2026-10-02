@@ -654,7 +654,7 @@
                                 <option value="TKIT" {{ ($selected == 'TKIT' || $selected == 'TK') ? 'selected' : '' }}>TK IT ROBBANI (TK Islam Terpadu)</option>
                                 <option value="SDIT" {{ ($selected == 'SDIT' || $selected == 'SD') ? 'selected' : '' }}>SD IT ROBBANI (SD Islam Terpadu)</option>
                                 <option value="SMPIT" {{ ($selected == 'SMPIT' || $selected == 'SMP') ? 'selected' : '' }}>SMP IT ROBBANI (SMP Islam Terpadu)</option>
-                                <option value="SMAIT" {{ ($selected == 'SMAIT' || $selected == 'SMA') ? 'selected' : '' }}>SMA IT ROBBANI (SMA Islam Terpadu)</option>
+                                <option value="SMAIT" {{ ($selected == 'SMAIT' || $selected == 'SMA') ? 'selected' : '' }}>SMA IT Plus Robbani (SMA Islam Terpadu)</option>
                             @endif
                         </select>
                         @endif

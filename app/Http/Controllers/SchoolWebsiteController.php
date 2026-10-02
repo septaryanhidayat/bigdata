@@ -1353,7 +1353,7 @@ class SchoolWebsiteController extends Controller
             ],
             'SMAIT' => [
                 'code' => 'SMAIT',
-                'name' => 'SMA IT ROBBANI',
+                'name' => 'SMA IT Plus Robbani',
                 'level' => 'SMA Islam Terpadu',
                 'age_badge' => 'Lulusan SMP / MTs',
                 'address' => 'Jalan Sarjana Blok A , Kelurahan Timbangan, Kecamatan Indralaya Utara, Ogan Ilir',
@@ -1385,7 +1385,7 @@ class SchoolWebsiteController extends Controller
             'TKIT' => 'TK IT ROBBANI',
             'SDIT' => 'SD IT ROBBANI',
             'SMPIT' => 'SMP IT ROBBANI',
-            'SMAIT' => 'SMA IT ROBBANI',
+            'SMAIT' => 'SMA IT Plus Robbani',
         ];
 
         // Biaya Pendidikan Resmi Tiap Unit (Sesuai Brosur Resmi & Instruksi)
