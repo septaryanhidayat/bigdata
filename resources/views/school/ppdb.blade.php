@@ -88,6 +88,9 @@
     <main class="py-6 sm:py-10 max-w-4xl mx-auto px-3 sm:px-4 w-full space-y-6 flex-1">
         
         @if(session('spmb_success_data'))
+        <script>
+            try { localStorage.removeItem('sitrobbani_spmb_draft_v1'); } catch(e) {}
+        </script>
         @php 
             $data = session('spmb_success_data'); 
             $regId = $data['registration_id'] ?? null;
@@ -607,6 +610,38 @@
             </p>
         </div>
         @endif
+
+        <!-- DRAFT RESTORATION BANNER (Muncul otomatis jika data isian dipulihkan dari sesi sebelumnya) -->
+        <div id="spmbDraftBanner" class="hidden p-3.5 sm:p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-950 text-xs shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-start sm:items-center gap-3">
+                <span class="text-2xl shrink-0">💾</span>
+                <div>
+                    <span class="font-black text-amber-900 block sm:inline text-xs sm:text-sm">Draf Isian Berhasil Dipulihkan!</span>
+                    <p class="text-amber-800 text-[11px] mt-0.5 leading-relaxed" id="spmbDraftBannerTime">
+                        Data isian formulir sebelumnya dimuat otomatis dari memori perangkat Anda agar Anda tidak perlu mengetik ulang dari awal.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                <button type="button" onclick="clearSpmbDraft(true)" class="text-[11px] font-bold text-rose-700 hover:text-rose-900 bg-white hover:bg-rose-50 border border-rose-300 px-3 py-1.5 rounded-xl transition-all cursor-pointer shadow-2xs">
+                    🗑️ Hapus Draf / Mulai Baru
+                </button>
+                <button type="button" onclick="document.getElementById('spmbDraftBanner').classList.add('hidden')" title="Tutup pemberitahuan" class="text-slate-400 hover:text-slate-700 px-2 py-1 text-sm rounded-lg hover:bg-amber-100 transition-colors cursor-pointer">
+                    ✕
+                </button>
+            </div>
+        </div>
+
+        <!-- AUTO-SAVE STATUS INDICATOR -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-500 px-1 py-0.5">
+            <div class="flex items-center gap-2" id="autoSaveIndicator">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                <span id="autoSaveText" class="font-medium text-slate-600">Penyimpanan sementara otomatis aktif (tersimpan aman di browser Anda)</span>
+            </div>
+            <button type="button" onclick="clearSpmbDraft(true)" class="text-slate-400 hover:text-rose-600 transition-colors text-[10px] font-semibold self-start sm:self-auto cursor-pointer">
+                🔄 Reset / Kosongkan Isian
+            </button>
+        </div>
 
         <!-- STEP WIZARD NAVIGATION -->
         <!-- Desktop / Tablet Wizard (Hidden on mobile) -->
@@ -2174,12 +2209,209 @@
             }
 
             window.scrollTo({ top: 120, behavior: 'smooth' });
+            debounceSaveDraft();
+        }
+
+        // =========================================================================
+        // SISTEM PENYIMPANAN SEMENTARA (AUTO-SAVE & DRAFT RECOVERY)
+        // =========================================================================
+        const DRAFT_STORAGE_KEY = 'sitrobbani_spmb_draft_v1';
+        let autoSaveTimer = null;
+
+        function saveSpmbDraft() {
+            const form = document.getElementById('spmbForm');
+            if (!form) return;
+
+            try {
+                const draft = {
+                    currentStep: currentStep || 1,
+                    savedAt: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+                    fields: {},
+                    checkboxes: {},
+                    radios: {}
+                };
+
+                const elements = form.elements;
+                for (let i = 0; i < elements.length; i++) {
+                    const el = elements[i];
+                    if (!el.name || el.type === 'file' || el.type === 'password' || el.type === 'submit' || el.name === '_token') {
+                        continue;
+                    }
+
+                    if (el.type === 'radio') {
+                        if (el.checked) {
+                            draft.radios[el.name] = el.value;
+                        }
+                    } else if (el.type === 'checkbox') {
+                        if (el.name.endsWith('[]')) {
+                            if (!draft.checkboxes[el.name]) draft.checkboxes[el.name] = [];
+                            if (el.checked) draft.checkboxes[el.name].push(el.value);
+                        } else {
+                            draft.checkboxes[el.name] = el.checked;
+                        }
+                    } else {
+                        draft.fields[el.name] = el.value;
+                    }
+                }
+
+                localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+
+                const autoSaveText = document.getElementById('autoSaveText');
+                if (autoSaveText) {
+                    autoSaveText.innerText = `Draf tersimpan otomatis pukul ${draft.savedAt}`;
+                }
+            } catch (e) {
+                console.warn('Gagal menyimpan draf SPMB:', e);
+            }
+        }
+
+        function debounceSaveDraft() {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(saveSpmbDraft, 350);
+        }
+
+        function restoreSpmbDraft() {
+            const isEditMode = {{ !empty($editRegistration) ? 'true' : 'false' }};
+            const urlParams = new URLSearchParams(window.location.search);
+            if (isEditMode || urlParams.get('new') === '1') {
+                if (urlParams.get('new') === '1') {
+                    try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch(e) {}
+                }
+                return false;
+            }
+
+            try {
+                const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+                if (!raw) return false;
+
+                const draft = JSON.parse(raw);
+                if (!draft || (!draft.fields && !draft.radios && !draft.checkboxes)) return false;
+
+                const form = document.getElementById('spmbForm');
+                if (!form) return false;
+
+                let hasRestoredAny = false;
+
+                // 1. Pulihkan Radios
+                if (draft.radios) {
+                    for (let name in draft.radios) {
+                        const val = draft.radios[name];
+                        const radio = form.querySelector(`input[type="radio"][name="${name}"][value="${val}"]`);
+                        if (radio) {
+                            radio.checked = true;
+                            hasRestoredAny = true;
+                        }
+                    }
+                }
+
+                // 2. Pulihkan Checkboxes
+                if (draft.checkboxes) {
+                    for (let name in draft.checkboxes) {
+                        const val = draft.checkboxes[name];
+                        if (Array.isArray(val)) {
+                            val.forEach(v => {
+                                const cb = form.querySelector(`input[type="checkbox"][name="${name}"][value="${v}"]`);
+                                if (cb) {
+                                    cb.checked = true;
+                                    hasRestoredAny = true;
+                                }
+                            });
+                        } else {
+                            const cb = form.querySelector(`input[type="checkbox"][name="${name}"]`);
+                            if (cb) {
+                                cb.checked = !!val;
+                                hasRestoredAny = true;
+                            }
+                        }
+                    }
+                }
+
+                // 3. Pulihkan Fields (Text, Number, Date, Select, Textarea)
+                if (draft.fields) {
+                    for (let name in draft.fields) {
+                        const val = draft.fields[name];
+                        if (val === undefined || val === null) continue;
+                        const el = form.elements[name];
+                        if (el && el.type !== 'file' && el.type !== 'submit' && el.name !== '_token') {
+                            if (!el.value || el.value === '' || (el.tagName === 'SELECT' && el.value !== val)) {
+                                el.value = val;
+                                if (val !== '') hasRestoredAny = true;
+                            }
+                        }
+                    }
+                }
+
+                if (hasRestoredAny) {
+                    // Update dependencies
+                    updateUnitFeeInfo();
+                    const preferredClass = draft.fields ? draft.fields['masuk_kelas'] : null;
+                    if (preferredClass) updateClassOptions(preferredClass);
+
+                    const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
+                    if (checkedKategori) {
+                        handleKategoriSekolahChange(checkedKategori.value);
+                    }
+
+                    const checkLainnya = document.getElementById('info_check_lainnya');
+                    if (checkLainnya && checkLainnya.checked) {
+                        toggleInfoLainnya(true);
+                    }
+
+                    // Tampilkan Banner Draf Dipulihkan
+                    const banner = document.getElementById('spmbDraftBanner');
+                    const bannerTime = document.getElementById('spmbDraftBannerTime');
+                    if (banner) {
+                        if (bannerTime && draft.savedAt) {
+                            bannerTime.innerText = `Data isian Anda sebelumnya (tersimpan otomatis pukul ${draft.savedAt}) telah dimuat kembali. Silakan periksa atau lanjutkan pengisian formulir.`;
+                        }
+                        banner.classList.remove('hidden');
+                    }
+
+                    // Restore step jika sebelumnya ada di step > 1 dan tidak ada error server
+                    if (draft.currentStep && draft.currentStep > 1 && !{{ $errors->any() ? 'true' : 'false' }}) {
+                        goToStep(draft.currentStep);
+                    }
+
+                    const autoSaveText = document.getElementById('autoSaveText');
+                    if (autoSaveText && draft.savedAt) {
+                        autoSaveText.innerText = `Draf dipulihkan (tersimpan pukul ${draft.savedAt})`;
+                    }
+
+                    return true;
+                }
+            } catch (e) {
+                console.warn('Gagal memulihkan draf SPMB:', e);
+            }
+            return false;
+        }
+
+        function clearSpmbDraft(confirmBefore) {
+            if (confirmBefore) {
+                if (!confirm('Apakah Anda yakin ingin menghapus seluruh draf isian formulir dan mengosongkan kembali form ini?')) {
+                    return;
+                }
+            }
+            try {
+                localStorage.removeItem(DRAFT_STORAGE_KEY);
+            } catch (e) {}
+
+            const banner = document.getElementById('spmbDraftBanner');
+            if (banner) banner.classList.add('hidden');
+
+            const form = document.getElementById('spmbForm');
+            if (form) {
+                form.reset();
+                window.location.href = "{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['new' => 1]) : route('school.spmb.form', ['new' => 1]) }}";
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             updateUnitFeeInfo();
             updateClassOptions(@json($val('masuk_kelas')));
             goToStep(currentStep);
+
+            // Jalankan pemulihan draf dari localStorage
+            restoreSpmbDraft();
 
             const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
             if (checkedKategori) {
@@ -2193,6 +2425,10 @@
 
             const form = document.getElementById('spmbForm');
             if (form) {
+                // Pasang auto-save listener saat user mengetik atau mengubah pilihan
+                form.addEventListener('input', debounceSaveDraft);
+                form.addEventListener('change', debounceSaveDraft);
+
                 form.addEventListener('submit', function(e) {
                     for (let s = 1; s <= 5; s++) {
                         if (!validateStep(s)) {
