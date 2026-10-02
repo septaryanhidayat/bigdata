@@ -164,15 +164,11 @@ php artisan optimize
 
 ---
 
-## 🔑 Kredensial Akses Pengujian
+## 🌐 Tautan Portal & Layanan Publik
 
-* **URL Portal Utama**: `https://sitrobbani.sch.id`
-* **URL SPMB Online**: `https://sitrobbani.sch.id/ppdb` atau `https://spmb.sitrobbani.sch.id`
-* **URL Panel Admin**: `https://sitrobbani.sch.id/admin/login`
-* **Email Super Admin**: `admin@smartedu.id`
-* **Kata Sandi Default**: *(Dikelola aman oleh tim IT yayasan)*
-
-> ⚠️ **Peringatan**: Selalu ubah kata sandi default dan amankan berkas `.env` pada lingkungan produksi.
+* **Website Resmi SIT Robbani**: `https://sitrobbani.sch.id`
+* **Portal Pendaftaran SPMB Online**: `https://sitrobbani.sch.id/ppdb` atau `https://spmb.sitrobbani.sch.id`
+* **Portal Sistem Informasi Manajemen (SIM)**: `https://sitrobbani.sch.id/admin/login`
 
 ---
 
