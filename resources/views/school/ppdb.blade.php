@@ -1109,9 +1109,28 @@
                         <input type="text" name="npsn_sekolah_asal" id="npsn_sekolah_asal" value="{{ $val('npsn_sekolah_asal') }}" placeholder="8 Digit NPSN (Bila Ada)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
                     </div>
 
+                    @php
+                        $curUnitForNisn = strtoupper((string)$val('school_code', $selectedUnit ?? 'SDIT'));
+                        $isNisnReqInit = in_array($curUnitForNisn, ['SD', 'SDIT', 'SMP', 'SMPIT', 'SMA', 'SMAIT']) || 
+                                         str_contains($curUnitForNisn, 'SD') || 
+                                         str_contains($curUnitForNisn, 'SMP') || 
+                                         str_contains($curUnitForNisn, 'SMA');
+                    @endphp
                     <div class="space-y-1">
-                        <label class="block text-xs font-black text-slate-700 uppercase">5. NISN</label>
-                        <input type="text" name="nisn" id="nisn" value="{{ $val('nisn') }}" maxlength="10" placeholder="10 Digit NISN (Bila sudah memiliki)" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono">
+                        <label class="block text-xs font-black text-slate-700 uppercase">
+                            5. NISN <span id="star_nisn" class="text-rose-500 font-bold {{ $isNisnReqInit ? '' : 'hidden' }}">*</span>
+                        </label>
+                        <input type="text" name="nisn" id="nisn" value="{{ $val('nisn') }}" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" {{ $isNisnReqInit ? 'required' : '' }} placeholder="{{ $isNisnReqInit ? '10 Digit Angka NISN (Wajib diisi)' : '10 Digit NISN (Bila sudah memiliki)' }}" class="w-full px-3.5 py-2.5 rounded-xl form-input text-xs font-mono font-bold @error('nisn') border-rose-500 ring-2 ring-rose-200 bg-rose-50/40 @enderror">
+                        <p id="hint_nisn" class="text-[10px] text-slate-500">
+                            @if($isNisnReqInit)
+                                <span class="text-rose-600 font-bold">*) Wajib diisi 10 digit NISN</span> bagi pendaftar unit SD, SMP, dan SMA.
+                            @else
+                                *) Opsional untuk jenjang KB / TPA / TK.
+                            @endif
+                        </p>
+                        @error('nisn')
+                            <p class="text-[11px] font-bold text-rose-600 flex items-center gap-1 mt-1"><span>⚠️</span> {{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -1897,9 +1916,53 @@
             }
         }
 
+        function updateNisnRequirement() {
+            const sc = document.getElementById('school_code');
+            const unit = sc ? sc.value.toUpperCase().trim() : '';
+            const isRequired = ['SD', 'SDIT', 'SMP', 'SMPIT', 'SMA', 'SMAIT'].includes(unit) ||
+                               unit.includes('SD') || unit.includes('SMP') || unit.includes('SMA');
+            
+            const nisnInput = document.getElementById('nisn');
+            const starNisn = document.getElementById('star_nisn');
+            const hintNisn = document.getElementById('hint_nisn');
+
+            if (nisnInput) {
+                if (isRequired) {
+                    nisnInput.setAttribute('required', 'required');
+                    nisnInput.placeholder = '10 Digit Angka NISN (Wajib diisi)';
+                } else {
+                    nisnInput.removeAttribute('required');
+                    nisnInput.placeholder = '10 Digit NISN (Bila sudah memiliki)';
+                    nisnInput.classList.remove('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+                    const parent = nisnInput.closest('.space-y-1') || nisnInput.parentElement;
+                    if (parent) {
+                        const errBadge = parent.querySelector('.spmb-field-error');
+                        if (errBadge) errBadge.remove();
+                    }
+                }
+            }
+
+            if (starNisn) {
+                if (isRequired) {
+                    starNisn.classList.remove('hidden');
+                } else {
+                    starNisn.classList.add('hidden');
+                }
+            }
+
+            if (hintNisn) {
+                if (isRequired) {
+                    hintNisn.innerHTML = '<span class="text-rose-600 font-bold">*) Wajib diisi 10 digit NISN</span> bagi pendaftar unit SD, SMP, dan SMA.';
+                } else {
+                    hintNisn.innerHTML = '*) Opsional untuk jenjang KB / TPA / TK.';
+                }
+            }
+        }
+
         function onSchoolCodeChange() {
             updateUnitFeeInfo();
             updateClassOptions();
+            updateNisnRequirement();
             const checkedKategori = document.querySelector('input[name="kategori_sekolah_asal"]:checked');
             if (checkedKategori) {
                 handleKategoriSekolahChange(checkedKategori.value);
@@ -2135,6 +2198,45 @@
                         };
                         el.addEventListener('input', clearInputError, { once: true });
                         el.addEventListener('change', clearInputError, { once: true });
+                    }
+                }
+            }
+
+            // Validasi khusus panjang 10 digit NISN untuk jenjang SD, SMP, SMA di Step 2
+            if (step === 2) {
+                const sc = document.getElementById('school_code');
+                const unit = sc ? sc.value.toUpperCase().trim() : '';
+                const isNisnReq = ['SD', 'SDIT', 'SMP', 'SMPIT', 'SMA', 'SMAIT'].includes(unit) ||
+                                  unit.includes('SD') || unit.includes('SMP') || unit.includes('SMA');
+                const nisnEl = document.getElementById('nisn');
+                if (isNisnReq && nisnEl) {
+                    const cleanVal = nisnEl.value.trim();
+                    if (!cleanVal || cleanVal.length < 10) {
+                        nisnEl.classList.add('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+                        const parent = nisnEl.closest('.space-y-1') || nisnEl.parentElement;
+                        if (parent) {
+                            let err = parent.querySelector('.spmb-field-error');
+                            if (!err) {
+                                err = document.createElement('span');
+                                err.className = 'spmb-field-error text-[10px] font-bold text-rose-600 flex items-center gap-1 mt-1';
+                                parent.appendChild(err);
+                            }
+                            err.innerHTML = '<span>⚠️</span><span>NISN wajib diisi 10 digit angka untuk jenjang SD, SMP, dan SMA</span>';
+                        }
+                        if (!firstInvalid) firstInvalid = nisnEl;
+
+                        const clearNisnErr = () => {
+                            if (nisnEl.value.trim().length === 10) {
+                                nisnEl.classList.remove('border-rose-500', 'bg-rose-50/40', 'ring-2', 'ring-rose-200');
+                                const errBadge = parent ? parent.querySelector('.spmb-field-error') : null;
+                                if (errBadge) errBadge.remove();
+                                const topAlert = document.getElementById(`step-alert-${step}`);
+                                if (topAlert && !section.querySelector('.border-rose-500')) {
+                                    topAlert.remove();
+                                }
+                            }
+                        };
+                        nisnEl.addEventListener('input', clearNisnErr);
                     }
                 }
             }
@@ -2392,6 +2494,7 @@
                 if (hasRestoredAny) {
                     // Update dependencies
                     updateUnitFeeInfo();
+                    updateNisnRequirement();
                     const preferredClass = draft.fields ? draft.fields['masuk_kelas'] : null;
                     if (preferredClass) updateClassOptions(preferredClass);
 
@@ -2456,6 +2559,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateUnitFeeInfo();
             updateClassOptions(@json($val('masuk_kelas')));
+            updateNisnRequirement();
             goToStep(currentStep);
 
             // Jalankan pemulihan draf dari localStorage

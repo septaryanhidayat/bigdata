@@ -1765,7 +1765,15 @@ class SchoolWebsiteController extends Controller
             'bahasa_sehari_hari' => 'nullable|string|max:100',
             'bahasa_lainnya' => 'nullable|string|max:100',
             // 2. DATA SEKOLAH ASAL
-            'nisn' => 'nullable|string|max:30',
+            'nisn' => [
+                \Illuminate\Validation\Rule::requiredIf(function() use ($request) {
+                    $u = strtoupper(trim((string)$request->school_code));
+                    return in_array($u, ['SD', 'SDIT', 'SMP', 'SMPIT', 'SMA', 'SMAIT']) || str_contains($u, 'SD') || str_contains($u, 'SMP') || str_contains($u, 'SMA');
+                }),
+                'nullable',
+                'string',
+                'max:30',
+            ],
             'masuk_kelas' => 'nullable|string|max:100',
             'status_siswa' => 'nullable|string|max:100',
             'kategori_sekolah_asal' => 'nullable|string|max:100',
@@ -1835,6 +1843,7 @@ class SchoolWebsiteController extends Controller
             'jumlah_saudara_tiri.integer' => 'Jumlah saudara tiri harus diisi dengan angka.',
 
             // Langkah 2
+            'nisn.required' => 'Nomor Induk Siswa Nasional (NISN) wajib diisi untuk pendaftaran jenjang SD, SMP, dan SMA.',
             'sekolah_asal.required' => 'Nama sekolah asal wajib diisi bagi pendaftar Alumni SIT maupun Luar SIT.',
 
             // Langkah 3 (Kesehatan & Fisik)
@@ -1879,6 +1888,22 @@ class SchoolWebsiteController extends Controller
             if (empty($namaSekolahAsal) || $namaSekolahAsal === '-' || mb_strlen($namaSekolahAsal) < 2) {
                 return redirect()->back()->withInput()->withErrors([
                     'sekolah_asal' => 'Nama sekolah asal wajib diisi bagi pendaftar Alumni SIT maupun Luar SIT.'
+                ]);
+            }
+        }
+
+        // Validasi conditional wajib NISN khusus untuk unit SD, SMP, dan SMA
+        $rawUnit = strtoupper(trim((string)$request->school_code));
+        $isNisnRequired = in_array($rawUnit, ['SD', 'SDIT', 'SMP', 'SMPIT', 'SMA', 'SMAIT']) || 
+                          str_contains($rawUnit, 'SD') || 
+                          str_contains($rawUnit, 'SMP') || 
+                          str_contains($rawUnit, 'SMA');
+
+        if ($isNisnRequired) {
+            $cleanNisn = trim((string)$request->nisn);
+            if (empty($cleanNisn) || $cleanNisn === '-' || mb_strlen($cleanNisn) < 8) {
+                return redirect()->back()->withInput()->withErrors([
+                    'nisn' => 'Nomor Induk Siswa Nasional (NISN) 10 digit wajib diisi untuk pendaftar jenjang SD, SMP, dan SMA.'
                 ]);
             }
         }
