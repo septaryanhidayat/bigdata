@@ -210,80 +210,81 @@
                 </div>
 
             </div>
-        </div>
-    </section>
 
-    <!-- 3b. BANNER HIGHLIGHT RESMI & BROSUR SPMB (DINAMIS DARI DASHBOARD ADMIN) -->
-    <section class="py-6 sm:py-10 px-4 sm:px-6 max-w-6xl mx-auto -mt-6 sm:-mt-8 relative z-20">
-        <div class="bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-950 rounded-3xl p-5 sm:p-10 text-white shadow-2xl border border-emerald-500/20 relative overflow-hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-                
-                {{-- FLYER RESMI VERTIKAL SISI KIRI (SEIMBANG DENGAN KONTEN KANAN) --}}
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="w-full max-w-[260px] sm:max-w-[320px] mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-400 ring-4 ring-white/10 group bg-slate-900 aspect-[3/4] flex items-center justify-center">
-                        <img src="{{ asset(ltrim($spmb['banner_flyer'] ?? '/images/spmb/banner_spmb_official.jpg', '/')) }}" 
-                             alt="Brosur Resmi SPMB SIT Robbani" 
-                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                             onerror="this.onerror=null; this.src='/images/spmb/banner_spmb_official.jpg';">
+            <!-- 3b. BANNER HIGHLIGHT RESMI & BROSUR SPMB (Menyatu Harmonis dengan Background Hero, Tanpa Gap & Bebas Terpotong di Mobile) -->
+            <div class="pt-4 sm:pt-8">
+                <div class="bg-slate-950/75 backdrop-blur-xl rounded-3xl p-5 sm:p-8 lg:p-10 text-white shadow-2xl border border-emerald-500/30 relative overflow-hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+                        
+                        {{-- FLYER RESMI (FULL RATIO, FRAME EMAS MEWAH TANPA TERPOTONG) --}}
+                        <div class="lg:col-span-5 flex justify-center">
+                            <div class="w-full max-w-[270px] sm:max-w-[320px] mx-auto rounded-3xl overflow-hidden shadow-2xl border-2 sm:border-4 border-amber-400/90 ring-4 ring-amber-400/20 bg-slate-950 p-1 sm:p-1.5 group transition-transform duration-300 hover:scale-[1.02]">
+                                <img src="{{ asset(ltrim($spmb['banner_flyer'] ?? '/images/spmb/banner_spmb_official.jpg', '/')) }}" 
+                                     alt="Brosur Resmi SPMB SIT Robbani" 
+                                     class="w-full h-auto rounded-2xl object-contain block mx-auto"
+                                     onerror="this.onerror=null; this.src='/images/spmb/banner_spmb_official.jpg';">
+                            </div>
+                        </div>
+
+                        {{-- INFORMASI BENEFIT & EVENT SISI KANAN --}}
+                        <div class="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
+                            <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                                <span>✨</span>
+                                <span>{{ $spmb['banner_badge'] ?? 'Pendaftaran Tahun Ajaran 2026/2027' }}</span>
+                            </div>
+                            <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+                                {{ $spmb['banner_title'] ?? 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-100 font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+                                {{ $spmb['banner_desc'] ?? 'Wujudkan impian pendidikan ananda bersama SIT Robbani Ogan Ilir. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}
+                            </p>
+
+                            {{-- 3 KARTU BENEFIT --}}
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 text-center sm:text-center">
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
+                                    <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🏛️</span>
+                                    <div class="text-left sm:text-center">
+                                        <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit1_title'] ?? 'Kuota Terbatas' }}</h4>
+                                        <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit1_sub'] ?? '24 Siswa / Kelas' }}</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
+                                    <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🎁</span>
+                                    <div class="text-left sm:text-center">
+                                        <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit2_title'] ?? 'Cashback SPMB' }}</h4>
+                                        <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit2_sub'] ?? 'Potongan Uang Masuk' }}</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
+                                    <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🏆</span>
+                                    <div class="text-left sm:text-center">
+                                        <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit3_title'] ?? 'Class Meeting' }}</h4>
+                                        <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- TOMBOL AKSI --}}
+                            <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
+                                <a href="#daftar" 
+                                   class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
+                                    <span>🎓</span>
+                                    <span>{{ $spmb['banner_btn_primary_text'] ?? 'Daftar Sekarang' }}</span>
+                                </a>
+                                <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition flex items-center justify-center space-x-2">
+                                    <span>💬</span>
+                                    <span>{{ $spmb['banner_btn_secondary_text'] ?? 'Hubungi Panitia SPMB' }}</span>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
-                {{-- INFORMASI BENEFIT & EVENT SISI KANAN --}}
-                <div class="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
-                    <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-                        <span>✨</span>
-                        <span>{{ $spmb['banner_badge'] ?? 'Pendaftaran Tahun Ajaran 2026/2027' }}</span>
-                    </div>
-                    <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-                        {{ $spmb['banner_title'] ?? 'SPMB Gelombang Exclusive & Class Meeting Semester Genap' }}
-                    </h2>
-                    <p class="text-xs sm:text-sm text-slate-100 font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
-                        {{ $spmb['banner_desc'] ?? 'Wujudkan impian pendidikan ananda bersama SIT Robbani Ogan Ilir. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.' }}
-                    </p>
-
-                    {{-- 3 KARTU BENEFIT --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 text-center sm:text-center">
-                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
-                            <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🏛️</span>
-                            <div class="text-left sm:text-center">
-                                <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit1_title'] ?? 'Kuota Terbatas' }}</h4>
-                                <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit1_sub'] ?? '24 Siswa / Kelas' }}</p>
-                            </div>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
-                            <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🎁</span>
-                            <div class="text-left sm:text-center">
-                                <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit2_title'] ?? 'Cashback SPMB' }}</h4>
-                                <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit2_sub'] ?? 'Potongan Uang Masuk' }}</p>
-                            </div>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 border border-white/10 flex sm:flex-col items-center justify-center space-x-3 sm:space-x-0">
-                            <span class="text-xl text-amber-400 mb-0 sm:mb-1 shrink-0">🏆</span>
-                            <div class="text-left sm:text-center">
-                                <h4 class="text-xs font-bold text-white">{{ $spmb['banner_benefit3_title'] ?? 'Class Meeting' }}</h4>
-                                <p class="text-[10px] text-slate-200">{{ $spmb['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah' }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TOMBOL AKSI --}}
-                    <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
-                        <a href="#daftar" 
-                           class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
-                            <span>🎓</span>
-                            <span>{{ $spmb['banner_btn_primary_text'] ?? 'Daftar Sekarang' }}</span>
-                        </a>
-                        <a href="{{ $spmb['wa_link'] ?? 'https://wa.me/62811747472' }}" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition flex items-center justify-center space-x-2">
-                            <span>💬</span>
-                            <span>{{ $spmb['banner_btn_secondary_text'] ?? 'Hubungi Panitia SPMB' }}</span>
-                        </a>
-                    </div>
-                </div>
-
             </div>
+
         </div>
     </section>
 
@@ -304,36 +305,48 @@
                 </p>
             </div>
 
-            <!-- Banner Promo Khusus 10 Pendaftar Pertama (Sesuai Brosur Resmi) -->
+            <!-- Banner Promo Khusus 10 Pendaftar Pertama (Desain Sleek, Simetris & Responsif Tanpa Teks Terpotong) -->
             <div class="max-w-4xl mx-auto fade-up">
-                <div class="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/20 border-2 border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div class="flex items-center gap-3.5 text-center sm:text-left">
-                        <span class="text-3xl sm:text-4xl shrink-0">🎁</span>
-                        <div>
-                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black uppercase tracking-wider mb-1">
-                                Promo Khusus
-                            </span>
-                            <h3 class="text-sm sm:text-base font-black leading-tight text-slate-950">
+                <div class="p-4 sm:p-6 rounded-3xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/20 border-2 border-amber-300/80 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+                    
+                    <!-- Sisi Kiri: Informasi Promo -->
+                    <div class="flex items-center gap-3.5 sm:gap-4 text-left w-full md:w-auto">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-950 text-amber-300 flex items-center justify-center text-2xl sm:text-3xl shrink-0 shadow-md">
+                            🎁
+                        </div>
+                        <div class="space-y-0.5 min-w-0 flex-1">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black uppercase tracking-wider">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+                                <span>Promo Khusus</span>
+                            </div>
+                            <h3 class="text-sm sm:text-base font-black leading-snug text-slate-950 tracking-tight">
                                 PROMO KHUSUS 10 PENDAFTAR PERTAMA!
                             </h3>
-                            <p class="text-[11px] text-slate-900 font-bold">
+                            <p class="text-[11px] sm:text-xs text-slate-900 font-semibold leading-tight">
                                 Dapatkan potongan biaya pendaftaran langsung saat mendaftar online.
                             </p>
-                            <p class="text-[10px] text-slate-950/80 font-bold mt-0.5">
+                            <p class="text-[10px] text-slate-950/80 font-bold">
                                 *) Terbatas untuk 10 pendaftar pertama di masing-masing unit, jika kuota masih ada.
                             </p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                        <div class="px-3.5 sm:px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white">
-                            <span class="text-[10px] font-bold text-slate-600 block">SD, SMP & SMA</span>
-                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 1.000.000<span class="text-rose-600 font-black">*</span></span>
+
+                    <!-- Sisi Kanan: Kartu Nominal Potongan (Grid Responsif Rapi Tanpa Teks Terpotong) -->
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3 w-full md:w-auto shrink-0">
+                        <div class="px-3.5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white/90 flex flex-col justify-center min-w-[130px] sm:min-w-[145px]">
+                            <span class="text-[10px] font-black uppercase tracking-wide text-slate-500">SD, SMP & SMA</span>
+                            <div class="text-xs sm:text-sm font-black text-emerald-800 font-mono tracking-tight whitespace-nowrap mt-0.5">
+                                Potongan 1 Juta<span class="text-rose-600 font-black text-xs">*</span>
+                            </div>
                         </div>
-                        <div class="px-3.5 sm:px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white">
-                            <span class="text-[10px] font-bold text-slate-600 block">KB & TK</span>
-                            <span class="text-xs sm:text-sm font-black text-emerald-800 font-mono">Potongan Rp 500.000<span class="text-rose-600 font-black">*</span></span>
+                        <div class="px-3.5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md shadow-xs text-center border border-white/90 flex flex-col justify-center min-w-[130px] sm:min-w-[145px]">
+                            <span class="text-[10px] font-black uppercase tracking-wide text-slate-500">KB & TK</span>
+                            <div class="text-xs sm:text-sm font-black text-emerald-800 font-mono tracking-tight whitespace-nowrap mt-0.5">
+                                Potongan 500 Rb<span class="text-rose-600 font-black text-xs">*</span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -568,12 +581,14 @@
                 @endforeach
             </div>
             
-            <!-- Keterangan Promo Tanda Bintang (*) -->
-            <div class="max-w-3xl mx-auto text-center fade-up pt-4">
-                <p class="text-[11px] sm:text-xs text-slate-500 font-semibold flex items-center justify-center gap-1">
-                    <span class="text-rose-600 font-bold">*</span>
-                    <span>Potongan biaya pendidikan terbatas khusus untuk 10 pendaftar pertama di masing-masing unit, jika kuota masih ada.</span>
-                </p>
+            <!-- Keterangan Promo Tanda Bintang (*) - Desain Rapi & Tanda Bintang Sejajar di HP -->
+            <div class="max-w-2xl mx-auto text-center fade-up pt-2 px-3">
+                <div class="inline-flex items-start justify-center gap-2 px-4 py-2.5 rounded-2xl bg-white/95 border border-slate-200/90 shadow-2xs text-left sm:text-center text-[11px] sm:text-xs text-slate-600">
+                    <span class="text-rose-600 font-black text-sm shrink-0 leading-none mt-0.5">*</span>
+                    <span class="font-medium leading-relaxed">
+                        Potongan biaya pendidikan terbatas khusus untuk 10 pendaftar pertama di masing-masing unit, jika kuota masih ada.
+                    </span>
+                </div>
             </div>
         </div>
     </section>
