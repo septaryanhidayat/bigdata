@@ -368,24 +368,21 @@
                                     </div>
                                 </div>
 
-                                <!-- INFORMASI BIAYA PENDIDIKAN RESMI -->
+                                                 <!-- INFORMASI BIAYA PENDIDIKAN RESMI -->
                                 <div class="space-y-2 pt-1 text-left">
                                     
                                     <!-- 1. BIAYA PENDAFTARAN (Dibuat TERPISAH dari tabel dan diletakkan DI ATAS rincian biaya pendidikan) -->
-                                    <div class="p-2.5 sm:p-3 rounded-2xl bg-amber-500/10 border border-amber-400/35 flex items-center justify-between transition-all hover:bg-amber-500/15">
+                                    <div class="px-3.5 py-2.5 rounded-xl bg-amber-50 border border-amber-300/80 flex items-center justify-between text-left shadow-2xs">
                                         <div class="flex items-center gap-2">
-                                            <span class="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center text-xs font-black shrink-0">
+                                            <span class="w-6 h-6 rounded-lg bg-amber-200/70 text-amber-900 flex items-center justify-center text-xs shrink-0">
                                                 📝
                                             </span>
-                                            <div>
-                                                <span class="text-[10px] font-black uppercase tracking-wider text-amber-900 block leading-tight">
-                                                    Uang Pendaftaran
-                                                </span>
-                                                <span class="text-[10px] text-slate-500 font-medium">Formulir & Administrasi</span>
-                                            </div>
+                                            <span class="text-xs font-bold text-amber-950">
+                                                Uang Pendaftaran
+                                            </span>
                                         </div>
                                         <div class="text-right">
-                                            <span class="text-xs sm:text-sm font-black text-amber-950 font-mono tracking-tight">
+                                            <span class="text-xs sm:text-sm font-black text-amber-950 font-mono">
                                                 Rp {{ number_format($regFee, 0, ',', '.') }}
                                             </span>
                                         </div>
@@ -393,40 +390,40 @@
 
                                     <!-- 2. PROMO BADGE (Jika ada potongan 10 pendaftar pertama) -->
                                     @if(!empty($tuition['promo']))
-                                        <div class="px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500/10 via-emerald-500/10 to-teal-500/10 border border-amber-300/60 flex items-center gap-1.5 text-[10px] sm:text-[11px] font-black text-amber-900">
-                                            <span class="text-xs animate-pulse">🎉</span>
-                                            <span class="leading-tight">{{ $tuition['promo'] }}</span>
+                                        <div class="px-3 py-1.5 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-900 flex items-center justify-center gap-1.5 text-[11px] font-bold shadow-2xs text-center">
+                                            <span class="text-xs">🎉</span>
+                                            <span class="leading-none">{{ $tuition['promo'] }}</span>
                                         </div>
                                     @endif
 
                                     <!-- 3. ACCORDION RINCIAN BIAYA PENDIDIKAN (DEFAULT: HIDDEN) -->
                                     @if(!empty($tuition))
                                         <div class="space-y-2">
-                                            <!-- Accordion Trigger Button (Animasi Halus & Interaktif) -->
+                                            <!-- Accordion Trigger Button (Jelas Sebagai Tombol yang Dapat Diklik & Simetris, Tanpa Nominal Total Saat Tertutup) -->
                                             <button type="button" 
                                                     @click="showTuition = !showTuition"
-                                                    class="w-full py-2.5 px-3 rounded-2xl border transition-all duration-300 flex items-center justify-between group/acc cursor-pointer shadow-xs"
-                                                    :class="showTuition ? 'bg-emerald-50 border-emerald-300 text-emerald-900 ring-2 ring-emerald-500/20' : 'bg-slate-50 hover:bg-emerald-50/50 border-slate-200 hover:border-emerald-200 text-slate-700'">
-                                                <div class="flex items-center gap-2 text-left">
-                                                    <span class="w-6 h-6 rounded-lg flex items-center justify-center text-xs transition-colors shrink-0"
-                                                          :class="showTuition ? 'bg-emerald-700 text-white' : 'bg-slate-200 text-slate-700 group-hover/acc:bg-emerald-700 group-hover/acc:text-white'">
-                                                        📊
+                                                    class="w-full py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-between transition-all duration-200 cursor-pointer shadow-xs border-2 select-none group/acc"
+                                                    :class="showTuition 
+                                                        ? 'bg-emerald-800 border-emerald-900 text-white shadow-sm' 
+                                                        : 'bg-emerald-50/80 hover:bg-emerald-100 text-emerald-950 border-emerald-500/60 hover:border-emerald-600'">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 transition-colors"
+                                                          :class="showTuition ? 'bg-white/20 text-white' : 'bg-emerald-200/80 text-emerald-900'">
+                                                        📋
                                                     </span>
-                                                    <div>
-                                                        <span class="text-xs font-bold block leading-tight" x-text="showTuition ? 'Tutup Rincian Biaya' : 'Lihat Rincian Biaya'"></span>
-                                                        <span class="text-[9px] text-slate-400 block font-normal" x-show="!showTuition">Klik untuk rincian BPPS & SPP</span>
-                                                    </div>
+                                                    <span class="text-xs font-extrabold tracking-tight" 
+                                                          x-text="showTuition ? 'Sembunyikan Rincian Biaya' : 'Lihat Rincian Biaya Pendidikan'">
+                                                        Lihat Rincian Biaya Pendidikan
+                                                    </span>
                                                 </div>
-                                                <div class="flex items-center gap-1.5 text-right shrink-0">
-                                                    <span class="text-[10px] sm:text-[11px] font-mono font-black text-emerald-800" x-show="!showTuition">
-                                                        @if(($tuition['type'] ?? '') === 'variants')
-                                                            Mulai Rp {{ number_format($tuition['variants']['non_boarding']['total'], 0, ',', '.') }}
-                                                        @else
-                                                            Total Rp {{ number_format($tuition['total'] ?? 0, 0, ',', '.') }}
-                                                        @endif
+                                                <div class="flex items-center gap-1.5 shrink-0">
+                                                    <span class="text-[11px] font-bold" 
+                                                          :class="showTuition ? 'text-emerald-100' : 'text-emerald-800'"
+                                                          x-text="showTuition ? 'Tutup' : 'Buka'">
+                                                        Buka
                                                     </span>
-                                                    <div class="w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-300 shrink-0"
-                                                         :class="showTuition ? 'bg-emerald-200/80 rotate-180 text-emerald-800' : 'bg-slate-200/80 text-slate-500'">
+                                                    <div class="w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-300"
+                                                         :class="showTuition ? 'bg-white/20 rotate-180 text-white' : 'bg-emerald-200/90 text-emerald-900'">
                                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
                                                         </svg>
