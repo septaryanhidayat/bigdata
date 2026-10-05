@@ -4,7 +4,36 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-primary: #004532;
+    --color-primary-container: #065f46;
+    --color-secondary-container: #fd761a;
+    --color-accent-orange: #f97316;
+    --color-on-surface: #0f172a;
+    --color-on-surface-variant: #475569;
+    --color-background: #f8fafc;
+    --color-surface: #ffffff;
+    --color-outline-variant: #e2e8f0;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 48px;
+    --spacing-container-max: 1280px;
+    --spacing-gutter: 20px;
+
+    --font-body: 'Inter', sans-serif;
+    --font-headline: 'Montserrat', sans-serif;
+
+    --radius: 0.25rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
+
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }

@@ -132,9 +132,9 @@ return new class extends Migration
             $table->string('pob', 50)->nullable();
             $table->date('dob')->nullable();
             $table->string('status', 20)->default('ACTIVE'); // ACTIVE, GRADUATED, MUTATED, SUSPENDED
-            $table->decimal('canteen_daily_limit', 12, 2)->default(50000.00);
-            $table->decimal('canteen_balance', 12, 2)->default(0.00);
-            $table->decimal('savings_balance', 12, 2)->default(0.00);
+            $table->decimal('canteen_daily_limit', 12, 2)->default(50000.00)->nullable();
+            $table->decimal('canteen_balance', 12, 2)->default(0.00)->nullable();
+            $table->decimal('savings_balance', 12, 2)->default(0.00)->nullable();
             $table->timestamps();
         });
 

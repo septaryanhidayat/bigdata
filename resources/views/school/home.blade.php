@@ -77,14 +77,17 @@
     </script>
 
     <!-- Preconnect & DNS-Prefetch for Fast CDN Resources & External Hero Background -->
+    <!-- Preconnect for Fast Font Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
     <!-- Preload Critical LCP Logo & Hero Background -->
     <link rel="preload" as="image" href="{{ $settings['logo_light'] ?? '/images/logo-robbani-official.png' }}" fetchpriority="high">
     <link rel="preload" as="image" href="{{ !empty($settings['hero_bg_image']) ? str_replace(' ', '%20', $settings['hero_bg_image']) : asset('uploads/cms/hero_bg_6a7f4563c3595_1786725731.webp') }}" fetchpriority="high">
+
+    <!-- Precompiled Production Stylesheet (Zero Runtime JIT, Instant Parsing) -->
+    <link rel="preload" as="style" href="{{ asset('css/sitrobbani-production.css') }}?v=12">
+    <link rel="stylesheet" href="{{ asset('css/sitrobbani-production.css') }}?v=12">
 
     <!-- Google Fonts & Material Symbols (Asynchronous & Display Swap for 96+ Lighthouse FCP/LCP) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&display=swap" media="print" onload="this.media='all'">
@@ -94,56 +97,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@700;800;900&display=swap">
     </noscript>
 
-    <!-- Tailwind CSS CDN with Plugins -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                "primary": "#004532",
-                "primary-container": "#065f46",
-                "secondary-container": "#fd761a",
-                "accent-orange": "#f97316",
-                "on-surface": "#0f172a",
-                "on-surface-variant": "#475569",
-                "background": "#f8fafc",
-                "surface": "#ffffff",
-                "outline-variant": "#e2e8f0"
-            },
-            "spacing": {
-                "md": "16px",
-                "sm": "8px",
-                "xs": "4px",
-                "lg": "24px",
-                "xl": "48px",
-                "container-max": "1280px",
-                "gutter": "20px"
-            },
-            "fontFamily": {
-                "body": ["Inter", "sans-serif"],
-                "headline": ["Montserrat", "sans-serif"]
-            },
-            "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-            },
-            "boxShadow": {
-                "xs": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-                "md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-                "card": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)"
-            }
-          }
-        }
-      }
-    </script>
+    <!-- Local High-Performance Alpine.js -->
+    <script defer src="{{ asset('js/alpine.min.js') }}?v=12"></script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
@@ -2006,8 +1961,23 @@
                     </div>
 
                     <!-- Dynamic Unit News Cards Grid from Real WordPress Data -->
+                    @php
+                        $showcaseNews = [];
+                        $unitTrack = ['all' => 0, 'tkit' => 0, 'sdit' => 0, 'smpit' => 0, 'smait' => 0, 'yayasan' => 0];
+                        foreach ($newsList as $idx => $nItem) {
+                            $u = strtolower($nItem['unit'] ?? 'yayasan');
+                            if (!isset($unitTrack[$u])) $unitTrack[$u] = 0;
+                            if ($unitTrack['all'] < 12 || $unitTrack[$u] < 4) {
+                                $showcaseNews[] = $nItem;
+                                $unitTrack['all']++;
+                                $unitTrack[$u]++;
+                            }
+                            if (count($showcaseNews) >= 20) break;
+                        }
+                        if (empty($showcaseNews)) $showcaseNews = array_slice($newsList, 0, 12);
+                    @endphp
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                        @foreach($newsList as $item)
+                        @foreach($showcaseNews as $item)
                         @php
                             $uCode = strtolower($item['unit'] ?? 'yayasan');
                             $catStr = strtolower($item['category'] ?? '');
@@ -2053,6 +2023,15 @@
                         </div>
                         @endforeach
                     </div>
+
+                    @if(count($newsList) > 12)
+                    <div class="pt-4 text-center">
+                        <a href="{{ route('school.berita') }}" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-emerald-50 dark:bg-[#0d1e0f] text-emerald-800 dark:text-[#c6f634] font-extrabold text-xs hover:bg-emerald-100 dark:hover:bg-[#1a381c] transition-all border border-emerald-200 dark:border-[#1a381c] shadow-xs">
+                            <span>Lihat Seluruh Berita &amp; Artikel ({{ count($newsList) }})</span>
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </a>
+                    </div>
+                    @endif
                 </div>
 
             </div>
