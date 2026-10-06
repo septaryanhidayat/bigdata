@@ -16,6 +16,10 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
+            $user = Auth::user();
+            if ($user && $user->isTeacher() && !$user->isHeadmaster() && !$user->isSuperAdmin() && !$user->isYayasan()) {
+                return redirect()->route('admin.academic.grades');
+            }
             return redirect()->route('admin.dashboard');
         }
 
@@ -74,6 +78,11 @@ class AuthController extends Controller
                     'ip_address' => $request->ip(),
                 ]);
             } catch (\Throwable $e) {}
+
+            // Akun Guru selain Kepala Sekolah langsung diarahkan ke e-Rapor
+            if ($user && $user->isTeacher() && !$user->isHeadmaster() && !$user->isSuperAdmin() && !$user->isYayasan()) {
+                return redirect()->route('admin.academic.grades')->with('success', 'Selamat datang di Aplikasi e-Rapor SIT Terpadu!');
+            }
 
             return redirect()->intended(route('admin.dashboard'))->with('success', 'Selamat datang di CMS Admin SmartEdu!');
         }

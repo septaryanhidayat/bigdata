@@ -23,6 +23,11 @@ class CmsController extends Controller
     {
         $user = auth()->user();
 
+        // 0. Akun Guru selain Kepala Sekolah diarahkan langsung ke e-Rapor SIT Terpadu
+        if ($user && $user->isTeacher() && !$user->isHeadmaster() && !$user->isSuperAdmin() && !$user->isYayasan()) {
+            return redirect()->route('admin.academic.grades');
+        }
+
         // 1. Akun TU Unit & Admin Web Unit diarahkan langsung ke profil web unit / konten CMS
         if ($user && ($user->role === \App\Models\User::ROLE_STAFF_TU || $user->role === \App\Models\User::ROLE_ADMIN_WEB_UNIT)) {
             $userSchoolCode = strtolower($user->school->code ?? '');

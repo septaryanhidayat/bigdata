@@ -97,9 +97,13 @@
     <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] md:max-w-none md:sticky md:top-0 md:h-screen md:w-64 xl:w-72 -translate-x-full md:translate-x-0 bg-[#0f1117] text-white shrink-0 p-4 sm:p-5 flex flex-col justify-between border-r border-slate-800/80 shadow-2xl transition-transform duration-300 ease-in-out overflow-y-auto overflow-x-hidden">
         <div class="space-y-5">
             
+            @php
+                $isOnlyTeacher = Auth::check() && Auth::user()->isTeacher() && !Auth::user()->isHeadmaster() && !Auth::user()->isSuperAdmin() && !Auth::user()->isYayasan();
+            @endphp
+
             <!-- Logo & Brand Header (SmartEdu Only) -->
             <div class="flex items-center justify-between px-1 sidebar-brand-container">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 shrink-0 overflow-hidden group">
+                <a href="{{ $isOnlyTeacher ? route('admin.academic.grades') : route('admin.dashboard') }}" class="flex items-center gap-2.5 shrink-0 overflow-hidden group">
                     <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 via-rose-500 to-purple-600 flex items-center justify-center text-white font-black text-base shadow-md shrink-0 group-hover:scale-105 transition-transform">
                         S
                     </div>
@@ -108,7 +112,7 @@
                             <span>SmartEdu</span>
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                         </h2>
-                        <p class="text-[9px] text-slate-400 font-bold tracking-wider uppercase mt-0.5 truncate">Smart School System</p>
+                        <p class="text-[9px] text-slate-400 font-bold tracking-wider uppercase mt-0.5 truncate">{{ $isOnlyTeacher ? 'Portal e-Rapor Guru' : 'Smart School System' }}</p>
                     </div>
                 </a>
 
@@ -208,7 +212,8 @@
             <!-- Navigation Links with Simplified Icons -->
             <nav class="space-y-1 text-xs font-bold" id="sidebarNav">
                 
-                <!-- Dashboard Overview (All Roles) -->
+                @if(!$isOnlyTeacher)
+                <!-- Dashboard Overview (All Roles Except Guru/Teacher) -->
                 <a href="{{ route('admin.dashboard') }}" title="Dashboard Overview" class="flex items-center justify-between px-3 py-2 rounded-xl transition-all nav-item-link {{ request()->routeIs('admin.dashboard') ? 'nav-link-active' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
                     <div class="flex items-center gap-2.5">
                         <span class="w-5 text-center text-sm shrink-0">📊</span> 
@@ -216,6 +221,7 @@
                     </div>
                     <span class="w-2 h-2 rounded-full bg-orange-400 sidebar-text"></span>
                 </a>
+                @endif
 
                 @php
                     $isMasterActive = request()->routeIs('admin.master.*');
@@ -228,7 +234,7 @@
                 @endphp
 
                 <!-- 1. KATEGORI: MASTER DATA YAYASAN & SEKOLAH -->
-                @if(Auth::user()->canAccessModule('master'))
+                @if(!$isOnlyTeacher && Auth::user()->canAccessModule('master'))
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-widest block">1. Master Data Yayasan</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400/60 sidebar-text"></span>
@@ -265,7 +271,7 @@
                 @php
                     $canViewHrisGroup = Auth::user()->canAccessModule('hris') || Auth::user()->canAccessModule('bpi');
                 @endphp
-                @if($canViewHrisGroup)
+                @if(!$isOnlyTeacher && $canViewHrisGroup)
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-emerald-400 font-extrabold uppercase tracking-widest block">2. SDM & Mobile HRIS</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/60 sidebar-text"></span>
@@ -305,15 +311,19 @@
 
                 <!-- 3. KATEGORI: AKADEMIK & PEMBELAJARAN (KBM, LMS, CBT, E-RAPOR) -->
                 @php
-                    $canViewAcademicGroup = Auth::user()->canAccessModule('academic') || Auth::user()->canAccessModule('lms') || Auth::user()->canAccessModule('cbt_ppdb');
+                    $canViewAcademicGroup = Auth::user()->canAccessModule('academic') || (!$isOnlyTeacher && (Auth::user()->canAccessModule('lms') || Auth::user()->canAccessModule('cbt_ppdb')));
                 @endphp
                 @if($canViewAcademicGroup)
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
-                    <span class="text-[10px] text-purple-400 font-extrabold uppercase tracking-widest block">3. Akademik & Pembelajaran</span>
+                    <span class="text-[10px] text-purple-400 font-extrabold uppercase tracking-widest block">{{ $isOnlyTeacher ? 'Menu Utama Guru & Rapor' : '3. Akademik & Pembelajaran' }}</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-purple-400/60 sidebar-text"></span>
                 </div>
                 <div id="grpAcademic" class="space-y-0.5 group-content" style="display: block;">
                     @if(Auth::user()->canAccessModule('academic'))
+                    <a href="{{ route('admin.academic.grades') }}" title="Aplikasi e-Rapor SIT Terpadu" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.*') ? 'nav-link-active' : 'text-slate-300' }}">
+                        <span class="w-5 text-center text-sm shrink-0 opacity-80">📘</span> 
+                        <span class="sidebar-text">Aplikasi e-Rapor SIT</span>
+                    </a>
                     <a href="{{ route('admin.academic.schedules') }}" title="Jadwal KBM Mingguan" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.schedules') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📅</span> 
                         <span class="sidebar-text">Jadwal KBM Mingguan</span>
@@ -322,20 +332,16 @@
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📖</span> 
                         <span class="sidebar-text">Jurnal KBM Guru</span>
                     </a>
-                    <a href="{{ route('admin.academic.grades') }}" title="Aplikasi e-Rapor SIT Terpadu" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.academic.*') ? 'nav-link-active' : 'text-slate-300' }}">
-                        <span class="w-5 text-center text-sm shrink-0 opacity-80">📘</span> 
-                        <span class="sidebar-text">Aplikasi e-Rapor SIT</span>
-                    </a>
                     @endif
 
-                    @if(Auth::user()->canAccessModule('lms'))
+                    @if(!$isOnlyTeacher && Auth::user()->canAccessModule('lms'))
                     <a href="{{ route('admin.lms.index') }}" title="E-Learning LMS & Materi" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.lms.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">💻</span> 
                         <span class="sidebar-text">E-Learning LMS & Materi</span>
                     </a>
                     @endif
 
-                    @if(Auth::user()->canAccessModule('cbt_ppdb'))
+                    @if(!$isOnlyTeacher && Auth::user()->canAccessModule('cbt_ppdb'))
                     <a href="{{ route('admin.cbt.index') }}" title="CBT Ujian Online" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-800/80 transition-colors nav-item-link {{ request()->routeIs('admin.cbt.*') ? 'nav-link-active' : 'text-slate-300' }}">
                         <span class="w-5 text-center text-sm shrink-0 opacity-80">📝</span> 
                         <span class="sidebar-text">CBT Ujian Online</span>
@@ -348,7 +354,7 @@
                 @php
                     $canViewStudentServicesGroup = Auth::user()->canAccessModule('attendance') || Auth::user()->canAccessModule('bk') || Auth::user()->canAccessModule('cbt_ppdb') || Auth::user()->canAccessModule('library') || Auth::user()->canAccessModule('sarpras');
                 @endphp
-                @if($canViewStudentServicesGroup)
+                @if(!$isOnlyTeacher && $canViewStudentServicesGroup)
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-blue-400 font-extrabold uppercase tracking-widest block">4. Layanan Siswa & Fasilitas</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-400/60 sidebar-text"></span>
@@ -403,7 +409,7 @@
                 @php
                     $canViewFinanceGroup = Auth::user()->canAccessModule('finance') || Auth::user()->canAccessModule('savings') || Auth::user()->canAccessModule('canteen');
                 @endphp
-                @if($canViewFinanceGroup)
+                @if(!$isOnlyTeacher && $canViewFinanceGroup)
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-emerald-400 font-extrabold uppercase tracking-widest block">5. Keuangan & Cashless</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/60 sidebar-text"></span>
@@ -437,7 +443,7 @@
                 @endif
 
                 <!-- 6. KATEGORI: PERSURATAN & E-OFFICE TTE -->
-                @if(Auth::user()->canAccessModule('letters'))
+                @if(!$isOnlyTeacher && Auth::user()->canAccessModule('letters'))
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-pink-400 font-extrabold uppercase tracking-widest block">6. Persuratan & E-Office</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-pink-400/60 sidebar-text"></span>
@@ -475,7 +481,7 @@
                 @endif
 
                 <!-- 7. KATEGORI: PENGATURAN WEB, AKUN & CMS -->
-                @if(Auth::user()->canAccessModule('settings'))
+                @if(!$isOnlyTeacher && Auth::user()->canAccessModule('settings'))
                 <div class="pt-3 pb-1 px-3 flex items-center justify-between sidebar-group-title">
                     <span class="text-[10px] text-cyan-400 font-extrabold uppercase tracking-widest block">7. Pengaturan Web & CMS</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400/60 sidebar-text"></span>

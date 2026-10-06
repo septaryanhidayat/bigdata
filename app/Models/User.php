@@ -147,7 +147,8 @@ class User extends Authenticatable
      */
     public function isTeacher(): bool
     {
-        return $this->role === self::ROLE_TEACHER;
+        $role = strtoupper((string)$this->role);
+        return $role === self::ROLE_TEACHER || $role === 'GURU';
     }
 
     /**
@@ -178,7 +179,7 @@ class User extends Authenticatable
         $modulePermissions = [
             'dashboard' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER,
-                self::ROLE_STAFF_TU, self::ROLE_STAFF_KEUANGAN, self::ROLE_TEACHER,
+                self::ROLE_STAFF_TU, self::ROLE_STAFF_KEUANGAN,
                 self::ROLE_GURU_BK, self::ROLE_MUSYRIF_ASRAMA, self::ROLE_PETUGAS_PERPUS,
                 self::ROLE_PETUGAS_KANTIN, self::ROLE_PANITIA_PPDB, self::ROLE_PETUGAS_SARPRAS,
                 self::ROLE_HUMAS, self::ROLE_ADMIN_WEB_UNIT,
@@ -190,7 +191,7 @@ class User extends Authenticatable
                 self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU, self::ROLE_TEACHER,
             ],
             'attendance' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU, self::ROLE_TEACHER, self::ROLE_GURU_BK,
+                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU, self::ROLE_GURU_BK,
             ],
             'finance' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_STAFF_KEUANGAN,
@@ -212,16 +213,16 @@ class User extends Authenticatable
                 self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER, self::ROLE_PETUGAS_SARPRAS,
             ],
             'library' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_PETUGAS_PERPUS, self::ROLE_TEACHER,
+                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_PETUGAS_PERPUS,
             ],
             'lms' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_TEACHER,
             ],
             'bk' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_GURU_BK, self::ROLE_TEACHER,
+                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_GURU_BK,
             ],
             'bpi' => [
-                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_TEACHER, self::ROLE_MUSYRIF_ASRAMA,
+                self::ROLE_SUPER_ADMIN, self::ROLE_HEADMASTER, self::ROLE_MUSYRIF_ASRAMA,
             ],
             'letters' => [
                 self::ROLE_SUPER_ADMIN, self::ROLE_YAYASAN_CHAIRMAN, self::ROLE_HEADMASTER, self::ROLE_STAFF_TU,

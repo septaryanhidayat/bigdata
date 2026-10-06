@@ -43,6 +43,10 @@ class CheckRole
             ], 403);
         }
 
-        return redirect()->route('admin.dashboard')->with('error', "⛔ Akses Ditolak: Peran akun Anda ({$user->role_name_label}) tidak memiliki izin untuk mengakses halaman tersebut.");
+        $redirectRoute = ($user->isTeacher() && !$user->isHeadmaster() && !$user->isSuperAdmin() && !$user->isYayasan())
+            ? route('admin.academic.grades')
+            : route('admin.dashboard');
+
+        return redirect($redirectRoute)->with('error', "⛔ Akses Ditolak: Peran akun Anda ({$user->role_name_label}) tidak memiliki izin untuk mengakses halaman tersebut.");
     }
 }

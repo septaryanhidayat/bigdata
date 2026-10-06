@@ -411,8 +411,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/system-control/optimize-db-pool', [CmsController::class, 'optimizeDbPool'])->name('system-control.optimize-db-pool');
         });
 
-        // 3. Modul 15: Mutaba'ah BPI & Character Building (Super Admin, Kepala Sekolah, Guru, Musyrif)
-        Route::middleware('role:SUPER_ADMIN,HEADMASTER,TEACHER,MUSYRIF_ASRAMA')->group(function () {
+        // 3. Modul 15: Mutaba'ah BPI & Character Building (Super Admin, Kepala Sekolah, Musyrif)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,MUSYRIF_ASRAMA')->group(function () {
             Route::get('/bpi', [BpiController::class, 'index'])->name('bpi.index');
             Route::post('/bpi', [BpiController::class, 'store'])->name('bpi.store');
             Route::delete('/bpi/{id}', [BpiController::class, 'destroy'])->name('bpi.destroy');
@@ -464,8 +464,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/sarpras/{id}', [SarprasController::class, 'destroy'])->name('sarpras.destroy');
         });
 
-        // 7. Modul 10: Perpustakaan Digital E-Library (Super Admin, Kepala Sekolah, Pustakawan, Guru)
-        Route::middleware('role:SUPER_ADMIN,HEADMASTER,PETUGAS_PERPUS,TEACHER')->group(function () {
+        // 7. Modul 10: Perpustakaan Digital E-Library (Super Admin, Kepala Sekolah, Pustakawan)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,PETUGAS_PERPUS')->group(function () {
             Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
             Route::post('/library', [LibraryController::class, 'store'])->name('library.store');
             Route::delete('/library/{id}', [LibraryController::class, 'destroy'])->name('library.destroy');
@@ -478,8 +478,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/lms/{id}', [LmsController::class, 'destroy'])->name('lms.destroy');
         });
 
-        // 9. Modul 8: BK Online & Poin Siswa (Super Admin, Kepala Sekolah, Guru BK, Guru)
-        Route::middleware('role:SUPER_ADMIN,HEADMASTER,GURU_BK,TEACHER')->group(function () {
+        // 9. Modul 8: BK Online & Poin Siswa (Super Admin, Kepala Sekolah, Guru BK)
+        Route::middleware('role:SUPER_ADMIN,HEADMASTER,GURU_BK')->group(function () {
             Route::get('/bk', [BkController::class, 'index'])->name('bk.index');
             Route::post('/bk', [BkController::class, 'store'])->name('bk.store');
             Route::delete('/bk/{id}', [BkController::class, 'destroy'])->name('bk.destroy');
@@ -575,8 +575,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/users/delete/{id}', [AcademicController::class, 'deleteUnitUser'])->name('users.delete');
         });
 
-        // 12. Modul 3: Absensi Realtime RFID & QR Code (Super Admin, Kepala Sekolah, TU, Guru, Guru BK)
-        Route::prefix('attendance')->name('attendance.')->middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,TEACHER,GURU_BK')->group(function () {
+        // 12. Modul 3: Absensi Realtime RFID & QR Code (Super Admin, Kepala Sekolah, TU, Guru BK)
+        Route::prefix('attendance')->name('attendance.')->middleware('role:SUPER_ADMIN,HEADMASTER,STAFF_TU,GURU_BK')->group(function () {
             Route::get('/', [AttendanceController::class, 'index'])->name('index');
             Route::post('/tap-rfid', [AttendanceController::class, 'tapRfidSimulator'])->name('tap-rfid');
             Route::get('/leaves', [AttendanceController::class, 'leaves'])->name('leaves');
