@@ -19,6 +19,11 @@ use App\Models\CharacterGrade;
 use App\Models\HomeroomNote;
 use App\Models\ReportSetting;
 use App\Models\LearningObjective;
+use App\Models\Level;
+use App\Models\Guardian;
+use App\Models\Extracurricular;
+use App\Models\P5Project;
+use App\Models\DigitalSignature;
 use App\Models\User;
 use App\Services\GeminiEraporService;
 use Illuminate\Http\Request;
@@ -455,6 +460,85 @@ class AcademicController extends Controller
     }
 
     /**
+     * Memastikan seluruh tingkat (level) pada unit sekolah terdaftar lengkap sesuai jenjangnya
+     * SD: Tingkat 1 - 6 (6 tingkat)
+     * SMP: Tingkat 7 - 9 (3 tingkat)
+     * SMA: Tingkat 10 - 12 (3 tingkat)
+     * TK/PAUD: Kelompok A & B (2 tingkat)
+     */
+    public static function ensureSchoolLevels($schoolId, $activeSchool)
+    {
+        if (!$schoolId || !$activeSchool) return;
+
+        $schoolCode = strtolower($activeSchool->code ?? '');
+        $schoolName = strtolower($activeSchool->name ?? '');
+        $eduLevel = strtolower($activeSchool->education_level ?? '');
+
+        $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd') || str_contains($eduLevel, 'sd') || str_contains($eduLevel, 'dasar');
+        $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp') || str_contains($eduLevel, 'smp') || str_contains($eduLevel, 'menengah');
+        $isSma = str_contains($schoolCode, 'sma') || str_contains($schoolName, 'sma') || str_contains($schoolCode, 'smk') || str_contains($schoolName, 'smk');
+        $isTk = str_contains($schoolCode, 'tk') || str_contains($schoolName, 'tk') || str_contains($schoolCode, 'paud') || str_contains($schoolName, 'paud');
+
+        if (!$isSd && !$isSmp && !$isSma && !$isTk) {
+            $isSd = true;
+        }
+
+        $expectedLevels = [];
+        if ($isSd) {
+            $expectedLevels = [
+                ['code' => '1', 'name' => 'Tingkat 1 (Fase A)', 'sort_order' => 1],
+                ['code' => '2', 'name' => 'Tingkat 2 (Fase A)', 'sort_order' => 2],
+                ['code' => '3', 'name' => 'Tingkat 3 (Fase B)', 'sort_order' => 3],
+                ['code' => '4', 'name' => 'Tingkat 4 (Fase B)', 'sort_order' => 4],
+                ['code' => '5', 'name' => 'Tingkat 5 (Fase C)', 'sort_order' => 5],
+                ['code' => '6', 'name' => 'Tingkat 6 (Fase C)', 'sort_order' => 6],
+            ];
+        } elseif ($isSmp) {
+            $expectedLevels = [
+                ['code' => '7', 'name' => 'Tingkat 7 (Fase D)', 'sort_order' => 7],
+                ['code' => '8', 'name' => 'Tingkat 8 (Fase D)', 'sort_order' => 8],
+                ['code' => '9', 'name' => 'Tingkat 9 (Fase D)', 'sort_order' => 9],
+            ];
+        } elseif ($isSma) {
+            $expectedLevels = [
+                ['code' => '10', 'name' => 'Tingkat 10 (Fase E)', 'sort_order' => 10],
+                ['code' => '11', 'name' => 'Tingkat 11 (Fase F)', 'sort_order' => 11],
+                ['code' => '12', 'name' => 'Tingkat 12 (Fase F)', 'sort_order' => 12],
+            ];
+        } elseif ($isTk) {
+            $expectedLevels = [
+                ['code' => 'A', 'name' => 'Kelompok TK A (Fase Fondasi)', 'sort_order' => 1],
+                ['code' => 'B', 'name' => 'Kelompok TK B (Fase Fondasi)', 'sort_order' => 2],
+            ];
+        }
+
+        foreach ($expectedLevels as $def) {
+            $existing = \App\Models\Level::where('school_id', $schoolId)
+                ->where(function($q) use ($def) {
+                    $q->where('code', $def['code'])
+                      ->orWhere('name', 'like', '%' . $def['code'] . '%');
+                })
+                ->first();
+
+            if (!$existing) {
+                \App\Models\Level::create([
+                    'school_id' => $schoolId,
+                    'code' => $def['code'],
+                    'name' => $def['name'],
+                    'sort_order' => $def['sort_order'],
+                ]);
+            } else {
+                if ($existing->name !== $def['name'] || $existing->sort_order !== $def['sort_order']) {
+                    $existing->update([
+                        'name' => $def['name'],
+                        'sort_order' => $def['sort_order']
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
      * Modul 2.2: Penilaian & E-Rapor Terpadu SIT (Kurikulum Merdeka, Wafa & 7 SKL JSIT)
      */
     public function grades(Request $request)
@@ -758,10 +842,8 @@ class AcademicController extends Controller
             ->orderBy('nis')
             ->get();
 
-        $schoolLevels = \App\Models\Level::where('school_id', $schoolId)->get();
-        if ($schoolLevels->isEmpty()) {
-            $schoolLevels = \App\Models\Level::all();
-        }
+        self::ensureSchoolLevels($schoolId, $activeSchool);
+        $schoolLevels = \App\Models\Level::where('school_id', $schoolId)->orderBy('sort_order')->get();
 
         // Ekstrakurikuler & Ko-Kurikuler P5
         try {
@@ -818,7 +900,7 @@ class AcademicController extends Controller
             $chartClassroomValues[] = $cp['percentage'];
         }
 
-        // Chart 2: 7 SKL JSIT Radar Averages
+        // Chart 2: 7 SKL JSIT Radar Averages (Dihitung 100% Real dari character_grades)
         $chartSklLabels = [
             'Akidah Lurus',
             'Ibadah Benar',
@@ -828,22 +910,74 @@ class AcademicController extends Controller
             'Fisik Tangkas',
             'Tertib & Disiplin'
         ];
-        $chartSklValues = [92, 88, 95, 86, 90, 89, 87];
+        
+        $sklKeys = [
+            'salimul_aqidah',
+            'shahihul_ibadah',
+            'matinul_khuluq',
+            'qodirun_alal_kasbi',
+            'mutsaqqoful_fikri',
+            'qowiyyul_jismi',
+            'munazzhomun'
+        ];
 
-        // Chart 3: Distribusi Predikat Nilai Unit (Mumtaz/A, Jayyid Jiddan/B, Jayyid/C, Maqbul/D)
+        $unitCharGrades = CharacterGrade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->get();
+        $chartSklValues = [];
+
+        if ($unitCharGrades->isNotEmpty()) {
+            foreach ($sklKeys as $k) {
+                $totalScore = 0;
+                $countScore = 0;
+                foreach ($unitCharGrades as $cg) {
+                    $scores = is_array($cg->indicator_scores) ? $cg->indicator_scores : json_decode($cg->indicator_scores, true);
+                    if ($scores && isset($scores[$k])) {
+                        $val = strtoupper(trim((string)$scores[$k]));
+                        $numericVal = match($val) {
+                            'SB', 'A', 'SANGAT BAIK' => 95,
+                            'B', 'BAIK' => 82,
+                            'C', 'CUKUP', 'PB' => 70,
+                            'K', 'KURANG' => 55,
+                            default => is_numeric($val) ? (float)$val : 80
+                        };
+                        $totalScore += $numericVal;
+                        $countScore++;
+                    }
+                }
+                $chartSklValues[] = $countScore > 0 ? round($totalScore / $countScore) : 0;
+            }
+        } else {
+            $chartSklValues = [0, 0, 0, 0, 0, 0, 0];
+        }
+
+        // Chart 3: Distribusi Predikat Nilai Unit (100% Data Nyata Database)
         $unitGrades = Grade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->pluck('score');
         $countA = $unitGrades->filter(fn($s) => $s >= 85)->count();
         $countB = $unitGrades->filter(fn($s) => $s >= 75 && $s < 85)->count();
         $countC = $unitGrades->filter(fn($s) => $s >= 65 && $s < 75)->count();
         $countD = $unitGrades->filter(fn($s) => $s < 65)->count();
-        if ($unitGrades->isEmpty()) {
-            $countA = 42; $countB = 30; $countC = 12; $countD = 2;
-        }
-        $chartPredicates = [$countA, $countB, $countC, $countD];
+        $chartPredicates = [
+            'A' => $countA,
+            'B' => $countB,
+            'C' => $countC,
+            'D' => $countD,
+        ];
 
-        // Executive Metrics
-        $averageUnitScore = $unitGrades->isNotEmpty() ? round($unitGrades->avg(), 1) : 87.4;
-        $overallAttendancePct = '98.5%';
+        // Executive Metrics Real
+        $averageUnitScore = $unitGrades->isNotEmpty() ? round($unitGrades->avg(), 1) : 0;
+        
+        $unitHomeroomNotes = HomeroomNote::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->get();
+        if ($unitHomeroomNotes->isNotEmpty() && $totalSchoolStudents > 0) {
+            $totalSick = $unitHomeroomNotes->sum('sick_count');
+            $totalPermission = $unitHomeroomNotes->sum('permission_count');
+            $totalAbsent = $unitHomeroomNotes->sum('absent_count');
+            $totalDaysOff = $totalSick + $totalPermission + $totalAbsent;
+            $totalMaxDays = max(1, $totalSchoolStudents * 100);
+            $presentRate = max(0, min(100, round((($totalMaxDays - $totalDaysOff) / $totalMaxDays) * 100, 1)));
+            $overallAttendancePct = $presentRate . '%';
+        } else {
+            $overallAttendancePct = $totalSchoolStudents > 0 ? '100%' : '0%';
+        }
+
         $tahfidzCompletionPct = $totalSchoolStudents > 0 ? round(($rekapWafa / $totalSchoolStudents) * 100) . '%' : '0%';
         $readyToPrintCount = collect($printReadiness)->filter(fn($r) => $r['is_ready'])->count();
 
@@ -932,33 +1066,41 @@ class AcademicController extends Controller
     {
         $schoolId = $request->input('school_id');
         $classroomId = $request->input('classroom_id');
+        $activeSchool = School::find($schoolId);
+        self::ensureSchoolLevels($schoolId, $activeSchool);
 
         $request->validate([
             'school_id' => 'required|exists:schools,id',
-            'name' => 'required|string',
+            'name' => 'required|string|max:100',
+            'level_id' => 'nullable|exists:levels,id',
             'homeroom_teacher_id' => 'nullable|exists:employees,id',
+            'capacity' => 'nullable|integer|min:1|max:100',
+            'room_number' => 'nullable|string|max:50',
         ]);
 
         if ($classroomId) {
-            $classroom = Classroom::findOrFail($classroomId);
+            $classroom = Classroom::where('school_id', $schoolId)->findOrFail($classroomId);
             $classroom->update([
                 'name' => $request->name,
+                'level_id' => $request->level_id ?: $classroom->level_id,
+                'capacity' => $request->capacity ?: ($classroom->capacity ?: 28),
+                'room_number' => $request->room_number ?: $classroom->room_number,
                 'homeroom_teacher_id' => $request->homeroom_teacher_id ?: null,
-                'capacity' => $request->capacity ?: $classroom->capacity,
             ]);
-            $msg = "Data Rombel {$classroom->name} & Penetapan Wali Kelas Berhasil Diperbarui!";
+            $msg = "✓ Data Rombel {$classroom->name} berhasil diperbarui!";
         } else {
             $activeYear = AcademicYear::where('is_active', true)->first() ?? AcademicYear::first();
-            $level = \App\Models\Level::where('school_id', $schoolId)->first();
+            $level = Level::where('school_id', $schoolId)->orderBy('sort_order')->first();
             $classroom = Classroom::create([
                 'school_id' => $schoolId,
                 'level_id' => $request->level_id ?: ($level ? $level->id : 1),
                 'academic_year_id' => $activeYear ? $activeYear->id : 1,
                 'name' => $request->name,
-                'capacity' => $request->capacity ?: 30,
+                'capacity' => $request->capacity ?: 28,
+                'room_number' => $request->room_number ?: null,
                 'homeroom_teacher_id' => $request->homeroom_teacher_id ?: null,
             ]);
-            $msg = "Rombel Baru {$classroom->name} Berhasil Ditambahkan!";
+            $msg = "✓ Rombel Baru {$classroom->name} berhasil ditambahkan!";
         }
 
         return redirect()->route('admin.academic.grades', [
@@ -1316,13 +1458,19 @@ class AcademicController extends Controller
         $cls = Classroom::findOrFail($classroomId);
         $schoolId = $cls->school_id;
         $name = $cls->name;
+        $stCount = Student::where('classroom_id', $classroomId)->count();
         Student::where('classroom_id', $classroomId)->update(['classroom_id' => null]);
         $cls->delete();
+
+        $msg = "✓ Rombel {$name} berhasil dihapus.";
+        if ($stCount > 0) {
+            $msg .= " Sebanyak {$stCount} siswa telah dialihkan ke status 'Belum Masuk Rombel'.";
+        }
 
         return redirect()->route('admin.academic.grades', [
             'school_id' => $schoolId,
             'menu' => 'classrooms'
-        ])->with('success', "Rombel {$name} berhasil dihapus.");
+        ])->with('success', $msg);
     }
 
     /**
@@ -1862,20 +2010,22 @@ class AcademicController extends Controller
 
         $savedCount = 0;
         foreach ($request->quran as $studentId => $data) {
-            $makhraj = !empty($data['makhraj']) ? (float)$data['makhraj'] : 85;
-            $tajwid = !empty($data['tajwid']) ? (float)$data['tajwid'] : 85;
-            $lagu = !empty($data['lagu_hijaz']) ? (float)$data['lagu_hijaz'] : 85;
-            $adab = !empty($data['adab']) ? (float)$data['adab'] : 90;
+            $makhraj = (isset($data['makhraj']) && is_numeric($data['makhraj'])) ? (float)$data['makhraj'] : null;
+            $tajwid = (isset($data['tajwid']) && is_numeric($data['tajwid'])) ? (float)$data['tajwid'] : null;
+            $lagu = (isset($data['lagu_hijaz']) && is_numeric($data['lagu_hijaz'])) ? (float)$data['lagu_hijaz'] : null;
+            $adab = (isset($data['adab']) && is_numeric($data['adab'])) ? (float)$data['adab'] : null;
 
             $scores = [
-                'makhraj' => $makhraj,
-                'tajwid' => $tajwid,
-                'lagu_hijaz' => $lagu,
-                'adab' => $adab,
+                'makhraj' => $makhraj ?? 0,
+                'tajwid' => $tajwid ?? 0,
+                'lagu_hijaz' => $lagu ?? 0,
+                'adab' => $adab ?? 0,
             ];
-            $finalScore = round(($makhraj + $tajwid + $lagu + $adab) / 4, 1);
 
-            $predicate = 'Jayyid (Baik)';
+            $validScores = array_filter([$makhraj, $tajwid, $lagu, $adab], fn($v) => $v !== null);
+            $finalScore = !empty($validScores) ? round(array_sum($validScores) / count($validScores), 1) : 0;
+
+            $predicate = '-';
             if ($finalScore >= 90) $predicate = 'Mumtaz (Istimewa)';
             elseif ($finalScore >= 80) $predicate = 'Jayyid Jiddan (Sangat Baik)';
             elseif ($finalScore >= 70) $predicate = 'Jayyid (Baik)';
@@ -1888,17 +2038,17 @@ class AcademicController extends Controller
                 ],
                 [
                     'tahsin_method' => $data['tahsin_method'] ?? 'Wafa',
-                    'tahsin_level' => $data['tahsin_level'] ?? 'Buku Wafa 3 Hal 25',
+                    'tahsin_level' => $data['tahsin_level'] ?? null,
                     'tahsin_scores' => $scores,
                     'tahsin_final_score' => $finalScore,
                     'tahsin_predicate' => $predicate,
-                    'tahsin_notes' => $data['tahsin_notes'] ?? 'Makhraj dan tajwid tertata baik, irama nada Wafa Hijaz teratur.',
-                    'tahfidz_target' => $data['tahfidz_target'] ?? 'Juz 30 (An-Naba s/d An-Nas)',
-                    'tahfidz_achievement' => $data['tahfidz_achievement'] ?? 'Tuntas Surat Al-A\'la s/d An-Nas',
-                    'tahfidz_score' => !empty($data['tahfidz_score']) ? (float)$data['tahfidz_score'] : 90,
-                    'tahfidz_predicate' => $data['tahfidz_predicate'] ?? 'Mutqin (Kuat)',
-                    'tasmi_exam_result' => $data['tasmi_exam_result'] ?? 'Lulus Ujian Tasmi\' Sekali Duduk Predikat Mumtaz',
-                    'tahfidz_notes' => $data['tahfidz_notes'] ?? 'Hafalan mutqin, siap melangkah ke target ziyadah berikutnya.',
+                    'tahsin_notes' => $data['tahsin_notes'] ?? null,
+                    'tahfidz_target' => $data['tahfidz_target'] ?? null,
+                    'tahfidz_achievement' => $data['tahfidz_achievement'] ?? null,
+                    'tahfidz_score' => (isset($data['tahfidz_score']) && is_numeric($data['tahfidz_score'])) ? (float)$data['tahfidz_score'] : null,
+                    'tahfidz_predicate' => $data['tahfidz_predicate'] ?? null,
+                    'tasmi_exam_result' => $data['tasmi_exam_result'] ?? null,
+                    'tahfidz_notes' => $data['tahfidz_notes'] ?? null,
                 ]
             );
             $savedCount++;
@@ -2112,10 +2262,10 @@ class AcademicController extends Controller
         ]);
 
         $scores = $request->input('scores', []);
-        $scoresFloat = array_filter(array_map(fn($v) => is_numeric($v) ? (float) $v : null, $scores));
-        $finalScore = !empty($scoresFloat) ? round(array_sum($scoresFloat) / count($scoresFloat), 1) : ((float) $request->tahsin_final_score ?: 88.0);
+        $scoresFloat = array_filter(array_map(fn($v) => is_numeric($v) ? (float) $v : null, $scores), fn($v) => $v !== null);
+        $finalScore = !empty($scoresFloat) ? round(array_sum($scoresFloat) / count($scoresFloat), 1) : ((float) $request->tahsin_final_score ?: 0);
 
-        $predicate = 'Jayyid (Baik)';
+        $predicate = '-';
         if ($finalScore >= 90) $predicate = 'Mumtaz (Istimewa)';
         elseif ($finalScore >= 80) $predicate = 'Jayyid Jiddan (Sangat Baik)';
         elseif ($finalScore >= 70) $predicate = 'Jayyid (Baik)';
@@ -2128,17 +2278,17 @@ class AcademicController extends Controller
             ],
             [
                 'tahsin_method' => $request->tahsin_method ?? 'Wafa',
-                'tahsin_level' => $request->tahsin_level ?? 'Buku Wafa 3 Hal 25',
+                'tahsin_level' => $request->tahsin_level ?? null,
                 'tahsin_scores' => $scores,
                 'tahsin_final_score' => $finalScore,
                 'tahsin_predicate' => $request->tahsin_predicate ?? $predicate,
-                'tahsin_notes' => $request->tahsin_notes ?? 'Sangat baik dalam penguasaan irama nada Wafa Hijaz dan makhraj.',
-                'tahfidz_target' => $request->tahfidz_target ?? 'Juz 30 (An-Naba s/d An-Nas)',
-                'tahfidz_achievement' => $request->tahfidz_achievement ?? 'Tuntas Juz 30 Surat Al-A\'la s/d An-Nas',
-                'tahfidz_score' => $request->tahfidz_score ?? 90,
-                'tahfidz_predicate' => $request->tahfidz_predicate ?? 'Mutqin (Kuat)',
-                'tasmi_exam_result' => $request->tasmi_exam_result ?? 'Lulus Ujian Tasmi\' Sekali Duduk Predikat Mumtaz',
-                'tahfidz_notes' => $request->tahfidz_notes,
+                'tahsin_notes' => $request->tahsin_notes ?? null,
+                'tahfidz_target' => $request->tahfidz_target ?? null,
+                'tahfidz_achievement' => $request->tahfidz_achievement ?? null,
+                'tahfidz_score' => (isset($request->tahfidz_score) && is_numeric($request->tahfidz_score)) ? (float)$request->tahfidz_score : null,
+                'tahfidz_predicate' => $request->tahfidz_predicate ?? null,
+                'tasmi_exam_result' => $request->tasmi_exam_result ?? null,
+                'tahfidz_notes' => $request->tahfidz_notes ?? null,
             ]
         );
 
@@ -2498,13 +2648,16 @@ class AcademicController extends Controller
                 $numericScores = [];
                 foreach ($classSubjects as $sb) {
                     $grade = $st->grades->firstWhere('subject_id', $sb->id);
-                    $scoreVal = $grade ? $grade->score : 88;
-                    $scores[] = $scoreVal;
-                    $numericScores[] = $scoreVal;
+                    if ($grade && $grade->score !== null && $grade->score !== '') {
+                        $scores[] = $grade->score;
+                        $numericScores[] = (float)$grade->score;
+                    } else {
+                        $scores[] = '-';
+                    }
                 }
                 
-                $avg = !empty($numericScores) ? round(array_sum($numericScores) / count($numericScores), 1) : 0;
-                $pred = $avg >= 85 ? 'A' : ($avg >= 75 ? 'B' : ($avg >= 65 ? 'C' : 'D'));
+                $avg = !empty($numericScores) ? round(array_sum($numericScores) / count($numericScores), 1) : '-';
+                $pred = is_numeric($avg) ? ($avg >= 85 ? 'A' : ($avg >= 75 ? 'B' : ($avg >= 65 ? 'C' : 'D'))) : '-';
                 
                 $row = [
                     $idx + 1,
@@ -2628,7 +2781,7 @@ class AcademicController extends Controller
         $quranCount = $stCount > 0 ? QuranGrade::whereIn('student_id', $stIds)->count() : 0;
         $charCount = $stCount > 0 ? CharacterGrade::whereIn('student_id', $stIds)->count() : 0;
         $hrCount = $stCount > 0 ? HomeroomNote::whereIn('student_id', $stIds)->count() : 0;
-        $avgScore = Grade::whereIn('student_id', $stIds)->avg('score') ?: 86.8;
+        $avgScore = Grade::whereIn('student_id', $stIds)->avg('score') ?: 0;
 
         $stats = [
             'total_students' => $stCount,

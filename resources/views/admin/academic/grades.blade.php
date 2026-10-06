@@ -74,8 +74,15 @@
                 </div>
                 <div class="min-w-0">
                     <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Rata-Rata Unit</p>
-                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $averageUnitScore ?? 87.4 }}</div>
-                    <p class="text-[10px] text-emerald-700 font-extrabold mt-0.5 truncate">Predikat Mumtaz (A)</p>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $averageUnitScore > 0 ? $averageUnitScore : '-' }}</div>
+                    <p class="text-[10px] {{ $averageUnitScore >= 85 ? 'text-emerald-700' : ($averageUnitScore >= 75 ? 'text-blue-700' : ($averageUnitScore > 0 ? 'text-amber-700' : 'text-slate-400')) }} font-extrabold mt-0.5 truncate">
+                        @if($averageUnitScore >= 85) Predikat Sangat Baik (A)
+                        @elseif($averageUnitScore >= 75) Predikat Baik (B)
+                        @elseif($averageUnitScore >= 65) Predikat Cukup (C)
+                        @elseif($averageUnitScore > 0) Predikat Perlu Bimbingan (D)
+                        @else Belum Ada Nilai
+                        @endif
+                    </p>
                 </div>
             </div>
 
@@ -98,7 +105,7 @@
                 </div>
                 <div class="min-w-0">
                     <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Tuntas Tahfidz</p>
-                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $tahfidzCompletionPct ?? '100%' }}</div>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $tahfidzCompletionPct ?? '0%' }}</div>
                     <p class="text-[10px] text-teal-700 font-extrabold mt-0.5 truncate">{{ $rekapWafa }} dari {{ $totalSchoolStudents }} teruji</p>
                 </div>
             </div>
@@ -386,22 +393,22 @@
                     <div class="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
                             <div class="text-xs font-bold text-emerald-800 uppercase">Mumtaz (A)</div>
-                            <div class="text-2xl font-black text-emerald-950 mt-1">{{ $chartPredicates[0] ?? 0 }}</div>
+                            <div class="text-2xl font-black text-emerald-950 mt-1">{{ $chartPredicates['A'] ?? $chartPredicates[0] ?? 0 }}</div>
                             <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">Nilai &ge; 85</div>
                         </div>
                         <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-center">
                             <div class="text-xs font-bold text-blue-800 uppercase">Jayyid Jiddan (B)</div>
-                            <div class="text-2xl font-black text-blue-950 mt-1">{{ $chartPredicates[1] ?? 0 }}</div>
+                            <div class="text-2xl font-black text-blue-950 mt-1">{{ $chartPredicates['B'] ?? $chartPredicates[1] ?? 0 }}</div>
                             <div class="text-[10px] text-blue-700 font-semibold mt-0.5">Nilai 75 - 84</div>
                         </div>
                         <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-center">
                             <div class="text-xs font-bold text-amber-800 uppercase">Jayyid (C)</div>
-                            <div class="text-2xl font-black text-amber-950 mt-1">{{ $chartPredicates[2] ?? 0 }}</div>
+                            <div class="text-2xl font-black text-amber-950 mt-1">{{ $chartPredicates['C'] ?? $chartPredicates[2] ?? 0 }}</div>
                             <div class="text-[10px] text-amber-700 font-semibold mt-0.5">Nilai 65 - 74</div>
                         </div>
                         <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-center">
                             <div class="text-xs font-bold text-rose-800 uppercase">Maqbul (D)</div>
-                            <div class="text-2xl font-black text-rose-950 mt-1">{{ $chartPredicates[3] ?? 0 }}</div>
+                            <div class="text-2xl font-black text-rose-950 mt-1">{{ $chartPredicates['D'] ?? $chartPredicates[3] ?? 0 }}</div>
                             <div class="text-[10px] text-rose-700 font-semibold mt-0.5">Perlu Remedial</div>
                         </div>
                     </div>
@@ -516,7 +523,7 @@
                             </td>
                             <td class="px-5 py-3 text-center">
                                 <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(10, $waliPct) }}%">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $waliPct }}%">
                                         {{ $waliPct }},00%
                                     </div>
                                 </div>
@@ -604,7 +611,7 @@
                             </td>
                             <td class="px-5 py-3 text-center">
                                 <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $mapelPct) }}%">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $mapelPct }}%">
                                         {{ $mapelPct }},00%
                                     </div>
                                 </div>
@@ -633,7 +640,7 @@
                             </td>
                             <td class="px-5 py-3 text-center">
                                 <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $wafaPct) }}%">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $wafaPct }}%">
                                         {{ $wafaPct }},00%
                                     </div>
                                 </div>
@@ -662,7 +669,7 @@
                             </td>
                             <td class="px-5 py-3 text-center">
                                 <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $charPct) }}%">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $charPct }}%">
                                         {{ $charPct }},00%
                                     </div>
                                 </div>
@@ -692,8 +699,8 @@
                             </td>
                             <td class="px-5 py-3 text-center">
                                 <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasP5 ? 100 : 50 }}%">
-                                        {{ $hasP5 ? '100,00%' : '50,00%' }}
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasP5 ? 100 : 0 }}%">
+                                        {{ $hasP5 ? '100,00%' : '0,00%' }}
                                     </div>
                                 </div>
                             </td>
@@ -721,7 +728,7 @@
                             </td>
                             <td class="px-5 py-3 text-center">
                                 <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $hrPct) }}%">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hrPct }}%">
                                         {{ $hrPct }},00%
                                     </div>
                                 </div>
@@ -923,7 +930,7 @@
                                 <div class="flex items-center gap-2">
                                     <div class="flex-1 bg-slate-200 rounded-full h-3 overflow-hidden shadow-2xs">
                                         <div class="h-3 rounded-full transition-all flex items-center justify-center text-[9px] font-black text-white {{ $pct >= 100 ? 'bg-emerald-600' : ($pct >= 60 ? 'bg-sky-600' : ($pct > 0 ? 'bg-amber-500' : 'bg-slate-300')) }}" 
-                                             style="width: {{ max(10, $pct) }}%">
+                                             style="width: {{ $pct }}%">
                                         </div>
                                     </div>
                                     <span class="text-[11px] font-black {{ $pct >= 100 ? 'text-emerald-700' : ($pct > 0 ? 'text-slate-800' : 'text-slate-400') }} w-9 text-right">
@@ -1736,164 +1743,213 @@
                 <h2 class="text-xl font-black text-slate-900 tracking-tight">
                     Setting Rombel & Penetapan Wali Kelas
                 </h2>
-                <p class="text-xs text-slate-500 font-medium mt-0.5">
-                    Kepala Sekolah dan Operator dapat membuat rombongan belajar baru serta menetapkan guru sebagai Wali Kelas penanggung jawab rapor.
-                </p>
-            </div>
-
-            <!-- Form Tambah Rombel Baru Collapse Toggle -->
-            <button onclick="document.getElementById('boxTambahRombel').classList.toggle('hidden')" 
+                         <!-- Tombol Tambah Rombel Baru -->
+            <button onclick="bukaModalTambahRombel()" 
                     class="px-4 py-2.5 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black text-xs flex items-center gap-2 shadow-sm transition cursor-pointer active:scale-95">
                 <span>➕</span> <span>Tambah Rombel Baru</span>
             </button>
         </div>
 
-        <!-- Box Tambah Rombel Baru -->
-        <div id="boxTambahRombel" class="hidden bg-emerald-50/70 p-5 rounded-2xl border border-emerald-200 shadow-sm">
-            <h3 class="font-black text-xs text-emerald-950 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                <span>🏫</span> <span>Formulir Tambah Rombongan Belajar Baru</span>
-            </h3>
-
-            <form method="POST" action="{{ route('admin.academic.classrooms.save') }}" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-                @csrf
-                <input type="hidden" name="school_id" value="{{ $schoolId }}">
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Nama Rombel / Kelas:</label>
-                    <input type="text" name="name" required placeholder="Contoh: Kelas 7A Tahfidz, Kelas 1 Umar" 
-                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-white focus:border-emerald-600">
+        <!-- Modal Tambah & Edit Rombel Lengkap (CRUD Rombel) -->
+        <div id="modalRombel" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+            <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] flex flex-col">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg font-black shadow-xs">
+                            🏫
+                        </div>
+                        <div>
+                            <h3 class="font-black text-sm text-slate-900" id="modalRombelTitle">Formulir Rombongan Belajar</h3>
+                            <p class="text-[11px] text-slate-500 font-medium">Unit: {{ $activeSchool->name ?? 'SIT Robbani' }}</p>
+                        </div>
+                    </div>
+                    <button onclick="tutupModalRombel()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 flex items-center justify-center font-bold text-sm transition cursor-pointer">✕</button>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Tingkat (Level):</label>
-                    <select name="level_id" class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-white focus:border-emerald-600">
-                        @foreach($schoolLevels as $lvl)
-                            <option value="{{ $lvl->id }}">{{ $lvl->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <form method="POST" action="{{ route('admin.academic.classrooms.save') }}" class="space-y-3.5 text-xs overflow-y-auto flex-1 pr-1">
+                    @csrf
+                    <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                    <input type="hidden" name="classroom_id" id="input_classroom_id_modal" value="">
 
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Tetapkan Wali Kelas:</label>
-                    <select name="homeroom_teacher_id" class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-white focus:border-emerald-600">
-                        <option value="">-- Pilih Guru Wali Kelas --</option>
-                        @foreach($schoolTeachers as $tc)
-                            <option value="{{ $tc->id }}">{{ $tc->name }} (NIP: {{ $tc->nip ?? '-' }})</option>
-                        @endforeach
-                    </select>
-                </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Nama Rombel / Kelas <span class="text-rose-500">*</span>:</label>
+                        <input type="text" name="name" id="input_rombel_name" required placeholder="Contoh: Kelas 1A, 1-Abu Bakar, Kelas 7A Tahfidz" 
+                               class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    </div>
 
-                <div class="flex items-end">
-                    <button type="submit" 
-                            class="w-full py-2.5 px-4 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black text-xs transition cursor-pointer shadow-xs">
-                        Simpan Rombel Baru
-                    </button>
-                </div>
-            </form>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Tingkat (Level) Sesuai Unit <span class="text-rose-500">*</span>:</label>
+                        <select name="level_id" id="input_rombel_level_id" required class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                            @foreach($schoolLevels as $lvl)
+                                <option value="{{ $lvl->id }}">{{ $lvl->name }} (Kode: {{ $lvl->code }})</option>
+                            @endforeach
+                        </select>
+                        <p class="text-[10px] text-slate-400 mt-1">Disesuaikan otomatis dengan jenjang unit {{ $activeSchool->name ?? 'sekolah' }} (Total {{ $schoolLevels->count() }} tingkat).</p>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Tetapkan Guru Wali Kelas:</label>
+                        <select name="homeroom_teacher_id" id="input_rombel_teacher_id" class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                            <option value="">-- Belum Ditetapkan / Pilih Nanti --</option>
+                            @foreach($schoolTeachers as $tc)
+                                <option value="{{ $tc->id }}">{{ $tc->name }} (NIP: {{ $tc->nip ?? '-' }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Kapasitas Maksimal Siswa:</label>
+                            <input type="number" name="capacity" id="input_rombel_capacity" value="28" min="1" max="100" 
+                                   class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Kode / Nama Ruangan:</label>
+                            <input type="text" name="room_number" id="input_rombel_room" placeholder="Contoh: SD-101, R.01" 
+                                   class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
+                        <button type="button" onclick="tutupModalRombel()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition cursor-pointer">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black transition cursor-pointer shadow-md active:scale-95">
+                            💾 Simpan Data Rombel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <!-- Table of Classrooms & Inline Homeroom Assignment -->
+        <!-- Table of Classrooms (CRUD Rombel & Wali Kelas) -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+            <div class="px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                    <h3 class="font-black text-sm text-slate-900">Daftar Rombel & Wali Kelas Aktif</h3>
-                    <p class="text-xs text-slate-500 font-medium">Ubah wali kelas langsung pada daftar di bawah ini lalu klik tombol simpan</p>
+                    <h3 class="font-black text-sm text-slate-900">Daftar Rombel & Wali Kelas Aktif (Total: {{ $classrooms->count() }} Rombel)</h3>
+                    <p class="text-xs text-slate-500 font-medium">Klik <b>Edit</b> untuk mengubah nama, tingkat, kapasitas, dan wali kelas rombel</p>
                 </div>
+                <span class="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-black">
+                    {{ $schoolLevels->count() }} Tingkat Tersedia
+                </span>
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
+                <table class="w-full text-left text-xs min-w-[1100px]">
                     <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                         <tr>
                             <th class="px-5 py-3 text-center w-12">No</th>
-                            <th class="px-5 py-3 w-48">Nama Rombel</th>
-                            <th class="px-5 py-3 text-center w-28">Kapasitas</th>
-                            <th class="px-5 py-3 text-center w-32">Siswa Terdaftar</th>
-                            <th class="px-5 py-3 min-w-[240px]">Wali Kelas Penanggung Jawab</th>
-                            <th class="px-5 py-3 min-w-[200px] text-center">TTD Digital Walas</th>
-                            <th class="px-5 py-3 text-center w-20">Aksi</th>
+                            <th class="px-5 py-3 min-w-[180px]">Nama Rombel</th>
+                            <th class="px-5 py-3 min-w-[160px]">Tingkat (Level)</th>
+                            <th class="px-5 py-3 text-center min-w-[140px]">Ruang & Kapasitas</th>
+                            <th class="px-5 py-3 text-center min-w-[130px]">Siswa Terdaftar</th>
+                            <th class="px-5 py-3 min-w-[220px]">Wali Kelas Penanggung Jawab</th>
+                            <th class="px-5 py-3 text-center min-w-[150px]">TTD Digital</th>
+                            <th class="px-5 py-3 text-center min-w-[120px]">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800 font-medium">
                         @forelse($classrooms as $cls)
+                        @php
+                            $stCount = \App\Models\Student::where('classroom_id', $cls->id)->count();
+                            $lvlName = $cls->level->name ?? ('Tingkat ' . $cls->level_id);
+                        @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
                             <td class="px-5 py-3.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
                             
+                            <!-- Nama Rombel -->
                             <td class="px-5 py-3.5">
-                                <span class="font-black text-slate-900 text-sm">{{ $cls->name }}</span>
-                                <p class="text-[10px] text-slate-400">ID: #{{ $cls->id }}</p>
+                                <div class="font-black text-slate-900 text-sm flex items-center gap-1.5">
+                                    <span>🏫</span>
+                                    <span>{{ $cls->name }}</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-0.5">ID Rombel: #{{ $cls->id }}</p>
                             </td>
 
-                            <td class="px-5 py-3.5 text-center font-bold text-slate-700">
-                                {{ $cls->capacity ?? 30 }} Siswa
+                            <!-- Tingkat / Level -->
+                            <td class="px-5 py-3.5">
+                                <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-900 border border-blue-200 font-black text-xs inline-flex items-center gap-1">
+                                    <span>📌</span> <span>{{ $lvlName }}</span>
+                                </span>
                             </td>
 
+                            <!-- Ruangan & Kapasitas -->
                             <td class="px-5 py-3.5 text-center">
-                                @php
-                                    $stCount = \App\Models\Student::where('classroom_id', $cls->id)->whereIn('status', ['ACTIVE', 'AKTIF'])->count();
-                                @endphp
-                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-black text-xs">
+                                <div class="font-bold text-slate-800">
+                                    {{ $cls->room_number ? 'Ruang: ' . $cls->room_number : 'Ruang Kelas' }}
+                                </div>
+                                <div class="text-[10px] text-slate-500 font-semibold mt-0.5">
+                                    Maks {{ $cls->capacity ?? 28 }} Siswa
+                                </div>
+                            </td>
+
+                            <!-- Siswa Terdaftar -->
+                            <td class="px-5 py-3.5 text-center">
+                                <span class="px-2.5 py-1 rounded-lg {{ $stCount > 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-200/60' : 'bg-slate-100 text-slate-600 border-slate-200' }} border font-black text-xs">
                                     {{ $stCount }} Siswa
                                 </span>
                             </td>
 
-                            <!-- Form Penetapan Wali Kelas Langsung -->
+                            <!-- Wali Kelas Penanggung Jawab -->
                             <td class="px-5 py-3.5">
-                                <form method="POST" action="{{ route('admin.academic.classrooms.save') }}" class="flex items-center gap-2">
-                                    @csrf
-                                    <input type="hidden" name="school_id" value="{{ $schoolId }}">
-                                    <input type="hidden" name="classroom_id" value="{{ $cls->id }}">
-                                    <input type="hidden" name="name" value="{{ $cls->name }}">
-
-                                    <select name="homeroom_teacher_id" class="flex-1 text-xs font-bold rounded-xl border border-slate-300 p-2 bg-slate-50 focus:bg-white focus:border-emerald-600">
-                                        <option value="">-- Belum Ditetapkan --</option>
-                                        @foreach($schoolTeachers as $tc)
-                                            <option value="{{ $tc->id }}" {{ $cls->homeroom_teacher_id == $tc->id ? 'selected' : '' }}>
-                                                {{ $tc->name }} (NIP: {{ $tc->nip ?? '-' }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    <button type="submit" 
-                                            class="px-3 py-2 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black text-xs transition cursor-pointer shrink-0 shadow-2xs">
-                                        💾 Simpan
-                                    </button>
-                                </form>
+                                @if($cls->homeroomTeacher)
+                                    <div class="font-bold text-slate-900 text-xs">
+                                        {{ $cls->homeroomTeacher->name }}
+                                    </div>
+                                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">
+                                        NIP: {{ $cls->homeroomTeacher->nip ?? '-' }}
+                                    </div>
+                                @else
+                                    <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-bold">
+                                        ⚠️ Belum Ditetapkan
+                                    </span>
+                                @endif
                             </td>
 
                             <!-- Upload TTD Digital Wali Kelas -->
                             <td class="px-5 py-3.5 text-center whitespace-nowrap">
                                 <div class="inline-flex flex-col items-center gap-1.5">
                                     @if(!empty($cls->homeroom_signature_path))
-                                        <div class="flex items-center gap-2">
-                                            <img src="{{ asset($cls->homeroom_signature_path) }}" class="h-8 w-auto object-contain border border-slate-200 rounded p-0.5 bg-white shadow-2xs" alt="TTD Walas">
-                                            <span class="text-[10px] text-emerald-700 font-extrabold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">✓ Aktif</span>
+                                        <div class="flex items-center gap-1.5">
+                                            <img src="{{ asset($cls->homeroom_signature_path) }}" class="h-7 w-auto object-contain border border-slate-200 rounded p-0.5 bg-white shadow-2xs" alt="TTD">
+                                            <span class="text-[9px] text-emerald-700 font-extrabold bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200">✓ Aktif</span>
                                         </div>
                                     @endif
                                     <form method="POST" action="{{ route('admin.academic.classrooms.signature', $cls->id) }}" enctype="multipart/form-data">
                                         @csrf
-                                        <label class="cursor-pointer px-3 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] border border-slate-300 transition shadow-2xs inline-flex items-center gap-1">
-                                            <span>{{ !empty($cls->homeroom_signature_path) ? '✏️ Ganti TTD' : '📤 Upload TTD Walas' }}</span>
+                                        <label class="cursor-pointer px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] border border-slate-300 transition shadow-2xs inline-flex items-center gap-1">
+                                            <span>{{ !empty($cls->homeroom_signature_path) ? '✏️ Ganti TTD' : '📤 Upload TTD' }}</span>
                                             <input type="file" name="homeroom_signature" accept="image/*" class="hidden" onchange="this.form.submit()">
                                         </label>
                                     </form>
                                 </div>
                             </td>
 
-                            <!-- Aksi Hapus Rombel -->
+                            <!-- Aksi (Edit & Hapus Rombel) -->
                             <td class="px-5 py-3.5 text-center whitespace-nowrap">
-                                <form method="POST" action="{{ route('admin.academic.classrooms.delete', $cls->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus rombel {{ $cls->name }}?');">
-                                    @csrf
-                                    <button type="submit" class="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 transition cursor-pointer" title="Hapus Rombel">
-                                        🗑️
+                                <div class="inline-flex items-center gap-1.5">
+                                    <!-- Tombol Edit Rombel Lengkap -->
+                                    <button type="button" 
+                                            onclick="bukaModalEditRombel({{ $cls->id }}, '{{ addslashes($cls->name) }}', {{ $cls->level_id ?? 'null' }}, {{ $cls->capacity ?? 28 }}, '{{ addslashes($cls->room_number ?? '') }}', {{ $cls->homeroom_teacher_id ?? 'null' }})"
+                                            class="px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-black text-[11px] transition shadow-2xs cursor-pointer active:scale-95" 
+                                            title="Edit Rombel Lengkap">
+                                        ✏️ Edit
                                     </button>
-                                </form>
+
+                                    <!-- Tombol Hapus Rombel -->
+                                    <form method="POST" action="{{ route('admin.academic.classrooms.delete', $cls->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus rombel {{ addslashes($cls->name) }}? Sebanyak {{ $stCount }} siswa di kelas ini akan dialihkan ke status belum masuk rombel.');" class="inline">
+                                        @csrf
+                                        <button type="submit" class="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition cursor-pointer" title="Hapus Rombel">
+                                            🗑️
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-8 text-center text-slate-500">
-                                Belum ada rombongan belajar yang dibuat untuk unit ini.
+                            <td colspan="8" class="px-6 py-8 text-center text-slate-500">
+                                Belum ada rombongan belajar yang dibuat untuk unit ini. Silakan klik tombol <b>➕ Tambah Rombel Baru</b> di atas.
                             </td>
                         </tr>
                         @endforelse
@@ -1903,6 +1959,41 @@
         </div>
 
     </div>
+
+    <!-- Script Helper CRUD Rombel -->
+    <script>
+        function bukaModalTambahRombel() {
+            document.getElementById('modalRombelTitle').innerText = 'Tambah Rombel Baru';
+            document.getElementById('input_classroom_id_modal').value = '';
+            document.getElementById('input_rombel_name').value = '';
+            document.getElementById('input_rombel_capacity').value = '28';
+            document.getElementById('input_rombel_room').value = '';
+            document.getElementById('input_rombel_teacher_id').value = '';
+            const selLvl = document.getElementById('input_rombel_level_id');
+            if (selLvl && selLvl.options.length > 0) selLvl.selectedIndex = 0;
+            document.getElementById('modalRombel').classList.remove('hidden');
+        }
+
+        function bukaModalEditRombel(id, name, levelId, capacity, roomNumber, teacherId) {
+            document.getElementById('modalRombelTitle').innerText = 'Edit Rombongan Belajar: ' + name;
+            document.getElementById('input_classroom_id_modal').value = id;
+            document.getElementById('input_rombel_name').value = name;
+            document.getElementById('input_rombel_capacity').value = capacity || 28;
+            document.getElementById('input_rombel_room').value = roomNumber || '';
+            
+            const selLvl = document.getElementById('input_rombel_level_id');
+            if (selLvl && levelId) selLvl.value = levelId;
+
+            const selTch = document.getElementById('input_rombel_teacher_id');
+            if (selTch) selTch.value = teacherId ? teacherId : '';
+
+            document.getElementById('modalRombel').classList.remove('hidden');
+        }
+
+        function tutupModalRombel() {
+            document.getElementById('modalRombel').classList.add('hidden');
+        }
+    </script>
     @endif
 
     <!-- ========================================================================= -->
