@@ -313,7 +313,7 @@ class RealSDReportCardSeeder extends Seeder
                 [
                     'kop_image_url' => 'uploads/reports/kop_sd_robbani.png',
                     'principal_name' => 'Nur Amalia, S.Pd., Gr',
-                    'principal_nip' => '142102020009',
+                    'principal_nip' => '19850315 200904 1 003',
                     'report_city' => 'Ogan Ilir',
                     'report_date' => '18 Juni 2026',
                     'stamp_image_url' => 'uploads/reports/stempel_resmi.png',

@@ -165,7 +165,7 @@
                         <th class="border border-slate-900 p-1.5 whitespace-nowrap min-w-[180px] text-left" rowspan="2">Nama Lengkap Siswa</th>
                         <th class="border border-slate-900 p-1 text-center" colspan="{{ $classSubjects->count() ?: 1 }}">Mata Pelajaran (Nilai Akhir)</th>
                         <th class="border border-slate-900 p-1.5 whitespace-nowrap w-16 text-center" rowspan="2">Rata-Rata</th>
-                        <th class="border border-slate-900 p-1.5 whitespace-nowrap w-20 text-center" rowspan="2">Predikat</th>
+                        <th class="border border-slate-900 p-1.5 whitespace-nowrap min-w-[110px] w-28 text-center" rowspan="2">Predikat</th>
                     </tr>
                     <tr>
                         @forelse($classSubjects as $csb)
@@ -197,7 +197,7 @@
                             <td class="border border-slate-900 p-1 text-center font-bold">{{ $avg }}</td>
                         @endforelse
                         <td class="border border-slate-900 p-1.5 text-center font-black text-slate-900">{{ $avg }}</td>
-                        <td class="border border-slate-900 p-1.5 text-center font-bold whitespace-nowrap {{ $avg >= 85 ? 'text-emerald-800' : 'text-blue-800' }}">
+                        <td class="border border-slate-900 p-1.5 text-center font-bold whitespace-nowrap min-w-[110px] {{ $avg >= 85 ? 'text-emerald-800' : 'text-blue-800' }}">
                             {{ $avg >= 85 ? 'A (Istimewa)' : ($avg >= 75 ? 'B (Baik)' : 'C (Cukup)') }}
                         </td>
                     </tr>
@@ -484,10 +484,13 @@
                 <span class="text-[11px] font-black text-slate-800 mt-1">3 x 4</span>
             </div>
 
-            <!-- Titimangsa & Tanda Tangan -->
+            <!-- Titimangsa & Tanda Tangan Kepala Sekolah -->
             <div class="w-64 text-center space-y-1">
-                <p>Ogan Ilir, {{ $reportSetting->report_date ?? '18 Juni 2026' }}</p>
-                <p class="font-bold">Kepala Sekolah,</p>
+                <p class="text-slate-800">
+                    {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
+                    {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}
+                </p>
+                <p class="font-bold text-slate-900">Kepala Sekolah,</p>
                 <div class="h-16 flex items-center justify-center relative my-1">
                     @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
                         <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-2 z-0 pointer-events-none" alt="Stempel">
@@ -496,11 +499,11 @@
                         <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                     @endif
                 </div>
-                <p class="font-black text-slate-900 underline uppercase">
+                <p class="font-black text-slate-950 underline uppercase">
                     {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
                 </p>
                 <p class="text-[11px] text-slate-700">
-                    NIP. {{ $reportSetting->principal_nip ?? '142102020009' }}
+                    NIP. {{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}
                 </p>
             </div>
         </div>
@@ -811,59 +814,77 @@
             </div>
         </div>
 
-        <!-- Titimangsa & Tanda Tangan 3 Pihak Sesuai Format Rapor Resmi -->
-        <div class="pt-4 text-xs font-bold text-center">
-            <div class="flex items-center justify-end pb-3 text-xs font-semibold pr-4">
-                Ogan Ilir, {{ $reportSetting->report_date ?? '18 Juni 2026' }}
-            </div>
-
-            <div class="grid grid-cols-2 gap-6">
-                <!-- TTD Orang Tua -->
-                <div class="flex flex-col justify-between h-28">
-                    <p>Orang Tua / Wali,</p>
-                    <div>
-                        <div class="h-12"></div>
-                        <p class="font-bold underline text-slate-950 uppercase">
-                            {{ $student->father_name ?? ($student->guardian?->full_name ?? 'Asrul / Orang Tua') }}
+        <!-- Titimangsa & Tanda Tangan 3 Pihak Simetris Sesuai Format Rapor Resmi -->
+        <div class="pt-4 text-xs font-bold">
+            <table class="w-full border-none text-xs text-center" style="table-layout: fixed;">
+                <tr>
+                    <td class="w-1/3 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-bold">Mengetahui,</p>
+                        <p class="font-bold">Orang Tua / Wali Siswa</p>
+                    </td>
+                    <td class="w-1/3 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold">Wali Kelas {{ $student->classroom->name ?? 'I (Satu)' }},</p>
+                    </td>
+                    <td class="w-1/3 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-semibold text-slate-800">
+                            {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
+                            {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}
                         </p>
-                    </div>
-                </div>
-
-                <!-- TTD Wali Kelas -->
-                <div class="flex flex-col justify-between h-28">
-                    <p>Wali Kelas {{ $student->classroom->name ?? 'I (Satu)' }},</p>
-                    <div>
-                        <div class="h-12 flex items-center justify-center">
-                            @if(!empty($student->classroom->homeroom_signature_path) && file_exists(public_path($student->classroom->homeroom_signature_path)))
-                                <img src="{{ asset($student->classroom->homeroom_signature_path) }}" class="h-12 w-auto object-contain" alt="TTD Walas">
+                        <p class="font-bold">Kepala Sekolah,</p>
+                    </td>
+                </tr>
+                <tr style="height: 68px;">
+                    <td class="text-center" style="vertical-align: middle;">
+                        <!-- Area Tanda Tangan Orang Tua Fisik -->
+                    </td>
+                    <td class="text-center" style="vertical-align: middle;">
+                        <!-- TTD Wali Kelas -->
+                        @if(!empty($student->classroom->homeroom_signature_path) && file_exists(public_path($student->classroom->homeroom_signature_path)))
+                            <img src="{{ asset($student->classroom->homeroom_signature_path) }}" class="h-14 max-w-[130px] object-contain mx-auto" alt="TTD Walas">
+                        @endif
+                    </td>
+                    <td class="text-center" style="vertical-align: middle; position: relative;">
+                        <!-- TTD Kepala Sekolah & Stempel -->
+                        <div class="h-16 flex items-center justify-center relative">
+                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                                <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-4 z-0 pointer-events-none" alt="Stempel">
+                            @endif
+                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                                <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                             @endif
                         </div>
-                        <p class="font-bold underline text-slate-950">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center px-2" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 uppercase leading-snug">
+                            {{ $student->father_name ?? ($student->guardian?->full_name ?? '( .................................................. )') }}
+                        </p>
+                        <p class="text-[10px] text-transparent select-none leading-tight mt-0.5">-</p>
+                    </td>
+                    <td class="text-center px-2" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">
                             {{ $student->classroom->homeroomTeacher->full_name ?? ($student->classroom->homeroomTeacher->name ?? 'Ranti Saputri, S.TP') }}
                         </p>
-                        <p class="text-[10px] text-slate-600 font-normal">NIY. {{ $student->classroom->homeroomTeacher->nip ?? '-' }}</p>
-                    </div>
-                </div>
-            </div>
+                        <p class="text-[10px] text-slate-700 font-normal leading-tight mt-0.5">
+                            NIP/NIY: {{ $student->classroom->homeroomTeacher->nip ?? '199208152021042001' }}
+                        </p>
+                    </td>
+                    <td class="text-center px-2" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">
+                            {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
+                        </p>
+                        <p class="text-[10px] text-slate-700 font-normal leading-tight mt-0.5">
+                            NIP: {{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}
+                        </p>
+                    </td>
+                </tr>
+            </table>
 
-            <!-- TTD Kepala Sekolah Tengah Bawah -->
-            <div class="max-w-xs mx-auto text-center pt-2">
-                <p>Mengetahui,</p>
-                <p class="font-bold">Kepala Sekolah,</p>
-                <div class="h-16 flex items-center justify-center relative my-0.5">
-                    @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
-                        <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-6 z-0 pointer-events-none" alt="Stempel">
-                    @endif
-                    @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
-                        <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-12 w-auto object-contain relative z-10" alt="TTD">
-                    @endif
-                </div>
-                <p class="font-black underline text-slate-950">
-                    {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
-                </p>
-                <p class="text-[10px] text-slate-600 font-normal">
-                    NIP. {{ $reportSetting->principal_nip ?? '142102020009' }}
-                </p>
+            <!-- Catatan Footer Otomasi Sistem & Verifikasi -->
+            <div class="mt-4 pt-2 border-t border-slate-300 text-center text-[9px] text-slate-500 font-sans">
+                Dokumen ini diterbitkan secara resmi melalui SmartEdu SIT School System • Verifikasi Keaslian Dokumen: {{ config('app.url') ?? 'https://sitrobbani.sch.id' }}/verify-report/{{ $student->nis ?? $student->id }}
             </div>
         </div>
 
@@ -929,21 +950,50 @@
             </div>
         </div>
 
-        <!-- TTD Penguji Al-Qur'an & Kepala Sekolah -->
-        <div class="pt-6 grid grid-cols-2 gap-6 text-xs text-center font-bold">
-            <div class="space-y-1">
-                <p>Penguji / Koordinator Al-Qur'an Wafa,</p>
-                <div class="h-14"></div>
-                <p class="font-black underline text-slate-950 uppercase">Ustadz / Ustadzah Wafa</p>
-                <p class="text-[10px] text-slate-600 font-normal">Sertifikasi Wafa Indonesia</p>
-            </div>
-            <div class="space-y-1">
-                <p>Ogan Ilir, {{ $reportSetting->report_date ?? '18 Juni 2026' }}</p>
-                <p class="font-bold">Kepala Sekolah,</p>
-                <div class="h-14"></div>
-                <p class="font-black underline text-slate-950 uppercase">{{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}</p>
-                <p class="text-[10px] text-slate-600 font-normal">NIP. {{ $reportSetting->principal_nip ?? '142102020009' }}</p>
-            </div>
+        <!-- TTD Penguji Al-Qur'an & Kepala Sekolah Simetris -->
+        <div class="pt-6 text-xs font-bold">
+            <table class="w-full border-none text-xs text-center" style="table-layout: fixed;">
+                <tr>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold">Penguji / Koordinator Al-Qur'an Wafa,</p>
+                    </td>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-semibold text-slate-800">
+                            {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
+                            {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}
+                        </p>
+                        <p class="font-bold">Kepala Sekolah,</p>
+                    </td>
+                </tr>
+                <tr style="height: 65px;">
+                    <td class="text-center" style="vertical-align: middle;"></td>
+                    <td class="text-center" style="vertical-align: middle;">
+                        <div class="h-16 flex items-center justify-center relative">
+                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                                <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
+                            @endif
+                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                                <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 uppercase leading-snug">Ustadz / Ustadzah Wafa</p>
+                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">Sertifikasi Wafa Indonesia</p>
+                    </td>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">
+                            {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
+                        </p>
+                        <p class="text-[10px] text-slate-700 font-normal leading-tight mt-0.5">
+                            NIP: {{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}
+                        </p>
+                    </td>
+                </tr>
+            </table>
         </div>
 
     </div>
@@ -978,7 +1028,7 @@
                     <tr>
                         <th class="border border-slate-900 py-2 px-1 w-9 text-center">No</th>
                         <th class="border border-slate-900 py-2 px-3 w-56 text-left">Standar Kompetensi Lulusan (SKL JSIT)</th>
-                        <th class="border border-slate-900 py-2 px-3 min-w-[150px] w-44 text-center whitespace-nowrap">Capaian Karakter</th>
+                        <th class="border border-slate-900 py-2 px-3 min-w-[170px] w-48 text-center whitespace-nowrap">Capaian Karakter</th>
                         <th class="border border-slate-900 py-2 px-3 text-left">Deskripsi Pembiasaan Karakter</th>
                     </tr>
                 </thead>
@@ -1006,8 +1056,8 @@
                     <tr>
                         <td class="border border-slate-900 py-2 px-1 text-center font-bold">{{ $idx + 1 }}</td>
                         <td class="border border-slate-900 py-2 px-3 font-bold text-slate-950">{{ $ci->standard_name }}</td>
-                        <td class="border border-slate-900 py-2 px-3 text-center whitespace-nowrap font-black">
-                            <span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-[11px] font-bold inline-block">
+                        <td class="border border-slate-900 py-2 px-3 text-center whitespace-nowrap font-black min-w-[170px]">
+                            <span class="px-2.5 py-1 rounded bg-slate-100 border border-slate-300 text-[11px] font-bold inline-block whitespace-nowrap">
                                 {{ $scoreCode }} ({{ $label }})
                             </span>
                         </td>
@@ -1048,21 +1098,50 @@
             </div>
         </div>
 
-        <!-- TTD Pembimbing BPI & Kepala Sekolah -->
-        <div class="pt-6 grid grid-cols-2 gap-6 text-xs text-center font-bold">
-            <div class="space-y-1">
-                <p>Pembimbing Karakter BPI,</p>
-                <div class="h-14"></div>
-                <p class="font-black underline text-slate-950 uppercase">Ustadz / Ustadzah Pembimbing</p>
-                <p class="text-[10px] text-slate-600 font-normal">Pembina Bina Pribadi Islami</p>
-            </div>
-            <div class="space-y-1">
-                <p>Ogan Ilir, {{ $reportSetting->report_date ?? '18 Juni 2026' }}</p>
-                <p class="font-bold">Kepala Sekolah,</p>
-                <div class="h-14"></div>
-                <p class="font-black underline text-slate-950 uppercase">{{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}</p>
-                <p class="text-[10px] text-slate-600 font-normal">NIP. {{ $reportSetting->principal_nip ?? '142102020009' }}</p>
-            </div>
+        <!-- TTD Pembimbing BPI & Kepala Sekolah Simetris -->
+        <div class="pt-6 text-xs font-bold">
+            <table class="w-full border-none text-xs text-center" style="table-layout: fixed;">
+                <tr>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold">Pembimbing Karakter BPI,</p>
+                    </td>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-semibold text-slate-800">
+                            {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
+                            {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}
+                        </p>
+                        <p class="font-bold">Kepala Sekolah,</p>
+                    </td>
+                </tr>
+                <tr style="height: 65px;">
+                    <td class="text-center" style="vertical-align: middle;"></td>
+                    <td class="text-center" style="vertical-align: middle;">
+                        <div class="h-16 flex items-center justify-center relative">
+                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                                <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
+                            @endif
+                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                                <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 uppercase leading-snug">Ustadz / Ustadzah Pembimbing</p>
+                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">Pembina Bina Pribadi Islami</p>
+                    </td>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">
+                            {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
+                        </p>
+                        <p class="text-[10px] text-slate-700 font-normal leading-tight mt-0.5">
+                            NIP: {{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}
+                        </p>
+                    </td>
+                </tr>
+            </table>
         </div>
 
     </div>

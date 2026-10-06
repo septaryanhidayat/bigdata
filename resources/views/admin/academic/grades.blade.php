@@ -2940,14 +2940,14 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">Kota Titimangsa Rapor:</label>
                         <input type="text" name="report_city" id="setting_city" 
-                               value="{{ $reportSetting->report_city ?? 'Bandung' }}"
+                               value="{{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}"
                                oninput="updatePreview()"
                                class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 bg-slate-50 focus:bg-white text-slate-900">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">Tanggal Titimangsa Pembagian:</label>
                         <input type="text" name="report_date" id="setting_date" 
-                               value="{{ $reportSetting->report_date ?? '20 Desember 2026' }}"
+                               value="{{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}"
                                oninput="updatePreview()"
                                class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 bg-slate-50 focus:bg-white text-slate-900">
                     </div>
@@ -2958,7 +2958,7 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Kepala Sekolah / Penandatangan:</label>
                         <input type="text" name="principal_name" id="setting_principal" 
-                               value="{{ $reportSetting->principal_name ?? ($activeSchool->principal_name ?? 'Ustadzah Tia Wulandari, S.Pd') }}"
+                               value="{{ $reportSetting->principal_name ?? ($activeSchool->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}"
                                oninput="updatePreview()"
                                class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 bg-slate-50 focus:bg-white text-slate-900">
                     </div>
@@ -3073,8 +3073,8 @@
                     <div class="border-t border-slate-200 pt-4 flex justify-end font-sans">
                         <div class="text-center w-56 space-y-1">
                             <p class="text-[11px] text-slate-700 font-medium">
-                                <span id="preview_city">{{ $reportSetting->report_city ?? 'Bandung' }}</span>, 
-                                <span id="preview_date">{{ $reportSetting->report_date ?? '20 Desember 2026' }}</span>
+                                <span id="preview_city">{{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}</span>, 
+                                <span id="preview_date">{{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}</span>
                             </p>
                             <p class="text-[11px] font-bold text-slate-900">Kepala Sekolah,</p>
                             
@@ -3091,7 +3091,7 @@
                             </div>
 
                             <p id="preview_principal" class="text-xs font-black text-slate-900 underline">
-                                {{ $reportSetting->principal_name ?? 'Ustadzah Tia Wulandari, S.Pd' }}
+                                {{ $reportSetting->principal_name ?? 'Nur Amalia, S.Pd., Gr' }}
                             </p>
                             <p class="text-[10px] text-slate-600 font-semibold">
                                 NIP: <span id="preview_nip">{{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}</span>
@@ -3609,10 +3609,13 @@
         }
     }
 
-    // Auto generate standardized Kurikulum Merdeka descriptions
+    // Auto generate standardized Kurikulum Merdeka descriptions with Subject-Specific Syllabus
     function autoGenerateAllDescriptions() {
         const textareas = document.querySelectorAll('textarea[id^="notes_"]');
+        const subjectName = '{{ $selectedSubject->name ?? "Mata Pelajaran" }}';
+        const sLower = subjectName.toLowerCase();
         let count = 0;
+
         textareas.forEach(ta => {
             const studentId = ta.id.replace('notes_', '');
             const scoreInput = document.getElementById('score_' + studentId);
@@ -3627,15 +3630,131 @@
                 score = parseFloat(tpInput.value) || 80;
             }
 
-            if (score >= 90) {
-                ta.value = 'Menunjukkan penguasaan capaian pembelajaran yang istimewa (Mumtaz) pada seluruh materi serta mampu bernalar kritis secara mandiri.';
-            } else if (score >= 80) {
-                ta.value = 'Menunjukkan penguasaan capaian pembelajaran yang sangat baik dalam memahami konsep materi dan aktif berdiskusi.';
-            } else if (score >= 70) {
-                ta.value = 'Menunjukkan penguasaan capaian pembelajaran yang cukup baik, perlu sedikit peningkatan latihan pemecahan masalah.';
+            let narrative = '';
+
+            if (sLower.includes('agama') || sLower.includes('pai') || sLower.includes('islam')) {
+                if (score >= 88) {
+                    narrative = 'Menunjukkan penguasaan yang sangat istimewa dalam memahami Asmaul Husna (Ar-Rahman, Ar-Rahim), surah Al-Ikhlas, dan membiasakan adab hidup bersih serta bersyukur.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam memahami surah Al-Ikhlas dan adab bersyukur; santun dan tertib dalam mengikuti pembiasaan ibadah di kelas.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup menguasai materi Asmaul Husna, namun perlu bimbingan berkelanjutan dalam ketertiban bacaan sholat dan doa harian.';
+                } else {
+                    narrative = 'Memerlukan pendampingan dan bimbingan terpadu untuk mencapai ketuntasan tujuan pembelajaran utama adab dan rukun iman.';
+                }
+            } else if (sLower.includes('pancasila') || sLower.includes('pkn')) {
+                if (score >= 88) {
+                    narrative = 'Menunjukkan penguasaan yang sangat istimewa dalam mengenal simbol sila Pancasila, aturan di rumah dan sekolah, serta aktif menjaga kerukunan.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam memahami aturan di sekolah dan simbol Pancasila; konsisten menerapkan adab antre dan musyawarah.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup memahami simbol negara, namun perlu pendampingan dalam penerapan aturan kebersamaan dan musyawarah di kelas.';
+                } else {
+                    narrative = 'Perlu bimbingan dan pembiasaan terpadu untuk menaati tata tertib kelas dan menghargai keberagaman teman.';
+                }
+            } else if (sLower.includes('indonesia') || sLower.includes('bin')) {
+                if (score >= 88) {
+                    narrative = 'Sangat terampil dalam menyimak instruksi lisan, bertanya jawab secara santun, serta runtut menceritakan kembali pokok cerita naratif.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan kemampuan yang baik dalam menyimak dan berbicara santun; aktif merespons pertanyaan pemantik dari guru.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup mampu memahami isi bacaan pendek, namun memerlukan latihan tambahan pada kerapian menulis permulaan dan tanda baca.';
+                } else {
+                    narrative = 'Memerlukan bimbingan intensif dalam merangkai suku kata dan menyusun kalimat sederhana secara runtut.';
+                }
+            } else if (sLower.includes('matematika') || sLower.includes('mtk')) {
+                if (score >= 88) {
+                    narrative = 'Menunjukkan penguasaan yang sangat istimewa dalam pengukuran panjang satuan tidak baku, membaca data piktogram, serta bernalar logis mandiri.';
+                } else if (score >= 78) {
+                    narrative = 'Mampu membandingkan panjang objek secara langsung dan memahami konsep penjumlahan bilangan cacah dengan baik.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup memahami perbandingan panjang benda, namun perlu pendampingan bertahap pada operasi hitung pengurangan bertingkat.';
+                } else {
+                    narrative = 'Perlu bimbingan intensif dan penggunaan benda konkret dalam menyelesaikan operasi dasar matematika.';
+                }
+            } else if (sLower.includes('tari') || sLower.includes('seni tari')) {
+                if (score >= 88) {
+                    narrative = 'Sangat terampil meragakan koordinasi gerak tari sesuai irama, berekspresi percaya diri, dan menjaga norma kesopanan islami.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam meragakan ragam gerak tari dan antusias mengikuti latihan berpasangan.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup mampu mengikuti tempo gerak tari, namun perlu penguatan kelenturan tubuh dan percaya diri.';
+                } else {
+                    narrative = 'Memerlukan bimbingan berkelanjutan dalam menyelaraskan gerak tubuh dengan ketukan irama.';
+                }
+            } else if (sLower.includes('pjok') || sLower.includes('olahraga')) {
+                if (score >= 88) {
+                    narrative = 'Sangat terampil mempraktikkan gerak dasar lokomotor dan non-lokomotor serta konsisten membiasakan gaya hidup sehat aktif.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam koordinasi pola gerak dasar dan antusias dalam berolahraga teratur.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup aktif dalam aktivitas fisik, namun perlu bimbingan pada ketepatan gerak manipulatif melempar dan menangkap.';
+                } else {
+                    narrative = 'Memerlukan pendampingan untuk meningkatkan daya tahan jasmani dan keberanian bergerak aktif.';
+                }
+            } else if (sLower.includes('inggris') || sLower.includes('english')) {
+                if (score >= 88) {
+                    narrative = 'Sangat cakap menyebutkan kosakata angka 1-10, hewan peliharaan, serta santun mengucapkan sapaan sehari-hari.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam menghafal kosakata dasar dan merespons instruksi sederhana dalam bahasa Inggris.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup menguasai kosakata benda sekitar, namun perlu dorongan untuk berani melafalkannya secara mandiri.';
+                } else {
+                    narrative = 'Memerlukan latihan bertahap dalam pengenalan bunyi kata dan pelafalan kosakata dasar bahasa Inggris.';
+                }
+            } else if (sLower.includes('koding') || sLower.includes('kka') || sLower.includes('komputer')) {
+                if (score >= 88) {
+                    narrative = 'Sangat unggul dalam memahami pola logika urutan algoritma visual dan memanfaatkan media digital secara cerdas beradab.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam menyusun blok perintah digital sederhana dan berdisiplin di lab komputer.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup memahami pengenalan perangkat, namun perlu pendampingan dalam logika penyelesaian pola bertingkat.';
+                } else {
+                    narrative = 'Memerlukan pendampingan dasar dalam pengoperasian antarmuka komputer dan instruksi digital.';
+                }
+            } else if (sLower.includes('arab')) {
+                if (score >= 88) {
+                    narrative = 'Sangat fasih melafalkan mufradat anggota tubuh, perlengkapan sekolah, dan menyapa dengan ungkapan islami.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam mengenal kosakata dasar bahasa Arab dan antusias menirukan pelafalan.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup mengenal arti mufradat dasar, namun perlu penguatan pada pengucapan makhraj huruf arab.';
+                } else {
+                    narrative = 'Memerlukan bimbingan bertahap dalam mengingat arti kata dan bunyi kosakata bahasa Arab harian.';
+                }
+            } else if (sLower.includes('tahsin') || sLower.includes('wafa')) {
+                if (score >= 88) {
+                    narrative = 'Sangat istimewa dalam melantunkan ayat suci dengan nada Hijaz Wafa yang tertib makhraj serta tartil.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan tilawah yang baik dan tertib tajwid; antusias dan tertib dalam halaqah Al-Qur\'an.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup lancar membaca ayat, namun perlu pendampingan pada konsistensi mad thobi\'i 2 harakat.';
+                } else {
+                    narrative = 'Memerlukan talaqqi intensif untuk meluruskan makharijul huruf hijaiyah bersambung.';
+                }
+            } else if (sLower.includes('tahfidz')) {
+                if (score >= 88) {
+                    narrative = 'Menunjukkan hafalan surah Juz 30 yang sangat mutqin, lancar tanpa keraguan, dan istiqamah dalam muraja\'ah.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan kelancaran ziyadah hafalan yang baik dan konsisten mengulang hafalan di sekolah.';
+                } else if (score >= 68) {
+                    narrative = 'Cukup baik dalam hafalan surah pendek, namun perlu pendampingan muraja\'ah teratur di rumah.';
+                } else {
+                    narrative = 'Memerlukan bimbingan intensif dan jadwal muraja\'ah khusus bersama orang tua di rumah.';
+                }
             } else {
-                ta.value = 'Memerlukan bimbingan dan remedial berkelanjutan untuk mencapai ketuntasan tujuan pembelajaran.';
+                if (score >= 88) {
+                    narrative = `Menunjukkan penguasaan yang sangat istimewa pada capaian pembelajaran ${subjectName}, aktif bernalar kritis, dan mandiri menyelesaikan tugas.`;
+                } else if (score >= 78) {
+                    narrative = `Menunjukkan penguasaan yang baik pada materi pokok ${subjectName}; rajin dan konsisten mengikuti KBM.`;
+                } else if (score >= 68) {
+                    narrative = `Cukup menguasai capaian pembelajaran ${subjectName}, namun memerlukan latihan pada soal aplikasi terapan.`;
+                } else {
+                    narrative = `Memerlukan bimbingan dan remedial terpadu untuk mencapai ketuntasan kompetensi utama ${subjectName}.`;
+                }
             }
+
+            ta.value = narrative;
             count++;
         });
 
@@ -3643,7 +3762,7 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil Generate Narasi',
-                text: 'Narasi capaian pembelajaran telah dibuatkan otomatis untuk ' + count + ' siswa!',
+                text: 'Narasi capaian pembelajaran spesifik ' + subjectName + ' berhasil dibuat untuk ' + count + ' siswa!',
                 timer: 1800,
                 showConfirmButton: false
             });

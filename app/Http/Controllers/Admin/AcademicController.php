@@ -520,11 +520,11 @@ class AcademicController extends Controller
             $reportSetting = ReportSetting::firstOrCreate(
                 ['school_id' => $schoolId],
                 [
-                    'kop_header_text' => "YAYASAN PENDIDIKAN ISLAM TERPADU ROBBANI\n" . strtoupper($activeSchool->name ?? 'SEKOLAH ISLAM TERPADU ROBBANI') . "\nNPSN: " . ($activeSchool->npsn ?? '20198033') . " • Akreditasi: A (Unggul)\nAlamat: " . ($activeSchool->address ?? 'Jl. Raya Pendidikan Terpadu No. 8, Bandung'),
-                    'principal_name' => $activeSchool->principal_name ?? 'Ustadz H. Ahmad Fauzi, M.Pd.',
+                    'kop_header_text' => "YAYASAN GENERASI ROBBANI SUMATERA SELATAN\n" . strtoupper($activeSchool->name ?? 'SD ISLAM TERPADU ROBBANI') . "\nNPSN: " . ($activeSchool->npsn ?? '69957391') . " • Terakreditasi B\nAlamat: " . ($activeSchool->address ?? 'Jln. Sarjana Blok A, Kel. Timbangan, Kec. Indralaya Utara, Kab. Ogan Ilir'),
+                    'principal_name' => $activeSchool->principal_name ?? 'Nur Amalia, S.Pd., Gr',
                     'principal_nip' => '19850315 200904 1 003',
-                    'report_city' => 'Bandung',
-                    'report_date' => '20 Desember 2026',
+                    'report_city' => 'Ogan Ilir',
+                    'report_date' => '18 Juni 2026',
                 ]
             );
         } catch (\Throwable $e) {
@@ -1653,8 +1653,8 @@ class AcademicController extends Controller
         $setting->kop_header_text = $request->kop_header_text;
         $setting->principal_name = $request->principal_name;
         $setting->principal_nip = $request->principal_nip;
-        $setting->report_city = $request->report_city ?? 'Bandung';
-        $setting->report_date = $request->report_date ?? '20 Desember 2026';
+        $setting->report_city = $request->report_city ?? 'Ogan Ilir';
+        $setting->report_date = $request->report_date ?? '18 Juni 2026';
 
         $destinationPath = public_path('uploads/reports');
         if (!file_exists($destinationPath)) {

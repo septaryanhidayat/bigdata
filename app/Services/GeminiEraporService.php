@@ -19,55 +19,233 @@ class GeminiEraporService
             
         $this->model = (string) (config('services.gemini.model')
             ?: env('GEMINI_MODEL')
-            ?: 'gemini-3.5-flash-lite');
+            ?: 'gemini-3.5-flash');
     }
 
     /**
-     * Send prompt to Robbani AI with automatic fallbacks
+     * Send prompt to Robbani AI with robust model fallback
      */
-    public function generateContent(string $prompt, int $maxTokens = 800, float $temperature = 0.7): string
+    public function generateContent(string $prompt, int $maxTokens = 600, float $temperature = 0.7): string
     {
-        $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-3.8-flash']);
+        if (empty($this->apiKey)) {
+            Log::warning('Robbani AI: API Key is empty.');
+            return '';
+        }
+
+        // Prioritas model yang didukung di API Google AI Studio terbaru
+        $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash', 'gemini-3.1-flash-lite', 'gemini-3.8-flash']);
 
         foreach ($modelsToTry as $m) {
             try {
-                $genConfig = [
-                    'maxOutputTokens' => $maxTokens,
-                    'temperature' => $temperature,
+                $payload = [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt]
+                            ]
+                        ]
+                    ],
+                    'generationConfig' => [
+                        'maxOutputTokens' => $maxTokens,
+                        'temperature' => $temperature,
+                    ]
                 ];
-                if (str_contains($m, '3.5') || str_contains($m, '3.8')) {
-                    $genConfig['thinkingConfig'] = ['thinkingBudget' => 0];
-                }
 
                 $response = Http::withHeaders(['Content-Type' => 'application/json'])
-                    ->timeout(30)
-                    ->post($this->baseUrl . "{$m}:generateContent?key=" . $this->apiKey, [
-                        'contents' => [
-                            [
-                                'parts' => [
-                                    ['text' => $prompt]
-                                ]
-                            ]
-                        ],
-                        'generationConfig' => $genConfig
-                    ]);
+                    ->timeout(15)
+                    ->post($this->baseUrl . "{$m}:generateContent?key=" . $this->apiKey, $payload);
 
                 if ($response->successful()) {
                     $json = $response->json();
                     $text = $json['candidates'][0]['content']['parts'][0]['text'] ?? '';
                     $clean = trim(str_replace(['```markdown', '```html', '```'], '', $text));
+                    // Bersihkan tanda petik di awal dan akhir jika ada
+                    $clean = trim($clean, "\"'\n\r\t ");
                     if (!empty($clean)) {
                         return $clean;
                     }
                 } else {
-                    Log::warning("Robbani AI model {$m} returned status {$response->status()}: " . $response->body());
+                    Log::warning("Robbani AI model {$m} returned status {$response->status()}: " . substr($response->body(), 0, 200));
                 }
             } catch (\Throwable $e) {
-                Log::error("Robbani AI call exception on model {$m}: " . $e->getMessage());
+                Log::warning("Robbani AI model {$m} call failed: " . $e->getMessage());
             }
         }
 
         return '';
+    }
+
+    /**
+     * Matriks Silabus & Capaian Pembelajaran Kurikulum Merdeka + JSIT SDIT Robbani
+     */
+    public static function getSubjectSyllabus(string $subjectName): array
+    {
+        $nameLower = strtolower($subjectName);
+
+        if (str_contains($nameLower, 'agama') || str_contains($nameLower, 'pai') || str_contains($nameLower, 'islam')) {
+            return [
+                'high' => 'memahami Asmaul Husna (Ar-Rahman, Ar-Rahim), surah Al-Ikhlas, dan adab bersyukur serta hidup bersih sesuai ajaran Islam',
+                'improve' => 'ketertiban melafalkan bacaan sholat dan doa harian',
+                'context' => 'Pendidikan Agama Islam dan Budi Pekerti (Asmaul Husna, Surah Al-Ikhlas, dan Adab Islami)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'pancasila') || str_contains($nameLower, 'pkn')) {
+            return [
+                'high' => 'mengenal simbol-simbol sila Pancasila, aturan di rumah dan sekolah, serta karakteristik lingkungan NKRI',
+                'improve' => 'penerapan adab antre dan musyawarah mufakat di lingkungan kelas',
+                'context' => 'Pendidikan Pancasila (Simbol Garuda, Aturan Sekolah, dan Kebhinekaan)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'indonesia') || str_contains($nameLower, 'bin')) {
+            return [
+                'high' => 'keterampilan menyimak, merespons instruksi lisan dengan santun, serta menceritakan kembali ide pokok cerita',
+                'improve' => 'kerapian penulisan kalimat permulaan dan penggunaan tanda baca titik',
+                'context' => 'Bahasa Indonesia (Keterampilan Menyimak, Menulis Permulaan, dan Berbicara Santun)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'matematika') || str_contains($nameLower, 'mtk')) {
+            return [
+                'high' => 'melakukan pengukuran panjang dengan satuan tidak baku serta membaca data piktogram sederhana hingga 4 kategori',
+                'improve' => 'ketelitian dalam operasi hitung pengurangan bertingkat',
+                'context' => 'Matematika (Pengukuran Satuan Tidak Baku, Piktogram Data, dan Operasi Bilangan)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'tari') || str_contains($nameLower, 'seni tari')) {
+            return [
+                'high' => 'mengekspresikan rasa ingin tahu gerak, meragakan koordinasi gerak tari sesuai irama dan norma kesopanan islami',
+                'improve' => 'kelenturan dan konsistensi tempo gerak secara berpasangan',
+                'context' => 'Seni Tari (Eksplorasi Gerak, Ritme Musik, dan Ekspresi Ragam Gerak)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'rupa') || str_contains($nameLower, 'seni rupa')) {
+            return [
+                'high' => 'mengenal komposisi warna dasar, bentuk geometris, dan mengekspresikan karya seni dua dimensi secara kreatif',
+                'improve' => 'kerapian pewarnaan dan ketelitian detail bidang gambar',
+                'context' => 'Seni Rupa (Eksplorasi Bentuk, Komposisi Warna, dan Estetika Islami)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'pjok') || str_contains($nameLower, 'jasmani') || str_contains($nameLower, 'olahraga')) {
+            return [
+                'high' => 'mempraktikkan gerak dasar lokomotor dan non-lokomotor serta memahami pentingnya gaya hidup sehat aktif',
+                'improve' => 'koordinasi gerak manipulatif saat menangkap dan melempar bola',
+                'context' => 'PJOK (Pola Gerak Dasar Lokomotor, Kebugaran Jasmani, dan Kebersihan Diri)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'inggris') || str_contains($nameLower, 'english')) {
+            return [
+                'high' => 'menyebutkan jumlah benda angka 1-10, kosakata hewan piaraan (pets), dan ungkapan sapaan sopan sehari-hari',
+                'improve' => 'pengucapan fonetik kosakata baru dan keberanian berbicara mandiri',
+                'context' => 'Bahasa Inggris (Numbers 1-10, Animals/Pets, and Greeting Expressions)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'koding') || str_contains($nameLower, 'kka') || str_contains($nameLower, 'tik') || str_contains($nameLower, 'komputer')) {
+            return [
+                'high' => 'memahami logika pola urutan algoritma visual dan pemanfaatan media digital secara bijak beretika islami',
+                'improve' => 'ketepatan menyusun blok kode pemrograman visual secara terstruktur',
+                'context' => 'Koding & Kecerdasan Artifisial (Pola Logika Algoritma dan Etika Digital)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'tahsin') || str_contains($nameLower, 'wafa')) {
+            return [
+                'high' => 'melafalkan huruf hijaiyah berharakat fathah/kasrah/dhammah dengan makhraj fasih dan nada Hijaz Wafa yang tartil',
+                'improve' => 'konsistensi panjang mad thobi\'i 2 harakat saat membaca bersambung',
+                'context' => 'Tahsin Tilawah Al-Qur\'an Metode Otak Kanan Wafa'
+            ];
+        }
+
+        if (str_contains($nameLower, 'tahfidz') || str_contains($nameLower, 'hafalan')) {
+            return [
+                'high' => 'menghafal surah-surah pendek Juz 30 dengan itqan, makhraj terjaga, dan lancar dalam sekali duduk',
+                'improve' => 'kelancaran muraja\'ah mandiri sebelum memulai ziyadah surah berikutnya',
+                'context' => 'Tahfidz Al-Qur\'an Juz 30 (Ziyadah dan Muraja\'ah Mutqin)'
+            ];
+        }
+
+        if (str_contains($nameLower, 'arab')) {
+            return [
+                'high' => 'mengenal mufradat (kosakata) anggota keluarga, perlengkapan sekolah, dan sapaan salam dalam bahasa Arab',
+                'improve' => 'keberanian melafalkan dialog percakapan sederhana secara berpasangan',
+                'context' => 'Bahasa Arab (Mufradat Harian, Anggota Tubuh, dan Kalimat Sederhana)'
+            ];
+        }
+
+        return [
+            'high' => "menguasai materi pokok pembelajaran {$subjectName} dan aktif berpartisipasi dalam diskusi kelas",
+            'improve' => "pemecahan latihan soal kontekstual secara mandiri",
+            'context' => "Mata Pelajaran {$subjectName}"
+        ];
+    }
+
+    /**
+     * Generate Kurikulum Merdeka Capaian Pembelajaran (CP) narrative
+     */
+    public function generateSubjectNarrative(
+        string $studentName,
+        string $subjectName,
+        float $score,
+        string $competencyContext = ''
+    ): string {
+        $syllabus = self::getSubjectSyllabus($subjectName);
+        $context = !empty($competencyContext) && $competencyContext !== 'Tujuan Pembelajaran Semester Ini' 
+            ? $competencyContext 
+            : $syllabus['context'];
+
+        $prompt = "Anda adalah Guru Pengampu Mata Pelajaran '{$subjectName}' di Sekolah Dasar Islam Terpadu (SDIT Robbani) yang menerapkan Kurikulum Merdeka.
+Tuliskan 1 kalimat resmi narasi Capaian Pembelajaran rapor untuk siswa:
+- Nama Siswa: {$studentName}
+- Mata Pelajaran: {$subjectName}
+- Nilai Akhir: {$score} (Skala 0-100)
+- Materi Pokok / TP: {$context}
+
+PERATURAN KETAT:
+1. Output HANYA SATU kalimat langsung siap cetak (maksimal 25-35 kata).
+2. DILARANG memberi judul, pengantar ('Berikut adalah...'), bullet points, markdown, atau opsi pilihan.
+3. Sebutkan materi spesifik yang dikuasai siswa dengan santun dan bernada apresiatif.";
+
+        $aiText = $this->generateContent($prompt, 200, 0.6);
+
+        if (!empty($aiText)) {
+            // Bersihkan jika model masih menyertakan kata pengantar
+            $lines = explode("\n", $aiText);
+            foreach ($lines as $line) {
+                $trimmed = trim(str_replace(['*', '"', "'", '-'], '', $line));
+                if (str_starts_with(strtolower($trimmed), 'berikut') || str_starts_with(strtolower($trimmed), 'pilihan')) {
+                    continue;
+                }
+                if (strlen($trimmed) > 25) {
+                    return $trimmed;
+                }
+            }
+        }
+
+        // =========================================================================
+        // FALLBACK CERDAS & SPESIFIK MATERI (TIDAK MONOTON / BUKAN TEMPLATE GENERIK)
+        // =========================================================================
+        $highSkill = $syllabus['high'];
+        $impSkill = $syllabus['improve'];
+
+        if ($score >= 88) {
+            // Predikat A (Istimewa / Mumtaz)
+            return "Menunjukkan penguasaan yang sangat istimewa dalam {$highSkill}, memiliki nalar kritis yang tinggi, serta mandiri dalam menyelesaikan tugas.";
+        } elseif ($score >= 78) {
+            // Predikat B (Baik / Jayyid)
+            return "Menunjukkan penguasaan yang baik dalam {$highSkill}; aktif berpartisipasi dalam pembelajaran dan konsisten menjaga adab belajar.";
+        } elseif ($score >= 68) {
+            // Predikat C (Cukup / Maqbul)
+            return "Cukup menguasai konsep {$highSkill}, namun memerlukan pendampingan bertahap pada {$impSkill}.";
+        } else {
+            // Predikat D (Perlu Bimbingan)
+            return "Memerlukan bimbingan intensif dan latihan terpadu untuk mencapai ketuntasan tujuan pembelajaran utama pada {$impSkill}.";
+        }
     }
 
     /**
@@ -80,72 +258,38 @@ class GeminiEraporService
         string $attendanceInfo = 'Hadir 100% tanpa alpha',
         string $ekskulInfo = 'Pramuka SIT & Tahfidz Club'
     ): string {
-        $prompt = "Anda adalah Wali Kelas di Sekolah Islam Terpadu (SIT) yang bijaksana, hangat, dan penuh kasih sayang.
-Tuliskan 1 paragraf catatan wali kelas resmi untuk buku rapor siswa berikut:
+        $prompt = "Anda adalah Wali Kelas di SDIT Robbani.
+Tuliskan 1 paragraf pendek (3-4 kalimat) catatan wali kelas resmi di buku rapor:
 - Nama Siswa: {$studentName}
-- Nilai Rata-rata Akademik: {$academicAverage}
-- Karakter & Ibadah 7 SKL JSIT: {$characterHighlights}
-- Catatan Kehadiran: {$attendanceInfo}
+- Nilai Rata-rata: {$academicAverage}
+- Karakter & Ibadah: {$characterHighlights}
+- Kehadiran: {$attendanceInfo}
 - Ekstrakurikuler: {$ekskulInfo}
 
-Kriteria Penulisan:
-1. Bahasa Indonesia yang baku, santun, hangat, mengalir, dan Islami (boleh diawali ucapan syukur / doa seperti 'Alhamdulillah', 'Barakallahu fiik', atau doa keberkahan).
-2. Apresiasi capaian ananda secara spesifik dan berikan kalimat motivasi untuk semester berikutnya agar semakin istiqamah.
-3. Maksimal 1 paragraf (3 hingga 5 kalimat padat dan bermakna).
-4. JANGAN gunakan bullet points, langsung teks narasi mengalir.";
-
-        $aiText = $this->generateContent($prompt, 500, 0.7);
-
-        if (!empty($aiText)) {
-            return $aiText;
-        }
-
-        // Fallback jika API offline
-        if ($academicAverage >= 88) {
-            return "Alhamdulillah, selamat dan barakallah untuk Ananda {$studentName} atas capaian prestasi belajar yang sangat membanggakan di semester ini. Karakter ananda yang santun, tekun, dan istiqamah dalam ibadah merupakan keteladanan yang mulia di kelas. Teruslah pertahankan semangat menuntut ilmu dan rendah hati dalam menggapai cita-cita luhur demi kemuliaan umat.";
-        } elseif ($academicAverage >= 78) {
-            return "Alhamdulillah, Ananda {$studentName} telah menunjukkan usaha yang baik dan perkembangan belajar yang positif sepanjang semester ini. Pertahankan kebiasaan baik dalam ibadah dan terus tingkatkan fokus pada pemahaman konsep pelajaran yang menantang. Kami yakin dengan kesungguhan dan doa, ananda mampu meraih prestasi yang jauh lebih gemilang.";
-        } else {
-            return "Ananda {$studentName} memiliki potensi bakat yang besar untuk terus berkembang. Tingkatkan kedisiplinan mengulang pelajaran di rumah, kuatkan interaksi dengan Al-Qur'an, dan jangan ragu berdiskusi aktif dengan guru di kelas. Kami senantiasa mendoakan kemudahan ananda dalam meraih keberkahan ilmu.";
-        }
-    }
-
-    /**
-     * Generate Kurikulum Merdeka Capaian Pembelajaran (CP) narrative
-     */
-    public function generateSubjectNarrative(
-        string $studentName,
-        string $subjectName,
-        float $score,
-        string $competencyContext = 'Tujuan Pembelajaran Semester Ini'
-    ): string {
-        $prompt = "Anda adalah Guru Pengampu Mata Pelajaran {$subjectName} di Sekolah Islam Terpadu (SIT) yang menerapkan Kurikulum Merdeka.
-Buatkan deskripsi narasi Capaian Pembelajaran (CP/TP) rapor resmi untuk:
-- Nama Siswa: {$studentName}
-- Mata Pelajaran: {$subjectName}
-- Nilai Akhir: {$score} (Skala 0-100)
-- Materi / Capaian: {$competencyContext}
-
 Kriteria:
-1. Sesuai kaidah Kurikulum Merdeka Kemendikbudristek & Standar Mutu JSIT (menyebutkan capaian tertinggi yang dikuasai dengan baik dan aspek yang perlu bimbingan/peningkatan jika nilai < 80).
-2. Maksimal 2 kalimat terstruktur, ringkas, objektif, dan bernada positif.
-3. Output HANYA teks narasi tanpa tanda kutip atau penjelasan tambahan.";
+1. Awali dengan doa/syukur islami ('Alhamdulillah', 'Barakallahu fiik').
+2. Berikan apresiasi dan motivasi hangat untuk semester berikutnya.
+3. Output HANYA paragraf narasi tanpa bullet points atau pengantar.";
 
-        $aiText = $this->generateContent($prompt, 300, 0.6);
+        $aiText = $this->generateContent($prompt, 350, 0.7);
 
         if (!empty($aiText)) {
-            return $aiText;
+            $lines = explode("\n", $aiText);
+            foreach ($lines as $line) {
+                $trimmed = trim(str_replace(['*', '"'], '', $line));
+                if (strlen($trimmed) > 40 && !str_starts_with(strtolower($trimmed), 'berikut')) {
+                    return $trimmed;
+                }
+            }
         }
 
-        // Fallback
-        if ($score >= 90) {
-            return "Menunjukkan penguasaan capaian pembelajaran yang sangat istimewa dalam {$competencyContext}, bernalar kritis tinggi, serta mampu menyelesaikan tugas pemecahan masalah secara mandiri.";
-        } elseif ($score >= 80) {
-            return "Menunjukkan penguasaan capaian pembelajaran yang amat baik dalam {$competencyContext}, aktif dalam proses pembelajaran, dan konsisten menunjukkan kemajuan belajar.";
-        } elseif ($score >= 70) {
-            return "Menunjukkan penguasaan capaian pembelajaran yang cukup baik pada sebagian besar materi {$competencyContext}, namun perlu pendampingan pada latihan soal lanjutan.";
+        // Fallback islami berkualitas tinggi
+        if ($academicAverage >= 88) {
+            return "Alhamdulillah, barakallahu fiik Ananda {$studentName} atas pencapaian prestasi belajar yang sangat istimewa di semester ini. Akhlak ananda yang santun dan disiplin dalam ibadah menjadi teladan baik bagi teman-teman. Pertahankan semangat belajar dan teruslah rendah hati.";
+        } elseif ($academicAverage >= 78) {
+            return "Alhamdulillah, Ananda {$studentName} menunjukkan kemajuan belajar yang sangat positif dan antusiasme yang baik dalam mengikuti KBM. Terus tingkatkan ketelitian dalam memahami konsep pelajaran serta istiqomahkan pembiasaan ibadah yaumiyah di rumah.";
         } else {
-            return "Perlu bimbingan dan penguatan secara berkelanjutan untuk mencapai ketuntasan tujuan pembelajaran utama pada mata pelajaran {$subjectName}.";
+            return "Ananda {$studentName} memiliki potensi bakat yang luar biasa untuk terus berkembang. Tingkatkan konsistensi mengulang pelajaran di rumah dan jangan ragu untuk aktif bertanya kepada guru. Kami senantiasa mendoakan keberkahan ilmu dan kemudahan bagi ananda.";
         }
     }
 
@@ -160,25 +304,24 @@ Kriteria:
         string $tahfidzTarget = 'Juz 30 (An-Naba s/d An-Nas)',
         string $tahfidzAchievement = 'Tuntas Juz 30'
     ): string {
-        $prompt = "Anda adalah Koordinator Al-Qur'an Metode Wafa dan Penguji Tahfidz di Sekolah Islam Terpadu (SIT).
-Tuliskan 1-2 kalimat evaluasi catatan ustadz pengampu Al-Qur'an untuk buku rapor:
-- Nama Siswa: {$studentName}
-- Tingkat Tahsin Wafa: {$tahsinLevel}
-- Nilai Makharijul Huruf: {$makhrajScore}
-- Nilai Kaidah Tajwid: {$tajwidScore}
-- Target & Capaian Tahfidz: Target ({$tahfidzTarget}), Capaian ({$tahfidzAchievement})
+        $prompt = "Anda adalah Koordinator Al-Qur'an Metode Wafa SDIT Robbani.
+Tuliskan 1-2 kalimat evaluasi resmi buku rapor untuk:
+- Santri: {$studentName}
+- Tahsin Wafa: {$tahsinLevel} (Makhraj: {$makhrajScore}, Tajwid: {$tajwidScore})
+- Tahfidz: Capaian ({$tahfidzAchievement}) dari target ({$tahfidzTarget})
 
-Kriteria:
-1. Kalimat yang santun, menyemangati, dan mengapresiasi keindahan tilawah lagu Hijaz Wafa serta kelancaran (itqan) hafalan Al-Qur'an.
-2. Maksimal 2 kalimat padat.";
+Output HANYA 1-2 kalimat narasi siap cetak mengapresiasi nada Hijaz Wafa dan hafalan mutqin.";
 
-        $aiText = $this->generateContent($prompt, 300, 0.6);
+        $aiText = $this->generateContent($prompt, 200, 0.6);
 
         if (!empty($aiText)) {
-            return $aiText;
+            $trimmed = trim(str_replace(['*', '"'], '', $aiText));
+            if (strlen($trimmed) > 30 && !str_starts_with(strtolower($trimmed), 'berikut')) {
+                return $trimmed;
+            }
         }
 
-        return "Ananda menunjukkan kecintaan yang tulus pada Al-Qur'an, makhraj dan mad terlafalkan dengan fasih menggunakan irama nada Wafa Hijaz. Terus kuatkan muraja'ah harian agar hafalan {$tahfidzAchievement} senantiasa mutqin.";
+        return "Ananda melantunkan ayat Al-Qur'an dengan irama Hijaz Wafa yang tartil dan makharijul huruf yang fasih. Hafalan {$tahfidzAchievement} terjaga dengan baik; istiqomahkan muraja'ah yaumiyah agar hafalan semakin mutqin.";
     }
 
     /**
@@ -186,27 +329,23 @@ Kriteria:
      */
     public function analyzeClassroomReadiness(string $classroomName, array $stats): string
     {
-        $prompt = "Anda adalah Konsultan Mutu Pendidikan Islam Terpadu (SIT) & Kurikulum Merdeka.
-Berikan analisis eksekutif singkat (2-3 paragraf) untuk Kepala Sekolah dan Wali Kelas mengenai kesiapan rapor rombongan belajar:
-- Nama Kelas: {$classroomName}
+        $prompt = "Anda adalah Konsultan Mutu Pendidikan SIT Robbani.
+Berikan analisis eksekutif singkat (2-3 paragraf) kesiapan e-rapor:
+- Kelas: {$classroomName}
 - Total Siswa: " . ($stats['total_students'] ?? 0) . "
-- Progres Nilai Mapel: " . ($stats['mapel_progress'] ?? '0%') . "
-- Progres Nilai Wafa & Tahfidz: " . ($stats['quran_progress'] ?? '0%') . "
-- Progres Karakter 7 SKL JSIT: " . ($stats['character_progress'] ?? '0%') . "
-- Progres Catatan Wali Kelas: " . ($stats['homeroom_progress'] ?? '0%') . "
-- Rata-rata Nilai Kelas: " . ($stats['average_score'] ?? '0') . "
+- Progres Mapel: " . ($stats['mapel_progress'] ?? '0%') . "
+- Progres Al-Qur'an: " . ($stats['quran_progress'] ?? '0%') . "
+- Progres Karakter: " . ($stats['character_progress'] ?? '0%') . "
+- Rata-rata Nilai: " . ($stats['average_score'] ?? '0') . "
 
-Struktur Jawaban:
-1. Paragraf 1: Ringkasan tingkat kesiapan dan capaian umum kelas.
-2. Paragraf 2: Identifikasi aspek yang paling perlu dipercepat atau diselesaikan sebelum batas akhir cetak rapor.
-3. Paragraf 3: Rekomendasi taktis untuk Wali Kelas dan Kepala Sekolah.";
+Tulis ringkasan kesiapan, hal yang perlu diselesaikan, dan rekomendasi taktis.";
 
-        $aiText = $this->generateContent($prompt, 700, 0.7);
+        $aiText = $this->generateContent($prompt, 600, 0.7);
 
         if (!empty($aiText)) {
             return $aiText;
         }
 
-        return "Rombongan belajar {$classroomName} secara umum menunjukkan kesiapan yang sangat baik. Mayoritas capaian penilaian akademik dan tilawah Wafa telah terinput ke dalam pangkalan data rapor. Disarankan bagi Bapak/Ibu Wali Kelas untuk menuntaskan sinkronisasi catatan ekstrakurikuler dan presensi agar dokumen siap dicetak sebelum tanggal penyerahan rapor.";
+        return "Rombongan belajar {$classroomName} menunjukkan progres penginputan nilai yang sangat baik. Sebagian besar capaian akademik dan evaluasi Al-Qur'an Wafa telah tersinkronisasi dengan lengkap ke pangkalan data e-rapor. Disarankan bagi Bapak/Ibu Wali Kelas untuk memastikan seluruh catatan kehadiran dan ekstrakurikuler telah tuntas sebelum jadwal pencetakan rapor resmi.";
     }
 }
