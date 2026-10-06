@@ -79,6 +79,9 @@ class RealSDReportCardSeeder extends Seeder
         $teacher->nip = '199208152021042001';
         $teacher->gender = 'F';
         $teacher->role_type = 'TEACHER';
+        $teacher->employment_status = 'PERMANENT';
+        $teacher->religion = 'ISLAM';
+        $teacher->marital_status = 'MARRIED';
         $teacher->is_active = true;
         $teacher->save();
 

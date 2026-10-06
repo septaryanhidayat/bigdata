@@ -13,7 +13,7 @@ INSERT INTO `schools` (`id`, `code`, `name`, `npsn`, `principal_name`, `created_
 INSERT INTO `academic_years` (`id`, `name`, `semester`, `curriculum_code`, `is_active`, `created_at`, `updated_at`) VALUES (2, '2025/2026', 'Genap', 'MERDEKA', 1, NOW(), NOW()) ON DUPLICATE KEY UPDATE `curriculum_code`='MERDEKA', `is_active`=1;
 
 -- 3. Wali Kelas Ranti Saputri, S.TP
-INSERT INTO `employees` (`id`, `school_id`, `nip`, `full_name`, `gender`, `role_type`, `is_active`, `created_at`, `updated_at`) VALUES (1, 1, '199208152021042001', 'Ranti Saputri, S.TP', 'F', 'TEACHER', 1, NOW(), NOW()) ON DUPLICATE KEY UPDATE `full_name`='Ranti Saputri, S.TP', `role_type`='TEACHER';
+INSERT INTO `employees` (`id`, `school_id`, `nip`, `full_name`, `gender`, `role_type`, `employment_status`, `religion`, `marital_status`, `is_active`, `created_at`, `updated_at`) VALUES (1, 1, '199208152021042001', 'Ranti Saputri, S.TP', 'F', 'TEACHER', 'PERMANENT', 'ISLAM', 'MARRIED', 1, NOW(), NOW()) ON DUPLICATE KEY UPDATE `full_name`='Ranti Saputri, S.TP', `role_type`='TEACHER', `employment_status`='PERMANENT';
 
 -- 4. Rombel Kelas 1A
 INSERT INTO `classrooms` (`id`, `school_id`, `name`, `academic_year_id`, `homeroom_teacher_id`, `room_number`, `capacity`, `created_at`, `updated_at`) VALUES (1, 1, 'Kelas 1A', 2, 1, 'SD-101', 28, NOW(), NOW()) ON DUPLICATE KEY UPDATE `name`='Kelas 1A', `homeroom_teacher_id`=1;
