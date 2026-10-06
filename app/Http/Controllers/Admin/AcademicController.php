@@ -2979,7 +2979,7 @@ class AcademicController extends Controller
                         'students' => 0,
                         'status' => '⚠️ Kosong (0 Siswa)',
                         'progress_pct' => 0,
-                        'note' => 'Belum ada siswa terdaftar / belum ada nilai.'
+                        'note' => 'Belum ada siswa aktif terdaftar di rombel ini.'
                     ];
                     continue;
                 }
@@ -2992,13 +2992,16 @@ class AcademicController extends Controller
                 $pct = round((($mapelCount + $quranCount + $charCount + $hrCount) / ($stCount * 4)) * 100);
                 if ($pct >= 100) {
                     $completedClassrooms++;
-                    $stLabel = '✅ Tuntas (100%)';
+                    $stLabel = '✅ Tuntas Lengkap (100%)';
+                    $note = "Seluruh komponen ({$stCount} siswa) lengkap 100% dan siap cetak.";
                 } elseif ($pct > 0) {
                     $inProgressClassrooms++;
                     $stLabel = "⏳ Dalam Proses ({$pct}%)";
+                    $note = "Nilai terisi sebagian (Mapel: {$mapelCount}/{$stCount}, Qur'an: {$quranCount}/{$stCount}, Karakter: {$charCount}/{$stCount}, Catatan Walas: {$hrCount}/{$stCount}).";
                 } else {
                     $emptyClassrooms++;
-                    $stLabel = '❌ Belum Mulai (0%)';
+                    $stLabel = '❌ Belum Mengisi Nilai (0%)';
+                    $note = "Seluruh komponen nilai masih kosong 0/{$stCount} siswa (Wali Kelas {$walasName} belum menginput nilai Mapel, Al-Qur'an Wafa, Karakter 7 SKL, maupun Catatan Walas).";
                 }
 
                 $classSummaries[] = [
@@ -3008,7 +3011,7 @@ class AcademicController extends Controller
                     'students' => $stCount,
                     'status' => $stLabel,
                     'progress_pct' => $pct,
-                    'note' => "Mapel: {$mapelCount}/{$stCount}, Qur'an: {$quranCount}/{$stCount}, Karakter: {$charCount}/{$stCount}, Walas: {$hrCount}/{$stCount}"
+                    'note' => $note
                 ];
             }
 
@@ -3053,12 +3056,12 @@ class AcademicController extends Controller
                 'walas' => $walasName
             ];
 
-            $analysis = "### ⚠️ Audit Kesiapan Rapor: {$classroom->name}\n\n" .
-                "**Status:** Rombongan belajar saat ini **KOSONG (0 Siswa Terdaftar)**.\n\n" .
+            $analysis = "### 1. Status Kesiapan Rapor: {$classroom->name}\n\n" .
+                "**Status:** Rombongan belajar saat ini tercatat **Belum Memiliki Siswa Aktif (0 Siswa Terdaftar)**.\n\n" .
                 "- **Wali Kelas:** {$walasName}\n" .
                 "- **Kelengkapan Nilai:** Belum dapat diisi karena rombel belum memiliki peserta didik aktif.\n\n" .
-                "**Rekomendasi Tindak Lanjut Kepala Sekolah / Operator:**\n" .
-                "1. Segera lakukan penempatan/plotting siswa ke dalam rombel **{$classroom->name}** melalui menu Data Siswa.\n" .
+                "### 2. Arahan Tindak Lanjut Kepala Sekolah & Operator\n\n" .
+                "1. Segera lakukan penempatan / plotting siswa ke dalam rombel **{$classroom->name}** melalui menu Data Siswa Unit.\n" .
                 "2. Hubungi Wali Kelas ({$walasName}) untuk bersiap melakukan penginputan setelah data siswa terisi.";
 
             return response()->json([

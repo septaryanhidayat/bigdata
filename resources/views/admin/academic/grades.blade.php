@@ -163,7 +163,6 @@
                     <span>✨</span>
                     <span>Analisis AI Kesiapan Rapor (Semua Kelas)</span>
                 </button>
-            </div>
         </div>
 
         <!-- Section: REKAP DATA (High-Contrast Clean Cards & Action Links) -->
@@ -3479,6 +3478,7 @@
                         </button>
                     @endif
                 </div>
+            </div>
         </div>
 
         <!-- MODAL PETUNJUK RESMI PENILAIAN & TP KURIKULUM MERDEKA -->
@@ -4959,8 +4959,20 @@
     // =========================================================================
     function renderMarkdownToHtml(markdown) {
         if (!markdown) return '';
+        // Sanitize any stray fake letterhead lines
+        markdown = markdown
+            .replace(/^[*\s]*KEMENTERIAN.*$/gmi, '')
+            .replace(/^[*\s]*SEKOLAH ISLAM TERPADU.*KEMENTERIAN.*$/gmi, '')
+            .replace(/^[*\s]*Kantor Konsultan.*$/gmi, '')
+            .replace(/^[*\s]*Konsultan Penjaminan.*$/gmi, '')
+            .replace(/^[*\s]*Kepada Yth.*$/gmi, '')
+            .replace(/^[*\s]*Dari:\s*.*$/gmi, '')
+            .replace(/^[*\s]*Perihal:\s*.*$/gmi, '')
+            .replace(/^[*\s]*Tanggal:\s*.*$/gmi, '')
+            .trim();
+
         const lines = markdown.split('\n');
-        let html = '<div class="p-5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-3 text-xs leading-relaxed text-slate-800">';
+        let html = '<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3 text-xs leading-relaxed text-slate-800">';
         let inList = false;
 
         for (let rawLine of lines) {
@@ -4973,35 +4985,45 @@
                 continue;
             }
 
+            // Horizontal dividers
+            if (/^---$|^___$|^\*\*\*$/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += '<hr class="border-slate-200 my-2.5">';
+                continue;
+            }
+
             // Parse inline bold, italic, and code
             let formattedLine = line
                 .replace(/\*\*(.*?)\*\*/g, '<strong class="font-black text-slate-950">$1</strong>')
                 .replace(/__(.*?)__/g, '<strong class="font-black text-slate-950">$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em class="italic text-purple-950 font-semibold">$1</em>')
-                .replace(/_(.*?)_/g, '<em class="italic text-purple-950 font-semibold">$1</em>');
+                .replace(/\*(.*?)\*/g, '<em class="italic text-emerald-950 font-semibold">$1</em>')
+                .replace(/_(.*?)_/g, '<em class="italic text-emerald-950 font-semibold">$1</em>');
 
             // Headers
-            if (/^###\s+/.test(line)) {
+            if (/^####\s+/.test(line)) {
                 if (inList) { html += '</ul>'; inList = false; }
-                html += `<h4 class="font-black text-slate-900 text-xs mt-3 mb-1 border-b border-purple-200 pb-1 flex items-center gap-1.5"><span>📌</span><span>${formattedLine.replace(/^###\s+/, '')}</span></h4>`;
+                html += `<h5 class="font-black text-slate-900 text-xs mt-3.5 mb-1.5 flex items-center gap-1.5 text-emerald-950 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200"><span>🏫</span><span>${formattedLine.replace(/^####\s+/, '')}</span></h5>`;
+            } else if (/^###\s+/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += `<h4 class="font-black text-slate-900 text-xs mt-4 mb-2 border-b border-emerald-200 pb-1.5 flex items-center gap-1.5 text-emerald-950"><span>📌</span><span>${formattedLine.replace(/^###\s+/, '')}</span></h4>`;
             } else if (/^##\s+/.test(line)) {
                 if (inList) { html += '</ul>'; inList = false; }
-                html += `<h3 class="font-black text-slate-950 text-sm mt-4 mb-2 border-b-2 border-purple-300 pb-1 flex items-center gap-2"><span>✨</span><span>${formattedLine.replace(/^##\s+/, '')}</span></h3>`;
+                html += `<h3 class="font-black text-slate-950 text-sm mt-5 mb-2.5 border-b-2 border-emerald-500 pb-1 flex items-center gap-2 text-emerald-950"><span>✨</span><span>${formattedLine.replace(/^##\s+/, '')}</span></h3>`;
             } else if (/^#\s+/.test(line)) {
                 if (inList) { html += '</ul>'; inList = false; }
-                html += `<h2 class="font-black text-purple-950 text-base mt-4 mb-2">${formattedLine.replace(/^#\s+/, '')}</h2>`;
+                html += `<h2 class="font-black text-emerald-950 text-base mt-4 mb-2">${formattedLine.replace(/^#\s+/, '')}</h2>`;
             } else if (/^(\*|-|•)\s+/.test(line)) {
                 if (!inList) {
                     html += '<ul class="space-y-1.5 my-2 pl-1">';
                     inList = true;
                 }
                 let itemText = formattedLine.replace(/^(\*|-|•)\s+/, '');
-                html += `<li class="flex items-start gap-2 text-slate-800"><span class="text-purple-600 mt-0.5 shrink-0 font-bold">•</span><span>${itemText}</span></li>`;
+                html += `<li class="flex items-start gap-2 text-slate-800"><span class="text-emerald-600 mt-0.5 shrink-0 font-bold">•</span><span>${itemText}</span></li>`;
             } else if (/^\d+\.\s+/.test(line)) {
                 if (inList) { html += '</ul>'; inList = false; }
                 let itemText = formattedLine.replace(/^\d+\.\s+/, '');
                 let num = line.match(/^(\d+)\./)[1];
-                html += `<div class="flex items-start gap-2.5 my-2 text-slate-900"><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-purple-200 text-purple-900 font-black text-[10px] shrink-0">${num}</span><div class="leading-relaxed">${itemText}</div></div>`;
+                html += `<div class="flex items-start gap-2.5 my-2 text-slate-900"><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-black text-[10px] shrink-0">${num}</span><div class="leading-relaxed">${itemText}</div></div>`;
             } else {
                 if (inList) { html += '</ul>'; inList = false; }
                 html += `<p class="leading-relaxed text-slate-800 my-1">${formattedLine}</p>`;
