@@ -1309,6 +1309,7 @@ class AcademicController extends Controller
 
         $studentData = [
             'classroom_id' => $request->classroom_id,
+            'nis' => $request->nis,
             'nisn' => $request->nisn,
             'full_name' => $request->full_name,
             'nickname' => $request->nickname ?? null,
@@ -2841,7 +2842,27 @@ class AcademicController extends Controller
         $studentName = $request->input('student_name', 'Siswa');
         $academicAverage = (float) ($request->input('academic_average') ?? $request->input('average_score') ?? 85);
         $characterHighlights = $request->input('character_highlights', 'Sholeh, santun, dan rajin beribadah');
-        $attendanceInfo = $request->input('attendance_info', 'Hadir tepat waktu dan berdisiplin tinggi');
+        
+        $sickCount = (int) $request->input('sick_count', 0);
+        $permissionCount = (int) $request->input('permission_count', 0);
+        $absentCount = (int) $request->input('absent_count', 0);
+
+        if ($absentCount >= 3) {
+            $attendanceInfo = "Tercatat {$absentCount} hari Alpha (tanpa keterangan), perlu pembinaan kedisiplinan";
+        } elseif ($absentCount > 0) {
+            $attendanceInfo = "Terdapat catatan Alpha {$absentCount} hari";
+        } elseif ($sickCount >= 5) {
+            $attendanceInfo = "Sering izin sakit ({$sickCount} hari)";
+        } elseif ($absentCount == 0 && ($sickCount + $permissionCount) <= 2) {
+            $attendanceInfo = "Hadir 100% tepat waktu tanpa alpha";
+        } else {
+            $attendanceInfo = "Sakit: {$sickCount}, Izin: {$permissionCount}, Alpha: {$absentCount}";
+        }
+
+        if ($request->filled('attendance_info')) {
+            $attendanceInfo = $request->input('attendance_info');
+        }
+
         $ekskulInfo = $request->input('ekskul_info', 'Pramuka SIT & Tahfidz');
 
         $result = $ai->generateHomeroomNote(
@@ -2849,7 +2870,10 @@ class AcademicController extends Controller
             $academicAverage,
             $characterHighlights,
             $attendanceInfo,
-            $ekskulInfo
+            $ekskulInfo,
+            $sickCount,
+            $permissionCount,
+            $absentCount
         );
 
         return response()->json([
@@ -2867,7 +2891,9 @@ class AcademicController extends Controller
     {
         $studentName = $request->input('student_name', 'Siswa');
         $subjectName = $request->input('subject_name', 'Mata Pelajaran');
-        $score = (float) $request->input('score', 85);
+        
+        $rawScore = $request->input('score');
+        $score = $rawScore !== null && $rawScore !== '' ? (float) $rawScore : 0.0;
         $competencyContext = $request->input('competency_context', 'Tujuan Pembelajaran Semester Ini');
 
         $result = $ai->generateSubjectNarrative(
@@ -2892,8 +2918,9 @@ class AcademicController extends Controller
     {
         $studentName = $request->input('student_name', 'Siswa');
         $tahsinLevel = $request->input('tahsin_level') ?? $request->input('level', 'Buku Wafa 3');
-        $makhrajScore = (float) ($request->input('makhraj_score') ?? $request->input('makhraj', 88));
-        $tajwidScore = (float) ($request->input('tajwid_score') ?? $request->input('tajwid', 90));
+        
+        $makhrajScore = $request->filled('makhraj_score') ? (float) $request->input('makhraj_score') : ($request->filled('makhraj') ? (float) $request->input('makhraj') : 0.0);
+        $tajwidScore = $request->filled('tajwid_score') ? (float) $request->input('tajwid_score') : ($request->filled('tajwid') ? (float) $request->input('tajwid') : 0.0);
         $tahfidzTarget = $request->input('tahfidz_target', 'Juz 30 (An-Naba s/d An-Nas)');
         $tahfidzAchievement = $request->input('tahfidz_achievement') ?? $request->input('achievement', 'Tuntas Juz 30');
 
@@ -2916,30 +2943,146 @@ class AcademicController extends Controller
     }
 
     /**
-     * AI Assistant: Analisis Kesiapan & Mutu Rombel Kelas
+     * AI Assistant: Analisis Kesiapan & Mutu Rombel Kelas (Per Kelas atau Seluruh Unit)
      */
     public function aiAnalyzeClass(Request $request, GeminiEraporService $ai)
     {
         $classroomId = $request->input('classroom_id');
-        $classroom = Classroom::with(['school'])->findOrFail($classroomId);
-        
+        $schoolId = $request->input('school_id') ?: (auth()->user()?->school_id ?: 1);
+
+        // KASUS 1: AUDIT SELURUH ROMBEL DI UNIT SEKOLAH
+        if (empty($classroomId) || $classroomId === 'all' || $classroomId == '0') {
+            $classrooms = Classroom::with(['homeroomTeacher', 'school'])
+                ->where('school_id', $schoolId)
+                ->orderBy('name')
+                ->get();
+
+            $classSummaries = [];
+            $totalStudentsAll = 0;
+            $completedClassrooms = 0;
+            $emptyClassrooms = 0;
+            $inProgressClassrooms = 0;
+
+            foreach ($classrooms as $cls) {
+                $clsStudents = Student::where('classroom_id', $cls->id)->whereIn('status', ['ACTIVE', 'AKTIF'])->get();
+                $stCount = $clsStudents->count();
+                $totalStudentsAll += $stCount;
+                $stIds = $clsStudents->pluck('id');
+                $walasName = $cls->homeroomTeacher->name ?? 'Belum Ditunjuk';
+
+                if ($stCount === 0) {
+                    $emptyClassrooms++;
+                    $classSummaries[] = [
+                        'id' => $cls->id,
+                        'name' => $cls->name,
+                        'walas' => $walasName,
+                        'students' => 0,
+                        'status' => '⚠️ Kosong (0 Siswa)',
+                        'progress_pct' => 0,
+                        'note' => 'Belum ada siswa terdaftar / belum ada nilai.'
+                    ];
+                    continue;
+                }
+
+                $mapelCount = Grade::whereIn('student_id', $stIds)->distinct('student_id')->count('student_id');
+                $quranCount = QuranGrade::whereIn('student_id', $stIds)->count();
+                $charCount = CharacterGrade::whereIn('student_id', $stIds)->count();
+                $hrCount = HomeroomNote::whereIn('student_id', $stIds)->count();
+
+                $pct = round((($mapelCount + $quranCount + $charCount + $hrCount) / ($stCount * 4)) * 100);
+                if ($pct >= 100) {
+                    $completedClassrooms++;
+                    $stLabel = '✅ Tuntas (100%)';
+                } elseif ($pct > 0) {
+                    $inProgressClassrooms++;
+                    $stLabel = "⏳ Dalam Proses ({$pct}%)";
+                } else {
+                    $emptyClassrooms++;
+                    $stLabel = '❌ Belum Mulai (0%)';
+                }
+
+                $classSummaries[] = [
+                    'id' => $cls->id,
+                    'name' => $cls->name,
+                    'walas' => $walasName,
+                    'students' => $stCount,
+                    'status' => $stLabel,
+                    'progress_pct' => $pct,
+                    'note' => "Mapel: {$mapelCount}/{$stCount}, Qur'an: {$quranCount}/{$stCount}, Karakter: {$charCount}/{$stCount}, Walas: {$hrCount}/{$stCount}"
+                ];
+            }
+
+            $school = School::find($schoolId);
+            $schoolName = $school->name ?? 'SIT Robbani';
+
+            $overallStats = [
+                'total_classrooms' => $classrooms->count(),
+                'total_students' => $totalStudentsAll,
+                'completed_count' => $completedClassrooms,
+                'in_progress_count' => $inProgressClassrooms,
+                'empty_count' => $emptyClassrooms,
+            ];
+
+            $analysis = $ai->analyzeSchoolOverallReadiness($schoolName, $classSummaries, $overallStats);
+
+            return response()->json([
+                'status' => 'success',
+                'classroom_name' => "Seluruh Rombel ({$schoolName})",
+                'overall_stats' => $overallStats,
+                'class_summaries' => $classSummaries,
+                'analysis' => $analysis
+            ]);
+        }
+
+        // KASUS 2: AUDIT KELAS SPESIFIK
+        $classroom = Classroom::with(['school', 'homeroomTeacher'])->findOrFail($classroomId);
         $clsStudents = Student::where('classroom_id', $classroom->id)->whereIn('status', ['ACTIVE', 'AKTIF'])->get();
         $stCount = $clsStudents->count();
         $stIds = $clsStudents->pluck('id');
+        $walasName = $classroom->homeroomTeacher->name ?? 'Belum Ditunjuk';
 
-        $mapelCount = $stCount > 0 ? Grade::whereIn('student_id', $stIds)->distinct('student_id')->count('student_id') : 0;
-        $quranCount = $stCount > 0 ? QuranGrade::whereIn('student_id', $stIds)->count() : 0;
-        $charCount = $stCount > 0 ? CharacterGrade::whereIn('student_id', $stIds)->count() : 0;
-        $hrCount = $stCount > 0 ? HomeroomNote::whereIn('student_id', $stIds)->count() : 0;
+        if ($stCount === 0) {
+            $stats = [
+                'total_students' => 0,
+                'mapel_progress' => '0%',
+                'quran_progress' => '0%',
+                'character_progress' => '0%',
+                'homeroom_progress' => '0%',
+                'average_score' => 0,
+                'is_empty' => true,
+                'walas' => $walasName
+            ];
+
+            $analysis = "### ⚠️ Audit Kesiapan Rapor: {$classroom->name}\n\n" .
+                "**Status:** Rombongan belajar saat ini **KOSONG (0 Siswa Terdaftar)**.\n\n" .
+                "- **Wali Kelas:** {$walasName}\n" .
+                "- **Kelengkapan Nilai:** Belum dapat diisi karena rombel belum memiliki peserta didik aktif.\n\n" .
+                "**Rekomendasi Tindak Lanjut Kepala Sekolah / Operator:**\n" .
+                "1. Segera lakukan penempatan/plotting siswa ke dalam rombel **{$classroom->name}** melalui menu Data Siswa.\n" .
+                "2. Hubungi Wali Kelas ({$walasName}) untuk bersiap melakukan penginputan setelah data siswa terisi.";
+
+            return response()->json([
+                'status' => 'success',
+                'classroom_name' => $classroom->name,
+                'stats' => $stats,
+                'analysis' => $analysis
+            ]);
+        }
+
+        $mapelCount = Grade::whereIn('student_id', $stIds)->distinct('student_id')->count('student_id');
+        $quranCount = QuranGrade::whereIn('student_id', $stIds)->count();
+        $charCount = CharacterGrade::whereIn('student_id', $stIds)->count();
+        $hrCount = HomeroomNote::whereIn('student_id', $stIds)->count();
         $avgScore = Grade::whereIn('student_id', $stIds)->avg('score') ?: 0;
 
         $stats = [
             'total_students' => $stCount,
-            'mapel_progress' => $stCount > 0 ? round(($mapelCount / $stCount) * 100) . '%' : '0%',
-            'quran_progress' => $stCount > 0 ? round(($quranCount / $stCount) * 100) . '%' : '0%',
-            'character_progress' => $stCount > 0 ? round(($charCount / $stCount) * 100) . '%' : '0%',
-            'homeroom_progress' => $stCount > 0 ? round(($hrCount / $stCount) * 100) . '%' : '0%',
+            'mapel_progress' => round(($mapelCount / $stCount) * 100) . '%',
+            'quran_progress' => round(($quranCount / $stCount) * 100) . '%',
+            'character_progress' => round(($charCount / $stCount) * 100) . '%',
+            'homeroom_progress' => round(($hrCount / $stCount) * 100) . '%',
             'average_score' => round($avgScore, 1),
+            'walas' => $walasName
         ];
 
         $analysis = $ai->analyzeClassroomReadiness($classroom->name, $stats);

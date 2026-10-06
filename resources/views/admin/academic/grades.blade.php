@@ -157,12 +157,11 @@
                     </p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 shrink-0 w-full md:w-auto">
-                <button type="button" onclick="openAiClassAnalysisModal({{ $selectedClassroomId ?? ($classrooms->first()->id ?? 0) }})" 
+                <button type="button" onclick="openAiClassAnalysisModal('all', 'Seluruh Rombel Unit {{ addslashes($activeSchool->name ?? 'SIT Robbani') }}')" 
                         class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-black text-xs transition cursor-pointer shadow-md active:scale-95 hover:opacity-90"
                         style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important; color: #022c22 !important; border: 1px solid #34d399;">
                     <span>✨</span>
-                    <span>Analisis AI Kesiapan Rapor</span>
+                    <span>Analisis AI Kesiapan Rapor (Semua Kelas)</span>
                 </button>
             </div>
         </div>
@@ -1645,24 +1644,19 @@
                                     ];
                                 @endphp
                                 @if(!empty($st->photo_path))
-                                    <div class="inline-flex flex-col items-center gap-1 group cursor-pointer" onclick="editSiswaLengkap({{ json_encode($stDataArrForPhoto, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" title="Klik untuk ganti foto">
+                                    <div class="inline-flex flex-col items-center group cursor-pointer" onclick="editSiswaLengkap({{ json_encode($stDataArrForPhoto, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" title="Klik untuk ganti pas foto">
                                         <img src="{{ asset($st->photo_path) }}" alt="{{ $st->full_name }}" 
-                                             class="w-10 h-13 object-cover rounded-lg border border-emerald-300 shadow-2xs group-hover:scale-105 transition-transform" 
-                                             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'px-2 py-0.5 rounded bg-rose-50 border border-rose-200 text-rose-700 text-[10px] font-bold\'>⚠️ Error</span>';">
-                                        <span class="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black flex items-center gap-0.5">
-                                            ✓ Ada
-                                        </span>
+                                             class="w-10 h-13 object-cover rounded-lg border border-slate-200 shadow-2xs group-hover:scale-105 transition-transform" 
+                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($st->full_name) }}&background=cbd5e1&color=475569';">
                                     </div>
                                 @else
                                     <button type="button" onclick="editSiswaLengkap({{ json_encode($stDataArrForPhoto, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" 
-                                            class="inline-flex flex-col items-center gap-1 group cursor-pointer" title="Klik untuk unggah pas foto">
-                                        <div class="w-10 h-13 rounded-lg border-2 border-dashed border-rose-300 bg-rose-50/60 flex flex-col items-center justify-center text-rose-400 group-hover:border-rose-500 group-hover:bg-rose-100/60 transition">
-                                            <span class="text-xs">📷</span>
-                                            <span class="text-[8px] font-bold text-rose-600">3x4</span>
+                                            class="inline-flex flex-col items-center group cursor-pointer" title="Klik untuk unggah pas foto">
+                                        <div class="w-10 h-13 rounded-lg border border-slate-300 bg-slate-100 flex flex-col items-center justify-center text-slate-400 group-hover:bg-slate-200 group-hover:border-slate-400 transition shadow-2xs">
+                                            <svg class="w-6 h-6 text-slate-400 group-hover:text-slate-600 transition" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                            </svg>
                                         </div>
-                                        <span class="px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-800 text-[9px] font-black group-hover:bg-rose-200 transition">
-                                            ⚠️ Belum Ada
-                                        </span>
                                     </button>
                                 @endif
                             </td>
@@ -3629,10 +3623,10 @@
                                 <th class="px-2.5 py-2.5 text-center w-10">No</th>
                                 <th class="px-3 py-2.5 w-40">Nama Siswa</th>
                                 <th class="px-2 py-2.5 w-32">Jilid Wafa & Hal</th>
-                                <th class="px-1.5 py-2.5 text-center w-14">Makhraj</th>
-                                <th class="px-1.5 py-2.5 text-center w-14">Tajwid</th>
-                                <th class="px-1.5 py-2.5 text-center w-14">Hijaz</th>
-                                <th class="px-1.5 py-2.5 text-center w-14">Adab</th>
+                                <th class="px-1.5 py-2.5 text-center min-w-[64px] w-18">Makhraj</th>
+                                <th class="px-1.5 py-2.5 text-center min-w-[64px] w-18">Tajwid</th>
+                                <th class="px-1.5 py-2.5 text-center min-w-[64px] w-18">Hijaz</th>
+                                <th class="px-1.5 py-2.5 text-center min-w-[64px] w-18">Adab</th>
                                 <th class="px-2 py-2.5 w-36">Capaian Tahfidz</th>
                                 <th class="px-2 py-2.5 w-32">Ujian Tasmi'</th>
                                 <th class="px-3 py-2.5 min-w-[260px]">Catatan Ustadz Pengampu</th>
@@ -3666,28 +3660,28 @@
                                            id="quran_makhraj_{{ $student->id }}"
                                            value="{{ $scores['makhraj'] ?? '' }}"
                                            placeholder="0"
-                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           class="w-16 min-w-[56px] text-center font-bold text-xs rounded-lg border border-slate-300 py-1.5 focus:border-teal-600 bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][tajwid]" 
                                            id="quran_tajwid_{{ $student->id }}"
                                            value="{{ $scores['tajwid'] ?? '' }}"
                                            placeholder="0"
-                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           class="w-16 min-w-[56px] text-center font-bold text-xs rounded-lg border border-slate-300 py-1.5 focus:border-teal-600 bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][lagu_hijaz]" 
                                            id="quran_hijaz_{{ $student->id }}"
                                            value="{{ $scores['lagu_hijaz'] ?? '' }}"
                                            placeholder="0"
-                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           class="w-16 min-w-[56px] text-center font-bold text-xs rounded-lg border border-slate-300 py-1.5 focus:border-teal-600 bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][adab]" 
                                            id="quran_adab_{{ $student->id }}"
                                            value="{{ $scores['adab'] ?? '' }}"
                                            placeholder="0"
-                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           class="w-16 min-w-[56px] text-center font-bold text-xs rounded-lg border border-slate-300 py-1.5 focus:border-teal-600 bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
 
                                 <!-- Tahfidz Achievement -->
@@ -3984,10 +3978,20 @@
                         </p>
                     </div>
 
-                    <button type="submit" 
-                            class="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95">
-                        <span>💾</span> <span>SIMPAN REKAP WALI KELAS</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="applyAllHomeroomTemplates()"
+                                class="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-black text-xs border border-emerald-200 transition cursor-pointer flex items-center gap-1.5 active:scale-95" title="Generate narasi catatan berbasis kehadiran & karakter otomatis untuk semua siswa">
+                            <span>⚡</span> <span>Template Otomatis Semua</span>
+                        </button>
+                        <button type="button" onclick="generateAllHomeroomAi()"
+                                class="px-3 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-black text-xs border border-purple-200 transition cursor-pointer flex items-center gap-1.5 active:scale-95" title="Generate narasi motivasi AI untuk semua siswa">
+                            <span>✨</span> <span>AI Motivasi Semua</span>
+                        </button>
+                        <button type="submit" 
+                                class="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95">
+                            <span>💾</span> <span>SIMPAN REKAP WALI KELAS</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -4021,16 +4025,19 @@
                                 <!-- S / I / A -->
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" min="0" name="homeroom[{{ $student->id }}][sick_count]" 
+                                           id="sick_{{ $student->id }}"
                                            value="{{ $hr->sick_count ?? 0 }}" 
                                            class="w-12 text-center font-black text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
                                 </td>
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" min="0" name="homeroom[{{ $student->id }}][permission_count]" 
+                                           id="permission_{{ $student->id }}"
                                            value="{{ $hr->permission_count ?? 0 }}" 
                                            class="w-12 text-center font-black text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
                                 </td>
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" min="0" name="homeroom[{{ $student->id }}][absent_count]" 
+                                           id="absent_{{ $student->id }}"
                                            value="{{ $hr->absent_count ?? 0 }}" 
                                            class="w-12 text-center font-black text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
                                 </td>
@@ -4059,10 +4066,16 @@
                                 <td class="px-4 py-3 min-w-[360px]">
                                     <div class="flex items-center justify-between gap-1 mb-1.5">
                                         <span class="text-[10px] text-slate-500 font-bold">Catatan Perkembangan & Motivasi:</span>
-                                        <button type="button" onclick="generateAiHomeroomSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
-                                                class="px-2 py-0.5 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 font-black text-[10px] border border-purple-200 transition cursor-pointer flex items-center gap-1">
-                                            <span>✨ AI Motivasi</span>
-                                        </button>
+                                        <div class="flex items-center gap-1">
+                                            <button type="button" onclick="applyHomeroomTemplateSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-black text-[10px] border border-emerald-200 transition cursor-pointer flex items-center gap-1" title="Template Narasi Presensi & Karakter Otomatis">
+                                                <span>⚡ Template</span>
+                                            </button>
+                                            <button type="button" onclick="generateAiHomeroomSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 font-black text-[10px] border border-purple-200 transition cursor-pointer flex items-center gap-1">
+                                                <span>✨ AI Motivasi</span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <textarea name="homeroom[{{ $student->id }}][notes]" rows="3" 
                                               id="homeroom_notes_{{ $student->id }}"
@@ -5228,10 +5241,11 @@
         const scoreInput = document.getElementById('score_' + studentId);
         const sasInput = document.getElementById('sas_' + studentId);
         const tpInput = document.getElementById('tp_' + studentId);
-        let score = 85;
-        if (scoreInput && scoreInput.value !== '') score = scoreInput.value;
-        else if (sasInput && sasInput.value !== '') score = sasInput.value;
-        else if (tpInput && tpInput.value !== '') score = tpInput.value;
+        let score = null;
+        if (scoreInput && scoreInput.value !== '') score = parseFloat(scoreInput.value);
+        else if (sasInput && sasInput.value !== '') score = parseFloat(sasInput.value);
+        else if (tpInput && tpInput.value !== '') score = parseFloat(tpInput.value);
+        if (score === null || isNaN(score)) score = 0;
         const subjectName = '{{ $selectedSubject->name ?? "Mata Pelajaran" }}';
 
         if (!textarea) return;
@@ -5250,7 +5264,7 @@
             body: JSON.stringify({
                 student_name: studentName,
                 subject_name: subjectName,
-                score: parseFloat(score) || 85
+                score: score
             })
         })
         .then(res => res.json())
@@ -5279,6 +5293,10 @@
         textarea.value = '✨ Sedang membuat catatan motivasi islami dengan Robbani AI...';
         textarea.disabled = true;
 
+        const sick = parseInt(document.getElementById('sick_' + studentId)?.value) || 0;
+        const permission = parseInt(document.getElementById('permission_' + studentId)?.value) || 0;
+        const absent = parseInt(document.getElementById('absent_' + studentId)?.value) || 0;
+
         fetch('{{ route("admin.academic.ai.generate.homeroom") }}', {
             method: 'POST',
             headers: {
@@ -5289,7 +5307,10 @@
             body: JSON.stringify({
                 student_name: studentName,
                 academic_average: 88,
-                average_score: 88
+                average_score: 88,
+                sick_count: sick,
+                permission_count: permission,
+                absent_count: absent
             })
         })
         .then(res => res.json())
@@ -5310,17 +5331,69 @@
         });
     }
 
+    function applyHomeroomTemplateSingle(studentId, studentName) {
+        const textarea = document.getElementById('homeroom_notes_' + studentId);
+        if (!textarea) return;
+
+        const sick = parseInt(document.getElementById('sick_' + studentId)?.value) || 0;
+        const permission = parseInt(document.getElementById('permission_' + studentId)?.value) || 0;
+        const absent = parseInt(document.getElementById('absent_' + studentId)?.value) || 0;
+
+        let attendanceNote = '';
+        if (absent >= 3) {
+            attendanceNote = ` Perhatian khusus pada kehadiran: Ananda memiliki catatan alpa ${absent} hari. Mohon kerja sama dan pendampingan intensif orang tua di rumah agar ananda lebih berdisiplin dan teratur hadir di sekolah.`;
+        } else if (absent === 0 && sick === 0 && permission === 0) {
+            attendanceNote = ` Alhamdulillah, kehadiran Ananda sangat disiplin dan prima (kehadiran penuh 100%). Pertahankan keistiqomahan ini.`;
+        } else if (sick >= 4) {
+            attendanceNote = ` Semoga ananda senantiasa dikaruniai kesehatan afiat dan dilindungi Allah SWT agar terus dapat belajar dan beribadah dengan optimal.`;
+        } else if (absent > 0) {
+            attendanceNote = ` Catatan kehadiran: terdapat ${absent} hari alpa. Diharapkan ananda lebih meningkatkan ketertiban hadir di semester berikutnya.`;
+        }
+
+        const baseNote = `Alhamdulillah, Ananda ${studentName} menunjukkan perkembangan karakter dan kesungguhan belajar yang baik di sekolah. Senantiasa istiqomah dalam ibadah yaumiyah, menghormati ustadz/ustadzah, serta rukun dan peduli terhadap teman.`;
+
+        textarea.value = baseNote + attendanceNote;
+    }
+
+    function applyAllHomeroomTemplates() {
+        const buttons = document.querySelectorAll('button[onclick^="applyHomeroomTemplateSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di tabel Wali Kelas untuk diterapkan template.');
+            return;
+        }
+        buttons.forEach(btn => btn.click());
+    }
+
+    async function generateAllHomeroomAi() {
+        const buttons = document.querySelectorAll('button[onclick^="generateAiHomeroomSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di tabel Wali Kelas.');
+            return;
+        }
+        if (!confirm('Apakah Anda ingin membuat catatan motivasi wali kelas berbasis AI untuk ' + buttons.length + ' siswa di kelas ini?')) {
+            return;
+        }
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].click();
+            await new Promise(r => setTimeout(r, 800));
+        }
+    }
+
     function applyQuranTemplateSingle(studentId, studentName) {
         const textarea = document.getElementById('quran_notes_' + studentId);
         if (!textarea) return;
 
-        const makhraj = parseFloat(document.getElementById('quran_makhraj_' + studentId)?.value) || 80;
-        const tajwid = parseFloat(document.getElementById('quran_tajwid_' + studentId)?.value) || 80;
+        const makhrajVal = document.getElementById('quran_makhraj_' + studentId)?.value;
+        const tajwidVal = document.getElementById('quran_tajwid_' + studentId)?.value;
+        const makhraj = (makhrajVal !== '' && !isNaN(makhrajVal)) ? parseFloat(makhrajVal) : 0;
+        const tajwid = (tajwidVal !== '' && !isNaN(tajwidVal)) ? parseFloat(tajwidVal) : 0;
         const achievement = document.getElementById('quran_tahfidz_' + studentId)?.value || 'Juz 30';
 
         let text = '';
-        if (makhraj < 75 || tajwid < 75) {
-            text = `Ananda ${studentName} perlu bimbingan intensif dan latihan talaqqi pada pelafalan makharijul huruf serta ketepatan tajwid. Tingkatkan muraja'ah yaumiyah agar hafalan ${achievement} semakin mutqin.`;
+        if (makhraj <= 0 && tajwid <= 0) {
+            text = `Belum ada data penilaian tilawah Al-Qur'an dan tahfidz untuk Ananda ${studentName}. Mohon lengkapi penilaian makhraj, tajwid, dan capaian surah/juz.`;
+        } else if (makhraj < 70 || tajwid < 70) {
+            text = `Ananda ${studentName} memerlukan bimbingan intensif dan latihan talaqqi pada pelafalan makharijul huruf serta ketepatan tajwid. Tingkatkan muraja'ah yaumiyah agar hafalan ${achievement} semakin mutqin.`;
         } else if (makhraj >= 88 && tajwid >= 88) {
             text = `MasyaAllah, Ananda ${studentName} melantunkan ayat Al-Qur'an dengan irama Hijaz Wafa yang sangat merdu, tartil, dan makharijul huruf yang fasih. Capaian ${achievement} sangat baik; pertahankan keistiqomahan muraja'ah.`;
         } else {
@@ -5362,8 +5435,10 @@
         textarea.disabled = true;
 
         const level = document.getElementById('quran_level_' + studentId)?.value || 'Buku Wafa 3-4';
-        const makhraj = parseFloat(document.getElementById('quran_makhraj_' + studentId)?.value) || 85;
-        const tajwid = parseFloat(document.getElementById('quran_tajwid_' + studentId)?.value) || 85;
+        const makhrajVal = document.getElementById('quran_makhraj_' + studentId)?.value;
+        const tajwidVal = document.getElementById('quran_tajwid_' + studentId)?.value;
+        const makhraj = (makhrajVal !== '' && !isNaN(makhrajVal)) ? parseFloat(makhrajVal) : 0;
+        const tajwid = (tajwidVal !== '' && !isNaN(tajwidVal)) ? parseFloat(tajwidVal) : 0;
         const achievement = document.getElementById('quran_tahfidz_' + studentId)?.value || 'Juz 30';
 
         fetch('{{ route("admin.academic.ai.generate.quran") }}', {
@@ -5736,19 +5811,23 @@
             const scoreInput = document.getElementById('score_' + studentId);
             const sasInput = document.getElementById('sas_' + studentId);
             const tpInput = document.getElementById('tp_' + studentId);
-            let score = 80;
+            let score = null;
             if (scoreInput && scoreInput.value !== '') {
-                score = parseFloat(scoreInput.value) || 80;
+                score = parseFloat(scoreInput.value);
             } else if (sasInput && sasInput.value !== '') {
-                score = parseFloat(sasInput.value) || 80;
+                score = parseFloat(sasInput.value);
             } else if (tpInput && tpInput.value !== '') {
-                score = parseFloat(tpInput.value) || 80;
+                score = parseFloat(tpInput.value);
             }
 
             let narrative = '';
 
+            // 0. Siswa yang nilainya masih 0 atau belum dinilai tidak boleh mendapatkan narasi pujian palsu
+            if (score === null || isNaN(score) || score <= 0) {
+                narrative = `Belum ada penilaian capaian kompetensi untuk mata pelajaran ${subjectName} / memerlukan bimbingan intensif dan remedial terpadu.`;
+            }
             // 1. Jika guru telah mendefinisikan Tujuan Pembelajaran (TP) aktif untuk mata pelajaran ini
-            if (activeTpsData && activeTpsData.length > 0) {
+            else if (activeTpsData && activeTpsData.length > 0) {
                 const tpFirst = activeTpsData[0]?.short_desc || '';
                 const tpSecond = activeTpsData[1]?.short_desc || '';
                 const tpLast = activeTpsData[activeTpsData.length - 1]?.short_desc || '';

@@ -194,10 +194,21 @@ class GeminiEraporService
         float $score,
         string $competencyContext = ''
     ): string {
+        if ($score <= 0) {
+            return "Belum ada penilaian capaian kompetensi / memerlukan bimbingan intensif dan remedial terpadu pada seluruh tujuan pembelajaran {$subjectName}.";
+        }
+
         $syllabus = self::getSubjectSyllabus($subjectName);
         $context = !empty($competencyContext) && $competencyContext !== 'Tujuan Pembelajaran Semester Ini' 
             ? $competencyContext 
             : $syllabus['context'];
+
+        $highSkill = $syllabus['high'];
+        $impSkill = $syllabus['improve'];
+
+        $scoreContext = $score < 65 
+            ? "PERINGATAN: Nilai siswa rendah/belum tuntas ({$score}). DILARANG memuji. Nyatakan secara tegas dan santun bahwa siswa perlu bimbingan intensif dan remedial pada {$impSkill}."
+            : ($score < 75 ? "Nilai cukup ({$score}): sebutkan cukup menguasai {$highSkill} namun butuh bimbingan pada {$impSkill}." : "Nilai baik/sangat baik ({$score}): berikan apresiasi capaian {$highSkill}.");
 
         $prompt = "Anda adalah Guru Pengampu Mata Pelajaran '{$subjectName}' di Sekolah Dasar Islam Terpadu (SDIT Robbani) yang menerapkan Kurikulum Merdeka.
 Tuliskan 1 kalimat resmi narasi Capaian Pembelajaran rapor untuk siswa:
@@ -205,11 +216,12 @@ Tuliskan 1 kalimat resmi narasi Capaian Pembelajaran rapor untuk siswa:
 - Mata Pelajaran: {$subjectName}
 - Nilai Akhir: {$score} (Skala 0-100)
 - Materi Pokok / TP: {$context}
+- Arahan Nada: {$scoreContext}
 
 PERATURAN KETAT:
 1. Output HANYA SATU kalimat langsung siap cetak (maksimal 25-35 kata).
 2. DILARANG memberi judul, pengantar ('Berikut adalah...'), bullet points, markdown, atau opsi pilihan.
-3. Sebutkan materi spesifik yang dikuasai siswa dengan santun dan bernada apresiatif.";
+3. JIKA nilai < 65, JANGAN gunakan kata 'menunjukkan penguasaan yang baik'. Fokus pada materi yang perlu dibimbing dan diremedial.";
 
         $aiText = $this->generateContent($prompt, 200, 0.6);
 
@@ -221,7 +233,7 @@ PERATURAN KETAT:
                 if (str_starts_with(strtolower($trimmed), 'berikut') || str_starts_with(strtolower($trimmed), 'pilihan')) {
                     continue;
                 }
-                if (strlen($trimmed) > 25) {
+                if (strlen($trimmed) > 20) {
                     return $trimmed;
                 }
             }
@@ -230,21 +242,18 @@ PERATURAN KETAT:
         // =========================================================================
         // FALLBACK CERDAS & SPESIFIK MATERI (TIDAK MONOTON / BUKAN TEMPLATE GENERIK)
         // =========================================================================
-        $highSkill = $syllabus['high'];
-        $impSkill = $syllabus['improve'];
-
-        if ($score >= 88) {
+        if ($score >= 85) {
             // Predikat A (Istimewa / Mumtaz)
-            return "Menunjukkan penguasaan yang sangat istimewa dalam {$highSkill}, memiliki nalar kritis yang tinggi, serta mandiri dalam menyelesaikan tugas.";
-        } elseif ($score >= 78) {
+            return "Menunjukkan penguasaan yang sangat baik dalam {$highSkill}, memiliki nalar kritis yang tinggi, serta mandiri dalam menyelesaikan tugas.";
+        } elseif ($score >= 75) {
             // Predikat B (Baik / Jayyid)
-            return "Menunjukkan penguasaan yang baik dalam {$highSkill}; aktif berpartisipasi dalam pembelajaran dan konsisten menjaga adab belajar.";
-        } elseif ($score >= 68) {
+            return "Menunjukkan penguasaan yang baik dalam {$highSkill}; aktif berpartisipasi dalam pembelajaran dan konsisten menyelesaikan tugas.";
+        } elseif ($score >= 65) {
             // Predikat C (Cukup / Maqbul)
-            return "Cukup menguasai konsep {$highSkill}, namun memerlukan pendampingan bertahap pada {$impSkill}.";
+            return "Cukup menguasai kompetensi dasar {$highSkill}, namun memerlukan pendampingan dan latihan lebih lanjut dalam {$impSkill}.";
         } else {
-            // Predikat D (Perlu Bimbingan)
-            return "Memerlukan bimbingan intensif dan latihan terpadu untuk mencapai ketuntasan tujuan pembelajaran utama pada {$impSkill}.";
+            // Predikat D (Perlu Bimbingan / Remedial)
+            return "Memerlukan bimbingan intensif dan remedial terpadu pada tujuan pembelajaran: {$impSkill}. Belum mencapai ketuntasan minimal kompetensi yang diujikan.";
         }
     }
 
@@ -255,21 +264,51 @@ PERATURAN KETAT:
         string $studentName,
         float $academicAverage = 85.0,
         string $characterHighlights = 'Sholeh, santun, dan rajin sholat berjamaah',
-        string $attendanceInfo = 'Hadir 100% tanpa alpha',
-        string $ekskulInfo = 'Pramuka SIT & Tahfidz Club'
+        string $attendanceInfo = '',
+        string $ekskulInfo = 'Pramuka SIT & Tahfidz Club',
+        int $sickCount = 0,
+        int $permissionCount = 0,
+        int $absentCount = 0
     ): string {
+        if (empty($attendanceInfo) || ($absentCount > 0 && str_contains(strtolower($attendanceInfo), '100%'))) {
+            if ($absentCount >= 3) {
+                $attendanceInfo = "Tercatat {$absentCount} hari Alpha (tanpa keterangan)";
+            } elseif ($absentCount > 0) {
+                $attendanceInfo = "Tercatat {$absentCount} hari Alpha";
+            } elseif ($sickCount >= 5) {
+                $attendanceInfo = "Sakit {$sickCount} hari";
+            } elseif ($absentCount === 0 && ($sickCount + $permissionCount) <= 2) {
+                $attendanceInfo = "Hadir 100% tepat waktu tanpa alpha";
+            } else {
+                $attendanceInfo = "Sakit: {$sickCount}, Izin: {$permissionCount}, Alpha: {$absentCount}";
+            }
+        }
+
+        $attendanceRule = '';
+        if ($absentCount >= 3) {
+            $attendanceRule = "PERINGATAN KERAS: Siswa memiliki catatan Alpha {$absentCount} hari! DILARANG KERAS memuji kehadiran 100%! WAJIB sertakan kalimat tegas dan santun mengenai pentingnya kerja sama orang tua dalam meningkatkan kedisiplinan hadir dan mengurangi alpa.";
+        } elseif ($absentCount > 0) {
+            $attendanceRule = "PERINGATAN: Siswa memiliki catatan Alpha {$absentCount} hari! DILARANG memuji kehadiran 100%! Sertakan dorongan untuk meningkatkan ketertiban kehadiran.";
+        } elseif ($sickCount >= 5) {
+            $attendanceRule = "Siswa sering izin sakit ({$sickCount} hari), sertakan doa kesehatan dan kebugaran.";
+        } elseif ($absentCount == 0 && ($sickCount + $permissionCount) <= 2) {
+            $attendanceRule = "Kehadiran sangat tertib (100% tanpa alpha), berikan apresiasi kedisiplinan hadir yang prima.";
+        }
+
         $prompt = "Anda adalah Wali Kelas di SDIT Robbani.
-Tuliskan 1 paragraf pendek (3-4 kalimat) catatan wali kelas resmi di buku rapor:
+Tuliskan 1 paragraf pendek (2-3 kalimat, maks 45 kata) catatan wali kelas resmi di buku rapor:
 - Nama Siswa: {$studentName}
 - Nilai Rata-rata: {$academicAverage}
 - Karakter & Ibadah: {$characterHighlights}
-- Kehadiran: {$attendanceInfo}
+- Kehadiran: {$attendanceInfo} (Sakit: {$sickCount}, Izin: {$permissionCount}, Alpha: {$absentCount})
+- Catatan Khusus Kehadiran: {$attendanceRule}
 - Ekstrakurikuler: {$ekskulInfo}
 
 Kriteria:
 1. Awali dengan doa/syukur islami ('Alhamdulillah', 'Barakallahu fiik').
-2. Berikan apresiasi dan motivasi hangat untuk semester berikutnya.
-3. Output HANYA paragraf narasi tanpa bullet points atau pengantar.";
+2. Sampaikan pesan prestasi belajar dan karakter.
+3. JIKA ada alpha atau ketidakhadiran tinggi, ingatkan kedisiplinan secara santun dan tegas.
+4. Output HANYA narasi siap cetak tanpa bullet points atau pengantar.";
 
         $aiText = $this->generateContent($prompt, 350, 0.7);
 
@@ -277,19 +316,32 @@ Kriteria:
             $lines = explode("\n", $aiText);
             foreach ($lines as $line) {
                 $trimmed = trim(str_replace(['*', '"'], '', $line));
-                if (strlen($trimmed) > 40 && !str_starts_with(strtolower($trimmed), 'berikut')) {
+                if (strlen($trimmed) > 35 && !str_starts_with(strtolower($trimmed), 'berikut')) {
                     return $trimmed;
                 }
             }
         }
 
-        // Fallback islami berkualitas tinggi
-        if ($academicAverage >= 88) {
-            return "Alhamdulillah, barakallahu fiik Ananda {$studentName} atas pencapaian prestasi belajar yang sangat istimewa di semester ini. Akhlak ananda yang santun dan disiplin dalam ibadah menjadi teladan baik bagi teman-teman. Pertahankan semangat belajar dan teruslah rendah hati.";
-        } elseif ($academicAverage >= 78) {
-            return "Alhamdulillah, Ananda {$studentName} menunjukkan kemajuan belajar yang sangat positif dan antusiasme yang baik dalam mengikuti KBM. Terus tingkatkan ketelitian dalam memahami konsep pelajaran serta istiqomahkan pembiasaan ibadah yaumiyah di rumah.";
+        // Fallback islami berkualitas tinggi dengan pengaruh absensi nyata
+        $attendanceClause = '';
+        if ($absentCount >= 3) {
+            $attendanceClause = " Perlu perhatian khusus dan bimbingan orang tua dalam meningkatkan kedisiplinan kehadiran di sekolah serta meminimalisir ketidakhadiran tanpa keterangan (alpha {$absentCount} hari).";
+        } elseif ($absentCount > 0) {
+            $attendanceClause = " Tingkatkan lagi ketertiban dan kehadiran di kelas agar tidak tertinggal materi pembelajaran.";
+        } elseif ($sickCount >= 5) {
+            $attendanceClause = " Semoga Ananda senantiasa diberikan kesehatan dan kebugaran agar dapat mengikuti KBM secara optimal.";
         } else {
-            return "Ananda {$studentName} memiliki potensi bakat yang luar biasa untuk terus berkembang. Tingkatkan konsistensi mengulang pelajaran di rumah dan jangan ragu untuk aktif bertanya kepada guru. Kami senantiasa mendoakan keberkahan ilmu dan kemudahan bagi ananda.";
+            $attendanceClause = " Kedisiplinan kehadiran Ananda di sekolah sangat baik dan patut dipertahankan.";
+        }
+
+        if ($academicAverage >= 85) {
+            return "Alhamdulillah, barakallahu fiik Ananda {$studentName} atas capaian prestasi belajar yang sangat istimewa di semester ini. Akhlak ananda yang santun dan istiqomah dalam ibadah menjadi teladan baik bagi teman-teman.{$attendanceClause}";
+        } elseif ($academicAverage >= 75) {
+            return "Alhamdulillah, Ananda {$studentName} menunjukkan perkembangan belajar yang positif dan aktif dalam kegiatan kelas. Terus tingkatkan ketekunan dalam memahami materi pelajaran serta istiqomahkan ibadah yaumiyah.{$attendanceClause}";
+        } elseif ($academicAverage > 0) {
+            return "Ananda {$studentName} memerlukan pendampingan dan bimbingan lebih intensif dalam mengulang pelajaran di rumah. Tingkatkan fokus belajar, ketelitian, dan motivasi berprestasi di semester berikutnya.{$attendanceClause}";
+        } else {
+            return "Ananda {$studentName} perlu bimbingan intensif dan kerjasama erat antara wali kelas serta orang tua dalam memantau KBM dan penyelesaian tugas belajar.{$attendanceClause}";
         }
     }
 
@@ -304,8 +356,13 @@ Kriteria:
         string $tahfidzTarget = 'Juz 30 (An-Naba s/d An-Nas)',
         string $tahfidzAchievement = 'Tuntas Juz 30'
     ): string {
-        $isLowScore = ($makhrajScore > 0 && $makhrajScore < 75) || ($tajwidScore > 0 && $tajwidScore < 75);
-        $scoreContext = $isLowScore ? "Nilai perlu bimbingan: berikan saran perbaikan makhraj/tajwid" : "Nilai sangat baik: berikan apresiasi nada Hijaz tartil";
+        // Cek jika nilai kosong atau 0
+        if ($makhrajScore <= 0 && $tajwidScore <= 0) {
+            return "Belum ada data penilaian tilawah Al-Qur'an / Ananda memerlukan pendampingan dan asesmen awal jilid Wafa dan tajwid.";
+        }
+
+        $isLowScore = ($makhrajScore > 0 && $makhrajScore < 70) || ($tajwidScore > 0 && $tajwidScore < 70);
+        $scoreContext = $isLowScore ? "PERINGATAN: Nilai rendah ({$makhrajScore}/{$tajwidScore}). DILARANG memuji merdu/fasih. Berikan arahan latihan talaqqi intensif dan perbaikan makhraj/tajwid" : "Nilai sangat baik: berikan apresiasi nada Hijaz tartil";
 
         $prompt = "Anda adalah Koordinator Al-Qur'an Metode Wafa SDIT Robbani.
 Tuliskan 1-2 kalimat evaluasi resmi buku rapor untuk:
@@ -320,15 +377,15 @@ Output HANYA 1-2 kalimat narasi siap cetak (maks 30 kata), tanpa asterisk (**), 
 
         if (!empty($aiText)) {
             $trimmed = trim(str_replace(['*', '"'], '', $aiText));
-            if (strlen($trimmed) > 30 && !str_starts_with(strtolower($trimmed), 'berikut')) {
+            if (strlen($trimmed) > 25 && !str_starts_with(strtolower($trimmed), 'berikut')) {
                 return $trimmed;
             }
         }
 
-        // Fallback berjenjang sesuai nilai riil santri
+        // Fallback berjenjang sesuai nilai riil santri (tidak ada pujian palsu)
         if ($isLowScore) {
-            return "Ananda {$studentName} perlu bimbingan intensif dan latihan talaqqi pada pelafalan makharijul huruf serta ketepatan tajwid. Tingkatkan muraja'ah yaumiyah agar hafalan {$tahfidzAchievement} semakin mutqin.";
-        } elseif ($makhrajScore >= 88 && $tajwidScore >= 88) {
+            return "Ananda {$studentName} memerlukan bimbingan intensif dan latihan talaqqi khusus pada pelafalan makharijul huruf serta ketepatan tajwid. Belum mencapai target kelancaran jilid Wafa.";
+        } elseif ($makhrajScore >= 85 && $tajwidScore >= 85) {
             return "MasyaAllah, Ananda {$studentName} melantunkan ayat Al-Qur'an dengan irama Hijaz Wafa yang sangat merdu, tartil, dan makharijul huruf yang fasih. Capaian {$tahfidzAchievement} sangat baik; pertahankan keistiqomahan muraja'ah.";
         } else {
             return "Alhamdulillah, Ananda {$studentName} menunjukkan kelancaran membaca Al-Qur'an dan penguasaan nada Hijaz Wafa yang baik. Terus tingkatkan ketertiban tajwid serta keistiqomahan muraja'ah hafalan {$tahfidzAchievement}.";
@@ -409,23 +466,100 @@ Peraturan Ketat:
      */
     public function analyzeClassroomReadiness(string $classroomName, array $stats): string
     {
+        $stCount = (int) ($stats['total_students'] ?? 0);
+        $mapelPct = (int) str_replace('%', '', $stats['mapel_progress'] ?? '0');
+        $quranPct = (int) str_replace('%', '', $stats['quran_progress'] ?? '0');
+        $charPct = (int) str_replace('%', '', $stats['character_progress'] ?? '0');
+        $hrPct = (int) str_replace('%', '', $stats['homeroom_progress'] ?? '0');
+        $walas = $stats['walas'] ?? 'Wali Kelas';
+
+        if ($stCount === 0) {
+            return "### ⚠️ Audit Kesiapan: {$classroomName}\n\n" .
+                "Rombongan belajar saat ini tercatat **KOSONG (0 Siswa Aktif)**. Belum ada penginputan nilai mapel, Al-Qur'an, maupun karakter. Segera lakukan penempatan siswa ke kelas ini.";
+        }
+
         $prompt = "Anda adalah Konsultan Mutu Pendidikan SIT Robbani.
-Berikan analisis eksekutif singkat (2-3 paragraf) kesiapan e-rapor:
-- Kelas: {$classroomName}
-- Total Siswa: " . ($stats['total_students'] ?? 0) . "
-- Progres Mapel: " . ($stats['mapel_progress'] ?? '0%') . "
-- Progres Al-Qur'an: " . ($stats['quran_progress'] ?? '0%') . "
-- Progres Karakter: " . ($stats['character_progress'] ?? '0%') . "
+Berikan analisis audit eksekutif kesiapan rapor untuk kelas spesifik berikut:
+- Kelas: {$classroomName} (Wali: {$walas})
+- Total Siswa: {$stCount} Siswa
+- Progres Mapel: {$stats['mapel_progress']}
+- Progres Al-Qur'an: {$stats['quran_progress']}
+- Progres Karakter JSIT: {$stats['character_progress']}
+- Progres Catatan Walas: {$stats['homeroom_progress']}
 - Rata-rata Nilai: " . ($stats['average_score'] ?? '0') . "
 
-Tulis ringkasan kesiapan, hal yang perlu diselesaikan, dan rekomendasi taktis.";
+Tulis ringkas (2-3 paragraf):
+1. Status kesiapan (Tuntas / Sebagian / Belum Mengisi).
+2. Komponen nilai mana yang masih kurang dan perlu dilengkapi oleh wali kelas ({$walas}).
+3. Rekomendasi taktis Kepala Sekolah.";
 
-        $aiText = $this->generateContent($prompt, 600, 0.7);
+        $aiText = $this->generateContent($prompt, 500, 0.7);
 
         if (!empty($aiText)) {
             return $aiText;
         }
 
-        return "Rombongan belajar {$classroomName} menunjukkan progres penginputan nilai yang sangat baik. Sebagian besar capaian akademik dan evaluasi Al-Qur'an Wafa telah tersinkronisasi dengan lengkap ke pangkalan data e-rapor. Disarankan bagi Bapak/Ibu Wali Kelas untuk memastikan seluruh catatan kehadiran dan ekstrakurikuler telah tuntas sebelum jadwal pencetakan rapor resmi.";
+        // Fallback realistis sesuai angka progres riil
+        if ($mapelPct >= 90 && $quranPct >= 90 && $charPct >= 90 && $hrPct >= 90) {
+            return "### ✅ Kesiapan Rapor: {$classroomName} (TUNTAS 100%)\n\n" .
+                "Alhamdulillah, rombongan belajar **{$classroomName}** di bawah bimbingan Ustadz/Ustadzah **{$walas}** telah menyelesaikan seluruh penginputan nilai (Mapel, Al-Qur'an Wafa, 7 SKL JSIT, dan Catatan Walas). Rapor siap dipratinjau dan dicetak resmi.";
+        }
+
+        $kurang = [];
+        if ($mapelPct < 80) $kurang[] = "Nilai Mapel ({$stats['mapel_progress']})";
+        if ($quranPct < 80) $kurang[] = "Nilai Al-Qur'an Wafa ({$stats['quran_progress']})";
+        if ($charPct < 80) $kurang[] = "Karakter 7 SKL ({$stats['character_progress']})";
+        if ($hrPct < 80) $kurang[] = "Catatan Walas/Presensi ({$stats['homeroom_progress']})";
+        $kurangStr = implode(', ', $kurang);
+
+        return "### ⏳ Kesiapan Rapor: {$classroomName} (Dalam Proses)\n\n" .
+            "Rombongan belajar **{$classroomName}** ({$stCount} siswa) masih memerlukan pengisian data pada komponen: **{$kurangStr}**.\n\n" .
+            "**Tindak Lanjut:** Disarankan Kepala Sekolah/Kurikulum memberikan pengingat kepada Wali Kelas (**{$walas}**) untuk menuntaskan sisa pengisian sebelum tenggat pencetakan rapor.";
+    }
+
+    /**
+     * Audit Kesiapan Rapor Seluruh Rombel di Unit Sekolah
+     */
+    public function analyzeSchoolOverallReadiness(string $schoolName, array $classSummaries, array $overallStats): string
+    {
+        $totalCls = $overallStats['total_classrooms'] ?? 0;
+        $totalSt = $overallStats['total_students'] ?? 0;
+        $tuntasCount = $overallStats['completed_count'] ?? 0;
+        $inProgCount = $overallStats['in_progress_count'] ?? 0;
+        $emptyCount = $overallStats['empty_count'] ?? 0;
+
+        $summaryTable = "";
+        foreach ($classSummaries as $c) {
+            $summaryTable .= "- **{$c['name']}** ({$c['walas']}): {$c['status']} ({$c['students']} siswa) — {$c['note']}\n";
+        }
+
+        $prompt = "Anda adalah Konsultan Penjaminan Mutu SIT Robbani.
+Buat laporan audit eksekutif resmi kesiapan e-Rapor untuk Kepala Sekolah & Manajemen Yayasan:
+- Unit Sekolah: {$schoolName}
+- Total Rombel: {$totalCls} Rombel (Total {$totalSt} Siswa)
+- Rombel Tuntas (100%): {$tuntasCount} Rombel
+- Rombel Dalam Proses: {$inProgCount} Rombel
+- Rombel Kosong / Belum Mengisi: {$emptyCount} Rombel
+
+Rincian Status Rombel:
+{$summaryTable}
+
+Format Laporan:
+1. Ringkasan Eksekutif & Persentase Kesiapan Cetak Rapor Unit.
+2. Evaluasi Rombel yang sudah tuntas vs rombel yang belum mengisi / kosong.
+3. Rekomendasi Tindak Lanjut Konkret (Pemberian reward walas tuntas dan follow-up rombel kosong/tertunda).";
+
+        $aiText = $this->generateContent($prompt, 700, 0.7);
+
+        if (!empty($aiText)) {
+            return $aiText;
+        }
+
+        return "### 📊 Laporan Audit Eksekutif Kesiapan e-Rapor Unit {$schoolName}\n\n" .
+            "**Ringkasan Unit:** Dari total **{$totalCls} Rombel** ({$totalSt} Siswa), sebanyak **{$tuntasCount} rombel telah tuntas 100%**, **{$inProgCount} rombel dalam proses pengisian**, dan **{$emptyCount} rombel masih kosong / belum mengisi**.\n\n" .
+            "**Rincian Per Rombel:**\n" . $summaryTable . "\n" .
+            "**Rekomendasi Manajemen:**\n" .
+            "1. Berikan apresiasi kepada wali kelas yang telah menuntaskan 100% pengisian nilai.\n" .
+            "2. Lakukan koordinasi dan pendampingan segera kepada wali kelas rombel yang belum mengisi atau masih kosong.";
     }
 }
