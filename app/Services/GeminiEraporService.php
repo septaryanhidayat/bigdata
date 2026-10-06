@@ -17,7 +17,7 @@ class GeminiEraporService
             ?: env('GEMINI_API_KEY') 
             ?: env('GOOGLE_API_KEY', ''));
             
-        $this->model = env('GEMINI_MODEL', 'gemini-3.6-flash');
+        $this->model = env('GEMINI_MODEL', 'gemini-3.5-flash-lite');
     }
 
     /**
@@ -25,7 +25,7 @@ class GeminiEraporService
      */
     public function generateContent(string $prompt, int $maxTokens = 800, float $temperature = 0.7): string
     {
-        $modelsToTry = array_unique([$this->model, 'gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3-flash-preview']);
+        $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-flash-latest']);
 
         foreach ($modelsToTry as $m) {
             try {

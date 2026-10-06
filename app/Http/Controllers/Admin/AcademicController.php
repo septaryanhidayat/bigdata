@@ -1898,7 +1898,7 @@ class AcademicController extends Controller
     public function aiGenerateHomeroom(Request $request, GeminiEraporService $ai)
     {
         $studentName = $request->input('student_name', 'Siswa');
-        $academicAverage = (float) $request->input('academic_average', 85);
+        $academicAverage = (float) ($request->input('academic_average') ?? $request->input('average_score') ?? 85);
         $characterHighlights = $request->input('character_highlights', 'Sholeh, santun, dan rajin beribadah');
         $attendanceInfo = $request->input('attendance_info', 'Hadir tepat waktu dan berdisiplin tinggi');
         $ekskulInfo = $request->input('ekskul_info', 'Pramuka SIT & Tahfidz');
@@ -1913,7 +1913,9 @@ class AcademicController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'text' => $result
+            'text' => $result,
+            'note' => $result,
+            'narrative' => $result
         ]);
     }
 
@@ -1936,7 +1938,9 @@ class AcademicController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'text' => $result
+            'text' => $result,
+            'narrative' => $result,
+            'note' => $result
         ]);
     }
 
@@ -1946,11 +1950,11 @@ class AcademicController extends Controller
     public function aiGenerateQuran(Request $request, GeminiEraporService $ai)
     {
         $studentName = $request->input('student_name', 'Siswa');
-        $tahsinLevel = $request->input('tahsin_level', 'Buku Wafa 3');
-        $makhrajScore = (float) $request->input('makhraj_score', 88);
-        $tajwidScore = (float) $request->input('tajwid_score', 90);
+        $tahsinLevel = $request->input('tahsin_level') ?? $request->input('level', 'Buku Wafa 3');
+        $makhrajScore = (float) ($request->input('makhraj_score') ?? $request->input('makhraj', 88));
+        $tajwidScore = (float) ($request->input('tajwid_score') ?? $request->input('tajwid', 90));
         $tahfidzTarget = $request->input('tahfidz_target', 'Juz 30 (An-Naba s/d An-Nas)');
-        $tahfidzAchievement = $request->input('tahfidz_achievement', 'Tuntas Juz 30');
+        $tahfidzAchievement = $request->input('tahfidz_achievement') ?? $request->input('achievement', 'Tuntas Juz 30');
 
         $result = $ai->generateQuranEvaluation(
             $studentName,
@@ -1963,7 +1967,10 @@ class AcademicController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'text' => $result
+            'text' => $result,
+            'evaluation' => $result,
+            'narrative' => $result,
+            'note' => $result
         ]);
     }
 

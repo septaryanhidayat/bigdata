@@ -1,0 +1,3253 @@
+{
+  "school": {
+    "name": "SD IT ROBBANI",
+    "code": "SDIT",
+    "npsn": "70014022",
+    "principal_name": "Nur Amalia, S.Pd., Gr",
+    "principal_niy": "142102020009",
+    "homeroom_teacher": "Ranti Saputri, S.TP",
+    "classroom_name": "Kelas 1",
+    "academic_year": "2025/2026",
+    "semester": "Genap",
+    "report_city": "Pekanbaru",
+    "report_date": "19 Juni 2026"
+  },
+  "subjects": [
+    {
+      "code": "PAI",
+      "name": "Pendidikan Agama Islam",
+      "category": "NASIONAL",
+      "col_idx": 2
+    },
+    {
+      "code": "PKN",
+      "name": "Pendidikan Pancasila",
+      "category": "NASIONAL",
+      "col_idx": 5
+    },
+    {
+      "code": "BIN",
+      "name": "Bahasa Indonesia",
+      "category": "NASIONAL",
+      "col_idx": 8
+    },
+    {
+      "code": "MTK",
+      "name": "Matematika",
+      "category": "NASIONAL",
+      "col_idx": 11
+    },
+    {
+      "code": "SN-TARI",
+      "name": "Seni Tari",
+      "category": "NASIONAL",
+      "col_idx": 23
+    },
+    {
+      "code": "PJOK",
+      "name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+      "category": "NASIONAL",
+      "col_idx": 29
+    },
+    {
+      "code": "BIG",
+      "name": "Bahasa Inggris",
+      "category": "NASIONAL",
+      "col_idx": 32
+    },
+    {
+      "code": "KKA",
+      "name": "Koding dan Kecerdasan Artifisial",
+      "category": "KEKHASAN",
+      "col_idx": 35
+    },
+    {
+      "code": "TAHSIN",
+      "name": "Tahsin Al-Qur'an (Metode Wafa)",
+      "category": "QURAN",
+      "col_idx": 38
+    },
+    {
+      "code": "TAHFIDZ",
+      "name": "Tahfidz Al-Qur'an",
+      "category": "QURAN",
+      "col_idx": 41
+    },
+    {
+      "code": "BARB",
+      "name": "Bahasa Arab",
+      "category": "KEKHASAN",
+      "col_idx": 44
+    }
+  ],
+  "students": [
+    {
+      "no": 1,
+      "nis": "25001",
+      "nisn": "3187908939",
+      "name": "Abbyan Alfatih",
+      "gender": "L",
+      "father_name": "Hasan Wahid",
+      "mother_name": "Zubaidah",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 87.8,
+          "score_tp": 87.8,
+          "score_sas": 87.8,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 93.2,
+          "score_tp": 93.2,
+          "score_sas": 93.2,
+          "highest_achievement": "Abbyan Alfatih menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Abbyan Alfatih menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 87.8,
+          "score_tp": 87.8,
+          "score_sas": 87.8,
+          "highest_achievement": "Abbyan Alfatih menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Abbyan Alfatih menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 91.9,
+          "score_tp": 91.9,
+          "score_sas": 91.9,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 81.1,
+          "score_tp": 81.1,
+          "score_sas": 81.1,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 95.5,
+          "score_tp": 95.5,
+          "score_sas": 95.5,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam berpartisipasi di dalam berbagai aktivitas jasmani"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 86.2,
+          "score_tp": 86.2,
+          "score_sas": 86.2,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Abbyan Alfatih memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 88.8,
+          "score_tp": 88.8,
+          "score_sas": 88.8,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 85.5,
+          "score_tp": 85.5,
+          "score_sas": 85.5,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam menghafal surah Al-Ma'un dengan baik dan benar",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 90.4,
+          "score_tp": 90.4,
+          "score_sas": 90.4,
+          "highest_achievement": "Abbyan Alfatih menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Abbyan Alfatih membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang buah buahan",
+          "notes": "Abbyan Alfatih menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 2,
+      "nis": "25002",
+      "nisn": "3196876656",
+      "name": "Abiyan Razqa Alfarabi",
+      "gender": "L",
+      "father_name": "Ariscatur Pratomo",
+      "mother_name": "Triani Rahmadona Poetri",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 95.3,
+          "score_tp": 95.3,
+          "score_sas": 95.3,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 92.4,
+          "score_tp": 92.4,
+          "score_sas": 92.4,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 92.9,
+          "score_tp": 92.9,
+          "score_sas": 92.9,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 95.1,
+          "score_tp": 95.1,
+          "score_sas": 95.1,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam membandingkan panjang suatu benda secara langsung",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 84.3,
+          "score_tp": 84.3,
+          "score_sas": 84.3,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.8,
+          "score_tp": 93.8,
+          "score_sas": 93.8,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 93.8,
+          "score_tp": 93.8,
+          "score_sas": 93.8,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Abiyan Razqa Alfarabi memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 89.5,
+          "score_tp": 89.5,
+          "score_sas": 89.5,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 90.6,
+          "score_tp": 90.6,
+          "score_sas": 90.6,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam menghafal surah Al-Humazah dengan baik dan benar",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 93.9,
+          "score_tp": 93.9,
+          "score_sas": 93.9,
+          "highest_achievement": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna",
+          "lowest_achievement": "Abiyan Razqa Alfarabi membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang buah buahan",
+          "notes": "Abiyan Razqa Alfarabi menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 3,
+      "nis": "25003",
+      "nisn": "3193068319",
+      "name": "Ahmad Umar Hasan",
+      "gender": "L",
+      "father_name": "Septa Ryan Hidayat",
+      "mother_name": "Fera Nita Utami",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 94.8,
+          "score_tp": 94.8,
+          "score_sas": 94.8,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 94.8,
+          "score_tp": 94.8,
+          "score_sas": 94.8,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Ahmad Umar Hasan menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 94.9,
+          "score_tp": 94.9,
+          "score_sas": 94.9,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "notes": "Ahmad Umar Hasan menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 94.2,
+          "score_tp": 94.2,
+          "score_sas": 94.2,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam membandingkan panjang suatu benda secara langsung",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 85.1,
+          "score_tp": 85.1,
+          "score_sas": 85.1,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.5,
+          "score_tp": 93.5,
+          "score_sas": 93.5,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 97.4,
+          "score_tp": 97.4,
+          "score_sas": 97.4,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Ahmad Umar Hasan memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 86.5,
+          "score_tp": 86.5,
+          "score_sas": 86.5,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 89.4,
+          "score_tp": 89.4,
+          "score_sas": 89.4,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam menghafal surah Quraisy dengan baik dan benar",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 96.2,
+          "score_tp": 96.2,
+          "score_sas": 96.2,
+          "highest_achievement": "Ahmad Umar Hasan menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna",
+          "lowest_achievement": "Ahmad Umar Hasan membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "notes": "Ahmad Umar Hasan menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 4,
+      "nis": "25004",
+      "nisn": "3185676745",
+      "name": "Aidan",
+      "gender": "L",
+      "father_name": "Andre Bahrudin",
+      "mother_name": "Nurbaiti Mafaza",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 87.8,
+          "score_tp": 87.8,
+          "score_sas": 87.8,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "notes": "Aidan menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 92.6,
+          "score_tp": 92.6,
+          "score_sas": 92.6,
+          "highest_achievement": "Aidan menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Aidan membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Aidan menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 87.2,
+          "score_tp": 87.2,
+          "score_sas": 87.2,
+          "highest_achievement": "Aidan menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Aidan membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Aidan menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 93.2,
+          "score_tp": 93.2,
+          "score_sas": 93.2,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Aidan menunjukkan penguasaan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 79.6,
+          "score_tp": 79.6,
+          "score_sas": 79.6,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Aidan menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 89.9,
+          "score_tp": 89.9,
+          "score_sas": 89.9,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Aidan menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 89.2,
+          "score_tp": 89.2,
+          "score_sas": 89.2,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Aidan menunjukkan penguasaan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\""
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Aidan menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Aidan memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Aidan menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 84.2,
+          "score_tp": 84.2,
+          "score_sas": 84.2,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-37",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Aidan menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-37"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam menghafal surah Al-Kafirun dengan baik dan benar",
+          "notes": "Aidan menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 79.7,
+          "score_tp": 79.7,
+          "score_sas": 79.7,
+          "highest_achievement": "Aidan menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "lowest_achievement": "Aidan membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Aidan menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 1,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar terutama dalam membaca. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik"
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 5,
+      "nis": "25005",
+      "nisn": "3191337769",
+      "name": "Aliesha Sabrina Nazeefah",
+      "gender": "P",
+      "father_name": "M Ilham Deska Redo",
+      "mother_name": "Thalia Vicha Aurellia",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 82.5,
+          "score_tp": 82.5,
+          "score_sas": 82.5,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 93.1,
+          "score_tp": 93.1,
+          "score_sas": 93.1,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 92.0,
+          "score_tp": 92.0,
+          "score_sas": 92.0,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 92.1,
+          "score_tp": 92.1,
+          "score_sas": 92.1,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 83.3,
+          "score_tp": 83.3,
+          "score_sas": 83.3,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.0,
+          "score_tp": 93.0,
+          "score_sas": 93.0,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 88.8,
+          "score_tp": 88.8,
+          "score_sas": 88.8,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 85.8,
+          "score_tp": 85.8,
+          "score_sas": 85.8,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 84.5,
+          "score_tp": 84.5,
+          "score_sas": 84.5,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam menghafal surah Al-Ma'un dengan baik dan benar",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 83.4,
+          "score_tp": 83.4,
+          "score_sas": 83.4,
+          "highest_achievement": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Aliesha Sabrina Nazeefah membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Aliesha Sabrina Nazeefah menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 6,
+      "nis": "25006",
+      "nisn": "3197682980",
+      "name": "Devan Adhitama",
+      "gender": "L",
+      "father_name": "Novi Heryanto",
+      "mother_name": "Atina Erindah",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 76.2,
+          "score_tp": 76.2,
+          "score_sas": 76.2,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 80.2,
+          "score_tp": 80.2,
+          "score_sas": 80.2,
+          "highest_achievement": "Devan Adhitama menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Devan Adhitama membutuhkan bimbingan dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal",
+          "notes": "Devan Adhitama menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 71.9,
+          "score_tp": 71.9,
+          "score_sas": 71.9,
+          "highest_achievement": "Devan Adhitama menunjukkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "lowest_achievement": "Devan Adhitama membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Devan Adhitama menunjukkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 73.5,
+          "score_tp": 73.5,
+          "score_sas": 73.5,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 71.2,
+          "score_tp": 71.2,
+          "score_sas": 71.2,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 70.4,
+          "score_tp": 70.4,
+          "score_sas": 70.4,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam mengenali gaya hidup aktif dan sehat",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam berpartisipasi di dalam berbagai aktivitas jasmani"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 75.3,
+          "score_tp": 75.3,
+          "score_sas": 75.3,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\""
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Devan Adhitama memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Devan Adhitama menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 75.8,
+          "score_tp": 75.8,
+          "score_sas": 75.8,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 20-25",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 78.8,
+          "score_tp": 78.8,
+          "score_sas": 78.8,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam menghafal surah Al-Ikhlas dengan baik dan benar",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam menghafal surah Al-Lahab dengan baik dan benar",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam menghafal surah Al-Ikhlas dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 72.3,
+          "score_tp": 72.3,
+          "score_sas": 72.3,
+          "highest_achievement": "Devan Adhitama menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna",
+          "lowest_achievement": "Devan Adhitama membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "notes": "Devan Adhitama menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar terutama dalam membaca dan menulis. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik"
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 7,
+      "nis": "25007",
+      "nisn": "3185935515",
+      "name": "Hafif Al Abqori",
+      "gender": "L",
+      "father_name": "Muhammad Muttaqin",
+      "mother_name": "Desi Arisandy",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 76.0,
+          "score_tp": 76.0,
+          "score_sas": 76.0,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 75.7,
+          "score_tp": 75.7,
+          "score_sas": 75.7,
+          "highest_achievement": "Hafif Al Abqori menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Hafif Al Abqori menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 81.1,
+          "score_tp": 81.1,
+          "score_sas": 81.1,
+          "highest_achievement": "Hafif Al Abqori menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Hafif Al Abqori menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 75.1,
+          "score_tp": 75.1,
+          "score_sas": 75.1,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 76.8,
+          "score_tp": 76.8,
+          "score_sas": 76.8,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 83.0,
+          "score_tp": 83.0,
+          "score_sas": 83.0,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 73.2,
+          "score_tp": 73.2,
+          "score_sas": 73.2,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\""
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Hafif Al Abqori memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 77.0,
+          "score_tp": 77.0,
+          "score_sas": 77.0,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 13-17",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 72.2,
+          "score_tp": 72.2,
+          "score_sas": 72.2,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam menghafal surah An-Nass dengan baik dan benar",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam menghafal surah Alfalaq dengan baik dan benar",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam menghafal surah An-Nass dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 77.3,
+          "score_tp": 77.3,
+          "score_sas": 77.3,
+          "highest_achievement": "Hafif Al Abqori menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga",
+          "lowest_achievement": "Hafif Al Abqori membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Hafif Al Abqori menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar terutama dalam membaca dan menulis. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik"
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 8,
+      "nis": "25008",
+      "nisn": "3185161908",
+      "name": "Hannah Aisyah Riarya",
+      "gender": "P",
+      "father_name": "Oktariansyah",
+      "mother_name": "Armiyanti",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 96.7,
+          "score_tp": 96.7,
+          "score_sas": 96.7,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam mengimani Nabi Adam AS. Sebagai manusia pertama dan menjelaskan proses penciptaan Nabi Adam AS. dengan benar",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 94.5,
+          "score_tp": 94.5,
+          "score_sas": 94.5,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Hannah Aisyah Riarya menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 95.1,
+          "score_tp": 95.1,
+          "score_sas": 95.1,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "notes": "Hannah Aisyah Riarya menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 94.8,
+          "score_tp": 94.8,
+          "score_sas": 94.8,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam membandingkan panjang suatu benda secara langsung",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 90.2,
+          "score_tp": 90.2,
+          "score_sas": 90.2,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.5,
+          "score_tp": 93.5,
+          "score_sas": 93.5,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 91.2,
+          "score_tp": 91.2,
+          "score_sas": 91.2,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Hannah Aisyah Riarya memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 86.0,
+          "score_tp": 86.0,
+          "score_sas": 86.0,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 90.6,
+          "score_tp": 90.6,
+          "score_sas": 90.6,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam menghafal surah Al-Humazah dengan baik dan benar",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 96.0,
+          "score_tp": 96.0,
+          "score_sas": 96.0,
+          "highest_achievement": "Hannah Aisyah Riarya menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga",
+          "lowest_achievement": "Hannah Aisyah Riarya membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "notes": "Hannah Aisyah Riarya menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 1,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 9,
+      "nis": "25009",
+      "nisn": "3199337715",
+      "name": "Hanum hafizah",
+      "gender": "P",
+      "father_name": "Ahmad Heriyanto",
+      "mother_name": "Ida yuniarti",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 87.8,
+          "score_tp": 87.8,
+          "score_sas": 87.8,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam mengimani Nabi Adam AS. Sebagai manusia pertama dan menjelaskan proses penciptaan Nabi Adam AS. dengan benar",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 92.9,
+          "score_tp": 92.9,
+          "score_sas": 92.9,
+          "highest_achievement": "Hanum hafizah menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal",
+          "lowest_achievement": "Hanum hafizah membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Hanum hafizah menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 86.1,
+          "score_tp": 86.1,
+          "score_sas": 86.1,
+          "highest_achievement": "Hanum hafizah menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Hanum hafizah membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Hanum hafizah menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 92.0,
+          "score_tp": 92.0,
+          "score_sas": 92.0,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 87.3,
+          "score_tp": 87.3,
+          "score_sas": 87.3,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 86.6,
+          "score_tp": 86.6,
+          "score_sas": 86.6,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 92.8,
+          "score_tp": 92.8,
+          "score_sas": 92.8,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Hanum hafizah memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Hanum hafizah menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 86.0,
+          "score_tp": 86.0,
+          "score_sas": 86.0,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 89.8,
+          "score_tp": 89.8,
+          "score_sas": 89.8,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam menghafal surah Al-Kafirun dengan baik dan benar",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 88.1,
+          "score_tp": 88.1,
+          "score_sas": 88.1,
+          "highest_achievement": "Hanum hafizah menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga",
+          "lowest_achievement": "Hanum hafizah membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang buah buahan",
+          "notes": "Hanum hafizah menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 10,
+      "nis": "25010",
+      "nisn": "3181248557",
+      "name": "Hafidzan Tito Denli",
+      "gender": "L",
+      "father_name": "Suharfad Denli",
+      "mother_name": "Nirmala Sari",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 90.5,
+          "score_tp": 90.5,
+          "score_sas": 90.5,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 89.7,
+          "score_tp": 89.7,
+          "score_sas": 89.7,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Hafidzan Tito Denli menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 89.8,
+          "score_tp": 89.8,
+          "score_sas": 89.8,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "notes": "Hafidzan Tito Denli menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 87.2,
+          "score_tp": 87.2,
+          "score_sas": 87.2,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 77.8,
+          "score_tp": 77.8,
+          "score_sas": 77.8,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 84.8,
+          "score_tp": 84.8,
+          "score_sas": 84.8,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 82.0,
+          "score_tp": 82.0,
+          "score_sas": 82.0,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Hafidzan Tito Denli memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 83.0,
+          "score_tp": 83.0,
+          "score_sas": 83.0,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 23-27",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 23-27"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 90.1,
+          "score_tp": 90.1,
+          "score_sas": 90.1,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam menghafal surah Al-Humazah dengan baik dan benar",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 82.0,
+          "score_tp": 82.0,
+          "score_sas": 82.0,
+          "highest_achievement": "Hafidzan Tito Denli menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang buah buahan",
+          "lowest_achievement": "Hafidzan Tito Denli membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "notes": "Hafidzan Tito Denli menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang buah buahan"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar terutama dalam membaca. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik"
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 11,
+      "nis": "25011",
+      "nisn": "3183338216",
+      "name": "Muhammad Azriel Aulian",
+      "gender": "L",
+      "father_name": "Johar Dani",
+      "mother_name": "Fenny Novaridah",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 94.0,
+          "score_tp": 94.0,
+          "score_sas": 94.0,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 95.3,
+          "score_tp": 95.3,
+          "score_sas": 95.3,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Muhammad Azriel Aulian  menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 95.0,
+          "score_tp": 95.0,
+          "score_sas": 95.0,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Muhammad Azriel Aulian  menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 94.9,
+          "score_tp": 94.9,
+          "score_sas": 94.9,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 88.3,
+          "score_tp": 88.3,
+          "score_sas": 88.3,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 95.2,
+          "score_tp": 95.2,
+          "score_sas": 95.2,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 96.2,
+          "score_tp": 96.2,
+          "score_sas": 96.2,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Muhammad Azriel Aulian menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Muhammad Azriel Aulian memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Muhammad Azriel Aulian menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 81.0,
+          "score_tp": 81.0,
+          "score_sas": 81.0,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 83.3,
+          "score_tp": 83.3,
+          "score_sas": 83.3,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam menghafal surah Al-Lahab dengan baik dan benar",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 92.5,
+          "score_tp": 92.5,
+          "score_sas": 92.5,
+          "highest_achievement": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "lowest_achievement": "Muhammad Azriel Aulian  membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Muhammad Azriel Aulian  menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah Ananda Muhammad Azriel Aulian telah menyelesaikan pembelajaran di kelas 1 dengan prestasi yang membanggakan."
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 12,
+      "nis": "25012",
+      "nisn": "3196930402",
+      "name": "M. Gatan Alfarizi",
+      "gender": "L",
+      "father_name": "Pirman Satuh",
+      "mother_name": "Sri Mimarti",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 84.8,
+          "score_tp": 84.8,
+          "score_sas": 84.8,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam memahami dan menjalankan sikap bersih setiap hari dengan benar",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam memahami dan menjalankan sikap bersih setiap hari dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 94.7,
+          "score_tp": 94.7,
+          "score_sas": 94.7,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "M. Gatan Alfarizi menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 92.9,
+          "score_tp": 92.9,
+          "score_sas": 92.9,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "M. Gatan Alfarizi menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 92.5,
+          "score_tp": 92.5,
+          "score_sas": 92.5,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 88.3,
+          "score_tp": 88.3,
+          "score_sas": 88.3,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 89.3,
+          "score_tp": 89.3,
+          "score_sas": 89.3,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 90.6,
+          "score_tp": 90.6,
+          "score_sas": 90.6,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "M. Gatan Alfarizi memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 89.0,
+          "score_tp": 89.0,
+          "score_sas": 89.0,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 89.1,
+          "score_tp": 89.1,
+          "score_sas": 89.1,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam menghafal surah Al-Ma'un dengan baik dan benar",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 82.0,
+          "score_tp": 82.0,
+          "score_sas": 82.0,
+          "highest_achievement": "M. Gatan Alfarizi menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "M. Gatan Alfarizi membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "M. Gatan Alfarizi menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 1,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 13,
+      "nis": "25013",
+      "nisn": "3197060800",
+      "name": "Mahawira Ghafi Paramananda",
+      "gender": "L",
+      "father_name": "Heru Saputra",
+      "mother_name": "Mita Purnama",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 80.7,
+          "score_tp": 80.7,
+          "score_sas": 80.7,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 83.9,
+          "score_tp": 83.9,
+          "score_sas": 83.9,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 89.9,
+          "score_tp": 89.9,
+          "score_sas": 89.9,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 89.9,
+          "score_tp": 89.9,
+          "score_sas": 89.9,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 81.8,
+          "score_tp": 81.8,
+          "score_sas": 81.8,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.2,
+          "score_tp": 93.2,
+          "score_sas": 93.2,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 78.0,
+          "score_tp": 78.0,
+          "score_sas": 78.0,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Mahawira Ghafi Paramananda memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 83.2,
+          "score_tp": 83.2,
+          "score_sas": 83.2,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 82.8,
+          "score_tp": 82.8,
+          "score_sas": 82.8,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam menghafal surah Quraisy dengan baik dan benar",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 84.3,
+          "score_tp": 84.3,
+          "score_sas": 84.3,
+          "highest_achievement": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Mahawira Ghafi Paramananda membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Mahawira Ghafi Paramananda menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 14,
+      "nis": "25014",
+      "nisn": "3195713239",
+      "name": "Maryam Fatimah Putri Harry",
+      "gender": "P",
+      "father_name": "Harry Santosa",
+      "mother_name": "Pamela stevani Mardyono",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 90.0,
+          "score_tp": 90.0,
+          "score_sas": 90.0,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 94.7,
+          "score_tp": 94.7,
+          "score_sas": 94.7,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 90.9,
+          "score_tp": 90.9,
+          "score_sas": 90.9,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 93.2,
+          "score_tp": 93.2,
+          "score_sas": 93.2,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 85.5,
+          "score_tp": 85.5,
+          "score_sas": 85.5,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.7,
+          "score_tp": 93.7,
+          "score_sas": 93.7,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 87.1,
+          "score_tp": 87.1,
+          "score_sas": 87.1,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Maryam Fatimah Putri Harry memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 83.0,
+          "score_tp": 83.0,
+          "score_sas": 83.0,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 78.7,
+          "score_tp": 78.7,
+          "score_sas": 78.7,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam menghafal surah Al-Humazah dengan baik dan benar",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 85.1,
+          "score_tp": 85.1,
+          "score_sas": 85.1,
+          "highest_achievement": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "lowest_achievement": "Maryam Fatimah Putri Harry membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Maryam Fatimah Putri Harry menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 15,
+      "nis": "25015",
+      "nisn": "3181201975",
+      "name": "Muhammad Irsyad Kamil",
+      "gender": "L",
+      "father_name": "MD Icbal Hossain Miah",
+      "mother_name": "Engga Anwari",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 81.3,
+          "score_tp": 81.3,
+          "score_sas": 81.3,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 86.6,
+          "score_tp": 86.6,
+          "score_sas": 86.6,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Muhammad Irsyad Kamil menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 91.5,
+          "score_tp": 91.5,
+          "score_sas": 91.5,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Muhammad Irsyad Kamil menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 92.9,
+          "score_tp": 92.9,
+          "score_sas": 92.9,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 81.5,
+          "score_tp": 81.5,
+          "score_sas": 81.5,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 86.6,
+          "score_tp": 86.6,
+          "score_sas": 86.6,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 79.2,
+          "score_tp": 79.2,
+          "score_sas": 79.2,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Muhammad Irsyad Kamil memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 79.2,
+          "score_tp": 79.2,
+          "score_sas": 79.2,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 85.1,
+          "score_tp": 85.1,
+          "score_sas": 85.1,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam menghafal surah Al-Ma'un dengan baik dan benar",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 75.0,
+          "score_tp": 75.0,
+          "score_sas": 75.0,
+          "highest_achievement": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Muhammad Irsyad Kamil membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Muhammad Irsyad Kamil menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar terutama dalam membaca. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik"
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 16,
+      "nis": "25016",
+      "nisn": "3191102007",
+      "name": "Muhammad Sandi Alfatih",
+      "gender": "L",
+      "father_name": "Hendra",
+      "mother_name": "Suci Lestari",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 85.2,
+          "score_tp": 85.2,
+          "score_sas": 85.2,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mengimani Nabi Adam AS. Sebagai manusia pertama dan menjelaskan proses penciptaan Nabi Adam AS. dengan benar",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mengimani Nabi Adam AS. Sebagai manusia pertama dan menjelaskan proses penciptaan Nabi Adam AS. dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 91.5,
+          "score_tp": 91.5,
+          "score_sas": 91.5,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Muhammad Sandi Alfatih menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 84.4,
+          "score_tp": 84.4,
+          "score_sas": 84.4,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Muhammad Sandi Alfatih menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 88.2,
+          "score_tp": 88.2,
+          "score_sas": 88.2,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam membandingkan panjang suatu benda secara langsung",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 79.3,
+          "score_tp": 79.3,
+          "score_sas": 79.3,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 90.8,
+          "score_tp": 90.8,
+          "score_sas": 90.8,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 78.7,
+          "score_tp": 78.7,
+          "score_sas": 78.7,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mampu mengidengtifikasi perbedaan jenis-jenis buah dan sayur dalam menggunakan kata \"like, likes, don't like, doesn,t like\" untuk menyebutkan buah kesuakaannya dengan orang lain",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam mampu mengidengtifikasi perbedaan jenis-jenis buah dan sayur dalam menggunakan kata \"like, likes, don't like, doesn,t like\" untuk menyebutkan buah kesuakaannya dengan orang lain"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Muhammad Sandi Alfatih memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 89.5,
+          "score_tp": 89.5,
+          "score_sas": 89.5,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 81.2,
+          "score_tp": 81.2,
+          "score_sas": 81.2,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam menghafal surah Al-Ma'un dengan baik dan benar",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 79.9,
+          "score_tp": 79.9,
+          "score_sas": 79.9,
+          "highest_achievement": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga",
+          "lowest_achievement": "Muhammad Sandi Alfatih membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Muhammad Sandi Alfatih menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 1,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 17,
+      "nis": "25017",
+      "nisn": "3180000774",
+      "name": "Rafardhan Athalla",
+      "gender": "L",
+      "father_name": "Asep Hidayat",
+      "mother_name": "Febriani",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 94.1,
+          "score_tp": 94.1,
+          "score_sas": 94.1,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 93.8,
+          "score_tp": 93.8,
+          "score_sas": 93.8,
+          "highest_achievement": "Rafardhan Athalla menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan bimbingan dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Rafardhan Athalla menunjukkan pemahaman dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 94.2,
+          "score_tp": 94.2,
+          "score_sas": 94.2,
+          "highest_achievement": "Rafardhan Athalla menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "notes": "Rafardhan Athalla menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 97.6,
+          "score_tp": 97.6,
+          "score_sas": 97.6,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 88.3,
+          "score_tp": 88.3,
+          "score_sas": 88.3,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 95.4,
+          "score_tp": 95.4,
+          "score_sas": 95.4,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 90.8,
+          "score_tp": 90.8,
+          "score_sas": 90.8,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam mampu mengidengtifikasi perbedaan jenis-jenis buah dan sayur dalam menggunakan kata \"like, likes, don't like, doesn,t like\" untuk menyebutkan buah kesuakaannya dengan orang lain",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Rafardhan Athalla memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 87.5,
+          "score_tp": 87.5,
+          "score_sas": 87.5,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 86.1,
+          "score_tp": 86.1,
+          "score_sas": 86.1,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam menghafal surah At-Takatsur dengan baik dan benar",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 90.7,
+          "score_tp": 90.7,
+          "score_sas": 90.7,
+          "highest_achievement": "Rafardhan Athalla menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "lowest_achievement": "Rafardhan Athalla membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Rafardhan Athalla menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang sayuran"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 18,
+      "nis": "25018",
+      "nisn": "3196498231",
+      "name": "Rayna Hafizah Akmal",
+      "gender": "P",
+      "father_name": "Kemas Akmaludin",
+      "mother_name": "Apriliyah",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 90.0,
+          "score_tp": 90.0,
+          "score_sas": 90.0,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 91.4,
+          "score_tp": 91.4,
+          "score_sas": 91.4,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Rayna Hafizah Akmal menunjukkan pemahaman dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 93.6,
+          "score_tp": 93.6,
+          "score_sas": 93.6,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "notes": "Rayna Hafizah Akmal menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 88.5,
+          "score_tp": 88.5,
+          "score_sas": 88.5,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 83.6,
+          "score_tp": 83.6,
+          "score_sas": 83.6,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 86.5,
+          "score_tp": 86.5,
+          "score_sas": 86.5,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 92.5,
+          "score_tp": 92.5,
+          "score_sas": 92.5,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam mampu mengucapkan \" I am, you are, he is/she is serta mengenal jenis kelamin laki-laki dan perempuan pada konsep \"i/you/she/he\"",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Rayna Hafizah Akmal memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 91.0,
+          "score_tp": 91.0,
+          "score_sas": 91.0,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 90.8,
+          "score_tp": 90.8,
+          "score_sas": 90.8,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam menghafal surah Al-Humazah dengan baik dan benar",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 81.5,
+          "score_tp": 81.5,
+          "score_sas": 81.5,
+          "highest_achievement": "Rayna Hafizah Akmal menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Rayna Hafizah Akmal membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Rayna Hafizah Akmal menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 19,
+      "nis": "25019",
+      "nisn": "3190612751",
+      "name": "Rhayyan Arvinza",
+      "gender": "L",
+      "father_name": "Asrul",
+      "mother_name": "Decka Ayu Rizky",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 83.7,
+          "score_tp": 83.7,
+          "score_sas": 83.7,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam memahami dan menjalankan sikap bersih setiap hari dengan benar",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam memahami dan menjalankan sikap bersih setiap hari dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 87.2,
+          "score_tp": 87.2,
+          "score_sas": 87.2,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Rhayyan Arvinza menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 91.1,
+          "score_tp": 91.1,
+          "score_sas": 91.1,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Rhayyan Arvinza menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 92.2,
+          "score_tp": 92.2,
+          "score_sas": 92.2,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam mengurutkan dan mengelompokkan data dari banyak benda dengan menggunakan pitogram paling banyak 4 kategori",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam mengukur dan mengestimasi panjang benda menggunakan satuan tidak baku"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 83.2,
+          "score_tp": 83.2,
+          "score_sas": 83.2,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 93.9,
+          "score_tp": 93.9,
+          "score_sas": 93.9,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 80.8,
+          "score_tp": 80.8,
+          "score_sas": 80.8,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Rhayyan Arvinza memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 75.8,
+          "score_tp": 75.8,
+          "score_sas": 75.8,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 23-27",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 81.0,
+          "score_tp": 81.0,
+          "score_sas": 81.0,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam menghafal surah Al-Ikhlas dengan baik dan benar",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam menghafal surah Alfalaq dengan baik dan benar",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam menghafal surah Al-Ikhlas dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 76.0,
+          "score_tp": 76.0,
+          "score_sas": 76.0,
+          "highest_achievement": "Rhayyan Arvinza menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Rhayyan Arvinza membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang keluarga",
+          "notes": "Rhayyan Arvinza menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 20,
+      "nis": "25020",
+      "nisn": "3192915605",
+      "name": "Sulthan Rafasya Alfarizi",
+      "gender": "L",
+      "father_name": "Muhammad Nur",
+      "mother_name": "Eka Novianti",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 90.5,
+          "score_tp": 90.5,
+          "score_sas": 90.5,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 93.2,
+          "score_tp": 93.2,
+          "score_sas": 93.2,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 88.4,
+          "score_tp": 88.4,
+          "score_sas": 88.4,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 91.6,
+          "score_tp": 91.6,
+          "score_sas": 91.6,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 83.5,
+          "score_tp": 83.5,
+          "score_sas": 83.5,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 92.8,
+          "score_tp": 92.8,
+          "score_sas": 92.8,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 81.5,
+          "score_tp": 81.5,
+          "score_sas": 81.5,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam mampu mengidengtifikasi perbedaan jenis-jenis buah dan sayur dalam menggunakan kata \"like, likes, don't like, doesn,t like\" untuk menyebutkan buah kesuakaannya dengan orang lain",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam mampu mengidentifikasi anggota keluarganya dengan menggunakan kata sifat posesif\"my\"untuk mendeskripsikan anggota keluarga",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam mampu mengidengtifikasi perbedaan jenis-jenis buah dan sayur dalam menggunakan kata \"like, likes, don't like, doesn,t like\" untuk menyebutkan buah kesuakaannya dengan orang lain"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 89.8,
+          "score_tp": 89.8,
+          "score_sas": 89.8,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 84.7,
+          "score_tp": 84.7,
+          "score_sas": 84.7,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam menghafal surah Quraisy dengan baik dan benar",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam menghafal surah Al-Ma'un dengan baik dan benar",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam menghafal surah Quraisy dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 87.4,
+          "score_tp": 87.4,
+          "score_sas": 87.4,
+          "highest_achievement": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna",
+          "lowest_achievement": "Sulthan Rafasya Alfarizi membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang sayuran",
+          "notes": "Sulthan Rafasya Alfarizi menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 1,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 21,
+      "nis": "25021",
+      "nisn": "3196072548",
+      "name": "Wirna Ayu Lestari",
+      "gender": "P",
+      "father_name": "Riana Pepriyanti",
+      "mother_name": "Riana Pepriyanti",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 85.7,
+          "score_tp": 85.7,
+          "score_sas": 85.7,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam memahami dan menjelaskan macam-macam harakat dan pesan yang terdapat dalam surah Al-Ikhlas dengan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 92.0,
+          "score_tp": 92.0,
+          "score_sas": 92.0,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan bimbingan dalam mempraktikkan sikap dan perilaku menjaga lingkungan tempat tinggal",
+          "notes": "Wirna Ayu Lestari menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 92.4,
+          "score_tp": 92.4,
+          "score_sas": 92.4,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan peningkatan dalam menceritakan kembali teks narasi yang dibaca dengan teks diri",
+          "notes": "Wirna Ayu Lestari menunjukkan peningkatan dalam merespon dengan bertanya, menjawab  tentang sesuatu dan menanggapi komentar orang lain (teman, guru, dan orang dewasa)"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 91.6,
+          "score_tp": 91.6,
+          "score_sas": 91.6,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 81.3,
+          "score_tp": 81.3,
+          "score_sas": 81.3,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam menerima proses pembelajaran sehingga tumbuh rasa ingin tahu"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 86.8,
+          "score_tp": 86.8,
+          "score_sas": 86.8,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 87.8,
+          "score_tp": 87.8,
+          "score_sas": 87.8,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam mampu menyebutkan jumlah benda milik mereka yang berjumlah 1-10 dan benda-benda di sekitar dalam bahasa inggris"
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Wirna Ayu Lestari memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 84.2,
+          "score_tp": 84.2,
+          "score_sas": 84.2,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 1 halaman 30-40"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam menghafal surah Al-Kafirun dengan baik dan benar",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam menghafal surah Al-Kautsar dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 75.4,
+          "score_tp": 75.4,
+          "score_sas": 75.4,
+          "highest_achievement": "Wirna Ayu Lestari menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga",
+          "lowest_achievement": "Wirna Ayu Lestari membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang warna",
+          "notes": "Wirna Ayu Lestari menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang anggota tubuh dan keluarga"
+        }
+      ],
+      "attendance": {
+        "sick": 1,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar terutama dalam membaca. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik"
+      },
+      "extracurricular": {
+        "name": "Tahfidz Club & Seni Tari",
+        "predicate": "Sangat Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    },
+    {
+      "no": 22,
+      "nis": "25022",
+      "nisn": "3195764496",
+      "name": "Zea Shakila Ramadhani",
+      "gender": "P",
+      "father_name": "Windi Setiawan",
+      "mother_name": "Susi Susanti",
+      "address": "Tebas, Sambas, Kal-Bar",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "subject_name": "Pendidikan Agama Islam",
+          "category": "NASIONAL",
+          "score": 90.3,
+          "score_tp": 90.3,
+          "score_sas": 90.3,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam memahami dan menjelaskan Asmaul Husna dan meneladani kasih sayang Nabi Muhammad SAW. dengan benar",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam memahami dan menjelaskan sikap berterimakasih dan perilaku disiplin dengan baik dan benar"
+        },
+        {
+          "subject_code": "PKN",
+          "subject_name": "Pendidikan Pancasila",
+          "category": "NASIONAL",
+          "score": 93.3,
+          "score_tp": 93.3,
+          "score_sas": 93.3,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan bimbingan dalam mengenal karakteristik lingkungan sekolah sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia",
+          "notes": "Zea Shakila Ramadhani menunjukkan pemahaman dalam mengenal karakteristik lingkungan tempat tinggal sebagai bagian dari wilayah Negara Kesatuan Republik Indonesia"
+        },
+        {
+          "subject_code": "BIN",
+          "subject_name": "Bahasa Indonesia",
+          "category": "NASIONAL",
+          "score": 95.2,
+          "score_tp": 95.2,
+          "score_sas": 95.2,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan peningkatan dalam menunjukkan keterampilan menulis permulaan dengan benar di atas kertas",
+          "notes": "Zea Shakila Ramadhani menunjukkan peningkatan dalam menceritakan kembali suatu informasi yang dibaca, didengar dengan topik diri"
+        },
+        {
+          "subject_code": "MTK",
+          "subject_name": "Matematika",
+          "category": "NASIONAL",
+          "score": 94.5,
+          "score_tp": 94.5,
+          "score_sas": 94.5,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam mengenali bangun datar segitiga, segiempat, segibanyak, dan lingkaran",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam membandingkan panjang suatu benda secara langsung"
+        },
+        {
+          "subject_code": "SN-TARI",
+          "subject_name": "Seni Tari",
+          "category": "NASIONAL",
+          "score": 89.2,
+          "score_tp": 89.2,
+          "score_sas": 89.2,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam meragakan hasil gerak berdasarkan norma/perilaku yang sesuai dalam menari dengan keyakinan",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam mengembangkan unsur utama tari (gerak, ruang, waktu, tenaga) untuk membuat gerak sederhana yang memiliki kesatuan gerak yang indah"
+        },
+        {
+          "subject_code": "PJOK",
+          "subject_name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "category": "NASIONAL",
+          "score": 97.8,
+          "score_tp": 97.8,
+          "score_sas": 97.8,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam berpartisipasi di dalam berbagai aktivitas jasmani",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam mengenali gaya hidup aktif dan sehat"
+        },
+        {
+          "subject_code": "BIG",
+          "subject_name": "Bahasa Inggris",
+          "category": "NASIONAL",
+          "score": 87.8,
+          "score_tp": 87.8,
+          "score_sas": 87.8,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar.",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam mampu menyebutkan hewan apa yang dimiliki dengan memasukkan konsep \"have\" serta bertanya menggunakan kata tanya \"what pet do you have\"pada teman",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam mampu membedakan berbagai jenis alat tulis serta memahami penggunaan kata have untuk menyebutkan benda dengan benar."
+        },
+        {
+          "subject_code": "KKA",
+          "subject_name": "Koding dan Kecerdasan Artifisial",
+          "category": "KEKHASAN",
+          "score": 85.0,
+          "score_tp": 85.0,
+          "score_sas": 85.0,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial.",
+          "lowest_achievement": "Zea Shakila Ramadhani memerlukan latihan dan pendampingan lanjutan.",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan capaian yang baik dalam materi Koding dan Kecerdasan Artifisial."
+        },
+        {
+          "subject_code": "TAHSIN",
+          "subject_name": "Tahsin Al-Qur'an (Metode Wafa)",
+          "category": "QURAN",
+          "score": 87.0,
+          "score_tp": 87.0,
+          "score_sas": 87.0,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam membaca huruf hijaiyah bersambung berharakat fathah, kasrah, dan dhammah",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam membaca huruf hijaiyah bersambung jilid 2 halaman 1-5"
+        },
+        {
+          "subject_code": "TAHFIDZ",
+          "subject_name": "Tahfidz Al-Qur'an",
+          "category": "QURAN",
+          "score": 89.8,
+          "score_tp": 89.8,
+          "score_sas": 89.8,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam menghafal surah Al-Humazah dengan baik dan benar",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam menghafal surah Al-Fill dengan baik dan benar"
+        },
+        {
+          "subject_code": "BARB",
+          "subject_name": "Bahasa Arab",
+          "category": "KEKHASAN",
+          "score": 84.2,
+          "score_tp": 84.2,
+          "score_sas": 84.2,
+          "highest_achievement": "Zea Shakila Ramadhani menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna",
+          "lowest_achievement": "Zea Shakila Ramadhani membutuhkan penguatan dalam Mengenal dan menghafal kosakata tentang buah buahan",
+          "notes": "Zea Shakila Ramadhani menunjukkan penguasaan dalam Mengenal dan menghafal kosakata tentang warna"
+        }
+      ],
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0,
+        "notes": "Alhamdulillah ananda telah menyelesaikan pembelajaran pada kelas 1, selama  di kelas 1 ini ananda sudah menunjukkan perkembangan dan mengikuti kegiatan pembelajaran dengan baik, namun ananda masih perlu bimbingan dalam belajar. semoga di kelas 2 nanti ananda tetap semangat dalam belajar dan tetap mengikuti pelajaran dengan baik "
+      },
+      "extracurricular": {
+        "name": "Pramuka SIT & Life Skill",
+        "predicate": "Baik",
+        "description": "Aktif dan bertanggung jawab dalam kegiatan kepanduan SIT dan pengembangan life skill."
+      }
+    }
+  ]
+}

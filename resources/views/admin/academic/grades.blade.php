@@ -2065,10 +2065,14 @@
                         </p>
                     </div>
 
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button type="button" onclick="generateAllNarrativesAi()" 
+                                class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer">
+                            <span>✨</span> <span>AI Gemini Narasi Kelas</span>
+                        </button>
                         <button type="button" onclick="autoGenerateAllDescriptions()" 
                                 class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer">
-                            <span>⚡</span> <span>Generate Narasi Otomatis</span>
+                            <span>⚡</span> <span>Template Otomatis</span>
                         </button>
                         <button type="submit" 
                                 class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95">
@@ -3324,7 +3328,11 @@
         const textarea = document.getElementById('notes_' + studentId);
         const scoreInput = document.getElementById('score_' + studentId);
         const sasInput = document.getElementById('sas_' + studentId);
-        const score = (scoreInput && scoreInput.value) ? scoreInput.value : (sasInput ? sasInput.value : 85);
+        const tpInput = document.getElementById('tp_' + studentId);
+        let score = 85;
+        if (scoreInput && scoreInput.value !== '') score = scoreInput.value;
+        else if (sasInput && sasInput.value !== '') score = sasInput.value;
+        else if (tpInput && tpInput.value !== '') score = tpInput.value;
         const subjectName = '{{ $selectedSubject->name ?? "Mata Pelajaran" }}';
 
         if (!textarea) return;
@@ -3343,17 +3351,18 @@
             body: JSON.stringify({
                 student_name: studentName,
                 subject_name: subjectName,
-                score: score
+                score: parseFloat(score) || 85
             })
         })
         .then(res => res.json())
         .then(data => {
             textarea.disabled = false;
-            if (data.status === 'success' && data.narrative) {
-                textarea.value = data.narrative;
+            const content = data.narrative || data.text || data.note;
+            if (data.status === 'success' && content) {
+                textarea.value = content;
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat narasi.');
+                alert(data.message || 'Gagal membuat narasi dengan AI.');
             }
         })
         .catch(err => {
@@ -3380,17 +3389,19 @@
             },
             body: JSON.stringify({
                 student_name: studentName,
-                average_score: 85
+                academic_average: 88,
+                average_score: 88
             })
         })
         .then(res => res.json())
         .then(data => {
             textarea.disabled = false;
-            if (data.status === 'success' && data.note) {
-                textarea.value = data.note;
+            const content = data.note || data.narrative || data.text;
+            if (data.status === 'success' && content) {
+                textarea.value = content;
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat catatan.');
+                alert(data.message || 'Gagal membuat catatan dengan AI.');
             }
         })
         .catch(err => {
@@ -3427,11 +3438,12 @@
         .then(res => res.json())
         .then(data => {
             textarea.disabled = false;
-            if (data.status === 'success' && data.evaluation) {
-                textarea.value = data.evaluation;
+            const content = data.evaluation || data.narrative || data.text;
+            if (data.status === 'success' && content) {
+                textarea.value = content;
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat evaluasi.');
+                alert(data.message || 'Gagal membuat evaluasi dengan AI.');
             }
         })
         .catch(err => {
@@ -3439,6 +3451,25 @@
             textarea.value = originalVal;
             alert('Gagal menghubungi AI: ' + err.message);
         });
+    }
+
+    // AI Generate Batch untuk seluruh siswa di kelas (Sequential dengan delay agar tidak terkena limit)
+    async function generateAllNarrativesAi() {
+        const buttons = document.querySelectorAll('button[onclick^="generateAiNarrativeSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di kelas ini untuk digenerate.');
+            return;
+        }
+
+        if (!confirm('Apakah Anda ingin men-generate narasi capaian pembelajaran berbasis Google Gemini AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
+            return;
+        }
+
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].click();
+            // Jeda 800ms antar panggilan agar stabil
+            await new Promise(r => setTimeout(r, 800));
+        }
     }
 
     // User Management Modal Functions
