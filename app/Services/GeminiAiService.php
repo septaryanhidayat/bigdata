@@ -10,6 +10,9 @@ class GeminiAiService
     protected string $apiKey;
     protected string $baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
     protected array $models = [
+        'gemini-3.5-flash-lite',
+        'gemini-flash-latest',
+        'gemini-3.8-flash',
         'gemini-2.0-flash',
         'gemini-1.5-flash',
         'gemini-1.5-flash-8b',
@@ -30,7 +33,7 @@ class GeminiAiService
     }
 
     /**
-     * Send raw prompt to Google Gemini AI with automatic model fallback
+     * Send raw prompt to Robbani AI with automatic model fallback
      */
     public function generateContent(
         string $prompt,
@@ -64,8 +67,17 @@ class GeminiAiService
 
         foreach ($this->models as $m) {
             try {
+                $genConfig = [
+                    'maxOutputTokens' => $maxTokens,
+                    'temperature' => $temperature,
+                ];
+                if (str_contains($m, '3.5') || str_contains($m, '3.8')) {
+                    $genConfig['thinkingConfig'] = ['thinkingBudget' => 0];
+                }
+                $payload['generationConfig'] = $genConfig;
+
                 $response = Http::withHeaders(['Content-Type' => 'application/json'])
-                    ->timeout(20)
+                    ->timeout(30)
                     ->post($this->baseUrl . "{$m}:generateContent?key=" . $this->apiKey, $payload);
 
                 if ($response->successful()) {
@@ -75,10 +87,10 @@ class GeminiAiService
                         return trim($text);
                     }
                 } else {
-                    Log::warning("Gemini AI model {$m} returned status {$response->status()}: " . $response->body());
+                    Log::warning("Robbani AI model {$m} returned status {$response->status()}: " . $response->body());
                 }
             } catch (\Throwable $e) {
-                Log::error("Gemini AI call exception on model {$m}: " . $e->getMessage());
+                Log::error("Robbani AI call exception on model {$m}: " . $e->getMessage());
             }
         }
 
@@ -86,7 +98,7 @@ class GeminiAiService
     }
 
     /**
-     * Test Gemini API Connection Status & Latency
+     * Test Robbani AI Connection Status & Latency
      */
     public function testConnection(): array
     {
@@ -95,7 +107,7 @@ class GeminiAiService
                 'success' => false,
                 'model' => null,
                 'latency_ms' => 0,
-                'message' => 'GEMINI_API_KEY belum dikonfigurasi di file .env server.',
+                'message' => 'Kunci API Robbani AI (GEMINI_API_KEY) belum dikonfigurasi di file .env server.',
             ];
         }
 
@@ -104,13 +116,18 @@ class GeminiAiService
 
         foreach ($this->models as $m) {
             try {
+                $genConfig = ['maxOutputTokens' => 10, 'temperature' => 0.1];
+                if (str_contains($m, '3.5') || str_contains($m, '3.8')) {
+                    $genConfig['thinkingConfig'] = ['thinkingBudget' => 0];
+                }
+
                 $response = Http::withHeaders(['Content-Type' => 'application/json'])
-                    ->timeout(10)
+                    ->timeout(20)
                     ->post($this->baseUrl . "{$m}:generateContent?key=" . $this->apiKey, [
                         'contents' => [
                             ['parts' => [['text' => $testPrompt]]]
                         ],
-                        'generationConfig' => ['maxOutputTokens' => 10, 'temperature' => 0.1]
+                        'generationConfig' => $genConfig
                     ]);
 
                 if ($response->successful()) {
@@ -120,7 +137,7 @@ class GeminiAiService
                         'success' => true,
                         'model' => $m,
                         'latency_ms' => $elapsed,
-                        'message' => "Koneksi Google Gemini AI berhasil! Model aktif: {$m} ({$elapsed}ms). Respon: {$text}",
+                        'message' => "Koneksi Robbani AI berhasil! Model aktif: {$m} ({$elapsed}ms). Respon: {$text}",
                     ];
                 }
             } catch (\Throwable $e) {
@@ -132,7 +149,7 @@ class GeminiAiService
             'success' => false,
             'model' => null,
             'latency_ms' => 0,
-            'message' => 'Gagal menghubungi server Google Gemini API. Periksa kuota atau koneksi internet server.',
+            'message' => 'Gagal menghubungi server Robbani AI. Periksa kuota atau koneksi internet server.',
         ];
     }
 

@@ -23,7 +23,7 @@ class GeminiEraporService
     }
 
     /**
-     * Send prompt to Google Gemini AI with automatic fallbacks
+     * Send prompt to Robbani AI with automatic fallbacks
      */
     public function generateContent(string $prompt, int $maxTokens = 800, float $temperature = 0.7): string
     {
@@ -60,10 +60,10 @@ class GeminiEraporService
                         return $clean;
                     }
                 } else {
-                    Log::warning("Gemini AI model {$m} returned status {$response->status()}: " . $response->body());
+                    Log::warning("Robbani AI model {$m} returned status {$response->status()}: " . $response->body());
                 }
             } catch (\Throwable $e) {
-                Log::error("Gemini AI call exception on model {$m}: " . $e->getMessage());
+                Log::error("Robbani AI call exception on model {$m}: " . $e->getMessage());
             }
         }
 

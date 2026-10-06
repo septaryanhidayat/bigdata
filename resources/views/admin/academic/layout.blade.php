@@ -420,11 +420,11 @@
                         </ul>
                     </div>
 
-                    <!-- Langkah 7: Asisten Cerdas Google Gemini AI -->
+                    <!-- Langkah 7: Asisten Cerdas Robbani AI -->
                     <div class="p-4 rounded-2xl border border-emerald-300 bg-emerald-50/50 space-y-2">
                         <div class="flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-emerald-700 text-white font-black text-[11px] flex items-center justify-center shrink-0">✨</span>
-                            <h4 class="font-black text-emerald-900 text-xs">Asisten Cerdas Google Gemini AI Terintegrasi</h4>
+                            <h4 class="font-black text-emerald-900 text-xs">Asisten Cerdas Robbani AI Terintegrasi</h4>
                         </div>
                         <ul class="text-[11px] text-emerald-800 space-y-1 list-disc list-inside">
                             <li><strong>AI Narasi Capaian Pembelajaran:</strong> Klik tombol ✨ di samping form nilai mapel untuk membuat deskripsi CP Kurikulum Merdeka otomatis.</li>

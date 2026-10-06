@@ -125,11 +125,11 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <span class="px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-300 text-[10px] font-black uppercase tracking-wider border border-emerald-500/40">
-                            Google Gemini AI Studio 3.6 Flash
+                            Robbani AI Assistant (Smart Engine)
                         </span>
                         <span class="text-[10px] text-emerald-400 font-bold">● Terhubung Aktif</span>
                     </div>
-                    <h3 class="text-sm font-black text-white mt-1">Asisten AI Evaluasi & Penulisan Rapor SIT Otomatis</h3>
+                    <h3 class="text-sm font-black text-white mt-1">Robbani AI Evaluasi & Penulisan Rapor SIT Otomatis</h3>
                     <p class="text-xs text-slate-300 font-medium mt-0.5">
                         Membuat narasi capaian pembelajaran, evaluasi tilawah Wafa, catatan motivasi wali kelas Islami, dan analisis kesiapan kelas secara otomatis.
                     </p>
@@ -2106,7 +2106,7 @@
                     <div class="flex items-center gap-2 flex-wrap">
                         <button type="button" onclick="generateAllNarrativesAi()" 
                                 class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer">
-                            <span>✨</span> <span>AI Gemini Narasi Kelas</span>
+                            <span>✨</span> <span>Robbani AI Narasi Kelas</span>
                         </button>
                         <button type="button" onclick="autoGenerateAllDescriptions()" 
                                 class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer">
@@ -3113,7 +3113,7 @@
 
 </div>
 
-<!-- Modal Analisis Kesiapan Rapor Kelas oleh Google Gemini AI -->
+<!-- Modal Analisis Kesiapan Rapor Kelas oleh Robbani AI -->
 <div id="modalAiClassAnalysis" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
     <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] flex flex-col">
         <div class="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -3122,7 +3122,7 @@
                     ✨
                 </div>
                 <div>
-                    <h3 class="font-black text-sm text-slate-900" id="modalAiTitle">Analisis Kesiapan Rapor oleh Google Gemini AI</h3>
+                    <h3 class="font-black text-sm text-slate-900" id="modalAiTitle">Analisis Kesiapan Rapor oleh Robbani AI</h3>
                     <p class="text-[11px] text-slate-500 font-medium" id="modalAiSubtitle">Audit kelengkapan nilai, korelasi capaian karakter & rekomendasi cetak rapor</p>
                 </div>
             </div>
@@ -3131,14 +3131,14 @@
         <div class="overflow-y-auto flex-1 pr-2 space-y-3" id="modalAiContent">
             <div class="py-12 text-center text-slate-500 space-y-3">
                 <div class="inline-block animate-spin text-3xl">✨</div>
-                <p class="text-xs font-bold text-slate-600">Google Gemini sedang menganalisis data rombel secara mendalam...</p>
+                <p class="text-xs font-bold text-slate-600">Robbani AI sedang menganalisis data rombel secara mendalam...</p>
                 <p class="text-[11px] text-slate-400">Mohon tunggu beberapa detik...</p>
             </div>
         </div>
         <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
             <span class="text-[10px] text-slate-400 font-semibold flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Powered by Google AI Studio (Gemini 3.6 Flash)</span>
+                <span>Powered by Robbani AI Intelligent Core</span>
             </span>
             <div class="flex items-center gap-2">
                 <button type="button" id="btnCopyAiAnalysis" onclick="copyAiClassAnalysis()" class="hidden px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer flex items-center gap-1.5">
@@ -3297,7 +3297,7 @@
         content.innerHTML = `
             <div class="py-14 text-center text-slate-500 space-y-3">
                 <div class="inline-block animate-spin text-4xl">✨</div>
-                <p class="text-sm font-black text-slate-700">Google Gemini sedang menganalisis data...</p>
+                <p class="text-sm font-black text-slate-700">Robbani AI sedang menganalisis data...</p>
                 <p class="text-xs text-slate-400">Menghubungkan data nilai, Wafa, dan karakter JSIT...</p>
             </div>
         `;
@@ -3376,7 +3376,7 @@
         if (!textarea) return;
 
         const originalVal = textarea.value;
-        textarea.value = '✨ Sedang menyusun narasi capaian dengan Google Gemini...';
+        textarea.value = '✨ Sedang menyusun narasi capaian dengan Robbani AI...';
         textarea.disabled = true;
 
         fetch('{{ route("admin.academic.ai.generate.narrative") }}', {
@@ -3415,7 +3415,7 @@
         if (!textarea) return;
 
         const originalVal = textarea.value;
-        textarea.value = '✨ Sedang membuat catatan motivasi islami dengan Google Gemini...';
+        textarea.value = '✨ Sedang membuat catatan motivasi islami dengan Robbani AI...';
         textarea.disabled = true;
 
         fetch('{{ route("admin.academic.ai.generate.homeroom") }}', {
@@ -3454,7 +3454,7 @@
         if (!textarea) return;
 
         const originalVal = textarea.value;
-        textarea.value = '✨ Sedang menyusun evaluasi tahsin & tahfidz Wafa dengan Google Gemini...';
+        textarea.value = '✨ Sedang menyusun evaluasi tahsin & tahfidz Wafa dengan Robbani AI...';
         textarea.disabled = true;
 
         fetch('{{ route("admin.academic.ai.generate.quran") }}', {
@@ -3499,7 +3499,7 @@
             return;
         }
 
-        if (!confirm('Apakah Anda ingin men-generate narasi capaian pembelajaran berbasis Google Gemini AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
+        if (!confirm('Apakah Anda ingin men-generate narasi capaian pembelajaran berbasis Robbani AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
             return;
         }
 

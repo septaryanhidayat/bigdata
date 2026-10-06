@@ -33,14 +33,14 @@
 
             <div class="flex flex-wrap items-center gap-3">
                 {{-- Status Engine Chip --}}
-                @php $geminiActive = !empty(env('GEMINI_API_KEY') ?: env('GOOGLE_API_KEY')); @endphp
+                @php $robbaniAiActive = !empty(config('services.gemini.key') ?: env('GEMINI_API_KEY') ?: env('GOOGLE_API_KEY')); @endphp
                 <div class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-black/30 backdrop-blur-md border border-white/20 shadow-inner">
                     <span class="relative flex h-2.5 w-2.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $geminiActive ? 'bg-emerald-300' : 'bg-cyan-300' }} opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 {{ $geminiActive ? 'bg-emerald-400' : 'bg-cyan-400' }}"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $robbaniAiActive ? 'bg-emerald-300' : 'bg-cyan-300' }} opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 {{ $robbaniAiActive ? 'bg-emerald-400' : 'bg-cyan-400' }}"></span>
                     </span>
                     <span class="text-xs font-bold text-white">
-                        {{ $geminiActive ? 'Gemini AI Cloud Aktif' : 'Neural RAG Local (Fast)' }}
+                        {{ $robbaniAiActive ? 'Robbani AI Cloud Aktif' : 'Robbani AI Local (Fast)' }}
                     </span>
                 </div>
 
@@ -444,7 +444,7 @@
     </div>
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         4. GOOGLE GEMINI AI MULTI-FEATURE HUB & LIVE SUITE
+         4. ROBBANI AI MULTI-FEATURE HUB & LIVE SUITE
     ═══════════════════════════════════════════════════════════════════════ --}}
     <div class="bg-white border-2 border-slate-200 hover:border-slate-300 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
@@ -453,13 +453,13 @@
                     ✨
                 </div>
                 <div>
-                    <h3 class="text-lg font-black text-slate-900">Google Gemini AI Multi-Feature Studio</h3>
+                    <h3 class="text-lg font-black text-slate-900">Robbani AI Multi-Feature Studio</h3>
                     <p class="text-xs font-bold text-slate-500">Suite Otomasi & Kecerdasan Buatan Terintegrasi SIT Robbani Ogan Ilir</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
                 <span class="px-3 py-1 rounded-full text-[11px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    Gemini 2.0 / 1.5 Flash
+                    Robbani AI High-Performance Engine
                 </span>
                 <span class="px-3 py-1 rounded-full text-[11px] font-black bg-cyan-100 text-cyan-800 border border-cyan-300">
                     Live Server Ready
@@ -491,7 +491,7 @@
             <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                        <h4 class="text-sm font-black text-slate-900">Uji Roundtrip Google Gemini AI</h4>
+                        <h4 class="text-sm font-black text-slate-900">Uji Roundtrip Robbani AI Engine</h4>
                         <p class="text-xs text-slate-600">Periksa ketersediaan kuota, latensi respon milidetik, dan model aktif di cloud.</p>
                     </div>
                     <button onclick="runAiPing()" id="btnRunPing" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0">
@@ -502,9 +502,9 @@
             </div>
             <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 space-y-1">
                 <div class="font-black text-amber-950 flex items-center gap-1.5">
-                    <span>💡</span> <span>Petunjuk Konfigurasi Kunci API (GEMINI_API_KEY):</span>
+                    <span>💡</span> <span>Petunjuk Konfigurasi Kunci API Robbani AI (GEMINI_API_KEY):</span>
                 </div>
-                <p>Kunci API didapatkan secara gratis dari <a href="https://aistudio.google.com" target="_blank" class="underline font-bold text-amber-900 hover:text-black">Google AI Studio &rarr;</a>. Masukkan ke file <code>.env</code> di root hosting: <code>GEMINI_API_KEY=AIzaSy...</code> lalu jalankan <code>php artisan config:clear</code>.</p>
+                <p>Kunci API didapatkan secara resmi melalui konsol kecerdasan buatan. Masukkan ke file <code>.env</code> di root hosting: <code>GEMINI_API_KEY=...</code> lalu jalankan <code>php artisan config:clear</code>.</p>
             </div>
         </div>
 
@@ -966,7 +966,7 @@ function escapeHtml(text) {
     return String(text).replace(/[&<>"']/g, m => map[m]);
 }
 
-// ── Google Gemini AI Multi-Feature Studio Handlers ───────────────────────────
+// ── Robbani AI Multi-Feature Studio Handlers ───────────────────────────
 function switchAiTab(tabId) {
     document.querySelectorAll('.ai-tab-panel').forEach(p => p.classList.add('hidden'));
     document.querySelectorAll('.ai-hub-tab').forEach(b => {
@@ -982,9 +982,9 @@ async function runAiPing() {
     const btn = document.getElementById('btnRunPing');
     const box = document.getElementById('pingResultBox');
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳ Menghubungi Gemini Cloud...</span>';
+    btn.innerHTML = '<span>⏳ Menghubungi Robbani AI Cloud...</span>';
     box.className = 'p-4 rounded-xl border border-slate-200 bg-white text-xs space-y-1 block';
-    box.innerHTML = '<span class="text-slate-500 font-bold">Mengirim paket uji roundtrip ke Google AI Studio...</span>';
+    box.innerHTML = '<span class="text-slate-500 font-bold">Mengirim paket uji roundtrip ke server AI...</span>';
 
     try {
         const res = await fetch('{{ route("admin.ai-hub.test-connection") }}', {
@@ -996,7 +996,7 @@ async function runAiPing() {
             box.className = 'p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 text-xs space-y-1.5 block shadow-xs';
             box.innerHTML = `
                 <div class="font-black text-emerald-900 flex items-center gap-1.5">
-                    <span>✅</span> <span>Koneksi Google Gemini AI Berhasil!</span>
+                    <span>✅</span> <span>Koneksi Robbani AI Berhasil!</span>
                 </div>
                 <div class="text-xs font-semibold text-emerald-800">
                     Model: <strong>${data.model}</strong> · Latensi: <strong>${data.latency_ms} ms</strong>
@@ -1033,7 +1033,7 @@ async function runGenerateArticle() {
     }
 
     btn.disabled = true;
-    btn.innerHTML = '<span>✨ Menulis Draf Berita (Gemini AI)...</span>';
+    btn.innerHTML = '<span>✨ Menulis Draf Berita (Robbani AI)...</span>';
     resultBox.classList.add('hidden');
 
     try {
