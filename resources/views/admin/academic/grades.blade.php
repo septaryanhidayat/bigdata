@@ -376,18 +376,39 @@
 
             <!-- Chart 3: Donut Predikat (12 Cols) -->
             <div class="lg:col-span-12 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-3 gap-3">
                     <div>
-                        <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                            <span>🍩</span> <span>Sebaran Predikat Capaian Akademik & Tilawah Al-Qur'an</span>
-                        </h4>
-                        <p class="text-[11px] text-slate-500 font-medium">Proporsi predikat Mumtaz (A), Jayyid Jiddan (B), Jayyid (C), dan Maqbul (D) di unit {{ $activeSchool->name ?? 'SIT Robbani' }}</p>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>🍩</span> <span>Sebaran Predikat Capaian Akademik & Tilawah Al-Qur'an</span>
+                            </h4>
+                            <span id="predikatBadgeActive" class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-100 text-emerald-800">
+                                Semua Kelas
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 font-medium mt-0.5">
+                            Proporsi predikat Mumtaz (A), Jayyid Jiddan (B), Jayyid (C), dan Maqbul (D) <span id="predikatClassSubtitle">di unit {{ $activeSchool->name ?? 'SIT Robbani' }}</span>
+                        </p>
                     </div>
-                    <div class="flex items-center gap-3 text-[11px] font-bold">
-                        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Mumtaz (A)</span>
-                        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Jayyid Jiddan (B)</span>
-                        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500"></span> Jayyid (C)</span>
-                        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Maqbul (D)</span>
+
+                    <!-- Filter Kelas & Legend -->
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 shadow-2xs">
+                            <span class="text-[11px] font-bold text-slate-600 whitespace-nowrap">Filter Rombel:</span>
+                            <select id="filterPredikatClass" onchange="updatePredikatClass(this.value)" class="text-xs font-black border-0 bg-transparent text-emerald-950 focus:ring-0 py-0.5 pl-1 pr-6 cursor-pointer">
+                                <option value="all">Semua Kelas (Unit {{ $activeSchool->code ?? 'SIT' }})</option>
+                                @foreach($classrooms as $cls)
+                                    <option value="{{ $cls->id }}">{{ $cls->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="hidden xl:flex items-center gap-2.5 text-[11px] font-bold">
+                            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Mumtaz (A)</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Jayyid Jiddan (B)</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Jayyid (C)</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Maqbul (D)</span>
+                        </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center mt-3">
@@ -395,24 +416,24 @@
                         <canvas id="chartPredikatDonut"></canvas>
                     </div>
                     <div class="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center transition-all hover:shadow-xs">
                             <div class="text-xs font-bold text-emerald-800 uppercase">Mumtaz (A)</div>
-                            <div class="text-2xl font-black text-emerald-950 mt-1">{{ $chartPredicates['A'] ?? $chartPredicates[0] ?? 0 }}</div>
+                            <div id="countPredikatA" class="text-2xl font-black text-emerald-950 mt-1">{{ $chartPredicates['A'] ?? $chartPredicates[0] ?? 0 }}</div>
                             <div class="text-[10px] text-emerald-700 font-semibold mt-0.5">Nilai &ge; 85</div>
                         </div>
-                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-center">
+                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-center transition-all hover:shadow-xs">
                             <div class="text-xs font-bold text-blue-800 uppercase">Jayyid Jiddan (B)</div>
-                            <div class="text-2xl font-black text-blue-950 mt-1">{{ $chartPredicates['B'] ?? $chartPredicates[1] ?? 0 }}</div>
+                            <div id="countPredikatB" class="text-2xl font-black text-blue-950 mt-1">{{ $chartPredicates['B'] ?? $chartPredicates[1] ?? 0 }}</div>
                             <div class="text-[10px] text-blue-700 font-semibold mt-0.5">Nilai 75 - 84</div>
                         </div>
-                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-center">
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-center transition-all hover:shadow-xs">
                             <div class="text-xs font-bold text-amber-800 uppercase">Jayyid (C)</div>
-                            <div class="text-2xl font-black text-amber-950 mt-1">{{ $chartPredicates['C'] ?? $chartPredicates[2] ?? 0 }}</div>
+                            <div id="countPredikatC" class="text-2xl font-black text-amber-950 mt-1">{{ $chartPredicates['C'] ?? $chartPredicates[2] ?? 0 }}</div>
                             <div class="text-[10px] text-amber-700 font-semibold mt-0.5">Nilai 65 - 74</div>
                         </div>
-                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-center">
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-center transition-all hover:shadow-xs">
                             <div class="text-xs font-bold text-rose-800 uppercase">Maqbul (D)</div>
-                            <div class="text-2xl font-black text-rose-950 mt-1">{{ $chartPredicates['D'] ?? $chartPredicates[3] ?? 0 }}</div>
+                            <div id="countPredikatD" class="text-2xl font-black text-rose-950 mt-1">{{ $chartPredicates['D'] ?? $chartPredicates[3] ?? 0 }}</div>
                             <div class="text-[10px] text-rose-700 font-semibold mt-0.5">Perlu Remedial</div>
                         </div>
                     </div>
@@ -775,21 +796,21 @@
 
             <!-- Tabel Matriks Lebar Anti-Truncate -->
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs min-w-[1240px]">
-                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
                         <tr>
-                            <th class="px-4 py-3.5 text-center w-12">No</th>
-                            <th class="px-4 py-3.5 min-w-[170px]">Rombel Kelas</th>
-                            <th class="px-4 py-3.5 min-w-[200px]">Wali Kelas & Kontak</th>
-                            <th class="px-3 py-3.5 text-center w-28">Mapel & TP</th>
-                            <th class="px-3 py-3.5 text-center w-28">Wafa & Tahfidz</th>
-                            <th class="px-3 py-3.5 text-center w-28">Karakter 7 SKL</th>
-                            <th class="px-3 py-3.5 text-center w-28">P5 & Ekskul</th>
-                            <th class="px-3 py-3.5 text-center w-28">Catatan Walas</th>
-                            <th class="px-3 py-3.5 text-center w-24">Rata Nilai</th>
-                            <th class="px-3 py-3.5 text-center w-28">Siap Cetak</th>
-                            <th class="px-4 py-3.5 text-center w-36">Progres Kinerja</th>
-                            <th class="px-4 py-3.5 text-center min-w-[220px] whitespace-nowrap">Aksi Kepala Sekolah</th>
+                            <th class="px-2 py-3 text-center w-8">No</th>
+                            <th class="px-3 py-3 w-32">Rombel</th>
+                            <th class="px-3 py-3 w-48">Wali Kelas</th>
+                            <th class="px-2 py-3 text-center w-16">Mapel</th>
+                            <th class="px-2 py-3 text-center w-16">Wafa</th>
+                            <th class="px-2 py-3 text-center w-20">Karakter</th>
+                            <th class="px-2 py-3 text-center w-16">P5</th>
+                            <th class="px-2 py-3 text-center w-16">Catatan</th>
+                            <th class="px-2 py-3 text-center w-16">Rata-rata</th>
+                            <th class="px-2 py-3 text-center w-24">Siap Cetak</th>
+                            <th class="px-3 py-3 text-center w-28">Progres</th>
+                            <th class="px-2 py-3 text-center w-36 whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800 font-medium">
@@ -804,107 +825,92 @@
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
                             <!-- 1. No -->
-                            <td class="px-4 py-3.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+                            <td class="px-2 py-2.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
 
                             <!-- 2. Rombel Kelas -->
-                            <td class="px-4 py-3.5">
-                                <div class="font-black text-slate-900 text-xs flex items-center gap-1.5">
+                            <td class="px-3 py-2.5">
+                                <div class="font-extrabold text-slate-900 text-xs flex items-center gap-1">
                                     <span>🏫</span>
-                                    <span>{{ $data['classroom']->name }}</span>
+                                    <span class="whitespace-nowrap">{{ $data['classroom']->name }}</span>
                                 </div>
-                                <div class="flex items-center gap-1.5 mt-1">
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-bold">
+                                <div class="flex items-center gap-1 mt-0.5">
+                                    <span class="px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 text-[10px] font-bold whitespace-nowrap">
                                         {{ $stCount }} Siswa
                                     </span>
                                     @if($stCount == 0)
-                                        <span class="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 text-[9px] font-black border border-rose-200">Kosong</span>
+                                        <span class="px-1 py-0.2 rounded bg-rose-50 text-rose-700 text-[9px] font-black border border-rose-200 whitespace-nowrap">Kosong</span>
                                     @endif
                                 </div>
                             </td>
 
                             <!-- 3. Wali Kelas & Kontak -->
-                            <td class="px-4 py-3.5">
-                                <div class="font-bold text-slate-900 text-xs">
+                            <td class="px-3 py-2.5">
+                                <div class="font-bold text-slate-900 text-xs truncate max-w-[170px]" title="{{ $walasName }}">
                                     {{ $walasName }}
                                 </div>
-                                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                                <div class="flex items-center gap-1.5 mt-0.5 text-[10px] flex-wrap">
                                     @if(!empty($walasNip))
-                                        <span class="text-[10px] text-slate-500 font-semibold">NIP. {{ $walasNip }}</span>
+                                        <span class="text-slate-500 font-medium whitespace-nowrap">NIP. {{ $walasNip }}</span>
                                     @endif
                                     @if(!empty($walasPhone))
-                                        <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[9px] font-black inline-flex items-center gap-0.5 border border-emerald-200">
-                                            <span>WA:</span> <span>{{ $walasPhone }}</span>
+                                        <span class="px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 text-[9px] font-bold border border-emerald-200 whitespace-nowrap">
+                                            WA: {{ $walasPhone }}
                                         </span>
                                     @else
-                                        <span class="text-[9px] text-slate-400 italic">No HP belum ada</span>
+                                        <span class="text-[9px] text-slate-400 italic whitespace-nowrap">Belum ada HP</span>
                                     @endif
                                 </div>
                             </td>
 
                             <!-- 4. Mapel & TP -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if($data['mapel_count'] > 0)
-                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 text-[10px] font-black inline-flex items-center gap-1">
-                                        <span>✓</span> <span>Terisi</span>
-                                    </span>
-                                    <div class="text-[9px] text-emerald-700 font-bold mt-0.5">TP Terhubung</div>
+                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black whitespace-nowrap" title="Nilai Mapel & TP Terisi">✓ Terisi</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                    <span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-400 text-[10px] font-semibold whitespace-nowrap">Belum</span>
                                 @endif
                             </td>
 
                             <!-- 5. Wafa & Tahfidz -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if($data['quran_count'] > 0)
-                                    <span class="px-2.5 py-1 rounded-md bg-teal-100 text-teal-900 text-[10px] font-black inline-flex items-center gap-1">
-                                        <span>✓</span> <span>Terisi</span>
-                                    </span>
-                                    <div class="text-[9px] text-teal-700 font-bold mt-0.5">Metode Wafa</div>
+                                    <span class="px-2 py-0.5 rounded-md bg-teal-100 text-teal-800 text-[10px] font-black whitespace-nowrap" title="Al-Qur'an Wafa & Tahfidz Terisi">✓ Terisi</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                    <span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-400 text-[10px] font-semibold whitespace-nowrap">Belum</span>
                                 @endif
                             </td>
 
                             <!-- 6. Karakter 7 SKL -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if($data['char_count'] > 0)
-                                    <span class="px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-900 text-[10px] font-black inline-flex items-center gap-1">
-                                        <span>✓</span> <span>7 SKL Terisi</span>
-                                    </span>
-                                    <div class="text-[9px] text-indigo-700 font-bold mt-0.5">Standar JSIT</div>
+                                    <span class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-black whitespace-nowrap" title="Karakter 7 SKL JSIT Terisi">✓ 7 SKL</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                    <span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-400 text-[10px] font-semibold whitespace-nowrap">Belum</span>
                                 @endif
                             </td>
 
                             <!-- 7. P5 & Ekskul -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if(($data['p5_count'] ?? 0) > 0)
-                                    <span class="px-2.5 py-1 rounded-md bg-violet-100 text-violet-900 text-[10px] font-black inline-flex items-center gap-1">
-                                        <span>✓</span> <span>{{ $data['p5_count'] }} Projek</span>
-                                    </span>
-                                    <div class="text-[9px] text-violet-700 font-bold mt-0.5">Kokurikuler</div>
+                                    <span class="px-2 py-0.5 rounded-md bg-violet-100 text-violet-800 text-[10px] font-black whitespace-nowrap" title="{{ $data['p5_count'] }} Projek P5">✓ {{ $data['p5_count'] }} P5</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum Ada</span>
+                                    <span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-400 text-[10px] font-semibold whitespace-nowrap">Belum</span>
                                 @endif
                             </td>
 
                             <!-- 8. Catatan Walas -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if($data['hr_count'] > 0)
-                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 text-[10px] font-black inline-flex items-center gap-1">
-                                        <span>✓</span> <span>Terisi</span>
-                                    </span>
-                                    <div class="text-[9px] text-emerald-700 font-bold mt-0.5">Presensi OK</div>
+                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black whitespace-nowrap" title="Catatan Walas & Presensi Terisi">✓ Terisi</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                    <span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-400 text-[10px] font-semibold whitespace-nowrap">Belum</span>
                                 @endif
                             </td>
 
                             <!-- 9. Rata-rata Nilai -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if(!empty($data['avg_score']))
-                                    <span class="px-2 py-1 rounded-md bg-emerald-50 text-emerald-900 font-black text-xs border border-emerald-200">
+                                    <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-900 font-black text-xs border border-emerald-200 whitespace-nowrap">
                                         {{ number_format($data['avg_score'], 1) }}
                                     </span>
                                 @else
@@ -913,74 +919,63 @@
                             </td>
 
                             <!-- 10. Siap Cetak -->
-                            <td class="px-3 py-3.5 text-center">
+                            <td class="px-2 py-2.5 text-center">
                                 @if($stCount > 0 && $readyCount == $stCount)
-                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 font-black text-[10px] border border-emerald-300 inline-flex items-center gap-1">
-                                        <span>✓</span> <span>{{ $readyCount }}/{{ $stCount }} Siswa</span>
+                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[10px] border border-emerald-300 whitespace-nowrap">
+                                        ✓ {{ $readyCount }}/{{ $stCount }}
                                     </span>
                                 @elseif($readyCount > 0)
-                                    <span class="px-2 py-1 rounded-md bg-amber-100 text-amber-900 font-black text-[10px] border border-amber-300 inline-flex items-center gap-1">
-                                        <span>⏳</span> <span>{{ $readyCount }}/{{ $stCount }} Siswa</span>
+                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-black text-[10px] border border-amber-300 whitespace-nowrap">
+                                        ⏳ {{ $readyCount }}/{{ $stCount }}
                                     </span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 font-bold text-[10px]">
-                                        0/{{ $stCount }} Siswa
+                                    <span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-400 font-semibold text-[10px] whitespace-nowrap">
+                                        0/{{ $stCount }}
                                     </span>
                                 @endif
                             </td>
 
                             <!-- 11. Progres Kinerja -->
-                            <td class="px-4 py-3.5 text-center">
-                                <div class="flex items-center gap-2">
-                                    <div class="flex-1 bg-slate-200 rounded-full h-3 overflow-hidden shadow-2xs">
-                                        <div class="h-3 rounded-full transition-all flex items-center justify-center text-[9px] font-black text-white {{ $pct >= 100 ? 'bg-emerald-600' : ($pct >= 60 ? 'bg-sky-600' : ($pct > 0 ? 'bg-amber-500' : 'bg-slate-300')) }}" 
+                            <td class="px-3 py-2.5 text-center">
+                                <div class="flex items-center gap-1.5">
+                                    <div class="flex-1 bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                                        <div class="h-2.5 rounded-full transition-all {{ $pct >= 100 ? 'bg-emerald-600' : ($pct >= 60 ? 'bg-sky-600' : ($pct > 0 ? 'bg-amber-500' : 'bg-slate-300')) }}" 
                                              style="width: {{ $pct }}%">
                                         </div>
                                     </div>
-                                    <span class="text-[11px] font-black {{ $pct >= 100 ? 'text-emerald-700' : ($pct > 0 ? 'text-slate-800' : 'text-slate-400') }} w-9 text-right">
+                                    <span class="text-[10px] font-black {{ $pct >= 100 ? 'text-emerald-700' : ($pct > 0 ? 'text-slate-800' : 'text-slate-400') }} w-8 text-right">
                                         {{ $pct }}%
                                     </span>
                                 </div>
-                                <div class="mt-1 text-[9px] font-extrabold uppercase tracking-wider {{ $pct >= 100 ? 'text-emerald-600' : ($pct >= 60 ? 'text-sky-600' : ($pct > 0 ? 'text-amber-600' : 'text-slate-400')) }}">
-                                    @if($pct >= 100)
-                                        ✓ Tuntas 100%
-                                    @elseif($pct >= 60)
-                                        ⚡ Tahap Akhir
-                                    @elseif($pct > 0)
-                                        ⏳ Sedang Berjalan
-                                    @else
-                                        Belum Dimulai
-                                    @endif
+                                <div class="text-[9px] font-bold mt-0.5 {{ $pct >= 100 ? 'text-emerald-600' : ($pct >= 60 ? 'text-sky-600' : ($pct > 0 ? 'text-amber-600' : 'text-slate-400')) }}">
+                                    {{ $pct >= 100 ? 'Tuntas' : ($pct > 0 ? 'Proses' : 'Belum') }}
                                 </div>
                             </td>
 
                             <!-- 12. Aksi Kepala Sekolah -->
-                            <td class="px-4 py-3.5 text-center whitespace-nowrap">
-                                <div class="inline-flex items-center gap-1.5">
+                            <td class="px-2 py-2.5 text-center whitespace-nowrap">
+                                <div class="inline-flex items-center justify-center gap-1">
                                     <!-- Tombol AI Evaluasi -->
                                     <button type="button" 
                                             onclick="openAiClassAnalysisModal({{ $data['classroom']->id }}, '{{ addslashes($data['classroom']->name) }}')" 
-                                            class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-black text-[10px] transition shadow-2xs cursor-pointer active:scale-95"
-                                            title="Analisis Kesiapan Rapor Kelas via Robbani AI">
-                                        <span>✨</span>
-                                        <span>AI Evaluasi</span>
+                                            class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-black text-[10px] transition shadow-2xs cursor-pointer active:scale-95"
+                                            title="Analisis Kesiapan Rapor via Robbani AI">
+                                        <span>✨</span> <span>AI</span>
                                     </button>
 
-                                    <!-- Tombol WhatsApp Reminder (Quick Follow Up Walas) -->
+                                    <!-- Tombol WhatsApp Reminder -->
                                     <button type="button" 
                                             onclick="openWaliReminderModal('{{ addslashes($walasName) }}', '{{ addslashes($data['classroom']->name) }}', '{{ $walasPhone }}', {{ $pct }}, {{ $stCount }})"
-                                            class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg {{ $pct >= 100 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-300' : 'bg-green-50 hover:bg-green-100 text-green-800 border-green-300' }} border font-black text-[10px] transition shadow-2xs cursor-pointer active:scale-95"
+                                            class="inline-flex items-center gap-1 px-2 py-1 rounded-lg {{ $pct >= 100 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-300' : 'bg-green-50 hover:bg-green-100 text-green-800 border-green-300' }} border font-black text-[10px] transition shadow-2xs cursor-pointer active:scale-95"
                                             title="Kirim Pesan Pengingat Resmi ke Wali Kelas">
-                                        <span>📲</span>
-                                        <span>{{ $pct >= 100 ? 'Apresiasi' : 'Ingatkan WA' }}</span>
+                                        <span>📲</span> <span>WA</span>
                                     </button>
 
                                     <!-- Tombol Buka Kelas -->
                                     <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'classroom_id' => $data['classroom']->id, 'menu' => 'academic']) }}" 
-                                       class="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-[#064e3b] hover:bg-[#047857] text-white font-black text-[11px] transition shadow-2xs whitespace-nowrap active:scale-95"
+                                       class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#064e3b] hover:bg-[#047857] text-white font-black text-[10px] transition shadow-2xs whitespace-nowrap active:scale-95"
                                        title="Buka Pengisian & Detail Nilai Rombel Ini">
-                                        <span>Buka Kelas</span>
-                                        <span>→</span>
+                                        <span>Buka</span> <span>→</span>
                                     </a>
                                 </div>
                             </td>
@@ -1094,7 +1089,7 @@
                                         <span>✏️</span> <span>Edit</span>
                                     </button>
                                     @if(auth()->id() != $u->id && $u->role !== 'SUPER_ADMIN')
-                                    <form action="{{ route('admin.academic.users.delete', $u->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun {{ $u->name }} dari unit sekolah ini?')" class="inline">
+                                    <form action="{{ route('admin.academic.users.delete', $u->id) }}" method="POST" data-confirm="Apakah Anda yakin ingin menghapus akun {{ $u->name }} dari unit sekolah ini?" data-confirm-title="Hapus Akun Pengguna" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus Akun" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -1194,22 +1189,20 @@
 
             <!-- Action Buttons: Tarik Master, Kirim ke Master, Tambah Siswa, Download Template, Import CSV -->
             <div class="flex items-center gap-2.5 flex-wrap sm:shrink-0">
-                <form method="POST" action="{{ route('admin.academic.students.sync.master') }}" class="inline">
+                <form method="POST" action="{{ route('admin.academic.students.sync.master') }}" data-confirm="Tarik dan perbarui data siswa dari Data Master Siswa ke e-Rapor unit {{ $activeSchool->name ?? '' }}?" data-confirm-title="Tarik Data Master Siswa" data-confirm-icon="question" data-confirm-btn="Ya, Tarik Data" class="inline">
                     @csrf
                     <input type="hidden" name="school_id" value="{{ $schoolId }}">
                     <button type="submit" 
-                            onclick="return confirm('Tarik dan perbarui data siswa dari Data Master Siswa ke e-Rapor unit {{ $activeSchool->name ?? '' }}?')"
                             class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition cursor-pointer shadow-xs active:scale-95"
                             title="Tarik data siswa dari Data Master Siswa ke e-Rapor unit ini">
                         <span>📥</span> <span>Tarik dari Data Master</span>
                     </button>
                 </form>
 
-                <form method="POST" action="{{ route('admin.academic.students.push.master') }}" class="inline">
+                <form method="POST" action="{{ route('admin.academic.students.push.master') }}" data-confirm="Sinkronkan seluruh data siswa yang diinput di e-Rapor ke Data Master Siswa (dan buatkan akun portal siswa)?" data-confirm-title="Sinkronkan ke Data Master" data-confirm-icon="question" data-confirm-btn="Ya, Sinkronkan" class="inline">
                     @csrf
                     <input type="hidden" name="school_id" value="{{ $schoolId }}">
                     <button type="submit" 
-                            onclick="return confirm('Sinkronkan seluruh data siswa yang diinput di e-Rapor ke Data Master Siswa (dan buatkan akun portal siswa)?')"
                             class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition cursor-pointer shadow-xs active:scale-95"
                             title="Tarik/sinkronkan data yang diinput di e-Rapor ke tabel data master siswa">
                         <span>📤</span> <span>Sinkronkan ke Data Master</span>
@@ -1707,7 +1700,7 @@
                                        title="Lihat Pratinjau Rapor">
                                         <span>📄</span> <span>Rapor</span>
                                     </a>
-                                    <form method="POST" action="{{ route('admin.academic.students.delete', $st->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus siswa {{ addslashes($st->full_name) }}?');" class="inline">
+                                    <form method="POST" action="{{ route('admin.academic.students.delete', $st->id) }}" data-confirm="Apakah Anda yakin ingin menghapus siswa {{ addslashes($st->full_name) }}?" data-confirm-title="Hapus Siswa" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus Siswa" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -2128,7 +2121,7 @@
                                     </button>
 
                                     <!-- Tombol Hapus Rombel -->
-                                    <form method="POST" action="{{ route('admin.academic.classrooms.delete', $cls->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus rombel {{ addslashes($cls->name) }}? Sebanyak {{ $stCount }} siswa di kelas ini akan dialihkan ke status belum masuk rombel.');" class="inline">
+                                    <form method="POST" action="{{ route('admin.academic.classrooms.delete', $cls->id) }}" data-confirm="Apakah Anda yakin ingin menghapus rombel {{ addslashes($cls->name) }}? Sebanyak {{ $stCount }} siswa di kelas ini akan dialihkan ke status belum masuk rombel." data-confirm-title="Hapus Rombel Kelas" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus Rombel" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -2400,7 +2393,7 @@
                                             title="Edit Mapel">
                                         <span>✏️</span> <span>Edit</span>
                                     </button>
-                                    <form method="POST" action="{{ route('admin.academic.subjects.delete', $sb->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mapel {{ addslashes($sb->name) }}?');" class="inline">
+                                    <form method="POST" action="{{ route('admin.academic.subjects.delete', $sb->id) }}" data-confirm="Apakah Anda yakin ingin menghapus mapel {{ addslashes($sb->name) }}?" data-confirm-title="Hapus Mata Pelajaran" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus Mapel" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -2492,11 +2485,11 @@
                 </p>
             </div>
             <div class="flex items-center gap-2.5 flex-wrap shrink-0">
-                <form method="POST" action="{{ route('admin.academic.tp.seed') }}">
+                <form method="POST" action="{{ route('admin.academic.tp.seed') }}" data-confirm="Generate otomatis paket Tujuan Pembelajaran standar Kurikulum Merdeka untuk semua mata pelajaran di unit ini?" data-confirm-title="Generate Paket TP Standar" data-confirm-icon="question" data-confirm-btn="Ya, Generate" class="inline">
                     @csrf
                     <input type="hidden" name="school_id" value="{{ $schoolId }}">
                     <input type="hidden" name="subject_id" value="{{ $selectedSubjectId }}">
-                    <button type="submit" onclick="return confirm('Generate otomatis paket Tujuan Pembelajaran standar Kurikulum Merdeka untuk semua mata pelajaran di unit ini?')"
+                    <button type="submit" 
                             class="px-4 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-black text-xs flex items-center gap-2 transition cursor-pointer shadow-xs active:scale-95">
                         <span>⚡</span>
                         <span>Generate Paket TP Standar</span>
@@ -2623,7 +2616,7 @@
                                             title="Edit TP">
                                         <span>✏️</span> <span>Edit</span>
                                     </button>
-                                    <form method="POST" action="{{ route('admin.academic.tp.delete', $tp->id) }}" onsubmit="return confirm('Hapus Tujuan Pembelajaran {{ $tp->code }}?');" class="inline">
+                                    <form method="POST" action="{{ route('admin.academic.tp.delete', $tp->id) }}" data-confirm="Hapus Tujuan Pembelajaran {{ $tp->code }}?" data-confirm-title="Hapus TP" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus TP" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -2892,7 +2885,7 @@
                                             title="Edit Ekskul">
                                         <span>✏️</span> <span>Edit</span>
                                     </button>
-                                    <form method="POST" action="{{ route('admin.academic.extracurriculars.delete', $ek->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ekskul {{ addslashes($ek->name) }}?');" class="inline">
+                                    <form method="POST" action="{{ route('admin.academic.extracurriculars.delete', $ek->id) }}" data-confirm="Apakah Anda yakin ingin menghapus ekskul {{ addslashes($ek->name) }}?" data-confirm-title="Hapus Ekskul" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus Ekskul" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -3068,7 +3061,7 @@
                                             title="Edit Projek P5">
                                         <span>✏️</span> <span>Edit</span>
                                     </button>
-                                    <form method="POST" action="{{ route('admin.academic.p5.delete', $p5->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus projek {{ addslashes($p5->title) }}?');" class="inline">
+                                    <form method="POST" action="{{ route('admin.academic.p5.delete', $p5->id) }}" data-confirm="Apakah Anda yakin ingin menghapus projek {{ addslashes($p5->title) }}?" data-confirm-title="Hapus Projek P5" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus Projek" class="inline">
                                         @csrf
                                         <button type="submit" 
                                                 class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
@@ -4192,82 +4185,81 @@
 
                             <td class="px-4 py-3.5 text-center">
                                 @if($stReady['mapel'])
-                                     <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Lengkap</span>
+                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold whitespace-nowrap">✓ Lengkap</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">⏳ Belum</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold whitespace-nowrap">⏳ Belum</span>
                                 @endif
                             </td>
 
                             <td class="px-4 py-3.5 text-center">
                                 @if($stReady['quran'])
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold whitespace-nowrap">✓ Terisi</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">⏳ Belum</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold whitespace-nowrap">⏳ Belum</span>
                                 @endif
                             </td>
 
                             <td class="px-4 py-3.5 text-center">
                                 @if($stReady['character'])
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold whitespace-nowrap">✓ Terisi</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">⏳ Belum</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold whitespace-nowrap">⏳ Belum</span>
                                 @endif
                             </td>
 
                             <td class="px-4 py-3.5 text-center">
                                 @if($stReady['homeroom'])
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold whitespace-nowrap">✓ Terisi</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">⏳ Belum</span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold whitespace-nowrap">⏳ Belum</span>
                                 @endif
                             </td>
 
                             <td class="px-4 py-3.5 text-center">
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-900">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-900 whitespace-nowrap">
                                     🟢 Siap Cetak
                                 </span>
                             </td>
 
                             <!-- Action Buttons in One Crisp Horizontal Row -->
-                            <td class="px-4 py-3.5 text-center min-w-[380px] whitespace-nowrap">
-                                <div class="inline-flex items-center justify-center gap-1.5 flex-wrap">
+                            <td class="px-4 py-3.5 text-center whitespace-nowrap">
+                                <div class="inline-flex items-center justify-center gap-1.5">
                                     <!-- 1. All in One PDF -->
                                     <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'all_in_one']) }}" 
                                        target="_blank"
-                                       class="px-2.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1">
+                                       class="px-2.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1 whitespace-nowrap active:scale-95"
+                                       title="Cetak Buku Rapor Lengkap Gabungan (All-in-One PDF)">
                                         <span>🖨️</span> <span>Gabungan</span>
                                     </a>
 
                                     <!-- 2. Download Word (.doc) -->
                                     <a href="{{ route('admin.academic.report-card.word', $student->id) }}" 
                                        title="Download e-Rapor Microsoft Word (.doc) yang dapat diedit manual"
-                                       class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1">
+                                       class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1 whitespace-nowrap active:scale-95">
                                         <span>📝</span> <span>Word (.doc)</span>
                                     </a>
 
-                                    <!-- 3. Akademik Terpisah -->
-                                    <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'academic']) }}" 
-                                       target="_blank"
-                                       title="Cetak Khusus Nilai Mata Pelajaran"
-                                       class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
-                                        Akademik
-                                    </a>
-
-                                    <!-- 4. Wafa Terpisah -->
-                                    <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'quran']) }}" 
-                                       target="_blank"
-                                       title="Cetak Khusus Nilai Al-Qur'an Wafa & Tahfidz"
-                                       class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
-                                        Wafa
-                                    </a>
-
-                                    <!-- 5. Karakter Terpisah -->
-                                    <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'character']) }}" 
-                                       target="_blank"
-                                       title="Cetak Khusus Nilai Karakter JSIT & BPI"
-                                       class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
-                                        Karakter
-                                    </a>
+                                    <!-- 3. Cetak Parsial Segmented Group -->
+                                    <div class="inline-flex rounded-lg border border-slate-300 divide-x divide-slate-300 shadow-2xs overflow-hidden bg-white">
+                                        <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'academic']) }}" 
+                                           target="_blank"
+                                           title="Cetak Khusus Nilai Mata Pelajaran (Akademik)"
+                                           class="px-2 py-1.5 hover:bg-slate-100 text-slate-700 font-bold text-xs transition whitespace-nowrap">
+                                            Akademik
+                                        </a>
+                                        <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'quran']) }}" 
+                                           target="_blank"
+                                           title="Cetak Khusus Nilai Al-Qur'an Wafa & Tahfidz"
+                                           class="px-2 py-1.5 hover:bg-slate-100 text-slate-700 font-bold text-xs transition whitespace-nowrap">
+                                            Wafa
+                                        </a>
+                                        <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'character']) }}" 
+                                           target="_blank"
+                                           title="Cetak Khusus Nilai Karakter JSIT & BPI"
+                                           class="px-2 py-1.5 hover:bg-slate-100 text-slate-700 font-bold text-xs transition whitespace-nowrap">
+                                            Karakter
+                                        </a>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -5040,8 +5032,10 @@
 
         // 3. Chart Donut Predikat
         const ctxPred = document.getElementById('chartPredikatDonut');
+        const predicatesPerClass = @json($chartPredicatesPerClass ?? []);
+
         if (ctxPred) {
-            new Chart(ctxPred, {
+            window.chartPredikatInstance = new Chart(ctxPred, {
                 type: 'doughnut',
                 data: {
                     labels: ['A (Istimewa)', 'B (Baik)', 'C (Cukup)', 'D (Bimbingan)'],
@@ -5065,6 +5059,46 @@
                 }
             });
         }
+
+        window.updatePredikatClass = function(classId) {
+            if (!window.chartPredikatInstance) return;
+            const target = predicatesPerClass[classId] || predicatesPerClass['all'] || {
+                name: 'Semua Kelas',
+                A: predicates.A || 0,
+                B: predicates.B || 0,
+                C: predicates.C || 0,
+                D: predicates.D || 0,
+                total: 0
+            };
+
+            window.chartPredikatInstance.data.datasets[0].data = [
+                target.A || 0,
+                target.B || 0,
+                target.C || 0,
+                target.D || 0
+            ];
+            window.chartPredikatInstance.update();
+
+            const elA = document.getElementById('countPredikatA');
+            const elB = document.getElementById('countPredikatB');
+            const elC = document.getElementById('countPredikatC');
+            const elD = document.getElementById('countPredikatD');
+            const elSub = document.getElementById('predikatClassSubtitle');
+            const elBadge = document.getElementById('predikatBadgeActive');
+
+            if (elA) elA.textContent = target.A || 0;
+            if (elB) elB.textContent = target.B || 0;
+            if (elC) elC.textContent = target.C || 0;
+            if (elD) elD.textContent = target.D || 0;
+            if (elSub) {
+                elSub.textContent = classId === 'all' 
+                    ? 'di unit {{ $activeSchool->name ?? 'SIT Robbani' }}' 
+                    : 'pada rombel ' + (target.name || 'Kelas');
+            }
+            if (elBadge) {
+                elBadge.textContent = target.name || 'Semua Kelas';
+            }
+        };
     });
     @endif
 
@@ -5545,9 +5579,18 @@
             alert('Tidak ada siswa di tabel Wali Kelas.');
             return;
         }
-        if (!confirm('Apakah Anda ingin membuat catatan motivasi wali kelas berbasis AI untuk ' + buttons.length + ' siswa di kelas ini?')) {
-            return;
-        }
+        const res = await Swal.fire({
+            title: 'Generate Catatan Walas AI',
+            text: 'Apakah Anda ingin membuat catatan motivasi wali kelas berbasis AI untuk ' + buttons.length + ' siswa di kelas ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#064e3b',
+            cancelButtonColor: '#94a3b8',
+            confirmButtonText: 'Ya, Generate Semua',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        });
+        if (!res.isConfirmed) return;
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].click();
             await new Promise(r => setTimeout(r, 800));
@@ -5592,9 +5635,18 @@
             alert('Tidak ada siswa di tabel Al-Qur\'an.');
             return;
         }
-        if (!confirm('Apakah Anda ingin men-generate evaluasi Al-Qur\'an berbasis AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
-            return;
-        }
+        const res = await Swal.fire({
+            title: 'Generate Evaluasi Al-Qur\'an AI',
+            text: 'Apakah Anda ingin men-generate evaluasi Al-Qur\'an berbasis AI untuk semua ' + buttons.length + ' siswa di kelas ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#064e3b',
+            cancelButtonColor: '#94a3b8',
+            confirmButtonText: 'Ya, Generate Semua',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        });
+        if (!res.isConfirmed) return;
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].click();
             await new Promise(r => setTimeout(r, 800));
@@ -5704,9 +5756,18 @@
             alert('Tidak ada siswa di tabel BPI.');
             return;
         }
-        if (!confirm('Apakah Anda ingin men-generate evaluasi BPI berbasis AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
-            return;
-        }
+        const res = await Swal.fire({
+            title: 'Generate Evaluasi 7 SKL & BPI AI',
+            text: 'Apakah Anda ingin men-generate evaluasi BPI berbasis AI untuk semua ' + buttons.length + ' siswa di kelas ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#064e3b',
+            cancelButtonColor: '#94a3b8',
+            confirmButtonText: 'Ya, Generate Semua',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        });
+        if (!res.isConfirmed) return;
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].click();
             await new Promise(r => setTimeout(r, 800));
@@ -5768,9 +5829,18 @@
             return;
         }
 
-        if (!confirm('Apakah Anda ingin men-generate narasi capaian pembelajaran berbasis Robbani AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
-            return;
-        }
+        const res = await Swal.fire({
+            title: 'Generate Narasi Capaian AI',
+            text: 'Apakah Anda ingin men-generate narasi capaian pembelajaran berbasis Robbani AI untuk semua ' + buttons.length + ' siswa di kelas ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#064e3b',
+            cancelButtonColor: '#94a3b8',
+            confirmButtonText: 'Ya, Generate Semua',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        });
+        if (!res.isConfirmed) return;
 
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].click();
@@ -6315,10 +6385,22 @@
     });
 
     function discardLocalDraft(key) {
-        if (confirm('Apakah Anda yakin ingin membuang draf lokal ini dan memuat ulang data server asli?')) {
-            localStorage.removeItem(key);
-            window.location.reload();
-        }
+        Swal.fire({
+            title: 'Buang Draf Lokal?',
+            text: 'Apakah Anda yakin ingin membuang draf lokal ini dan memuat ulang data server asli?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#94a3b8',
+            confirmButtonText: 'Ya, Buang Draf',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((res) => {
+            if (res.isConfirmed) {
+                localStorage.removeItem(key);
+                window.location.reload();
+            }
+        });
     }
 </script>
 @endsection

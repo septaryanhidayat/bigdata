@@ -447,7 +447,7 @@
                     @endif
                 </div>
 
-                <p class="font-black text-slate-950 uppercase underline tracking-wide">
+                <p class="font-black text-slate-950 underline tracking-wide">
                     {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr')) }}
                 </p>
                 <p class="text-[11px] text-slate-700">
@@ -622,7 +622,7 @@
                         <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                     @endif
                 </div>
-                <p class="font-black text-slate-950 underline uppercase">
+                <p class="font-black text-slate-950 underline">
                     {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
                 </p>
                 <p class="text-[11px] text-slate-700">

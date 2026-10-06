@@ -41,7 +41,7 @@
                         <td class="p-4 font-extrabold text-slate-900">{{ $sch->subject->name ?? '-' }}</td>
                         <td class="p-4 font-bold text-slate-700">👨‍🏫 {{ $sch->teacher->full_name ?? '-' }}</td>
                         <td class="p-4 text-center">
-                            <form action="{{ route('admin.academic.schedules.destroy', $sch->id) }}" method="POST" onsubmit="return confirm('Hapus jadwal pelajaran ini?')" class="inline">
+                            <form action="{{ route('admin.academic.schedules.destroy', $sch->id) }}" method="POST" data-confirm="Hapus jadwal pelajaran ini?" data-confirm-title="Hapus Jadwal" data-confirm-icon="warning" data-confirm-color="#e11d48" data-confirm-btn="Ya, Hapus" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="p-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-black text-[11px] transition-colors" title="Hapus Jadwal">

@@ -1028,18 +1028,59 @@ class AcademicController extends Controller
             ];
         }
 
-        // Chart 3: Distribusi Predikat Nilai Unit (100% Data Nyata Database)
+        // Chart 3: Distribusi Predikat Capaian Akademik & Tilawah Al-Qur'an (100% Data Nyata Database)
+        $chartPredicatesPerClass = [];
+        
         $unitGrades = Grade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->pluck('score');
-        $countA = $unitGrades->filter(fn($s) => $s >= 85)->count();
-        $countB = $unitGrades->filter(fn($s) => $s >= 75 && $s < 85)->count();
-        $countC = $unitGrades->filter(fn($s) => $s >= 65 && $s < 75)->count();
-        $countD = $unitGrades->filter(fn($s) => $s < 65)->count();
+        $unitQuranScores = collect();
+        if (Schema::hasTable('quran_grades')) {
+            $unitQuranScores = QuranGrade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))
+                ->get()
+                ->flatMap(fn($qg) => array_filter([(float)$qg->tahsin_final_score, (float)$qg->tahfidz_score]));
+        }
+        $allUnitScores = $unitGrades->concat($unitQuranScores)->filter(fn($s) => is_numeric($s) && $s > 0);
+        $countA = $allUnitScores->filter(fn($s) => $s >= 85)->count();
+        $countB = $allUnitScores->filter(fn($s) => $s >= 75 && $s < 85)->count();
+        $countC = $allUnitScores->filter(fn($s) => $s >= 65 && $s < 75)->count();
+        $countD = $allUnitScores->filter(fn($s) => $s < 65)->count();
         $chartPredicates = [
             'A' => $countA,
             'B' => $countB,
             'C' => $countC,
             'D' => $countD,
         ];
+        $chartPredicatesPerClass['all'] = [
+            'name' => 'Semua Kelas (Unit ' . ($activeSchool->code ?? 'SIT') . ')',
+            'A' => $countA,
+            'B' => $countB,
+            'C' => $countC,
+            'D' => $countD,
+            'total' => $countA + $countB + $countC + $countD,
+        ];
+
+        // Rincian per Rombel Kelas
+        foreach ($classrooms as $cls) {
+            $clsGrades = Grade::whereHas('student', fn($q) => $q->where('classroom_id', $cls->id))->pluck('score');
+            $clsQuranScores = collect();
+            if (Schema::hasTable('quran_grades')) {
+                $clsQuranScores = QuranGrade::whereHas('student', fn($q) => $q->where('classroom_id', $cls->id))
+                    ->get()
+                    ->flatMap(fn($qg) => array_filter([(float)$qg->tahsin_final_score, (float)$qg->tahfidz_score]));
+            }
+            $allClsScores = $clsGrades->concat($clsQuranScores)->filter(fn($s) => is_numeric($s) && $s > 0);
+            $cA = $allClsScores->filter(fn($s) => $s >= 85)->count();
+            $cB = $allClsScores->filter(fn($s) => $s >= 75 && $s < 85)->count();
+            $cC = $allClsScores->filter(fn($s) => $s >= 65 && $s < 75)->count();
+            $cD = $allClsScores->filter(fn($s) => $s < 65)->count();
+            $chartPredicatesPerClass[$cls->id] = [
+                'name' => $cls->name,
+                'A' => $cA,
+                'B' => $cB,
+                'C' => $cC,
+                'D' => $cD,
+                'total' => $cA + $cB + $cC + $cD,
+            ];
+        }
 
         // Executive Metrics Real
         $averageUnitScore = $unitGrades->isNotEmpty() ? round($unitGrades->avg(), 1) : 0;
@@ -1120,6 +1161,7 @@ class AcademicController extends Controller
             'chartSklValues',
             'chartSklPerClass',
             'chartPredicates',
+            'chartPredicatesPerClass',
             'averageUnitScore',
             'overallAttendancePct',
             'tahfidzCompletionPct',

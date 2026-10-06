@@ -316,7 +316,7 @@ th {
                     <div style="height: 50pt;">&nbsp;</div>
                 @endif
             </div>
-            <div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">{{ $kepsekName }}</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ $kepsekName }}</div>
             <div style="font-size: 9.5pt;">NIP. {{ $kepsekNip }}</div>
         </td>
     </tr>
@@ -428,7 +428,7 @@ th {
                     <div style="height: 50pt;">&nbsp;</div>
                 @endif
             </div>
-            <div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">{{ $kepsekName }}</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ $kepsekName }}</div>
             <div style="font-size: 9.5pt;">NIP. {{ $kepsekNip }}</div>
         </td>
     </tr>
@@ -642,7 +642,7 @@ th {
                     <div style="height: 40pt;">&nbsp;</div>
                 @endif
             </div>
-            <div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">{{ $kepsekName }}</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ $kepsekName }}</div>
             <div style="font-size: 9pt;">NIP. {{ $kepsekNip }}</div>
         </td>
     </tr>
@@ -734,7 +734,7 @@ th {
                     <div style="height: 40pt;">&nbsp;</div>
                 @endif
             </div>
-            <div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">{{ $kepsekName }}</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ $kepsekName }}</div>
             <div style="font-size: 9pt;">NIP. {{ $kepsekNip }}</div>
         </td>
     </tr>
@@ -811,7 +811,7 @@ th {
                     <div style="height: 40pt;">&nbsp;</div>
                 @endif
             </div>
-            <div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">{{ $kepsekName }}</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ $kepsekName }}</div>
             <div style="font-size: 9pt;">NIP. {{ $kepsekNip }}</div>
         </td>
     </tr>

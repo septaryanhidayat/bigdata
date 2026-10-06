@@ -282,30 +282,7 @@
 
         <!-- Main Body Content (Full Width) -->
         <main class="flex-1 overflow-y-auto w-full px-4 sm:px-6 lg:px-8 py-6">
-            
-            <!-- Flash Alert -->
-            @if(session('success'))
-                <div class="mb-5 p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 font-bold text-xs flex items-center justify-between shadow-xs">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black">✓</span>
-                        <span>{{ session('success') }}</span>
-                    </div>
-                    <button onclick="this.parentElement.remove()" class="text-emerald-800 font-bold hover:text-emerald-950 text-sm">✕</button>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="mb-5 p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-950 font-bold text-xs flex items-center justify-between shadow-xs">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px] font-black">✕</span>
-                        <span>{{ session('error') }}</span>
-                    </div>
-                    <button onclick="this.parentElement.remove()" class="text-rose-800 font-bold hover:text-rose-950 text-sm">✕</button>
-                </div>
-            @endif
-
             @yield('content')
-
         </main>
 
         <!-- Clean Footer -->
@@ -533,7 +510,119 @@
                 openPanduanModal();
             }
             @endif
+
+            // SweetAlert2 Flash Notifications
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: {!! json_encode(session('success')) !!},
+                    confirmButtonColor: '#064e3b',
+                    timer: 3500,
+                    timerProgressBar: true
+                });
+            @endif
+
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan',
+                    text: {!! json_encode(session('error')) !!},
+                    confirmButtonColor: '#e11d48'
+                });
+            @endif
+
+            @if(session('warning'))
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Perhatian',
+                    text: {!! json_encode(session('warning')) !!},
+                    confirmButtonColor: '#d97706'
+                });
+            @endif
+
+            @if(session('info'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Informasi',
+                    text: {!! json_encode(session('info')) !!},
+                    confirmButtonColor: '#0284c7'
+                });
+            @endif
+
+            // Intercept form submissions with data-confirm
+            document.addEventListener('submit', function(e) {
+                const form = e.target;
+                const confirmMsg = form.getAttribute('data-confirm') || form.dataset.confirm;
+                if (confirmMsg && !form.dataset.confirmed) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: form.dataset.confirmTitle || 'Konfirmasi Tindakan',
+                        text: confirmMsg,
+                        icon: form.dataset.confirmIcon || 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: form.dataset.confirmColor || '#064e3b',
+                        cancelButtonColor: '#94a3b8',
+                        confirmButtonText: form.dataset.confirmBtn || 'Ya, Lanjutkan',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.dataset.confirmed = 'true';
+                            form.submit();
+                        }
+                    });
+                }
+            });
+
+            // Intercept links or buttons with data-confirm
+            document.addEventListener('click', function(e) {
+                const el = e.target.closest('a[data-confirm], button[data-confirm]:not([type="submit"])');
+                if (el && !el.dataset.confirmed) {
+                    e.preventDefault();
+                    const msg = el.getAttribute('data-confirm') || el.dataset.confirm;
+                    Swal.fire({
+                        title: el.dataset.confirmTitle || 'Konfirmasi Tindakan',
+                        text: msg,
+                        icon: el.dataset.confirmIcon || 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: el.dataset.confirmColor || '#064e3b',
+                        cancelButtonColor: '#94a3b8',
+                        confirmButtonText: el.dataset.confirmBtn || 'Ya, Lanjutkan',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            el.dataset.confirmed = 'true';
+                            if (el.tagName === 'A') {
+                                window.location.href = el.href;
+                            } else if (typeof el.onclick === 'function') {
+                                el.click();
+                            }
+                        }
+                    });
+                }
+            });
         });
+
+        // Global helper for programmatic SweetAlert2 confirm
+        window.smartConfirm = function(message, onConfirm, options = {}) {
+            Swal.fire({
+                title: options.title || 'Konfirmasi Tindakan',
+                text: message,
+                icon: options.icon || 'warning',
+                showCancelButton: true,
+                confirmButtonColor: options.confirmColor || '#064e3b',
+                cancelButtonColor: '#94a3b8',
+                confirmButtonText: options.confirmBtn || 'Ya, Lanjutkan',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed && typeof onConfirm === 'function') {
+                    onConfirm();
+                }
+            });
+        };
     </script>
 </body>
 </html>
