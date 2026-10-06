@@ -1466,7 +1466,7 @@ class AcademicController extends Controller
         // Buat atau tautkan User Portal jika belum ada
         if (!$student->user_id) {
             $cleanNis = preg_replace('/[^A-Za-z0-9]/', '', $student->nis ?: 'S' . $student->id);
-            $email = strtolower($cleanNis) . '@santri.sitrobbani.sch.id';
+            $email = strtolower($cleanNis) . '@siswa.sitrobbani.sch.id';
             $user = User::firstOrCreate(
                 ['email' => $email],
                 [
@@ -1485,11 +1485,11 @@ class AcademicController extends Controller
             'school_id' => $request->school_id,
             'classroom_id' => $request->classroom_id,
             'menu' => 'students'
-        ])->with('success', "✓ Data Santri {$request->full_name} (NIS: {$request->nis}) berhasil disimpan & profil data diri diperbarui!");
+        ])->with('success', "✓ Data Siswa {$request->full_name} (NIS: {$request->nis}) berhasil disimpan & profil data diri diperbarui!");
     }
 
     /**
-     * Hapus Santri oleh Kepsek / Operator
+     * Hapus Siswa oleh Kepsek / Operator
      */
     public function deleteStudent($studentId, Request $request)
     {
@@ -1501,7 +1501,7 @@ class AcademicController extends Controller
         return redirect()->route('admin.academic.grades', [
             'school_id' => $schoolId,
             'menu' => 'students'
-        ])->with('success', "Data Santri {$name} berhasil dihapus dari sistem.");
+        ])->with('success', "Data Siswa {$name} berhasil dihapus dari sistem.");
     }
 
     /**
@@ -1567,7 +1567,7 @@ class AcademicController extends Controller
             // Hubungkan akun User Portal Siswa jika belum ada
             if (!$st->user_id) {
                 $cleanNis = preg_replace('/[^A-Za-z0-9]/', '', $st->nis ?: 'S' . $st->id);
-                $email = strtolower($cleanNis) . '@santri.sitrobbani.sch.id';
+                $email = strtolower($cleanNis) . '@siswa.sitrobbani.sch.id';
                 
                 $user = User::firstOrCreate(
                     ['email' => $email],
@@ -1604,7 +1604,7 @@ class AcademicController extends Controller
             $syncedCount++;
         }
 
-        $msg = "✓ Berhasil menyinkronkan {$syncedCount} santri e-Rapor ke Data Master Siswa!" . ($createdUserCount > 0 ? " ({$createdUserCount} akun portal siswa baru dibuat)." : "");
+        $msg = "✓ Berhasil menyinkronkan {$syncedCount} siswa e-Rapor ke Data Master Siswa!" . ($createdUserCount > 0 ? " ({$createdUserCount} akun portal siswa baru dibuat)." : "");
 
         return redirect()->route('admin.academic.grades', [
             'school_id' => $schoolId,
@@ -1613,7 +1613,7 @@ class AcademicController extends Controller
     }
 
     /**
-     * Unduh Template CSV Import Santri
+     * Unduh Template CSV Import Siswa
      */
     public function downloadStudentTemplate()
     {
@@ -1626,7 +1626,7 @@ class AcademicController extends Controller
             $output = fopen('php://output', 'w');
             fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF)); // UTF-8 BOM
             fputcsv($output, ['NIS', 'NISN', 'Nama_Lengkap', 'Jenis_Kelamin_L_P', 'Nama_Rombel']);
-            fputcsv($output, ['SMP-2026-0099', '0099123456', 'Ahmad Demo Santri', 'L', 'Kelas 7A Tahfidz Unggulan']);
+            fputcsv($output, ['SMP-2026-0099', '0099123456', 'Ahmad Demo Siswa', 'L', 'Kelas 7A Tahfidz Unggulan']);
             fputcsv($output, ['SMP-2026-0100', '0099123457', 'Fatimah Az-Zahra', 'P', 'Kelas 7A Tahfidz Unggulan']);
             fclose($output);
         };
@@ -1635,7 +1635,7 @@ class AcademicController extends Controller
     }
 
     /**
-     * Import Data Santri dari File CSV
+     * Import Data Siswa dari File CSV
      */
     public function importStudents(Request $request)
     {
@@ -1688,7 +1688,7 @@ class AcademicController extends Controller
         return redirect()->route('admin.academic.grades', [
             'school_id' => $schoolId,
             'menu' => 'students',
-        ])->with('success', "Alhamdulillah! Berhasil mengimpor {$count} data santri ke sistem.");
+        ])->with('success', "Alhamdulillah! Berhasil mengimpor {$count} data siswa ke sistem.");
     }
 
     /**
@@ -2321,7 +2321,7 @@ class AcademicController extends Controller
             'school_id' => $request->school_id,
             'classroom_id' => $request->classroom_id,
             'menu' => 'quran'
-        ])->with('success', "Berhasil menyimpan penilaian Al-Qur'an (Metode Wafa & Tahfidz) untuk {$savedCount} santri!");
+        ])->with('success', "Berhasil menyimpan penilaian Al-Qur'an (Metode Wafa & Tahfidz) untuk {$savedCount} siswa!");
     }
 
     /**
@@ -2379,7 +2379,7 @@ class AcademicController extends Controller
             'school_id' => $request->school_id,
             'classroom_id' => $request->classroom_id,
             'menu' => 'character'
-        ])->with('success', "Berhasil menyimpan evaluasi Karakter 7 SKL JSIT & BPI untuk {$savedCount} santri!");
+        ])->with('success', "Berhasil menyimpan evaluasi Karakter 7 SKL JSIT & BPI untuk {$savedCount} siswa!");
     }
 
     /**
@@ -2761,6 +2761,7 @@ class AcademicController extends Controller
         $schoolName = strtolower($student->school->name ?? '');
         $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp');
         $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd');
+        $isTk = str_contains($schoolCode, 'tk') || str_contains($schoolName, 'tk') || str_contains($schoolCode, 'paud') || str_contains($schoolName, 'paud') || str_contains($schoolCode, 'ra') || str_contains($schoolName, 'ra');
 
         $classroomGrade = 1;
         if ($student->classroom) {
@@ -2839,15 +2840,23 @@ class AcademicController extends Controller
         }
         $nssNds = $reportSetting?->nss_nds ?: ($isSmp ? '202110304002' : '102110304001');
 
+        $defaultTeacherName = $isSmp 
+            ? 'Nurul Hamidah Yanti, S.E' 
+            : ($isTk ? 'Amah Nurul Hamidah, S.Pd.' : 'Bunda Nurul Hamidah, S.Pd.');
+
+        $defaultTeacherTitle = $isSmp 
+            ? 'Guru Tahfidz SMPIT Robbani' 
+            : ($isTk ? 'Sertifikasi Wafa Indonesia (Amah Wafa)' : 'Sertifikasi Wafa Indonesia (Bunda Wafa)');
+
         $wafaTeacherName = $quranGrade?->quran_teacher_name 
             ?: ($student->classroom?->quran_teacher_name 
             ?: ($quranGrade?->examiner?->full_name 
             ?: ($reportSetting?->quran_teacher_name 
-            ?: ($isSmp ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.'))));
+            ?: $defaultTeacherName)));
 
         $wafaTeacherTitle = $quranGrade?->quran_teacher_title 
             ?: ($reportSetting?->quran_teacher_title 
-            ?: ($isSmp ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia'));
+            ?: $defaultTeacherTitle);
 
         return view('admin.academic.report_card', compact(
             'student',
@@ -2868,6 +2877,7 @@ class AcademicController extends Controller
             'classSubjects',
             'isSmp',
             'isSd',
+            'isTk',
             'classroomGrade',
             'isBpiAllowed',
             'wafaTeacherName',
@@ -3021,6 +3031,7 @@ class AcademicController extends Controller
         $schoolName = strtolower($student->school->name ?? '');
         $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp');
         $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd');
+        $isTk = str_contains($schoolCode, 'tk') || str_contains($schoolName, 'tk') || str_contains($schoolCode, 'paud') || str_contains($schoolName, 'paud') || str_contains($schoolCode, 'ra') || str_contains($schoolName, 'ra');
 
         $classroomGrade = 1;
         if ($student->classroom) {
@@ -3087,15 +3098,23 @@ class AcademicController extends Controller
         }
         $nssNds = $reportSetting?->nss_nds ?: ($isSmp ? '202110304002' : '102110304001');
 
+        $defaultTeacherName = $isSmp 
+            ? 'Nurul Hamidah Yanti, S.E' 
+            : ($isTk ? 'Amah Nurul Hamidah, S.Pd.' : 'Bunda Nurul Hamidah, S.Pd.');
+
+        $defaultTeacherTitle = $isSmp 
+            ? 'Guru Tahfidz SMPIT Robbani' 
+            : ($isTk ? 'Sertifikasi Wafa Indonesia (Amah Wafa)' : 'Sertifikasi Wafa Indonesia (Bunda Wafa)');
+
         $wafaTeacherName = $quranGrade?->quran_teacher_name 
             ?: ($student->classroom?->quran_teacher_name 
             ?: ($quranGrade?->examiner?->full_name 
             ?: ($reportSetting?->quran_teacher_name 
-            ?: ($isSmp ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.'))));
+            ?: $defaultTeacherName)));
 
         $wafaTeacherTitle = $quranGrade?->quran_teacher_title 
             ?: ($reportSetting?->quran_teacher_title 
-            ?: ($isSmp ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia'));
+            ?: $defaultTeacherTitle);
 
         return compact(
             'student',
@@ -3113,6 +3132,7 @@ class AcademicController extends Controller
             'characterIndicators',
             'isSmp',
             'isSd',
+            'isTk',
             'classroomGrade',
             'isBpiAllowed',
             'wafaTeacherName',

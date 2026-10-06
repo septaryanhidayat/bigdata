@@ -476,7 +476,7 @@
                 ✍️ Generator Berita & Artikel
             </button>
             <button onclick="switchAiTab('tab-spmb')" id="btn-tab-spmb" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer">
-                🎯 Analisis Calon Santri SPMB
+                🎯 Analisis Calon Siswa SPMB
             </button>
             <button onclick="switchAiTab('tab-whatsapp')" id="btn-tab-whatsapp" class="ai-hub-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all cursor-pointer">
                 💬 WhatsApp Auto-Responder
@@ -513,7 +513,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="md:col-span-2 space-y-1.5">
                     <label class="text-xs font-black text-slate-700">Topik / Rangkuman Peristiwa Berita *</label>
-                    <input type="text" id="aiArticleTopic" placeholder="Contoh: Santri SDIT Robbani Borong Medali Emas Olimpiade Sains Nasional 2026" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" id="aiArticleTopic" placeholder="Contoh: Siswa SDIT Robbani Borong Medali Emas Olimpiade Sains Nasional 2026" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div class="space-y-1.5">
                     <label class="text-xs font-black text-slate-700">Kategori Publikasi</label>
@@ -542,7 +542,7 @@
             </div>
         </div>
 
-        {{-- TAB 3: Analisis Calon Santri SPMB --}}
+        {{-- TAB 3: Analisis Calon Siswa SPMB --}}
         <div id="tab-spmb" class="ai-tab-panel hidden space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="space-y-1.5">
@@ -569,7 +569,7 @@
             </div>
             <div class="flex items-center justify-end">
                 <button onclick="runAnalyzeSpmb()" id="btnAnalyzeSpmb" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-xs shadow-md hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
-                    <span>🎯 Analisis Profil Calon Santri</span>
+                    <span>🎯 Analisis Profil Calon Siswa</span>
                 </button>
             </div>
             <div id="aiSpmbResult" class="hidden p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4"></div>
@@ -578,7 +578,7 @@
         {{-- TAB 4: WhatsApp Auto-Responder --}}
         <div id="tab-whatsapp" class="ai-tab-panel hidden space-y-4">
             <div class="space-y-1.5">
-                <label class="text-xs font-black text-slate-700">Simulasikan Pertanyaan Masuk dari Calon Wali Santri *</label>
+                <label class="text-xs font-black text-slate-700">Simulasikan Pertanyaan Masuk dari Calon Wali Murid / Orang Tua Siswa *</label>
                 <textarea id="aiWaInput" rows="2" placeholder="Contoh: Assalamu'alaikum admin, pendaftaran untuk SMPIT gelombang 1 sampai tanggal berapa dan berapa rincian biayanya?" class="w-full p-3.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500"></textarea>
             </div>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1102,7 +1102,7 @@ async function runAnalyzeSpmb() {
             resultBox.innerHTML = `
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                     <div>
-                        <h4 class="text-sm font-black text-slate-900">Analisis Calon Santri: ${escapeHtml(name)}</h4>
+                        <h4 class="text-sm font-black text-slate-900">Analisis Calon Siswa: ${escapeHtml(name)}</h4>
                         <p class="text-xs text-slate-500">${unit} · Asal: ${escapeHtml(prev || '-')}</p>
                     </div>
                     <div class="flex items-center gap-2">
@@ -1149,7 +1149,7 @@ async function runAnalyzeSpmb() {
         Swal.fire({ icon: 'error', title: 'Terjadi Gangguan Jaringan' });
     } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>🎯 Analisis Profil Calon Santri</span>';
+        btn.innerHTML = '<span>🎯 Analisis Profil Calon Siswa</span>';
     }
 }
 

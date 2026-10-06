@@ -84,7 +84,7 @@ Sistem cetak PDF pendaftaran kini otomatis menggabungkan formulir dan foto fisik
 8. **Penggajian & HRIS SDM (Payroll)**: Kalkulasi gaji pokok, tunjangan jabatan, potongan absensi, dan cetak Slip Gaji PDF resmi.
 
 ### 🌙 3. Pembentukan Karakter & Layanan Sekolah
-9. **Bina Pribadi Islam (BPI Mutabaah Yaumiyah)**: Monitoring ibadah harian santri (Sholat 5 Waktu, Tilawah, Dhuha, Tahajjud, Dzikir).
+9. **Bina Pribadi Islam (BPI Mutabaah Yaumiyah)**: Monitoring ibadah harian siswa (Sholat 5 Waktu, Tilawah, Dhuha, Tahajjud, Dzikir).
 10. **Bimbingan Konseling (BK Online)**: Pencatatan poin prestasi & pelanggaran siswa, serta formulir konseling online.
 11. **Sarana Prasarana (Sarpras Barcode)**: Inventarisasi aset ruangan, barcode scanner generator, dan rekap pemeliharaan sarana.
 12. **E-Library & Sirkulasi QR**: Katalog buku perpustakaan digital, peminjaman dan pengembalian via scan QR code.
@@ -120,7 +120,7 @@ Sistem cetak PDF pendaftaran kini otomatis menggabungkan formulir dan foto fisik
 
 ## 🛡️ Lapisan Keamanan Sistem (Cybersecurity)
 
-1. **Role-Based Access Control (RBAC)**: Pemisahan ketat 15 level akses pengguna (Super Admin Yayasan, Kepala Sekolah, Bendahara, Wali Kelas, Guru, Santri, Orang Tua).
+1. **Role-Based Access Control (RBAC)**: Pemisahan ketat 15 level akses pengguna (Super Admin Yayasan, Kepala Sekolah, Bendahara, Wali Kelas, Guru, Siswa, Orang Tua).
 2. **Multi-Tenancy Scoping**: Isolasi data berbasis `school_id` mencegah kebocoran data antar-unit sekolah.
 3. **API Token Sanctum**: Seluruh komunikasi data aplikasi mobile SDM terproteksi dengan token bearer `auth:sanctum`.
 4. **Proteksi Injeksi & Form Hijacking**: Parameterized SQL queries via Eloquent ORM, sanitasi form XSS, dan validasi token CSRF wajib.

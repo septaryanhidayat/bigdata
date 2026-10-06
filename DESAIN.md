@@ -127,7 +127,7 @@ Desain website ini dibangun di atas konsep **"Modern Islamic Institutional Excel
 1. **Prestisius & Terpercaya (Institutional Prestige)**:  
    Menampilkan citra sekolah yang mapan, terakreditasi, dan profesional melalui penggunaan warna biru navy (*Royal Indigo*) dan aksen emas (*Radiant Gold*), bukan warna polos biasa.
 2. **Qur'ani & Berkarakter (Islamic Value Reflection)**:  
-   Menonjolkan nilai-nilai keislaman melalui terminologi santri, program tahfidz mutqin, kutipan doa/hadits, serta integrasi visual kurikulum JSIT Indonesia.
+   Menonjolkan nilai-nilai keislaman melalui terminologi siswa, program tahfidz mutqin, kutipan doa/hadits, serta integrasi visual kurikulum JSIT Indonesia.
 3. **Konversi Tinggi untuk Pendaftaran (High-Conversion SPMB UX)**:  
    Setiap halaman strategis memiliki *Call-to-Action* (CTA) yang mencolok (tombol SPMB emas mengkilap, hotline WhatsApp satu klik, dan banner kuota terbatas).
 4. **Kecepatan & Responsivitas Maksimal (Snappy & Accessible)**:  
@@ -252,7 +252,7 @@ Desain website ini dibangun di atas konsep **"Modern Islamic Institutional Excel
 * **Menu Desktop**:
   1. **Beranda** (Home)
   2. **Profil** *(Dropdown: Sambutan Kepala Sekolah, Profil Singkat, Visi Misi, Sejarah, Dewan Guru & GTK, Struktur Organisasi, Fasilitas Sarana, Program Unggulan)*
-  3. **Kabar & Galeri** *(Dropdown: Berita & Prestasi Santri, Galeri Foto, Video Kegiatan YouTube, Agenda Akademik, Pengumuman, Testimoni)*
+  3. **Kabar & Galeri** *(Dropdown: Berita & Prestasi Siswa, Galeri Foto, Video Kegiatan YouTube, Agenda Akademik, Pengumuman, Testimoni)*
   4. **Download** *(Dropdown: Semua Berkas Publik, E-Book Modul, Mars JSIT, Logo Sekolah)*
   5. **Layanan** *(Dropdown: Portal Terpadu, Izin Kunjungan, Permohonan Kerja Sama, Sewa Sarana)*
   6. **Kontak**
@@ -276,7 +276,7 @@ Desain website ini dibangun di atas konsep **"Modern Islamic Institutional Excel
 
 ### 3.5 Institutional Mega Footer
 * **Kolom 1 (Identitas Sekolah)**: Logo resmi sekolah berukuran jelas, deskripsi visi misi singkat, badge NPSN (`69787455`), Akreditasi BAN-SM (`Akreditasi B`), dan tautan media sosial lengkap (Facebook, Instagram, YouTube, TikTok).
-* **Kolom 2 (Tautan Cepat)**: Menu profil, kurikulum, dewan guru, dan informasi penerimaan santri baru.
+* **Kolom 2 (Tautan Cepat)**: Menu profil, kurikulum, dewan guru, dan informasi penerimaan siswa baru.
 * **Kolom 3 (Layanan & Unduhan)**: Akses modul ajar, izin sekolah, permohonan kerjasama, dan donasi beasiswa.
 * **Kolom 4 (Alamat & Peta Interaktif)**: Alamat lengkap fisik sekolah, nomor telepon, email, serta link peta Google Maps.
 * **Bottom Bar**: Pernyataan hak cipta resmi dan tautan ke kebijakan privasi (*Privacy Policy*).
@@ -291,20 +291,20 @@ Halaman depan dirancang menggunakan prinsip **Storytelling & Conversion Funnel**
 | :---: | :--- | :--- | :--- |
 | **1** | **Hero Slider Banner** | Carousel multi-slide otomatis (durasi 6,5 detik). Dilengkapi badge emas "SMPS IT Unggulan • Terakreditasi B", judul display tebal, deskripsi, dan tombol ganda ("Jelajahi" & "Info SPMB"). | Background gelap Midnight Navy + overlay foto resolusi tinggi |
 | **2** | **Floating Quick Action Hub** | Kontainer mengambang (*negative margin*) berisi 8 kartu ikon akses cepat (SPMB Online, Profil, Guru, Fasilitas, Unggulan, Prestasi, Ekskul, Kabar). Termasuk tombol cepat "Download Berkas" yang memicu modal popup. | Putih dengan border lembut indigo, kartu putih dengan ikon berlatar biru lembut |
-| **3** | **Highlight SPMB Exclusive & Event** | Kartu *featured banner* lebar. Sisi kiri berupa flyer 3:4 dengan border glow bercahaya; sisi kanan informasi gelombang pendaftaran, 3 kartu benefit (Kuota 24 Santri, Cashback 1 Juta, Class Meeting), dan nomor WhatsApp panitia. | Gradasi Royal Indigo ke Deep Blue dengan glow emas & biru elektrik |
-| **4** | **Sambutan Kepala Sekolah** | Tata letak asimetris 5:7. Foto formal Kepala Sekolah dalam bingkai melengkung modern dengan tanda kutip raksasa transparan, pesan sambutan pembinaan santri, dan tombol baca lengkap. | Putih bersih dengan aksen garis indigo |
+| **3** | **Highlight SPMB Exclusive & Event** | Kartu *featured banner* lebar. Sisi kiri berupa flyer 3:4 dengan border glow bercahaya; sisi kanan informasi gelombang pendaftaran, 3 kartu benefit (Kuota 24 Siswa, Cashback 1 Juta, Class Meeting), dan nomor WhatsApp panitia. | Gradasi Royal Indigo ke Deep Blue dengan glow emas & biru elektrik |
+| **4** | **Sambutan Kepala Sekolah** | Tata letak asimetris 5:7. Foto formal Kepala Sekolah dalam bingkai melengkung modern dengan tanda kutip raksasa transparan, pesan sambutan pembinaan siswa, dan tombol baca lengkap. | Putih bersih dengan aksen garis indigo |
 | **5** | **Artikel & Kabar Kampus** | 1 Berita Utama jumbo di kiri (foto besar, tanggal, jumlah views, kategori) + 3 Berita sampingan horizontal di kanan dengan thumbnail kompak. | Background abu-abu lembut (`#f8fafc`) |
-| **6** | **Prestasi Santri** | Grid 4 kolom kartu prestasi santri di bidang Tahfidz, Sains, Bahasa, dan Olahraga. Tiap kartu memiliki badge piala (*trophy*) emas dan tanggal kegiatan. | Putih dengan badge hitam-emas |
-| **7** | **Kurikulum & Karakter Santri** | Format 2 kolom komparatif: Kolom Kiri memuat "Akademik & Kurikulum Terpadu (Merdeka + JSIT)"; Kolom Kanan memuat "Kesiswaan & 10 Karakter Muwashofat Santri". | Kartu putih ganda dengan badge warna berbeda (Indigo & Oranye) |
+| **6** | **Prestasi Siswa** | Grid 4 kolom kartu prestasi siswa di bidang Tahfidz, Sains, Bahasa, dan Olahraga. Tiap kartu memiliki badge piala (*trophy*) emas dan tanggal kegiatan. | Putih dengan badge hitam-emas |
+| **7** | **Kurikulum & Karakter Siswa** | Format 2 kolom komparatif: Kolom Kiri memuat "Akademik & Kurikulum Terpadu (Merdeka + JSIT)"; Kolom Kanan memuat "Kesiswaan & 10 Karakter Muwashofat Siswa". | Kartu putih ganda dengan badge warna berbeda (Indigo & Oranye) |
 | **8** | **Program Unggulan** | Grid 4 kolom menonjolkan 4 program khas: Tahfidz 2 Juz Mutqin, Bilingual Arabic-English, Bina Prestasi Sains, dan Kepemimpinan Karakter Qur'ani. | Putih dengan highlight garis emas |
 | **9** | **Dewan Guru & GTK Showcase** | Grid 4 kolom (Desktop) dan 2 kolom (Mobile) menampilkan foto potret para asatidz/asatidzah berlatar abu bersih, nama lengkap dengan gelar, dan mata pelajaran yang diampu. | Putih dengan bayangan melayang saat disentuh |
 | **10** | **Galeri Video YouTube Resmi** | Background hitam gelap mewah. Menampilkan 3 kartu video embed responsif (YouTube no-cookie) dan tombol merah besar untuk *Subscribe* channel resmi sekolah. | Deep Slate Dark (`#020617`) dengan tombol Merah YouTube |
 | **11** | **Pengumuman & Agenda Akademik** | 2 Kolom berdampingan: Kolom Pengumuman (notifikasi dinas & sekolah); Kolom Agenda Akademik (badge tanggal digital kotak kalender biru-putih). | Abu-abu lembut dengan aksen kalender indigo |
-| **12** | **Galeri Foto Santri Multi-Row** | 2 Baris slider foto otomatis yang bergerak berlawanan dengan kecepatan halus. Dilengkapi overlay judul saat disentuh dan tombol navigasi panah samping. | Gelap Midnight dengan foto kegiatan santri |
+| **12** | **Galeri Foto Siswa Multi-Row** | 2 Baris slider foto otomatis yang bergerak berlawanan dengan kecepatan halus. Dilengkapi overlay judul saat disentuh dan tombol navigasi panah samping. | Gelap Midnight dengan foto kegiatan siswa |
 | **13** | **Call-to-Action High Conversion** | Banner horizontal penuh berisi pesan ajakan pendaftaran mendesak (*scarcity urgency*: "Kuota Terbatas 24 Kursi per Kelas") dan tombol daftar emas. | Gradasi Royal Indigo ke Electric Blue |
-| **14** | **E-Library & Modul Pembelajaran** | Container dark slate berisi slider cover buku 3D vertikal (Modul Tahfidz, Buku Kurikulum, Modul Siswa) yang dapat diunduh gratis oleh santri dan wali murid. | Dark Slate (`#0f172a`) dengan tombol unduh emas |
-| **15** | **Testimoni Wali Santri & Alumni** | Grid 4 kartu kutipan berbingkai halus berisi cerita kepuasan wali santri, foto avatar bulat, nama wali, dan profesi. | Abu-abu muda dengan tanda kutip oranye |
-| **16** | **Bottom Quick Action Cards** | 3 Kartu aksi di atas footer: Pendaftaran SPMB Online, Chat WhatsApp Hotline, dan Layanan Infaq/Beasiswa Santri Berprestasi. | Kartu putih dengan border atas tebal warna-warni (Indigo, Amber, Biru) |
+| **14** | **E-Library & Modul Pembelajaran** | Container dark slate berisi slider cover buku 3D vertikal (Modul Tahfidz, Buku Kurikulum, Modul Siswa) yang dapat diunduh gratis oleh siswa dan wali murid. | Dark Slate (`#0f172a`) dengan tombol unduh emas |
+| **15** | **Testimoni Orang Tua / Wali Siswa & Alumni** | Grid 4 kartu kutipan berbingkai halus berisi cerita kepuasan orang tua / wali siswa, foto avatar bulat, nama wali, dan profesi. | Abu-abu muda dengan tanda kutip oranye |
+| **16** | **Bottom Quick Action Cards** | 3 Kartu aksi di atas footer: Pendaftaran SPMB Online, Chat WhatsApp Hotline, dan Layanan Infaq/Beasiswa Siswa Berprestasi. | Kartu putih dengan border atas tebal warna-warni (Indigo, Amber, Biru) |
 | **17** | **Auto-Popup Promo SPMB Modal** | Modal jendela muncul otomatis setelah 600ms (dilengkapi *session storage* agar tidak mengganggu jika sudah ditutup). Menampilkan flyer promosi dan tombol langsung daftar. | Gelap backdrop blur dengan kartu putih border emas |
 
 ---
@@ -313,19 +313,19 @@ Halaman depan dirancang menggunakan prinsip **Storytelling & Conversion Funnel**
 
 ### 5.1 Modul SPMB / PPDB Online
 * **Landing Page (`/spmb`, `/ppdb`)**:
-  * Header brand dengan logo sekolah dan badge *"Pendaftaran Santri Baru Telah Dibuka"*.
+  * Header brand dengan logo sekolah dan badge *"Pendaftaran Siswa Baru Telah Dibuka"*.
   * Embed video profil sekolah YouTube resmi.
   * Kotak info jam operasional & rincian nomor rekening transfer pendaftaran (BSI / Bank Syariah Indonesia).
   * Panduan alur pendaftaran 5 langkah (Pendaftaran Akun -> Pembayaran -> Tes Baca Al-Qur'an & Wawancara -> Pengumuman Kelulusan -> Daftar Ulang).
   * Rincian biaya pendidikan transparan dan unduh brosur PDF.
 * **Formulir Pendaftaran Online (`/form-ppdb`)**:
-  * Desain multi-section: Jalur Pendaftaran (Reguler, Tahfidz, Prestasi), Data Calon Santri (Nama, NISN, TTL, Asal SD/MI), Data Orang Tua / Wali (Nama, Pekerjaan, No WhatsApp Aktif), dan Unggah Berkas (Kartu Keluarga, Akta Kelahiran, Rapor).
+  * Desain multi-section: Jalur Pendaftaran (Reguler, Tahfidz, Prestasi), Data Calon Siswa (Nama, NISN, TTL, Asal SD/MI), Data Orang Tua / Wali (Nama, Pekerjaan, No WhatsApp Aktif), dan Unggah Berkas (Kartu Keluarga, Akta Kelahiran, Rapor).
   * Validasi *real-time* di sisi browser dengan pesan error yang jelas dan ramah.
 * **Halaman Sukses (`/ppdb/sukses`)**:
   * Ikon centang hijau besar beranimasi.
   * Kode unik pendaftaran (misal: `PPDB-2026-XXXX`).
   * Tombol Cetak Bukti PDF formulir.
-  * Tombol langsung *"Konfirmasi WhatsApp ke Panitia"* yang otomatis mengisi template pesan teks dengan data calon santri.
+  * Tombol langsung *"Konfirmasi WhatsApp ke Panitia"* yang otomatis mengisi template pesan teks dengan data calon siswa.
 
 ### 5.2 Modul Profil Sekolah & Kelembagaan
 * **Sambutan Kepala Sekolah (`/sambutan-kepala-sekolah`)**: Layout editorial seperti majalah dengan tipografi nyaman dibaca dan foto resmi kepala sekolah.
@@ -334,7 +334,7 @@ Halaman depan dirancang menggunakan prinsip **Storytelling & Conversion Funnel**
 * **Sejarah (`/sejarah`)**: Desain linimasa vertikal (*vertical timeline*) yang menceritakan tonggak sejarah pendirian sekolah dari awal berdirinya hingga berkembang pesat.
 * **Struktur Organisasi (`/struktur-organisasi`)**: Bagan hirarki manajemen mulai dari Yayasan, Kepala Sekolah, Komite, Wakil Kepala Bidang (Kurikulum, Kesiswaan, Sarpras, Humas), Guru hingga Staf Tata Usaha.
 * **Dewan Guru & GTK (`/dewan-guru`)**: Katalog foto seluruh dewan asatidz dengan filter kategori bidang studi.
-* **Fasilitas (`/fasilitas`, `/bidang/{slug}`)**: Galeri sarana prasarana (Ruang Kelas Ber-AC, Laboratorium Komputer, Masjid Sekolah, Lapangan Olahraga, Asrama Santri, Perpustakaan).
+* **Fasilitas (`/fasilitas`, `/bidang/{slug}`)**: Galeri sarana prasarana (Ruang Kelas Ber-AC, Laboratorium Komputer, Masjid Sekolah, Lapangan Olahraga, Asrama Siswa, Perpustakaan).
 
 ### 5.3 Modul Berita, Prestasi & Artikel
 * **Indeks Berita (`/artikel`)**:
@@ -355,7 +355,7 @@ Halaman depan dirancang menggunakan prinsip **Storytelling & Conversion Funnel**
 
 ### 5.5 Modul Download Center, E-Library & Mars JSIT
 * **Pusat Unduhan (`/download`)**: Tabel dan kartu berkas publik dengan filter kategori (Brosur, Formulir, Kalender Akademik, Dokumen Tata Tertib). Disertai label ekstensi file (PDF, DOCX, XLSX) dan ukuran berkas.
-* **E-Book & Modul Siswa (`/e-book`)**: Rak buku digital dengan cover visual yang memudahkan santri belajar mandiri di rumah.
+* **E-Book & Modul Siswa (`/e-book`)**: Rak buku digital dengan cover visual yang memudahkan siswa belajar mandiri di rumah.
 * **Mars JSIT & Hymne (`/hymne-mars`)**: Lirik resmi penyemangat perjuangan pendidikan Islam terpadu beserta pemutar audio MP3 langsung di browser.
 * **Identitas & Logo Resmi (`/logo`)**: Panduan penggunaan logo resmi sekolah, format resolusi tinggi PNG transparan dan vektor SVG.
 
@@ -367,7 +367,7 @@ Halaman depan dirancang menggunakan prinsip **Storytelling & Conversion Funnel**
 
 ### 5.7 Modul Kontak & Infaq Beasiswa
 * **Hubungi Kami (`/hubungi`)**: Formulir kotak aspirasi dan pertanyaan terhubung ke database admin, nomor hotline, email, dan peta Google Maps interaktif.
-* **Infaq & Beasiswa Santri (`/donasi`)**: Program dukungan santri yatim dan dhuafa berprestasi, menyertakan nomor rekening resmi yayasan (Bank Syariah Indonesia) dan transparansi penyaluran donasi.
+* **Infaq & Beasiswa Siswa (`/donasi`)**: Program dukungan siswa yatim dan dhuafa berprestasi, menyertakan nomor rekening resmi yayasan (Bank Syariah Indonesia) dan transparansi penyaluran donasi.
 
 ---
 
@@ -388,7 +388,7 @@ Panel admin dirancang agar pengelola sekolah (guru piket, staf TU, kepala sekola
 4. **Manajemen PPDB (Full-Featured)**:
    * Tabel interaktif dengan filter status pendaftaran (Menunggu Verifikasi, Lulus Berkas, Lulus Wawancara, Diterima, Ditolak).
    * Fitur ekspor data pendaftar ke **Excel (.xlsx)** dan **PDF**.
-   * Fitur cetak formulir kartu pendaftaran santri perorangan.
+   * Fitur cetak formulir kartu pendaftaran siswa perorangan.
    * Pembuat bidang formulir dinamis (*Dynamic Form Builder*) untuk menambah pertanyaan form tanpa coding.
 5. **Pengaturan Website & SEO (`/admin/settings`)**:
    * Form pengaturan nama sekolah, tagline, deskripsi meta, kata kunci SEO, nomor telepon, WhatsApp, email, dan media sosial.
@@ -420,10 +420,10 @@ Jika sekolah target memiliki warna khas lain (misalnya Hijau Pesantren `#059669`
 
 ### Langkah 3: Mengganti Aset Gambar Utama
 Ganti gambar berikut dengan foto asli sekolah target (gunakan format WebP agar loading cepat):
-1. `flyer-spmb-smpit-ishum.png` -> Brosur/flyer penerimaan santri baru tahun ajaran berjalan.
+1. `flyer-spmb-smpit-ishum.png` -> Brosur/flyer penerimaan siswa baru tahun ajaran berjalan.
 2. `dewan/kepala-sekolah.webp` -> Foto resmi kepala sekolah.
 3. `campus-smpit-ishum.webp` -> Foto gedung / gerbang kampus utama.
-4. `activities-smpit-ishum.webp` -> Foto santri berprestasi / kegiatan belajar mengajar.
+4. `activities-smpit-ishum.webp` -> Foto siswa berprestasi / kegiatan belajar mengajar.
 
 ### Langkah 4: Konfigurasi Rekening & Hotline WhatsApp
 * Perbarui nomor rekening di halaman `/spmb` pada view `resources/views/frontend/ppdb/index.blade.php`.

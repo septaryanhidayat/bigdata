@@ -140,7 +140,7 @@ class LetterSeeder extends Seeder
                 'notes' => 'Segera lakukan pembinaan untuk cabang MHQ dan Kaligrafi.',
                 'due_date' => '2026-08-20',
                 'status' => 'COMPLETED',
-                'reply_notes' => 'Sudah terpilih 3 santri untuk mewakili lomba cabang MHQ Juz 30.',
+                'reply_notes' => 'Sudah terpilih 3 siswa untuk mewakili lomba cabang MHQ Juz 30.',
                 'completed_at' => now(),
             ]
         );
@@ -154,7 +154,7 @@ class LetterSeeder extends Seeder
                 'letter_category' => 'SURAT_EDARAN',
                 'title' => 'Pemberitahuan Pelaksanaan Ujian Tengah Semester & Pembagian Rapor Siswa',
                 'sender' => 'SMPIT Robbani Ogan Ilir',
-                'recipient' => 'Seluruh Orang Tua / Wali Santri SMPIT Robbani',
+                'recipient' => 'Seluruh Orang Tua / Wali Siswa SMPIT Robbani',
                 'letter_date' => '2026-08-15',
                 'content' => "Assalamu'alaikum Warahmatullahi Wabarakatuh,\n\nDengan hormat, kami sampaikan bahwa pelaksanaan Asesmen Sumatif Tengah Semester (ASTS) Ganjil Tahun Ajaran 2026/2027 akan diselenggarakan pada tanggal 1 s/d 8 September 2026.\n\nDemikian pemberitahuan ini kami sampaikan, mohon bimbingan dan doa Bapak/Ibu di rumah.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.",
                 'security_level' => 'BIASA',

@@ -215,7 +215,7 @@
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
                 <div class="border-b border-slate-100 pb-3">
                     <h3 class="font-black text-base text-slate-900">🚀 Pengaturan Banner Hero Utama</h3>
-                    <p class="text-xs text-slate-500 font-medium">Atur judul besar, penjelasan, foto ilustrasi anak/santri hero, dan 3 poin kemudahan pendaftaran.</p>
+                    <p class="text-xs text-slate-500 font-medium">Atur judul besar, penjelasan, foto ilustrasi anak/siswa hero, dan 3 poin kemudahan pendaftaran.</p>
                 </div>
 
                 <div class="space-y-4 text-xs">
@@ -236,10 +236,10 @@
 
                     <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
                         <div class="w-24 h-24 rounded-2xl bg-emerald-900 flex items-center justify-center p-2 shrink-0 overflow-hidden">
-                            <img src="{{ asset(ltrim($spmb['hero_image'], '/')) }}" alt="Hero Santri" class="w-full h-full object-contain">
+                            <img src="{{ asset(ltrim($spmb['hero_image'], '/')) }}" alt="Hero Siswa" class="w-full h-full object-contain">
                         </div>
                         <div class="space-y-1.5 flex-1">
-                            <label class="block font-bold text-slate-700">Foto Ilustrasi Siswa / Santri Hero:</label>
+                            <label class="block font-bold text-slate-700">Foto Ilustrasi Siswa Hero:</label>
                             <input type="file" name="spmb_hero_image_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800">
                             <input type="hidden" name="spmb_hero_image" value="{{ $spmb['hero_image'] }}">
                         </div>

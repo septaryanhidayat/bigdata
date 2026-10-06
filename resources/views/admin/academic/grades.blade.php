@@ -3610,32 +3610,35 @@
 
                 @php
                     $isSmpSchool = !empty($activeSchool) && (str_contains(strtolower($activeSchool->code ?? ''), 'smp') || str_contains(strtolower($activeSchool->name ?? ''), 'smp'));
+                    $isTkSchool = !empty($activeSchool) && (str_contains(strtolower($activeSchool->code ?? ''), 'tk') || str_contains(strtolower($activeSchool->name ?? ''), 'tk') || str_contains(strtolower($activeSchool->name ?? ''), 'paud') || str_contains(strtolower($activeSchool->name ?? ''), 'ra'));
+                    $wafaTitleGreeting = $isTkSchool ? 'Amah / Ustadz' : 'Bunda / Ustadz';
+                    $defaultWafaTeacherName = $isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : ($isTkSchool ? 'Amah Nurul Hamidah, S.Pd.' : 'Bunda Nurul Hamidah, S.Pd.');
                     $defaultClassWafaTeacher = $selectedClassroom->quran_teacher_name 
                         ?: ($existingQuran->first(fn($q) => !empty($q->quran_teacher_name))?->quran_teacher_name 
-                        ?: ($reportSetting->quran_teacher_name ?: ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.')));
+                        ?: ($reportSetting->quran_teacher_name ?: $defaultWafaTeacherName));
                 @endphp
 
                 <!-- Assigned Teacher Quick-Bar -->
                 <div class="px-6 py-3 bg-teal-50/70 border-b border-teal-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div class="flex items-center gap-2.5 flex-wrap">
                         <label for="classroom_quran_teacher_name" class="font-black text-teal-950 text-xs flex items-center gap-1 shrink-0">
-                            <span>👳‍♂️</span> <span>Ustadz / Ustadzah Wafa Kelas Ini:</span>
+                            <span>👳‍♂️</span> <span>{{ $wafaTitleGreeting }} Wafa Kelas Ini:</span>
                         </label>
                         <div class="flex items-center gap-2">
                             <input type="text" name="classroom_quran_teacher_name" id="classroom_quran_teacher_name" 
                                    list="wafa_teachers_datalist"
                                    value="{{ $defaultClassWafaTeacher }}"
-                                   placeholder="Contoh: Ustadzah Nurul Hamidah, S.Pd."
+                                   placeholder="Contoh: {{ $defaultWafaTeacherName }}"
                                    class="px-3 py-1.5 rounded-xl border border-teal-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none w-56 sm:w-64 shadow-2xs">
                             <button type="button" onclick="applyClassQuranTeacherToAll()"
                                     class="px-3 py-1.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-black text-xs transition cursor-pointer shadow-2xs flex items-center gap-1 active:scale-95 whitespace-nowrap"
-                                    title="Terapkan nama Ustadz/Ustadzah ini ke semua kolom komentar siswa di bawah">
+                                    title="Terapkan nama {{ $wafaTitleGreeting }} ini ke semua kolom komentar siswa di bawah">
                                 <span>⬇️</span> <span>Terapkan ke Semua Kolom</span>
                             </button>
                         </div>
                     </div>
                     <p class="text-[11px] text-teal-800 font-semibold flex items-center gap-1">
-                        <span>💡</span> <span>Nama pengampu dapat diedit langsung per santri di kolom komentar bawah.</span>
+                        <span>💡</span> <span>Nama pengampu dapat diedit langsung per siswa di kolom komentar bawah.</span>
                     </p>
                 </div>
 
@@ -3757,17 +3760,17 @@
                                               placeholder="Catatan tahsin, makhraj, dan capaian..."
                                               class="w-full text-xs rounded-lg border border-slate-300 p-1.5 focus:border-teal-600 focus:ring-1 focus:ring-teal-600 bg-white leading-relaxed resize-y">{{ $q->tahsin_notes ?? '' }}</textarea>
 
-                                    <!-- CRUD Nama Ustadz / Ustadzah Wafa di Kolom Komentar -->
+                                    <!-- CRUD Nama Guru Wafa di Kolom Komentar -->
                                     <div class="mt-1.5 flex items-center gap-1.5 bg-teal-50/70 p-1.5 rounded-lg border border-teal-200/80">
                                         <span class="text-[10px] font-black text-teal-950 shrink-0 flex items-center gap-1">
-                                            <span>👳‍♂️</span> <span>Ustadz/ah:</span>
+                                             <span>👳‍♂️</span> <span>{{ $isTkSchool ? 'Amah/Ustadz:' : 'Bunda/Ustadz:' }}</span>
                                         </span>
                                         <input type="text" 
                                                name="quran[{{ $student->id }}][quran_teacher_name]" 
                                                id="quran_teacher_{{ $student->id }}"
                                                list="wafa_teachers_datalist"
-                                               value="{{ $q->quran_teacher_name ?? $selectedClassroom->quran_teacher_name ?? $reportSetting->quran_teacher_name ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.') }}"
-                                               placeholder="Nama Ustadz / Ustadzah..." 
+                                               value="{{ $q->quran_teacher_name ?? $selectedClassroom->quran_teacher_name ?? $reportSetting->quran_teacher_name ?? $defaultWafaTeacherName }}"
+                                               placeholder="Nama {{ $wafaTitleGreeting }}..." 
                                                class="w-full text-xs font-bold text-slate-800 rounded border border-slate-300 px-2 py-1 bg-white focus:border-teal-600 focus:ring-1 focus:ring-teal-600 shadow-2xs">
                                     </div>
                                 </td>
@@ -4019,7 +4022,7 @@
                             Rekap Kehadiran, Fisik & Catatan Wali Kelas - {{ $selectedClassroom->name ?? '' }}
                         </h3>
                         <p class="text-xs text-slate-500 font-semibold mt-0.5">
-                            Wali Kelas: <strong>{{ $selectedClassroom->homeroomTeacher->name ?? 'Ustadz / Ustadzah' }}</strong>
+                            Wali Kelas: <strong>{{ $selectedClassroom->homeroomTeacher->name ?? ($isTkSchool ? 'Amah / Ustadz' : 'Bunda / Ustadz') }}</strong>
                         </p>
                     </div>
 
@@ -4478,11 +4481,11 @@
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Ustadz / Ustadzah Wafa:</label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama {{ $wafaTitleGreeting }} Wafa:</label>
                             <input type="text" name="quran_teacher_name" id="setting_quran_teacher_name" 
                                    list="wafa_teachers_datalist_settings"
-                                   value="{{ $reportSetting->quran_teacher_name ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.') }}"
-                                   placeholder="Contoh: Ustadzah Nurul Hamidah, S.Pd.I"
+                                   value="{{ $reportSetting->quran_teacher_name ?? $defaultWafaTeacherName }}"
+                                   placeholder="Contoh: {{ $defaultWafaTeacherName }}"
                                    oninput="updatePreview()"
                                    class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-teal-600 bg-white text-slate-900">
                         </div>
@@ -4672,7 +4675,7 @@
                                 <span class="font-serif italic text-slate-400 text-xs">(Paraf / TTD Pengampu)</span>
                             </div>
                             <p id="preview_wafa_name" class="text-xs font-black text-slate-900 underline leading-snug">
-                                {{ $reportSetting->quran_teacher_name ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.') }}
+                                {{ $reportSetting->quran_teacher_name ?? $defaultWafaTeacherName }}
                             </p>
                             <p id="preview_wafa_title" class="text-[10px] text-slate-600 font-semibold leading-tight">
                                 {{ $reportSetting->quran_teacher_title ?? ($isSmpSchool ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia') }}
@@ -5497,22 +5500,23 @@
             }
         });
 
+        const teacherSalutation = '{{ $isTkSchool ? "Amah/Ustadz" : "Bunda/Ustadz" }}';
         let msg = '';
         if (tpl === 'urgent') {
-            msg = `Assalamu'alaikum Wr. Wb. Ustadz/Ustadzah ${d.name},\n\n` +
+            msg = `Assalamu'alaikum Wr. Wb. ${teacherSalutation} ${d.name},\n\n` +
                   `Izin mengingatkan batas waktu pengisian nilai e-Rapor SIT Terpadu untuk kelas *${d.classroom}* di ${schoolName}.\n` +
                   `Saat ini capaian pengisian berada pada *${d.pct}%*.\n\n` +
                   `Mohon berkenan untuk segera melengkapi penilaian Mapel/TP, Wafa, Karakter, dan catatan wali kelas sebelum batas waktu penutupan sistem. Jazakumullah khairan katsiran atas dedikasi dan kerjasamanya.\n\n` +
                   `Wassalamu'alaikum Wr. Wb.\n` +
                   `_Kepala Sekolah ${schoolName}_`;
         } else if (tpl === 'appreciation') {
-            msg = `Assalamu'alaikum Wr. Wb. Ustadz/Ustadzah ${d.name},\n\n` +
+            msg = `Assalamu'alaikum Wr. Wb. ${teacherSalutation} ${d.name},\n\n` +
                   `Alhamdulillah, kami sampaikan apresiasi dan terima kasih atas ketuntasan pengisian e-Rapor SIT Terpadu kelas *${d.classroom}* yang telah mencapai *100% tuntas*.\n\n` +
-                  `Semoga setiap ikhtiar dan bimbingan Ustadz/Ustadzah menjadi amal jariyah yang penuh berkah di sisi Allah SWT. Aamiin ya Rabbal 'Alamin.\n\n` +
+                  `Semoga setiap ikhtiar dan bimbingan ${teacherSalutation} menjadi amal jariyah yang penuh berkah di sisi Allah SWT. Aamiin ya Rabbal 'Alamin.\n\n` +
                   `Wassalamu'alaikum Wr. Wb.\n` +
                   `_Kepala Sekolah ${schoolName}_`;
         } else {
-            msg = `Assalamu'alaikum Wr. Wb. Ustadz/Ustadzah ${d.name},\n\n` +
+            msg = `Assalamu'alaikum Wr. Wb. ${teacherSalutation} ${d.name},\n\n` +
                   `Semoga senantiasa dalam keadaan sehat dan dalam lindungan Allah SWT.\n\n` +
                   `Menginfokan status pengisian e-Rapor SIT Terpadu untuk kelas *${d.classroom}* saat ini mencapai *${d.pct}%* (${d.stCount} siswa).\n` +
                   `Mohon dapat dicek kembali kelengkapan nilai Mata Pelajaran & TP, Al-Qur'an Wafa, 7 Karakter SKL, P5, serta Catatan Wali Kelas.\n\n` +
@@ -5694,7 +5698,7 @@
             attendanceNote = ` Catatan kehadiran: terdapat ${absent} hari alpa. Diharapkan ananda lebih meningkatkan ketertiban hadir di semester berikutnya.`;
         }
 
-        const baseNote = `Alhamdulillah, Ananda ${studentName} menunjukkan perkembangan karakter dan kesungguhan belajar yang baik di sekolah. Senantiasa istiqomah dalam ibadah yaumiyah, menghormati ustadz/ustadzah, serta rukun dan peduli terhadap teman.`;
+        const baseNote = `Alhamdulillah, Ananda ${studentName} menunjukkan perkembangan karakter dan kesungguhan belajar yang baik di sekolah. Senantiasa istiqomah dalam ibadah yaumiyah, menghormati {{ $isTkSchool ? 'Amah dan Ustadz' : 'Bunda dan Ustadz' }}, serta rukun dan peduli terhadap teman.`;
 
         textarea.value = baseNote + attendanceNote;
     }
@@ -5749,7 +5753,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Nama Masih Kosong',
-                text: 'Silakan ketik atau pilih nama Ustadz / Ustadzah Wafa pada kolom input terlebih dahulu.',
+                text: 'Silakan ketik atau pilih nama {{ $wafaTitleGreeting }} Wafa pada kolom input terlebih dahulu.',
                 confirmButtonColor: '#064e3b'
             });
             return;

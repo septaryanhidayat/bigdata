@@ -252,7 +252,7 @@ class SchoolWebsiteController extends Controller
                 'Membangun sinergi kokoh antara sekolah, wali murid, dan masyarakat dalam membentuk karakter anak.'
             ],
             'pillars' => [
-                ['title' => 'Pembiasaan & Tahfidz Al-Qur\'an', 'desc' => 'Target hafalan mutqin Juz 30 & Juz 1–5 dengan bimbingan ustadz-ustadzah teruji.', 'icon' => '📖'],
+                ['title' => 'Pembiasaan & Tahfidz Al-Qur\'an', 'desc' => 'Target hafalan mutqin Juz 30 & Juz 1–5 dengan bimbingan dewan guru teruji.', 'icon' => '📖'],
                 ['title' => 'Bina Pribadi Islami (BPI)', 'desc' => 'Pembinaan akhlak, adab harian, mabit, dan mutabaah yaumiyah secara terukur.', 'icon' => '🤲'],
                 ['title' => 'Integrasi Kurikulum JSIT & Merdeka', 'desc' => 'Perpaduan standar akademis nasional Kurikulum Merdeka dengan kekhasan JSIT.', 'icon' => '🎓'],
                 ['title' => 'Ekosistem Digital SmartEdu', 'desc' => 'Presensi RFID gate, E-SPP cashless, dan portal belajar digital modern.', 'icon' => '💻'],
@@ -3314,7 +3314,7 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'alumni' => [
                     ['name' => 'Wali Murid TKIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
                     ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi dewan guru kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
                 ],
             ],
             'sdit' => [
@@ -3656,7 +3656,7 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'alumni' => [
                     ['name' => 'Wali Murid SDIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
                     ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi dewan guru kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
                 ],
             ],
             'smpit' => [
@@ -3941,7 +3941,7 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'alumni' => [
                     ['name' => 'Wali Murid SMPIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
                     ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
-                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi ustadz/ustadzah kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
+                    ['name' => 'Bunda Siswa', 'title' => 'Wali Murid', 'text' => 'Suasana sekolah ramah anak dan asri, komunikasi dewan guru kepada kami orang tua sangat terbuka.', 'avatar' => '/images/avatar-gray-person.svg'],
                 ],
             ],
             'smait' => [

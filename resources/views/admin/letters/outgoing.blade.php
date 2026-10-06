@@ -322,7 +322,7 @@ const templatePresets = {
         category: 'SURAT_PANGGILAN',
         recipient: 'Orang Tua / Wali dari Siswa: Muhammad Rayhan',
         title: 'Surat Undangan Konseling Orang Tua Siswa',
-        content: `Assalamu'alaikum Warahmatullahi Wabarakatuh,\n\nSemoga Bapak/Ibu senantiasa dalam limpahan rahmat Allah SWT. Sehubungan dengan perkembangan belajar dan pembinaan ananda Muhammad Rayhan (Kelas 7-Umar), kami mengharapkan kehadiran Bapak/Ibu di sekolah pada:\n\nHari / Tanggal : Selasa, 25 Agustus 2026\nPukul          : 09.00 WIB\nTempat         : Ruang Bimbingan Konseling (BK) Lt. 1\nMenemui        : Ustadzah Fitriana, S.Si (Guru BK & Wali Kelas)\n\nAtas kehadiran dan kerjasama Bapak/Ibu demi kemajuan ananda, kami ucapkan terima kasih.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.`
+        content: `Assalamu'alaikum Warahmatullahi Wabarakatuh,\n\nSemoga Bapak/Ibu senantiasa dalam limpahan rahmat Allah SWT. Sehubungan dengan perkembangan belajar dan pembinaan ananda Muhammad Rayhan (Kelas 7-Umar), kami mengharapkan kehadiran Bapak/Ibu di sekolah pada:\n\nHari / Tanggal : Selasa, 25 Agustus 2026\nPukul          : 09.00 WIB\nTempat         : Ruang Bimbingan Konseling (BK) Lt. 1\nMenemui        : Bunda Fitriana, S.Si (Guru BK & Wali Kelas)\n\nAtas kehadiran dan kerjasama Bapak/Ibu demi kemajuan ananda, kami ucapkan terima kasih.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh.`
     },
     NOTA_DINAS_INTERNAL: {
         category: 'NOTA_DINAS',

@@ -7,7 +7,7 @@
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-black text-slate-900 tracking-tight">👨‍🏫 Master Data Guru & Pegawai</h1>
-            <p class="text-xs text-slate-600 font-medium mt-1">Daftar tenaga pendidik Ustadz/Ustadzah dan karyawan non-guru terdaftar.</p>
+            <p class="text-xs text-slate-600 font-medium mt-1">Daftar tenaga pendidik (Ustadz, Bunda, & Amah) dan karyawan non-guru terdaftar.</p>
         </div>
         <a href="{{ route('admin.master.index') }}" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-800 font-bold text-xs">
             ← Kembali ke Master

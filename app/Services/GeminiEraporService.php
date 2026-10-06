@@ -366,7 +366,7 @@ Kriteria:
 
         $prompt = "Anda adalah Koordinator Al-Qur'an Metode Wafa SDIT Robbani.
 Tuliskan 1-2 kalimat evaluasi resmi buku rapor untuk:
-- Santri: {$studentName}
+- Siswa: {$studentName}
 - Tahsin Wafa: {$tahsinLevel} (Makhraj: {$makhrajScore}, Tajwid: {$tajwidScore})
 - Tahfidz: Capaian ({$tahfidzAchievement}) dari target ({$tahfidzTarget})
 - Konteks: {$scoreContext}
@@ -382,7 +382,7 @@ Output HANYA 1-2 kalimat narasi siap cetak (maks 30 kata), tanpa asterisk (**), 
             }
         }
 
-        // Fallback berjenjang sesuai nilai riil santri (tidak ada pujian palsu)
+        // Fallback berjenjang sesuai nilai riil siswa (tidak ada pujian palsu)
         if ($isLowScore) {
             return "Ananda {$studentName} memerlukan bimbingan intensif dan latihan talaqqi khusus pada pelafalan makharijul huruf serta ketepatan tajwid. Belum mencapai target kelancaran jilid Wafa.";
         } elseif ($makhrajScore >= 85 && $tajwidScore >= 85) {
@@ -472,12 +472,14 @@ Peraturan Ketat:
         $charPct = (int) str_replace('%', '', $stats['character_progress'] ?? '0');
         $hrPct = (int) str_replace('%', '', $stats['homeroom_progress'] ?? '0');
         $walas = $stats['walas'] ?? 'Wali Kelas';
+        $isTk = (bool) preg_match('/\b(tk|paud|ra|kb)\b/i', $classroomName);
+        $teacherGreeting = $isTk ? 'Amah/Ustadz' : 'Bunda/Ustadz';
 
         if ($stCount === 0) {
             return "### 1. Status Kesiapan: {$classroomName}\n\n" .
                 "Rombongan belajar saat ini tercatat **Belum Memiliki Siswa Aktif (0 Siswa)**. Seluruh komponen nilai (Mapel, Al-Qur'an, Karakter JSIT, dan Catatan Walas) belum dapat diinput.\n\n" .
                 "### 2. Arahan Tindak Lanjut\n\n" .
-                "Operator TU dan Kurikulum perlu segera melakukan penempatan siswa ke dalam rombel ini agar wali kelas ({$walas}) dapat mulai mengisi rapor.";
+                "Operator TU dan Kurikulum perlu segera melakukan penempatan siswa ke dalam rombel ini agar {$teacherGreeting} wali kelas ({$walas}) dapat mulai mengisi rapor.";
         }
 
         $prompt = "Anda adalah Asisten Analitik Sistem e-Rapor SIT Terpadu.
@@ -490,11 +492,13 @@ Berikan audit analitis kesiapan pencetakan rapor untuk rombel berikut kepada Kep
 - Progres Catatan Walas & Presensi: {$stats['homeroom_progress']}
 - Rata-rata Nilai: " . ($stats['average_score'] ?? '0') . "
 
-ATURAN FORMAT STRICT (WAJIB DIPATUHI):
+PEDOMAN TERMINOLOGI & SAPAAN STRICT:
+- Gunakan istilah 'siswa' (DILARANG menggunakan kata 'santri').
+- Sapaan pendidik/wali kelas untuk rombel ini WAJIB menggunakan '{$teacherGreeting}' (contoh: {$teacherGreeting} {$walas}).
 - DILARANG membuat kop surat resmi, nama kementerian/dinas, 'Kepada Yth', 'Dari:', 'Perihal:', 'Tanggal:', nomor surat, atau salam/tanda tangan penutup.
 - Tulis langsung laporan analisis dashboard internal dalam 3 bagian dengan heading ###:
   ### 1. Status Kesiapan Rombel {$classroomName}
-  ### 2. Evaluasi Komponen & Tanggung Jawab Wali Kelas ({$walas})
+  ### 2. Evaluasi Komponen & Tanggung Jawab Wali Kelas ({$teacherGreeting} {$walas})
   ### 3. Rekomendasi Taktis Kepala Sekolah & Kurikulum";
 
         $aiText = $this->generateContent($prompt, 500, 0.7);
@@ -507,7 +511,7 @@ ATURAN FORMAT STRICT (WAJIB DIPATUHI):
         // Fallback realistis sesuai angka progres riil
         if ($mapelPct >= 90 && $quranPct >= 90 && $charPct >= 90 && $hrPct >= 90) {
             return "### 1. Status Kesiapan Rombel {$classroomName} (TUNTAS 100%)\n\n" .
-                "Alhamdulillah, rombongan belajar **{$classroomName}** di bawah bimbingan Ustadz/Ustadzah **{$walas}** telah menyelesaikan seluruh penginputan nilai (Mapel, Al-Qur'an Wafa, 7 SKL JSIT, dan Catatan Walas). Rapor siap dipratinjau dan dicetak resmi.\n\n" .
+                "Alhamdulillah, rombongan belajar **{$classroomName}** di bawah bimbingan {$teacherGreeting} **{$walas}** telah menyelesaikan seluruh penginputan nilai (Mapel, Al-Qur'an Wafa, 7 SKL JSIT, dan Catatan Walas). Rapor siap dipratinjau dan dicetak resmi.\n\n" .
                 "### 2. Evaluasi Komponen & Tanggung Jawab Wali Kelas ({$walas})\n\n" .
                 "- Seluruh {$stCount} siswa memiliki kelengkapan nilai sempurna.\n" .
                 "- Rata-rata kelas: " . ($stats['average_score'] ?? '0') . "\n\n" .
@@ -523,7 +527,7 @@ ATURAN FORMAT STRICT (WAJIB DIPATUHI):
         $kurangStr = implode(', ', $kurang);
 
         return "### 1. Status Kesiapan Rombel {$classroomName} (DALAM PROSES)\n\n" .
-            "Rombongan belajar **{$classroomName}** ({$stCount} siswa) asuhan Ustadz/Ustadzah **{$walas}** saat ini masih dalam proses pengisian.\n\n" .
+            "Rombongan belajar **{$classroomName}** ({$stCount} siswa) asuhan {$teacherGreeting} **{$walas}** saat ini masih dalam proses pengisian.\n\n" .
             "### 2. Evaluasi Komponen & Tanggung Jawab Wali Kelas ({$walas})\n\n" .
             "- Komponen yang masih belum lengkap: **{$kurangStr}**.\n" .
             "- Penginputan harus segera diselesaikan sebelum batas waktu cetak rapor.\n\n" .

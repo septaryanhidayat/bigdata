@@ -44,7 +44,7 @@
             </div>
             <div class="mt-3">
                 <h3 class="text-3xl font-black text-emerald-700">{{ $totalTeachers ?? 0 }}</h3>
-                <p class="text-xs text-slate-500 mt-1 font-medium">Ustadz &amp; Ustadzah Aktif</p>
+                <p class="text-xs text-slate-500 mt-1 font-medium">Ustadz, Bunda &amp; Amah Aktif</p>
             </div>
         </div>
 

@@ -719,7 +719,7 @@ th {
         <td style="width: 50%; text-align: center; border: none;">
             <div>&nbsp;</div>
             <div style="font-weight: bold; margin-bottom: 45pt;">Koordinator / Guru Al-Qur'an Wafa,</div>
-            <div style="font-weight: bold; text-decoration: underline;">{{ $wafaTeacherName ?? 'Ustadz / Ustadzah Wafa' }}</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ $wafaTeacherName ?? (!empty($isTk) ? 'Amah / Ustadz Wafa' : 'Bunda / Ustadz Wafa') }}</div>
             <div style="font-size: 9pt;">{{ $wafaTeacherTitle ?? 'Sertifikasi Wafa Indonesia' }}</div>
         </td>
         <td style="width: 50%; text-align: center; border: none;">
@@ -796,7 +796,7 @@ th {
         <td style="width: 50%; text-align: center; border: none;">
             <div>&nbsp;</div>
             <div style="font-weight: bold; margin-bottom: 45pt;">Pembina Bina Pribadi Islam (BPI),</div>
-            <div style="font-weight: bold; text-decoration: underline;">Ustadz / Ustadzah Pembimbing</div>
+            <div style="font-weight: bold; text-decoration: underline;">{{ !empty($isTk) ? 'Amah / Ustadz Pembimbing' : 'Bunda / Ustadz Pembimbing' }}</div>
             <div style="font-size: 9pt;">Pembina BPI Robbani</div>
         </td>
         <td style="width: 50%; text-align: center; border: none;">

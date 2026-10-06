@@ -597,7 +597,7 @@ class AiRagEngine
                     ['title' => 'Toilet Bersih & Higienis', 'badge' => 'Sanitasi', 'desc' => 'SMP IT Robbani memiliki toilet bersih dan nyaman yang dilengkapi dengan wastafel, Toilet duduk dan jongkok bagi siswa.'],
                     ['title' => 'Tablet Digital Siswa', 'badge' => 'Teknologi Pembelajaran', 'desc' => 'Siswa SMP IT Robbani mendapatkan fasilitas Tablet bagi siswanya untuk menunjang proses pembelajaran digital.'],
                     ['title' => 'Kantin Sehat Sekolah', 'badge' => 'Nutrisi Siswa', 'desc' => 'Kantin sehat dan bersih menunjang gizi serta kebutuhan konsumsi harian siswa SMPIT Robbani.'],
-                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik santri.']
+                    ['title' => 'Lapangan Olahraga Sekolah', 'badge' => 'Area Olahraga', 'desc' => 'Lapangan olahraga terbuka untuk aktivitas futsal, basket, memanah, volly, dan kegiatan fisik siswa.']
                 ],
                 'programs' => [
                     ['title' => 'SIPAKAR V2 Digital Learning', 'desc' => 'Pembelajaran digital terintegrasi sistem presensi, modul CBT, dan rekam jejak hafalan.'],
@@ -632,7 +632,7 @@ class AiRagEngine
         ];
 
         // ── 0. Pertanyaan Spesifik: Dewan Guru / Pendidik / Ustadz / GTK ──────────────
-        $isAskingTeachers = str_contains($lower, 'guru') || str_contains($lower, 'gur') || str_contains($lower, 'pendidik') || str_contains($lower, 'ustadz') || str_contains($lower, 'ustadzah') || str_contains($lower, 'pengajar') || str_contains($lower, 'gtk') || str_contains($lower, 'staf');
+        $isAskingTeachers = str_contains($lower, 'guru') || str_contains($lower, 'gur') || str_contains($lower, 'pendidik') || str_contains($lower, 'ustadz') || str_contains($lower, 'ustadzah') || str_contains($lower, 'amah') || str_contains($lower, 'bunda') || str_contains($lower, 'pengajar') || str_contains($lower, 'gtk') || str_contains($lower, 'staf');
 
         if ($isAskingTeachers) {
             $unitCode = 'smpit';
@@ -772,7 +772,7 @@ class AiRagEngine
         if (str_contains($lower, 'spp') || str_contains($lower, 'biaya') || str_contains($lower, 'bayar') || str_contains($lower, 'tarif') || str_contains($lower, 'infaq') || str_contains($lower, 'e-spp')) {
             return "Pembayaran SPP dan administrasi keuangan di SIT Robbani menggunakan sistem **E-Wallet & E-SPP Online**:\n\n" .
                    "• Pembayaran dapat dilakukan via Virtual Account Bank (BSI, Mandiri, BRI, BCA) serta QRIS.\n" .
-                   "• Notifikasi tagihan & kwitansi digital otomatis dikirim ke WhatsApp wali santri.\n" .
+                   "• Notifikasi tagihan & kwitansi digital otomatis dikirim ke WhatsApp orang tua / wali siswa.\n" .
                    "• Rincian tagihan dapat dicek mandiri melalui menu **/e-spp**.\n\n" .
                    "💬 Untuk rincian biaya pendaftaran dan infaq per jenjang, silakan hubungi bagian keuangan di **{$contactPhone}**.";
         }
@@ -784,7 +784,7 @@ class AiRagEngine
                    "• **SDIT**: Target 3 - 5 Juz Mutqin + bimbingan talaqqi tajwid\n" .
                    "• **SMPIT**: Target 5 - 10 Juz Mutqin + karantina tahfidz bulanan\n" .
                    "• **SMAIT**: Target 10 - 30 Juz + persiapan sanad tahfidz\n\n" .
-                   "Seluruh siswa dibimbing langsung oleh ustadz/ustadzah hafidz Al-Qur'an bersanad.";
+                   "Seluruh siswa dibimbing langsung oleh dewan guru (Amah/Bunda & Ustadz) hafidz Al-Qur'an bersanad.";
         }
 
         // ── 7. Pertanyaan Profil Unit (TK, SD, SMP, SMA) ───────────────────────────

@@ -175,7 +175,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Nama Kepala Sekolah &amp; Gelar *</label>
-                    <input type="text" name="principal_name" value="{{ old('principal_name', $unitData['principal_name'] ?? ($schoolObj->principal_name ?? 'Ustadzah Tia Wulandari, S.Pd')) }}" class="w-full text-xs font-semibold rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500" required>
+                    <input type="text" name="principal_name" value="{{ old('principal_name', $unitData['principal_name'] ?? ($schoolObj->principal_name ?? 'Tia Wulandari, S.Pd., Gr')) }}" class="w-full text-xs font-semibold rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500" required>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Jabatan Resmi</label>
@@ -242,7 +242,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Nama Lengkap &amp; Gelar *</label>
-                                <input type="text" :name="'teachers[' + index + '][name]'" x-model="teacher.name" required placeholder="Contoh: Ustadzah Adelia, S.Pd" class="w-full text-xs font-semibold rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
+                                <input type="text" :name="'teachers[' + index + '][name]'" x-model="teacher.name" required placeholder="Contoh: Bunda Adelia, S.Pd / Ustadz Yusuf" class="w-full text-xs font-semibold rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Jabatan / Guru Mapel *</label>

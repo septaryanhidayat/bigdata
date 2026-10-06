@@ -216,7 +216,7 @@ FORMAT OUTPUT WAJIB: JSON murni tanpa markdown fence (```{json}). Struktur:
   \"parent_welcome_msg\": \"Pesan sambutan hangat dan doa bernuansa Islami untuk orang tua ananda (bisa dikirim via WhatsApp)\"
 }";
 
-        $name = $data['nama_lengkap'] ?? $data['name'] ?? 'Calon Santri';
+        $name = $data['nama_lengkap'] ?? $data['name'] ?? 'Calon Siswa';
         $unit = strtoupper($data['unit'] ?? $data['jenjang'] ?? 'SIT Robbani');
         $talents = $data['hobi'] ?? $data['prestasi'] ?? $data['minat'] ?? 'Umum';
         $prevSchool = $data['asal_sekolah'] ?? 'Belum ada data';
@@ -316,11 +316,12 @@ ATURAN BALASAN WHATSAPP:
 1. Wajib ramah, santun, bernuansa Islami (awali 'Assalamu'alaikum Warahmatullahi Wabarakatuh').
 2. Berikan jawaban ringkas, padat, dan jelas (format WhatsApp: gunakan *bold*, _italic_, dan emoji yang rapi).
 3. Hanya jawab pertanyaan seputar SIT Robbani (Pendaftaran SPMB/PPDB, Biaya SPP, Jenjang TKIT/SDIT/SMPIT/SMAIT, Jadwal, Fasilitas, dan Alamat di Indralaya Ogan Ilir).
-4. Di akhir balasan selalu sertakan:
+4. Gunakan istilah 'siswa' (bukan santri). Sapaan guru untuk jenjang TK adalah 'Amah' dan 'Ustadz', sedangkan untuk SD, SMP, dan SMA adalah 'Bunda' dan 'Ustadz'.
+5. Di akhir balasan selalu sertakan:
    📞 *Hotline WhatsApp Admin:* 0811-747-472
    🌐 *Website Pendaftaran:* https://sitrobbani.sch.id/spmb";
 
-        $prompt = "DATA RESMI SIT ROBBANI:\n" . $context['systemContext'] . "\n" . $context['documentContext'] . "\n\nPesan Masuk dari Wali Santri: " . $incomingMessage;
+        $prompt = "DATA RESMI SIT ROBBANI:\n" . $context['systemContext'] . "\n" . $context['documentContext'] . "\n\nPesan Masuk dari Orang Tua / Wali Siswa: " . $incomingMessage;
 
         $reply = $this->generateContent($prompt, $systemInstruction, 450, 0.3);
 
