@@ -19,6 +19,9 @@ class ReportSetting extends Model
         'principal_nip',
         'report_date',
         'report_city',
+        'accreditation',
+        'nss_nds',
+        'signature_mode',
     ];
 
     public function school()

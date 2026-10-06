@@ -74,21 +74,6 @@
             border-bottom: 3px solid #d97706;
             box-shadow: 0 1.5px 0 0 #0f172a;
         }
-        .ornate-cover-border {
-            border: 3.5px double #064e3b;
-            padding: 6px;
-            background-color: #ffffff;
-            outline: 1.5px solid #d97706;
-            outline-offset: -3px;
-        }
-        .ornate-cover-inner {
-            border: 1px solid #064e3b;
-            padding: 22px 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 255mm;
-        }
     </style>
 </head>
 <body class="p-4 sm:p-8 {{ $printType === 'leger' ? 'w-full max-w-[98%] mx-auto' : 'max-w-4xl mx-auto' }}">
@@ -240,104 +225,100 @@
     <!-- LEMBAR 1: COVER RAPOR PESERTA DIDIK RESMI SIT ROBBANI -->
     <!-- ========================================================================= -->
     @if($printType === 'all_in_one' || $printType === 'cover')
-    <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-300 shadow-md print:border-none print:p-0 print:shadow-none page-container page-container-cover">
+    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-200 shadow-sm print:border-none print:p-0 print:shadow-none page-container page-container-cover">
         
-        <div class="ornate-cover-border h-full">
-            <div class="ornate-cover-inner">
-                
-                <!-- 1. Header Cover: Instansi Pembina -->
-                <div class="text-center space-y-1">
-                    <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-slate-700">
-                        KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI
-                    </p>
-                    <p class="text-[10px] font-black tracking-[0.25em] uppercase text-slate-900">
-                        REPUBLIK INDONESIA
-                    </p>
-                    <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-emerald-800">
-                        JARINGAN SEKOLAH ISLAM TERPADU (JSIT) INDONESIA
-                    </p>
-                </div>
-
-                <!-- 2. Logo Resmi Beraksen -->
-                <div class="flex justify-center my-4">
-                    @php
-                        $coverLogo = $reportSetting?->school_logo_url ?? $student->school?->logo_url;
-                    @endphp
-                    @if(!empty($coverLogo) && file_exists(public_path($coverLogo)))
-                        <div class="p-3 bg-white rounded-full border-2 border-emerald-600 shadow-sm flex items-center justify-center">
-                            <img src="{{ asset($coverLogo) }}" class="h-32 sm:h-36 w-auto object-contain" alt="Logo Sekolah">
-                        </div>
-                    @else
-                        <div class="w-32 h-32 rounded-full border-4 border-emerald-800 bg-emerald-50/40 flex flex-col items-center justify-center p-2 shadow-sm">
-                            <span class="text-[9px] font-black uppercase text-slate-700 tracking-tight">{{ ($isSmp ?? false) ? 'SMP Islam Terpadu' : 'SD Islam Terpadu' }}</span>
-                            <span class="text-2xl font-black tracking-widest text-emerald-800">ROBBANI</span>
-                            <span class="text-[8px] italic text-rose-600 font-bold mt-0.5">Because Every Child is Unique</span>
-                        </div>
-                    @endif
-                </div>
-
-                <!-- 3. Judul Rapor Megah -->
-                <div class="space-y-1.5 text-center">
-                    <h2 class="text-sm sm:text-base font-bold tracking-[0.25em] uppercase text-slate-800">
-                        LAPORAN HASIL BELAJAR
-                    </h2>
-                    <h1 class="text-2xl sm:text-3xl font-black tracking-[0.15em] uppercase text-emerald-950">
-                        RAPOR PESERTA DIDIK
-                    </h1>
-                    <div class="inline-block px-4 py-1 rounded-full bg-emerald-50 border border-emerald-300">
-                        <p class="text-xs sm:text-sm font-black tracking-wider uppercase text-emerald-900">
-                            {{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA ISLAM TERPADU (SMP IT)' : 'SEKOLAH DASAR ISLAM TERPADU (SD IT)' }}
-                        </p>
-                    </div>
-                    <p class="text-[10px] font-bold tracking-widest text-slate-500 uppercase pt-0.5">
-                        Kurikulum Merdeka • Standar Mutu Kekhasan Sekolah Islam Terpadu
-                    </p>
-                </div>
-
-                <!-- 4. Plakat Eksklusif Identitas Siswa -->
-                <div class="w-full max-w-lg mx-auto my-4">
-                    <div class="border-2 border-emerald-900 bg-slate-50/70 p-4 rounded-xl shadow-xs space-y-2">
-                        <div class="text-center pb-2 border-b border-emerald-800/30">
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Nama Peserta Didik</span>
-                            <h3 class="text-base sm:text-lg font-black uppercase tracking-wide text-slate-950 mt-0.5">
-                                {{ $student->full_name }}
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-xs font-serif pt-1">
-                            <div class="bg-white p-2 rounded border border-slate-200">
-                                <span class="text-[9px] uppercase font-bold text-slate-500 block">NISN</span>
-                                <span class="font-bold text-slate-900 tracking-wider">{{ $student->nisn ?? '-' }}</span>
-                            </div>
-                            <div class="bg-white p-2 rounded border border-slate-200">
-                                <span class="text-[9px] uppercase font-bold text-slate-500 block">Nomor Induk Siswa (NIS)</span>
-                                <span class="font-bold text-slate-900 tracking-wider">{{ $student->nis }}</span>
-                            </div>
-                            <div class="bg-white p-2 rounded border border-slate-200">
-                                <span class="text-[9px] uppercase font-bold text-slate-500 block">Rombongan Belajar</span>
-                                <span class="font-bold text-slate-900">{{ $student->classroom->name ?? 'Kelas' }}</span>
-                            </div>
-                            <div class="bg-white p-2 rounded border border-slate-200">
-                                <span class="text-[9px] uppercase font-bold text-slate-500 block">Tahun Pelajaran / Semester</span>
-                                <span class="font-bold text-slate-900">{{ $academicYear->name ?? '2026/2027' }} / {{ $academicYear->semester ?? 'Ganjil' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. Footer Lembaga Satuan Pendidikan -->
-                <div class="text-center space-y-1 pt-2 pb-1">
-                    <h3 class="text-sm sm:text-base font-black tracking-widest uppercase text-emerald-950">
-                        {{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}
-                    </h3>
-                    <h4 class="text-xs font-bold tracking-wider uppercase text-slate-800">
-                        YAYASAN GENERASI ROBBANI SUMATERA SELATAN
-                    </h4>
-                    <p class="text-[10px] font-semibold text-slate-600">
-                        KABUPATEN OGAN ILIR • PROVINSI SUMATERA SELATAN
-                    </p>
-                </div>
-
+        <div class="h-full flex flex-col justify-between py-6">
+            
+            <!-- 1. Header Cover: Instansi Pembina -->
+            <div class="text-center space-y-1">
+                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-slate-700">
+                    KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI
+                </p>
+                <p class="text-[10px] font-black tracking-[0.25em] uppercase text-slate-900">
+                    REPUBLIK INDONESIA
+                </p>
+                <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-emerald-800">
+                    JARINGAN SEKOLAH ISLAM TERPADU (JSIT) INDONESIA
+                </p>
             </div>
+
+            <!-- 2. Logo Resmi (BERSIH TANPA BORDER DI LUAR LOGO) -->
+            <div class="flex justify-center my-6">
+                @php
+                    $coverLogo = $reportSetting?->school_logo_url ?? $student->school?->logo_url;
+                @endphp
+                @if(!empty($coverLogo) && file_exists(public_path($coverLogo)))
+                    <img src="{{ asset($coverLogo) }}" class="h-32 sm:h-36 w-auto object-contain" alt="Logo Sekolah" style="border: none !important; box-shadow: none !important;">
+                @else
+                    <div class="flex flex-col items-center justify-center p-2 text-center">
+                        <span class="text-xs font-black uppercase text-slate-700 tracking-tight">{{ ($isSmp ?? false) ? 'SMP Islam Terpadu' : 'SD Islam Terpadu' }}</span>
+                        <span class="text-3xl font-black tracking-widest text-emerald-800">ROBBANI</span>
+                        <span class="text-[10px] italic text-rose-600 font-bold mt-1">Because Every Child is Unique</span>
+                    </div>
+                @endif
+            </div>
+
+            <!-- 3. Judul Rapor Megah Bersih Modern (Tanpa Border Kuno) -->
+            <div class="space-y-2 text-center">
+                <h2 class="text-sm sm:text-base font-bold tracking-[0.25em] uppercase text-slate-700">
+                    LAPORAN HASIL BELAJAR
+                </h2>
+                <h1 class="text-2xl sm:text-3xl font-black tracking-[0.15em] uppercase text-slate-900">
+                    RAPOR PESERTA DIDIK
+                </h1>
+                <div class="inline-block px-5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
+                    <p class="text-xs sm:text-sm font-black tracking-wider uppercase text-emerald-900">
+                        {{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA ISLAM TERPADU (SMP IT)' : 'SEKOLAH DASAR ISLAM TERPADU (SD IT)' }}
+                    </p>
+                </div>
+                <p class="text-[10px] font-bold tracking-widest text-slate-500 uppercase pt-1">
+                    Kurikulum Merdeka • Standar Mutu Kekhasan Sekolah Islam Terpadu
+                </p>
+            </div>
+
+            <!-- 4. Plakat Identitas Siswa Bersih Modern -->
+            <div class="w-full max-w-lg mx-auto my-6">
+                <div class="border border-slate-300 bg-slate-50/80 p-5 rounded-2xl shadow-xs space-y-3">
+                    <div class="text-center pb-2.5 border-b border-slate-200">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Nama Lengkap Peserta Didik</span>
+                        <h3 class="text-lg sm:text-xl font-black uppercase tracking-wide text-slate-950 mt-1">
+                            {{ $student->full_name }}
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs font-serif pt-1">
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+                            <span class="text-[9px] uppercase font-bold text-slate-500 block">NISN</span>
+                            <span class="font-bold text-slate-900 tracking-wider">{{ $student->nisn ?? '-' }}</span>
+                        </div>
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+                            <span class="text-[9px] uppercase font-bold text-slate-500 block">Nomor Induk Siswa (NIS)</span>
+                            <span class="font-bold text-slate-900 tracking-wider">{{ $student->nis }}</span>
+                        </div>
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+                            <span class="text-[9px] uppercase font-bold text-slate-500 block">Rombongan Belajar</span>
+                            <span class="font-bold text-slate-900">{{ $student->classroom->name ?? 'Kelas' }}</span>
+                        </div>
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+                            <span class="text-[9px] uppercase font-bold text-slate-500 block">Tahun Pelajaran / Semester</span>
+                            <span class="font-bold text-slate-900">{{ $academicYear->name ?? '2026/2027' }} ({{ $academicYear->semester ?? 'Ganjil' }})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Footer Lembaga Satuan Pendidikan -->
+            <div class="text-center space-y-1 pt-2 pb-2">
+                <h3 class="text-sm sm:text-base font-black tracking-widest uppercase text-slate-900">
+                    {{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}
+                </h3>
+                <h4 class="text-xs font-bold tracking-wider uppercase text-slate-700">
+                    YAYASAN GENERASI ROBBANI SUMATERA SELATAN
+                </h4>
+                <p class="text-[10px] font-semibold text-slate-500">
+                    KABUPATEN OGAN ILIR • PROVINSI SUMATERA SELATAN
+                </p>
+            </div>
+
         </div>
 
     </div>
@@ -355,94 +336,113 @@
             <h3 class="text-xs font-black uppercase tracking-widest text-slate-700">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</h3>
             <h1 class="text-lg font-black uppercase tracking-wider text-slate-950">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</h1>
             <h2 class="text-sm font-black uppercase tracking-wider text-emerald-900 underline">PROFIL SATUAN PENDIDIKAN</h2>
-            <p class="text-[10px] text-slate-600">NPSN: {{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '69957391') }} • NSS: {{ $student->school->nss ?? '-' }} • Akreditasi: A (Unggul)</p>
+            <p class="text-[10px] text-slate-600">NPSN: {{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '70014022') }} • NSS / NDS: {{ $reportSetting->nss_nds ?? $nssNds }} • Akreditasi: {{ $reportSetting->accreditation ?? $schoolAccreditation }}</p>
         </div>
 
-        <!-- Tabel Profil Sekolah Rapi & Berwibawa -->
+        <!-- Tabel Profil Sekolah 13 Baris Resmi Sesuai Standar e-Rapor -->
         <div class="w-full py-2 text-xs font-serif">
             <table class="w-full border-2 border-slate-900 border-collapse text-left">
                 <tbody>
                     <tr class="border-b border-slate-900 bg-slate-50">
                         <td class="w-10 text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">1.</td>
-                        <td class="w-56 py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Nama Sekolah</td>
+                        <td class="w-56 py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Nama Satuan Pendidikan</td>
                         <td class="w-4 text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</td>
+                        <td class="py-2 px-3 font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP IT ROBBANI' : 'SDIT ROBBANI') }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
                         <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">2.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">NPSN / NSS / NDS</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">NPSN</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 font-bold text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '69957391') }} / {{ $student->school->nss ?? '-' }}</td>
+                        <td class="py-2 px-3 font-bold text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '70014022') }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
                         <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">3.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Bentuk & Jenjang Pendidikan</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">NSS / NDS</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 font-bold text-slate-950">{{ ($isSmp ?? false) ? 'SMP Islam Terpadu (Fase D)' : 'SD Islam Terpadu (Fase A/B/C)' }} • Kurikulum Merdeka</td>
+                        <td class="py-2 px-3 font-bold text-slate-950">{{ $reportSetting->nss_nds ?? $nssNds }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
                         <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">4.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Alamat Lengkap Satuan Pendidikan</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Status Akreditasi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Jln. Sarjana Blok A Komplek Unsri') }}</td>
+                        <td class="py-2 px-3 font-black text-emerald-900">{{ $reportSetting->accreditation ?? $schoolAccreditation }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
                         <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">5.</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Alamat Sekolah</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan') }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">6.</td>
                         <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Kelurahan / Desa</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
                         <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->village ?? 'Timbangan' }}</td>
                     </tr>
-                    <tr class="border-b border-slate-900">
-                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">6.</td>
+                    <tr class="border-b border-slate-900 bg-slate-50">
+                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">7.</td>
                         <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Kecamatan</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
                         <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->district ?? 'Indralaya Utara' }}</td>
                     </tr>
-                    <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">7.</td>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">8.</td>
                         <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Kabupaten / Kota</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
                         <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->city ?? 'Ogan Ilir' }}</td>
                     </tr>
-                    <tr class="border-b border-slate-900">
-                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">8.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Provinsi & Kode Pos</td>
-                        <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->province ?? 'Sumatera Selatan' }} - Kode Pos: {{ $student->school->postal_code ?? '30662' }}</td>
-                    </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
                         <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">9.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Nomor Telepon / WhatsApp</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Provinsi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '081367363153') }}</td>
+                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->province ?? 'Sumatera Selatan' }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
                         <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">10.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Laman Resmi (Website)</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Kode Pos</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->website ?? (($isSmp ?? false) ? 'www.smp.sitrobbani.sch.id' : 'www.sitrobbani.sch.id') }}</td>
+                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->postal_code ?? '30662' }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900 bg-slate-50">
+                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">11.</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Telepon / Kontak</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2 px-3 text-slate-900 font-semibold">{{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '0811747472') }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">12.</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Website Resmi</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->website ?? 'www.sitrobbani.sch.id' }}</td>
                     </tr>
                     <tr class="bg-slate-50">
-                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">11.</td>
-                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">Surat Elektronik (E-mail)</td>
+                        <td class="text-center py-2 px-3 font-bold border-r border-slate-900 text-slate-900">13.</td>
+                        <td class="py-2 px-3 font-bold text-slate-800 border-r border-slate-900">E-mail Resmi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-2 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sdit@sitrobbani.sch.id') }}</td>
+                        <td class="py-2 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sd@sitrobbani.sch.id') }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Pengesahan Resmi Kepala Sekolah -->
+        <!-- Pengesahan Resmi Kepala Sekolah (Fleksibel & Anti-Tumpang Tindih) -->
+        @php
+            $sigMode = $reportSetting->signature_mode ?? 'both';
+            $hasStamp = !empty($reportSetting->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+            $hasSig = !empty($reportSetting->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+            $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+            $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+        @endphp
         <div class="pt-6 flex justify-end text-xs font-serif">
             <div class="w-72 text-center space-y-1">
-                <p class="text-slate-800">{{ $reportSetting->report_city ?? 'Ogan Ilir' }}, {{ $reportSetting->report_date ?? date('d F Y') }}</p>
-                <p class="font-bold text-slate-900">Kepala {{ $student->school->name ?? (($isSmp ?? false) ? 'SMP IT Robbani' : 'SD IT Robbani') }},</p>
+                <p class="text-slate-800">{{ $reportSetting->report_city ?? 'Ogan Ilir' }}, {{ $reportSetting->report_date ?? '18 Juni 2026' }}</p>
+                <p class="font-bold text-slate-900">Kepala Sekolah,</p>
                 
                 <div class="h-20 flex items-center justify-center relative my-1">
-                    @if(!empty($reportSetting->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                    @if($showStamp)
                         <img src="{{ asset($reportSetting->stamp_image_url) }}" class="absolute left-6 w-20 h-20 object-contain opacity-80" alt="Stempel">
                     @endif
-                    @if(!empty($reportSetting->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                    @if($showSig)
                         <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-16 w-auto object-contain relative z-10" alt="TTD Kepala Sekolah">
                     @endif
                 </div>
@@ -451,7 +451,7 @@
                     {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr')) }}
                 </p>
                 <p class="text-[11px] text-slate-700">
-                    NIP/NIY: {{ $reportSetting->principal_nip ?? ($isSmp ? '142062021012' : '142102020009') }}
+                    NIP. {{ $reportSetting->principal_nip ?? ($isSmp ? '142062021012' : '19850315 200904 1 003') }}
                 </p>
             </div>
         </div>
@@ -607,11 +607,18 @@
                     {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}
                 </p>
                 <p class="font-bold text-slate-900">Kepala Sekolah,</p>
+                @php
+                    $sigMode = $reportSetting->signature_mode ?? 'both';
+                    $hasStamp = !empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+                    $hasSig = !empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+                    $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+                    $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+                @endphp
                 <div class="h-16 flex items-center justify-center relative my-1">
-                    @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                    @if($showStamp)
                         <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-2 z-0 pointer-events-none" alt="Stempel">
                     @endif
-                    @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                    @if($showSig)
                         <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                     @endif
                 </div>
@@ -966,11 +973,18 @@
                     </td>
                     <td class="text-center" style="vertical-align: middle; position: relative;">
                         <!-- TTD Kepala Sekolah & Stempel -->
+                        @php
+                            $sigMode = $reportSetting->signature_mode ?? 'both';
+                            $hasStamp = !empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+                            $hasSig = !empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+                            $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+                            $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+                        @endphp
                         <div class="h-16 flex items-center justify-center relative">
-                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                            @if($showStamp)
                                 <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-4 z-0 pointer-events-none" alt="Stempel">
                             @endif
-                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                            @if($showSig)
                                 <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                             @endif
                         </div>
@@ -1181,11 +1195,18 @@
                 </tr>
                 <tr style="height: 65px;">
                     <td class="text-center" style="vertical-align: middle;">
+                        @php
+                            $sigMode = $reportSetting->signature_mode ?? 'both';
+                            $hasStamp = !empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+                            $hasSig = !empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+                            $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+                            $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+                        @endphp
                         <div class="h-16 flex items-center justify-center relative">
-                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                            @if($showStamp)
                                 <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
                             @endif
-                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                            @if($showSig)
                                 <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                             @endif
                         </div>
@@ -1286,11 +1307,18 @@
                 <tr style="height: 65px;">
                     <td class="text-center" style="vertical-align: middle;"></td>
                     <td class="text-center" style="vertical-align: middle;">
+                        @php
+                            $sigMode = $reportSetting->signature_mode ?? 'both';
+                            $hasStamp = !empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+                            $hasSig = !empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+                            $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+                            $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+                        @endphp
                         <div class="h-16 flex items-center justify-center relative">
-                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                            @if($showStamp)
                                 <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
                             @endif
-                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                            @if($showSig)
                                 <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                             @endif
                         </div>
@@ -1479,11 +1507,18 @@
                 </tr>
                 <tr style="height: 65px;">
                     <td class="text-center" style="vertical-align: middle;">
+                        @php
+                            $sigMode = $reportSetting->signature_mode ?? 'both';
+                            $hasStamp = !empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+                            $hasSig = !empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+                            $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+                            $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+                        @endphp
                         <div class="h-16 flex items-center justify-center relative">
-                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                            @if($showStamp)
                                 <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
                             @endif
-                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                            @if($showSig)
                                 <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                             @endif
                         </div>
@@ -1624,11 +1659,18 @@
                 <tr style="height: 65px;">
                     <td class="text-center" style="vertical-align: middle;"></td>
                     <td class="text-center" style="vertical-align: middle;">
+                        @php
+                            $sigMode = $reportSetting->signature_mode ?? 'both';
+                            $hasStamp = !empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url));
+                            $hasSig = !empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url));
+                            $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
+                            $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
+                        @endphp
                         <div class="h-16 flex items-center justify-center relative">
-                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                            @if($showStamp)
                                 <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
                             @endif
-                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                            @if($showSig)
                                 <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
                             @endif
                         </div>

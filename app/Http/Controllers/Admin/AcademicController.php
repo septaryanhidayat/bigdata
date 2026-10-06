@@ -340,8 +340,27 @@ class AcademicController extends Controller
                     $table->string('principal_nip')->nullable();
                     $table->string('report_date')->nullable();
                     $table->string('report_city')->nullable()->default('Bandung');
+                    $table->string('accreditation')->nullable();
+                    $table->string('nss_nds')->nullable();
+                    $table->string('signature_mode')->nullable()->default('both');
                     $table->timestamps();
                 });
+            } else {
+                if (!Schema::hasColumn('report_settings', 'accreditation')) {
+                    Schema::table('report_settings', function (Blueprint $table) {
+                        $table->string('accreditation')->nullable();
+                    });
+                }
+                if (!Schema::hasColumn('report_settings', 'nss_nds')) {
+                    Schema::table('report_settings', function (Blueprint $table) {
+                        $table->string('nss_nds')->nullable();
+                    });
+                }
+                if (!Schema::hasColumn('report_settings', 'signature_mode')) {
+                    Schema::table('report_settings', function (Blueprint $table) {
+                        $table->string('signature_mode')->nullable()->default('both');
+                    });
+                }
             }
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('ensure report_settings table error: ' . $e->getMessage());
@@ -1202,6 +1221,9 @@ class AcademicController extends Controller
         if ($request->filled('principal_name')) $setting->principal_name = $request->principal_name;
         if ($request->filled('principal_nip')) $setting->principal_nip = $request->principal_nip;
         if ($request->filled('city')) $setting->report_city = $request->city;
+        if ($request->filled('report_date')) $setting->report_date = $request->report_date;
+        if ($request->filled('accreditation')) $setting->accreditation = $request->accreditation;
+        if ($request->filled('nss_nds')) $setting->nss_nds = $request->nss_nds;
         $setting->save();
 
         return redirect()->route('admin.academic.grades', [
@@ -2525,6 +2547,20 @@ class AcademicController extends Controller
         $setting->principal_nip = $request->principal_nip;
         $setting->report_city = $request->report_city ?? 'Ogan Ilir';
         $setting->report_date = $request->report_date ?? '18 Juni 2026';
+        if ($request->has('accreditation')) $setting->accreditation = $request->accreditation;
+        if ($request->has('nss_nds')) $setting->nss_nds = $request->nss_nds;
+        if ($request->has('signature_mode')) $setting->signature_mode = $request->signature_mode;
+
+        // Opsi Kosongkan / Hapus File
+        if ($request->boolean('clear_stamp') || $request->input('clear_stamp') == '1') {
+            $setting->stamp_image_url = null;
+        }
+        if ($request->boolean('clear_signature') || $request->input('clear_signature') == '1') {
+            $setting->principal_signature_url = null;
+        }
+        if ($request->boolean('clear_logo') || $request->input('clear_logo') == '1') {
+            $setting->school_logo_url = null;
+        }
 
         $destinationPath = public_path('uploads/reports');
         if (!file_exists($destinationPath)) {
@@ -2707,6 +2743,18 @@ class AcademicController extends Controller
             $classSubjects = Subject::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->get();
         }
 
+        $schoolAccreditation = $reportSetting?->accreditation;
+        if (empty($schoolAccreditation)) {
+            if (str_contains($schoolCode, 'tk') || str_contains($schoolName, 'tk') || str_contains($schoolName, 'tkit') || str_contains($schoolName, 'paud')) {
+                $schoolAccreditation = 'Terakreditasi A (BAN-PAUD)';
+            } elseif ($isSmp) {
+                $schoolAccreditation = 'Terakreditasi B (BAN-S/M)';
+            } else {
+                $schoolAccreditation = 'Terakreditasi B (BAN-S/M)';
+            }
+        }
+        $nssNds = $reportSetting?->nss_nds ?: ($isSmp ? '202110304002' : '102110304001');
+
         return view('admin.academic.report_card', compact(
             'student',
             'grades',
@@ -2717,6 +2765,8 @@ class AcademicController extends Controller
             'characterGrade',
             'homeroomNote',
             'reportSetting',
+            'schoolAccreditation',
+            'nssNds',
             'quranCriteria',
             'characterIndicators',
             'printType',
@@ -2929,6 +2979,18 @@ class AcademicController extends Controller
             $nationalGrades = $grades;
         }
 
+        $schoolAccreditation = $reportSetting?->accreditation;
+        if (empty($schoolAccreditation)) {
+            if (str_contains($schoolCode, 'tk') || str_contains($schoolName, 'tk') || str_contains($schoolName, 'tkit') || str_contains($schoolName, 'paud')) {
+                $schoolAccreditation = 'Terakreditasi A (BAN-PAUD)';
+            } elseif ($isSmp) {
+                $schoolAccreditation = 'Terakreditasi B (BAN-S/M)';
+            } else {
+                $schoolAccreditation = 'Terakreditasi B (BAN-S/M)';
+            }
+        }
+        $nssNds = $reportSetting?->nss_nds ?: ($isSmp ? '202110304002' : '102110304001');
+
         return compact(
             'student',
             'grades',
@@ -2939,6 +3001,8 @@ class AcademicController extends Controller
             'characterGrade',
             'homeroomNote',
             'reportSetting',
+            'schoolAccreditation',
+            'nssNds',
             'quranCriteria',
             'characterIndicators',
             'isSmp',

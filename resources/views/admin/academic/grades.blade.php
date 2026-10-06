@@ -4352,7 +4352,18 @@
                     </div>
                 </div>
 
-                <!-- 2. TITIMANGSA RAPOR -->
+                @php
+                    $isTkSchool = !empty($activeSchool) && (
+                        str_contains(strtolower($activeSchool->name ?? ''), 'tk') || 
+                        str_contains(strtolower($activeSchool->level ?? ''), 'tk') ||
+                        str_contains(strtolower($activeSchool->name ?? ''), 'paud')
+                    );
+                    $defaultAccreditation = $reportSetting?->accreditation ?: ($isTkSchool ? 'Terakreditasi A (BAN-PAUD)' : 'Terakreditasi B (BAN-S/M)');
+                    $defaultNssNds = $reportSetting?->nss_nds ?: ($isTkSchool ? '-' : '102110304001');
+                    $currentSigMode = $reportSetting?->signature_mode ?: 'both';
+                @endphp
+
+                <!-- 2. TITIMANGSA & AKREDITASI RAPOR -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">Kota Titimangsa Rapor:</label>
@@ -4367,6 +4378,26 @@
                                value="{{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}"
                                oninput="updatePreview()"
                                class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 bg-slate-50 focus:bg-white text-slate-900">
+                    </div>
+                </div>
+
+                <!-- AKREDITASI & IDENTITAS NSS/NDS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Status Akreditasi Sekolah (Profil & Cover):</label>
+                        <input type="text" name="accreditation" id="setting_accreditation" 
+                               value="{{ $defaultAccreditation }}"
+                               placeholder="Contoh: Terakreditasi B (BAN-S/M) atau Terakreditasi A"
+                               class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 bg-slate-50 focus:bg-white text-slate-900">
+                        <p class="text-[10px] text-slate-500 mt-1">Standar: SD & SMP = Terakreditasi B, TK = Terakreditasi A. Bisa diedit bebas.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">NSS / NDS Satuan Pendidikan:</label>
+                        <input type="text" name="nss_nds" id="setting_nss_nds" 
+                               value="{{ $defaultNssNds }}"
+                               placeholder="Contoh: 102110304001"
+                               class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 bg-slate-50 focus:bg-white text-slate-900">
+                        <p class="text-[10px] text-slate-500 mt-1">Dicetak pada Lembar 2 Profil Satuan Pendidikan.</p>
                     </div>
                 </div>
 
@@ -4390,41 +4421,83 @@
 
                 <!-- 4. UPLOAD BERKAS PENDUKUNG (STEMPEL & TANDA TANGAN) -->
                 <div class="pt-3 border-t border-slate-200 space-y-4">
-                    <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                        <span>🖋️</span> <span>Upload Stempel & Tanda Tangan Digital</span>
-                    </h4>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>🖋️</span> <span>Pengaturan Stempel & Tanda Tangan Digital</span>
+                        </h4>
+                    </div>
+
+                    <!-- Pilihan Mode Tanda Tangan & Cap (Mencegah Stempel Menimpa / Dobel) -->
+                    <div class="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200 space-y-2">
+                        <label class="block text-xs font-black text-blue-950">
+                            ⚙️ Pilihan Mode Tanda Tangan & Cap Stempel pada Rapor:
+                        </label>
+                        <select name="signature_mode" id="setting_sig_mode" onchange="updatePreviewSigMode(this.value)"
+                                class="w-full text-xs font-bold text-slate-800 rounded-xl border border-blue-300 p-2.5 bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                            <option value="ttd_has_stamp" {{ $currentSigMode === 'ttd_has_stamp' ? 'selected' : '' }}>
+                                🌟 File Tanda Tangan Sudah Berisi Cap/Stempel (Sembunyikan Stempel Digital Otomatis)
+                            </option>
+                            <option value="both" {{ $currentSigMode === 'both' ? 'selected' : '' }}>
+                                Tampilkan Stempel Digital & Tanda Tangan Digital Terpisah (Default)
+                            </option>
+                            <option value="ttd_only" {{ $currentSigMode === 'ttd_only' ? 'selected' : '' }}>
+                                Hanya Tanda Tangan Digital (Kosongkan / Sembunyikan Stempel)
+                            </option>
+                            <option value="stamp_only" {{ $currentSigMode === 'stamp_only' ? 'selected' : '' }}>
+                                Hanya Stempel Digital (Kosongkan / Sembunyikan Tanda Tangan)
+                            </option>
+                            <option value="none" {{ $currentSigMode === 'none' ? 'selected' : '' }}>
+                                Kosongkan Keduanya (Untuk Ditandatangani & Dicap Basah Manual)
+                            </option>
+                        </select>
+                        <p class="text-[11px] text-blue-800 leading-relaxed">
+                            💡 <b>Gunakan opsi pertama</b> jika file scan tanda tangan Anda sudah menyatu dengan cap stempel sekolah, agar tidak terjadi stempel ganda yang saling menimpa.
+                        </p>
+                    </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Stempel Resmi Sekolah -->
                         <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                             <label class="block text-xs font-bold text-slate-800">Stempel Resmi Sekolah (PNG Transparan):</label>
                             @if(!empty($reportSetting?->stamp_image_url))
-                                <div class="flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-200">
-                                    <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-10 w-auto object-contain" alt="Stempel">
-                                    <div class="text-[10px] text-slate-600 truncate">
-                                        <span class="font-bold text-emerald-700">Aktif:</span> {{ basename($reportSetting->stamp_image_url) }}
+                                <div class="flex items-center justify-between gap-2 p-2 bg-white rounded-lg border border-slate-200">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-10 w-auto object-contain" alt="Stempel">
+                                        <div class="text-[10px] text-slate-600 truncate">
+                                            <span class="font-bold text-emerald-700">Aktif:</span> {{ basename($reportSetting->stamp_image_url) }}
+                                        </div>
                                     </div>
+                                    <label class="inline-flex items-center gap-1 text-[10px] text-rose-600 font-bold shrink-0 cursor-pointer">
+                                        <input type="checkbox" name="clear_stamp" value="1" class="rounded text-rose-600">
+                                        <span>Hapus/Kosongkan</span>
+                                    </label>
                                 </div>
                             @endif
                             <input type="file" name="stamp_image_file" accept="image/png,image/webp" 
                                    class="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-800 border border-slate-300 rounded-xl p-1 bg-white cursor-pointer">
-                            <p class="text-[10px] text-slate-500">Gunakan PNG dengan background transparan.</p>
+                            <p class="text-[10px] text-slate-500">Gunakan PNG dengan background transparan. Bisa dikosongkan jika tidak diperlukan.</p>
                         </div>
 
                         <!-- Tanda Tangan Digital Kepala Sekolah -->
                         <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                             <label class="block text-xs font-bold text-slate-800">Tanda Tangan Kepala Sekolah (PNG Transparan):</label>
                             @if(!empty($reportSetting?->principal_signature_url))
-                                <div class="flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-200">
-                                    <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-10 w-auto object-contain" alt="TTD">
-                                    <div class="text-[10px] text-slate-600 truncate">
-                                        <span class="font-bold text-emerald-700">Aktif:</span> {{ basename($reportSetting->principal_signature_url) }}
+                                <div class="flex items-center justify-between gap-2 p-2 bg-white rounded-lg border border-slate-200">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-10 w-auto object-contain" alt="TTD">
+                                        <div class="text-[10px] text-slate-600 truncate">
+                                            <span class="font-bold text-emerald-700">Aktif:</span> {{ basename($reportSetting->principal_signature_url) }}
+                                        </div>
                                     </div>
+                                    <label class="inline-flex items-center gap-1 text-[10px] text-rose-600 font-bold shrink-0 cursor-pointer">
+                                        <input type="checkbox" name="clear_signature" value="1" class="rounded text-rose-600">
+                                        <span>Hapus/Kosongkan</span>
+                                    </label>
                                 </div>
                             @endif
                             <input type="file" name="principal_signature_file" accept="image/png,image/webp" 
                                    class="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-800 border border-slate-300 rounded-xl p-1 bg-white cursor-pointer">
-                            <p class="text-[10px] text-slate-500">Gunakan PNG dengan background transparan.</p>
+                            <p class="text-[10px] text-slate-500">Gunakan PNG dengan background transparan. Bisa dikosongkan jika tidak diperlukan.</p>
                         </div>
                     </div>
 
@@ -4433,16 +4506,22 @@
                         <div class="flex items-start justify-between gap-2">
                             <div>
                                 <label class="block text-xs font-black text-emerald-950 uppercase">🖼️ 2. Logo Resmi Sekolah / Yayasan untuk Cover Depan E-Rapor</label>
-                                <p class="text-[10px] text-emerald-800 font-medium">Logo ini otomatis dicetak di lembar cover depan rapor siswa.</p>
+                                <p class="text-[10px] text-emerald-800 font-medium">Logo ini otomatis dicetak di lembar cover depan rapor siswa (bersih tanpa border luar).</p>
                             </div>
                             <span class="px-2 py-0.5 rounded bg-emerald-700 text-white font-extrabold text-[9px] uppercase">Cover Rapor</span>
                         </div>
                         @if(!empty($reportSetting?->school_logo_url))
-                            <div class="flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-200">
-                                <img src="{{ asset($reportSetting->school_logo_url) }}" class="h-12 w-auto object-contain" alt="Logo Cover">
-                                <div class="text-[10px] text-slate-600 truncate">
-                                    <span class="font-bold text-emerald-700">Logo Cover Aktif:</span> {{ basename($reportSetting->school_logo_url) }}
+                            <div class="flex items-center justify-between gap-2 p-2 bg-white rounded-lg border border-slate-200">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <img src="{{ asset($reportSetting->school_logo_url) }}" class="h-12 w-auto object-contain" alt="Logo Cover">
+                                    <div class="text-[10px] text-slate-600 truncate">
+                                        <span class="font-bold text-emerald-700">Logo Cover Aktif:</span> {{ basename($reportSetting->school_logo_url) }}
+                                    </div>
                                 </div>
+                                <label class="inline-flex items-center gap-1 text-[10px] text-rose-600 font-bold shrink-0 cursor-pointer">
+                                    <input type="checkbox" name="clear_logo" value="1" class="rounded text-rose-600">
+                                    <span>Reset ke Default</span>
+                                </label>
                             </div>
                         @elseif(!empty($activeSchool->logo_url))
                             <div class="flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-200">
@@ -4508,16 +4587,20 @@
                             </p>
                             <p class="text-[11px] font-bold text-slate-900">Kepala Sekolah,</p>
                             
+                            @php
+                                $pvSigMode = $reportSetting?->signature_mode ?? 'both';
+                                $pvShowStamp = in_array($pvSigMode, ['both', 'stamp_only']) && !empty($reportSetting?->stamp_image_url);
+                                $pvShowSig = in_array($pvSigMode, ['both', 'ttd_has_stamp', 'ttd_only']) && !empty($reportSetting?->principal_signature_url);
+                            @endphp
                             <!-- Stamp & TTD Graphic Mockup -->
-                            <div class="h-20 my-1 flex items-center justify-center relative">
+                            <div class="h-20 my-1 flex items-center justify-center relative" id="preview_sig_wrapper">
                                 @if(!empty($reportSetting?->stamp_image_url))
-                                    <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-20 w-auto object-contain absolute opacity-80 left-2 pointer-events-none" alt="Stempel">
+                                    <img id="preview_stamp_img" src="{{ asset($reportSetting->stamp_image_url) }}" class="h-20 w-auto object-contain absolute opacity-80 left-2 pointer-events-none {{ $pvShowStamp ? '' : 'hidden' }}" alt="Stempel">
                                 @endif
                                 @if(!empty($reportSetting?->principal_signature_url))
-                                    <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-16 w-auto object-contain relative z-10" alt="TTD">
-                                @else
-                                    <span class="font-serif italic text-slate-400 text-xs">(Tanda Tangan & Stempel)</span>
+                                    <img id="preview_sig_img" src="{{ asset($reportSetting->principal_signature_url) }}" class="h-16 w-auto object-contain relative z-10 {{ $pvShowSig ? '' : 'hidden' }}" alt="TTD">
                                 @endif
+                                <span id="preview_sig_placeholder" class="font-serif italic text-slate-400 text-xs {{ ($pvShowStamp || $pvShowSig) ? 'hidden' : '' }}">(Tanda Tangan & Stempel Kosong)</span>
                             </div>
 
                             <p id="preview_principal" class="text-xs font-black text-slate-900 underline">
@@ -4563,9 +4646,9 @@
             @csrf
             <input type="hidden" name="school_id" value="{{ $schoolId }}">
 
-            <!-- 1. Identitas Lembaga & NPSN -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-2">
+            <!-- 1. Identitas Lembaga, NPSN, Akreditasi & NSS/NDS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
                     <label class="block font-bold text-slate-700 mb-1">Nama Resmi Sekolah:</label>
                     <input type="text" name="name" required 
                            value="{{ $activeSchool->name ?? '' }}" 
@@ -4573,11 +4656,30 @@
                            class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">NPSN / NSS Sekolah:</label>
+                    <label class="block font-bold text-slate-700 mb-1">NPSN Sekolah:</label>
                     <input type="text" name="npsn" 
                            value="{{ $activeSchool->npsn ?? '' }}" 
-                           placeholder="Contoh: 20198033"
+                           placeholder="Contoh: 70014022"
                            class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Status Akreditasi Sekolah (Profil & Cover):</label>
+                    <input type="text" name="accreditation" 
+                           value="{{ $reportSetting?->accreditation ?? ($isTkSchool ? 'Terakreditasi A (BAN-PAUD)' : 'Terakreditasi B (BAN-S/M)') }}" 
+                           placeholder="Contoh: Terakreditasi B (BAN-S/M)"
+                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                    <p class="text-[10px] text-slate-500 mt-1">SD dan SMP = Terakreditasi B, TK = Terakreditasi A. Bebas diedit kapan saja.</p>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">NSS / NDS Sekolah:</label>
+                    <input type="text" name="nss_nds" 
+                           value="{{ $reportSetting?->nss_nds ?? ($isTkSchool ? '-' : '102110304001') }}" 
+                           placeholder="Contoh: 102110304001"
+                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                    <p class="text-[10px] text-slate-500 mt-1">Dicetak pada baris ke-3 tabel Lembar 2 Profil Sekolah.</p>
                 </div>
             </div>
 
@@ -6085,6 +6187,22 @@
         }
         if (nipText && document.getElementById('preview_nip')) {
             document.getElementById('preview_nip').innerText = nipText.value;
+        }
+    }
+
+    // Live preview update for Signature & Stamp visibility mode
+    function updatePreviewSigMode(mode) {
+        const stamp = document.getElementById('preview_stamp_img');
+        const sig = document.getElementById('preview_sig_img');
+        const placeholder = document.getElementById('preview_sig_placeholder');
+        const showStamp = (mode === 'both' || mode === 'stamp_only');
+        const showSig = (mode === 'both' || mode === 'ttd_has_stamp' || mode === 'ttd_only');
+        
+        if (stamp) stamp.classList.toggle('hidden', !showStamp);
+        if (sig) sig.classList.toggle('hidden', !showSig);
+        if (placeholder) {
+            const anyVisible = (stamp && showStamp) || (sig && showSig);
+            placeholder.classList.toggle('hidden', anyVisible);
         }
     }
 
