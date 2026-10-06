@@ -915,25 +915,37 @@
                 </p>
             </div>
 
-            <!-- Action Buttons: Sinkronkan Master, Tambah Siswa, Download Template, Import CSV -->
+            <!-- Action Buttons: Tarik Master, Kirim ke Master, Tambah Siswa, Download Template, Import CSV -->
             <div class="flex items-center gap-2.5 flex-wrap sm:shrink-0">
                 <form method="POST" action="{{ route('admin.academic.students.sync.master') }}" class="inline">
                     @csrf
                     <input type="hidden" name="school_id" value="{{ $schoolId }}">
                     <button type="submit" 
-                            onclick="return confirm('Tarik dan sinkronkan data siswa dari Data Master Siswa ke e-Rapor unit {{ $activeSchool->name ?? '' }}?')"
+                            onclick="return confirm('Tarik dan perbarui data siswa dari Data Master Siswa ke e-Rapor unit {{ $activeSchool->name ?? '' }}?')"
                             class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition cursor-pointer shadow-xs active:scale-95"
-                            title="Tarik dan sinkronkan data siswa dari Data Master Siswa ke unit ini">
-                        <span>🔄</span> <span>Tarik / Sinkronkan Master Siswa</span>
+                            title="Tarik data siswa dari Data Master Siswa ke e-Rapor unit ini">
+                        <span>📥</span> <span>Tarik dari Data Master</span>
                     </button>
                 </form>
+
+                <form method="POST" action="{{ route('admin.academic.students.push.master') }}" class="inline">
+                    @csrf
+                    <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                    <button type="submit" 
+                            onclick="return confirm('Sinkronkan seluruh data siswa yang diinput di e-Rapor ke Data Master Siswa (dan buatkan akun portal siswa)?')"
+                            class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition cursor-pointer shadow-xs active:scale-95"
+                            title="Tarik/sinkronkan data yang diinput di e-Rapor ke tabel data master siswa">
+                        <span>📤</span> <span>Sinkronkan ke Data Master</span>
+                    </button>
+                </form>
+
                 <a href="{{ route('admin.academic.students.template') }}" 
                    class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition border border-slate-300 shadow-2xs">
-                    <span>📥</span> <span>Format Template CSV</span>
+                    <span>📄</span> <span>Template CSV</span>
                 </a>
                 <button onclick="document.getElementById('modalImportSiswa').classList.remove('hidden')" 
                         class="px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-black text-xs inline-flex whitespace-nowrap items-center gap-1.5 transition cursor-pointer shadow-2xs">
-                    <span>📤</span> <span>Upload / Import CSV</span>
+                    <span>📥</span> <span>Import CSV</span>
                 </button>
                 <button onclick="openTambahSiswaModal()" 
                         class="px-4 py-2 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black text-xs inline-flex whitespace-nowrap items-center gap-2 shadow-xs transition cursor-pointer active:scale-95">
@@ -1026,70 +1038,206 @@
         </div>
         @endif
 
-        <!-- Modal Tambah / Update Siswa -->
-        <div id="modalTambahSiswa" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-            <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <!-- Modal Tambah / Update Siswa Lengkap -->
+        <div id="modalTambahSiswa" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 overflow-y-auto">
+            <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 my-8 max-h-[90vh] flex flex-col">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3 shrink-0">
                     <h3 class="font-black text-sm text-slate-900 flex items-center gap-2">
-                        <span>🎓</span> <span id="titleModalSiswa">Tambah / Perbarui Data Siswa</span>
+                        <span>🎓</span> <span id="titleModalSiswa">Tambah / Perbarui Data Siswa Lengkap</span>
                     </h3>
                     <button onclick="document.getElementById('modalTambahSiswa').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-lg font-black cursor-pointer">✕</button>
                 </div>
 
-                <form method="POST" action="{{ route('admin.academic.students.save') }}" class="space-y-4 text-xs">
+                <form method="POST" action="{{ route('admin.academic.students.save') }}" class="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
                     @csrf
                     <input type="hidden" name="school_id" value="{{ $schoolId }}">
 
-                    <!-- Rombel -->
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Pilih Rombongan Belajar (Rombel):</label>
-                        <select name="classroom_id" id="input_classroom_id" required class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
-                            @foreach($classrooms as $cls)
-                                <option value="{{ $cls->id }}" {{ $selectedClassroomId == $cls->id ? 'selected' : '' }}>
-                                    {{ $cls->name }} (Wali: {{ $cls->homeroomTeacher->name ?? 'Belum ada' }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- NIS & NISN -->
-                    <div class="grid grid-cols-2 gap-3">
+                    <!-- Bagian 1: Data Pokok Siswa -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
+                        <h4 class="font-black text-slate-800 uppercase text-[11px] flex items-center gap-1.5">
+                            <span>📌</span> <span>1. Data Pokok Siswa & Rombel</span>
+                        </h4>
+                        
                         <div>
-                            <label class="block font-bold text-slate-700 mb-1">Nomor Induk Siswa (NIS):</label>
-                            <input type="text" name="nis" id="input_nis" required placeholder="Contoh: 20260101" 
-                                   class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
+                            <label class="block font-bold text-slate-700 mb-1">Rombongan Belajar (Rombel):</label>
+                            <select name="classroom_id" id="input_classroom_id" required class="w-full font-bold rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                                @foreach($classrooms as $cls)
+                                    <option value="{{ $cls->id }}" {{ $selectedClassroomId == $cls->id ? 'selected' : '' }}>
+                                        {{ $cls->name }} (Wali: {{ $cls->homeroomTeacher->name ?? 'Belum ada' }})
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Nomor Induk Siswa (NIS):</label>
+                                <input type="text" name="nis" id="input_nis" required placeholder="Contoh: 20260101" 
+                                       class="w-full font-bold rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">NISN (10 Digit):</label>
+                                <input type="text" name="nisn" id="input_nisn" placeholder="10 digit NISN..." 
+                                       class="w-full font-bold rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="sm:col-span-2">
+                                <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
+                                <input type="text" name="full_name" id="input_full_name" required placeholder="Nama lengkap sesuai akta lahir..." 
+                                       class="w-full font-bold rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Nama Panggilan:</label>
+                                <input type="text" name="nickname" id="input_nickname" placeholder="Nama panggilan..." 
+                                       class="w-full font-bold rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+
                         <div>
-                            <label class="block font-bold text-slate-700 mb-1">NISN (Opsional):</label>
-                            <input type="text" name="nisn" id="input_nisn" placeholder="10 digit NISN" 
-                                   class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
+                            <label class="block font-bold text-slate-700 mb-1">Jenis Kelamin:</label>
+                            <select name="gender" id="input_gender" required class="w-full font-bold rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                                <option value="M">Laki-laki (Ikhwan)</option>
+                                <option value="F">Perempuan (Akhwat)</option>
+                            </select>
                         </div>
                     </div>
 
-                    <!-- Nama Lengkap -->
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
-                        <input type="text" name="full_name" id="input_full_name" required placeholder="Masukkan nama lengkap siswa..." 
-                               class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
+                    <!-- Bagian 2: Kelahiran & Pendidikan Sebelumnya -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
+                        <h4 class="font-black text-slate-800 uppercase text-[11px] flex items-center gap-1.5">
+                            <span>🎂</span> <span>2. Kelahiran, Agama & Asal Sekolah</span>
+                        </h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Tempat Lahir:</label>
+                                <input type="text" name="birth_place" id="input_birth_place" placeholder="Contoh: Palembang / Ogan Ilir" 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Tanggal Lahir:</label>
+                                <input type="date" name="birth_date" id="input_birth_date" 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Agama:</label>
+                                <input type="text" name="religion" id="input_religion" value="Islam" 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Pendidikan / Sekolah Sebelumnya:</label>
+                            <input type="text" name="previous_school" id="input_previous_school" placeholder="Contoh: SD IT Robbani / TK IT Robbani" 
+                                   class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                        </div>
                     </div>
 
-                    <!-- Jenis Kelamin -->
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Jenis Kelamin:</label>
-                        <select name="gender" id="input_gender" required class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
-                            <option value="M">Laki-laki (Ikhwan)</option>
-                            <option value="F">Perempuan (Akhwat)</option>
-                        </select>
+                    <!-- Bagian 3: Data Orang Tua & Wali -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
+                        <h4 class="font-black text-slate-800 uppercase text-[11px] flex items-center gap-1.5">
+                            <span>👨‍👩‍👧</span> <span>3. Data Orang Tua & Wali Siswa</span>
+                        </h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Nama Ayah Kandung:</label>
+                                <input type="text" name="father_name" id="input_father_name" placeholder="Nama ayah..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Pekerjaan Ayah:</label>
+                                <input type="text" name="father_job" id="input_father_job" placeholder="Pekerjaan ayah (e.g. Wiraswasta, PNS)..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Nama Ibu Kandung:</label>
+                                <input type="text" name="mother_name" id="input_mother_name" placeholder="Nama ibu..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Pekerjaan Ibu:</label>
+                                <input type="text" name="mother_job" id="input_mother_job" placeholder="Pekerjaan ibu (e.g. Ibu Rumah Tangga, Guru)..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Nama Wali (Opsional):</label>
+                                <input type="text" name="guardian_name" id="input_guardian_name" placeholder="Nama wali..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Pekerjaan Wali:</label>
+                                <input type="text" name="guardian_job" id="input_guardian_job" placeholder="Pekerjaan wali..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Alamat Wali:</label>
+                                <input type="text" name="guardian_address" id="input_guardian_address" placeholder="Alamat wali..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
+                    <!-- Bagian 4: Alamat Domisili Siswa -->
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
+                        <h4 class="font-black text-slate-800 uppercase text-[11px] flex items-center gap-1.5">
+                            <span>🏡</span> <span>4. Alamat Tempat Tinggal Siswa</span>
+                        </h4>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Alamat Lengkap / Jalan / RT / RW:</label>
+                            <textarea name="address" id="input_address" rows="2" placeholder="Jalan, Gang, Blok, No Rumah..." 
+                                      class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Desa / Kelurahan:</label>
+                                <input type="text" name="village" id="input_village" placeholder="Kelurahan..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Kecamatan:</label>
+                                <input type="text" name="district" id="input_district" placeholder="Kecamatan..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Kabupaten / Kota:</label>
+                                <input type="text" name="city" id="input_city" placeholder="Kab / Kota..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Provinsi:</label>
+                                <input type="text" name="province" id="input_province" value="Sumatera Selatan" 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Kode Pos:</label>
+                                <input type="text" name="postal_code" id="input_postal_code" placeholder="Kode pos..." 
+                                       class="w-full font-medium rounded-xl border border-slate-300 p-2 bg-white focus:border-emerald-600">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2 shrink-0">
                         <button type="button" onclick="document.getElementById('modalTambahSiswa').classList.add('hidden')" 
                                 class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition cursor-pointer">
                             Batal
                         </button>
                         <button type="submit" 
-                                class="px-4 py-2 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black transition cursor-pointer shadow-xs">
-                            Simpan Data Siswa
+                                class="px-5 py-2.5 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black transition cursor-pointer shadow-xs active:scale-95">
+                            💾 Simpan Seluruh Data Siswa
                         </button>
                     </div>
                 </form>
@@ -1165,7 +1313,32 @@
                             </td>
                             <td class="px-4 py-3 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
-                                    <button onclick="editSiswa('{{ $st->nis }}', '{{ $st->nisn }}', '{{ addslashes($st->full_name) }}', '{{ $st->gender }}', '{{ $st->classroom_id }}')" 
+                                    <button onclick="editSiswaLengkap(@json([
+                                        'id' => $st->id,
+                                        'nis' => $st->nis,
+                                        'nisn' => $st->nisn ?? '',
+                                        'full_name' => $st->full_name,
+                                        'nickname' => $st->nickname ?? '',
+                                        'gender' => $st->gender,
+                                        'classroom_id' => $st->classroom_id,
+                                        'birth_place' => $st->pob ?? $st->birth_place ?? '',
+                                        'birth_date' => $st->dob ? \Carbon\Carbon::parse($st->dob)->format('Y-m-d') : '',
+                                        'religion' => $st->religion ?? 'Islam',
+                                        'previous_school' => $st->previous_school ?? '',
+                                        'address' => $st->address ?? '',
+                                        'village' => $st->village ?? '',
+                                        'district' => $st->district ?? '',
+                                        'city' => $st->city ?? '',
+                                        'province' => $st->province ?? 'Sumatera Selatan',
+                                        'postal_code' => $st->postal_code ?? '',
+                                        'father_name' => $st->father_name ?? '',
+                                        'father_job' => $st->father_job ?? '',
+                                        'mother_name' => $st->mother_name ?? '',
+                                        'mother_job' => $st->mother_job ?? '',
+                                        'guardian_name' => $st->guardian_name ?? '',
+                                        'guardian_job' => $st->guardian_job ?? '',
+                                        'guardian_address' => $st->guardian_address ?? '',
+                                    ]))" 
                                             class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
                                         ✏️ Edit
                                     </button>
@@ -1212,18 +1385,68 @@
             document.getElementById('input_nis').value = '';
             document.getElementById('input_nisn').value = '';
             document.getElementById('input_full_name').value = '';
+            document.getElementById('input_nickname').value = '';
+            document.getElementById('input_birth_place').value = '';
+            document.getElementById('input_birth_date').value = '';
+            document.getElementById('input_religion').value = 'Islam';
+            document.getElementById('input_previous_school').value = '';
+            document.getElementById('input_father_name').value = '';
+            document.getElementById('input_father_job').value = '';
+            document.getElementById('input_mother_name').value = '';
+            document.getElementById('input_mother_job').value = '';
+            document.getElementById('input_guardian_name').value = '';
+            document.getElementById('input_guardian_job').value = '';
+            document.getElementById('input_guardian_address').value = '';
+            document.getElementById('input_address').value = '';
+            document.getElementById('input_village').value = '';
+            document.getElementById('input_district').value = '';
+            document.getElementById('input_city').value = '';
+            document.getElementById('input_province').value = 'Sumatera Selatan';
+            document.getElementById('input_postal_code').value = '';
+            document.getElementById('modalTambahSiswa').classList.remove('hidden');
+        }
+
+        function editSiswaLengkap(data) {
+            document.getElementById('titleModalSiswa').innerText = 'Perbarui Data Siswa: ' + data.full_name;
+            document.getElementById('input_nis').value = data.nis || '';
+            document.getElementById('input_nisn').value = data.nisn || '';
+            document.getElementById('input_full_name').value = data.full_name || '';
+            document.getElementById('input_nickname').value = data.nickname || '';
+            document.getElementById('input_gender').value = (data.gender === 'M' || data.gender === 'L') ? 'M' : 'F';
+            const selectCls = document.getElementById('input_classroom_id');
+            if (selectCls && data.classroom_id) selectCls.value = data.classroom_id;
+            
+            document.getElementById('input_birth_place').value = data.birth_place || '';
+            document.getElementById('input_birth_date').value = data.birth_date || '';
+            document.getElementById('input_religion').value = data.religion || 'Islam';
+            document.getElementById('input_previous_school').value = data.previous_school || '';
+
+            document.getElementById('input_father_name').value = data.father_name || '';
+            document.getElementById('input_father_job').value = data.father_job || '';
+            document.getElementById('input_mother_name').value = data.mother_name || '';
+            document.getElementById('input_mother_job').value = data.mother_job || '';
+            document.getElementById('input_guardian_name').value = data.guardian_name || '';
+            document.getElementById('input_guardian_job').value = data.guardian_job || '';
+            document.getElementById('input_guardian_address').value = data.guardian_address || '';
+
+            document.getElementById('input_address').value = data.address || '';
+            document.getElementById('input_village').value = data.village || '';
+            document.getElementById('input_district').value = data.district || '';
+            document.getElementById('input_city').value = data.city || '';
+            document.getElementById('input_province').value = data.province || 'Sumatera Selatan';
+            document.getElementById('input_postal_code').value = data.postal_code || '';
+
             document.getElementById('modalTambahSiswa').classList.remove('hidden');
         }
 
         function editSiswa(nis, nisn, name, gender, classroomId) {
-            document.getElementById('titleModalSiswa').innerText = 'Perbarui Data Siswa';
-            document.getElementById('input_nis').value = nis;
-            document.getElementById('input_nisn').value = nisn || '';
-            document.getElementById('input_full_name').value = name;
-            document.getElementById('input_gender').value = (gender === 'M' || gender === 'L') ? 'M' : 'F';
-            const selectCls = document.getElementById('input_classroom_id');
-            if (selectCls && classroomId) selectCls.value = classroomId;
-            document.getElementById('modalTambahSiswa').classList.remove('hidden');
+            editSiswaLengkap({
+                nis: nis,
+                nisn: nisn,
+                full_name: name,
+                gender: gender,
+                classroom_id: classroomId
+            });
         }
     </script>
     @endif
@@ -3011,19 +3234,32 @@
                         </div>
                     </div>
 
-                    <!-- Logo Cadangan (Opsional) -->
-                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                        <label class="block text-xs font-bold text-slate-800">Logo Tambahan Yayasan/JSIT (Opsional):</label>
+                    <!-- Logo Cover Depan e-Rapor -->
+                    <div class="p-3.5 bg-emerald-50/60 rounded-xl border border-emerald-300 space-y-2">
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <label class="block text-xs font-black text-emerald-950 uppercase">🖼️ 2. Logo Resmi Sekolah / Yayasan untuk Cover Depan E-Rapor</label>
+                                <p class="text-[10px] text-emerald-800 font-medium">Logo ini otomatis dicetak di lembar cover depan rapor siswa.</p>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-emerald-700 text-white font-extrabold text-[9px] uppercase">Cover Rapor</span>
+                        </div>
                         @if(!empty($reportSetting?->school_logo_url))
                             <div class="flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-200">
-                                <img src="{{ asset($reportSetting->school_logo_url) }}" class="h-10 w-auto object-contain" alt="Logo">
+                                <img src="{{ asset($reportSetting->school_logo_url) }}" class="h-12 w-auto object-contain" alt="Logo Cover">
                                 <div class="text-[10px] text-slate-600 truncate">
-                                    <span class="font-bold text-emerald-700">Aktif:</span> {{ basename($reportSetting->school_logo_url) }}
+                                    <span class="font-bold text-emerald-700">Logo Cover Aktif:</span> {{ basename($reportSetting->school_logo_url) }}
+                                </div>
+                            </div>
+                        @elseif(!empty($activeSchool->logo_url))
+                            <div class="flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-200">
+                                <img src="{{ asset($activeSchool->logo_url) }}" class="h-12 w-auto object-contain" alt="Logo Cover">
+                                <div class="text-[10px] text-slate-600 truncate">
+                                    <span class="font-bold text-emerald-700">Logo Master Sekolah:</span> {{ basename($activeSchool->logo_url) }}
                                 </div>
                             </div>
                         @endif
                         <input type="file" name="school_logo_file" accept="image/png,image/jpeg,image/svg+xml,image/webp" 
-                               class="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-800 border border-slate-300 rounded-xl p-1 bg-white cursor-pointer">
+                               class="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 border border-slate-300 rounded-xl p-1 bg-white cursor-pointer">
                     </div>
                 </div>
 
@@ -3031,7 +3267,7 @@
                 <div class="pt-2">
                     <button type="submit" 
                             class="w-full py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-sm flex items-center justify-center gap-2 transition shadow-md cursor-pointer active:scale-95">
-                        <span>💾</span> <span>SIMPAN GAMBAR KOP & PENGATURAN CETAK RAPOR</span>
+                        <span>💾</span> <span>SIMPAN GAMBAR KOP, LOGO COVER & PENGATURAN CETAK</span>
                     </button>
                 </div>
             </form>
@@ -3102,12 +3338,163 @@
 
                 <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
                     <p class="text-[11px] text-slate-600 font-medium">
-                        💡 Gambar Kop Surat yang Anda upload di atas akan dicetak pada seluruh format rapor siswa (All-in-One, Akademik, Wafa, Karakter, dan Leger).
+                        💡 Gambar Kop Surat dan Logo Cover yang Anda upload di atas akan dicetak pada seluruh format rapor siswa.
                     </p>
                 </div>
             </div>
         </div>
 
+    </div>
+
+    <!-- Section 2: Edit Profil Resmi Sekolah Unit Lengkap -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 mt-6">
+        <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-extrabold uppercase tracking-wide">
+                        Profil Resmi Sekolah Unit
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+                        Sinkronisasi Data Master
+                    </span>
+                </div>
+                <h3 class="font-black text-lg text-slate-900">🏫 Kelola Data Sekolah (Lembar Profil Rapor)</h3>
+                <p class="text-xs text-slate-500 font-medium mt-1">
+                    Perbarui nama sekolah, NPSN, alamat lengkap, desa, kecamatan, kontak, serta data kepala sekolah. Data ini otomatis dicetak pada Lembar 2 (Profil Sekolah) e-Rapor dan tersimpan ke Data Master Sekolah.
+                </p>
+            </div>
+        </div>
+
+        <form method="POST" action="{{ route('admin.academic.school.profile.save') }}" class="space-y-5 text-xs">
+            @csrf
+            <input type="hidden" name="school_id" value="{{ $schoolId }}">
+
+            <!-- 1. Identitas Lembaga & NPSN -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2">
+                    <label class="block font-bold text-slate-700 mb-1">Nama Resmi Sekolah:</label>
+                    <input type="text" name="name" required 
+                           value="{{ $activeSchool->name ?? '' }}" 
+                           placeholder="Contoh: SMP Islam Terpadu Robbani"
+                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">NPSN / NSS Sekolah:</label>
+                    <input type="text" name="npsn" 
+                           value="{{ $activeSchool->npsn ?? '' }}" 
+                           placeholder="Contoh: 20198033"
+                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+            </div>
+
+            <!-- 2. Alamat Lengkap & Wilayah -->
+            <div>
+                <label class="block font-bold text-slate-700 mb-1">Alamat Jalan / Gedung Sekolah:</label>
+                <input type="text" name="address" 
+                       value="{{ $activeSchool->address ?? '' }}" 
+                       placeholder="Contoh: Jl Sarjana Gg. Padang Guci Kel. Timbangan"
+                       class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kelurahan / Desa:</label>
+                    <input type="text" name="village" 
+                           value="{{ $activeSchool->village ?? 'Timbangan' }}" 
+                           placeholder="Kelurahan..."
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kecamatan:</label>
+                    <input type="text" name="district" 
+                           value="{{ $activeSchool->district ?? 'Indralaya Utara' }}" 
+                           placeholder="Kecamatan..."
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kabupaten / Kota:</label>
+                    <input type="text" name="city" 
+                           value="{{ $activeSchool->city ?? 'Ogan Ilir' }}" 
+                           placeholder="Kabupaten / Kota..."
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Provinsi:</label>
+                    <input type="text" name="province" 
+                           value="{{ $activeSchool->province ?? 'Sumatera Selatan' }}" 
+                           placeholder="Provinsi..."
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+            </div>
+
+            <!-- 3. Kontak, Website & Kode Pos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kode Pos:</label>
+                    <input type="text" name="postal_code" 
+                           value="{{ $activeSchool->postal_code ?? '30662' }}" 
+                           placeholder="30662"
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Nomor Telepon / HP:</label>
+                    <input type="text" name="phone" 
+                           value="{{ $activeSchool->phone ?? '+62 853-7719-3977' }}" 
+                           placeholder="+62 853-7719-3977"
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Email Resmi Sekolah:</label>
+                    <input type="email" name="email" 
+                           value="{{ $activeSchool->email ?? ($isSmp ? 'smpit@sitrobbani.sch.id' : 'sdit@sitrobbani.sch.id') }}" 
+                           placeholder="smpit@sitrobbani.sch.id"
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Website Resmi:</label>
+                    <input type="text" name="website" 
+                           value="{{ $activeSchool->website ?? ($isSmp ? 'www.smp.sitrobbani.sch.id' : 'www.sitrobbani.sch.id') }}" 
+                           placeholder="www.smp.sitrobbani.sch.id"
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+            </div>
+
+            <!-- 4. Pimpinan Sekolah & Titimangsa Rapor -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2 border-t border-slate-200">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Nama Kepala Sekolah:</label>
+                    <input type="text" name="principal_name" 
+                           value="{{ $reportSetting->principal_name ?? ($activeSchool->principal_name ?? ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr')) }}" 
+                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">NIP / NIY Kepala Sekolah:</label>
+                    <input type="text" name="principal_nip" 
+                           value="{{ $reportSetting->principal_nip ?? ($activeSchool->principal_nip ?? ($isSmp ? '142062021012' : '19850315 200904 1 003')) }}" 
+                           class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kota Titimangsa Rapor:</label>
+                    <input type="text" name="report_city" 
+                           value="{{ $reportSetting->report_city ?? 'Ogan Ilir' }}" 
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Tanggal Titimangsa Pembagian:</label>
+                    <input type="text" name="report_date" 
+                           value="{{ $reportSetting->report_date ?? ($isSmp ? '19 Juni 2026' : '18 Juni 2026') }}" 
+                           class="w-full font-semibold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-blue-600 text-slate-900">
+                </div>
+            </div>
+
+            <!-- Submit Profil Sekolah -->
+            <div class="pt-3 border-t border-slate-200 flex justify-end">
+                <button type="submit" 
+                        class="px-6 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs inline-flex items-center gap-2 transition shadow-md cursor-pointer active:scale-95">
+                    <span>💾</span> <span>SIMPAN DATA PROFIL SEKOLAH (MASTER & E-RAPOR)</span>
+                </button>
+            </div>
+        </form>
     </div>
     @endif
 

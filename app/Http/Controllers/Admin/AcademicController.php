@@ -214,8 +214,21 @@ class AcademicController extends Controller
                     $table->string('tasmi_exam_result')->nullable();
                     $table->text('tahfidz_notes')->nullable();
                     $table->unsignedBigInteger('examiner_teacher_id')->nullable()->index();
+                    $table->string('quran_group', 100)->nullable();
+                    $table->string('tilawah_predicate', 30)->nullable();
                     $table->timestamps();
                 });
+            } else {
+                if (!Schema::hasColumn('quran_grades', 'quran_group')) {
+                    Schema::table('quran_grades', function (Blueprint $table) {
+                        $table->string('quran_group', 100)->nullable();
+                    });
+                }
+                if (!Schema::hasColumn('quran_grades', 'tilawah_predicate')) {
+                    Schema::table('quran_grades', function (Blueprint $table) {
+                        $table->string('tilawah_predicate', 30)->nullable();
+                    });
+                }
             }
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('ensure quran_grades table error: ' . $e->getMessage());
@@ -375,6 +388,47 @@ class AcademicController extends Controller
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('ensure classrooms homeroom_signature_path error: ' . $e->getMessage());
         }
+
+        // 10. Students bio & parent fields
+        try {
+            if (Schema::hasTable('students') && !Schema::hasColumn('students', 'father_name')) {
+                Schema::table('students', function (Blueprint $table) {
+                    $table->string('father_name')->nullable();
+                    $table->string('mother_name')->nullable();
+                    $table->string('father_job')->nullable();
+                    $table->string('mother_job')->nullable();
+                    $table->string('guardian_name')->nullable();
+                    $table->string('guardian_job')->nullable();
+                    $table->string('guardian_address')->nullable();
+                    $table->string('previous_school')->nullable();
+                    $table->string('address')->nullable();
+                    $table->string('village')->nullable();
+                    $table->string('district')->nullable();
+                    $table->string('city')->nullable();
+                    $table->string('province')->nullable();
+                    $table->json('bio_data')->nullable();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure students bio fields error: ' . $e->getMessage());
+        }
+
+        // 11. Schools profile fields
+        try {
+            if (Schema::hasTable('schools') && !Schema::hasColumn('schools', 'principal_nip')) {
+                Schema::table('schools', function (Blueprint $table) {
+                    $table->string('principal_nip')->nullable();
+                    $table->string('village')->nullable();
+                    $table->string('district')->nullable();
+                    $table->string('city')->nullable();
+                    $table->string('province')->nullable();
+                    $table->string('postal_code')->nullable();
+                    $table->string('website')->nullable();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure schools profile fields error: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -437,6 +491,23 @@ class AcademicController extends Controller
             $selectedClassroomId = $firstClassWithStudents?->id ?? $classrooms->first()->id;
         }
         $selectedClassroom = $selectedClassroomId ? $classrooms->firstWhere('id', $selectedClassroomId) : null;
+
+        $schoolCode = strtolower($activeSchool->code ?? '');
+        $schoolName = strtolower($activeSchool->name ?? '');
+        $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp');
+        $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd');
+
+        $classroomGrade = 1;
+        if ($selectedClassroom) {
+            if (preg_match('/(?:kelas|kls|\b)\s*([1-9]|1[0-2]|i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)\b/i', $selectedClassroom->name, $matches)) {
+                $lvl = strtolower($matches[1]);
+                $romanMap = ['i' => 1, 'ii' => 2, 'iii' => 3, 'iv' => 4, 'v' => 5, 'vi' => 6, 'vii' => 7, 'viii' => 8, 'ix' => 9, 'x' => 10, 'xi' => 11, 'xii' => 12];
+                $classroomGrade = is_numeric($lvl) ? (int)$lvl : ($romanMap[$lvl] ?? 1);
+            } elseif (isset($selectedClassroom->level_id)) {
+                $classroomGrade = (int)$selectedClassroom->level_id;
+            }
+        }
+        $isBpiAllowed = $isSmp || ($isSd && in_array($classroomGrade, [4, 5, 6]));
 
         // Subjects in this school
         $subjects = Subject::where(function($q) use ($schoolId) {
@@ -735,7 +806,11 @@ class AcademicController extends Controller
             'averageUnitScore',
             'overallAttendancePct',
             'tahfidzCompletionPct',
-            'readyToPrintCount'
+            'readyToPrintCount',
+            'isSmp',
+            'isSd',
+            'classroomGrade',
+            'isBpiAllowed'
         ));
     }
 
@@ -782,7 +857,46 @@ class AcademicController extends Controller
     }
 
     /**
-     * Simpan / Tambah Data Siswa oleh Kepsek / Operator
+     * Simpan / Perbarui Profil Resmi Sekolah & Pengaturan Dokumen Rapor
+     */
+    public function saveSchoolProfile(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required|exists:schools,id',
+            'name' => 'required|string|max:255',
+        ]);
+
+        $school = School::findOrFail($request->school_id);
+        $school->name = $request->name;
+        if ($request->has('npsn')) $school->npsn = $request->npsn;
+        if ($request->has('address')) $school->address = $request->address;
+        if ($request->has('village')) $school->village = $request->village;
+        if ($request->has('district')) $school->district = $request->district;
+        if ($request->has('city')) $school->city = $request->city;
+        if ($request->has('province')) $school->province = $request->province;
+        if ($request->has('postal_code')) $school->postal_code = $request->postal_code;
+        if ($request->has('phone')) $school->phone = $request->phone;
+        if ($request->has('email')) $school->email = $request->email;
+        if ($request->has('website')) $school->website = $request->website;
+        if ($request->has('principal_name')) $school->principal_name = $request->principal_name;
+        if ($request->has('principal_nip')) $school->principal_nip = $request->principal_nip;
+        $school->save();
+
+        // Update corresponding report settings
+        $setting = ReportSetting::firstOrNew(['school_id' => $school->id]);
+        if ($request->filled('principal_name')) $setting->principal_name = $request->principal_name;
+        if ($request->filled('principal_nip')) $setting->principal_nip = $request->principal_nip;
+        if ($request->filled('city')) $setting->report_city = $request->city;
+        $setting->save();
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $school->id,
+            'menu' => 'settings'
+        ])->with('success', "✓ Data profil sekolah {$school->name} berhasil diperbarui!");
+    }
+
+    /**
+     * Simpan / Tambah / Edit Lengkap Data Siswa oleh Kepsek / Operator
      */
     public function saveStudent(Request $request)
     {
@@ -791,28 +905,93 @@ class AcademicController extends Controller
             'classroom_id' => 'required|exists:classrooms,id',
             'nis' => 'required|string',
             'full_name' => 'required|string|max:255',
-            'gender' => 'required|in:M,F',
         ]);
 
-        Student::updateOrCreate(
-            [
-                'school_id' => $request->school_id,
-                'nis' => $request->nis,
-            ],
-            [
-                'classroom_id' => $request->classroom_id,
-                'nisn' => $request->nisn,
-                'full_name' => $request->full_name,
-                'gender' => $request->gender,
-                'status' => 'ACTIVE',
-            ]
-        );
+        $gender = strtoupper(trim((string)$request->gender));
+        if ($gender === 'M' || $gender === 'L' || str_starts_with($gender, 'L')) {
+            $gender = 'M';
+        } else {
+            $gender = 'F';
+        }
+
+        $studentData = [
+            'classroom_id' => $request->classroom_id,
+            'nisn' => $request->nisn,
+            'full_name' => $request->full_name,
+            'nickname' => $request->nickname ?? null,
+            'gender' => $gender,
+            'pob' => $request->pob ?? $request->birth_place ?? null,
+            'dob' => $request->dob ?? $request->birth_date ?? null,
+            'status' => $request->status ?: 'ACTIVE',
+            'father_name' => $request->father_name ?? null,
+            'mother_name' => $request->mother_name ?? null,
+            'father_job' => $request->father_job ?? null,
+            'mother_job' => $request->mother_job ?? null,
+            'guardian_name' => $request->guardian_name ?? null,
+            'guardian_job' => $request->guardian_job ?? null,
+            'guardian_address' => $request->guardian_address ?? null,
+            'previous_school' => $request->previous_school ?? null,
+            'address' => $request->address ?? null,
+            'village' => $request->village ?? null,
+            'district' => $request->district ?? null,
+            'city' => $request->city ?? null,
+            'province' => $request->province ?? null,
+        ];
+
+        if ($request->filled('student_id')) {
+            $student = Student::findOrFail($request->student_id);
+            $student->update($studentData);
+        } else {
+            $student = Student::updateOrCreate(
+                [
+                    'school_id' => $request->school_id,
+                    'nis' => $request->nis,
+                ],
+                $studentData
+            );
+        }
+
+        // Tautkan Guardian jika data orang tua terisi
+        if (!empty($request->father_name) || !empty($request->guardian_name)) {
+            $parentName = !empty($request->father_name) ? $request->father_name : $request->guardian_name;
+            $guardian = Guardian::firstOrCreate(
+                [
+                    'full_name' => $parentName,
+                ],
+                [
+                    'address' => $request->address ?: 'Ogan Ilir',
+                    'relationship' => !empty($request->father_name) ? 'FATHER' : 'GUARDIAN',
+                    'occupation' => $request->father_job ?: ($request->guardian_job ?: 'Wiraswasta'),
+                    'phone' => $request->parent_phone ?: ('0812' . rand(10000000, 99999999)),
+                ]
+            );
+            $student->guardian_id = $guardian->id;
+            $student->save();
+        }
+
+        // Buat atau tautkan User Portal jika belum ada
+        if (!$student->user_id) {
+            $cleanNis = preg_replace('/[^A-Za-z0-9]/', '', $student->nis ?: 'S' . $student->id);
+            $email = strtolower($cleanNis) . '@santri.sitrobbani.sch.id';
+            $user = User::firstOrCreate(
+                ['email' => $email],
+                [
+                    'name' => $student->full_name,
+                    'password' => Hash::make('robbani123'),
+                    'role' => 'STUDENT',
+                    'school_id' => $request->school_id,
+                    'is_active' => true,
+                ]
+            );
+            $student->user_id = $user->id;
+            $student->save();
+        }
 
         return redirect()->route('admin.academic.grades', [
             'school_id' => $request->school_id,
             'classroom_id' => $request->classroom_id,
             'menu' => 'students'
-        ])->with('success', "Data Santri {$request->full_name} (NIS: {$request->nis}) Berhasil Disimpan!");
+        ])->with('success', "✓ Data Santri {$request->full_name} (NIS: {$request->nis}) berhasil disimpan & profil data diri diperbarui!");
     }
 
     /**
@@ -866,6 +1045,72 @@ class AcademicController extends Controller
         $noRombel = $totalInUnit - $inRombel;
 
         $msg = "✓ Sinkronisasi berhasil! Ditemukan {$totalInUnit} siswa pada unit {$school->name} ({$inRombel} sudah terdaftar di Rombel" . ($noRombel > 0 ? ", {$noRombel} siswa belum masuk Rombel" : "") . ").";
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $schoolId,
+            'menu' => 'students'
+        ])->with('success', $msg);
+    }
+
+    /**
+     * Sinkronisasi Dua Arah: Tarik/Kirim Data Siswa E-Rapor ke Data Master Siswa
+     */
+    public function pushStudentsToMaster(Request $request)
+    {
+        $schoolId = $request->input('school_id');
+        $school = School::findOrFail($schoolId);
+        
+        $students = Student::where('school_id', $schoolId)->get();
+        $syncedCount = 0;
+        $createdUserCount = 0;
+
+        foreach ($students as $st) {
+            // Normalisasi status siswa aktif
+            if (empty($st->status) || strtolower($st->status) === 'aktif') {
+                $st->status = 'ACTIVE';
+            }
+
+            // Hubungkan akun User Portal Siswa jika belum ada
+            if (!$st->user_id) {
+                $cleanNis = preg_replace('/[^A-Za-z0-9]/', '', $st->nis ?: 'S' . $st->id);
+                $email = strtolower($cleanNis) . '@santri.sitrobbani.sch.id';
+                
+                $user = User::firstOrCreate(
+                    ['email' => $email],
+                    [
+                        'name' => $st->full_name,
+                        'password' => Hash::make('robbani123'),
+                        'role' => 'STUDENT',
+                        'school_id' => $schoolId,
+                        'is_active' => true,
+                    ]
+                );
+                $st->user_id = $user->id;
+                $createdUserCount++;
+            }
+
+            // Hubungkan Guardian jika ada data orang tua
+            if (!$st->guardian_id && (!empty($st->father_name) || !empty($st->guardian_name))) {
+                $parentName = !empty($st->father_name) ? $st->father_name : $st->guardian_name;
+                $guardian = Guardian::firstOrCreate(
+                    [
+                        'full_name' => $parentName,
+                    ],
+                    [
+                        'address' => $st->address ?: 'Ogan Ilir',
+                        'relationship' => !empty($st->father_name) ? 'FATHER' : 'GUARDIAN',
+                        'occupation' => $st->father_job ?: ($request->guardian_job ?: 'Wiraswasta'),
+                        'phone' => '0812' . rand(10000000, 99999999),
+                    ]
+                );
+                $st->guardian_id = $guardian->id;
+            }
+
+            $st->save();
+            $syncedCount++;
+        }
+
+        $msg = "✓ Berhasil menyinkronkan {$syncedCount} santri e-Rapor ke Data Master Siswa!" . ($createdUserCount > 0 ? " ({$createdUserCount} akun portal siswa baru dibuat)." : "");
 
         return redirect()->route('admin.academic.grades', [
             'school_id' => $schoolId,
@@ -1667,8 +1912,18 @@ class AcademicController extends Controller
             $filename = 'logo_' . $request->school_id . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $filename);
             $setting->school_logo_url = '/uploads/reports/' . $filename;
+            $school = School::find($request->school_id);
+            if ($school) {
+                $school->logo_url = '/uploads/reports/' . $filename;
+                $school->save();
+            }
         } elseif ($request->filled('school_logo_url')) {
             $setting->school_logo_url = $request->school_logo_url;
+            $school = School::find($request->school_id);
+            if ($school) {
+                $school->logo_url = $request->school_logo_url;
+                $school->save();
+            }
         }
 
         // 2. Kop Header Image
@@ -1757,14 +2012,32 @@ class AcademicController extends Controller
             $reportSetting = ReportSetting::where('school_id', $student->school_id)->first();
         } catch (\Throwable $e) { $reportSetting = null; }
 
+        $schoolCode = strtolower($student->school->code ?? '');
+        $schoolName = strtolower($student->school->name ?? '');
+        $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp');
+        $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd');
+
+        $classroomGrade = 1;
+        if ($student->classroom) {
+            if (preg_match('/(?:kelas|kls|\b)\s*([1-9]|1[0-2]|i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)\b/i', $student->classroom->name, $matches)) {
+                $lvl = strtolower($matches[1]);
+                $romanMap = ['i' => 1, 'ii' => 2, 'iii' => 3, 'iv' => 4, 'v' => 5, 'vi' => 6, 'vii' => 7, 'viii' => 8, 'ix' => 9, 'x' => 10, 'xi' => 11, 'xii' => 12];
+                $classroomGrade = is_numeric($lvl) ? (int)$lvl : ($romanMap[$lvl] ?? 1);
+            } elseif (isset($student->classroom->level_id)) {
+                $classroomGrade = (int)$student->classroom->level_id;
+            }
+        }
+        $isBpiAllowed = $isSmp || ($isSd && in_array($classroomGrade, [4, 5, 6]));
+
         if (!$reportSetting) {
             $reportSetting = new ReportSetting([
                 'school_id' => $student->school_id ?? 1,
-                'kop_image_url' => file_exists(public_path('uploads/reports/kop_sd_robbani.png')) ? 'uploads/reports/kop_sd_robbani.png' : null,
-                'principal_name' => $student->school?->principal_name ?: 'Nur Amalia, S.Pd., Gr',
-                'principal_nip' => '142102020009',
+                'kop_image_url' => file_exists(public_path('uploads/reports/kop_smp_robbani.png')) ? 'uploads/reports/kop_smp_robbani.png' : (file_exists(public_path('uploads/reports/kop_sd_robbani.png')) ? 'uploads/reports/kop_sd_robbani.png' : null),
+                'school_logo_url' => $student->school?->logo_url ?: (file_exists(public_path('uploads/reports/logo_sd_robbani_cover.jpg')) ? '/uploads/reports/logo_sd_robbani_cover.jpg' : null),
+                'principal_name' => $student->school?->principal_name ?: ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr'),
+                'principal_nip' => $isSmp ? '142062021012' : '142102020009',
                 'report_city' => 'Ogan Ilir',
-                'report_date' => '18 Juni 2026',
+                'report_date' => $isSmp ? '19 Juni 2026' : '18 Juni 2026',
                 'stamp_image_url' => file_exists(public_path('uploads/reports/stempel_resmi.png')) ? 'uploads/reports/stempel_resmi.png' : null,
                 'principal_signature_url' => file_exists(public_path('uploads/reports/ttd_kepsek.png')) ? 'uploads/reports/ttd_kepsek.png' : null,
             ]);
@@ -1823,7 +2096,11 @@ class AcademicController extends Controller
             'characterIndicators',
             'printType',
             'classStudents',
-            'classSubjects'
+            'classSubjects',
+            'isSmp',
+            'isSd',
+            'classroomGrade',
+            'isBpiAllowed'
         ));
     }
 

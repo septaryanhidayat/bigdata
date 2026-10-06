@@ -124,11 +124,13 @@
                     Rapor Akademik
                 </a>
                 <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'quran']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'quran' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-white' }}">
-                    Qur'an Wafa
+                    {{ ($isSmp ?? false) ? 'TTQ Al-Qur\'an' : 'Qur\'an Wafa' }}
                 </a>
+                @if($isBpiAllowed ?? true)
                 <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'character']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'character' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white' }}">
-                    Karakter JSIT
+                    {{ ($isSmp ?? false) ? 'BPI SMP' : 'BPI & Karakter' }}
                 </a>
+                @endif
             </div>
 
             @if($printType === 'leger')
@@ -219,25 +221,34 @@
     <div class="bg-white p-8 sm:p-12 rounded-2xl border border-slate-300 shadow-md space-y-8 print:border-none print:p-0 print:shadow-none page-container page-container-cover">
         
         <div class="pt-8 space-y-6 text-center">
-            <!-- Logo Bulat SDIT Robbani -->
+            <!-- Logo Cover Depan e-Rapor (Dapat Diupload) -->
             <div class="flex justify-center">
-                <div class="w-36 h-36 rounded-full border-4 border-amber-500/80 bg-white flex flex-col items-center justify-center p-2 shadow-sm relative overflow-hidden">
-                    <span class="text-[9px] font-black uppercase text-slate-700 tracking-tight">SD Islam Terpadu</span>
-                    <span class="text-2xl font-black tracking-widest text-emerald-800">ROBBANI</span>
-                    <span class="text-[8px] italic text-rose-600 font-semibold mt-0.5">Because Every Child is Unique</span>
-                </div>
+                @php
+                    $coverLogo = $reportSetting?->school_logo_url ?? $student->school?->logo_url;
+                @endphp
+                @if(!empty($coverLogo) && file_exists(public_path($coverLogo)))
+                    <div class="flex items-center justify-center p-2">
+                        <img src="{{ asset($coverLogo) }}" class="h-36 sm:h-40 w-auto object-contain drop-shadow-sm" alt="Logo Cover Depan">
+                    </div>
+                @else
+                    <div class="w-36 h-36 rounded-full border-4 border-emerald-600/80 bg-white flex flex-col items-center justify-center p-2 shadow-sm relative overflow-hidden">
+                        <span class="text-[9px] font-black uppercase text-slate-700 tracking-tight">{{ ($isSmp ?? false) ? 'SMP Islam Terpadu' : 'SD Islam Terpadu' }}</span>
+                        <span class="text-2xl font-black tracking-widest text-emerald-800">ROBBANI</span>
+                        <span class="text-[8px] italic text-rose-600 font-semibold mt-0.5">Because Every Child is Unique</span>
+                    </div>
+                @endif
             </div>
 
-            <!-- Judul Cover -->
+            <!-- Judul Cover Sesuai Jenjang -->
             <div class="space-y-1 pt-4 text-center">
                 <h1 class="text-xl sm:text-2xl font-black uppercase tracking-wider text-slate-900">
                     RAPOR PESERTA DIDIK
                 </h1>
                 <h2 class="text-lg sm:text-xl font-black uppercase tracking-wider text-slate-800">
-                    SEKOLAH DASAR
+                    {{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA' : 'SEKOLAH DASAR' }}
                 </h2>
                 <h3 class="text-lg font-black text-slate-800">
-                    (SD)
+                    {{ ($isSmp ?? false) ? '(SMP)' : '(SD)' }}
                 </h3>
             </div>
         </div>
@@ -286,7 +297,7 @@
         <div class="pt-8 text-center space-y-1">
             <h2 class="text-xl font-black uppercase tracking-wider text-slate-900">RAPOR</h2>
             <h2 class="text-xl font-black uppercase tracking-wider text-slate-900">PESERTA DIDIK</h2>
-            <h2 class="text-xl font-black uppercase tracking-wider text-slate-900">SEKOLAH DASAR</h2>
+            <h2 class="text-xl font-black uppercase tracking-wider text-slate-900">{{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA' : 'SEKOLAH DASAR' }}</h2>
         </div>
 
         <div class="max-w-xl mx-auto w-full py-8 text-xs font-bold">
@@ -294,52 +305,52 @@
                 <tr class="h-9">
                     <td class="w-48 text-slate-800">Nama Sekolah</td>
                     <td class="w-4 text-center">:</td>
-                    <td class="font-black text-slate-950 uppercase">SD IT ROBBANI</td>
+                    <td class="font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">NPSN / NIS / NSS / NDS</td>
                     <td class="text-center">:</td>
-                    <td class="font-black text-slate-950">69957391</td>
+                    <td class="font-black text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '69957391') }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">Alamat Sekolah</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">Jln. Sarjana Blok A</td>
+                    <td class="text-slate-900">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Jln. Sarjana Blok A') }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800 pl-6">Kode Pos</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">30662 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telp. 081367363153</td>
+                    <td class="text-slate-900">{{ $student->school->postal_code ?? '30662' }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telp. {{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '081367363153') }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">Kelurahan / Desa</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">Timbangan</td>
+                    <td class="text-slate-900">{{ $student->school->village ?? 'Timbangan' }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">Kecamatan</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">Indralaya Utara</td>
+                    <td class="text-slate-900">{{ $student->school->district ?? 'Indralaya Utara' }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">Kabupaten / Kota</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">Ogan Ilir</td>
+                    <td class="text-slate-900">{{ $student->school->city ?? 'Ogan Ilir' }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">Provinsi</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">Sumatera Selatan</td>
+                    <td class="text-slate-900">{{ $student->school->province ?? 'Sumatera Selatan' }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">Website</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900 underline">www.sitrobbani.sch.id</td>
+                    <td class="text-slate-900 underline">{{ $student->school->website ?? (($isSmp ?? false) ? 'www.smp.sitrobbani.sch.id' : 'www.sitrobbani.sch.id') }}</td>
                 </tr>
                 <tr class="h-9">
                     <td class="text-slate-800">E-mail</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900 text-blue-700 underline">sdit@sitrobbani.sch.id</td>
+                    <td class="text-slate-900 text-blue-700 underline">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sdit@sitrobbani.sch.id') }}</td>
                 </tr>
             </table>
         </div>
@@ -634,6 +645,10 @@
         </div>
 
         <!-- Tabel Nilai Mapel Kurikulum Nasional (Merdeka) -->
+        @php
+            $nationalGrades = $nationalGrades ?? ($grades ?? collect([]));
+            $mulokGrades = $mulokGrades ?? collect([]);
+        @endphp
         <div class="space-y-1">
             <table class="w-full border-collapse border border-slate-900 text-xs">
                 <thead class="bg-slate-100 text-center font-bold">
@@ -896,6 +911,203 @@
     <!-- LEMBAR 6: KEUNGGULAN KHAS SIT ROBBANI - AL-QUR'AN WAFA & TAHFIDZ -->
     <!-- ========================================================================= -->
     @if($printType === 'all_in_one' || $printType === 'quran')
+    @if($isSmp ?? false)
+    <!-- ========================================================================= -->
+    <!-- LEMBAR AL-QUR'AN TTQ (TAHSIN & TAHFIDZ AL-QUR'AN) SMP ISLAM TERPADU ROBBANI -->
+    <!-- (SESUAI DOKUMEN RESMI PDF 2) -->
+    <!-- ========================================================================= -->
+    <div class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-300 shadow-md space-y-5 print:border-none print:p-0 print:shadow-none page-container">
+        
+        <!-- Header Rapor TTQ Sesuai PDF 2 -->
+        <div class="border-b-2 border-slate-900 pb-2 text-center space-y-1">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-800">SMP ISLAM TERPADU ROBBANI</h3>
+            <h2 class="text-base font-black uppercase tracking-wider text-slate-950">
+                LAPORAN ASESMEN AKHIR SEMESTER {{ strtoupper($academicYear->semester ?? 'GENAP') }}<br>
+                TAHSIN TAHFIDZ QUR’AN (TTQ)
+            </h2>
+        </div>
+
+        <!-- Biodata Siswa TTQ SMP Sesuai PDF 2 -->
+        <div class="grid grid-cols-2 gap-x-8 gap-y-1.5 text-xs font-bold py-2 border-y border-slate-300">
+            <div class="flex">
+                <span class="w-36 text-slate-700">Nama Peserta Didik</span>
+                <span class="w-4">:</span>
+                <span class="flex-1 font-black uppercase text-slate-950">{{ $student->full_name }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-32 text-slate-700">Kelas/Semester</span>
+                <span class="w-4">:</span>
+                <span class="flex-1 font-black text-slate-950">{{ $student->classroom->name ?? 'VIII' }} / {{ $academicYear->semester ?? 'II' }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-36 text-slate-700">NIS</span>
+                <span class="w-4">:</span>
+                <span class="flex-1 font-bold text-slate-900">{{ $student->nis }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-32 text-slate-700">Kelompok</span>
+                <span class="w-4">:</span>
+                <span class="flex-1 font-black text-slate-950">{{ $quranGrade->quran_group ?? ($student->quran_group ?? 'Jannatu Al-Firdaus') }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-36 text-slate-700">NISN</span>
+                <span class="w-4">:</span>
+                <span class="flex-1 font-bold text-slate-900">{{ $student->nisn ?? '-' }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-32 text-slate-700">Tahun Pelajaran</span>
+                <span class="w-4">:</span>
+                <span class="flex-1 font-bold text-slate-900">{{ $academicYear->name ?? '2025/2026' }}</span>
+            </div>
+        </div>
+
+        <!-- Tabel 4 Target Pembelajaran TTQ SMP Sesuai PDF 2 -->
+        <div class="space-y-1">
+            <table class="w-full border-collapse border border-slate-900 text-xs">
+                <thead class="bg-slate-100 font-bold text-center">
+                    <tr>
+                        <th class="border border-slate-900 py-2 px-1 w-10 text-center">No</th>
+                        <th class="border border-slate-900 py-2 px-3 w-64 text-center">Target Pembelajaran</th>
+                        <th class="border border-slate-900 py-2 px-2 w-16 text-center">Nilai</th>
+                        <th class="border border-slate-900 py-2 px-3 text-center">Capaian Pembelajaran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Target 1: Hafalan -->
+                    <tr>
+                        <td class="border border-slate-900 py-2.5 px-1 text-center font-bold">1</td>
+                        <td class="border border-slate-900 py-2.5 px-3 font-bold text-slate-950">
+                            {{ $quranGrade->tahfidz_target ?? 'Hafalan Juz 1 ayat 1– 141 Ayat' }}
+                        </td>
+                        <td class="border border-slate-900 py-2.5 px-2 text-center font-black text-emerald-800 text-sm">
+                            {{ $quranGrade->tahfidz_predicate ?? 'A' }}
+                        </td>
+                        <td class="border border-slate-900 py-2.5 px-3 text-[11px] leading-relaxed text-slate-800">
+                            {{ $quranGrade->tahfidz_notes ?? ('Barakallah, ananda ' . ($student->nickname ?? $student->full_name) . ' sudah menuntaskan hafalan ' . ($quranGrade->tahfidz_target ?? 'target hafalan') . ' dengan sangat baik.') }}
+                        </td>
+                    </tr>
+
+                    <!-- Target 2: Tahsin -->
+                    <tr>
+                        <td class="border border-slate-900 py-2.5 px-1 text-center font-bold">2</td>
+                        <td class="border border-slate-900 py-2.5 px-3 font-bold text-slate-950">
+                            Tahsin (Ghunnah, Nun mati/Tanwin, Mim Sukun, Idghom, Alif Lam, Lafdul Jalalah, Hukum Ro’, Qolqolah, Hukum Bacaan Panjang/Mad).
+                        </td>
+                        <td class="border border-slate-900 py-2.5 px-2 text-center font-black text-emerald-800 text-sm">
+                            {{ $quranGrade->tahsin_predicate ?? 'A' }}
+                        </td>
+                        <td class="border border-slate-900 py-2.5 px-3 text-[11px] leading-relaxed text-slate-800">
+                            {{ $quranGrade->tahsin_notes ?? ('Alhamdulillah, ananda ' . ($student->nickname ?? $student->full_name) . ' sudah sangat baik dalam memahami hukum tajwid yang telah dipelajari, hanya saja ananda masih perlu bimbingan ketika mengaplikasikan Mad saat membaca Al-Qur’an.') }}
+                        </td>
+                    </tr>
+
+                    <!-- Target 3: Tilawah -->
+                    <tr>
+                        <td class="border border-slate-900 py-2.5 px-1 text-center font-bold">3</td>
+                        <td class="border border-slate-900 py-2.5 px-3 font-bold text-slate-950">
+                            Tilawah Al-Qur’an {{ $quranGrade->tahsin_level ?? 'Juz 1 – Juz 10' }}
+                        </td>
+                        <td class="border border-slate-900 py-2.5 px-2 text-center font-black text-emerald-800 text-sm">
+                            {{ $quranGrade->tilawah_predicate ?? 'A' }}
+                        </td>
+                        <td class="border border-slate-900 py-2.5 px-3 text-[11px] leading-relaxed text-slate-800">
+                            Alhamdulillah ananda {{ $student->nickname ?? $student->full_name }} sangat baik dalam tilawah. Semoga Ananda bisa lebih semangat lagi dalam tilawah dimana pun Ananda {{ $student->nickname ?? $student->full_name }} berada.
+                        </td>
+                    </tr>
+
+                    <!-- Target 4: Santun & Adab -->
+                    <tr>
+                        <td class="border border-slate-900 py-2.5 px-1 text-center font-bold" rowspan="3">4</td>
+                        <td class="border border-slate-900 py-2 px-3 font-semibold text-slate-900">
+                            1. Senang membaca dan menghafal Al Qur’an
+                        </td>
+                        <td class="border border-slate-900 py-2 px-2 text-center font-black text-emerald-800 text-sm">
+                            A
+                        </td>
+                        <td class="border border-slate-900 py-2 px-3 text-[11px] leading-relaxed text-slate-800">
+                            Alhamdulillah ananda {{ $student->nickname ?? $student->full_name }} sudah terbiasa membaca Al-Qur’an tanpa diingatkan oleh guru, namun tetap mohon bimbingan orang tua supaya Ananda senantiasa istiqomah dalam membaca Al-Qur’an di rumah.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-slate-900 py-2 px-3 font-semibold text-slate-900">
+                            2. Sikap Memuliakan Al-Qur’an
+                        </td>
+                        <td class="border border-slate-900 py-2 px-2 text-center font-black text-emerald-800 text-sm">
+                            A
+                        </td>
+                        <td class="border border-slate-900 py-2 px-3 text-[11px] leading-relaxed text-slate-800">
+                            MasyaAllah, ananda {{ $student->nickname ?? $student->full_name }} sudah dapat memuliakan Al Qur’an dengan sangat baik.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-slate-900 py-2 px-3 font-semibold text-slate-900">
+                            3. Adab Ketika belajar
+                        </td>
+                        <td class="border border-slate-900 py-2 px-2 text-center font-black text-emerald-800 text-sm">
+                            A
+                        </td>
+                        <td class="border border-slate-900 py-2 px-3 text-[11px] leading-relaxed text-slate-800">
+                            Baarakallah ananda {{ $student->nickname ?? $student->full_name }} dalam pembelajaran Al Qur’an, sudah terbiasa mengucapkan terimakasih, meminta tolong jika perlu bantuan dan meminta maaf jika ada yang kurang berkenan dilakukan, baik terhadap guru atau temannya. Semoga Allah senantiasa menjaga ananda.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TTD Guru Tahfidz & Kepala SMP Robbani Simetris Sesuai PDF 2 -->
+        <div class="pt-6 text-xs font-bold">
+            <table class="w-full border-none text-xs text-center" style="table-layout: fixed;">
+                <tr>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-semibold text-slate-800">Mengetahui,</p>
+                        <p class="font-bold text-slate-900">SMP Islam Terpadu Robbani</p>
+                        <p class="font-bold text-slate-900">Kepala Sekolah</p>
+                    </td>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-semibold text-slate-800">
+                            {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
+                            {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '19 Juni 2026' }}
+                        </p>
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold text-slate-900">Guru Tahfidz</p>
+                    </td>
+                </tr>
+                <tr style="height: 65px;">
+                    <td class="text-center" style="vertical-align: middle;">
+                        <div class="h-16 flex items-center justify-center relative">
+                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                                <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
+                            @endif
+                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                                <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
+                            @endif
+                        </div>
+                    </td>
+                    <td class="text-center" style="vertical-align: middle;"></td>
+                </tr>
+                <tr>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">
+                            {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Tia Wulandari, S.Pd.,Gr.') }}
+                        </p>
+                        <p class="text-[10px] text-slate-700 font-normal leading-tight mt-0.5">
+                            NIY. {{ $reportSetting->principal_nip ?? '142062021012' }}
+                        </p>
+                    </td>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">Nurul Hamidah Yanti, S.E</p>
+                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">Guru Tahfidz SMPIT Robbani</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div class="page-break"></div>
+    @else
+    <!-- LEMBAR AL-QUR'AN METODE WAFA & TAHFIDZ SDIT ROBBANI -->
     <div class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-300 shadow-md space-y-6 print:border-none print:p-0 print:shadow-none page-container">
         
         <!-- Header Rapor Al-Qur'an Wafa -->
@@ -999,11 +1211,201 @@
     </div>
     <div class="page-break"></div>
     @endif
+    @endif
 
     <!-- ========================================================================= -->
     <!-- LEMBAR 7: KEUNGGULAN KHAS SIT ROBBANI - KARAKTER 7 SKL JSIT & MUTABA'AH BPI -->
     <!-- ========================================================================= -->
-    @if($printType === 'all_in_one' || $printType === 'character')
+    @if(($printType === 'all_in_one' || $printType === 'character') && ($isBpiAllowed ?? true))
+    @if($isSmp ?? false)
+    <!-- ========================================================================= -->
+    <!-- LEMBAR BPI (BINA PRIBADI ISLAM) SMP IT ROBBANI (SESUAI DOKUMEN RESMI PDF 3) -->
+    <!-- ========================================================================= -->
+    <div class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-300 shadow-md space-y-6 print:border-none print:p-0 print:shadow-none page-container">
+        
+        <!-- Header Rapor BPI Sesuai PDF 3 -->
+        <div class="border-b-2 border-slate-900 pb-2 text-center space-y-1">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-800">SMP ISLAM TERPADU ROBBANI</h3>
+            <h2 class="text-base font-black uppercase tracking-wider text-slate-950">
+                LAPORAN PERKEMBANGAN BINA PRIBADI ISLAM (BPI)<br>
+                SUMATIF AKHIR SEMESTER {{ strtoupper($academicYear->semester ?? 'GENAP') }}<br>
+                TAHUN PELAJARAN {{ $academicYear->name ?? '2025-2026' }}
+            </h2>
+        </div>
+
+        <!-- Biodata Siswa BPI SMP -->
+        <div class="max-w-xl mx-auto w-full text-xs font-bold py-2 border-y border-slate-300 space-y-1.5">
+            <div class="flex">
+                <span class="w-36 text-slate-700">Nama</span>
+                <span class="w-4">:</span>
+                <span class="font-black uppercase text-slate-950">{{ $student->full_name }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-36 text-slate-700">Kelas/Semester</span>
+                <span class="w-4">:</span>
+                <span class="font-black text-slate-950">{{ $student->classroom->name ?? 'VIII (Delapan)' }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-36 text-slate-700">NIS/NISN</span>
+                <span class="w-4">:</span>
+                <span class="font-bold text-slate-900">{{ $student->nis }} / {{ $student->nisn ?? '-' }}</span>
+            </div>
+            <div class="flex">
+                <span class="w-36 text-slate-700">Tahun Ajaran</span>
+                <span class="w-4">:</span>
+                <span class="font-bold text-slate-900">{{ $academicYear->name ?? '2025-2026' }}</span>
+            </div>
+        </div>
+
+        @php
+            $rawAkidah = $characterGrade->indicator_scores['akidah'] ?? $characterGrade->indicator_scores['salimul_aqidah'] ?? 'B';
+            $akidahScore = is_array($rawAkidah) ? ($rawAkidah['predicate'] ?? 'B') : $rawAkidah;
+            $rawIbadah = $characterGrade->indicator_scores['ibadah'] ?? $characterGrade->indicator_scores['shahihul_ibadah'] ?? 'C';
+            $ibadahScore = is_array($rawIbadah) ? ($rawIbadah['predicate'] ?? 'C') : $rawIbadah;
+            $bpiAttendance = $characterGrade->indicator_scores['bpi_attendance'] ?? [];
+            $sakit = $bpiAttendance['sakit'] ?? '-';
+            $izin = $bpiAttendance['izin'] ?? '-';
+            $alpa = $bpiAttendance['alpa'] ?? '-';
+            $totalPertemuan = $bpiAttendance['total'] ?? 3;
+        @endphp
+
+        <!-- A. Pengembangan -->
+        <div class="space-y-1.5">
+            <h4 class="font-black text-xs text-slate-900 uppercase">A. Pengembangan</h4>
+            <table class="w-full border-collapse border border-slate-900 text-xs">
+                <thead class="bg-slate-100 font-bold">
+                    <tr>
+                        <th class="border border-slate-900 py-2 px-1 w-12 text-center">No</th>
+                        <th class="border border-slate-900 py-2 px-4 text-left">Standar Kompetensi Lulusan</th>
+                        <th class="border border-slate-900 py-2 px-4 w-28 text-center">Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-slate-900 py-2.5 px-1 text-center font-bold">1</td>
+                        <td class="border border-slate-900 py-2.5 px-4 font-bold text-slate-900">Memiliki Akidah yang lurus</td>
+                        <td class="border border-slate-900 py-2.5 px-4 text-center font-black text-slate-950 text-sm">{{ $akidahScore }}</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-slate-900 py-2.5 px-1 text-center font-bold">2</td>
+                        <td class="border border-slate-900 py-2.5 px-4 font-bold text-slate-900">Melakukan Ibadah yang benar</td>
+                        <td class="border border-slate-900 py-2.5 px-4 text-center font-black text-slate-950 text-sm">{{ $ibadahScore }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- B. Kehadiran -->
+        <div class="space-y-1.5">
+            <h4 class="font-black text-xs text-slate-900 uppercase">B. Kehadiran</h4>
+            <table class="w-full border-collapse border border-slate-900 text-xs">
+                <thead class="bg-slate-100 font-bold">
+                    <tr>
+                        <th class="border border-slate-900 py-2 px-1 w-12 text-center">No</th>
+                        <th class="border border-slate-900 py-2 px-4 text-left">Deskripsi</th>
+                        <th class="border border-slate-900 py-2 px-4 w-40 text-center">Keterangan</th>
+                        <th class="border border-slate-900 py-2 px-4 w-44 text-center">Jumlah Total Pertemuan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-slate-900 py-2 px-1 text-center font-bold">1.</td>
+                        <td class="border border-slate-900 py-2 px-4 font-semibold text-slate-800">Sakit</td>
+                        <td class="border border-slate-900 py-2 px-4 text-center font-bold">{{ $sakit }}</td>
+                        <td class="border border-slate-900 py-2 px-4 text-center font-bold" rowspan="3">{{ $totalPertemuan }}</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-slate-900 py-2 px-1 text-center font-bold">2.</td>
+                        <td class="border border-slate-900 py-2 px-4 font-semibold text-slate-800">Izin</td>
+                        <td class="border border-slate-900 py-2 px-4 text-center font-bold">{{ $izin }}</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-slate-900 py-2 px-1 text-center font-bold">3.</td>
+                        <td class="border border-slate-900 py-2 px-4 font-semibold text-slate-800">Alpa</td>
+                        <td class="border border-slate-900 py-2 px-4 text-center font-bold">{{ $alpa }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- C. Catatan Pembina & Standar Nilai Sesuai PDF 3 -->
+        <div class="space-y-1.5">
+            <h4 class="font-black text-xs text-slate-900 uppercase">C. Catatan Pembina</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+                <div class="sm:col-span-8 border border-slate-900 p-3.5 rounded text-xs leading-relaxed text-slate-900">
+                    <p class="mb-2">
+                        {{ $characterGrade->bpi_mentor_notes ?? ('Alhamdulillah, ananda ' . ($student->nickname ?? $student->full_name) . ' sudah baik dalam memahami materi akidah yang lurus dan cukup baik dalam memahami materi cara melakukan ibadah yang benar.') }}
+                    </p>
+                    <p>
+                        Bismillah, ananda dapat terus belajar dan meningkatkan semangat dalam ibadah hariannya, sehingga kelak menjadi seorang muslim yang kaffah (sepenuhnya yang senantiasa bersandar pada Allah SWT).
+                    </p>
+                </div>
+                <div class="sm:col-span-4 border border-slate-900 p-3 rounded text-[11px] leading-snug space-y-1 bg-slate-50/50">
+                    <p class="font-bold text-slate-900">Keterangan:</p>
+                    <table class="w-full text-[11px]">
+                        <tr><td>1. A (Sangat baik)</td><td class="text-right font-semibold">80-100</td></tr>
+                        <tr><td>2. B (Baik)</td><td class="text-right font-semibold">66-80</td></tr>
+                        <tr><td>3. C (Cukup baik)</td><td class="text-right font-semibold">51-65</td></tr>
+                        <tr><td>4. D (Kurang)</td><td class="text-right font-semibold">≤ 50</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TTD Pembina BPI & Kepala SMP Robbani Simetris Sesuai PDF 3 -->
+        <div class="pt-6 text-xs font-bold">
+            <table class="w-full border-none text-xs text-center" style="table-layout: fixed;">
+                <tr>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-semibold text-slate-800">Mengetahui,</p>
+                        <p class="font-bold text-slate-900">SMP Islam Terpadu Robbani</p>
+                        <p class="font-bold text-slate-900">Kepala Sekolah</p>
+                    </td>
+                    <td class="w-1/2 pb-1 text-center" style="vertical-align: top;">
+                        <p class="font-semibold text-slate-800">
+                            {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
+                            {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '19 Juni 2026' }}
+                        </p>
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold text-transparent select-none">&nbsp;</p>
+                        <p class="font-bold text-slate-900">Pembina BPI</p>
+                    </td>
+                </tr>
+                <tr style="height: 65px;">
+                    <td class="text-center" style="vertical-align: middle;">
+                        <div class="h-16 flex items-center justify-center relative">
+                            @if(!empty($reportSetting?->stamp_image_url) && file_exists(public_path($reportSetting->stamp_image_url)))
+                                <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-16 w-auto object-contain absolute opacity-80 left-12 z-0 pointer-events-none" alt="Stempel">
+                            @endif
+                            @if(!empty($reportSetting?->principal_signature_url) && file_exists(public_path($reportSetting->principal_signature_url)))
+                                <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD">
+                            @endif
+                        </div>
+                    </td>
+                    <td class="text-center" style="vertical-align: middle;"></td>
+                </tr>
+                <tr>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">
+                            {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Tia Wulandari, S.Pd., Gr.') }}
+                        </p>
+                        <p class="text-[10px] text-slate-700 font-normal leading-tight mt-0.5">
+                            NIY. {{ $reportSetting->principal_nip ?? '142062021012' }}
+                        </p>
+                    </td>
+                    <td class="text-center px-4" style="vertical-align: bottom;">
+                        <p class="font-bold underline text-slate-950 leading-snug">Syaifudin, S.Sn., Gr.</p>
+                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">Pembina BPI SMPIT Robbani</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div class="page-break"></div>
+    @else
+    <!-- LEMBAR BPI & KARAKTER 7 SKL JSIT SD (HANYA KELAS 4, 5, DAN 6) -->
     <div class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-300 shadow-md space-y-5 print:border-none print:p-0 print:shadow-none page-container">
         
         <!-- Header Rapor Karakter JSIT -->
@@ -1018,7 +1420,7 @@
         <!-- Biodata Ringkas -->
         <div class="grid grid-cols-2 gap-4 text-xs font-bold py-2 border-y border-slate-300">
             <div>Nama Santri: <span class="font-black uppercase text-slate-950">{{ $student->full_name }}</span></div>
-            <div>Kelas / Rombel: <span class="font-black text-slate-950">{{ $student->classroom->name ?? 'Kelas 1' }}</span></div>
+            <div>Kelas / Rombel: <span class="font-black text-slate-950">{{ $student->classroom->name ?? 'Kelas 4' }}</span></div>
         </div>
 
         <!-- Tabel 7 SKL JSIT (LEBAR KOLOM LEGA - TIDAK ADA TEKS TERPOTONG) -->
@@ -1144,6 +1546,25 @@
             </table>
         </div>
 
+    </div>
+    <div class="page-break"></div>
+    @endif
+    @elseif($printType === 'character' && !($isBpiAllowed ?? true))
+    <!-- PEMBERITAHUAN ATURAN BPI UNTUK SD KELAS 1-3 -->
+    <div class="bg-white p-8 sm:p-12 rounded-2xl border border-slate-300 shadow-md text-center space-y-4 max-w-xl mx-auto my-12 page-container">
+        <div class="text-4xl">ℹ️</div>
+        <h3 class="text-base font-black text-slate-900">Buku Rapor Siswa Kelas {{ $classroomGrade ?? 1 }} SD</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+            Sesuai standar kurikulum SIT Robbani, Penilaian dan Buku Rapor <b>Bina Pribadi Islam (BPI)</b> resmi diselenggarakan khusus untuk <b>Jenjang SMP</b> serta <b>Jenjang SD Kelas 4, 5, dan 6</b>.
+        </p>
+        <p class="text-xs font-semibold text-emerald-800">
+            Untuk peserta didik Kelas {{ $classroomGrade ?? 1 }} SD, lembar penilaian BPI tidak diwajibkan / tidak dicetak pada buku laporan hasil belajar.
+        </p>
+        <div class="pt-4">
+            <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'all_in_one']) }}" class="px-4 py-2 rounded-xl bg-emerald-700 text-white font-bold text-xs inline-block">
+                Kembali ke Rapor Lengkap
+            </a>
+        </div>
     </div>
     @endif
 

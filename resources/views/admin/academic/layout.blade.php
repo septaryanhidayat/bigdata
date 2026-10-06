@@ -126,18 +126,23 @@
                     <span>Nilai Mata Pelajaran</span>
                 </a>
 
-                <!-- 2. Al-Qur'an Wafa (Guru Qur'an) -->
+                <!-- 2. Al-Qur'an Wafa / TTQ (Guru Qur'an) -->
                 <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'quran']) }}" 
                    class="flex items-center gap-3 px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'quran' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">
                     <span class="text-base">📖</span>
-                    <span>Al-Qur'an Metode Wafa</span>
+                    <span>{{ ($isSmp ?? false) ? 'TTQ (Tahsin & Tahfidz)' : 'Al-Qur\'an Wafa' }}</span>
                 </a>
 
-                <!-- 3. Karakter 7 SKL JSIT -->
+                <!-- 3. Karakter 7 SKL JSIT / BPI -->
                 <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'character']) }}" 
-                   class="flex items-center gap-3 px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'character' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">
-                    <span class="text-base">🌙</span>
-                    <span>Karakter 7 SKL JSIT</span>
+                   class="flex items-center justify-between px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'character' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">
+                    <div class="flex items-center gap-3 truncate">
+                        <span class="text-base">🌙</span>
+                        <span>{{ ($isSmp ?? false) ? 'Bina Pribadi Islam (BPI)' : 'BPI & Karakter JSIT' }}</span>
+                    </div>
+                    @if(!($isSmp ?? false))
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/60 font-black shrink-0">Kls 4-6</span>
+                    @endif
                 </a>
 
                 <!-- 4. Menu Wali Kelas -->
@@ -161,11 +166,11 @@
                     <span>Cetak Nilai & Leger</span>
                 </a>
 
-                <!-- 2. Pengaturan Kop & TTD -->
+                <!-- 2. Pengaturan Profil Sekolah, Logo & TTD -->
                 <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'settings']) }}" 
                    class="flex items-center gap-3 px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'settings' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">
                     <span class="text-base">⚙️</span>
-                    <span>Kop & Tanda Tangan</span>
+                    <span>Profil & Pengaturan Rapor</span>
                 </a>
             </div>
 

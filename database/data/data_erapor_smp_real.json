@@ -1,0 +1,1146 @@
+{
+  "school": {
+    "code": "SMPIT",
+    "name": "SMP Islam Terpadu Robbani",
+    "npsn": "20198033",
+    "address": "Jl. Sarjana Gg. Padang Guci Kel. Timbangan",
+    "village": "Timbangan",
+    "district": "Indralaya Utara",
+    "city": "Ogan Ilir",
+    "province": "Sumatera Selatan",
+    "postal_code": "30662",
+    "phone": "+62 853-7719-3977",
+    "email": "smpit@sitrobbani.sch.id",
+    "website": "www.smp.sitrobbani.sch.id",
+    "principal_name": "Tia Wulandari, S.Pd.,Gr.",
+    "principal_nip": "142062021012"
+  },
+  "classroom": {
+    "name": "Kelas IX",
+    "level": "Kelas 9 SMP",
+    "room_number": "SMP-301",
+    "capacity": 25,
+    "homeroom_teacher": "Sulis Setiya Ningsih, S.Pd.Gr.",
+    "homeroom_nip": "-"
+  },
+  "officials": {
+    "tahfidz_teacher": "Nurul Hamidah Yanti, S.E",
+    "bpi_mentor": "Syaifudin, S.Sn., Gr."
+  },
+  "report_setting": {
+    "report_city": "Ogan Ilir",
+    "report_date": "19 Juni 2026",
+    "kop_image_url": "uploads/reports/kop_smp_robbani.png",
+    "school_logo_url": "uploads/reports/logo_smp_robbani.png",
+    "stamp_image_url": "uploads/reports/stempel_resmi.png",
+    "principal_signature_url": "uploads/reports/ttd_kepsek.png"
+  },
+  "subjects": [
+    {
+      "code": "PAI",
+      "name": "Pendidikan Agama Islam",
+      "category": "PENDIDIKAN AGAMA",
+      "passing_grade": 75
+    },
+    {
+      "code": "PPKN",
+      "name": "Pendidikan Pancasila",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "BIND",
+      "name": "Bahasa Indonesia",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "MTK",
+      "name": "Matematika",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "IPA",
+      "name": "Ilmu Pengetahuan Alam",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "IPS",
+      "name": "Ilmu Pengetahuan Sosial",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "BING",
+      "name": "Bahasa Inggris",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "PJOK",
+      "name": "Pendidikan Jasmani, Olahraga, dan Kesehatan",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "SBK",
+      "name": "Seni Budaya dan Keterampilan",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "INF",
+      "name": "Informatika",
+      "category": "NASIONAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "TEATER",
+      "name": "Seni Teater",
+      "category": "MUATAN LOKAL",
+      "passing_grade": 75
+    },
+    {
+      "code": "HADIST",
+      "name": "Hadist",
+      "category": "KEKHASAN ISLAMI",
+      "passing_grade": 75
+    },
+    {
+      "code": "ARAB",
+      "name": "Bahasa Arab",
+      "category": "KEKHASAN ISLAMI",
+      "passing_grade": 75
+    }
+  ],
+  "students": [
+    {
+      "name": "Ahmad Rafif Nakhla",
+      "nis": "2370031580001",
+      "nisn": "0112345601",
+      "gender": "L",
+      "pob": "Palembang",
+      "dob": "2011-04-15",
+      "father_name": "Hendra Wijaya",
+      "mother_name": "Ratna Dewi",
+      "father_job": "PNS",
+      "mother_job": "Guru",
+      "address": "Jl. Sarjana Gg. Padang Guci No. 12",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 80,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": "Perlu bimbingan dan pendalaman pada aspek latihan mandiri Pendidikan Agama Islam"
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 87,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 88,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 84,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": "Perlu bimbingan dan pendalaman pada aspek latihan mandiri Pendidikan Jasmani, Olahraga, dan Kesehatan"
+        },
+        {
+          "subject_code": "SBK",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 67,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": "Perlu bimbingan dan pendalaman pada aspek latihan mandiri Hadist"
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 81,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": "Perlu bimbingan dan pendalaman pada aspek latihan mandiri Bahasa Arab"
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "B",
+        "tahsin_score": "B",
+        "tilawah_score": "B",
+        "notes": "Alhamdulillah, ananda Rafif sudah menuntaskan hafalan surat Al-Baqarah ayat 1 - 50 dengan baik."
+      },
+      "bpi": {
+        "akidah": "B",
+        "ibadah": "C",
+        "notes": "Alhamdulillah, ananda Rafif sudah baik dalam memahami materi akidah yang lurus dan cukup baik dalam memahami materi cara melakukan ibadah yang benar."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Arvin Danial Azhar",
+      "nis": "2370031580002",
+      "nisn": "0112345602",
+      "gender": "L",
+      "pob": "Indralaya",
+      "dob": "2011-06-20",
+      "father_name": "Azharudin",
+      "mother_name": "Siti Fatimah",
+      "father_job": "Wiraswasta",
+      "mother_job": "IRT",
+      "address": "Jl. Lintas Timur Km. 35 Kel. Timbangan",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 87,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "Alhamdulillah, ananda Arvin sudah menuntaskan hafalan surat Al-Baqarah ayat 1 - 50 dengan sangat baik dan tartil."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "B",
+        "notes": "Alhamdulillah, ananda Arvin sangat baik dalam materi akidah dan tertib dalam ibadah harian."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Farah Bintang Aulia",
+      "nis": "2370031580003",
+      "nisn": "0112345603",
+      "gender": "P",
+      "pob": "Ogan Ilir",
+      "dob": "2011-08-11",
+      "father_name": "Bambang Irawan",
+      "mother_name": "Lina Marlina",
+      "father_job": "Pegawai BUMN",
+      "mother_job": "PNS",
+      "address": "Jl. Raya Palembang-Prabumulih Indralaya",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 86,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 91,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 86,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "Alhamdulillah, ananda Farah menunjukkan perkembangan hafalan yang sangat membanggakan."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "B",
+        "notes": "Alhamdulillah, ananda Farah berakhlak mulia dan santun kepada sesama serta rajin beribadah."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Filza Syakila Khansa",
+      "nis": "2370031580004",
+      "nisn": "0112345604",
+      "gender": "P",
+      "pob": "Palembang",
+      "dob": "2011-02-18",
+      "father_name": "Muhammad Ridwan",
+      "mother_name": "Nurhayati",
+      "father_job": "Wiraswasta",
+      "mother_job": "IRT",
+      "address": "Perumahan Griya Indralaya Indah Blok B4",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 83,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": "Perlu bimbingan dan pendalaman pada aspek latihan mandiri Pendidikan Jasmani, Olahraga, dan Kesehatan"
+        },
+        {
+          "subject_code": "SBK",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "MasyaAllah, ananda Filza hafalannya sangat mutqin dan bacaan tajwidnya sangat tertib."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "A",
+        "notes": "Alhamdulillah, ananda Filza memiliki pemahaman akidah yang lurus dan istiqomah dalam ibadah harian."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Khayla Ahza Nazura",
+      "nis": "2370031580005",
+      "nisn": "0112345605",
+      "gender": "P",
+      "pob": "Indralaya",
+      "dob": "2011-09-09",
+      "father_name": "Nazirwan",
+      "mother_name": "Yuliana",
+      "father_job": "Dosen",
+      "mother_job": "Guru",
+      "address": "Jl. Sarjana Komplek Unsri No. 18",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 87,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 87,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "Alhamdulillah, ananda Khayla sangat tekun dan memiliki adab yang baik dalam belajar Al-Qur'an."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "B",
+        "notes": "Alhamdulillah, ananda Khayla aktif dalam halaqah BPI dan berakhlak terpuji."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Lionel Andhika Kobela",
+      "nis": "2370031580006",
+      "nisn": "0112345606",
+      "gender": "L",
+      "pob": "Palembang",
+      "dob": "2011-01-25",
+      "father_name": "Kobela Pratama",
+      "mother_name": "Anita Sari",
+      "father_job": "Pegawai Swasta",
+      "mother_job": "IRT",
+      "address": "Jl. Pesantren Gg. Melati No. 5",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "Baarakallah ananda Lionel, capaian hafalan dan ketertiban tajwid sangat istimewa."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "A",
+        "notes": "Alhamdulillah, ananda Lionel menunjukkan teladan yang baik dalam kedisiplinan dan ibadah berjamaah."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Muhammad Adam Johrdi",
+      "nis": "2370031580007",
+      "nisn": "0112345607",
+      "gender": "L",
+      "pob": "Indralaya",
+      "dob": "2011-07-04",
+      "father_name": "Johrdi",
+      "mother_name": "Maryani",
+      "father_job": "Wiraswasta",
+      "mother_job": "Pedagang",
+      "address": "Pasar Indralaya Kab. Ogan Ilir",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 94,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 89,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 91,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 91,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 95,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "Alhamdulillah, ananda Adam memiliki hafalan yang kuat dan selalu semangat muraja'ah."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "A",
+        "notes": "Alhamdulillah, ananda Adam istiqomah dalam pembiasaan ibadah shalat fardhu tepat waktu."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Nurqisya Darmayanti",
+      "nis": "2370031580008",
+      "nisn": "0112345608",
+      "gender": "P",
+      "pob": "Tanjung Senai",
+      "dob": "2011-10-30",
+      "father_name": "Darlan",
+      "mother_name": "Maryati",
+      "father_job": "PNS",
+      "mother_job": "PNS",
+      "address": "Komplek Pemda Ogan Ilir Blok D2 Tanjung Senai",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 87,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 87,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 85,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 85,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 85,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 86,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "B",
+        "tilawah_score": "A",
+        "notes": "Alhamdulillah, ananda Nurqisya terus bersemangat meningkatkan kualitas tilawah dan tahsin."
+      },
+      "bpi": {
+        "akidah": "B",
+        "ibadah": "B",
+        "notes": "Alhamdulillah, ananda Nurqisya rajin menyimak materi pembinaan BPI dan santun dalam pergaulan."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    },
+    {
+      "name": "Nyimas Raida Alya",
+      "nis": "2370031580008",
+      "nisn": "0119742046",
+      "gender": "P",
+      "pob": "Palembang",
+      "dob": "2011-05-12",
+      "father_name": "Raden M. Fauzi",
+      "mother_name": "Nyimas Halimah",
+      "father_job": "Pegawai BUMN",
+      "mother_job": "Guru",
+      "address": "Jl. Sarjana Gg. Padang Guci No. 8 Kel. Timbangan",
+      "village": "Timbangan",
+      "district": "Indralaya Utara",
+      "city": "Ogan Ilir",
+      "province": "Sumatera Selatan",
+      "grades": [
+        {
+          "subject_code": "PAI",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Agama Islam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PPKN",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Pancasila",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BIND",
+          "score": 97,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Indonesia",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "MTK",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Matematika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPA",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Alam",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "IPS",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Ilmu Pengetahuan Sosial",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "BING",
+          "score": 96,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Inggris",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "PJOK",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Pendidikan Jasmani, Olahraga, dan Kesehatan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "SBK",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Budaya dan Keterampilan",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "INF",
+          "score": 90,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Informatika",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "TEATER",
+          "score": 93,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Seni Teater",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "HADIST",
+          "score": 98,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Hadist",
+          "lowest_achievement": ""
+        },
+        {
+          "subject_code": "ARAB",
+          "score": 92,
+          "highest_achievement": "Sangat menguasai seluruh capaian dan materi pembelajaran Bahasa Arab",
+          "lowest_achievement": ""
+        }
+      ],
+      "ttq": {
+        "hafalan_target": "Hafalan Surah Al-Baqarah 1 – 50 ayat",
+        "hafalan_score": "A",
+        "tahsin_score": "A",
+        "tilawah_score": "A",
+        "notes": "Alhamdulillah, ananda Alya sudah menuntaskan hafalan surat Al-Baqarah ayat 1 - 50 dengan sangat baik."
+      },
+      "bpi": {
+        "akidah": "A",
+        "ibadah": "A",
+        "notes": "Alhamdulillah, ananda Alya sudah baik dalam memahami materi akidah yang lurus dan istiqomah dalam ibadah harian."
+      },
+      "attendance": {
+        "sick": 0,
+        "permission": 0,
+        "absent": 0
+      }
+    }
+  ]
+}
