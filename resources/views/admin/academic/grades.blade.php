@@ -354,16 +354,22 @@
 
             <!-- Chart 2: Radar 7 SKL JSIT (5 Cols) -->
             <div class="lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
                     <div>
                         <h4 class="font-black text-xs text-slate-900 uppercase tracking-wider flex items-center gap-2">
                             <span>🎯</span> <span>Radar Capaian 7 SKL JSIT</span>
                         </h4>
                         <p class="text-[11px] text-slate-500 font-medium">Distribusi standar mutu kepribadian Islam terpadu</p>
                     </div>
-                    <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 text-[10px] font-black border border-blue-200">
-                        Standar JSIT
-                    </span>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <select id="filterSklRadarClass" onchange="updateSklRadar(this.value)" 
+                                class="text-xs font-bold rounded-lg border border-indigo-200 bg-indigo-50/90 text-indigo-900 py-1 px-2.5 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 cursor-pointer shadow-2xs">
+                            <option value="all">Semua Kelas (Unit)</option>
+                            @foreach($classrooms as $cls)
+                                <option value="{{ $cls->id }}" {{ ($selectedClassroomId ?? null) == $cls->id ? 'selected' : '' }}>{{ $cls->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="h-64 w-full relative flex items-center justify-center">
                     <canvas id="chartSklRadar"></canvas>
@@ -1084,14 +1090,18 @@
                             </td>
                             <td class="px-5 py-3.5 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
-                                    <button type="button" onclick="openEditUserModal({{ json_encode($u) }})" class="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 transition cursor-pointer" title="Edit Akun & Reset Password">
-                                        ✏️ Edit
+                                    <button type="button" onclick="openEditUserModal({{ json_encode($u) }})" 
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer" 
+                                            title="Edit Akun & Reset Password">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
                                     @if(auth()->id() != $u->id && $u->role !== 'SUPER_ADMIN')
                                     <form action="{{ route('admin.academic.users.delete', $u->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun {{ $u->name }} dari unit sekolah ini?')" class="inline">
                                         @csrf
-                                        <button type="submit" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 transition cursor-pointer" title="Hapus Akun">
-                                            🗑️ Hapus
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus Akun">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                     @endif
@@ -1317,9 +1327,29 @@
                     <button onclick="document.getElementById('modalTambahSiswa').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-lg font-black cursor-pointer">✕</button>
                 </div>
 
-                <form method="POST" action="{{ route('admin.academic.students.save') }}" class="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
+                <form method="POST" action="{{ route('admin.academic.students.save') }}" enctype="multipart/form-data" class="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
                     @csrf
                     <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                    <input type="hidden" name="student_id" id="input_student_id" value="">
+
+                    <!-- Bagian Unggah Pas Foto Siswa (3x4) -->
+                    <div class="bg-emerald-50/70 p-3.5 rounded-xl border border-emerald-200 flex flex-col sm:flex-row items-center gap-4">
+                        <div class="w-24 h-32 rounded-xl border-2 border-dashed border-emerald-300 bg-white flex flex-col items-center justify-center overflow-hidden shrink-0 shadow-xs relative">
+                            <img id="preview_student_photo" src="" alt="Pratinjau Foto" class="w-full h-full object-cover hidden">
+                            <div id="placeholder_student_photo" class="text-center p-2 text-slate-400">
+                                <span class="text-2xl block mb-1">📷</span>
+                                <span class="text-[10px] font-bold text-slate-600 block">Pas Foto 3x4</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 space-y-1.5 w-full">
+                            <label class="block font-black text-slate-800 text-xs">Unggah Pas Foto Siswa (Format 3x4):</label>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                Foto ini otomatis tampil di Lembar 3 (Identitas Siswa) Rapor. Pilih file foto siswa (JPG, JPEG, PNG, maks 2MB).
+                            </p>
+                            <input type="file" name="photo" id="input_photo" accept="image/png, image/jpeg, image/jpg" onchange="previewStudentPhoto(this)"
+                                   class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 file:cursor-pointer cursor-pointer">
+                        </div>
+                    </div>
 
                     <!-- Bagian 1: Data Pokok Siswa -->
                     <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
@@ -1608,16 +1638,25 @@
                                             'guardian_name' => $st->guardian_name ?? '',
                                             'guardian_job' => $st->guardian_job ?? '',
                                             'guardian_address' => $st->guardian_address ?? '',
+                                            'photo_path' => $st->photo_path ?? '',
                                         ];
                                     @endphp
                                     <button onclick="editSiswaLengkap({{ json_encode($stDataArr, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" 
-                                            class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
-                                        ✏️ Edit
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer"
+                                            title="Edit Data Siswa">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
+                                    <a href="{{ route('admin.academic.report-card', $st->id) }}" target="_blank"
+                                       class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-sky-300 bg-sky-50 text-sky-700 hover:bg-sky-100 hover:border-sky-400 transition shadow-2xs"
+                                       title="Lihat Pratinjau Rapor">
+                                        <span>📄</span> <span>Rapor</span>
+                                    </a>
                                     <form method="POST" action="{{ route('admin.academic.students.delete', $st->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus siswa {{ addslashes($st->full_name) }}?');" class="inline">
                                         @csrf
-                                        <button type="submit" class="p-1 rounded-lg text-rose-600 hover:bg-rose-50 transition cursor-pointer" title="Hapus Siswa">
-                                            🗑️
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus Siswa">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -1652,8 +1691,33 @@
             });
         }
 
+        function previewStudentPhoto(input) {
+            const preview = document.getElementById('preview_student_photo');
+            const placeholder = document.getElementById('placeholder_student_photo');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    if (placeholder) placeholder.classList.add('hidden');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function openTambahSiswaModal() {
             document.getElementById('titleModalSiswa').innerText = 'Tambah Siswa Baru';
+            const studentIdInput = document.getElementById('input_student_id');
+            if (studentIdInput) studentIdInput.value = '';
+            const photoInput = document.getElementById('input_photo');
+            if (photoInput) photoInput.value = '';
+            const preview = document.getElementById('preview_student_photo');
+            const placeholder = document.getElementById('placeholder_student_photo');
+            if (preview) { preview.src = ''; preview.classList.add('hidden'); }
+            if (placeholder) placeholder.classList.remove('hidden');
+
             document.getElementById('input_nis').value = '';
             document.getElementById('input_nisn').value = '';
             document.getElementById('input_full_name').value = '';
@@ -1680,6 +1744,24 @@
 
         function editSiswaLengkap(data) {
             document.getElementById('titleModalSiswa').innerText = 'Perbarui Data Siswa: ' + data.full_name;
+            const studentIdInput = document.getElementById('input_student_id');
+            if (studentIdInput) studentIdInput.value = data.id || '';
+            const photoInput = document.getElementById('input_photo');
+            if (photoInput) photoInput.value = '';
+            
+            const preview = document.getElementById('preview_student_photo');
+            const placeholder = document.getElementById('placeholder_student_photo');
+            if (data.photo_path) {
+                if (preview) {
+                    preview.src = '{{ asset("") }}' + data.photo_path;
+                    preview.classList.remove('hidden');
+                }
+                if (placeholder) placeholder.classList.add('hidden');
+            } else {
+                if (preview) { preview.src = ''; preview.classList.add('hidden'); }
+                if (placeholder) placeholder.classList.remove('hidden');
+            }
+
             document.getElementById('input_nis').value = data.nis || '';
             document.getElementById('input_nisn').value = data.nisn || '';
             document.getElementById('input_full_name').value = data.full_name || '';
@@ -1931,16 +2013,18 @@
                                     <!-- Tombol Edit Rombel Lengkap -->
                                     <button type="button" 
                                             onclick="bukaModalEditRombel({{ $cls->id }}, '{{ addslashes($cls->name) }}', {{ $cls->level_id ?? 'null' }}, {{ $cls->capacity ?? 28 }}, '{{ addslashes($cls->room_number ?? '') }}', {{ $cls->homeroom_teacher_id ?? 'null' }})"
-                                            class="px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-black text-[11px] transition shadow-2xs cursor-pointer active:scale-95" 
-                                            title="Edit Rombel Lengkap">
-                                        ✏️ Edit
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer" 
+                                            title="Edit Rombel">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
 
                                     <!-- Tombol Hapus Rombel -->
                                     <form method="POST" action="{{ route('admin.academic.classrooms.delete', $cls->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus rombel {{ addslashes($cls->name) }}? Sebanyak {{ $stCount }} siswa di kelas ini akan dialihkan ke status belum masuk rombel.');" class="inline">
                                         @csrf
-                                        <button type="submit" class="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition cursor-pointer" title="Hapus Rombel">
-                                            🗑️
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus Rombel">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -2203,13 +2287,16 @@
                             <td class="px-5 py-3.5 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
                                     <button onclick="editMapel('{{ $sb->id }}', '{{ $sb->code }}', '{{ addslashes($sb->name) }}', '{{ $sb->category }}', '{{ $sb->passing_grade }}')" 
-                                            class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
-                                        ✏️ Edit
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer"
+                                            title="Edit Mapel">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
                                     <form method="POST" action="{{ route('admin.academic.subjects.delete', $sb->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mapel {{ addslashes($sb->name) }}?');" class="inline">
                                         @csrf
-                                        <button type="submit" class="p-1 rounded-lg text-rose-600 hover:bg-rose-50 transition cursor-pointer" title="Hapus Mapel">
-                                            🗑️
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus Mapel">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -2421,15 +2508,18 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 text-center">
-                                <div class="flex items-center justify-center gap-1.5">
+                                <div class="inline-flex items-center justify-center gap-1.5">
                                     <button type="button" onclick="editTp({{ json_encode($tp) }})"
-                                            class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold text-[11px] border border-amber-200 transition cursor-pointer">
-                                        ✏️ Edit
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer"
+                                            title="Edit TP">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
                                     <form method="POST" action="{{ route('admin.academic.tp.delete', $tp->id) }}" onsubmit="return confirm('Hapus Tujuan Pembelajaran {{ $tp->code }}?');" class="inline">
                                         @csrf
-                                        <button type="submit" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[11px] border border-rose-200 transition cursor-pointer">
-                                            🗑️
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus TP">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -2689,13 +2779,16 @@
                             <td class="px-5 py-3.5 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
                                     <button onclick="editEkskul('{{ $ek->id }}', '{{ addslashes($ek->name) }}', '{{ addslashes($ek->coach_name ?? '') }}', '{{ addslashes($ek->description ?? '') }}')" 
-                                            class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
-                                        ✏️ Edit
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer"
+                                            title="Edit Ekskul">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
                                     <form method="POST" action="{{ route('admin.academic.extracurriculars.delete', $ek->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ekskul {{ addslashes($ek->name) }}?');" class="inline">
                                         @csrf
-                                        <button type="submit" class="p-1 rounded-lg text-rose-600 hover:bg-rose-50 transition cursor-pointer" title="Hapus Ekskul">
-                                            🗑️
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus Ekskul">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -2862,13 +2955,16 @@
                             <td class="px-5 py-3.5 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
                                     <button onclick="editP5('{{ $p5->id }}', '{{ addslashes($p5->theme) }}', '{{ addslashes($p5->title) }}', '{{ addslashes($p5->coordinator_name ?? '') }}', '{{ addslashes($p5->description ?? '') }}')" 
-                                            class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
-                                        ✏️ Edit
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer"
+                                            title="Edit Projek P5">
+                                        <span>✏️</span> <span>Edit</span>
                                     </button>
                                     <form method="POST" action="{{ route('admin.academic.p5.delete', $p5->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus projek {{ addslashes($p5->title) }}?');" class="inline">
                                         @csrf
-                                        <button type="submit" class="p-1 rounded-lg text-rose-600 hover:bg-rose-50 transition cursor-pointer" title="Hapus Projek">
-                                            🗑️
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400 transition shadow-2xs cursor-pointer" 
+                                                title="Hapus Projek P5">
+                                            <span>🗑️</span> <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -2999,103 +3095,136 @@
                     </div>
                 </div>
 
-                <!-- Banner Informasi Tujuan Pembelajaran (TP) Aktif di Rapor -->
-                <div class="px-6 py-3.5 bg-emerald-50/80 border-b border-emerald-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-700 text-white font-black text-xs shadow-xs">
-                            <span>🎯</span> <span>Tujuan Pembelajaran (TP) Aktif:</span>
-                        </span>
-                        @if(($activeLearningObjectives ?? collect())->isNotEmpty())
-                            @foreach($activeLearningObjectives as $atp)
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-emerald-950 text-xs font-semibold shadow-2xs hover:border-emerald-400 transition" title="{{ $atp->description }}">
-                                    <strong class="font-black text-emerald-700">{{ $atp->code }}:</strong>
-                                    <span class="max-w-[200px] sm:max-w-[280px] truncate">{{ $atp->short_desc }}</span>
-                                </span>
-                            @endforeach
-                        @else
-                            <span class="text-xs text-slate-500 italic flex items-center gap-1">
-                                <span>ℹ️</span> Belum ada TP aktif khusus untuk mata pelajaran ini.
+                <!-- Banner Informasi Tujuan Pembelajaran (TP) Aktif di Rapor (Struktur Grid Rapi) -->
+                <div class="px-6 py-4 bg-emerald-50/90 border-b border-emerald-200 space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-emerald-100">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-800 text-white font-black text-xs shadow-xs">
+                                <span>🎯</span> <span>Tujuan Pembelajaran (TP) Aktif di Rapor:</span>
                             </span>
-                        @endif
+                            <span class="text-xs font-black text-emerald-950">
+                                {{ $selectedSubject->name ?? 'Mata Pelajaran' }}
+                            </span>
+                            <button type="button" onclick="bukaModalPetunjukTp()" 
+                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-xs transition cursor-pointer shadow-2xs">
+                                <span>ℹ️</span> <span>Info Petunjuk TP Rapor</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp', 'subject_id' => $selectedSubjectId]) }}" 
+                               class="px-3 py-1.5 rounded-lg bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-black transition flex items-center gap-1.5 shadow-2xs">
+                                <span>⚙️</span> <span>Kelola TP Mapel Ini</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp', 'subject_id' => $selectedSubjectId]) }}" 
-                           class="px-3 py-1.5 rounded-lg bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
-                            <span>⚙️</span> <span>Kelola TP Mapel Ini</span>
-                        </a>
-                    </div>
+
+                    <!-- Grid Kartu TP Aktif -->
+                    @if(($activeLearningObjectives ?? collect())->isNotEmpty())
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                            @foreach($activeLearningObjectives as $atp)
+                                <div class="bg-white rounded-xl border border-emerald-200/90 p-2.5 shadow-2xs hover:border-emerald-400 hover:shadow-xs transition flex items-start gap-2.5" title="{{ $atp->description }}">
+                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[11px] shrink-0 border border-emerald-200">
+                                        {{ $atp->code }}
+                                    </span>
+                                    <p class="text-xs font-bold text-slate-800 leading-snug line-clamp-2">
+                                        {{ $atp->short_desc }}
+                                    </p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="p-3 bg-white/80 rounded-xl border border-dashed border-emerald-300 flex items-center justify-between text-xs text-slate-600">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base">ℹ️</span>
+                                <span>Belum ada Tujuan Pembelajaran (TP) yang diaktifkan untuk mata pelajaran ini.</span>
+                            </div>
+                            <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp', 'subject_id' => $selectedSubjectId]) }}" 
+                               class="text-emerald-700 font-bold hover:underline">
+                                Tambahkan TP sekarang &rarr;
+                            </a>
+                        </div>
+                    @endif
                 </div>
 
-                <!-- Spreadsheet Grid -->
+                <!-- Spreadsheet Grid (Kompak Pas 1 Layar) -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-slate-100/75 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
                             <tr>
-                                <th class="px-4 py-3 text-center w-12">No</th>
-                                <th class="px-4 py-3 w-56">Nama Lengkap & NIS</th>
-                                <th class="px-4 py-3 text-center w-28">Nilai Formatif (TP)</th>
-                                <th class="px-4 py-3 text-center w-28">Sumatif (SAS)</th>
-                                <th class="px-4 py-3 text-center w-24">Nilai Akhir</th>
-                                <th class="px-4 py-3 text-center min-w-[120px]">Predikat</th>
-                                <th class="px-4 py-3 min-w-[340px]">Deskripsi Capaian Kompetensi (Rapor)</th>
+                                <th class="px-3 py-2.5 text-center w-10">No</th>
+                                <th class="px-3 py-2.5 w-44">Nama Lengkap & NIS</th>
+                                <th class="px-2 py-2.5 text-center w-20">Formatif (TP)</th>
+                                <th class="px-2 py-2.5 text-center w-20">Sumatif (SAS)</th>
+                                <th class="px-2 py-2.5 text-center w-16">Nilai Akhir</th>
+                                <th class="px-2 py-2.5 text-center w-24">Predikat</th>
+                                <th class="px-3 py-2.5 min-w-[240px]">Deskripsi Capaian Kompetensi (Rapor)</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-800">
                             @forelse($classStudents as $student)
                             @php
                                 $existing = $existingGrades->get($student->id);
-                                $score = $existing ? $existing->score : 85;
-                                $displayScore = (float)$score == intval($score) ? intval($score) : $score;
+                                $score = $existing ? $existing->score : null;
+                                $displayScore = $score !== null ? ((float)$score == intval($score) ? intval($score) : $score) : '';
+                                $tpScore = $existing && isset($existing->score_tp) ? $existing->score_tp : $displayScore;
+                                $sasScore = $existing && isset($existing->score_sas) ? $existing->score_sas : $displayScore;
                                 $notes = $existing ? $existing->notes : '';
                             @endphp
                             <tr class="hover:bg-slate-50/50 transition-colors">
-                                <td class="px-4 py-3 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-3">
-                                    <p class="font-extrabold text-slate-900 text-xs leading-snug">{{ $student->full_name }}</p>
-                                    <p class="text-[11px] text-slate-500 font-semibold mt-0.5">NIS: {{ $student->nis }}</p>
-                                    <!-- Hidden score input agar nilai tersimpan otomatis ke database -->
+                                <td class="px-3 py-2.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+                                <td class="px-3 py-2.5">
+                                    <p class="font-black text-slate-900 text-xs leading-snug line-clamp-1">{{ $student->full_name }}</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold">NIS: {{ $student->nis }}</p>
                                     <input type="hidden" name="grades[{{ $student->id }}][score]" id="score_{{ $student->id }}" value="{{ $displayScore }}">
                                 </td>
                                 
                                 <!-- Input Nilai Formatif (TP) -->
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-2 py-2.5 text-center">
                                     <input type="number" min="0" max="100" step="any"
                                            name="grades[{{ $student->id }}][score_tp]" 
                                            id="tp_{{ $student->id }}" 
-                                           value="{{ $displayScore }}" 
+                                           value="{{ $tpScore }}" 
+                                           placeholder="0"
                                            oninput="calcRow({{ $student->id }})"
-                                           class="w-20 text-center font-bold text-xs rounded-lg border border-slate-300 py-1.5 px-2 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 table-input bg-white">
+                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 px-1 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 bg-white">
                                 </td>
 
                                 <!-- Input Nilai Sumatif (SAS) -->
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-2 py-2.5 text-center">
                                     <input type="number" min="0" max="100" step="any"
                                            name="grades[{{ $student->id }}][score_sas]" 
                                            id="sas_{{ $student->id }}" 
-                                           value="{{ $displayScore }}" 
+                                           value="{{ $sasScore }}" 
+                                           placeholder="0"
                                            oninput="calcRow({{ $student->id }})"
-                                           class="w-20 text-center font-black text-xs rounded-lg border border-slate-300 py-1.5 px-2 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 table-input bg-emerald-50/50">
+                                           class="w-16 text-center font-black text-xs rounded-lg border border-slate-300 py-1 px-1 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 bg-emerald-50/40">
                                 </td>
 
                                 <!-- Nilai Akhir (Auto Calculated) -->
-                                <td class="px-4 py-3 text-center">
-                                    <span id="final_{{ $student->id }}" class="font-black text-xs text-slate-900 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
-                                        {{ $displayScore }}
+                                <td class="px-2 py-2.5 text-center">
+                                    <span id="final_{{ $student->id }}" class="font-black text-xs text-slate-900 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                                        {{ $displayScore !== '' ? $displayScore : '-' }}
                                     </span>
                                 </td>
 
                                 <!-- Predikat Badge -->
-                                <td class="px-4 py-3 text-center whitespace-nowrap">
-                                    <span id="pred_{{ $student->id }}" class="px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center {{ $score >= 85 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : ($score >= 75 ? 'bg-blue-100 text-blue-800 border border-blue-300' : ($score >= 65 ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-rose-100 text-rose-800 border border-rose-300')) }}">
-                                        {{ $score >= 85 ? 'A (Istimewa)' : ($score >= 75 ? 'B (Baik)' : ($score >= 65 ? 'C (Cukup)' : 'D (Perlu Bimbingan)')) }}
-                                    </span>
+                                <td class="px-2 py-2.5 text-center whitespace-nowrap">
+                                    @if($score !== null && $score !== '')
+                                        <span id="pred_{{ $student->id }}" class="px-2 py-0.5 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center {{ $score >= 85 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : ($score >= 75 ? 'bg-blue-100 text-blue-800 border border-blue-300' : ($score >= 65 ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-rose-100 text-rose-800 border border-rose-300')) }}">
+                                            {{ $score >= 85 ? 'A (Istimewa)' : ($score >= 75 ? 'B (Baik)' : ($score >= 65 ? 'C (Cukup)' : 'D (Perlu Bimbingan)')) }}
+                                        </span>
+                                    @else
+                                        <span id="pred_{{ $student->id }}" class="px-2 py-0.5 rounded-md text-[10px] font-bold text-slate-400 bg-slate-100 border border-slate-200 inline-flex items-center justify-center">
+                                            -
+                                        </span>
+                                    @endif
                                 </td>
 
                                 <!-- Narasi / Deskripsi Capaian Pembelajaran -->
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-between gap-1 mb-1.5">
+                                <td class="px-3 py-2.5">
+                                    <div class="flex items-center justify-between gap-1 mb-1">
                                         <span class="text-[10px] text-slate-500 font-bold">Narasi Capaian (CP/TP):</span>
-                                        <div class="flex items-center gap-1.5">
+                                        <div class="flex items-center gap-1">
                                             <button type="button" onclick="bukaModalPilihTp('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
                                                     class="px-2 py-0.5 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-black text-[10px] border border-emerald-300 transition cursor-pointer flex items-center gap-1"
                                                     title="Pilih Tujuan Pembelajaran yang dikuasai dan perlu bimbingan">
@@ -3111,8 +3240,8 @@
                                     <textarea name="grades[{{ $student->id }}][notes]" 
                                               id="notes_{{ $student->id }}" 
                                               rows="2" 
-                                              placeholder="Contoh: Menunjukkan penguasaan yang sangat baik dalam memahami materi..."
-                                              class="w-full text-xs text-slate-800 rounded-lg border border-slate-300 p-2 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 bg-white leading-relaxed">{{ $notes }}</textarea>
+                                              placeholder="Pilih TP atau klik AI Narasi..."
+                                              class="w-full text-xs text-slate-800 rounded-lg border border-slate-300 p-1.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 bg-white leading-relaxed resize-y">{{ $notes }}</textarea>
                                 </td>
                             </tr>
                             @empty
@@ -3240,6 +3369,70 @@
                         </button>
                     @endif
                 </div>
+        </div>
+
+        <!-- MODAL PETUNJUK RESMI PENILAIAN & TP KURIKULUM MERDEKA -->
+        <div id="modalPetunjukTp" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col">
+                <div class="px-6 py-4 bg-emerald-900 text-white flex items-center justify-between shrink-0">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xl">📖</span>
+                        <div>
+                            <h3 class="font-black text-sm">Petunjuk Penilaian & Tujuan Pembelajaran (TP)</h3>
+                            <p class="text-[11px] text-emerald-200 font-semibold">Standar Resmi Kurikulum Merdeka & Standar Mutu JSIT Indonesia</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="tutupModalPetunjukTp()" class="text-emerald-300 hover:text-white text-xl cursor-pointer">&times;</button>
+                </div>
+
+                <div class="p-6 overflow-y-auto space-y-4 text-xs leading-relaxed text-slate-700 flex-1">
+                    <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 space-y-2">
+                        <h4 class="font-black text-emerald-950 flex items-center gap-2">
+                            <span>1.</span> <span>Struktur Penilaian Mata Pelajaran</span>
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li><strong>Nilai Formatif (TP):</strong> Diambil dari rata-rata asesmen proses capaian Tujuan Pembelajaran harian.</li>
+                            <li><strong>Nilai Sumatif (SAS/SAT):</strong> Asesmen akhir semester untuk mengukur ketercapaian seluruh kompetensi.</li>
+                            <li><strong>Nilai Akhir Rapor:</strong> Dihitung otomatis: <code>(Rata-rata Formatif + Sumatif SAS) / 2</code>.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50/80 p-4 rounded-2xl border border-blue-200 space-y-2">
+                        <h4 class="font-black text-blue-950 flex items-center gap-2">
+                            <span>2.</span> <span>Ketentuan Tujuan Pembelajaran (TP) Aktif</span>
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li>Setiap mata pelajaran disarankan memiliki <strong>3 hingga 5 TP aktif</strong> per semester.</li>
+                            <li>TP aktif akan ditampilkan pada ringkasan rapor dan menjadi dasar pemilihan kalimat capaian kompetensi siswa.</li>
+                            <li>Gunakan tombol <strong>"Kelola TP Mapel Ini"</strong> untuk menambah, mengedit, atau menonaktifkan TP.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50/80 p-4 rounded-2xl border border-purple-200 space-y-2">
+                        <h4 class="font-black text-purple-950 flex items-center gap-2">
+                            <span>3.</span> <span>Penyusunan Narasi Capaian Rapor Siswa</span>
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li>Format standar resmi memuat dua aspek utama: <strong>kompetensi tertinggi (dikuasai)</strong> dan <strong>kompetensi yang perlu ditingkatkan (bimbingan)</strong>.</li>
+                            <li>Gunakan fitur <strong>"🎯 Pilih TP"</strong> pada tiap baris siswa untuk memilih otomatis, atau gunakan <strong>"✨ Robbani AI Narasi"</strong> untuk narasi pedagogis Islami otomatis.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-amber-50/80 p-4 rounded-2xl border border-amber-200 space-y-1.5">
+                        <h4 class="font-black text-amber-950 flex items-center gap-2">
+                            <span>💡</span> <span>Kekhasan Sekolah Islam Terpadu (SIT)</span>
+                        </h4>
+                        <p class="text-amber-900">
+                            Selain capaian kognitif, lembar rapor SIT mencantumkan Evaluasi Al-Qur'an (Metode Wafa & Tahfidz) serta Radar Karakter 7 SKL JSIT yang terintegrasi langsung dalam modul ini.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex justify-end shrink-0">
+                    <button type="button" onclick="tutupModalPetunjukTp()" class="px-5 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-black text-xs transition cursor-pointer">
+                        Saya Mengerti
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -3298,88 +3491,92 @@
                     </button>
                 </div>
 
-                <!-- Table Grid -->
+                <!-- Table Grid (Kompak Pas 1 Layar) -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-slate-100/75 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
                             <tr>
-                                <th class="px-4 py-3 text-center w-12">No</th>
-                                <th class="px-4 py-3 w-48">Nama Siswa</th>
-                                <th class="px-4 py-3 min-w-[170px]">Jilid / Buku Wafa & Hal</th>
-                                <th class="px-4 py-3 text-center w-24">Makhraj</th>
-                                <th class="px-4 py-3 text-center w-24">Tajwid</th>
-                                <th class="px-4 py-3 text-center w-24">Lagu Hijaz</th>
-                                <th class="px-4 py-3 text-center w-24">Adab</th>
-                                <th class="px-4 py-3 min-w-[240px]">Target & Capaian Tahfidz</th>
-                                <th class="px-4 py-3 min-w-[160px]">Ujian Tasmi'</th>
-                                <th class="px-4 py-3 min-w-[280px]">Catatan Ustadz Pengampu</th>
+                                <th class="px-2.5 py-2.5 text-center w-10">No</th>
+                                <th class="px-3 py-2.5 w-40">Nama Siswa</th>
+                                <th class="px-2 py-2.5 w-32">Jilid Wafa & Hal</th>
+                                <th class="px-1.5 py-2.5 text-center w-14">Makhraj</th>
+                                <th class="px-1.5 py-2.5 text-center w-14">Tajwid</th>
+                                <th class="px-1.5 py-2.5 text-center w-14">Hijaz</th>
+                                <th class="px-1.5 py-2.5 text-center w-14">Adab</th>
+                                <th class="px-2 py-2.5 w-36">Capaian Tahfidz</th>
+                                <th class="px-2 py-2.5 w-32">Ujian Tasmi'</th>
+                                <th class="px-3 py-2.5 min-w-[200px]">Catatan Ustadz Pengampu</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-800">
                             @forelse($classStudents as $student)
                             @php
                                 $q = $existingQuran->get($student->id);
-                                $scores = $q->tahsin_scores ?? ['makhraj' => 90, 'tajwid' => 88, 'lagu_hijaz' => 90, 'adab' => 92];
+                                $scores = is_array($q?->tahsin_scores) ? $q->tahsin_scores : (json_decode($q?->tahsin_scores ?? '', true) ?: []);
                             @endphp
                             <tr class="hover:bg-slate-50/50 transition-colors">
-                                <td class="px-4 py-3 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-3">
-                                    <p class="font-extrabold text-slate-900 text-xs leading-snug">{{ $student->full_name }}</p>
-                                    <p class="text-[11px] text-slate-500 font-semibold">NIS: {{ $student->nis }}</p>
+                                <td class="px-2.5 py-2.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+                                <td class="px-3 py-2.5">
+                                    <p class="font-black text-slate-900 text-xs leading-snug line-clamp-1">{{ $student->full_name }}</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold">NIS: {{ $student->nis }}</p>
                                 </td>
                                 
                                 <!-- Jilid Wafa -->
-                                <td class="px-4 py-3">
+                                <td class="px-2 py-2.5">
                                     <input type="text" name="quran[{{ $student->id }}][tahsin_level]" 
-                                           value="{{ $q->tahsin_level ?? 'Buku Wafa 3 Hal 25' }}"
-                                           placeholder="e.g. Buku Wafa 3 Hal 25"
+                                           value="{{ $q->tahsin_level ?? '' }}"
+                                           placeholder="Buku Wafa 1-5 / Hal..."
                                            class="w-full text-xs font-bold rounded-lg border border-slate-300 py-1 px-2 focus:border-teal-600 bg-white">
                                 </td>
 
                                 <!-- 4 Aspek Wafa -->
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][makhraj]" 
-                                           value="{{ $scores['makhraj'] ?? 90 }}"
-                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           value="{{ $scores['makhraj'] ?? '' }}"
+                                           placeholder="0"
+                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][tajwid]" 
-                                           value="{{ $scores['tajwid'] ?? 88 }}"
-                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           value="{{ $scores['tajwid'] ?? '' }}"
+                                           placeholder="0"
+                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][lagu_hijaz]" 
-                                           value="{{ $scores['lagu_hijaz'] ?? 90 }}"
-                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           value="{{ $scores['lagu_hijaz'] ?? '' }}"
+                                           placeholder="0"
+                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][adab]" 
-                                           value="{{ $scores['adab'] ?? 92 }}"
-                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
+                                           value="{{ $scores['adab'] ?? '' }}"
+                                           placeholder="0"
+                                           class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
 
                                 <!-- Tahfidz Achievement -->
-                                <td class="px-4 py-3 min-w-[200px]">
+                                <td class="px-2 py-2.5">
                                     <input type="text" name="quran[{{ $student->id }}][tahfidz_achievement]" 
-                                           value="{{ $q->tahfidz_achievement ?? 'Tuntas Juz 30 Surat Al-A\'la s/d An-Nas' }}"
-                                           placeholder="Capaian Ziyadah"
+                                           value="{{ $q->tahfidz_achievement ?? '' }}"
+                                           placeholder="Target Juz / Surat..."
                                            class="w-full text-xs font-semibold rounded-lg border border-slate-300 py-1 px-2 focus:border-teal-600 bg-white">
                                 </td>
 
                                 <!-- Ujian Tasmi' -->
-                                <td class="px-4 py-3">
+                                <td class="px-2 py-2.5">
                                     <select name="quran[{{ $student->id }}][tasmi_exam_result]" 
-                                            class="w-full text-xs font-bold rounded-lg border border-slate-300 py-1 px-2 focus:border-teal-600 bg-white">
+                                            class="w-full text-xs font-bold rounded-lg border border-slate-300 py-1 px-1.5 focus:border-teal-600 bg-white">
+                                        <option value="Belum Mengambil Ujian Tasmi'" {{ ($q->tasmi_exam_result ?? '') == 'Belum Mengambil Ujian Tasmi\'' || empty($q?->tasmi_exam_result) ? 'selected' : '' }}>Belum Tasmi'</option>
                                         <option value="Lulus Ujian Tasmi' Sekali Duduk Predikat Mumtaz" {{ ($q->tasmi_exam_result ?? '') == 'Lulus Ujian Tasmi\' Sekali Duduk Predikat Mumtaz' ? 'selected' : '' }}>Lulus Mumtaz</option>
                                         <option value="Lulus Ujian Tasmi' Sekali Duduk Predikat Jayyid Jiddan" {{ ($q->tasmi_exam_result ?? '') == 'Lulus Ujian Tasmi\' Sekali Duduk Predikat Jayyid Jiddan' ? 'selected' : '' }}>Lulus Jayyid Jiddan</option>
-                                        <option value="Belum Mengambil Ujian Tasmi'" {{ ($q->tasmi_exam_result ?? '') == 'Belum Mengambil Ujian Tasmi\'' ? 'selected' : '' }}>Belum Tasmi'</option>
                                     </select>
                                 </td>
 
                                 <!-- Catatan Ustadz -->
-                                <td class="px-4 py-3 min-w-[280px]">
-                                    <div class="flex items-center justify-between gap-1 mb-1.5">
-                                        <span class="text-[10px] text-slate-500 font-bold">Catatan Ustadz Pengampu:</span>
+                                <td class="px-3 py-2.5">
+                                    <div class="flex items-center justify-between gap-1 mb-1">
+                                        <span class="text-[10px] text-slate-500 font-bold">Catatan Pengampu:</span>
                                         <button type="button" onclick="generateAiQuranSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
                                                 class="px-2 py-0.5 rounded-md bg-teal-50 hover:bg-teal-100 text-teal-800 font-black text-[10px] border border-teal-200 transition cursor-pointer flex items-center gap-1">
                                             <span>✨ AI Evaluasi</span>
@@ -3387,8 +3584,8 @@
                                     </div>
                                     <textarea rows="2" name="quran[{{ $student->id }}][tahsin_notes]" 
                                               id="quran_notes_{{ $student->id }}"
-                                              placeholder="Catatan tahsin & capaian..."
-                                              class="w-full text-xs rounded-lg border border-slate-300 p-2 focus:border-teal-600 focus:ring-1 focus:ring-teal-600 bg-white leading-relaxed resize-y">{{ $q->tahsin_notes ?? 'Fasih dalam melantunkan nada Hijaz Wafa dan makharijul huruf sangat rapi.' }}</textarea>
+                                              placeholder="Catatan tahsin, makhraj, dan capaian..."
+                                              class="w-full text-xs rounded-lg border border-slate-300 p-1.5 focus:border-teal-600 focus:ring-1 focus:ring-teal-600 bg-white leading-relaxed resize-y">{{ $q->tahsin_notes ?? '' }}</textarea>
                                 </td>
                             </tr>
                             @empty
@@ -4425,6 +4622,7 @@
         const rombelValues = {!! json_encode($chartClassroomValues ?? []) !!};
         const sklLabels = {!! json_encode($chartSklLabels ?? []) !!};
         const sklValues = {!! json_encode($chartSklValues ?? []) !!};
+        const sklPerClass = {!! json_encode($chartSklPerClass ?? []) !!};
         const predicates = {!! json_encode($chartPredicates ?? ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]) !!};
 
         // 1. Chart Progress Rombel (Horizontal Bar)
@@ -4479,15 +4677,17 @@
             });
         }
 
-        // 2. Chart Radar 7 SKL JSIT
+        // 2. Chart Radar 7 SKL JSIT (Dapat dicek per kelas maupun unit)
         const ctxSkl = document.getElementById('chartSklRadar');
+        let chartSklInstance = null;
+
         if (ctxSkl && sklLabels.length > 0) {
-            new Chart(ctxSkl, {
+            chartSklInstance = new Chart(ctxSkl, {
                 type: 'radar',
                 data: {
                     labels: sklLabels,
                     datasets: [{
-                        label: 'Capaian Karakter (%)',
+                        label: 'Capaian 7 SKL (%)',
                         data: sklValues,
                         backgroundColor: 'rgba(99, 102, 241, 0.2)',
                         borderColor: '#4f46e5',
@@ -4519,6 +4719,20 @@
             });
         }
 
+        window.updateSklRadar = function(classId) {
+            if (!chartSklInstance) return;
+            const targetData = sklPerClass[classId] || sklPerClass['all'] || { values: sklValues, name: 'Semua Kelas' };
+            chartSklInstance.data.datasets[0].data = targetData.values;
+            chartSklInstance.data.datasets[0].label = 'Capaian 7 SKL - ' + (targetData.name || 'Kelas');
+            chartSklInstance.update();
+        };
+
+        // Otomatis sesuaikan jika ada kelas aktif yang dipilih di filter awal
+        const initialRadarClass = document.getElementById('filterSklRadarClass');
+        if (initialRadarClass && initialRadarClass.value && initialRadarClass.value !== 'all') {
+            window.updateSklRadar(initialRadarClass.value);
+        }
+
         // 3. Chart Donut Predikat
         const ctxPred = document.getElementById('chartPredikatDonut');
         if (ctxPred) {
@@ -4548,6 +4762,76 @@
         }
     });
     @endif
+
+    // =========================================================================
+    // MARKDOWN PARSER & CLEANER ROBBANI AI
+    // =========================================================================
+    function renderMarkdownToHtml(markdown) {
+        if (!markdown) return '';
+        const lines = markdown.split('\n');
+        let html = '<div class="p-5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-3 text-xs leading-relaxed text-slate-800">';
+        let inList = false;
+
+        for (let rawLine of lines) {
+            let line = rawLine.trim();
+            if (!line) {
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                continue;
+            }
+
+            // Parse inline bold, italic, and code
+            let formattedLine = line
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-black text-slate-950">$1</strong>')
+                .replace(/__(.*?)__/g, '<strong class="font-black text-slate-950">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em class="italic text-purple-950 font-semibold">$1</em>')
+                .replace(/_(.*?)_/g, '<em class="italic text-purple-950 font-semibold">$1</em>');
+
+            // Headers
+            if (/^###\s+/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += `<h4 class="font-black text-slate-900 text-xs mt-3 mb-1 border-b border-purple-200 pb-1 flex items-center gap-1.5"><span>📌</span><span>${formattedLine.replace(/^###\s+/, '')}</span></h4>`;
+            } else if (/^##\s+/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += `<h3 class="font-black text-slate-950 text-sm mt-4 mb-2 border-b-2 border-purple-300 pb-1 flex items-center gap-2"><span>✨</span><span>${formattedLine.replace(/^##\s+/, '')}</span></h3>`;
+            } else if (/^#\s+/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += `<h2 class="font-black text-purple-950 text-base mt-4 mb-2">${formattedLine.replace(/^#\s+/, '')}</h2>`;
+            } else if (/^(\*|-|•)\s+/.test(line)) {
+                if (!inList) {
+                    html += '<ul class="space-y-1.5 my-2 pl-1">';
+                    inList = true;
+                }
+                let itemText = formattedLine.replace(/^(\*|-|•)\s+/, '');
+                html += `<li class="flex items-start gap-2 text-slate-800"><span class="text-purple-600 mt-0.5 shrink-0 font-bold">•</span><span>${itemText}</span></li>`;
+            } else if (/^\d+\.\s+/.test(line)) {
+                if (inList) { html += '</ul>'; inList = false; }
+                let itemText = formattedLine.replace(/^\d+\.\s+/, '');
+                let num = line.match(/^(\d+)\./)[1];
+                html += `<div class="flex items-start gap-2.5 my-2 text-slate-900"><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-purple-200 text-purple-900 font-black text-[10px] shrink-0">${num}</span><div class="leading-relaxed">${itemText}</div></div>`;
+            } else {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += `<p class="leading-relaxed text-slate-800 my-1">${formattedLine}</p>`;
+            }
+        }
+        if (inList) {
+            html += '</ul>';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function cleanMarkdownForInput(text) {
+        if (!text) return '';
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '$1')
+            .replace(/\*(.*?)\*/g, '$1')
+            .replace(/^#+\s*/gm, '')
+            .replace(/^[-•*]\s*/gm, '')
+            .trim();
+    }
 
     // AI & User Management Helper Functions
     let lastAiAnalysisText = '';
@@ -4588,20 +4872,7 @@
                 lastAiAnalysisText = data.analysis;
                 btnCopy.classList.remove('hidden');
                 
-                const lines = data.analysis.split('\n').filter(l => l.trim() !== '');
-                let formattedHtml = `<div class="p-4 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-3 text-xs leading-relaxed text-slate-800">`;
-                lines.forEach(l => {
-                    if (l.startsWith('**') || l.startsWith('#') || l.startsWith('1.') || l.startsWith('2.') || l.startsWith('3.')) {
-                        formattedHtml += `<p class="font-bold text-slate-900 mt-2">${l.replace(/\*\*/g, '')}</p>`;
-                    } else if (l.startsWith('-') || l.startsWith('•')) {
-                        formattedHtml += `<p class="pl-4 border-l-2 border-purple-300 py-0.5 text-slate-700">${l.replace(/^[-•]\s*/, '')}</p>`;
-                    } else {
-                        formattedHtml += `<p class="text-slate-700">${l}</p>`;
-                    }
-                });
-                formattedHtml += `</div>`;
-                
-                content.innerHTML = formattedHtml;
+                content.innerHTML = renderMarkdownToHtml(data.analysis);
             } else {
                 content.innerHTML = `
                     <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs">
@@ -4809,7 +5080,7 @@
             textarea.disabled = false;
             const content = data.narrative || data.text || data.note;
             if (data.status === 'success' && content) {
-                textarea.value = content;
+                textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
                 alert(data.message || 'Gagal membuat narasi dengan AI.');
@@ -4848,7 +5119,7 @@
             textarea.disabled = false;
             const content = data.note || data.narrative || data.text;
             if (data.status === 'success' && content) {
-                textarea.value = content;
+                textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
                 alert(data.message || 'Gagal membuat catatan dengan AI.');
@@ -4890,7 +5161,7 @@
             textarea.disabled = false;
             const content = data.evaluation || data.narrative || data.text;
             if (data.status === 'success' && content) {
-                textarea.value = content;
+                textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
                 alert(data.message || 'Gagal membuat evaluasi dengan AI.');
@@ -5019,6 +5290,17 @@
                 predElem.className = 'px-2.5 py-1 rounded-md text-[10px] font-black inline-flex whitespace-nowrap items-center justify-center bg-rose-100 text-rose-800 border border-rose-300';
             }
         }
+    }
+
+    // Modal Petunjuk Resmi Penilaian & TP Kurikulum Merdeka
+    function bukaModalPetunjukTp() {
+        const modal = document.getElementById('modalPetunjukTp');
+        if (modal) modal.classList.remove('hidden');
+    }
+
+    function tutupModalPetunjukTp() {
+        const modal = document.getElementById('modalPetunjukTp');
+        if (modal) modal.classList.add('hidden');
     }
 
     // Modal & Logika Pemilihan Capaian Tujuan Pembelajaran (TP) Per Siswa

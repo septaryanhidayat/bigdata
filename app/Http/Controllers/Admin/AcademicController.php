@@ -415,8 +415,14 @@ class AcademicController extends Controller
                     $table->json('bio_data')->nullable();
                 });
             }
+
+            if (Schema::hasTable('students') && !Schema::hasColumn('students', 'photo_path')) {
+                Schema::table('students', function (Blueprint $table) {
+                    $table->string('photo_path')->nullable();
+                });
+            }
         } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::warning('ensure students bio fields error: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::warning('ensure students bio & photo fields error: ' . $e->getMessage());
         }
 
         // 11. Schools profile fields
@@ -949,6 +955,51 @@ class AcademicController extends Controller
             $chartSklValues = [0, 0, 0, 0, 0, 0, 0];
         }
 
+        // Hitung Radar 7 SKL JSIT per Kelas / Rombel
+        $chartSklPerClass = [
+            'all' => [
+                'name' => 'Semua Kelas (Rata-rata Unit)',
+                'values' => $chartSklValues
+            ]
+        ];
+
+        $unitCharGradesWithStudent = CharacterGrade::with('student')
+            ->whereHas('student', fn($q) => $q->where('school_id', $schoolId))
+            ->get();
+
+        foreach ($classrooms as $cls) {
+            $classCharGrades = $unitCharGradesWithStudent->filter(fn($cg) => $cg->student && $cg->student->classroom_id == $cls->id);
+            $clsValues = [];
+            if ($classCharGrades->isNotEmpty()) {
+                foreach ($sklKeys as $k) {
+                    $tScore = 0;
+                    $cScore = 0;
+                    foreach ($classCharGrades as $cg) {
+                        $scores = is_array($cg->indicator_scores) ? $cg->indicator_scores : json_decode($cg->indicator_scores, true);
+                        if ($scores && isset($scores[$k])) {
+                            $val = strtoupper(trim((string)$scores[$k]));
+                            $numericVal = match($val) {
+                                'SB', 'A', 'SANGAT BAIK' => 95,
+                                'B', 'BAIK' => 82,
+                                'C', 'CUKUP', 'PB' => 70,
+                                'K', 'KURANG' => 55,
+                                default => is_numeric($val) ? (float)$val : 80
+                            };
+                            $tScore += $numericVal;
+                            $cScore++;
+                        }
+                    }
+                    $clsValues[] = $cScore > 0 ? round($tScore / $cScore) : 0;
+                }
+            } else {
+                $clsValues = [0, 0, 0, 0, 0, 0, 0];
+            }
+            $chartSklPerClass[$cls->id] = [
+                'name' => $cls->name,
+                'values' => $clsValues
+            ];
+        }
+
         // Chart 3: Distribusi Predikat Nilai Unit (100% Data Nyata Database)
         $unitGrades = Grade::whereHas('student', fn($q) => $q->where('school_id', $schoolId))->pluck('score');
         $countA = $unitGrades->filter(fn($s) => $s >= 85)->count();
@@ -1039,6 +1090,7 @@ class AcademicController extends Controller
             'chartClassroomValues',
             'chartSklLabels',
             'chartSklValues',
+            'chartSklPerClass',
             'chartPredicates',
             'averageUnitScore',
             'overallAttendancePct',
@@ -1190,6 +1242,21 @@ class AcademicController extends Controller
             'city' => $request->city ?? null,
             'province' => $request->province ?? null,
         ];
+
+        // Handle upload pas foto siswa (3x4)
+        if ($request->hasFile('photo')) {
+            $photoFile = $request->file('photo');
+            if ($photoFile->isValid()) {
+                $ext = strtolower($photoFile->getClientOriginalExtension() ?: 'jpg');
+                $photoName = 'student_' . ($request->student_id ?: time()) . '_' . uniqid() . '.' . $ext;
+                $targetDir = public_path('uploads/students');
+                if (!file_exists($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                $photoFile->move($targetDir, $photoName);
+                $studentData['photo_path'] = 'uploads/students/' . $photoName;
+            }
+        }
 
         if ($request->filled('student_id')) {
             $student = Student::findOrFail($request->student_id);

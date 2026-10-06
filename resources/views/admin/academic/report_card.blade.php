@@ -300,58 +300,76 @@
             <h2 class="text-xl font-black uppercase tracking-wider text-slate-900">{{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA' : 'SEKOLAH DASAR' }}</h2>
         </div>
 
-        <div class="max-w-xl mx-auto w-full py-8 text-xs font-bold">
-            <table class="w-full border-collapse space-y-2">
-                <tr class="h-9">
-                    <td class="w-48 text-slate-800">Nama Sekolah</td>
-                    <td class="w-4 text-center">:</td>
-                    <td class="font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">NPSN / NIS / NSS / NDS</td>
-                    <td class="text-center">:</td>
-                    <td class="font-black text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '69957391') }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">Alamat Sekolah</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Jln. Sarjana Blok A') }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800 pl-6">Kode Pos</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900">{{ $student->school->postal_code ?? '30662' }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telp. {{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '081367363153') }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">Kelurahan / Desa</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900">{{ $student->school->village ?? 'Timbangan' }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">Kecamatan</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900">{{ $student->school->district ?? 'Indralaya Utara' }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">Kabupaten / Kota</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900">{{ $student->school->city ?? 'Ogan Ilir' }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">Provinsi</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900">{{ $student->school->province ?? 'Sumatera Selatan' }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">Website</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900 underline">{{ $student->school->website ?? (($isSmp ?? false) ? 'www.smp.sitrobbani.sch.id' : 'www.sitrobbani.sch.id') }}</td>
-                </tr>
-                <tr class="h-9">
-                    <td class="text-slate-800">E-mail</td>
-                    <td class="text-center">:</td>
-                    <td class="text-slate-900 text-blue-700 underline">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sdit@sitrobbani.sch.id') }}</td>
-                </tr>
+        <div class="max-w-2xl mx-auto w-full py-6 text-xs font-sans">
+            <table class="w-full border-2 border-slate-900 border-collapse text-left">
+                <tbody>
+                    <tr class="border-b border-slate-900">
+                        <td class="w-10 text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">1.</td>
+                        <td class="w-48 py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Nama Sekolah</td>
+                        <td class="w-4 text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">2.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">NPSN / NIS / NSS / NDS</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 font-black text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '69957391') }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">3.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Alamat Sekolah</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Jln. Sarjana Blok A') }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">4.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kode Pos</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->postal_code ?? '30662' }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">5.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Nomor Telepon</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '081367363153') }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">6.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kelurahan / Desa</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->village ?? 'Timbangan' }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">7.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kecamatan</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->district ?? 'Indralaya Utara' }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">8.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kabupaten / Kota</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->city ?? 'Ogan Ilir' }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">9.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Provinsi</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->province ?? 'Sumatera Selatan' }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">10.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Website</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->website ?? (($isSmp ?? false) ? 'www.smp.sitrobbani.sch.id' : 'www.sitrobbani.sch.id') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">11.</td>
+                        <td class="py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">E-mail</td>
+                        <td class="text-center font-bold border-r border-slate-900">:</td>
+                        <td class="py-2.5 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sdit@sitrobbani.sch.id') }}</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
@@ -489,10 +507,14 @@
         <!-- Pas Foto 3x4 & Tanda Tangan Kepala Sekolah -->
         <div class="pt-6 flex items-end justify-between text-xs">
             <!-- Box Pas Foto -->
-            <div class="w-28 h-36 border border-slate-900 flex flex-col items-center justify-center text-center p-2 text-slate-500 font-sans">
-                <span class="text-[11px] font-bold text-slate-700">Pas Foto</span>
-                <span class="text-[10px] text-slate-600">Ukuran</span>
-                <span class="text-[11px] font-black text-slate-800 mt-1">3 x 4</span>
+            <div class="w-28 h-36 border border-slate-900 flex flex-col items-center justify-center text-center p-1 text-slate-500 font-sans overflow-hidden relative bg-slate-50/50">
+                @if(!empty($student->photo_path) && file_exists(public_path($student->photo_path)))
+                    <img src="{{ asset($student->photo_path) }}" alt="Pas Foto {{ $student->full_name }}" class="w-full h-full object-cover">
+                @else
+                    <span class="text-[11px] font-bold text-slate-700">Pas Foto</span>
+                    <span class="text-[10px] text-slate-600">Ukuran</span>
+                    <span class="text-[11px] font-black text-slate-800 mt-1">3 x 4</span>
+                @endif
             </div>
 
             <!-- Titimangsa & Tanda Tangan Kepala Sekolah -->

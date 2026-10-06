@@ -43,6 +43,7 @@ class Student extends Model
         'city',
         'province',
         'bio_data',
+        'photo_path',
     ];
 
     protected $casts = [
@@ -119,73 +120,73 @@ class Student extends Model
         $this->attributes['gender'] = (str_starts_with($val, 'P') || $val === 'F') ? 'F' : 'M';
     }
 
-    public function getFatherNameAttribute(): string
+    public function getFatherNameAttribute(): ?string
     {
-        return !empty($this->attributes['father_name']) ? $this->attributes['father_name'] : ($this->guardian?->full_name ?? 'M. Rizal Pahlefi');
+        return !empty($this->attributes['father_name']) ? $this->attributes['father_name'] : ($this->guardian?->full_name ?? null);
     }
 
-    public function getMotherNameAttribute(): string
+    public function getMotherNameAttribute(): ?string
     {
-        return !empty($this->attributes['mother_name']) ? $this->attributes['mother_name'] : 'RTS Tiara Hilda Safitri';
+        return !empty($this->attributes['mother_name']) ? $this->attributes['mother_name'] : null;
     }
 
-    public function getFatherJobAttribute(): string
+    public function getFatherJobAttribute(): ?string
     {
-        return !empty($this->attributes['father_job']) ? $this->attributes['father_job'] : ($this->guardian?->occupation ?? 'Dosen Institut Agama Islam Nusantara');
+        return !empty($this->attributes['father_job']) ? $this->attributes['father_job'] : ($this->guardian?->occupation ?? null);
     }
 
-    public function getMotherJobAttribute(): string
+    public function getMotherJobAttribute(): ?string
     {
-        return !empty($this->attributes['mother_job']) ? $this->attributes['mother_job'] : 'PNS (Perpustakaan Unsri)';
+        return !empty($this->attributes['mother_job']) ? $this->attributes['mother_job'] : null;
     }
 
-    public function getPreviousSchoolAttribute(): string
+    public function getPreviousSchoolAttribute(): ?string
     {
-        return !empty($this->attributes['previous_school']) ? $this->attributes['previous_school'] : 'TK IT ROBBANI';
+        return !empty($this->attributes['previous_school']) ? $this->attributes['previous_school'] : null;
     }
 
-    public function getAddressAttribute(): string
+    public function getAddressAttribute(): ?string
     {
-        return !empty($this->attributes['address']) ? $this->attributes['address'] : ($this->guardian?->address ?? 'Jl. Sarjana Perumahan Surya Akbar VI Blok A4');
+        return !empty($this->attributes['address']) ? $this->attributes['address'] : ($this->guardian?->address ?? null);
     }
 
-    public function getParentAddressAttribute(): string
+    public function getParentAddressAttribute(): ?string
     {
-        return !empty($this->attributes['address']) ? $this->attributes['address'] : ($this->guardian?->address ?? 'Jl. Sarjana Perumahan Surya Akbar VI Blok A4');
+        return !empty($this->attributes['address']) ? $this->attributes['address'] : ($this->guardian?->address ?? null);
     }
 
-    public function getVillageAttribute(): string
+    public function getVillageAttribute(): ?string
     {
-        return !empty($this->attributes['village']) ? $this->attributes['village'] : 'Timbangan';
+        return !empty($this->attributes['village']) ? $this->attributes['village'] : null;
     }
 
-    public function getDistrictAttribute(): string
+    public function getDistrictAttribute(): ?string
     {
-        return !empty($this->attributes['district']) ? $this->attributes['district'] : 'Indralaya Utara';
+        return !empty($this->attributes['district']) ? $this->attributes['district'] : null;
     }
 
-    public function getCityAttribute(): string
+    public function getCityAttribute(): ?string
     {
-        return !empty($this->attributes['city']) ? $this->attributes['city'] : 'Ogan Ilir';
+        return !empty($this->attributes['city']) ? $this->attributes['city'] : null;
     }
 
-    public function getProvinceAttribute(): string
+    public function getProvinceAttribute(): ?string
     {
-        return !empty($this->attributes['province']) ? $this->attributes['province'] : 'Sumatera Selatan';
+        return !empty($this->attributes['province']) ? $this->attributes['province'] : null;
     }
 
-    public function getGuardianNameAttribute(): string
+    public function getGuardianNameAttribute(): ?string
     {
-        return !empty($this->attributes['guardian_name']) ? $this->attributes['guardian_name'] : ($this->guardian?->full_name ?? '-');
+        return !empty($this->attributes['guardian_name']) ? $this->attributes['guardian_name'] : ($this->guardian?->full_name ?? null);
     }
 
-    public function getGuardianJobAttribute(): string
+    public function getGuardianJobAttribute(): ?string
     {
-        return !empty($this->attributes['guardian_job']) ? $this->attributes['guardian_job'] : ($this->guardian?->occupation ?? '-');
+        return !empty($this->attributes['guardian_job']) ? $this->attributes['guardian_job'] : ($this->guardian?->occupation ?? null);
     }
 
-    public function getGuardianAddressAttribute(): string
+    public function getGuardianAddressAttribute(): ?string
     {
-        return !empty($this->attributes['guardian_address']) ? $this->attributes['guardian_address'] : ($this->guardian?->address ?? '-');
+        return !empty($this->attributes['guardian_address']) ? $this->attributes['guardian_address'] : ($this->guardian?->address ?? null);
     }
 }
