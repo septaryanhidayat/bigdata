@@ -2835,6 +2835,184 @@ class AcademicController extends Controller
     }
 
     /**
+     * Helper untuk mengambil data lengkap rapor siswa untuk export Word / Multi-student
+     */
+    private function getStudentReportData($studentId)
+    {
+        self::ensureExtendedTablesExist();
+        $student = Student::with(['school', 'classroom.homeroomTeacher', 'guardian'])->findOrFail($studentId);
+        $academicYear = AcademicYear::where('is_active', 1)->first() ?? AcademicYear::first();
+        
+        $gradesQuery = Grade::where('student_id', $studentId)->with('subject');
+        if ($academicYear) {
+            $yearGrades = (clone $gradesQuery)->where('academic_year_id', $academicYear->id)->get();
+            $grades = $yearGrades->isNotEmpty() ? $yearGrades : $gradesQuery->get();
+        } else {
+            $grades = $gradesQuery->get();
+        }
+        $grades = $grades->filter(fn($g) => !empty($g->subject_id))
+                         ->sortByDesc('updated_at')
+                         ->unique('subject_id')
+                         ->values();
+        
+        try {
+            $quranGrade = QuranGrade::where('student_id', $studentId)->first();
+        } catch (\Throwable $e) { $quranGrade = null; }
+        
+        try {
+            $characterGrade = CharacterGrade::where('student_id', $studentId)->first();
+        } catch (\Throwable $e) { $characterGrade = null; }
+        
+        try {
+            $homeroomNote = HomeroomNote::where('student_id', $studentId)->first();
+        } catch (\Throwable $e) { $homeroomNote = null; }
+        
+        try {
+            $reportSetting = ReportSetting::where('school_id', $student->school_id)->first();
+        } catch (\Throwable $e) { $reportSetting = null; }
+
+        $schoolCode = strtolower($student->school->code ?? '');
+        $schoolName = strtolower($student->school->name ?? '');
+        $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp');
+        $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd');
+
+        $classroomGrade = 1;
+        if ($student->classroom) {
+            if (preg_match('/(?:kelas|kls|\b)\s*([1-9]|1[0-2]|i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)\b/i', $student->classroom->name, $matches)) {
+                $lvl = strtolower($matches[1]);
+                $romanMap = ['i' => 1, 'ii' => 2, 'iii' => 3, 'iv' => 4, 'v' => 5, 'vi' => 6, 'vii' => 7, 'viii' => 8, 'ix' => 9, 'x' => 10, 'xi' => 11, 'xii' => 12];
+                $classroomGrade = is_numeric($lvl) ? (int)$lvl : ($romanMap[$lvl] ?? 1);
+            } elseif (isset($student->classroom->level_id)) {
+                $classroomGrade = (int)$student->classroom->level_id;
+            }
+        }
+        $isBpiAllowed = $isSmp || ($isSd && in_array($classroomGrade, [4, 5, 6]));
+
+        if (!$reportSetting) {
+            $reportSetting = new ReportSetting([
+                'school_id' => $student->school_id ?? 1,
+                'kop_image_url' => file_exists(public_path('uploads/reports/kop_smp_robbani.png')) ? 'uploads/reports/kop_smp_robbani.png' : (file_exists(public_path('uploads/reports/kop_sd_robbani.png')) ? 'uploads/reports/kop_sd_robbani.png' : null),
+                'school_logo_url' => $student->school?->logo_url ?: (file_exists(public_path('uploads/reports/logo_sd_robbani_cover.jpg')) ? '/uploads/reports/logo_sd_robbani_cover.jpg' : null),
+                'principal_name' => $student->school?->principal_name ?: ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr'),
+                'principal_nip' => $isSmp ? '142062021012' : '142102020009',
+                'report_city' => 'Ogan Ilir',
+                'report_date' => $isSmp ? '19 Juni 2026' : '18 Juni 2026',
+                'stamp_image_url' => file_exists(public_path('uploads/reports/stempel_resmi.png')) ? 'uploads/reports/stempel_resmi.png' : null,
+                'principal_signature_url' => file_exists(public_path('uploads/reports/ttd_kepsek.png')) ? 'uploads/reports/ttd_kepsek.png' : null,
+            ]);
+        }
+        
+        try {
+            $quranCriteria = QuranCriterion::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
+        } catch (\Throwable $e) { $quranCriteria = collect(); }
+        
+        try {
+            $characterIndicators = CharacterIndicator::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
+        } catch (\Throwable $e) { $characterIndicators = collect(); }
+
+        $nationalGrades = $grades->filter(function($g) {
+            $cat = strtoupper($g->subject->category ?? 'NASIONAL');
+            $name = strtoupper($g->subject->name ?? '');
+            if ($cat === 'MULOK' || $cat === 'QURAN' || str_contains($cat, 'LOKAL') || str_contains($name, 'TAHSIN') || str_contains($name, 'TAHFIDZ') || str_contains($name, 'ARAB')) {
+                return false;
+            }
+            return true;
+        })->values();
+
+        $mulokGrades = $grades->filter(function($g) {
+            $cat = strtoupper($g->subject->category ?? '');
+            $name = strtoupper($g->subject->name ?? '');
+            return $cat === 'MULOK' || $cat === 'QURAN' || $cat === 'KEKHASAN' || str_contains($cat, 'LOKAL') || str_contains($name, 'TAHSIN') || str_contains($name, 'TAHFIDZ') || str_contains($name, 'ARAB');
+        })->values();
+
+        if ($nationalGrades->isEmpty() && $grades->isNotEmpty()) {
+            $nationalGrades = $grades;
+        }
+
+        return compact(
+            'student',
+            'grades',
+            'nationalGrades',
+            'mulokGrades',
+            'academicYear',
+            'quranGrade',
+            'characterGrade',
+            'homeroomNote',
+            'reportSetting',
+            'quranCriteria',
+            'characterIndicators',
+            'isSmp',
+            'isSd',
+            'classroomGrade',
+            'isBpiAllowed'
+        );
+    }
+
+    /**
+     * Export Rapor Siswa Individual ke Dokumen Word (.doc) yang dapat diedit manual
+     */
+    public function exportWordReportCard($studentId, ?Request $request = null)
+    {
+        $user = auth()->user();
+        $student = Student::findOrFail($studentId);
+        if ($user && !$user->isSuperAdmin() && $user->school_id && $student->school_id != $user->school_id) {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk mengunduh dokumen siswa ini.');
+        }
+
+        $data = $this->getStudentReportData($studentId);
+        $studentsData = [$data];
+
+        $cleanName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $student->full_name);
+        $cleanNis = preg_replace('/[^A-Za-z0-9_\-]/', '_', $student->nis ?? 'NIS');
+        $filename = "eRapor_SIT_{$cleanNis}_{$cleanName}.doc";
+
+        $html = view('admin.academic.report_card_word', compact('studentsData'))->render();
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-word; charset=utf-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
+    }
+
+    /**
+     * Export Rapor 1 Rombel / Kelas ke Dokumen Word (.doc) Sekaligus
+     */
+    public function exportWordClassroom($classroomId, ?Request $request = null)
+    {
+        $user = auth()->user();
+        $classroom = Classroom::findOrFail($classroomId);
+        if ($user && !$user->isSuperAdmin() && $user->school_id && $classroom->school_id != $user->school_id) {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk mengunduh dokumen kelas ini.');
+        }
+
+        $students = Student::where('classroom_id', $classroomId)->orderBy('nis')->get();
+        if ($students->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data siswa di kelas ini.');
+        }
+
+        $studentsData = [];
+        foreach ($students as $st) {
+            $studentsData[] = $this->getStudentReportData($st->id);
+        }
+
+        $cleanClassName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $classroom->name);
+        $filename = "eRapor_1Kelas_{$cleanClassName}_" . date('Ymd') . ".doc";
+
+        $html = view('admin.academic.report_card_word', compact('studentsData'))->render();
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-word; charset=utf-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
+    }
+
+    /**
      * AI Assistant: Generate Catatan Motivasi Wali Kelas Islami
      */
     public function aiGenerateHomeroom(Request $request, GeminiEraporService $ai)

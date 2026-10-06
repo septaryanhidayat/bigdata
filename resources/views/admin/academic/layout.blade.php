@@ -31,7 +31,7 @@
 <body class="bg-slate-100 text-slate-900 min-h-screen flex antialiased">
 
     <!-- Dedicated E-Rapor Sidebar (Inspired by Kemdikbud e-Rapor, Prestigious SIT Emerald Theme) -->
-    <aside id="eraporSidebar" class="w-64 bg-slate-900 text-white flex flex-col shrink-0 border-r border-slate-800 sidebar-transition z-40">
+    <aside id="eraporSidebar" class="w-64 h-screen sticky top-0 bg-slate-900 text-white flex flex-col shrink-0 border-r border-slate-800 sidebar-transition z-40">
         <!-- Sidebar Brand Header -->
         <div class="h-16 px-4 flex items-center justify-between border-b border-slate-800 bg-slate-950/60">
             <div class="flex items-center gap-2.5 overflow-hidden">
@@ -247,12 +247,12 @@
             </div>
             @endif
 
-            <!-- Right: Guide Button & User Profile -->
-            <div class="flex items-center gap-3">
+            <!-- Right: Guide Button, User Profile & Prominent Logout Button -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
                 <!-- Button Panduan Penggunaan Modal -->
                 <button onclick="openPanduanModal()" 
                         title="Buku Petunjuk Alur Penggunaan e-Rapor SIT" 
-                        class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-amber-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer">
+                        class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-amber-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer">
                     <span>💡</span> <span class="hidden md:inline">Petunjuk e-Rapor</span>
                 </button>
 
@@ -263,9 +263,19 @@
                     </span>
                 </div>
 
-                <div class="w-10 h-10 rounded-full bg-emerald-900 border-2 border-emerald-400 flex items-center justify-center text-white font-black text-sm shadow-xs overflow-hidden shrink-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-900 border-2 border-emerald-400 flex items-center justify-center text-white font-black text-xs sm:text-sm shadow-xs overflow-hidden shrink-0" title="{{ Auth::user()->name ?? 'Pengguna' }}">
                     {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 2)) }}
                 </div>
+
+                <!-- Tombol Logout Header (Selalu Terlihat & Mudah Dijangkau) -->
+                <form method="POST" action="{{ route('logout') }}" class="inline-flex shrink-0">
+                    @csrf
+                    <button type="submit" 
+                            title="Keluar dari Sistem (Logout)" 
+                            class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer border border-rose-500">
+                        <span>🚪</span> <span class="hidden sm:inline">Logout</span>
+                    </button>
+                </form>
             </div>
 
         </header>

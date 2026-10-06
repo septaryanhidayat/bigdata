@@ -556,6 +556,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/p5/save', [AcademicController::class, 'saveProjectP5'])->name('p5.save');
             Route::post('/p5/delete/{id}', [AcademicController::class, 'deleteProjectP5'])->name('p5.delete');
             Route::get('/report-card/{studentId}', [AcademicController::class, 'reportCard'])->name('report-card');
+            Route::get('/report-card/{studentId}/export-word', [AcademicController::class, 'exportWordReportCard'])->name('report-card.word');
+            Route::get('/classrooms/{classroomId}/export-word', [AcademicController::class, 'exportWordClassroom'])->name('classrooms.report-card.word');
             Route::get('/leger/export', [AcademicController::class, 'exportLeger'])->name('leger.export');
 
             // AI Smart Assistant (Google Gemini AI Studio)

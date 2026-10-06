@@ -4132,7 +4132,7 @@
             </form>
 
             <!-- Big Leger Print Button -->
-            <!-- Leger Action Buttons (Cetak PDF & Download Excel) -->
+            <!-- Leger & Word Action Buttons (Cetak PDF, Download Excel, Download Word 1 Kelas) -->
             @if($classStudents->isNotEmpty())
             <div class="flex items-center gap-2 flex-wrap">
                 <a href="{{ route('admin.academic.report-card', [$classStudents->first()->id, 'type' => 'leger']) }}" 
@@ -4142,7 +4142,12 @@
                 </a>
                 <a href="{{ route('admin.academic.leger.export', ['classroom_id' => $selectedClassroomId]) }}" 
                    class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95">
-                    <span>📥</span> <span>DOWNLOAD LEGER (EXCEL / CSV)</span>
+                    <span>📥</span> <span>DOWNLOAD LEGER (EXCEL)</span>
+                </a>
+                <a href="{{ route('admin.academic.classrooms.report-card.word', $selectedClassroomId) }}" 
+                   class="px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95"
+                   title="Download Seluruh Rapor Siswa Kelas Ini dalam Format Word (.doc) yang Siap Diedit Manual">
+                    <span>📝</span> <span>DOWNLOAD WORD 1 KELAS (.DOC)</span>
                 </a>
             </div>
             @endif
@@ -4155,7 +4160,7 @@
                     Daftar Siswa & Status Kelayakan Cetak Rapor - {{ $selectedClassroom->name ?? '' }}
                 </h3>
                 <p class="text-xs text-slate-500 font-semibold mt-0.5">
-                    Pilih opsi <strong>Rapor Gabungan (All-in-One)</strong> untuk mencetak buku rapor lengkap, atau opsi terpisah sesuai kebutuhan.
+                    Pilih opsi <strong>Rapor Gabungan (All-in-One)</strong> untuk mencetak buku rapor lengkap, atau opsi <strong>Word (.doc)</strong> untuk mengedit manual.
                 </p>
             </div>
 
@@ -4170,7 +4175,7 @@
                             <th class="px-4 py-3 text-center">Karakter</th>
                             <th class="px-4 py-3 text-center">Wali Kelas</th>
                             <th class="px-4 py-3 text-center">Status Rapor</th>
-                            <th class="px-4 py-3 text-center min-w-[360px]">Aksi Cetak Dokumen</th>
+                            <th class="px-4 py-3 text-center min-w-[380px]">Aksi Cetak & Unduh Dokumen</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800">
@@ -4187,7 +4192,7 @@
 
                             <td class="px-4 py-3.5 text-center">
                                 @if($stReady['mapel'])
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Lengkap</span>
+                                     <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Lengkap</span>
                                 @else
                                     <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-extrabold">⏳ Belum</span>
                                 @endif
@@ -4224,36 +4229,43 @@
                             </td>
 
                             <!-- Action Buttons in One Crisp Horizontal Row -->
-                            <td class="px-4 py-3.5 text-center min-w-[360px] whitespace-nowrap">
-                                <div class="inline-flex items-center justify-center gap-1.5">
-                                    <!-- 1. All in One -->
+                            <td class="px-4 py-3.5 text-center min-w-[380px] whitespace-nowrap">
+                                <div class="inline-flex items-center justify-center gap-1.5 flex-wrap">
+                                    <!-- 1. All in One PDF -->
                                     <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'all_in_one']) }}" 
                                        target="_blank"
-                                       class="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1">
+                                       class="px-2.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1">
                                         <span>🖨️</span> <span>Gabungan</span>
                                     </a>
 
-                                    <!-- 2. Akademik Terpisah -->
+                                    <!-- 2. Download Word (.doc) -->
+                                    <a href="{{ route('admin.academic.report-card.word', $student->id) }}" 
+                                       title="Download e-Rapor Microsoft Word (.doc) yang dapat diedit manual"
+                                       class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-black text-xs transition shadow-2xs inline-flex items-center gap-1">
+                                        <span>📝</span> <span>Word (.doc)</span>
+                                    </a>
+
+                                    <!-- 3. Akademik Terpisah -->
                                     <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'academic']) }}" 
                                        target="_blank"
                                        title="Cetak Khusus Nilai Mata Pelajaran"
-                                       class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
+                                       class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
                                         Akademik
                                     </a>
 
-                                    <!-- 3. Wafa Terpisah -->
+                                    <!-- 4. Wafa Terpisah -->
                                     <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'quran']) }}" 
                                        target="_blank"
                                        title="Cetak Khusus Nilai Al-Qur'an Wafa & Tahfidz"
-                                       class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
+                                       class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
                                         Wafa
                                     </a>
 
-                                    <!-- 4. Karakter Terpisah -->
+                                    <!-- 5. Karakter Terpisah -->
                                     <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'character']) }}" 
                                        target="_blank"
                                        title="Cetak Khusus Nilai Karakter JSIT & BPI"
-                                       class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
+                                       class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-extrabold text-xs transition">
                                         Karakter
                                     </a>
                                 </div>
