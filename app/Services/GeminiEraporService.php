@@ -17,7 +17,9 @@ class GeminiEraporService
             ?: env('GEMINI_API_KEY') 
             ?: env('GOOGLE_API_KEY', ''));
             
-        $this->model = env('GEMINI_MODEL', 'gemini-3.5-flash-lite');
+        $this->model = (string) (config('services.gemini.model')
+            ?: env('GEMINI_MODEL')
+            ?: 'gemini-3.5-flash-lite');
     }
 
     /**
@@ -25,12 +27,20 @@ class GeminiEraporService
      */
     public function generateContent(string $prompt, int $maxTokens = 800, float $temperature = 0.7): string
     {
-        $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-flash-latest']);
+        $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-3.8-flash']);
 
         foreach ($modelsToTry as $m) {
             try {
+                $genConfig = [
+                    'maxOutputTokens' => $maxTokens,
+                    'temperature' => $temperature,
+                ];
+                if (str_contains($m, '3.5') || str_contains($m, '3.8')) {
+                    $genConfig['thinkingConfig'] = ['thinkingBudget' => 0];
+                }
+
                 $response = Http::withHeaders(['Content-Type' => 'application/json'])
-                    ->timeout(18)
+                    ->timeout(30)
                     ->post($this->baseUrl . "{$m}:generateContent?key=" . $this->apiKey, [
                         'contents' => [
                             [
@@ -39,11 +49,7 @@ class GeminiEraporService
                                 ]
                             ]
                         ],
-                        'generationConfig' => [
-                            'maxOutputTokens' => $maxTokens,
-                            'temperature' => $temperature,
-                            'thinkingConfig' => ['thinkingBudget' => 0]
-                        ]
+                        'generationConfig' => $genConfig
                     ]);
 
                 if ($response->successful()) {

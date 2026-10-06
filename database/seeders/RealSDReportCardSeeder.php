@@ -261,6 +261,51 @@ class RealSDReportCardSeeder extends Seeder
             $totalInserted++;
         }
 
-        echo "SUCCESS: Seeded {$totalInserted} real SD students, 11 subjects, grades, attendance, quran, and character assessments!\n";
+        // 8. Projek Kokurikuler P5 SDIT Robbani (Berdasarkan Sheet Kokurikuler Excel)
+        if (\Illuminate\Support\Facades\Schema::hasTable('p5_projects')) {
+            \App\Models\P5Project::updateOrCreate(
+                [
+                    'school_id' => $school->id,
+                    'classroom_id' => $classroom->id,
+                    'academic_year_id' => $activeAyId,
+                    'theme' => 'Aku cinta Indonesia'
+                ],
+                [
+                    'title' => 'Aku Cinta Indonesia: Mengenal Ragam Budaya Daerah dan Adab Pelajar Muslim',
+                    'description' => 'Peserta didik mengamati keanekaragaman budaya daerah, mempraktikkan sikap tolong-menolong, dan menginternalisasi adab sopan santun islami.',
+                    'coordinator_name' => 'Ranti Saputri, S.TP',
+                    'target_dimensions' => [
+                        'Beriman, Bertakwa Kepada Tuhan YME, dan Berakhlak Mulia',
+                        'Berkebhinekaan Global',
+                        'Bergotong-Royong',
+                        'Mandiri',
+                        'Bernalar Kritis',
+                        'Kreatif'
+                    ]
+                ]
+            );
+
+            \App\Models\P5Project::updateOrCreate(
+                [
+                    'school_id' => $school->id,
+                    'classroom_id' => $classroom->id,
+                    'academic_year_id' => $activeAyId,
+                    'theme' => 'Gaya Hidup Berkelanjutan'
+                ],
+                [
+                    'title' => 'Sampahku Tanggung Jawabku: Belajar Memilah Sampah dan Menjaga Kebersihan Lingkungan Sekolah',
+                    'description' => 'Peserta didik mempraktikkan pembiasaan hidup bersih, memilah sampah organik dan anorganik, serta menjaga kelestarian lingkungan sekolah sebagai wujud keimanan.',
+                    'coordinator_name' => 'Nur Amalia, S.Pd., Gr',
+                    'target_dimensions' => [
+                        'Beriman, Bertakwa Kepada Tuhan YME, dan Berakhlak Mulia',
+                        'Gotong Royong',
+                        'Bernalar Kritis',
+                        'Mandiri'
+                    ]
+                ]
+            );
+        }
+
+        echo "SUCCESS: Seeded {$totalInserted} real SD students, 11 subjects, grades, attendance, quran, character, and P5 projects!\n";
     }
 }

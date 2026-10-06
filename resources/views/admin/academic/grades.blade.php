@@ -1529,9 +1529,12 @@
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Kelompok Kurikulum:</label>
                             <select name="category" id="input_subject_category" class="w-full font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600">
+                                <option value="NASIONAL">Kurikulum Nasional (Kemendikbud)</option>
+                                <option value="KEKHASAN">Kekhasan JSIT Indonesia</option>
+                                <option value="QURAN">Al-Qur'an (Tahsin Wafa & Tahfidz)</option>
+                                <option value="MULOK">Muatan Lokal</option>
                                 <option value="Kelompok A (Umum)">Kelompok A (Umum)</option>
                                 <option value="Kelompok B (Muatan Khusus JSIT)">Kelompok B (Muatan Khusus JSIT)</option>
-                                <option value="Muatan Lokal">Muatan Lokal</option>
                             </select>
                         </div>
                         <div>
@@ -1586,12 +1589,26 @@
                             </td>
                             <td class="px-5 py-3.5 whitespace-nowrap">
                                 @php
-                                    $cat = $sb->category ?? 'Kelompok A (Umum)';
-                                    if (strtoupper($cat) === 'UMUM') $cat = 'Kelompok A (Umum)';
-                                    if (strtoupper($cat) === 'JSIT') $cat = 'Kelompok B (Muatan Khusus JSIT)';
+                                    $cat = $sb->category ?? 'NASIONAL';
+                                    $catLabel = 'Kurikulum Nasional';
+                                    $badgeClass = 'bg-blue-50 text-blue-800 border-blue-200';
+                                    $u = strtoupper($cat);
+                                    if ($u === 'KEKHASAN' || str_contains($u, 'JSIT')) {
+                                        $catLabel = 'Kekhasan JSIT';
+                                        $badgeClass = 'bg-amber-50 text-amber-800 border-amber-200';
+                                    } elseif ($u === 'QURAN' || str_contains($u, 'TAHSIN') || str_contains($u, 'TAHFIDZ') || str_contains($u, 'WAFA')) {
+                                        $catLabel = 'Al-Qur\'an / Wafa';
+                                        $badgeClass = 'bg-teal-50 text-teal-800 border-teal-200';
+                                    } elseif ($u === 'MULOK' || str_contains($u, 'LOKAL')) {
+                                        $catLabel = 'Muatan Lokal';
+                                        $badgeClass = 'bg-purple-50 text-purple-800 border-purple-200';
+                                    } elseif (str_contains($u, 'UMUM') || $u === 'NASIONAL') {
+                                        $catLabel = 'Kurikulum Nasional';
+                                        $badgeClass = 'bg-blue-50 text-blue-800 border-blue-200';
+                                    }
                                 @endphp
-                                <span class="px-2.5 py-1 rounded-md text-[10px] font-bold whitespace-nowrap inline-flex items-center {{ str_contains($cat, 'JSIT') ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-slate-100 text-slate-700 border border-slate-200' }}">
-                                    {{ $cat }}
+                                <span class="px-2.5 py-1 rounded-md text-[10px] font-bold whitespace-nowrap inline-flex items-center border {{ $badgeClass }}">
+                                    {{ $catLabel }}
                                 </span>
                             </td>
                             <td class="px-5 py-3.5 text-center font-bold text-slate-800">
@@ -1639,6 +1656,7 @@
             document.getElementById('input_subject_id').value = '';
             document.getElementById('input_subject_code').value = '';
             document.getElementById('input_subject_name').value = '';
+            document.getElementById('input_subject_category').value = 'NASIONAL';
             document.getElementById('input_subject_kktp').value = '75';
             document.getElementById('modalTambahMapel').classList.remove('hidden');
         }
@@ -1648,7 +1666,27 @@
             document.getElementById('input_subject_id').value = id;
             document.getElementById('input_subject_code').value = code;
             document.getElementById('input_subject_name').value = name;
-            document.getElementById('input_subject_category').value = category || 'Kelompok A (Umum)';
+            
+            const catSelect = document.getElementById('input_subject_category');
+            if (catSelect) {
+                let matched = false;
+                for (let i = 0; i < catSelect.options.length; i++) {
+                    if (catSelect.options[i].value.toLowerCase() === (category || '').toLowerCase()) {
+                        catSelect.selectedIndex = i;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    const u = (category || '').toUpperCase();
+                    if (u.includes('NASIONAL') || u.includes('UMUM')) catSelect.value = 'NASIONAL';
+                    else if (u.includes('JSIT') || u.includes('KHAS')) catSelect.value = 'KEKHASAN';
+                    else if (u.includes('QURAN') || u.includes('TAHSIN') || u.includes('TAHFIDZ')) catSelect.value = 'QURAN';
+                    else if (u.includes('MULOK') || u.includes('LOKAL')) catSelect.value = 'MULOK';
+                    else catSelect.value = 'NASIONAL';
+                }
+            }
+
             document.getElementById('input_subject_kktp').value = kktp || 75;
             document.getElementById('modalTambahMapel').classList.remove('hidden');
         }
