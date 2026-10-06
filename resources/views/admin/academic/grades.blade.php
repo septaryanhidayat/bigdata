@@ -4000,11 +4000,11 @@
                             <tr>
                                 <th class="px-3 py-3 text-center w-10">No</th>
                                 <th class="px-3 py-3 w-48">Nama Siswa</th>
-                                <th class="px-2 py-3 text-center w-16" title="Sakit (Hari)">S</th>
-                                <th class="px-2 py-3 text-center w-16" title="Izin (Hari)">I</th>
-                                <th class="px-2 py-3 text-center w-16" title="Alpa / Tanpa Keterangan">A</th>
-                                <th class="px-2 py-3 text-center w-20">TB (cm)</th>
-                                <th class="px-2 py-3 text-center w-20">BB (kg)</th>
+                                <th class="px-2 py-3 text-center w-20 min-w-[70px]" title="Sakit (Hari)">S</th>
+                                <th class="px-2 py-3 text-center w-20 min-w-[70px]" title="Izin (Hari)">I</th>
+                                <th class="px-2 py-3 text-center w-20 min-w-[70px]" title="Alpa / Tanpa Keterangan">A</th>
+                                <th class="px-2 py-3 text-center w-24 min-w-[85px]">TB (cm)</th>
+                                <th class="px-2 py-3 text-center w-24 min-w-[85px]">BB (kg)</th>
                                 <th class="px-3 py-3 min-w-[170px]">Ekstrakurikuler</th>
                                 <th class="px-4 py-3 min-w-[360px]">Catatan Perkembangan & Motivasi Wali Kelas</th>
                             </tr>
@@ -4022,36 +4022,36 @@
                                     <p class="text-[11px] text-slate-500 font-semibold">NIS: {{ $student->nis }}</p>
                                 </td>
 
-                                <!-- S / I / A -->
+                                <!-- S / I / A (Wider boxes with disabled spinners to prevent truncation) -->
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" min="0" name="homeroom[{{ $student->id }}][sick_count]" 
                                            id="sick_{{ $student->id }}"
                                            value="{{ $hr->sick_count ?? 0 }}" 
-                                           class="w-12 text-center font-black text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
+                                           class="w-16 min-w-[58px] text-center font-black text-xs rounded-xl border border-slate-300 px-1 py-1.5 bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-2xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" min="0" name="homeroom[{{ $student->id }}][permission_count]" 
                                            id="permission_{{ $student->id }}"
                                            value="{{ $hr->permission_count ?? 0 }}" 
-                                           class="w-12 text-center font-black text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
+                                           class="w-16 min-w-[58px] text-center font-black text-xs rounded-xl border border-slate-300 px-1 py-1.5 bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-2xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" min="0" name="homeroom[{{ $student->id }}][absent_count]" 
                                            id="absent_{{ $student->id }}"
                                            value="{{ $hr->absent_count ?? 0 }}" 
-                                           class="w-12 text-center font-black text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
+                                           class="w-16 min-w-[58px] text-center font-black text-xs rounded-xl border border-slate-300 px-1 py-1.5 bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-2xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
 
-                                <!-- TB / BB -->
+                                <!-- TB / BB (Wider boxes for 3-digit decimals) -->
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" step="0.1" name="homeroom[{{ $student->id }}][height_cm]" 
                                            value="{{ $hr->height_cm ?? 148.5 }}" 
-                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
+                                           class="w-20 min-w-[76px] text-center font-bold text-xs rounded-xl border border-slate-300 px-1.5 py-1.5 bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-2xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
                                 <td class="px-2 py-3 text-center">
                                     <input type="number" step="0.1" name="homeroom[{{ $student->id }}][weight_kg]" 
                                            value="{{ $hr->weight_kg ?? 41.5 }}" 
-                                           class="w-16 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 bg-white focus:border-blue-600">
+                                           class="w-20 min-w-[76px] text-center font-bold text-xs rounded-xl border border-slate-300 px-1.5 py-1.5 bg-white focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-2xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                                 </td>
 
                                 <!-- Ekskul -->
@@ -4059,7 +4059,7 @@
                                     <input type="text" name="homeroom[{{ $student->id }}][ekskul_name]" 
                                            value="{{ $ekskul }}" 
                                            placeholder="Nama Ekskul"
-                                           class="w-full text-xs font-semibold rounded-lg border border-slate-300 py-1 px-2 focus:border-blue-600 bg-white">
+                                           class="w-full text-xs font-semibold rounded-lg border border-slate-300 py-1.5 px-2 focus:border-blue-600 bg-white shadow-2xs">
                                 </td>
 
                                 <!-- Catatan Wali Kelas -->
@@ -4696,7 +4696,7 @@
 
 <!-- Modal Analisis Kesiapan Rapor Kelas oleh Robbani AI -->
 <div id="modalAiClassAnalysis" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] flex flex-col">
+    <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] flex flex-col">
         <div class="flex items-center justify-between border-b border-slate-200 pb-3">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center text-lg font-black shadow-md shadow-purple-200">
@@ -5097,7 +5097,46 @@
                 lastAiAnalysisText = data.analysis;
                 btnCopy.classList.remove('hidden');
                 
-                content.innerHTML = renderMarkdownToHtml(data.analysis);
+                let matrixCardsHtml = '';
+                if (data.class_summaries && data.class_summaries.length > 0) {
+                    matrixCardsHtml = `
+                        <div class="mb-4 bg-slate-50/80 border border-slate-200/80 p-3.5 rounded-2xl">
+                            <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-200/80">
+                                <span class="text-[11px] font-black uppercase text-slate-800 tracking-wider flex items-center gap-1.5">
+                                    <span>🏫</span> <span>Audit Status Seluruh Rombel (${data.class_summaries.length} Kelas Terdaftar)</span>
+                                </span>
+                                <span class="text-[10px] font-extrabold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
+                                    ${data.classroom_name || 'Seluruh Kelas'}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    `;
+                    data.class_summaries.forEach(c => {
+                        const isDone = c.progress_pct >= 100;
+                        const isProgress = c.progress_pct > 0 && c.progress_pct < 100;
+                        const badgeClass = isDone 
+                            ? 'bg-emerald-100 text-emerald-900 border-emerald-300' 
+                            : (isProgress ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-rose-50 text-rose-800 border-rose-300');
+                        
+                        matrixCardsHtml += `
+                            <div class="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between gap-2 shadow-2xs">
+                                <div class="min-w-0">
+                                    <p class="font-black text-slate-900 text-xs truncate">${c.name}</p>
+                                    <p class="text-[10px] text-slate-500 font-medium truncate">Wali: <strong>${c.walas}</strong> • ${c.students} Siswa</p>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-black border ${badgeClass} shrink-0 whitespace-nowrap">
+                                    ${c.status}
+                                </span>
+                            </div>
+                        `;
+                    });
+                    matrixCardsHtml += `
+                            </div>
+                        </div>
+                    `;
+                }
+
+                content.innerHTML = matrixCardsHtml + renderMarkdownToHtml(data.analysis);
             } else {
                 content.innerHTML = `
                     <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs">

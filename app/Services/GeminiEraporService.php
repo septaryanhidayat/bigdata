@@ -536,28 +536,32 @@ ATURAN FORMAT STRICT (WAJIB DIPATUHI):
      */
     public function analyzeSchoolOverallReadiness(string $schoolName, array $classSummaries, array $overallStats): string
     {
-        $totalCls = $overallStats['total_classrooms'] ?? 0;
+        $totalCls = $overallStats['total_classrooms'] ?? count($classSummaries);
         $totalSt = $overallStats['total_students'] ?? 0;
         $tuntasCount = $overallStats['completed_count'] ?? 0;
         $inProgCount = $overallStats['in_progress_count'] ?? 0;
         $emptyCount = $overallStats['empty_count'] ?? 0;
 
+        $classListNames = implode(', ', array_map(fn($c) => $c['name'], $classSummaries));
+
         $summaryTable = "";
         foreach ($classSummaries as $c) {
-            $summaryTable .= "- **{$c['name']}** (Wali: {$c['walas']}): {$c['status']} ({$c['students']} siswa) — Catatan: {$c['note']}\n";
+            $summaryTable .= "- **{$c['name']}** (Wali: {$c['walas']}): {$c['status']} ({$c['students']} siswa aktif) — Status Data: {$c['note']}\n";
         }
 
         $prompt = "Anda adalah Asisten Analitik Sistem e-Rapor SIT Terpadu.
 Tugas Anda adalah membuat laporan audit analitik kesiapan e-Rapor semester untuk Unit {$schoolName} yang ditujukan langsung kepada Kepala Sekolah dan Koordinator Kurikulum.
 
-PENTING - ATURAN FORMAT STRICT (WAJIB DIPATUHI):
+PENTING - ATURAN FORMAT STRICT (WAJIB DIPATUHI 100%):
 1. DILARANG KERAS MEMBUAT FORMAT SURAT RESMI ATAU KOP SURAT!
-   - JANGAN membuat nama Kementerian, Dinas, Kantor Konsultan, dsb.
-   - JANGAN menulis 'Kepada Yth', 'Dari:', 'Perihal:', 'Tanggal:', nomor surat, pembuka/penutup surat dinas.
-   - Ini adalah tampilan modul dashboard sistem e-Rapor, BUKAN surat edaran.
-2. WAJIB MENGULAS SELURUH {$totalCls} ROMBEL KELAS SATU PER SATU TANPA KECUALI!
-   - Sebutkan dan ulas SEMUA {$totalCls} rombel yang tercantum dalam data di bawah, baik yang sudah ada nilainya MAUPUN KELAS YANG MASIH KOSONG / BELUM MENGISI SAMA SEKALI.
-   - Untuk rombel yang belum mengisi nilai atau belum ada siswa, evaluasi secara tegas apa kendalanya, apa yang belum diisi oleh wali kelasnya (Mapel, Wafa, Karakter, Catatan Walas), dan apa yang harus segera dilakukan sebelum batas waktu.
+   - JANGAN membuat nama kementerian, dinas, instansi luar, nomor surat, 'Kepada Yth', 'Dari:', 'Perihal:', dll.
+   - Ini adalah tampilan modul dashboard analitik sistem e-Rapor.
+2. WAJIB MENGULAS SELURUH {$totalCls} ROMBEL BERIKUT SATU PER SATU TANPA TERKECUALI:
+   Daftar rombel yang WAJIB ada di laporan: {$classListNames}.
+   - Anda TIDAK BOLEH melewatkan atau menghentikan ulasan sebelum SEMUA {$totalCls} rombel di atas diulas lengkap!
+   - Buat ulasan setiap rombel padat, ringkas, dan fokus (cukup 2-3 butir kalimat per rombel) agar mencakup semua kelas dari rombel pertama sampai rombel terakhir.
+   - Untuk rombel yang sudah tuntas: berikan apresiasi kepada wali kelasnya dan rekomendasi penguncian data (locking) untuk cetak rapor.
+   - Untuk rombel yang belum mengisi atau masih kosong (0 siswa / 0% nilai): ulas kendalanya secara tegas, sebutkan komponen yang belum diisi (Mapel, Wafa, Karakter, Catatan Walas), serta urgensi tindak lanjut sebelum batas waktu.
 3. Gunakan format Markdown yang rapi dengan heading ### dan bullet point.
 
 DATA KELENGKAPAN UNIT {$schoolName}:
@@ -569,45 +573,88 @@ DATA KELENGKAPAN UNIT {$schoolName}:
 DATA SETIAP ROMBEL KELAS:
 {$summaryTable}
 
-SUSUNAN LAPORAN (WAJIB MENGIKUTI 3 POIN BERIKUT):
+SUSUNAN LAPORAN:
 ### 1. Ringkasan Kesiapan e-Rapor Unit {$schoolName}
-(Tuliskan persentase kesiapan unit, jumlah rombel yang sudah siap cetak vs yang masih tertinggal, dan estimasi beban kerja sebelum batas akhir).
+(Tuliskan persentase kesiapan unit secara umum, jumlah rombel yang siap cetak vs tertinggal, dan proyeksi batas akhir).
 
-### 2. Audit & Evaluasi Rinci Seluruh Rombel Kelas (Wajib Bahas Semua {$totalCls} Kelas Satu Per Satu)
-(Bahaskan SEMUA {$totalCls} rombel di atas satu demi satu tanpa melewatkan satupun):
-- Ulas rombel yang sudah tuntas (apresiasi wali kelasnya).
-- Ulas rombel yang sedang berproses atau BELUM MENGISI SAMA SEKALI / KOSONG (sebutkan nama kelas, nama wali kelas, apa saja komponen yang masih 0%, dan tegaskan urgensi pengisian).
+### 2. Audit & Evaluasi Rinci Seluruh Rombel Kelas (Wajib Bahas Semua {$totalCls} Kelas: {$classListNames})
+(Bahaskan SEMUA {$totalCls} rombel satu per satu):
+- **[Nama Rombel 1] (Wali Kelas: [Nama Walas])**
+  - Status: [Status Capaian]
+  - Evaluasi: [Ulasan ringkas 2-3 kalimat]
+(Lanjutkan sampai rombel terakhir: {$classListNames})
 
-### 3. Instruksi & Tindak Lanjut Kepala Sekolah
-(Langkah konkret pimpinan: jadwal batas akhir, pengingat via WhatsApp untuk wali kelas yang belum mengisi, dan plotting siswa jika ada rombel yang belum berpenghuni).";
+### 3. Rekomendasi & Tindak Lanjut Kepala Sekolah
+(Langkah konkret: pengingat WA dinas untuk wali kelas yang belum tuntas, dan koordinasi operator untuk plotting siswa).";
 
-        $aiText = $this->generateContent($prompt, 700, 0.7);
+        $aiText = $this->generateContent($prompt, 3000, 0.7);
 
         if (!empty($aiText)) {
             // Bersihkan jika ada artefak surat
             $cleaned = preg_replace('/^[*\s]*(KEMENTERIAN|Kantor Konsultan|Kepada Yth|Dari:|Perihal:|Tanggal:).*$/mi', '', $aiText);
+            
+            // Verifikasi apakah semua kelas disebutkan dalam teks AI
+            $missingClasses = [];
+            foreach ($classSummaries as $c) {
+                // Periksa apakah nama kelas muncul di teks
+                if (!preg_match('/\b' . preg_quote($c['name'], '/') . '\b/i', $cleaned)) {
+                    $missingClasses[] = $c;
+                }
+            }
+
+            // Jika ada kelas yang belum diulas (misalnya AI melewatkannya), tambahkan secara otomatis
+            if (!empty($missingClasses)) {
+                $appendix = "\n\n";
+                foreach ($missingClasses as $mc) {
+                    $evalText = ($mc['progress_pct'] >= 100) 
+                        ? "Seluruh komponen nilai ({$mc['students']} siswa) telah tuntas 100% dan siap cetak."
+                        : (($mc['students'] === 0) 
+                            ? "Rombel saat ini tercatat kosong (0 siswa aktif). Perlu koordinasi dengan operator TU untuk plotting siswa ke rombel ini."
+                            : "Wali kelas ({$mc['walas']}) belum menuntaskan pengisian nilai (Mapel, Wafa, Karakter, dan Catatan). Perlu segera dilengkapi.");
+                    
+                    $appendix .= "- **{$mc['name']} (Wali Kelas: {$mc['walas']})**\n" .
+                                 "  - **Status:** {$mc['status']}\n" .
+                                 "  - **Evaluasi:** {$evalText}\n";
+                }
+
+                if (str_contains($cleaned, '### 3.')) {
+                    $cleaned = str_replace('### 3.', $appendix . "\n### 3.", $cleaned);
+                } else {
+                    $cleaned .= $appendix;
+                }
+            }
+
+            // Pastikan bagian 3 (Instruksi Pimpinan) selalu ada
+            if (!str_contains($cleaned, '### 3.')) {
+                $cleaned .= "\n\n### 3. Rekomendasi & Tindak Lanjut Kepala Sekolah\n" .
+                            "1. **Rombel Tuntas:** Berikan apresiasi kepada wali kelas yang telah menyelesaikan pengisian 100% dan kunci data (*locking*) untuk cetak rapor.\n" .
+                            "2. **Rombel Belum Mengisi / Belum Lengkap:** Kepala Sekolah segera mengirimkan pengingat dinas kepada wali kelas bersangkutan sebelum batas waktu pengisian.\n" .
+                            "3. **Rombel Kosong (0 Siswa):** Operator dan kurikulum segera memastikan penataan rombel agar valid di sistem e-Rapor.";
+            }
+
             return trim($cleaned);
         }
 
+        // Fallback jika API AI tidak merespons
         $detailRombel = "";
         foreach ($classSummaries as $c) {
-            $detailRombel .= "#### Rombel {$c['name']} (Wali: {$c['walas']})\n" .
-                "- **Status:** {$c['status']} ({$c['students']} siswa)\n" .
-                "- **Rincian Data:** {$c['note']}\n";
+            $detailRombel .= "- **{$c['name']} (Wali Kelas: {$c['walas']})**\n" .
+                "  - **Status:** {$c['status']} ({$c['students']} siswa)\n" .
+                "  - **Rincian Data:** {$c['note']}\n";
             if ($c['progress_pct'] >= 100) {
-                $detailRombel .= "- **Evaluasi:** Alhamdulillah seluruh komponen rapor telah tuntas 100% dan siap dicetak resmi.\n\n";
+                $detailRombel .= "  - **Evaluasi:** Alhamdulillah seluruh komponen rapor telah tuntas 100% dan siap dicetak resmi.\n";
             } elseif ($c['students'] === 0) {
-                $detailRombel .= "- **Evaluasi:** Rombel belum memiliki data siswa terdaftar. Operator/Kurikulum perlu melakukan plotting siswa.\n\n";
+                $detailRombel .= "  - **Evaluasi:** Rombel belum memiliki data siswa terdaftar. Operator/Kurikulum perlu melakukan plotting siswa.\n";
             } else {
-                $detailRombel .= "- **Evaluasi:** Wali kelas ({$c['walas']}) belum menuntaskan penginputan. Perlu segera dilengkapi sebelum batas waktu pengisian.\n\n";
+                $detailRombel .= "  - **Evaluasi:** Wali kelas ({$c['walas']}) belum menuntaskan penginputan. Perlu segera dilengkapi sebelum batas waktu pengisian.\n";
             }
         }
 
         return "### 1. Ringkasan Kesiapan e-Rapor Unit {$schoolName}\n\n" .
             "Dari total **{$totalCls} Rombel** ({$totalSt} Siswa), tercatat **{$tuntasCount} rombel tuntas 100%**, **{$inProgCount} rombel dalam proses pengisian**, dan **{$emptyCount} rombel belum mengisi / masih kosong**.\n\n" .
             "### 2. Audit & Evaluasi Rinci Seluruh Rombel Kelas\n\n" .
-            $detailRombel .
-            "### 3. Instruksi & Tindak Lanjut Kepala Sekolah\n\n" .
+            $detailRombel . "\n" .
+            "### 3. Rekomendasi & Tindak Lanjut Kepala Sekolah\n\n" .
             "1. **Rombel Tuntas:** Berikan apresiasi kepada wali kelas yang telah menyelesaikan pengisian 100% dan lakukan pratinjau cetak rapor.\n" .
             "2. **Rombel Belum Mengisi / Kosong:** Kepala Sekolah segera mengirimkan pesan pengingat kepada wali kelas yang bersangkutan untuk menuntaskan nilai Mapel, Al-Qur'an Wafa, Karakter 7 SKL, dan Catatan Walas sebelum batas waktu.\n" .
             "3. **Rombel 0 Siswa:** Pastikan operator TU atau staf akademik menyelesaikan pembagian rombel siswa jika kelas tersebut aktif semester ini.";
