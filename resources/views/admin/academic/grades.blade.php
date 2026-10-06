@@ -65,53 +65,65 @@
 
         </div>
 
-        <!-- 4 Executive KPI Cards (High Impact Summary) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 5 Executive KPI Cards (High Impact Summary) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
             <!-- KPI 1: Rata-Rata Nilai Unit -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-emerald-500 transition">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl shrink-0 font-black">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3.5 hover:border-emerald-500 transition">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl shrink-0 font-black">
                     📈
                 </div>
-                <div>
-                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Rata-Rata Nilai Unit</p>
-                    <div class="text-2xl font-black text-slate-900 leading-tight">{{ $averageUnitScore ?? 87.4 }}</div>
-                    <p class="text-[10px] text-emerald-600 font-bold mt-0.5">Predikat Mumtaz (Sangat Baik)</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Rata-Rata Unit</p>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $averageUnitScore ?? 87.4 }}</div>
+                    <p class="text-[10px] text-emerald-700 font-extrabold mt-0.5 truncate">Predikat Mumtaz (A)</p>
                 </div>
             </div>
 
-            <!-- KPI 2: Capaian Tahfidz Target -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-teal-500 transition">
-                <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-xl shrink-0 font-black">
+            <!-- KPI 2: Kinerja Wali Kelas Unit -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3.5 hover:border-purple-500 transition">
+                <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-xl shrink-0 font-black">
+                    🧑‍🏫
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Kinerja Wali Kelas</p>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $completedWaliCount ?? 0 }} / {{ $totalClassrooms }}</div>
+                    <p class="text-[10px] text-purple-700 font-extrabold mt-0.5 truncate">{{ $totalClassrooms > 0 ? round((($completedWaliCount ?? 0) / $totalClassrooms) * 100) : 0 }}% Rombel Tuntas</p>
+                </div>
+            </div>
+
+            <!-- KPI 3: Capaian Tahfidz Target -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3.5 hover:border-teal-500 transition">
+                <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-xl shrink-0 font-black">
                     📖
                 </div>
-                <div>
-                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tuntas Target Tahfidz</p>
-                    <div class="text-2xl font-black text-slate-900 leading-tight">{{ $tahfidzCompletionPct ?? '78%' }}</div>
-                    <p class="text-[10px] text-teal-600 font-bold mt-0.5">{{ $rekapWafa }} dari {{ $totalSchoolStudents }} siswa teruji</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Tuntas Tahfidz</p>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $tahfidzCompletionPct ?? '100%' }}</div>
+                    <p class="text-[10px] text-teal-700 font-extrabold mt-0.5 truncate">{{ $rekapWafa }} dari {{ $totalSchoolStudents }} teruji</p>
                 </div>
             </div>
 
-            <!-- KPI 3: Tingkat Kehadiran Siswa -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-blue-500 transition">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl shrink-0 font-black">
-                    🕒
+            <!-- KPI 4: Tujuan Pembelajaran (TP) -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3.5 hover:border-blue-500 transition">
+                <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl shrink-0 font-black">
+                    🎯
                 </div>
-                <div>
-                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Kehadiran Siswa</p>
-                    <div class="text-2xl font-black text-slate-900 leading-tight">{{ $overallAttendancePct ?? '98.5%' }}</div>
-                    <p class="text-[10px] text-blue-600 font-bold mt-0.5">Presensi disiplin SIT</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Tujuan Belajar (TP)</p>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $totalTpCount ?? 0 }} TP</div>
+                    <p class="text-[10px] text-blue-700 font-extrabold mt-0.5 truncate">Kurikulum Merdeka</p>
                 </div>
             </div>
 
-            <!-- KPI 4: Kesiapan Dokumen Cetak -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-amber-500 transition">
-                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl shrink-0 font-black">
+            <!-- KPI 5: Kesiapan Dokumen Cetak -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3.5 hover:border-amber-500 transition">
+                <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl shrink-0 font-black">
                     🖨️
                 </div>
-                <div>
-                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Rapor Siap Cetak</p>
-                    <div class="text-2xl font-black text-slate-900 leading-tight">{{ $readyToPrintCount ?? 0 }} / {{ $totalSchoolStudents }}</div>
-                    <p class="text-[10px] text-amber-600 font-bold mt-0.5">Semua komponen lengkap</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">Rapor Siap Cetak</p>
+                    <div class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">{{ $readyToPrintCount ?? 0 }} / {{ $totalSchoolStudents }}</div>
+                    <p class="text-[10px] text-amber-700 font-extrabold mt-0.5 truncate">Komponen lengkap</p>
                 </div>
             </div>
         </div>
@@ -163,111 +175,146 @@
             <!-- Content Grid (8 Cols Metrics + 4 Cols Actions) -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 bg-white p-6 rounded-b-2xl border border-t-0 border-slate-200 shadow-sm">
                 
-                <!-- Left 6 Clean Solid Cards (8 Cols) -->
-                <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Left 8 Clean Solid Cards (8 Cols) -->
+                <div class="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
                     
                     <!-- 1. Siswa -->
-                    <div class="bg-white border border-slate-200 hover:border-blue-400 p-4 rounded-xl shadow-xs transition space-y-2">
+                    <div class="bg-white border border-slate-200 hover:border-blue-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Siswa Aktif</span>
-                            <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center text-base font-bold">🎓</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Siswa Aktif</span>
+                            <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center text-sm font-bold">🎓</span>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-slate-900">{{ $totalSchoolStudents }}</div>
-                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Siswa terdaftar di unit</p>
+                            <div class="text-xl font-black text-slate-900">{{ $totalSchoolStudents }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Terdaftar di unit</p>
                         </div>
                     </div>
 
                     <!-- 2. Rombel -->
-                    <div class="bg-white border border-slate-200 hover:border-emerald-400 p-4 rounded-xl shadow-xs transition space-y-2">
+                    <div class="bg-white border border-slate-200 hover:border-emerald-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Rombel Kelas</span>
-                            <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-base font-bold">🏫</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Rombel Kelas</span>
+                            <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm font-bold">🏫</span>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-slate-900">{{ $totalClassrooms }}</div>
-                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Rombongan belajar aktif</p>
+                            <div class="text-xl font-black text-slate-900">{{ $totalClassrooms }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Rombel aktif</p>
                         </div>
                     </div>
 
                     <!-- 3. Guru & KS -->
-                    <div class="bg-white border border-slate-200 hover:border-purple-400 p-4 rounded-xl shadow-xs transition space-y-2">
+                    <div class="bg-white border border-slate-200 hover:border-purple-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Guru & KS</span>
-                            <span class="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center text-base font-bold">🧑‍🏫</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Guru & KS</span>
+                            <span class="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center text-sm font-bold">🧑‍🏫</span>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-slate-900">{{ $rekapGuru }}</div>
-                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Pendidik & pimpinan unit</p>
+                            <div class="text-xl font-black text-slate-900">{{ $rekapGuru }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Pendidik unit</p>
                         </div>
                     </div>
 
                     <!-- 4. Mata Pelajaran -->
-                    <div class="bg-white border border-slate-200 hover:border-amber-400 p-4 rounded-xl shadow-xs transition space-y-2">
+                    <div class="bg-white border border-slate-200 hover:border-amber-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Mata Pelajaran</span>
-                            <span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center text-base font-bold">📖</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Mata Pelajaran</span>
+                            <span class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center text-sm font-bold">📖</span>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-slate-900">{{ $totalSubjects }}</div>
-                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Kurikulum Merdeka & JSIT</p>
+                            <div class="text-xl font-black text-slate-900">{{ $totalSubjects }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Merdeka & JSIT</p>
                         </div>
                     </div>
 
-                    <!-- 5. Wafa -->
-                    <div class="bg-white border border-slate-200 hover:border-teal-400 p-4 rounded-xl shadow-xs transition space-y-2">
+                    <!-- 5. Tujuan Pembelajaran (TP) -->
+                    <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp']) }}" 
+                       class="bg-white border border-slate-200 hover:border-emerald-500 p-3.5 rounded-xl shadow-xs transition space-y-1.5 group block">
                         <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Al-Qur'an Wafa</span>
-                            <span class="w-8 h-8 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center text-base font-bold">✨</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider group-hover:text-emerald-700 transition">Tujuan Belajar (TP)</span>
+                            <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">🎯</span>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-teal-800">{{ $rekapWafa }} / {{ $totalSchoolStudents }}</div>
-                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Siswa terinput nilai Wafa</p>
+                            <div class="text-xl font-black text-emerald-800">{{ $totalTpCount ?? 0 }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">TP aktif semester ini</p>
+                        </div>
+                    </a>
+
+                    <!-- 6. Wafa -->
+                    <div class="bg-white border border-slate-200 hover:border-teal-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Al-Qur'an Wafa</span>
+                            <span class="w-7 h-7 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center text-sm font-bold">✨</span>
+                        </div>
+                        <div>
+                            <div class="text-xl font-black text-teal-800">{{ $rekapWafa }} / {{ $totalSchoolStudents }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Siswa terinput Wafa</p>
                         </div>
                     </div>
 
-                    <!-- 6. Karakter -->
-                    <div class="bg-white border border-slate-200 hover:border-indigo-400 p-4 rounded-xl shadow-xs transition space-y-2">
+                    <!-- 7. Karakter -->
+                    <div class="bg-white border border-slate-200 hover:border-indigo-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Karakter 7 SKL</span>
-                            <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-base font-bold">🌙</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Karakter 7 SKL</span>
+                            <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-sm font-bold">🌙</span>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-indigo-800">{{ $rekapKarakter }} / {{ $totalSchoolStudents }}</div>
-                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Siswa terinput 7 SKL JSIT</p>
+                            <div class="text-xl font-black text-indigo-800">{{ $rekapKarakter }} / {{ $totalSchoolStudents }}</div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Standar mutu JSIT</p>
                         </div>
                     </div>
+
+                    <!-- 8. Projek P5 & Ekstrakurikuler -->
+                    <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'p5']) }}" 
+                       class="bg-white border border-slate-200 hover:border-violet-400 p-3.5 rounded-xl shadow-xs transition space-y-1.5 group block">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider group-hover:text-violet-700 transition">P5 & Ekskul</span>
+                            <span class="w-7 h-7 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform">🌟</span>
+                        </div>
+                        <div>
+                            <div class="text-xl font-black text-violet-900">{{ $totalP5Count ?? 0 }} <span class="text-xs text-slate-500 font-bold">P5</span> • {{ $totalEkskulCount ?? 0 }} <span class="text-xs text-slate-500 font-bold">Ekskul</span></div>
+                            <p class="text-[10px] text-slate-500 font-medium truncate">Ko-kurikuler & bakat</p>
+                        </div>
+                    </a>
 
                 </div>
 
-                <!-- Right 3 High-Contrast Action Cards (4 Cols) -->
-                <div class="lg:col-span-4 flex flex-col justify-between gap-3">
+                <!-- Right 4 High-Contrast Action Cards (4 Cols) -->
+                <div class="lg:col-span-4 grid grid-cols-1 gap-2.5">
                     
                     <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'classrooms']) }}" 
-                       class="bg-[#064e3b] hover:bg-[#047857] text-white p-4 rounded-xl shadow-xs flex items-center justify-between transition group">
-                        <div>
-                            <p class="text-xs font-black uppercase tracking-tight text-white">Atur Rombel & Wali Kelas</p>
-                            <p class="text-[11px] text-emerald-200 mt-0.5">Penetapan rombongan belajar & guru wali</p>
+                       class="bg-[#064e3b] hover:bg-[#047857] text-white p-3 rounded-xl shadow-xs flex items-center justify-between transition group">
+                        <div class="min-w-0">
+                            <p class="text-xs font-black uppercase tracking-tight text-white truncate">Atur Rombel & Wali Kelas</p>
+                            <p class="text-[10px] text-emerald-200 mt-0.5 truncate">Penetapan rombongan belajar & guru wali</p>
                         </div>
-                        <span class="w-8 h-8 rounded-lg bg-emerald-800 flex items-center justify-center text-sm font-black group-hover:scale-110 transition-transform text-white">🏫</span>
+                        <span class="w-7 h-7 rounded-lg bg-emerald-800 flex items-center justify-center text-xs font-black group-hover:scale-110 transition-transform text-white shrink-0 ml-2">🏫</span>
                     </a>
 
                     <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'students']) }}" 
-                       class="bg-[#0f172a] hover:bg-slate-800 text-white p-4 rounded-xl shadow-xs flex items-center justify-between transition group">
-                        <div>
-                            <p class="text-xs font-black uppercase tracking-tight text-white">Kelola Master Data Siswa</p>
-                            <p class="text-[11px] text-slate-300 mt-0.5">Tambah & perbarui data siswa unit ini</p>
+                       class="bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl shadow-xs flex items-center justify-between transition group">
+                        <div class="min-w-0">
+                            <p class="text-xs font-black uppercase tracking-tight text-white truncate">Kelola Master Data Siswa</p>
+                            <p class="text-[10px] text-slate-300 mt-0.5 truncate">Tambah & perbarui data siswa unit ini</p>
                         </div>
-                        <span class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm font-black group-hover:scale-110 transition-transform text-white">👥</span>
+                        <span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-xs font-black group-hover:scale-110 transition-transform text-white shrink-0 ml-2">👥</span>
+                    </a>
+
+                    <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp']) }}" 
+                       class="bg-emerald-800 hover:bg-emerald-900 text-white p-3 rounded-xl shadow-xs flex items-center justify-between transition group">
+                        <div class="min-w-0">
+                            <p class="text-xs font-black uppercase tracking-tight text-white truncate">Tujuan Pembelajaran (TP)</p>
+                            <p class="text-[10px] text-emerald-200 mt-0.5 truncate">Kelola rumusan capaian rapor kurikulum</p>
+                        </div>
+                        <span class="w-7 h-7 rounded-lg bg-emerald-950 flex items-center justify-center text-xs font-black group-hover:scale-110 transition-transform text-white shrink-0 ml-2">🎯</span>
                     </a>
 
                     <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'settings']) }}" 
-                       class="bg-amber-600 hover:bg-amber-700 text-white p-4 rounded-xl shadow-xs flex items-center justify-between transition group">
-                        <div>
-                            <p class="text-xs font-black uppercase tracking-tight text-white">Upload Kop Surat & TTD</p>
-                            <p class="text-[11px] text-amber-100 mt-0.5">Upload gambar kop cetak resmi rapor</p>
+                       class="bg-amber-600 hover:bg-amber-700 text-white p-3 rounded-xl shadow-xs flex items-center justify-between transition group">
+                        <div class="min-w-0">
+                            <p class="text-xs font-black uppercase tracking-tight text-white truncate">Upload Kop Surat & TTD</p>
+                            <p class="text-[10px] text-amber-100 mt-0.5 truncate">Upload gambar kop cetak resmi rapor</p>
                         </div>
-                        <span class="w-8 h-8 rounded-lg bg-amber-700 flex items-center justify-center text-sm font-black group-hover:scale-110 transition-transform text-white">🖼️</span>
+                        <span class="w-7 h-7 rounded-lg bg-amber-700 flex items-center justify-center text-xs font-black group-hover:scale-110 transition-transform text-white shrink-0 ml-2">🖼️</span>
                     </a>
 
                 </div>
@@ -293,7 +340,7 @@
                         Realtime Data
                     </span>
                 </div>
-                <div class="h-64 w-full relative">
+                <div class="h-72 w-full relative">
                     <canvas id="chartRombelProgress"></canvas>
                 </div>
             </div>
@@ -378,7 +425,7 @@
 
             <!-- Checklist Table with 100% Real Calculations -->
             <div class="overflow-x-auto bg-white border border-slate-200 rounded-b-2xl shadow-sm">
-                <table class="w-full text-left text-xs">
+                <table class="w-full text-left text-xs min-w-[720px]">
                     <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
                         <tr>
                             <th class="px-5 py-3 text-center w-12">No</th>
@@ -394,24 +441,24 @@
                             $hasKopImage = !empty($reportSetting?->kop_image_url);
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">1</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Upload Gambar Kop Surat Resmi, Stempel Digital & TTD Kepala Sekolah
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">1</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Upload Kop Surat Resmi, Stempel & TTD Digital
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($hasKopImage)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
-                                        <span>✓</span> <span>Gambar Kop Terpasang</span>
+                                        <span>✓</span> <span>Kop Terpasang</span>
                                     </span>
                                 @else
                                     <span class="px-3 py-1 rounded-md bg-rose-100 text-rose-900 border border-rose-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
-                                        <span>✕</span> <span>Belum Upload Kop</span>
+                                        <span>✕</span> <span>Belum Upload</span>
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="{{ $hasKopImage ? 'bg-emerald-600' : 'bg-slate-400' }} h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasKopImage ? 100 : 0 }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="{{ $hasKopImage ? 'bg-emerald-600' : 'bg-slate-400' }} h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasKopImage ? 100 : 0 }}%">
                                         {{ $hasKopImage ? '100,00%' : '0,00%' }}
                                     </div>
                                 </div>
@@ -423,11 +470,11 @@
                             $hasClasses = $totalClassrooms > 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">2</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Pembentukan Rombongan Belajar (Rombel) Unit {{ $activeSchool->code ?? 'Unit' }}
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">2</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Penetapan Rombongan Belajar (Rombel) Unit
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($hasClasses)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
                                         <span>✓</span> <span>{{ $totalClassrooms }} Rombel Terbentuk</span>
@@ -438,9 +485,9 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasClasses ? 100 : 0 }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasClasses ? 100 : 0 }}%">
                                         {{ $hasClasses ? '100,00%' : '0,00%' }}
                                     </div>
                                 </div>
@@ -452,11 +499,11 @@
                             $waliPct = $totalClassrooms > 0 ? round(($assignedWaliCount / $totalClassrooms) * 100) : 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">3</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Penetapan Guru Wali Kelas untuk Setiap Rombel
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">3</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Penetapan Guru Wali Kelas Setiap Rombel
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($waliPct >= 100)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
                                         <span>✓</span> <span>Lengkap ({{ $assignedWaliCount }}/{{ $totalClassrooms }})</span>
@@ -467,9 +514,9 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(10, $waliPct) }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(10, $waliPct) }}%">
                                         {{ $waliPct }},00%
                                     </div>
                                 </div>
@@ -481,11 +528,11 @@
                             $hasStudents = $totalSchoolStudents > 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">4</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Verifikasi & Pengelompokan Data Siswa Unit
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">4</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Verifikasi Master Data Siswa Unit
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($hasStudents)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
                                         <span>✓</span> <span>{{ $totalSchoolStudents }} Siswa Terdaftar</span>
@@ -496,25 +543,55 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasStudents ? 100 : 0 }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasStudents ? 100 : 0 }}%">
                                         {{ $hasStudents ? '100,00%' : '0,00%' }}
                                     </div>
                                 </div>
                             </td>
                         </tr>
 
-                        <!-- Row 5: Mapel -->
+                        <!-- Row 5: Tujuan Pembelajaran (TP) -->
+                        @php
+                            $hasTp = ($totalTpCount ?? 0) > 0;
+                        @endphp
+                        <tr class="hover:bg-slate-50/75 transition-colors">
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">5</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900 flex items-center gap-2">
+                                <span>Penyusunan Tujuan Pembelajaran (TP Kurikulum Merdeka)</span>
+                                <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-emerald-100 text-emerald-800">BARU</span>
+                            </td>
+                            <td class="px-5 py-3 text-center">
+                                @if($hasTp)
+                                    <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
+                                        <span>✓</span> <span>{{ $totalTpCount }} TP Terstandar</span>
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-md bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-black inline-flex items-center gap-1 shadow-2xs">
+                                        <span>⏳</span> <span>Belum Ada TP</span>
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasTp ? 100 : 0 }}%">
+                                        {{ $hasTp ? '100,00%' : '0,00%' }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 6: Mapel -->
                         @php
                             $mapelPct = $totalSchoolStudents > 0 ? round(($rekapMapel / $totalSchoolStudents) * 100) : 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">5</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Progres Input Nilai Mata Pelajaran (Kurikulum Merdeka)
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">6</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Input Nilai Mapel & Ketercapaian TP
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($mapelPct >= 100)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1">
                                         <span>✓</span> <span>Tuntas 100%</span>
@@ -525,25 +602,25 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $mapelPct) }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $mapelPct) }}%">
                                         {{ $mapelPct }},00%
                                     </div>
                                 </div>
                             </td>
                         </tr>
 
-                        <!-- Row 6: Wafa -->
+                        <!-- Row 7: Wafa -->
                         @php
                             $wafaPct = $totalSchoolStudents > 0 ? round(($rekapWafa / $totalSchoolStudents) * 100) : 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">6</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Progres Penilaian Al-Qur'an (Standar Metode Wafa)
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">7</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Penilaian Tilawah Al-Qur'an (Metode Wafa)
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($wafaPct >= 100)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1">
                                         <span>✓</span> <span>Tuntas 100%</span>
@@ -554,25 +631,25 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $wafaPct) }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $wafaPct) }}%">
                                         {{ $wafaPct }},00%
                                     </div>
                                 </div>
                             </td>
                         </tr>
 
-                        <!-- Row 7: Karakter -->
+                        <!-- Row 8: Karakter -->
                         @php
                             $charPct = $totalSchoolStudents > 0 ? round(($rekapKarakter / $totalSchoolStudents) * 100) : 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">7</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Progres Penilaian Karakter (7 SKL Standar JSIT)
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">8</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Penilaian Karakter (7 SKL Standar JSIT)
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($charPct >= 100)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1">
                                         <span>✓</span> <span>Tuntas 100%</span>
@@ -583,25 +660,55 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $charPct) }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $charPct) }}%">
                                         {{ $charPct }},00%
                                     </div>
                                 </div>
                             </td>
                         </tr>
 
-                        <!-- Row 8: Wali Kelas -->
+                        <!-- Row 9: Ko-Kurikuler & Projek P5 -->
+                        @php
+                            $hasP5 = ($totalP5Count ?? 0) > 0;
+                        @endphp
+                        <tr class="hover:bg-slate-50/75 transition-colors">
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">9</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900 flex items-center gap-2">
+                                <span>Asesmen Projek P5 & Ekstrakurikuler</span>
+                                <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-violet-100 text-violet-800">BARU</span>
+                            </td>
+                            <td class="px-5 py-3 text-center">
+                                @if($hasP5)
+                                    <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>✓</span> <span>{{ $totalP5Count }} Projek P5 Aktif</span>
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-md bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>⏳</span> <span>Projek Disiapkan</span>
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ $hasP5 ? 100 : 50 }}%">
+                                        {{ $hasP5 ? '100,00%' : '50,00%' }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 10: Wali Kelas -->
                         @php
                             $hrPct = $totalSchoolStudents > 0 ? round(($rekapHomeroom / $totalSchoolStudents) * 100) : 0;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">8</td>
-                            <td class="px-5 py-3.5 font-semibold text-slate-900">
-                                Catatan Ekstrakurikuler & Rekap Presensi Wali Kelas
+                            <td class="px-5 py-3 text-center text-slate-400 font-bold">10</td>
+                            <td class="px-5 py-3 font-semibold text-slate-900">
+                                Catatan Wali Kelas & Rekap Presensi
                             </td>
-                            <td class="px-5 py-3.5 text-center">
+                            <td class="px-5 py-3 text-center">
                                 @if($hrPct >= 100)
                                     <span class="px-3 py-1 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black inline-flex items-center gap-1">
                                         <span>✓</span> <span>Tuntas 100%</span>
@@ -612,9 +719,9 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden relative">
-                                    <div class="bg-emerald-600 h-4 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $hrPct) }}%">
+                            <td class="px-5 py-3 text-center">
+                                <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden relative">
+                                    <div class="bg-emerald-600 h-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style="width: {{ max(8, $hrPct) }}%">
                                         {{ $hrPct }},00%
                                     </div>
                                 </div>
@@ -626,91 +733,241 @@
             </div>
         </div>
 
-        <!-- Section: PROGRES PENGISIAN PER ROMBEL KELAS -->
+        <!-- Section: MATRIKS KINERJA WALI KELAS & AUDIT KELENGKAPAN RAPOR -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+            <!-- Header Bar -->
+            <div class="px-6 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 bg-gradient-to-r from-slate-50 to-white">
                 <div>
-                    <h3 class="font-black text-sm text-slate-900">Rekap Status Pengisian Rapor per Rombel Kelas</h3>
-                    <p class="text-xs text-slate-500 font-medium">Pantau kelengkapan nilai dari Guru Mapel, Guru Wafa, Karakter JSIT dan Wali Kelas</p>
+                    <div class="flex items-center gap-2">
+                        <span class="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 text-xs">📊</span>
+                        <h3 class="font-black text-sm text-slate-900">Matriks Kinerja Wali Kelas & Audit Kelengkapan Rapor</h3>
+                        <span class="px-2 py-0.5 rounded text-[9px] font-black bg-blue-100 text-blue-800 uppercase tracking-wide">Unit {{ $activeSchool->code ?? 'SDIT' }}</span>
+                    </div>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">Monitoring komprehensif pengisian nilai Mapel & TP, Wafa, Karakter JSIT, P5, Catatan Walas, dan Kesiapan Cetak</p>
+                </div>
+                <!-- Mini KPI Badges di Header -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-black inline-flex items-center gap-1.5 shadow-2xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>{{ $completedWaliCount }} Rombel Tuntas (100%)</span>
+                    </span>
+                    <span class="px-3 py-1 rounded-lg bg-sky-50 border border-sky-200 text-sky-800 text-[11px] font-black inline-flex items-center gap-1.5 shadow-2xs">
+                        <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                        <span>{{ $inProgressWaliCount }} Dalam Proses</span>
+                    </span>
+                    <span class="px-3 py-1 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-black inline-flex items-center gap-1.5 shadow-2xs">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span>{{ $notStartedWaliCount }} Belum Mengisi</span>
+                    </span>
                 </div>
             </div>
 
+            <!-- Tabel Matriks Lebar Anti-Truncate -->
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
+                <table class="w-full text-left text-xs min-w-[1240px]">
                     <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
                         <tr>
-                            <th class="px-5 py-3 text-center w-12">No</th>
-                            <th class="px-5 py-3">Nama Rombel Kelas</th>
-                            <th class="px-5 py-3">Wali Kelas</th>
-                            <th class="px-5 py-3 text-center">Jml Siswa</th>
-                            <th class="px-5 py-3 text-center">Mapel</th>
-                            <th class="px-5 py-3 text-center">Wafa</th>
-                            <th class="px-5 py-3 text-center">Karakter</th>
-                            <th class="px-5 py-3 text-center">Wali Kelas</th>
-                            <th class="px-5 py-3 text-center w-36">Progres</th>
-                            <th class="px-5 py-3 text-center min-w-[130px] whitespace-nowrap">Aksi</th>
+                            <th class="px-4 py-3.5 text-center w-12">No</th>
+                            <th class="px-4 py-3.5 min-w-[170px]">Rombel Kelas</th>
+                            <th class="px-4 py-3.5 min-w-[200px]">Wali Kelas & Kontak</th>
+                            <th class="px-3 py-3.5 text-center w-28">Mapel & TP</th>
+                            <th class="px-3 py-3.5 text-center w-28">Wafa & Tahfidz</th>
+                            <th class="px-3 py-3.5 text-center w-28">Karakter 7 SKL</th>
+                            <th class="px-3 py-3.5 text-center w-28">P5 & Ekskul</th>
+                            <th class="px-3 py-3.5 text-center w-28">Catatan Walas</th>
+                            <th class="px-3 py-3.5 text-center w-24">Rata Nilai</th>
+                            <th class="px-3 py-3.5 text-center w-28">Siap Cetak</th>
+                            <th class="px-4 py-3.5 text-center w-36">Progres Kinerja</th>
+                            <th class="px-4 py-3.5 text-center min-w-[220px] whitespace-nowrap">Aksi Kepala Sekolah</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800 font-medium">
                         @forelse($classroomProgress as $clsId => $data)
+                        @php
+                            $walasName = $data['classroom']->homeroomTeacher->name ?? 'Belum Ditugaskan';
+                            $walasPhone = $data['wali_phone'] ?? '';
+                            $walasNip = $data['wali_nip'] ?? '';
+                            $pct = (int) $data['percentage'];
+                            $stCount = (int) $data['student_count'];
+                            $readyCount = (int) ($data['ready_count'] ?? 0);
+                        @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
-                            <td class="px-5 py-3.5 font-black text-slate-900">
-                                {{ $data['classroom']->name }}
-                            </td>
-                            <td class="px-5 py-3.5 text-slate-600 font-bold">
-                                {{ $data['classroom']->homeroomTeacher->name ?? 'Belum Ditentukan' }}
-                            </td>
-                            <td class="px-5 py-3.5 text-center font-bold text-slate-800">
-                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-800 font-black">
-                                    {{ $data['student_count'] }} Siswa
-                                </span>
-                            </td>
-                            <td class="px-5 py-3.5 text-center">
-                                @if($data['mapel_count'] > 0)
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
-                                @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
-                                @endif
-                            </td>
-                            <td class="px-5 py-3.5 text-center">
-                                @if($data['quran_count'] > 0)
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
-                                @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
-                                @endif
-                            </td>
-                            <td class="px-5 py-3.5 text-center">
-                                @if($data['char_count'] > 0)
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
-                                @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
-                                @endif
-                            </td>
-                            <td class="px-5 py-3.5 text-center">
-                                @if($data['hr_count'] > 0)
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">✓ Terisi</span>
-                                @else
-                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
-                                @endif
-                            </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="flex items-center gap-2">
-                                    <div class="flex-1 bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                                        <div class="bg-emerald-600 h-2.5 rounded-full transition-all" style="width: {{ $data['percentage'] }}%"></div>
-                                    </div>
-                                    <span class="text-[11px] font-extrabold text-slate-800 w-8 text-right">{{ $data['percentage'] }}%</span>
+                            <!-- 1. No -->
+                            <td class="px-4 py-3.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+
+                            <!-- 2. Rombel Kelas -->
+                            <td class="px-4 py-3.5">
+                                <div class="font-black text-slate-900 text-xs flex items-center gap-1.5">
+                                    <span>🏫</span>
+                                    <span>{{ $data['classroom']->name }}</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-bold">
+                                        {{ $stCount }} Siswa
+                                    </span>
+                                    @if($stCount == 0)
+                                        <span class="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 text-[9px] font-black border border-rose-200">Kosong</span>
+                                    @endif
                                 </div>
                             </td>
-                            <td class="px-5 py-3.5 text-center whitespace-nowrap min-w-[190px]">
+
+                            <!-- 3. Wali Kelas & Kontak -->
+                            <td class="px-4 py-3.5">
+                                <div class="font-bold text-slate-900 text-xs">
+                                    {{ $walasName }}
+                                </div>
+                                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                                    @if(!empty($walasNip))
+                                        <span class="text-[10px] text-slate-500 font-semibold">NIP. {{ $walasNip }}</span>
+                                    @endif
+                                    @if(!empty($walasPhone))
+                                        <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[9px] font-black inline-flex items-center gap-0.5 border border-emerald-200">
+                                            <span>WA:</span> <span>{{ $walasPhone }}</span>
+                                        </span>
+                                    @else
+                                        <span class="text-[9px] text-slate-400 italic">No HP belum ada</span>
+                                    @endif
+                                </div>
+                            </td>
+
+                            <!-- 4. Mapel & TP -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if($data['mapel_count'] > 0)
+                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>✓</span> <span>Terisi</span>
+                                    </span>
+                                    <div class="text-[9px] text-emerald-700 font-bold mt-0.5">TP Terhubung</div>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                @endif
+                            </td>
+
+                            <!-- 5. Wafa & Tahfidz -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if($data['quran_count'] > 0)
+                                    <span class="px-2.5 py-1 rounded-md bg-teal-100 text-teal-900 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>✓</span> <span>Terisi</span>
+                                    </span>
+                                    <div class="text-[9px] text-teal-700 font-bold mt-0.5">Metode Wafa</div>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                @endif
+                            </td>
+
+                            <!-- 6. Karakter 7 SKL -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if($data['char_count'] > 0)
+                                    <span class="px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-900 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>✓</span> <span>7 SKL Terisi</span>
+                                    </span>
+                                    <div class="text-[9px] text-indigo-700 font-bold mt-0.5">Standar JSIT</div>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                @endif
+                            </td>
+
+                            <!-- 7. P5 & Ekskul -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if(($data['p5_count'] ?? 0) > 0)
+                                    <span class="px-2.5 py-1 rounded-md bg-violet-100 text-violet-900 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>✓</span> <span>{{ $data['p5_count'] }} Projek</span>
+                                    </span>
+                                    <div class="text-[9px] text-violet-700 font-bold mt-0.5">Kokurikuler</div>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum Ada</span>
+                                @endif
+                            </td>
+
+                            <!-- 8. Catatan Walas -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if($data['hr_count'] > 0)
+                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 text-[10px] font-black inline-flex items-center gap-1">
+                                        <span>✓</span> <span>Terisi</span>
+                                    </span>
+                                    <div class="text-[9px] text-emerald-700 font-bold mt-0.5">Presensi OK</div>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[10px] font-bold">Belum</span>
+                                @endif
+                            </td>
+
+                            <!-- 9. Rata-rata Nilai -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if(!empty($data['avg_score']))
+                                    <span class="px-2 py-1 rounded-md bg-emerald-50 text-emerald-900 font-black text-xs border border-emerald-200">
+                                        {{ number_format($data['avg_score'], 1) }}
+                                    </span>
+                                @else
+                                    <span class="text-slate-400 font-bold">-</span>
+                                @endif
+                            </td>
+
+                            <!-- 10. Siap Cetak -->
+                            <td class="px-3 py-3.5 text-center">
+                                @if($stCount > 0 && $readyCount == $stCount)
+                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 font-black text-[10px] border border-emerald-300 inline-flex items-center gap-1">
+                                        <span>✓</span> <span>{{ $readyCount }}/{{ $stCount }} Siswa</span>
+                                    </span>
+                                @elseif($readyCount > 0)
+                                    <span class="px-2 py-1 rounded-md bg-amber-100 text-amber-900 font-black text-[10px] border border-amber-300 inline-flex items-center gap-1">
+                                        <span>⏳</span> <span>{{ $readyCount }}/{{ $stCount }} Siswa</span>
+                                    </span>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 font-bold text-[10px]">
+                                        0/{{ $stCount }} Siswa
+                                    </span>
+                                @endif
+                            </td>
+
+                            <!-- 11. Progres Kinerja -->
+                            <td class="px-4 py-3.5 text-center">
+                                <div class="flex items-center gap-2">
+                                    <div class="flex-1 bg-slate-200 rounded-full h-3 overflow-hidden shadow-2xs">
+                                        <div class="h-3 rounded-full transition-all flex items-center justify-center text-[9px] font-black text-white {{ $pct >= 100 ? 'bg-emerald-600' : ($pct >= 60 ? 'bg-sky-600' : ($pct > 0 ? 'bg-amber-500' : 'bg-slate-300')) }}" 
+                                             style="width: {{ max(10, $pct) }}%">
+                                        </div>
+                                    </div>
+                                    <span class="text-[11px] font-black {{ $pct >= 100 ? 'text-emerald-700' : ($pct > 0 ? 'text-slate-800' : 'text-slate-400') }} w-9 text-right">
+                                        {{ $pct }}%
+                                    </span>
+                                </div>
+                                <div class="mt-1 text-[9px] font-extrabold uppercase tracking-wider {{ $pct >= 100 ? 'text-emerald-600' : ($pct >= 60 ? 'text-sky-600' : ($pct > 0 ? 'text-amber-600' : 'text-slate-400')) }}">
+                                    @if($pct >= 100)
+                                        ✓ Tuntas 100%
+                                    @elseif($pct >= 60)
+                                        ⚡ Tahap Akhir
+                                    @elseif($pct > 0)
+                                        ⏳ Sedang Berjalan
+                                    @else
+                                        Belum Dimulai
+                                    @endif
+                                </div>
+                            </td>
+
+                            <!-- 12. Aksi Kepala Sekolah -->
+                            <td class="px-4 py-3.5 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
-                                    <button type="button" onclick="openAiClassAnalysisModal({{ $data['classroom']->id }})" 
-                                            class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-black text-[10px] transition shadow-2xs cursor-pointer">
+                                    <!-- Tombol AI Evaluasi -->
+                                    <button type="button" 
+                                            onclick="openAiClassAnalysisModal({{ $data['classroom']->id }}, '{{ addslashes($data['classroom']->name) }}')" 
+                                            class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-black text-[10px] transition shadow-2xs cursor-pointer active:scale-95"
+                                            title="Analisis Kesiapan Rapor Kelas via Robbani AI">
                                         <span>✨</span>
-                                        <span>AI Analisis</span>
+                                        <span>AI Evaluasi</span>
                                     </button>
+
+                                    <!-- Tombol WhatsApp Reminder (Quick Follow Up Walas) -->
+                                    <button type="button" 
+                                            onclick="openWaliReminderModal('{{ addslashes($walasName) }}', '{{ addslashes($data['classroom']->name) }}', '{{ $walasPhone }}', {{ $pct }}, {{ $stCount }})"
+                                            class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg {{ $pct >= 100 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-300' : 'bg-green-50 hover:bg-green-100 text-green-800 border-green-300' }} border font-black text-[10px] transition shadow-2xs cursor-pointer active:scale-95"
+                                            title="Kirim Pesan Pengingat Resmi ke Wali Kelas">
+                                        <span>📲</span>
+                                        <span>{{ $pct >= 100 ? 'Apresiasi' : 'Ingatkan WA' }}</span>
+                                    </button>
+
+                                    <!-- Tombol Buka Kelas -->
                                     <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'classroom_id' => $data['classroom']->id, 'menu' => 'academic']) }}" 
-                                       class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#064e3b] hover:bg-[#047857] text-white font-bold text-[11px] transition shadow-2xs whitespace-nowrap">
+                                       class="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-[#064e3b] hover:bg-[#047857] text-white font-black text-[11px] transition shadow-2xs whitespace-nowrap active:scale-95"
+                                       title="Buka Pengisian & Detail Nilai Rombel Ini">
                                         <span>Buka Kelas</span>
                                         <span>→</span>
                                     </a>
@@ -719,7 +976,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="10" class="px-6 py-8 text-center text-slate-500">
+                            <td colspan="12" class="px-6 py-8 text-center text-slate-500">
                                 Belum ada rombel kelas yang terdaftar untuk unit ini.
                             </td>
                         </tr>
@@ -3985,6 +4242,89 @@
     </div>
 </div>
 
+<!-- Modal WhatsApp Reminder untuk Wali Kelas (Follow Up Kepala Sekolah) -->
+<div id="modalWaliReminder" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center text-lg font-black shadow-md shadow-emerald-200">
+                    📲
+                </div>
+                <div>
+                    <h3 class="font-black text-sm text-slate-900">Follow Up & Pengingat Wali Kelas</h3>
+                    <p class="text-[11px] text-slate-500 font-medium">Kirim pesan resmi Kepala Sekolah via WhatsApp</p>
+                </div>
+            </div>
+            <button onclick="closeWaliReminderModal()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 flex items-center justify-center font-bold text-sm transition cursor-pointer">✕</button>
+        </div>
+
+        <!-- Body -->
+        <div class="overflow-y-auto flex-1 pr-1 space-y-4 text-xs">
+            <!-- Profil Walas Box -->
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-500 text-[11px] uppercase">Rombel Kelas:</span>
+                    <span class="font-black text-slate-900 text-xs" id="reminderClassName">-</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-500 text-[11px] uppercase">Wali Kelas:</span>
+                    <span class="font-black text-emerald-800 text-xs" id="reminderWalasName">-</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-500 text-[11px] uppercase">No. WhatsApp:</span>
+                    <span class="font-black text-slate-800 text-xs" id="reminderWalasPhone">-</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-500 text-[11px] uppercase">Progres Saat Ini:</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-black" id="reminderProgressBadge">-</span>
+                </div>
+            </div>
+
+            <!-- Template Type Selector -->
+            <div>
+                <label class="block font-bold text-slate-700 mb-1.5 text-[11px] uppercase">Pilih Template Pesan:</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" onclick="setReminderTemplate('standard')" id="btnTplStandard" class="px-2.5 py-1.5 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-[10px] text-center transition cursor-pointer">
+                        Standar Rapor
+                    </button>
+                    <button type="button" onclick="setReminderTemplate('urgent')" id="btnTplUrgent" class="px-2.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-[10px] text-center transition cursor-pointer">
+                        Batas Akhir (Urgent)
+                    </button>
+                    <button type="button" onclick="setReminderTemplate('appreciation')" id="btnTplAppreciation" class="px-2.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-[10px] text-center transition cursor-pointer">
+                        Apresiasi Tuntas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview Pesan Textarea -->
+            <div>
+                <label class="block font-bold text-slate-700 mb-1 text-[11px] uppercase">Isi Pesan WhatsApp (Dapat Diedit):</label>
+                <textarea id="reminderMessageText" rows="6" class="w-full p-3 rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-hidden resize-none bg-slate-50/50"></textarea>
+            </div>
+            
+            <div id="reminderNoPhoneNotice" class="hidden p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-medium">
+                ⚠️ Nomor telepon belum terdaftar di data pegawai. Anda tetap dapat menyalin pesan dan mengirimkannya secara manual, atau menambahkan nomor HP di menu Pengguna & Guru.
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
+            <button type="button" onclick="copyWaliReminderText()" class="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+                <span>📋</span> <span>Salin Pesan</span>
+            </button>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="closeWaliReminderModal()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold transition cursor-pointer">
+                    Batal
+                </button>
+                <button type="button" id="btnSendWa" onclick="sendWaliReminderWa()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition cursor-pointer flex items-center gap-1.5 shadow-md shadow-emerald-200 active:scale-95">
+                    <span>💬</span> <span>Kirim via WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Realtime Helper Scripts -->
 <script>
     // Inisialisasi Chart.js jika pada halaman dashboard
@@ -4015,6 +4355,9 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: { left: 4, right: 16, top: 4, bottom: 4 }
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -4034,7 +4377,11 @@
                         },
                         y: {
                             grid: { display: false },
-                            ticks: { font: { size: 11, weight: '600' }, color: '#334155' }
+                            ticks: { 
+                                font: { size: 11, weight: '600' }, 
+                                color: '#334155',
+                                autoSkip: false
+                            }
                         }
                     }
                 }
@@ -4192,6 +4539,147 @@
         if (!lastAiAnalysisText) return;
         navigator.clipboard.writeText(lastAiAnalysisText).then(() => {
             alert('Teks analisis AI berhasil disalin ke clipboard!');
+        });
+    }
+
+    // =========================================================================
+    // HELPER PENGINGAT & FOLLOW UP WALI KELAS VIA WHATSAPP (KEPALA SEKOLAH)
+    // =========================================================================
+    let currentReminderData = {
+        name: '',
+        classroom: '',
+        phone: '',
+        pct: 0,
+        stCount: 0,
+        type: 'standard'
+    };
+
+    function openWaliReminderModal(walasName, className, phone, pct, stCount) {
+        currentReminderData = {
+            name: walasName,
+            classroom: className,
+            phone: phone ? phone.trim() : '',
+            pct: pct,
+            stCount: stCount,
+            type: pct >= 100 ? 'appreciation' : 'standard'
+        };
+
+        const modal = document.getElementById('modalWaliReminder');
+        if (!modal) return;
+
+        const elClass = document.getElementById('reminderClassName');
+        const elWalas = document.getElementById('reminderWalasName');
+        const elPhone = document.getElementById('reminderWalasPhone');
+        if (elClass) elClass.innerText = className;
+        if (elWalas) elWalas.innerText = walasName;
+        if (elPhone) elPhone.innerText = phone ? phone : 'Belum tercatat';
+
+        const pBadge = document.getElementById('reminderProgressBadge');
+        if (pBadge) {
+            pBadge.innerText = `${pct}% (${pct >= 100 ? 'Tuntas' : (pct > 0 ? 'Sedang Berjalan' : 'Belum Mulai')})`;
+            pBadge.className = `px-2 py-0.5 rounded text-[10px] font-black ${pct >= 100 ? 'bg-emerald-100 text-emerald-800' : (pct > 0 ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-600')}`;
+        }
+
+        const notice = document.getElementById('reminderNoPhoneNotice');
+        const btnSendWa = document.getElementById('btnSendWa');
+        if (!phone) {
+            if (notice) notice.classList.remove('hidden');
+            if (btnSendWa) {
+                btnSendWa.classList.add('opacity-50', 'cursor-not-allowed');
+                btnSendWa.title = 'Nomor telepon belum tersedia';
+            }
+        } else {
+            if (notice) notice.classList.add('hidden');
+            if (btnSendWa) {
+                btnSendWa.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSendWa.title = 'Buka WhatsApp Web / App';
+            }
+        }
+
+        setReminderTemplate(currentReminderData.type);
+        modal.classList.remove('hidden');
+    }
+
+    function closeWaliReminderModal() {
+        const modal = document.getElementById('modalWaliReminder');
+        if (modal) modal.classList.add('hidden');
+    }
+
+    function setReminderTemplate(tpl) {
+        currentReminderData.type = tpl;
+        const d = currentReminderData;
+        const schoolName = '{{ $activeSchool->name ?? "SDIT Robbani" }}';
+
+        ['Standard', 'Urgent', 'Appreciation'].forEach(k => {
+            const btn = document.getElementById('btnTpl' + k);
+            if (btn) {
+                if (k.toLowerCase() === tpl.toLowerCase()) {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-[10px] text-center transition cursor-pointer';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-[10px] text-center transition cursor-pointer';
+                }
+            }
+        });
+
+        let msg = '';
+        if (tpl === 'urgent') {
+            msg = `Assalamu'alaikum Wr. Wb. Ustadz/Ustadzah ${d.name},\n\n` +
+                  `Izin mengingatkan batas waktu pengisian nilai e-Rapor SIT Terpadu untuk kelas *${d.classroom}* di ${schoolName}.\n` +
+                  `Saat ini capaian pengisian berada pada *${d.pct}%*.\n\n` +
+                  `Mohon berkenan untuk segera melengkapi penilaian Mapel/TP, Wafa, Karakter, dan catatan wali kelas sebelum batas waktu penutupan sistem. Jazakumullah khairan katsiran atas dedikasi dan kerjasamanya.\n\n` +
+                  `Wassalamu'alaikum Wr. Wb.\n` +
+                  `_Kepala Sekolah ${schoolName}_`;
+        } else if (tpl === 'appreciation') {
+            msg = `Assalamu'alaikum Wr. Wb. Ustadz/Ustadzah ${d.name},\n\n` +
+                  `Alhamdulillah, kami sampaikan apresiasi dan terima kasih atas ketuntasan pengisian e-Rapor SIT Terpadu kelas *${d.classroom}* yang telah mencapai *100% tuntas*.\n\n` +
+                  `Semoga setiap ikhtiar dan bimbingan Ustadz/Ustadzah menjadi amal jariyah yang penuh berkah di sisi Allah SWT. Aamiin ya Rabbal 'Alamin.\n\n` +
+                  `Wassalamu'alaikum Wr. Wb.\n` +
+                  `_Kepala Sekolah ${schoolName}_`;
+        } else {
+            msg = `Assalamu'alaikum Wr. Wb. Ustadz/Ustadzah ${d.name},\n\n` +
+                  `Semoga senantiasa dalam keadaan sehat dan dalam lindungan Allah SWT.\n\n` +
+                  `Menginfokan status pengisian e-Rapor SIT Terpadu untuk kelas *${d.classroom}* saat ini mencapai *${d.pct}%* (${d.stCount} siswa).\n` +
+                  `Mohon dapat dicek kembali kelengkapan nilai Mata Pelajaran & TP, Al-Qur'an Wafa, 7 Karakter SKL, P5, serta Catatan Wali Kelas.\n\n` +
+                  `Jazakumullah khairan katsiran.\n\n` +
+                  `Wassalamu'alaikum Wr. Wb.\n` +
+                  `_Kepala Sekolah ${schoolName}_`;
+        }
+
+        const ta = document.getElementById('reminderMessageText');
+        if (ta) ta.value = msg;
+    }
+
+    function sendWaliReminderWa() {
+        const phone = currentReminderData.phone;
+        const text = document.getElementById('reminderMessageText').value;
+        if (!phone) {
+            alert('Nomor WhatsApp belum tersedia di data guru. Silakan gunakan tombol Salin Pesan untuk mengirim secara manual.');
+            return;
+        }
+
+        let cleanPhone = phone.replace(/[^0-9]/g, '');
+        if (cleanPhone.startsWith('0')) {
+            cleanPhone = '62' + cleanPhone.slice(1);
+        }
+
+        const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+    }
+
+    function copyWaliReminderText() {
+        const text = document.getElementById('reminderMessageText').value;
+        navigator.clipboard.writeText(text).then(() => {
+            if (window.Swal) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pesan Disalin!',
+                    text: 'Teks pesan WhatsApp siap dikirimkan ke Wali Kelas.',
+                    timer: 1600,
+                    showConfirmButton: false
+                });
+            } else {
+                alert('Pesan berhasil disalin ke clipboard!');
+            }
         });
     }
 

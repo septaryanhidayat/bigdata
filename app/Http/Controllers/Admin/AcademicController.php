@@ -657,6 +657,41 @@ class AcademicController extends Controller
             $totalFilled = $mapelGradesCount + $quranGradesCount + $charGradesCount + $hrNotesCount;
             $pct = $totalExpected > 0 ? min(100, round(($totalFilled / $totalExpected) * 100)) : 0;
 
+            // Projek P5 untuk kelas ini
+            $clsP5Count = 0;
+            try {
+                if (Schema::hasTable('p5_projects')) {
+                    $clsP5Count = \App\Models\P5Project::where('school_id', $schoolId)
+                        ->where(function($q) use ($cls) {
+                            $q->where('classroom_id', $cls->id)->orWhereNull('classroom_id');
+                        })->count();
+                }
+            } catch (\Throwable $e) {}
+
+            // Rata-rata nilai rapor kelas
+            $clsAvgScore = null;
+            if ($stCount > 0 && $mapelGradesCount > 0) {
+                $avg = Grade::whereIn('student_id', $stIds)->avg('score');
+                if ($avg !== null) $clsAvgScore = round($avg, 1);
+            }
+
+            // Jumlah siswa yang semua komponen rapornya sudah lengkap di kelas ini
+            $clsReadyCount = 0;
+            if ($stCount > 0) {
+                foreach ($clsStudents as $cs) {
+                    $hasM = Grade::where('student_id', $cs->id)->exists();
+                    $hasQ = Schema::hasTable('quran_grades') && QuranGrade::where('student_id', $cs->id)->exists();
+                    $hasC = Schema::hasTable('character_grades') && CharacterGrade::where('student_id', $cs->id)->exists();
+                    $hasH = Schema::hasTable('homeroom_notes') && HomeroomNote::where('student_id', $cs->id)->exists();
+                    if ($hasM && $hasQ && $hasC && $hasH) $clsReadyCount++;
+                }
+            }
+
+            // Info kontak guru wali kelas untuk notifikasi pengingat Kepala Sekolah
+            $waliEmp = $cls->homeroomTeacher;
+            $waliPhone = $waliEmp?->phone ?? $waliEmp?->user?->phone ?? '';
+            $waliNip = $waliEmp?->nip ?? '';
+
             $classroomProgress[$cls->id] = [
                 'classroom' => $cls,
                 'student_count' => $stCount,
@@ -664,6 +699,11 @@ class AcademicController extends Controller
                 'quran_count' => $quranGradesCount,
                 'char_count' => $charGradesCount,
                 'hr_count' => $hrNotesCount,
+                'p5_count' => $clsP5Count,
+                'avg_score' => $clsAvgScore,
+                'ready_count' => $clsReadyCount,
+                'wali_phone' => $waliPhone,
+                'wali_nip' => $waliNip,
                 'percentage' => $pct,
             ];
         }
@@ -807,6 +847,21 @@ class AcademicController extends Controller
         $tahfidzCompletionPct = $totalSchoolStudents > 0 ? round(($rekapWafa / $totalSchoolStudents) * 100) . '%' : '0%';
         $readyToPrintCount = collect($printReadiness)->filter(fn($r) => $r['is_ready'])->count();
 
+        // Kinerja Wali Kelas Unit
+        $completedWaliCount = collect($classroomProgress)->where('percentage', '>=', 100)->count();
+        $inProgressWaliCount = collect($classroomProgress)->filter(fn($c) => $c['percentage'] > 0 && $c['percentage'] < 100)->count();
+        $notStartedWaliCount = collect($classroomProgress)->where('percentage', '<=', 0)->count();
+
+        // Total Fitur Baru (TP, P5, Ekstrakurikuler)
+        $totalTpCount = 0;
+        try {
+            if (Schema::hasTable('learning_objectives')) {
+                $totalTpCount = LearningObjective::where('school_id', $schoolId)->count();
+            }
+        } catch (\Throwable $e) {}
+        $totalP5Count = $p5Projects->count();
+        $totalEkskulCount = $extracurriculars->count();
+
         return view('admin.academic.grades', compact(
             'schools',
             'activeSchool',
@@ -855,6 +910,12 @@ class AcademicController extends Controller
             'overallAttendancePct',
             'tahfidzCompletionPct',
             'readyToPrintCount',
+            'completedWaliCount',
+            'inProgressWaliCount',
+            'notStartedWaliCount',
+            'totalTpCount',
+            'totalP5Count',
+            'totalEkskulCount',
             'isSmp',
             'isSd',
             'classroomGrade',
