@@ -5,6 +5,26 @@
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+@php
+    $isTkSchool = $isTkSchool ?? (!empty($activeSchool) && (
+        str_contains(strtolower($activeSchool->code ?? ''), 'tk') ||
+        str_contains(strtolower($activeSchool->name ?? ''), 'tk') ||
+        str_contains(strtolower($activeSchool->code ?? ''), 'paud') ||
+        str_contains(strtolower($activeSchool->name ?? ''), 'paud') ||
+        str_contains(strtolower($activeSchool->code ?? ''), 'ra') ||
+        str_contains(strtolower($activeSchool->name ?? ''), 'ra') ||
+        str_contains(strtolower($activeSchool->code ?? ''), 'kb') ||
+        str_contains(strtolower($activeSchool->name ?? ''), 'kb')
+    ));
+    $isSmpSchool = $isSmpSchool ?? (!empty($activeSchool) && (
+        str_contains(strtolower($activeSchool->code ?? ''), 'smp') ||
+        str_contains(strtolower($activeSchool->name ?? ''), 'smp')
+    ));
+    $wafaTitleGreeting = $wafaTitleGreeting ?? ($isTkSchool ? 'Amah / Ustadz' : 'Bunda / Ustadz');
+    $teacherSalutation = $isTkSchool ? 'Amah/Ustadz' : 'Bunda/Ustadz';
+    $defaultWafaTeacherName = $defaultWafaTeacherName ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : ($isTkSchool ? 'Amah Nurul Hamidah, S.Pd.' : 'Bunda Nurul Hamidah, S.Pd.'));
+@endphp
+
 <div class="space-y-6 pb-12">
 
     <!-- ========================================================================= -->
@@ -3763,7 +3783,7 @@
                                     <!-- CRUD Nama Guru Wafa di Kolom Komentar -->
                                     <div class="mt-1.5 flex items-center gap-1.5 bg-teal-50/70 p-1.5 rounded-lg border border-teal-200/80">
                                         <span class="text-[10px] font-black text-teal-950 shrink-0 flex items-center gap-1">
-                                             <span>👳‍♂️</span> <span>{{ $isTkSchool ? 'Amah/Ustadz:' : 'Bunda/Ustadz:' }}</span>
+                                             <span>👳‍♂️</span> <span>{{ !empty($isTkSchool) ? 'Amah/Ustadz:' : 'Bunda/Ustadz:' }}</span>
                                         </span>
                                         <input type="text" 
                                                name="quran[{{ $student->id }}][quran_teacher_name]" 
@@ -4022,7 +4042,7 @@
                             Rekap Kehadiran, Fisik & Catatan Wali Kelas - {{ $selectedClassroom->name ?? '' }}
                         </h3>
                         <p class="text-xs text-slate-500 font-semibold mt-0.5">
-                            Wali Kelas: <strong>{{ $selectedClassroom->homeroomTeacher->name ?? ($isTkSchool ? 'Amah / Ustadz' : 'Bunda / Ustadz') }}</strong>
+                            Wali Kelas: <strong>{{ $selectedClassroom->homeroomTeacher->name ?? (!empty($isTkSchool) ? 'Amah / Ustadz' : 'Bunda / Ustadz') }}</strong>
                         </p>
                     </div>
 
@@ -5500,7 +5520,7 @@
             }
         });
 
-        const teacherSalutation = '{{ $isTkSchool ? "Amah/Ustadz" : "Bunda/Ustadz" }}';
+        const teacherSalutation = '{{ !empty($isTkSchool) ? "Amah/Ustadz" : "Bunda/Ustadz" }}';
         let msg = '';
         if (tpl === 'urgent') {
             msg = `Assalamu'alaikum Wr. Wb. ${teacherSalutation} ${d.name},\n\n` +
@@ -5698,7 +5718,7 @@
             attendanceNote = ` Catatan kehadiran: terdapat ${absent} hari alpa. Diharapkan ananda lebih meningkatkan ketertiban hadir di semester berikutnya.`;
         }
 
-        const baseNote = `Alhamdulillah, Ananda ${studentName} menunjukkan perkembangan karakter dan kesungguhan belajar yang baik di sekolah. Senantiasa istiqomah dalam ibadah yaumiyah, menghormati {{ $isTkSchool ? 'Amah dan Ustadz' : 'Bunda dan Ustadz' }}, serta rukun dan peduli terhadap teman.`;
+        const baseNote = `Alhamdulillah, Ananda ${studentName} menunjukkan perkembangan karakter dan kesungguhan belajar yang baik di sekolah. Senantiasa istiqomah dalam ibadah yaumiyah, menghormati {{ !empty($isTkSchool) ? 'Amah dan Ustadz' : 'Bunda dan Ustadz' }}, serta rukun dan peduli terhadap teman.`;
 
         textarea.value = baseNote + attendanceNote;
     }

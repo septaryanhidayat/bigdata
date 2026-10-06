@@ -654,6 +654,9 @@ class AcademicController extends Controller
         $schoolName = strtolower($activeSchool->name ?? '');
         $isSmp = str_contains($schoolCode, 'smp') || str_contains($schoolName, 'smp');
         $isSd = str_contains($schoolCode, 'sd') || str_contains($schoolName, 'sd');
+        $isTk = str_contains($schoolCode, 'tk') || str_contains($schoolName, 'tk') || str_contains($schoolCode, 'paud') || str_contains($schoolName, 'paud') || str_contains($schoolCode, 'ra') || str_contains($schoolName, 'ra') || str_contains($schoolCode, 'kb') || str_contains($schoolName, 'kb');
+        $isTkSchool = $isTk;
+        $isSmpSchool = $isSmp;
 
         $classroomGrade = 1;
         if ($selectedClassroom) {
@@ -1200,6 +1203,9 @@ class AcademicController extends Controller
             'totalEkskulCount',
             'isSmp',
             'isSd',
+            'isTk',
+            'isTkSchool',
+            'isSmpSchool',
             'classroomGrade',
             'isBpiAllowed',
             'learningObjectives',
