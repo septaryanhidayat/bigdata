@@ -816,6 +816,15 @@ class AcademicController extends Controller
             ];
         }
 
+        // Map rata-rata nilai riil tiap siswa di kelas (untuk AI catatan & template presisi)
+        $studentAverageMap = [];
+        foreach ($classStudents as $st) {
+            $avgScore = Grade::where('student_id', $st->id)
+                ->where('academic_year_id', $activeAcademicYear?->id)
+                ->avg('score');
+            $studentAverageMap[$st->id] = $avgScore !== null ? round((float)$avgScore, 1) : null;
+        }
+
         // Teachers of this school for assigning Wali Kelas
         $schoolTeachers = Employee::where('school_id', $schoolId)
             ->whereIn('role_type', ['TEACHER', 'HEADMASTER', 'COUNSELOR'])
@@ -1107,7 +1116,8 @@ class AcademicController extends Controller
             'classroomGrade',
             'isBpiAllowed',
             'learningObjectives',
-            'activeLearningObjectives'
+            'activeLearningObjectives',
+            'studentAverageMap'
         ));
     }
 
@@ -1201,6 +1211,84 @@ class AcademicController extends Controller
     }
 
     /**
+     * Kompresi dan simpan foto ke format WebP berkualitas tinggi dengan ukuran file minimal
+     */
+    protected function saveCompressedWebp($uploadedFile, $targetDir, $prefix = 'photo', $maxWidth = 480, $maxHeight = 640, $quality = 82): string
+    {
+        if (!file_exists($targetDir)) {
+            @mkdir($targetDir, 0755, true);
+        }
+
+        $filename = $prefix . '_' . uniqid() . '_' . time() . '.webp';
+        $targetPath = $targetDir . DIRECTORY_SEPARATOR . $filename;
+        $filePath = $uploadedFile->getPathname();
+
+        try {
+            $imageInfo = @getimagesize($filePath);
+            if ($imageInfo && extension_loaded('gd') && function_exists('imagewebp')) {
+                $mime = $imageInfo['mime'] ?? '';
+                $srcImage = null;
+
+                switch ($mime) {
+                    case 'image/jpeg':
+                        $srcImage = @imagecreatefromjpeg($filePath);
+                        break;
+                    case 'image/png':
+                        $srcImage = @imagecreatefrompng($filePath);
+                        break;
+                    case 'image/webp':
+                        $srcImage = @imagecreatefromwebp($filePath);
+                        break;
+                    case 'image/gif':
+                        $srcImage = @imagecreatefromgif($filePath);
+                        break;
+                    default:
+                        $content = @file_get_contents($filePath);
+                        if ($content) {
+                            $srcImage = @imagecreatefromstring($content);
+                        }
+                        break;
+                }
+
+                if ($srcImage) {
+                    $origWidth = imagesx($srcImage);
+                    $origHeight = imagesy($srcImage);
+
+                    // Resize proporsional jika melebihi batas maksimal pas foto 3x4
+                    $ratio = min($maxWidth / max(1, $origWidth), $maxHeight / max(1, $origHeight), 1.0);
+                    $newWidth = (int) round($origWidth * $ratio);
+                    $newHeight = (int) round($origHeight * $ratio);
+
+                    $dstImage = imagecreatetruecolor($newWidth, $newHeight);
+
+                    // Preservasi transparansi atau latar bersih
+                    imagealphablending($dstImage, false);
+                    imagesavealpha($dstImage, true);
+                    $transparent = imagecolorallocatealpha($dstImage, 255, 255, 255, 127);
+                    imagefilledrectangle($dstImage, 0, 0, $newWidth, $newHeight, $transparent);
+
+                    imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+
+                    imagewebp($dstImage, $targetPath, $quality);
+
+                    imagedestroy($dstImage);
+                    imagedestroy($srcImage);
+
+                    return $filename;
+                }
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('saveCompressedWebp error: ' . $e->getMessage());
+        }
+
+        // Fallback standar jika GD tidak tersedia
+        $ext = strtolower($uploadedFile->getClientOriginalExtension() ?: 'webp');
+        $fallbackName = $prefix . '_' . uniqid() . '_' . time() . '.' . $ext;
+        $uploadedFile->move($targetDir, $fallbackName);
+        return $fallbackName;
+    }
+
+    /**
      * Simpan / Tambah / Edit Lengkap Data Siswa oleh Kepsek / Operator
      */
     public function saveStudent(Request $request)
@@ -1243,17 +1331,12 @@ class AcademicController extends Controller
             'province' => $request->province ?? null,
         ];
 
-        // Handle upload pas foto siswa (3x4)
+        // Handle upload pas foto siswa (3x4) terkompresi WebP
         if ($request->hasFile('photo')) {
             $photoFile = $request->file('photo');
             if ($photoFile->isValid()) {
-                $ext = strtolower($photoFile->getClientOriginalExtension() ?: 'jpg');
-                $photoName = 'student_' . ($request->student_id ?: time()) . '_' . uniqid() . '.' . $ext;
                 $targetDir = public_path('uploads/students');
-                if (!file_exists($targetDir)) {
-                    @mkdir($targetDir, 0755, true);
-                }
-                $photoFile->move($targetDir, $photoName);
+                $photoName = $this->saveCompressedWebp($photoFile, $targetDir, 'student_' . ($request->student_id ?: time()), 480, 640, 82);
                 $studentData['photo_path'] = 'uploads/students/' . $photoName;
             }
         }
@@ -2870,16 +2953,41 @@ class AcademicController extends Controller
     }
 
     /**
-     * Manajemen Pengguna Unit oleh Kepala Sekolah / Super Admin
+     * AI Assistant: Generate Narasi Karakter 7 SKL JSIT & BPI
+     */
+    public function aiGenerateBpi(Request $request, GeminiEraporService $ai)
+    {
+        $studentName = $request->input('student_name', 'Siswa');
+        $indicators = (array) $request->input('indicators', []);
+        $sholatFardhu = (string) $request->input('sholat_fardhu', 'Selalu Berjamaah di Masjid');
+
+        $result = $ai->generateBpiEvaluation(
+            $studentName,
+            $indicators,
+            $sholatFardhu
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'text' => $result,
+            'evaluation' => $result,
+            'narrative' => $result,
+            'note' => $result
+        ]);
+    }
+
+    /**
+     * Manajemen Pengguna Unit oleh Kepala Sekolah / Operator / Super Admin
      */
     public function saveUnitUser(Request $request)
     {
         $currentUser = auth()->user();
         $isSuperAdmin = $currentUser->isSuperAdmin() || $currentUser->role === 'SUPER_ADMIN';
         $isHeadmaster = $currentUser->isHeadmaster() || $currentUser->role === 'HEADMASTER';
+        $isStaffTu = $currentUser->isStaffTu() || $currentUser->role === 'STAFF_TU';
 
-        if (!$isSuperAdmin && !$isHeadmaster) {
-            abort(403, 'Akses Ditolak: Hanya Kepala Sekolah dan Super Admin yang memiliki hak mengelola akun pengguna.');
+        if (!$isSuperAdmin && !$isHeadmaster && !$isStaffTu) {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki hak mengelola akun pengguna unit.');
         }
 
         $schoolId = $isSuperAdmin ? ($request->school_id ?: ($currentUser->school_id ?: 1)) : $currentUser->school_id;
@@ -2887,7 +2995,7 @@ class AcademicController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'role' => 'required|in:TEACHER,STAFF_TU,HEADMASTER',
+            'role' => 'required',
             'password' => $request->filled('user_id') ? 'nullable|min:6' : 'required|min:6',
         ];
         $request->validate($rules);
@@ -2895,11 +3003,16 @@ class AcademicController extends Controller
         $userId = $request->input('user_id');
         if ($userId) {
             $targetUser = User::findOrFail($userId);
-            // Security isolation: Headmaster cannot touch users from other schools or Super Admins
+            // Security isolation: Non-superadmin cannot touch users from other schools or Super Admins
             if (!$isSuperAdmin) {
                 if ($targetUser->school_id != $schoolId || $targetUser->role === 'SUPER_ADMIN') {
                     abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang mengedit akun ini.');
                 }
+            }
+
+            // Check email uniqueness excluding self
+            if (User::where('email', $request->email)->where('id', '!=', $userId)->exists()) {
+                return redirect()->back()->with('error', "Email {$request->email} sudah digunakan oleh pengguna lain!");
             }
 
             $targetUser->name = $request->name;
@@ -2908,7 +3021,26 @@ class AcademicController extends Controller
             if ($request->filled('password')) {
                 $targetUser->password = Hash::make($request->password);
             }
+            if ($request->has('phone')) {
+                $targetUser->phone = $request->phone;
+            }
             $targetUser->save();
+
+            // Sync Employee record agar langsung tampil di pilihan Wali Kelas jika pendidik
+            if (in_array($targetUser->role, ['TEACHER', 'HEADMASTER'])) {
+                try {
+                    Employee::updateOrCreate(
+                        ['user_id' => $targetUser->id],
+                        [
+                            'school_id' => $schoolId,
+                            'full_name' => $targetUser->name,
+                            'role_type' => $targetUser->role === 'HEADMASTER' ? 'HEADMASTER' : 'TEACHER',
+                            'is_active' => true,
+                        ]
+                    );
+                } catch (\Throwable $e) {}
+            }
+
             $msg = "✓ Akun pengguna {$targetUser->name} berhasil diperbarui!";
         } else {
             // Check unique email
@@ -2922,7 +3054,24 @@ class AcademicController extends Controller
             $newUser->password = Hash::make($request->password);
             $newUser->role = $request->role;
             $newUser->school_id = $schoolId;
+            if ($request->has('phone')) {
+                $newUser->phone = $request->phone;
+            }
             $newUser->save();
+
+            // Sync Employee record agar langsung tampil di pilihan Wali Kelas jika pendidik
+            if (in_array($newUser->role, ['TEACHER', 'HEADMASTER'])) {
+                try {
+                    Employee::create([
+                        'user_id' => $newUser->id,
+                        'school_id' => $schoolId,
+                        'full_name' => $newUser->name,
+                        'role_type' => $newUser->role === 'HEADMASTER' ? 'HEADMASTER' : 'TEACHER',
+                        'is_active' => true,
+                    ]);
+                } catch (\Throwable $e) {}
+            }
+
             $msg = "✓ Akun pengguna baru {$newUser->name} berhasil ditambahkan ke unit!";
         }
 
@@ -2937,8 +3086,9 @@ class AcademicController extends Controller
         $currentUser = auth()->user();
         $isSuperAdmin = $currentUser->isSuperAdmin() || $currentUser->role === 'SUPER_ADMIN';
         $isHeadmaster = $currentUser->isHeadmaster() || $currentUser->role === 'HEADMASTER';
+        $isStaffTu = $currentUser->isStaffTu() || $currentUser->role === 'STAFF_TU';
 
-        if (!$isSuperAdmin && !$isHeadmaster) {
+        if (!$isSuperAdmin && !$isHeadmaster && !$isStaffTu) {
             abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang menghapus akun pengguna.');
         }
 
@@ -2956,6 +3106,9 @@ class AcademicController extends Controller
         }
 
         $name = $targetUser->name;
+        try {
+            Employee::where('user_id', $targetUser->id)->delete();
+        } catch (\Throwable $e) {}
         $targetUser->delete();
 
         return redirect()->back()->with('success', "✓ Akun pengguna {$name} berhasil dihapus dari unit sekolah.");

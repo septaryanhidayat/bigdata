@@ -565,6 +565,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/ai/generate-narrative-alias', [AcademicController::class, 'aiGenerateNarrative'])->name('ai.generate.narrative');
             Route::post('/ai/generate-quran', [AcademicController::class, 'aiGenerateQuran'])->name('ai.quran');
             Route::post('/ai/generate-quran-alias', [AcademicController::class, 'aiGenerateQuran'])->name('ai.generate.quran');
+            Route::post('/ai/generate-bpi', [AcademicController::class, 'aiGenerateBpi'])->name('ai.bpi');
+            Route::post('/ai/generate-bpi-alias', [AcademicController::class, 'aiGenerateBpi'])->name('ai.generate.bpi');
             Route::match(['get', 'post'], '/ai/analyze-class', [AcademicController::class, 'aiAnalyzeClass'])->name('ai.analyze-class');
             Route::match(['get', 'post'], '/ai/analyze-class-alias', [AcademicController::class, 'aiAnalyzeClass'])->name('ai.analyze.class');
 

@@ -304,13 +304,17 @@ Kriteria:
         string $tahfidzTarget = 'Juz 30 (An-Naba s/d An-Nas)',
         string $tahfidzAchievement = 'Tuntas Juz 30'
     ): string {
+        $isLowScore = ($makhrajScore > 0 && $makhrajScore < 75) || ($tajwidScore > 0 && $tajwidScore < 75);
+        $scoreContext = $isLowScore ? "Nilai perlu bimbingan: berikan saran perbaikan makhraj/tajwid" : "Nilai sangat baik: berikan apresiasi nada Hijaz tartil";
+
         $prompt = "Anda adalah Koordinator Al-Qur'an Metode Wafa SDIT Robbani.
 Tuliskan 1-2 kalimat evaluasi resmi buku rapor untuk:
 - Santri: {$studentName}
 - Tahsin Wafa: {$tahsinLevel} (Makhraj: {$makhrajScore}, Tajwid: {$tajwidScore})
 - Tahfidz: Capaian ({$tahfidzAchievement}) dari target ({$tahfidzTarget})
+- Konteks: {$scoreContext}
 
-Output HANYA 1-2 kalimat narasi siap cetak mengapresiasi nada Hijaz Wafa dan hafalan mutqin.";
+Output HANYA 1-2 kalimat narasi siap cetak (maks 30 kata), tanpa asterisk (**), tanpa judul.";
 
         $aiText = $this->generateContent($prompt, 200, 0.6);
 
@@ -321,7 +325,83 @@ Output HANYA 1-2 kalimat narasi siap cetak mengapresiasi nada Hijaz Wafa dan haf
             }
         }
 
-        return "Ananda melantunkan ayat Al-Qur'an dengan irama Hijaz Wafa yang tartil dan makharijul huruf yang fasih. Hafalan {$tahfidzAchievement} terjaga dengan baik; istiqomahkan muraja'ah yaumiyah agar hafalan semakin mutqin.";
+        // Fallback berjenjang sesuai nilai riil santri
+        if ($isLowScore) {
+            return "Ananda {$studentName} perlu bimbingan intensif dan latihan talaqqi pada pelafalan makharijul huruf serta ketepatan tajwid. Tingkatkan muraja'ah yaumiyah agar hafalan {$tahfidzAchievement} semakin mutqin.";
+        } elseif ($makhrajScore >= 88 && $tajwidScore >= 88) {
+            return "MasyaAllah, Ananda {$studentName} melantunkan ayat Al-Qur'an dengan irama Hijaz Wafa yang sangat merdu, tartil, dan makharijul huruf yang fasih. Capaian {$tahfidzAchievement} sangat baik; pertahankan keistiqomahan muraja'ah.";
+        } else {
+            return "Alhamdulillah, Ananda {$studentName} menunjukkan kelancaran membaca Al-Qur'an dan penguasaan nada Hijaz Wafa yang baik. Terus tingkatkan ketertiban tajwid serta keistiqomahan muraja'ah hafalan {$tahfidzAchievement}.";
+        }
+    }
+
+    /**
+     * Generate BPI & 7 SKL JSIT Evaluation Note for Student Report Card
+     */
+    public function generateBpiEvaluation(
+        string $studentName,
+        array $indicators = [],
+        string $sholatFardhu = 'Selalu Berjamaah di Masjid'
+    ): string {
+        $labels = [
+            'salimul_aqidah' => 'Akidah yang Lurus',
+            'shahihul_ibadah' => 'Ibadah yang Benar',
+            'matinul_khuluq' => 'Akhlak yang Mulia',
+            'qowiyyul_jismi' => 'Kekuatan Fisik & Kesehatan',
+            'mutsaqqoful_fikri' => 'Wawasan & Pemikiran Luas',
+            'qodirun_alal_kasbi' => 'Kemandirian',
+            'munazzhomun' => 'Keteraturan & Disiplin',
+        ];
+
+        $pbList = [];
+        $sbList = [];
+
+        foreach ($indicators as $key => $val) {
+            $lbl = $labels[$key] ?? $key;
+            if ($val === 'PB') {
+                $pbList[] = $lbl;
+            } elseif ($val === 'SB') {
+                $sbList[] = $lbl;
+            }
+        }
+
+        $indicatorsSummary = '';
+        foreach ($indicators as $k => $v) {
+            $indicatorsSummary .= ($labels[$k] ?? $k) . ": {$v}, ";
+        }
+
+        $prompt = "Anda adalah Pembina Bina Pribadi Islami (BPI) di Sekolah Islam Terpadu (SIT Robbani).
+Tuliskan 1-2 kalimat resmi catatan evaluasi pembinaan karakter & ibadah untuk buku rapor:
+- Nama Siswa: {$studentName}
+- Capaian 7 Standar Kompetensi Lulusan (SKL) JSIT: {$indicatorsSummary}
+- Pembiasaan Shalat Fardhu: {$sholatFardhu}
+
+Peraturan Ketat:
+1. JIKA ada aspek bernilai PB (Perlu Bimbingan), sebutkan aspek tersebut dengan santun dan dorongan perbaikan pembiasaan ibadah.
+2. JIKA semua atau mayoritas SB (Sangat Baik), berikan apresiasi kepribadian muslim teladan dan istiqomah shalat berjamaah.
+3. JIKA mayoritas B/MB, berikan motivasi penguatan keistiqomahan ibadah dan adab harian.
+4. Output HANYA 1-2 kalimat narasi siap cetak (maks 30 kata), tanpa asterisk (**), tanpa judul.";
+
+        $aiText = $this->generateContent($prompt, 200, 0.6);
+
+        if (!empty($aiText)) {
+            $trimmed = trim(str_replace(['*', '"'], '', $aiText));
+            if (strlen($trimmed) > 30 && !str_starts_with(strtolower($trimmed), 'berikut')) {
+                return $trimmed;
+            }
+        }
+
+        // Fallback cerdas sesuai capaian indikator riil siswa
+        if (!empty($pbList)) {
+            $pbStr = implode(', ', $pbList);
+            return "Ananda {$studentName} memerlukan bimbingan khusus dan pembiasaan berkelanjutan pada aspek {$pbStr}. Perlu pendampingan intensif dari orang tua dan pembina dalam pembiasaan ibadah yaumiyah dan penegakan adab islami.";
+        }
+
+        if (count($sbList) >= 5 && str_contains(strtolower($sholatFardhu), 'selalu')) {
+            return "MasyaAllah, Ananda {$studentName} menunjukkan profil kepribadian muslim teladan, kokoh aqidahnya, tertib dalam ibadah yaumiyah, santun dalam berakhlak, serta istiqomah dalam shalat fardhu berjamaah.";
+        }
+
+        return "Alhamdulillah, Ananda {$studentName} menunjukkan perkembangan karakter islami yang baik dan tertib dalam mengikuti pembiasaan ibadah di sekolah. Terus tingkatkan keistiqomahan shalat fardhu dan pembiasaan adab yaumiyah.";
     }
 
     /**

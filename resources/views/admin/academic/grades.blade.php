@@ -1543,12 +1543,54 @@
             </div>
         </div>
 
+        <!-- Counter Ringkasan Pas Foto & Data Siswa -->
+        @php
+            if ($selectedClassroomId === 'unassigned') {
+                $displayedStudents = $unitStudents->whereNull('classroom_id');
+            } elseif ($selectedClassroomId) {
+                $displayedStudents = $unitStudents->where('classroom_id', $selectedClassroomId);
+            } else {
+                $displayedStudents = $unitStudents;
+            }
+            $withPhotoCount = $displayedStudents->filter(fn($s) => !empty($s->photo_path))->count();
+            $withoutPhotoCount = $displayedStudents->filter(fn($s) => empty($s->photo_path))->count();
+        @endphp
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Total Siswa Terfilter</span>
+                    <span class="text-lg font-black text-slate-900">{{ $displayedStudents->count() }} <span class="text-xs font-semibold text-slate-400">Siswa</span></span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-lg">
+                    🎓
+                </div>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-emerald-200 shadow-2xs flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">Sudah Ada Pas Foto</span>
+                    <span class="text-lg font-black text-emerald-800">{{ $withPhotoCount }} <span class="text-xs font-semibold text-emerald-600">Siswa ({{ $displayedStudents->count() > 0 ? round(($withPhotoCount / $displayedStudents->count()) * 100) : 0 }}%)</span></span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg">
+                    🖼️
+                </div>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border {{ $withoutPhotoCount > 0 ? 'border-rose-300 bg-rose-50/30' : 'border-slate-200' }} shadow-2xs flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] font-bold {{ $withoutPhotoCount > 0 ? 'text-rose-700' : 'text-slate-500' }} uppercase tracking-wider block">Belum Ada Pas Foto</span>
+                    <span class="text-lg font-black {{ $withoutPhotoCount > 0 ? 'text-rose-700' : 'text-slate-700' }}">{{ $withoutPhotoCount }} <span class="text-xs font-semibold {{ $withoutPhotoCount > 0 ? 'text-rose-500' : 'text-slate-400' }}">Siswa</span></span>
+                </div>
+                <div class="w-9 h-9 rounded-xl {{ $withoutPhotoCount > 0 ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-500' }} flex items-center justify-center text-lg">
+                    📷
+                </div>
+            </div>
+        </div>
+
         <!-- Student Table List -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
                 <div>
                     <h3 class="font-black text-sm text-slate-900">Daftar Siswa Unit (Total: {{ $unitStudents->count() }} Siswa)</h3>
-                    <p class="text-xs text-slate-500 font-medium">Menampilkan seluruh peserta didik aktif pada unit {{ $activeSchool->name ?? 'SIT Robbani' }}</p>
+                    <p class="text-xs text-slate-500 font-medium">Menampilkan seluruh peserta didik aktif pada unit {{ $activeSchool->name ?? 'SIT Robbani' }}. Pas foto otomatis dikompres format WebP untuk lembar rapor.</p>
                 </div>
             </div>
 
@@ -1557,6 +1599,7 @@
                     <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                         <tr>
                             <th class="px-4 py-3 text-center w-12">No</th>
+                            <th class="px-3 py-3 text-center w-20">Pas Foto</th>
                             <th class="px-4 py-3 w-32">NIS / NISN</th>
                             <th class="px-4 py-3">Nama Lengkap Siswa</th>
                             <th class="px-4 py-3 text-center w-24">L / P</th>
@@ -1566,18 +1609,64 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800 font-medium">
-                        @php
-                            if ($selectedClassroomId === 'unassigned') {
-                                $displayedStudents = $unitStudents->whereNull('classroom_id');
-                            } elseif ($selectedClassroomId) {
-                                $displayedStudents = $unitStudents->where('classroom_id', $selectedClassroomId);
-                            } else {
-                                $displayedStudents = $unitStudents;
-                            }
-                        @endphp
                         @forelse($displayedStudents as $st)
                         <tr class="hover:bg-slate-50/75 transition-colors siswa-row" data-name="{{ strtolower($st->full_name) }}" data-nis="{{ $st->nis }}">
                             <td class="px-4 py-3 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+                            
+                            <!-- Kolom Pas Foto Siswa (WebP Compact & Badge Indikator) -->
+                            <td class="px-3 py-3 text-center">
+                                @php
+                                    $stDataArrForPhoto = [
+                                        'id' => $st->id,
+                                        'nis' => $st->nis,
+                                        'nisn' => $st->nisn ?? '',
+                                        'full_name' => $st->full_name,
+                                        'nickname' => $st->nickname ?? '',
+                                        'gender' => $st->gender,
+                                        'classroom_id' => $st->classroom_id,
+                                        'birth_place' => $st->pob ?? $st->birth_place ?? '',
+                                        'birth_date' => $st->dob ? \Carbon\Carbon::parse($st->dob)->format('Y-m-d') : '',
+                                        'religion' => $st->religion ?? 'Islam',
+                                        'previous_school' => $st->previous_school ?? '',
+                                        'address' => $st->address ?? '',
+                                        'village' => $st->village ?? '',
+                                        'district' => $st->district ?? '',
+                                        'city' => $st->city ?? '',
+                                        'province' => $st->province ?? 'Sumatera Selatan',
+                                        'postal_code' => $st->postal_code ?? '',
+                                        'father_name' => $st->father_name ?? '',
+                                        'father_job' => $st->father_job ?? '',
+                                        'mother_name' => $st->mother_name ?? '',
+                                        'mother_job' => $st->mother_job ?? '',
+                                        'guardian_name' => $st->guardian_name ?? '',
+                                        'guardian_job' => $st->guardian_job ?? '',
+                                        'guardian_address' => $st->guardian_address ?? '',
+                                        'photo_path' => $st->photo_path ?? '',
+                                    ];
+                                @endphp
+                                @if(!empty($st->photo_path))
+                                    <div class="inline-flex flex-col items-center gap-1 group cursor-pointer" onclick="editSiswaLengkap({{ json_encode($stDataArrForPhoto, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" title="Klik untuk ganti foto">
+                                        <img src="{{ asset($st->photo_path) }}" alt="{{ $st->full_name }}" 
+                                             class="w-10 h-13 object-cover rounded-lg border border-emerald-300 shadow-2xs group-hover:scale-105 transition-transform" 
+                                             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'px-2 py-0.5 rounded bg-rose-50 border border-rose-200 text-rose-700 text-[10px] font-bold\'>⚠️ Error</span>';">
+                                        <span class="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black flex items-center gap-0.5">
+                                            ✓ Ada
+                                        </span>
+                                    </div>
+                                @else
+                                    <button type="button" onclick="editSiswaLengkap({{ json_encode($stDataArrForPhoto, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" 
+                                            class="inline-flex flex-col items-center gap-1 group cursor-pointer" title="Klik untuk unggah pas foto">
+                                        <div class="w-10 h-13 rounded-lg border-2 border-dashed border-rose-300 bg-rose-50/60 flex flex-col items-center justify-center text-rose-400 group-hover:border-rose-500 group-hover:bg-rose-100/60 transition">
+                                            <span class="text-xs">📷</span>
+                                            <span class="text-[8px] font-bold text-rose-600">3x4</span>
+                                        </div>
+                                        <span class="px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-800 text-[9px] font-black group-hover:bg-rose-200 transition">
+                                            ⚠️ Belum Ada
+                                        </span>
+                                    </button>
+                                @endif
+                            </td>
+
                             <td class="px-4 py-3 font-mono font-bold text-slate-700">
                                 <div>{{ $st->nis }}</div>
                                 @if($st->nisn)
@@ -1613,33 +1702,7 @@
                             <td class="px-4 py-3 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
                                     @php
-                                        $stDataArr = [
-                                            'id' => $st->id,
-                                            'nis' => $st->nis,
-                                            'nisn' => $st->nisn ?? '',
-                                            'full_name' => $st->full_name,
-                                            'nickname' => $st->nickname ?? '',
-                                            'gender' => $st->gender,
-                                            'classroom_id' => $st->classroom_id,
-                                            'birth_place' => $st->pob ?? $st->birth_place ?? '',
-                                            'birth_date' => $st->dob ? \Carbon\Carbon::parse($st->dob)->format('Y-m-d') : '',
-                                            'religion' => $st->religion ?? 'Islam',
-                                            'previous_school' => $st->previous_school ?? '',
-                                            'address' => $st->address ?? '',
-                                            'village' => $st->village ?? '',
-                                            'district' => $st->district ?? '',
-                                            'city' => $st->city ?? '',
-                                            'province' => $st->province ?? 'Sumatera Selatan',
-                                            'postal_code' => $st->postal_code ?? '',
-                                            'father_name' => $st->father_name ?? '',
-                                            'father_job' => $st->father_job ?? '',
-                                            'mother_name' => $st->mother_name ?? '',
-                                            'mother_job' => $st->mother_job ?? '',
-                                            'guardian_name' => $st->guardian_name ?? '',
-                                            'guardian_job' => $st->guardian_job ?? '',
-                                            'guardian_address' => $st->guardian_address ?? '',
-                                            'photo_path' => $st->photo_path ?? '',
-                                        ];
+                                        $stDataArr = $stDataArrForPhoto;
                                     @endphp
                                     <button onclick="editSiswaLengkap({{ json_encode($stDataArr, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" 
                                             class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer"
@@ -1664,7 +1727,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-8 text-center text-slate-500">
+                            <td colspan="8" class="px-6 py-8 text-center text-slate-500">
                                 Belum ada siswa terdaftar pada rombel / unit ini.
                             </td>
                         </tr>
@@ -1825,11 +1888,63 @@
                 <h2 class="text-xl font-black text-slate-900 tracking-tight">
                     Setting Rombel & Penetapan Wali Kelas
                 </h2>
-                         <!-- Tombol Tambah Rombel Baru -->
+                <p class="text-xs text-slate-500 font-medium mt-0.5">
+                    Kelola data rombongan belajar, kapasitas kelas, penetapan guru wali kelas, serta tanda tangan digital rapor.
+                </p>
+            </div>
+
+            <!-- Tombol Tambah Rombel Baru -->
             <button onclick="bukaModalTambahRombel()" 
-                    class="px-4 py-2.5 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black text-xs flex items-center gap-2 shadow-sm transition cursor-pointer active:scale-95">
+                    class="px-4 py-2.5 rounded-xl bg-[#064e3b] hover:bg-[#047857] text-white font-black text-xs flex items-center gap-2 shadow-sm transition cursor-pointer active:scale-95 shrink-0">
                 <span>➕</span> <span>Tambah Rombel Baru</span>
             </button>
+        </div>
+
+        <!-- Quick Stats Rombel -->
+        @php
+            $totalRombelStudents = $classrooms->sum(fn($c) => \App\Models\Student::where('classroom_id', $c->id)->count());
+            $totalWaliAssigned = $classrooms->whereNotNull('homeroom_teacher_id')->count();
+        @endphp
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg font-black shrink-0">
+                    🏫
+                </div>
+                <div>
+                    <span class="text-[10px] font-black uppercase text-slate-400">Total Rombel</span>
+                    <p class="text-base font-black text-slate-900 leading-tight">{{ $classrooms->count() }} Kelas</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-lg font-black shrink-0">
+                    👥
+                </div>
+                <div>
+                    <span class="text-[10px] font-black uppercase text-slate-400">Siswa di Rombel</span>
+                    <p class="text-base font-black text-slate-900 leading-tight">{{ $totalRombelStudents }} Siswa</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-lg font-black shrink-0">
+                    👨‍🏫
+                </div>
+                <div>
+                    <span class="text-[10px] font-black uppercase text-slate-400">Wali Kelas Terisi</span>
+                    <p class="text-base font-black text-slate-900 leading-tight">{{ $totalWaliAssigned }} / {{ $classrooms->count() }} Kelas</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-lg font-black shrink-0">
+                    📌
+                </div>
+                <div>
+                    <span class="text-[10px] font-black uppercase text-slate-400">Tingkat / Jenjang</span>
+                    <p class="text-base font-black text-slate-900 leading-tight">{{ $schoolLevels->count() }} Tingkat</p>
+                </div>
+            </div>
         </div>
 
         <!-- Modal Tambah & Edit Rombel Lengkap (CRUD Rombel) -->
@@ -1908,26 +2023,24 @@
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                    <h3 class="font-black text-sm text-slate-900">Daftar Rombel & Wali Kelas Aktif (Total: {{ $classrooms->count() }} Rombel)</h3>
+                    <h3 class="font-black text-sm text-slate-900">Daftar Rombel & Wali Kelas Aktif</h3>
                     <p class="text-xs text-slate-500 font-medium">Klik <b>Edit</b> untuk mengubah nama, tingkat, kapasitas, dan wali kelas rombel</p>
                 </div>
                 <span class="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-black">
-                    {{ $schoolLevels->count() }} Tingkat Tersedia
+                    Total: {{ $classrooms->count() }} Rombel Aktif
                 </span>
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs min-w-[1100px]">
-                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
                         <tr>
-                            <th class="px-5 py-3 text-center w-12">No</th>
-                            <th class="px-5 py-3 min-w-[180px]">Nama Rombel</th>
-                            <th class="px-5 py-3 min-w-[160px]">Tingkat (Level)</th>
-                            <th class="px-5 py-3 text-center min-w-[140px]">Ruang & Kapasitas</th>
-                            <th class="px-5 py-3 text-center min-w-[130px]">Siswa Terdaftar</th>
-                            <th class="px-5 py-3 min-w-[220px]">Wali Kelas Penanggung Jawab</th>
-                            <th class="px-5 py-3 text-center min-w-[150px]">TTD Digital</th>
-                            <th class="px-5 py-3 text-center min-w-[120px]">Aksi</th>
+                            <th class="px-4 py-3 text-center w-12">No</th>
+                            <th class="px-4 py-3">Rombongan Belajar</th>
+                            <th class="px-4 py-3">Wali Kelas & TTD Digital</th>
+                            <th class="px-4 py-3 text-center">Kapasitas & Siswa</th>
+                            <th class="px-4 py-3 text-center">Ruangan</th>
+                            <th class="px-4 py-3 text-center w-32">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-800 font-medium">
@@ -1935,82 +2048,85 @@
                         @php
                             $stCount = \App\Models\Student::where('classroom_id', $cls->id)->count();
                             $lvlName = $cls->level->name ?? ('Tingkat ' . $cls->level_id);
+                            $cap = $cls->capacity ?? 28;
                         @endphp
                         <tr class="hover:bg-slate-50/75 transition-colors">
-                            <td class="px-5 py-3.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-3.5 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
                             
-                            <!-- Nama Rombel -->
-                            <td class="px-5 py-3.5">
-                                <div class="font-black text-slate-900 text-sm flex items-center gap-1.5">
-                                    <span>🏫</span>
-                                    <span>{{ $cls->name }}</span>
-                                </div>
-                                <p class="text-[10px] text-slate-400 mt-0.5">ID Rombel: #{{ $cls->id }}</p>
-                            </td>
-
-                            <!-- Tingkat / Level -->
-                            <td class="px-5 py-3.5">
-                                <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-900 border border-blue-200 font-black text-xs inline-flex items-center gap-1">
-                                    <span>📌</span> <span>{{ $lvlName }}</span>
-                                </span>
-                            </td>
-
-                            <!-- Ruangan & Kapasitas -->
-                            <td class="px-5 py-3.5 text-center">
-                                <div class="font-bold text-slate-800">
-                                    {{ $cls->room_number ? 'Ruang: ' . $cls->room_number : 'Ruang Kelas' }}
-                                </div>
-                                <div class="text-[10px] text-slate-500 font-semibold mt-0.5">
-                                    Maks {{ $cls->capacity ?? 28 }} Siswa
-                                </div>
-                            </td>
-
-                            <!-- Siswa Terdaftar -->
-                            <td class="px-5 py-3.5 text-center">
-                                <span class="px-2.5 py-1 rounded-lg {{ $stCount > 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-200/60' : 'bg-slate-100 text-slate-600 border-slate-200' }} border font-black text-xs">
-                                    {{ $stCount }} Siswa
-                                </span>
-                            </td>
-
-                            <!-- Wali Kelas Penanggung Jawab -->
-                            <td class="px-5 py-3.5">
-                                @if($cls->homeroomTeacher)
-                                    <div class="font-bold text-slate-900 text-xs">
-                                        {{ $cls->homeroomTeacher->name }}
-                                    </div>
-                                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">
-                                        NIP: {{ $cls->homeroomTeacher->nip ?? '-' }}
-                                    </div>
-                                @else
-                                    <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-bold">
-                                        ⚠️ Belum Ditetapkan
+                            <!-- Rombel & Tingkat -->
+                            <td class="px-4 py-3.5">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-sm font-black shrink-0">
+                                        🏫
                                     </span>
-                                @endif
+                                    <div>
+                                        <div class="font-black text-slate-900 text-sm leading-snug">{{ $cls->name }}</div>
+                                        <div class="flex items-center gap-1.5 mt-0.5">
+                                            <span class="px-2 py-0.2 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-[10px] font-black">
+                                                {{ $lvlName }}
+                                            </span>
+                                            <span class="text-[10px] text-slate-400 font-mono">ID: #{{ $cls->id }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
 
-                            <!-- Upload TTD Digital Wali Kelas -->
-                            <td class="px-5 py-3.5 text-center whitespace-nowrap">
-                                <div class="inline-flex flex-col items-center gap-1.5">
-                                    @if(!empty($cls->homeroom_signature_path))
-                                        <div class="flex items-center gap-1.5">
-                                            <img src="{{ asset($cls->homeroom_signature_path) }}" class="h-7 w-auto object-contain border border-slate-200 rounded p-0.5 bg-white shadow-2xs" alt="TTD">
-                                            <span class="text-[9px] text-emerald-700 font-extrabold bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200">✓ Aktif</span>
-                                        </div>
-                                    @endif
-                                    <form method="POST" action="{{ route('admin.academic.classrooms.signature', $cls->id) }}" enctype="multipart/form-data">
-                                        @csrf
-                                        <label class="cursor-pointer px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] border border-slate-300 transition shadow-2xs inline-flex items-center gap-1">
-                                            <span>{{ !empty($cls->homeroom_signature_path) ? '✏️ Ganti TTD' : '📤 Upload TTD' }}</span>
-                                            <input type="file" name="homeroom_signature" accept="image/*" class="hidden" onchange="this.form.submit()">
-                                        </label>
-                                    </form>
+                            <!-- Wali Kelas & TTD Digital -->
+                            <td class="px-4 py-3.5">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div>
+                                        @if($cls->homeroomTeacher)
+                                            <div class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                                                <span>👨‍🏫</span>
+                                                <span>{{ $cls->homeroomTeacher->name }}</span>
+                                            </div>
+                                            <div class="text-[10px] text-slate-500 font-medium mt-0.5">
+                                                NIP: {{ $cls->homeroomTeacher->nip ?? '-' }}
+                                            </div>
+                                        @else
+                                            <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-bold inline-flex items-center gap-1">
+                                                <span>⚠️</span> Belum Ditetapkan
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <!-- Mini TTD Preview & Upload -->
+                                    <div class="shrink-0 flex items-center gap-1.5">
+                                        @if(!empty($cls->homeroom_signature_path))
+                                            <img src="{{ asset($cls->homeroom_signature_path) }}" 
+                                                 class="h-6 w-auto object-contain border border-slate-200 rounded p-0.5 bg-white shadow-2xs" 
+                                                 alt="TTD" title="TTD Digital Aktif">
+                                            <span class="text-[9px] font-black text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded border border-emerald-200">✓ TTD</span>
+                                        @endif
+                                        <form method="POST" action="{{ route('admin.academic.classrooms.signature', $cls->id) }}" enctype="multipart/form-data" class="inline">
+                                            @csrf
+                                            <label class="cursor-pointer px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] border border-slate-300 transition shadow-2xs inline-flex items-center gap-1" title="Upload Tanda Tangan Digital">
+                                                <span>✍️</span> <span>{{ !empty($cls->homeroom_signature_path) ? 'Ganti' : 'Upload TTD' }}</span>
+                                                <input type="file" name="homeroom_signature" accept="image/*" class="hidden" onchange="this.form.submit()">
+                                            </label>
+                                        </form>
+                                    </div>
                                 </div>
+                            </td>
+
+                            <!-- Kapasitas & Siswa Terdaftar -->
+                            <td class="px-4 py-3.5 text-center">
+                                <span class="px-2.5 py-1 rounded-lg {{ $stCount > 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-200/60' : 'bg-slate-100 text-slate-600 border-slate-200' }} border font-black text-xs inline-flex items-center gap-1">
+                                    <span>👥</span> <span>{{ $stCount }} / {{ $cap }} Siswa</span>
+                                </span>
+                            </td>
+
+                            <!-- Ruangan -->
+                            <td class="px-4 py-3.5 text-center">
+                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-bold text-[11px] border border-slate-200">
+                                    {{ $cls->room_number ?: 'Ruang Kelas' }}
+                                </span>
                             </td>
 
                             <!-- Aksi (Edit & Hapus Rombel) -->
-                            <td class="px-5 py-3.5 text-center whitespace-nowrap">
-                                <div class="inline-flex items-center gap-1.5">
-                                    <!-- Tombol Edit Rombel Lengkap -->
+                            <td class="px-4 py-3.5 text-center whitespace-nowrap">
+                                <div class="inline-flex items-center justify-center gap-1.5">
+                                    <!-- Tombol Edit Rombel -->
                                     <button type="button" 
                                             onclick="bukaModalEditRombel({{ $cls->id }}, '{{ addslashes($cls->name) }}', {{ $cls->level_id ?? 'null' }}, {{ $cls->capacity ?? 28 }}, '{{ addslashes($cls->room_number ?? '') }}', {{ $cls->homeroom_teacher_id ?? 'null' }})"
                                             class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:border-amber-400 transition shadow-2xs cursor-pointer" 
@@ -2032,7 +2148,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-8 text-center text-slate-500">
+                            <td colspan="6" class="px-6 py-8 text-center text-slate-500">
                                 Belum ada rombongan belajar yang dibuat untuk unit ini. Silakan klik tombol <b>➕ Tambah Rombel Baru</b> di atas.
                             </td>
                         </tr>
@@ -2466,7 +2582,7 @@
                     <thead class="bg-slate-100/75 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
                         <tr>
                             <th class="px-4 py-3 text-center w-12">No</th>
-                            <th class="px-4 py-3 w-28">Kode TP</th>
+                            <th class="px-4 py-3 text-center min-w-[120px] whitespace-nowrap">Kode TP</th>
                             <th class="px-4 py-3 w-48">Mata Pelajaran</th>
                             <th class="px-4 py-3 min-w-[280px]">Ringkasan Capaian (Digunakan di Rapor)</th>
                             <th class="px-4 py-3 min-w-[320px]">Deskripsi Lengkap Tujuan Pembelajaran</th>
@@ -2479,8 +2595,8 @@
                         @forelse(($learningObjectives ?? collect([])) as $tp)
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-4 py-3 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
-                            <td class="px-4 py-3 font-black text-emerald-800">
-                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 font-mono text-xs">
+                            <td class="px-4 py-3 text-center whitespace-nowrap shrink-0">
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 font-mono text-xs font-black text-emerald-800 whitespace-nowrap inline-block shadow-2xs">
                                     {{ $tp->code }}
                                 </span>
                             </td>
@@ -3123,7 +3239,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                             @foreach($activeLearningObjectives as $atp)
                                 <div class="bg-white rounded-xl border border-emerald-200/90 p-2.5 shadow-2xs hover:border-emerald-400 hover:shadow-xs transition flex items-start gap-2.5" title="{{ $atp->description }}">
-                                    <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[11px] shrink-0 border border-emerald-200">
+                                    <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900 font-mono font-black text-[11px] shrink-0 border border-emerald-200 whitespace-nowrap inline-block">
                                         {{ $atp->code }}
                                     </span>
                                     <p class="text-xs font-bold text-slate-800 leading-snug line-clamp-2">
@@ -3310,7 +3426,7 @@
                                     <label class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition cursor-pointer text-xs">
                                         <input type="checkbox" name="tp_optimal" value="{{ $tp->short_desc }}" onchange="updatePreviewKalimatTp()" class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 tp-optimal-check" {{ $loop->first ? 'checked' : '' }}>
                                         <div class="leading-relaxed">
-                                            <strong class="text-emerald-800 font-extrabold mr-1">[{{ $tp->code }}]</strong>
+                                            <strong class="text-emerald-800 font-extrabold mr-1 whitespace-nowrap font-mono inline-block">[{{ $tp->code }}]</strong>
                                             <span class="text-slate-800 font-bold">{{ $tp->short_desc }}</span>
                                             @if($tp->description && $tp->description !== $tp->short_desc)
                                                 <p class="text-[11px] text-slate-500 mt-0.5">{{ Str::limit($tp->description, 100) }}</p>
@@ -3336,7 +3452,7 @@
                                     <label class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition cursor-pointer text-xs">
                                         <input type="radio" name="tp_need_help" value="{{ $tp->short_desc }}" onchange="updatePreviewKalimatTp()" class="mt-0.5 text-amber-600 focus:ring-amber-500 border-slate-300">
                                         <div class="leading-relaxed">
-                                            <strong class="text-amber-800 font-extrabold mr-1">[{{ $tp->code }}]</strong>
+                                            <strong class="text-amber-800 font-extrabold mr-1 whitespace-nowrap font-mono inline-block">[{{ $tp->code }}]</strong>
                                             <span class="text-slate-800 font-bold">{{ $tp->short_desc }}</span>
                                         </div>
                                     </label>
@@ -3485,10 +3601,24 @@
                         </p>
                     </div>
 
-                    <button type="submit" 
-                            class="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95 whitespace-nowrap">
-                        <span>💾</span> <span>SIMPAN NILAI AL-QUR'AN KELAS</span>
-                    </button>
+                    <div class="flex items-center gap-2 flex-wrap shrink-0">
+                        @if($classStudents->isNotEmpty())
+                        <button type="button" onclick="applyAllQuranTemplates()"
+                                class="px-3 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 border border-teal-300 text-teal-800 font-black text-xs flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                                title="Otomatis isi catatan Al-Qur'an semua siswa sesuai nilai makhraj, tajwid, dan jilid riil">
+                            <span>📋</span> <span>Template Semua Siswa</span>
+                        </button>
+                        <button type="button" onclick="generateAllQuranAi()"
+                                class="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 font-black text-xs flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                                title="Generate evaluasi Al-Qur'an AI untuk semua siswa secara berurutan">
+                            <span>✨</span> <span>AI Semua Siswa</span>
+                        </button>
+                        @endif
+                        <button type="submit" 
+                                class="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95 whitespace-nowrap">
+                            <span>💾</span> <span>SIMPAN NILAI AL-QUR'AN</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Table Grid (Kompak Pas 1 Layar) -->
@@ -3505,7 +3635,7 @@
                                 <th class="px-1.5 py-2.5 text-center w-14">Adab</th>
                                 <th class="px-2 py-2.5 w-36">Capaian Tahfidz</th>
                                 <th class="px-2 py-2.5 w-32">Ujian Tasmi'</th>
-                                <th class="px-3 py-2.5 min-w-[200px]">Catatan Ustadz Pengampu</th>
+                                <th class="px-3 py-2.5 min-w-[260px]">Catatan Ustadz Pengampu</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-800">
@@ -3524,6 +3654,7 @@
                                 <!-- Jilid Wafa -->
                                 <td class="px-2 py-2.5">
                                     <input type="text" name="quran[{{ $student->id }}][tahsin_level]" 
+                                           id="quran_level_{{ $student->id }}"
                                            value="{{ $q->tahsin_level ?? '' }}"
                                            placeholder="Buku Wafa 1-5 / Hal..."
                                            class="w-full text-xs font-bold rounded-lg border border-slate-300 py-1 px-2 focus:border-teal-600 bg-white">
@@ -3532,24 +3663,28 @@
                                 <!-- 4 Aspek Wafa -->
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][makhraj]" 
+                                           id="quran_makhraj_{{ $student->id }}"
                                            value="{{ $scores['makhraj'] ?? '' }}"
                                            placeholder="0"
                                            class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][tajwid]" 
+                                           id="quran_tajwid_{{ $student->id }}"
                                            value="{{ $scores['tajwid'] ?? '' }}"
                                            placeholder="0"
                                            class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][lagu_hijaz]" 
+                                           id="quran_hijaz_{{ $student->id }}"
                                            value="{{ $scores['lagu_hijaz'] ?? '' }}"
                                            placeholder="0"
                                            class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
                                 </td>
                                 <td class="px-1.5 py-2.5 text-center">
                                     <input type="number" min="0" max="100" name="quran[{{ $student->id }}][adab]" 
+                                           id="quran_adab_{{ $student->id }}"
                                            value="{{ $scores['adab'] ?? '' }}"
                                            placeholder="0"
                                            class="w-12 text-center font-bold text-xs rounded-lg border border-slate-300 py-1 focus:border-teal-600 bg-white">
@@ -3558,6 +3693,7 @@
                                 <!-- Tahfidz Achievement -->
                                 <td class="px-2 py-2.5">
                                     <input type="text" name="quran[{{ $student->id }}][tahfidz_achievement]" 
+                                           id="quran_tahfidz_{{ $student->id }}"
                                            value="{{ $q->tahfidz_achievement ?? '' }}"
                                            placeholder="Target Juz / Surat..."
                                            class="w-full text-xs font-semibold rounded-lg border border-slate-300 py-1 px-2 focus:border-teal-600 bg-white">
@@ -3566,6 +3702,7 @@
                                 <!-- Ujian Tasmi' -->
                                 <td class="px-2 py-2.5">
                                     <select name="quran[{{ $student->id }}][tasmi_exam_result]" 
+                                            id="quran_tasmi_{{ $student->id }}"
                                             class="w-full text-xs font-bold rounded-lg border border-slate-300 py-1 px-1.5 focus:border-teal-600 bg-white">
                                         <option value="Belum Mengambil Ujian Tasmi'" {{ ($q->tasmi_exam_result ?? '') == 'Belum Mengambil Ujian Tasmi\'' || empty($q?->tasmi_exam_result) ? 'selected' : '' }}>Belum Tasmi'</option>
                                         <option value="Lulus Ujian Tasmi' Sekali Duduk Predikat Mumtaz" {{ ($q->tasmi_exam_result ?? '') == 'Lulus Ujian Tasmi\' Sekali Duduk Predikat Mumtaz' ? 'selected' : '' }}>Lulus Mumtaz</option>
@@ -3577,10 +3714,18 @@
                                 <td class="px-3 py-2.5">
                                     <div class="flex items-center justify-between gap-1 mb-1">
                                         <span class="text-[10px] text-slate-500 font-bold">Catatan Pengampu:</span>
-                                        <button type="button" onclick="generateAiQuranSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
-                                                class="px-2 py-0.5 rounded-md bg-teal-50 hover:bg-teal-100 text-teal-800 font-black text-[10px] border border-teal-200 transition cursor-pointer flex items-center gap-1">
-                                            <span>✨ AI Evaluasi</span>
-                                        </button>
+                                        <div class="flex items-center gap-1">
+                                            <button type="button" onclick="applyQuranTemplateSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-teal-50 hover:bg-teal-100 text-teal-800 font-black text-[10px] border border-teal-200 transition cursor-pointer flex items-center gap-1"
+                                                    title="Terapkan template evaluasi sesuai angka makhraj/tajwid baris ini">
+                                                <span>📋 Template</span>
+                                            </button>
+                                            <button type="button" onclick="generateAiQuranSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-black text-[10px] border border-emerald-200 transition cursor-pointer flex items-center gap-1"
+                                                    title="Generate evaluasi Al-Qur'an AI berbasis nilai makhraj, tajwid, dan tahfidz riil siswa">
+                                                <span>✨ AI Evaluasi</span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <textarea rows="2" name="quran[{{ $student->id }}][tahsin_notes]" 
                                               id="quran_notes_{{ $student->id }}"
@@ -3659,10 +3804,24 @@
                         </p>
                     </div>
 
-                    <button type="submit" 
-                            class="px-4 py-2 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95">
-                        <span>💾</span> <span>SIMPAN EVALUASI KARAKTER KELAS</span>
-                    </button>
+                    <div class="flex items-center gap-2 flex-wrap shrink-0">
+                        @if($classStudents->isNotEmpty())
+                        <button type="button" onclick="applyAllBpiTemplates()"
+                                class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-300 text-indigo-800 font-black text-xs flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                                title="Otomatis isi catatan semua siswa sesuai capaian 7 SKL masing-masing">
+                            <span>📋</span> <span>Template Semua Siswa</span>
+                        </button>
+                        <button type="button" onclick="generateAllBpiAi()"
+                                class="px-3 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-300 text-purple-800 font-black text-xs flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                                title="Generate evaluasi AI untuk semua siswa secara berurutan">
+                            <span>✨</span> <span>AI Semua Siswa</span>
+                        </button>
+                        @endif
+                        <button type="submit" 
+                                class="px-4 py-2 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white font-black text-xs flex items-center gap-2 transition shadow-sm cursor-pointer active:scale-95">
+                            <span>💾</span> <span>SIMPAN EVALUASI BPI</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -3679,7 +3838,7 @@
                                 <th class="px-2 py-3 text-center" title="6. Qodirun 'alal Kasbi">6. Mandiri</th>
                                 <th class="px-2 py-3 text-center" title="7. Munazzhomun">7. Disiplin</th>
                                 <th class="px-3 py-3 w-40">Shalat Fardhu</th>
-                                <th class="px-4 py-3 min-w-[340px]">Catatan Pembina BPI</th>
+                                <th class="px-4 py-3 min-w-[360px]">Catatan Pembina BPI</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-800">
@@ -3711,6 +3870,7 @@
                                 @foreach($sklFields as $sklKey => $sklLabel)
                                 <td class="px-2 py-3 text-center">
                                     <select name="character[{{ $student->id }}][indicators][{{ $sklKey }}]" 
+                                            id="skl_{{ $student->id }}_{{ $sklKey }}"
                                             class="text-xs font-black rounded-lg border border-slate-300 py-1 px-1 bg-white text-center focus:border-indigo-600">
                                         <option value="SB" {{ ($ind[$sklKey] ?? 'SB') == 'SB' ? 'selected' : '' }}>SB</option>
                                         <option value="B" {{ ($ind[$sklKey] ?? '') == 'B' ? 'selected' : '' }}>B</option>
@@ -3722,6 +3882,7 @@
 
                                 <td class="px-3 py-3">
                                     <select name="character[{{ $student->id }}][mutabaah_sholat_fardhu]" 
+                                            id="sholat_{{ $student->id }}"
                                             class="w-full text-xs font-bold rounded-lg border border-slate-300 py-1 px-2 focus:border-indigo-600 bg-white">
                                         <option value="Selalu Berjamaah di Masjid" {{ ($c->mutabaah_sholat_fardhu ?? '') == 'Selalu Berjamaah di Masjid' ? 'selected' : '' }}>Selalu Berjamaah</option>
                                         <option value="Sering Berjamaah" {{ ($c->mutabaah_sholat_fardhu ?? '') == 'Sering Berjamaah' ? 'selected' : '' }}>Sering Berjamaah</option>
@@ -3729,10 +3890,27 @@
                                     </select>
                                 </td>
 
-                                <td class="px-4 py-3 min-w-[340px]">
-                                    <textarea name="character[{{ $student->id }}][bpi_mentor_notes]" rows="2"
-                                              placeholder="Catatan perkembangan ibadah dan pembinaan karakter ananda..."
-                                              class="w-full text-xs font-medium text-slate-800 rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 leading-relaxed shadow-2xs resize-y">{{ $c->bpi_mentor_notes ?? 'Ananda menunjukkan profil karakter muslim yang tangguh, istiqomah dalam ibadah yaumiyah dan adab islami.' }}</textarea>
+                                <td class="px-4 py-3 min-w-[360px]">
+                                    <div class="flex items-center justify-between gap-1 mb-1.5">
+                                        <span class="text-[10px] text-slate-500 font-bold">Catatan Perkembangan Karakter:</span>
+                                        <div class="flex items-center gap-1">
+                                            <button type="button" onclick="applyBpiTemplateSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-black text-[10px] border border-indigo-200 transition cursor-pointer flex items-center gap-1"
+                                                    title="Terapkan template deskripsi sesuai nilai 7 SKL baris ini">
+                                                <span>📋 Template</span>
+                                            </button>
+                                            <button type="button" onclick="generateAiBpiSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 font-black text-[10px] border border-purple-200 transition cursor-pointer flex items-center gap-1"
+                                                    title="Generate catatan BPI menggunakan kecerdasan buatan berbasis nilai riil 7 SKL">
+                                                <span>✨ AI BPI</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <textarea name="character[{{ $student->id }}][bpi_mentor_notes]" 
+                                              id="bpi_notes_{{ $student->id }}"
+                                              rows="2"
+                                              placeholder="Klik '📋 Template' atau '✨ AI BPI' untuk mengisi deskripsi sesuai nilai siswa..."
+                                              class="w-full text-xs font-medium text-slate-800 rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 leading-relaxed shadow-2xs resize-y">{{ $c->bpi_mentor_notes ?? '' }}</textarea>
                                 </td>
                             </tr>
                             @empty
@@ -5132,6 +5310,49 @@
         });
     }
 
+    function applyQuranTemplateSingle(studentId, studentName) {
+        const textarea = document.getElementById('quran_notes_' + studentId);
+        if (!textarea) return;
+
+        const makhraj = parseFloat(document.getElementById('quran_makhraj_' + studentId)?.value) || 80;
+        const tajwid = parseFloat(document.getElementById('quran_tajwid_' + studentId)?.value) || 80;
+        const achievement = document.getElementById('quran_tahfidz_' + studentId)?.value || 'Juz 30';
+
+        let text = '';
+        if (makhraj < 75 || tajwid < 75) {
+            text = `Ananda ${studentName} perlu bimbingan intensif dan latihan talaqqi pada pelafalan makharijul huruf serta ketepatan tajwid. Tingkatkan muraja'ah yaumiyah agar hafalan ${achievement} semakin mutqin.`;
+        } else if (makhraj >= 88 && tajwid >= 88) {
+            text = `MasyaAllah, Ananda ${studentName} melantunkan ayat Al-Qur'an dengan irama Hijaz Wafa yang sangat merdu, tartil, dan makharijul huruf yang fasih. Capaian ${achievement} sangat baik; pertahankan keistiqomahan muraja'ah.`;
+        } else {
+            text = `Alhamdulillah, Ananda ${studentName} menunjukkan kelancaran membaca Al-Qur'an dan penguasaan nada Hijaz Wafa yang baik. Terus tingkatkan ketertiban tajwid serta keistiqomahan muraja'ah hafalan ${achievement}.`;
+        }
+        textarea.value = text;
+    }
+
+    function applyAllQuranTemplates() {
+        const buttons = document.querySelectorAll('button[onclick^="applyQuranTemplateSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di tabel Al-Qur\'an untuk diterapkan template.');
+            return;
+        }
+        buttons.forEach(btn => btn.click());
+    }
+
+    async function generateAllQuranAi() {
+        const buttons = document.querySelectorAll('button[onclick^="generateAiQuranSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di tabel Al-Qur\'an.');
+            return;
+        }
+        if (!confirm('Apakah Anda ingin men-generate evaluasi Al-Qur\'an berbasis AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
+            return;
+        }
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].click();
+            await new Promise(r => setTimeout(r, 800));
+        }
+    }
+
     function generateAiQuranSingle(studentId, studentName) {
         const textarea = document.getElementById('quran_notes_' + studentId);
         if (!textarea) return;
@@ -5139,6 +5360,11 @@
         const originalVal = textarea.value;
         textarea.value = '✨ Sedang menyusun evaluasi tahsin & tahfidz Wafa dengan Robbani AI...';
         textarea.disabled = true;
+
+        const level = document.getElementById('quran_level_' + studentId)?.value || 'Buku Wafa 3-4';
+        const makhraj = parseFloat(document.getElementById('quran_makhraj_' + studentId)?.value) || 85;
+        const tajwid = parseFloat(document.getElementById('quran_tajwid_' + studentId)?.value) || 85;
+        const achievement = document.getElementById('quran_tahfidz_' + studentId)?.value || 'Juz 30';
 
         fetch('{{ route("admin.academic.ai.generate.quran") }}', {
             method: 'POST',
@@ -5149,11 +5375,10 @@
             },
             body: JSON.stringify({
                 student_name: studentName,
-                level: 'Buku Wafa 3-4',
-                makhraj: 90,
-                tajwid: 88,
-                adab: 92,
-                achievement: 'Juz 30'
+                tahsin_level: level,
+                makhraj_score: makhraj,
+                tajwid_score: tajwid,
+                tahfidz_achievement: achievement
             })
         })
         .then(res => res.json())
@@ -5165,6 +5390,117 @@
             } else {
                 textarea.value = originalVal;
                 alert(data.message || 'Gagal membuat evaluasi dengan AI.');
+            }
+        })
+        .catch(err => {
+            textarea.disabled = false;
+            textarea.value = originalVal;
+            alert('Gagal menghubungi AI: ' + err.message);
+        });
+    }
+
+    function applyBpiTemplateSingle(studentId, studentName) {
+        const textarea = document.getElementById('bpi_notes_' + studentId);
+        if (!textarea) return;
+
+        const sklNames = {
+            'salimul_aqidah': 'Akidah yang Lurus',
+            'shahihul_ibadah': 'Ibadah yang Benar',
+            'matinul_khuluq': 'Akhlak yang Mulia',
+            'qowiyyul_jismi': 'Kekuatan Fisik & Kesehatan',
+            'mutsaqqoful_fikri': 'Wawasan & Pemikiran Luas',
+            'qodirun_alal_kasbi': 'Kemandirian',
+            'munazzhomun': 'Keteraturan & Disiplin'
+        };
+
+        const pbList = [];
+        let sbCount = 0;
+
+        ['salimul_aqidah', 'shahihul_ibadah', 'matinul_khuluq', 'qowiyyul_jismi', 'mutsaqqoful_fikri', 'qodirun_alal_kasbi', 'munazzhomun'].forEach(key => {
+            const val = document.getElementById('skl_' + studentId + '_' + key)?.value;
+            if (val === 'PB') {
+                pbList.push(sklNames[key] || key);
+            } else if (val === 'SB') {
+                sbCount++;
+            }
+        });
+
+        const sholat = document.getElementById('sholat_' + studentId)?.value || '';
+
+        let text = '';
+        if (pbList.length > 0) {
+            text = `Ananda ${studentName} memerlukan bimbingan khusus dan pembiasaan berkelanjutan pada aspek ${pbList.join(', ')}. Perlu pendampingan intensif dari orang tua dan pembina dalam pembiasaan ibadah yaumiyah dan penegakan adab islami.`;
+        } else if (sbCount >= 5 && sholat.toLowerCase().includes('selalu')) {
+            text = `MasyaAllah, Ananda ${studentName} menunjukkan profil kepribadian muslim teladan, kokoh aqidahnya, tertib dalam ibadah yaumiyah, santun dalam berakhlak, serta istiqomah dalam shalat fardhu berjamaah.`;
+        } else {
+            text = `Alhamdulillah, Ananda ${studentName} menunjukkan perkembangan karakter islami yang baik dan tertib dalam mengikuti pembiasaan ibadah di sekolah. Terus tingkatkan keistiqomahan shalat fardhu dan pembiasaan adab yaumiyah.`;
+        }
+
+        textarea.value = text;
+    }
+
+    function applyAllBpiTemplates() {
+        const buttons = document.querySelectorAll('button[onclick^="applyBpiTemplateSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di tabel BPI untuk diterapkan template.');
+            return;
+        }
+        buttons.forEach(btn => btn.click());
+    }
+
+    async function generateAllBpiAi() {
+        const buttons = document.querySelectorAll('button[onclick^="generateAiBpiSingle"]');
+        if (buttons.length === 0) {
+            alert('Tidak ada siswa di tabel BPI.');
+            return;
+        }
+        if (!confirm('Apakah Anda ingin men-generate evaluasi BPI berbasis AI untuk semua ' + buttons.length + ' siswa di kelas ini?')) {
+            return;
+        }
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].click();
+            await new Promise(r => setTimeout(r, 800));
+        }
+    }
+
+    function generateAiBpiSingle(studentId, studentName) {
+        const textarea = document.getElementById('bpi_notes_' + studentId);
+        if (!textarea) return;
+
+        const originalVal = textarea.value;
+        textarea.value = '✨ Sedang menyusun evaluasi karakter 7 SKL JSIT & BPI dengan Robbani AI...';
+        textarea.disabled = true;
+
+        const indicators = {};
+        ['salimul_aqidah', 'shahihul_ibadah', 'matinul_khuluq', 'qowiyyul_jismi', 'mutsaqqoful_fikri', 'qodirun_alal_kasbi', 'munazzhomun'].forEach(key => {
+            const el = document.getElementById('skl_' + studentId + '_' + key);
+            if (el) indicators[key] = el.value;
+        });
+
+        const sholat = document.getElementById('sholat_' + studentId)?.value || 'Selalu Berjamaah di Masjid';
+
+        fetch('{{ route("admin.academic.ai.generate.bpi") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                student_name: studentName,
+                indicators: indicators,
+                sholat_fardhu: sholat
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            textarea.disabled = false;
+            const content = data.evaluation || data.narrative || data.text || data.note;
+            if (data.status === 'success' && content) {
+                textarea.value = cleanMarkdownForInput(content);
+            } else {
+                textarea.value = originalVal;
+                alert(data.message || 'Gagal membuat evaluasi BPI dengan AI.');
             }
         })
         .catch(err => {
@@ -5193,63 +5529,76 @@
         }
     }
 
-    // User Management Modal Functions
+    // User Management Modal Functions (Sinkron 100% dengan modalUserManage)
     function openTambahUserModal() {
-        const title = document.getElementById('titleModalUser');
-        const idInput = document.getElementById('input_user_id');
-        const nameInput = document.getElementById('input_user_name');
-        const emailInput = document.getElementById('input_user_email');
-        const phoneInput = document.getElementById('input_user_phone');
-        const roleSelect = document.getElementById('input_user_role');
-        const pwdHelp = document.getElementById('user_pwd_help');
-        const pwdInput = document.getElementById('input_user_pwd');
+        const modal = document.getElementById('modalUserManage') || document.getElementById('modalTambahUser');
+        const title = document.getElementById('modalUserTitle') || document.getElementById('titleModalUser');
+        const idInput = document.getElementById('formUserId') || document.getElementById('input_user_id');
+        const nameInput = document.getElementById('formUserName') || document.getElementById('input_user_name');
+        const emailInput = document.getElementById('formUserEmail') || document.getElementById('input_user_email');
+        const roleSelect = document.getElementById('formUserRole') || document.getElementById('input_user_role');
+        const pwdHelp = document.getElementById('pwdHelp') || document.getElementById('user_pwd_help');
+        const pwdNotice = document.getElementById('pwdNotice');
+        const pwdInput = document.getElementById('formUserPassword') || document.getElementById('input_user_pwd');
 
-        if (title) title.innerText = 'Tambah Guru / Operator Baru';
+        if (title) title.innerText = 'Tambah Pengguna & Guru Baru';
         if (idInput) idInput.value = '';
         if (nameInput) nameInput.value = '';
         if (emailInput) emailInput.value = '';
-        if (phoneInput) phoneInput.value = '';
         if (roleSelect) roleSelect.value = 'TEACHER';
         if (pwdHelp) pwdHelp.classList.add('hidden');
+        if (pwdNotice) pwdNotice.innerText = '* (Wajib)';
         if (pwdInput) {
             pwdInput.required = true;
+            pwdInput.value = '';
             pwdInput.placeholder = 'Minimal 6 karakter';
         }
 
-        const modal = document.getElementById('modalTambahUser');
         if (modal) modal.classList.remove('hidden');
     }
 
-    function openEditUserModal(id, name, email, role, phone, isActive) {
-        const title = document.getElementById('titleModalUser');
-        const idInput = document.getElementById('input_user_id');
-        const nameInput = document.getElementById('input_user_name');
-        const emailInput = document.getElementById('input_user_email');
-        const phoneInput = document.getElementById('input_user_phone');
-        const roleSelect = document.getElementById('input_user_role');
-        const activeSelect = document.getElementById('input_user_active');
-        const pwdHelp = document.getElementById('user_pwd_help');
-        const pwdInput = document.getElementById('input_user_pwd');
+    function openEditUserModal(arg1, arg2, arg3, arg4) {
+        let id, name, email, role;
+        if (typeof arg1 === 'object' && arg1 !== null) {
+            id = arg1.id;
+            name = arg1.name;
+            email = arg1.email;
+            role = arg1.role;
+        } else {
+            id = arg1;
+            name = arg2;
+            email = arg3;
+            role = arg4;
+        }
 
-        if (title) title.innerText = 'Edit Data Pengguna Unit';
-        if (idInput) idInput.value = id;
-        if (nameInput) nameInput.value = name;
-        if (emailInput) emailInput.value = email;
-        if (phoneInput) phoneInput.value = phone || '';
-        if (roleSelect) roleSelect.value = role;
-        if (activeSelect) activeSelect.value = isActive ? '1' : '0';
+        const modal = document.getElementById('modalUserManage') || document.getElementById('modalTambahUser');
+        const title = document.getElementById('modalUserTitle') || document.getElementById('titleModalUser');
+        const idInput = document.getElementById('formUserId') || document.getElementById('input_user_id');
+        const nameInput = document.getElementById('formUserName') || document.getElementById('input_user_name');
+        const emailInput = document.getElementById('formUserEmail') || document.getElementById('input_user_email');
+        const roleSelect = document.getElementById('formUserRole') || document.getElementById('input_user_role');
+        const pwdHelp = document.getElementById('pwdHelp') || document.getElementById('user_pwd_help');
+        const pwdNotice = document.getElementById('pwdNotice');
+        const pwdInput = document.getElementById('formUserPassword') || document.getElementById('input_user_pwd');
+
+        if (title) title.innerText = 'Edit Data Akun: ' + (name || '');
+        if (idInput) idInput.value = id || '';
+        if (nameInput) nameInput.value = name || '';
+        if (emailInput) emailInput.value = email || '';
+        if (roleSelect && role) roleSelect.value = role;
         if (pwdHelp) pwdHelp.classList.remove('hidden');
+        if (pwdNotice) pwdNotice.innerText = '(Kosongkan jika tidak ganti password)';
         if (pwdInput) {
             pwdInput.required = false;
+            pwdInput.value = '';
             pwdInput.placeholder = 'Kosongkan jika tidak ingin mengubah kata sandi';
         }
 
-        const modal = document.getElementById('modalTambahUser');
         if (modal) modal.classList.remove('hidden');
     }
 
     function closeUserModal() {
-        const modal = document.getElementById('modalTambahUser');
+        const modal = document.getElementById('modalUserManage') || document.getElementById('modalTambahUser');
         if (modal) modal.classList.add('hidden');
     }
     // Live calculate for Academic Grid
