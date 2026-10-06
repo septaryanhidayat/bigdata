@@ -1471,6 +1471,33 @@ class SchoolWebsiteController extends Controller
             ],
         ];
 
+        $unitWaNumbers = [
+            'TPA' => [
+                'formatted' => '0858-3286-1271',
+                'clean' => '6285832861271',
+            ],
+            'KB' => [
+                'formatted' => '0858-3286-1271',
+                'clean' => '6285832861271',
+            ],
+            'TKIT' => [
+                'formatted' => '0858-3286-1271',
+                'clean' => '6285832861271',
+            ],
+            'SDIT' => [
+                'formatted' => '0853-7719-3922',
+                'clean' => '6285377193922',
+            ],
+            'SMPIT' => [
+                'formatted' => '0853-7719-3977',
+                'clean' => '6285377193977',
+            ],
+            'SMAIT' => [
+                'formatted' => '0853-7719-3977',
+                'clean' => '6285377193977',
+            ],
+        ];
+
         foreach ($units as $uKey => &$uItem) {
             if (isset($fixedAddresses[$uKey])) {
                 $uItem['address'] = $fixedAddresses[$uKey];
@@ -1481,6 +1508,10 @@ class SchoolWebsiteController extends Controller
             if (isset($tuitionFees[$uKey])) {
                 $uItem['tuition'] = $tuitionFees[$uKey];
                 $uItem['fee'] = $tuitionFees[$uKey]['registration'];
+            }
+            if (isset($unitWaNumbers[$uKey])) {
+                $uItem['wa_number'] = $unitWaNumbers[$uKey]['formatted'];
+                $uItem['wa_link'] = 'https://wa.me/' . $unitWaNumbers[$uKey]['clean'];
             }
         }
         unset($uItem);
@@ -1665,6 +1696,52 @@ class SchoolWebsiteController extends Controller
         ];
     }
 
+    /**
+     * Dapatkan nomor WhatsApp panitia SPMB berdasarkan jenjang/unit tujuan:
+     * - TPA, KB, TK: 085832861271 (6285832861271)
+     * - SD: 085377193922 (6285377193922)
+     * - SMP: 085377193977 (6285377193977)
+     * - SMA: 085377193977 (6285377193977)
+     */
+    public static function getUnitWaNumber($targetLevel)
+    {
+        $lvl = strtoupper(trim((string)$targetLevel));
+        if (str_contains($lvl, 'SMP')) {
+            return [
+                'formatted' => '0853-7719-3977',
+                'clean' => '6285377193977',
+            ];
+        }
+        if (str_contains($lvl, 'SMA')) {
+            return [
+                'formatted' => '0853-7719-3977',
+                'clean' => '6285377193977',
+            ];
+        }
+        if (str_contains($lvl, 'SD')) {
+            return [
+                'formatted' => '0853-7719-3922',
+                'clean' => '6285377193922',
+            ];
+        }
+        if (str_contains($lvl, 'TPA') || str_contains($lvl, 'KB') || str_contains($lvl, 'TK') || str_contains($lvl, 'PAUD')) {
+            return [
+                'formatted' => '0858-3286-1271',
+                'clean' => '6285832861271',
+            ];
+        }
+
+        $defaultNumber = SiteSetting::get('spmb_wa_number', '0853-7719-3977');
+        $clean = preg_replace('/[^0-9]/', '', $defaultNumber);
+        if (str_starts_with($clean, '0')) {
+            $clean = '62' . substr($clean, 1);
+        }
+        return [
+            'formatted' => $defaultNumber,
+            'clean' => $clean ?: '6285377193977',
+        ];
+    }
+
     public function checkSpmbStatus(Request $request)
     {
         $q = trim($request->input('q', $request->input('reg', '')));
@@ -1693,6 +1770,8 @@ class SchoolWebsiteController extends Controller
                 return response()->json(['found' => false, 'message' => 'Data registrasi tidak ditemukan. Pastikan nomor pendaftaran atau nomor WhatsApp sudah benar.']);
             }
 
+            $unitWa = self::getUnitWaNumber($registration->target_level);
+
             return response()->json([
                 'found' => true,
                 'registration' => [
@@ -1700,6 +1779,8 @@ class SchoolWebsiteController extends Controller
                     'registration_number' => $registration->registration_number,
                     'full_name' => $registration->full_name,
                     'target_level' => $registration->target_level,
+                    'unit_wa_number' => $unitWa['formatted'],
+                    'unit_wa_clean' => $unitWa['clean'],
                     'parent_name' => $registration->parent_name,
                     'phone_number' => $registration->phone_number,
                     'status' => $registration->status,

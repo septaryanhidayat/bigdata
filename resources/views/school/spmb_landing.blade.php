@@ -797,8 +797,8 @@
                             <a :href="searchResult.registration.pdf_url" target="_blank" class="btn-responsive w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-xs shadow-sm">
                                 <span>🖨️ Unduh Formulir PDF</span>
                             </a>
-                            <a :href="'https://wa.me/{{ preg_replace('/[^0-9]/', '', $spmb['wa_number'] ?? '62811747472') }}?text=' + encodeURIComponent('Assalamu\'alaikum saya ingin konfirmasi SPMB ' + (searchResult.registration.registration_number || ''))" target="_blank" class="btn-responsive w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm">
-                                <span>💬 Chat Panitia WA</span>
+                            <a :href="'https://wa.me/' + (searchResult.registration.unit_wa_clean || '{{ preg_replace('/[^0-9]/', '', $spmb['wa_number'] ?? '6285377193977') }}') + '?text=' + encodeURIComponent('Assalamu\'alaikum saya ingin konfirmasi SPMB ' + (searchResult.registration.registration_number || ''))" target="_blank" class="btn-responsive w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm">
+                                <span>💬 Konfirmasi WA (<span x-text="searchResult.registration.unit_wa_number || '{{ $spmb['wa_number'] ?? '0853-7719-3977' }}'"></span>)</span>
                             </a>
                         </div>
                     </div>

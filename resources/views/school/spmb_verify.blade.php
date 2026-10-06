@@ -43,6 +43,7 @@
             : (is_string($registration->details_json) ? (json_decode($registration->details_json, true) ?? []) : []);
         $verifyUrl = route('school.spmb.verify', $registration->registration_number);
         $qrCodeApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' . urlencode($verifyUrl);
+        $unitWa = \App\Http\Controllers\SchoolWebsiteController::getUnitWaNumber($registration->target_level);
     @endphp
 
     <!-- Header Navigation Bar -->
@@ -153,8 +154,8 @@
                     <span>🖨️</span> Cetak / Re-Download Bukti Registrasi PDF
                 </a>
 
-                <a href="https://api.whatsapp.com/send?phone=6285377193977&text=Halo%20Panitia%20SPMB%20SIT%20Robbani,%20saya%20sudah%20mengakses%20ulang%20pendaftaran%20No%20Reg:%20{{ $registration->registration_number }}" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-lg transition-all flex items-center justify-center gap-2">
-                    <span>💬</span> Hubungi Panitia via WhatsApp
+                <a href="https://api.whatsapp.com/send?phone={{ $unitWa['clean'] }}&text=Halo%20Panitia%20SPMB%20SIT%20Robbani,%20saya%20sudah%20mengakses%20ulang%20pendaftaran%20No%20Reg:%20{{ $registration->registration_number }}" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                    <span>💬</span> Hubungi Panitia WA ({{ $unitWa['formatted'] }})
                 </a>
             </div>
         </div>

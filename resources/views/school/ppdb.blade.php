@@ -106,7 +106,9 @@
             
             $verifyUrl = route('school.spmb.verify', $regNumber);
             $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' . urlencode($verifyUrl);
-            $cleanWa = preg_replace('/[^0-9]/', '', $spmb['wa_number'] ?? '62811747472');
+            $unitWa = \App\Http\Controllers\SchoolWebsiteController::getUnitWaNumber($targetLevel ?: ($regObj->target_level ?? ($d['school_code'] ?? '')));
+            $waNumberUnit = $unitWa['formatted'];
+            $cleanWa = $unitWa['clean'];
             $regFee = $data['registration_fee'] ?? ($regObj->registration_fee ?? 450000);
         @endphp
 
@@ -166,7 +168,7 @@
                         <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1 text-xs text-emerald-200">
                             <span>Jenjang Target: <strong class="text-white bg-emerald-700/60 px-2.5 py-0.5 rounded-lg">{{ $targetLevel }}</strong></span>
                             <span>•</span>
-                            <span>WhatsApp Panitia: <strong class="text-white">{{ $spmb['wa_number'] ?? '0811-747-472' }}</strong></span>
+                            <span>WhatsApp Panitia: <strong class="text-white">{{ $waNumberUnit }}</strong></span>
                         </div>
                     </div>
 
@@ -182,23 +184,23 @@
                     </div>
                 </div>
 
-                <!-- Primary Action Buttons Row -->
-                <div class="pt-4 border-t border-emerald-700/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    <a href="{{ route('school.spmb.download-pdf', $regId) }}" target="_blank" class="py-3 px-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-amber-500/25 transition-all">
+                <!-- Primary Action Buttons Row (Single Line Concise Buttons) -->
+                <div class="pt-4 border-t border-emerald-700/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+                    <a href="{{ route('school.spmb.download-pdf', $regId) }}" target="_blank" class="py-3 px-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs text-center flex items-center justify-center gap-1.5 shadow-lg hover:shadow-amber-500/25 transition-all whitespace-nowrap">
                         <span>🖨️</span>
-                        <span>Cetak / Unduh Formulir PDF</span>
+                        <span>Unduh PDF</span>
                     </a>
-                    <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['edit' => $regId]) : route('school.spmb.form', ['edit' => $regId]) }}" class="py-3 px-4 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
+                    <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['edit' => $regId]) : route('school.spmb.form', ['edit' => $regId]) }}" class="py-3 px-3 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs text-center flex items-center justify-center gap-1.5 transition-all shadow-md whitespace-nowrap">
                         <span>✏️</span>
-                        <span>Perbaiki / Ubah Data</span>
+                        <span>Ubah Data</span>
                     </a>
-                    <a href="https://wa.me/{{ $cleanWa }}?text=Assalamu'alaikum%20Panitia%20SPMB,%20saya%20sudah%20mendaftar%20dengan%20No%20Registrasi%20{{ $regNumber }}%20atas%20nama%20ananda%20{{ urlencode($studentName) }}" target="_blank" class="py-3 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
+                    <a href="https://wa.me/{{ $cleanWa }}?text=Assalamu'alaikum%20Panitia%20SPMB,%20saya%20sudah%20mendaftar%20dengan%20No%20Registrasi%20{{ $regNumber }}%20atas%20nama%20ananda%20{{ urlencode($studentName) }}" target="_blank" class="py-3 px-3 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs text-center flex items-center justify-center gap-1.5 transition-all shadow-md whitespace-nowrap">
                         <span>💬</span>
-                        <span>Konfirmasi ke Panitia WA</span>
+                        <span>Konfirmasi WA</span>
                     </a>
-                    <a href="{{ route('school.spmb.form', ['new' => 1]) }}" class="py-3 px-4 rounded-2xl bg-white hover:bg-slate-100 text-emerald-950 font-black text-xs text-center flex items-center justify-center gap-2 transition-all shadow-md">
+                    <a href="{{ request()->routeIs('subdomain.spmb*') ? route('subdomain.spmb.form', ['new' => 1]) : route('school.spmb.form', ['new' => 1]) }}" class="py-3 px-3 rounded-2xl bg-white hover:bg-slate-100 text-emerald-950 font-black text-xs text-center flex items-center justify-center gap-1.5 transition-all shadow-md whitespace-nowrap">
                         <span>➕</span>
-                        <span>Daftarkan Siswa Lain</span>
+                        <span>Daftar Siswa Lain</span>
                     </a>
                 </div>
             </div>
