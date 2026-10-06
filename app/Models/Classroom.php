@@ -20,6 +20,7 @@ class Classroom extends Model
         'room_number',
         'capacity',
         'homeroom_signature_path',
+        'quran_teacher_name',
     ];
 
     public function school(): BelongsTo

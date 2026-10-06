@@ -3608,6 +3608,44 @@
                     </div>
                 </div>
 
+                @php
+                    $isSmpSchool = !empty($activeSchool) && (str_contains(strtolower($activeSchool->code ?? ''), 'smp') || str_contains(strtolower($activeSchool->name ?? ''), 'smp'));
+                    $defaultClassWafaTeacher = $selectedClassroom->quran_teacher_name 
+                        ?: ($existingQuran->first(fn($q) => !empty($q->quran_teacher_name))?->quran_teacher_name 
+                        ?: ($reportSetting->quran_teacher_name ?: ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.')));
+                @endphp
+
+                <!-- Assigned Teacher Quick-Bar -->
+                <div class="px-6 py-3 bg-teal-50/70 border-b border-teal-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                        <label for="classroom_quran_teacher_name" class="font-black text-teal-950 text-xs flex items-center gap-1 shrink-0">
+                            <span>👳‍♂️</span> <span>Ustadz / Ustadzah Wafa Kelas Ini:</span>
+                        </label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" name="classroom_quran_teacher_name" id="classroom_quran_teacher_name" 
+                                   list="wafa_teachers_datalist"
+                                   value="{{ $defaultClassWafaTeacher }}"
+                                   placeholder="Contoh: Ustadzah Nurul Hamidah, S.Pd."
+                                   class="px-3 py-1.5 rounded-xl border border-teal-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none w-56 sm:w-64 shadow-2xs">
+                            <button type="button" onclick="applyClassQuranTeacherToAll()"
+                                    class="px-3 py-1.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-black text-xs transition cursor-pointer shadow-2xs flex items-center gap-1 active:scale-95 whitespace-nowrap"
+                                    title="Terapkan nama Ustadz/Ustadzah ini ke semua kolom komentar siswa di bawah">
+                                <span>⬇️</span> <span>Terapkan ke Semua Kolom</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-teal-800 font-semibold flex items-center gap-1">
+                        <span>💡</span> <span>Nama pengampu dapat diedit langsung per santri di kolom komentar bawah.</span>
+                    </p>
+                </div>
+
+                <!-- Autocomplete Datalist Guru Al-Qur'an -->
+                <datalist id="wafa_teachers_datalist">
+                    @foreach($schoolTeachers as $t)
+                        <option value="{{ $t->full_name }}">{{ $t->full_name }} ({{ $t->nip ?? 'Guru' }})</option>
+                    @endforeach
+                </datalist>
+
                 <!-- Table Grid (Kompak Pas 1 Layar) -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
@@ -3622,7 +3660,7 @@
                                 <th class="px-1.5 py-2.5 text-center min-w-[64px] w-18">Adab</th>
                                 <th class="px-2 py-2.5 w-36">Capaian Tahfidz</th>
                                 <th class="px-2 py-2.5 w-32">Ujian Tasmi'</th>
-                                <th class="px-3 py-2.5 min-w-[260px]">Catatan Ustadz Pengampu</th>
+                                <th class="px-3 py-2.5 min-w-[280px]">Catatan & Nama Ustadz Pengampu</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-800">
@@ -3697,7 +3735,7 @@
                                     </select>
                                 </td>
 
-                                <!-- Catatan Ustadz -->
+                                <!-- Catatan Ustadz Pengampu & CRUD Nama Pengampu -->
                                 <td class="px-3 py-2.5">
                                     <div class="flex items-center justify-between gap-1 mb-1">
                                         <span class="text-[10px] text-slate-500 font-bold">Catatan Pengampu:</span>
@@ -3718,6 +3756,20 @@
                                               id="quran_notes_{{ $student->id }}"
                                               placeholder="Catatan tahsin, makhraj, dan capaian..."
                                               class="w-full text-xs rounded-lg border border-slate-300 p-1.5 focus:border-teal-600 focus:ring-1 focus:ring-teal-600 bg-white leading-relaxed resize-y">{{ $q->tahsin_notes ?? '' }}</textarea>
+
+                                    <!-- CRUD Nama Ustadz / Ustadzah Wafa di Kolom Komentar -->
+                                    <div class="mt-1.5 flex items-center gap-1.5 bg-teal-50/70 p-1.5 rounded-lg border border-teal-200/80">
+                                        <span class="text-[10px] font-black text-teal-950 shrink-0 flex items-center gap-1">
+                                            <span>👳‍♂️</span> <span>Ustadz/ah:</span>
+                                        </span>
+                                        <input type="text" 
+                                               name="quran[{{ $student->id }}][quran_teacher_name]" 
+                                               id="quran_teacher_{{ $student->id }}"
+                                               list="wafa_teachers_datalist"
+                                               value="{{ $q->quran_teacher_name ?? $selectedClassroom->quran_teacher_name ?? $reportSetting->quran_teacher_name ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.') }}"
+                                               placeholder="Nama Ustadz / Ustadzah..." 
+                                               class="w-full text-xs font-bold text-slate-800 rounded border border-slate-300 px-2 py-1 bg-white focus:border-teal-600 focus:ring-1 focus:ring-teal-600 shadow-2xs">
+                                    </div>
                                 </td>
                             </tr>
                             @empty
@@ -4411,7 +4463,47 @@
                     </div>
                 </div>
 
-                <!-- 4. UPLOAD BERKAS PENDUKUNG (STEMPEL & TANDA TANGAN) -->
+                <!-- 4. DATA PENANDATANGAN GURU / KOORDINATOR AL-QUR'AN WAFA & TTQ -->
+                <div class="p-4 bg-teal-50/70 rounded-2xl border border-teal-200/90 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-black text-teal-950 uppercase tracking-wide">
+                            📖 4. Penandatangan Rapor Al-Qur'an (Metode Wafa & TTQ)
+                        </label>
+                        <span class="px-2 py-0.5 rounded-md bg-teal-700 text-white font-extrabold text-[10px] uppercase">
+                            Default Unit
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-teal-800 font-medium">
+                        Nama dan gelar/sertifikasi ini otomatis digunakan sebagai penandatangan lembar Rapor Al-Qur'an Wafa & Tahfidz. Format gelar tetap menjaga huruf kecil (misal: S.Pd., Gr / S.Pd.I).
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Ustadz / Ustadzah Wafa:</label>
+                            <input type="text" name="quran_teacher_name" id="setting_quran_teacher_name" 
+                                   list="wafa_teachers_datalist_settings"
+                                   value="{{ $reportSetting->quran_teacher_name ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.') }}"
+                                   placeholder="Contoh: Ustadzah Nurul Hamidah, S.Pd.I"
+                                   oninput="updatePreview()"
+                                   class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-teal-600 bg-white text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Jabatan / Keterangan Sertifikasi:</label>
+                            <input type="text" name="quran_teacher_title" id="setting_quran_teacher_title" 
+                                   value="{{ $reportSetting->quran_teacher_title ?? ($isSmpSchool ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia') }}"
+                                   placeholder="Contoh: Sertifikasi Wafa Indonesia"
+                                   oninput="updatePreview()"
+                                   class="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 focus:border-teal-600 bg-white text-slate-900">
+                        </div>
+                    </div>
+                </div>
+
+                <datalist id="wafa_teachers_datalist_settings">
+                    @foreach($schoolTeachers as $t)
+                        <option value="{{ $t->full_name }}">{{ $t->full_name }} ({{ $t->nip ?? 'Guru' }})</option>
+                    @endforeach
+                </datalist>
+
+                <!-- 5. UPLOAD BERKAS PENDUKUNG (STEMPEL & TANDA TANGAN) -->
                 <div class="pt-3 border-t border-slate-200 space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
@@ -4571,8 +4663,24 @@
                     </div>
 
                     <!-- Preview Signature & Stamp -->
-                    <div class="border-t border-slate-200 pt-4 flex justify-end font-sans">
-                        <div class="text-center w-56 space-y-1">
+                    <div class="border-t border-slate-200 pt-4 grid grid-cols-2 gap-4 font-sans text-center">
+                        <!-- Left: Koordinator / Guru Al-Qur'an Wafa -->
+                        <div class="space-y-1">
+                            <p class="text-[11px] text-transparent select-none">&nbsp;</p>
+                            <p class="text-[11px] font-bold text-slate-900">Koordinator / Guru Wafa,</p>
+                            <div class="h-20 my-1 flex items-center justify-center">
+                                <span class="font-serif italic text-slate-400 text-xs">(Paraf / TTD Pengampu)</span>
+                            </div>
+                            <p id="preview_wafa_name" class="text-xs font-black text-slate-900 underline leading-snug">
+                                {{ $reportSetting->quran_teacher_name ?? ($isSmpSchool ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.') }}
+                            </p>
+                            <p id="preview_wafa_title" class="text-[10px] text-slate-600 font-semibold leading-tight">
+                                {{ $reportSetting->quran_teacher_title ?? ($isSmpSchool ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia') }}
+                            </p>
+                        </div>
+
+                        <!-- Right: Kepala Sekolah -->
+                        <div class="space-y-1">
                             <p class="text-[11px] text-slate-700 font-medium">
                                 <span id="preview_city">{{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}</span>, 
                                 <span id="preview_date">{{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}</span>
@@ -4595,10 +4703,10 @@
                                 <span id="preview_sig_placeholder" class="font-serif italic text-slate-400 text-xs {{ ($pvShowStamp || $pvShowSig) ? 'hidden' : '' }}">(Tanda Tangan & Stempel Kosong)</span>
                             </div>
 
-                            <p id="preview_principal" class="text-xs font-black text-slate-900 underline">
+                            <p id="preview_principal" class="text-xs font-black text-slate-900 underline leading-snug">
                                 {{ $reportSetting->principal_name ?? 'Nur Amalia, S.Pd., Gr' }}
                             </p>
-                            <p class="text-[10px] text-slate-600 font-semibold">
+                            <p class="text-[10px] text-slate-600 font-semibold leading-tight">
                                 NIP: <span id="preview_nip">{{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}</span>
                             </p>
                         </div>
@@ -5300,7 +5408,13 @@
     function copyAiClassAnalysis() {
         if (!lastAiAnalysisText) return;
         navigator.clipboard.writeText(lastAiAnalysisText).then(() => {
-            alert('Teks analisis AI berhasil disalin ke clipboard!');
+            Swal.fire({
+                icon: 'success',
+                title: 'Tersalin!',
+                text: 'Teks analisis AI berhasil disalin ke clipboard!',
+                timer: 1800,
+                showConfirmButton: false
+            });
         });
     }
 
@@ -5415,7 +5529,12 @@
         const phone = currentReminderData.phone;
         const text = document.getElementById('reminderMessageText').value;
         if (!phone) {
-            alert('Nomor WhatsApp belum tersedia di data guru. Silakan gunakan tombol Salin Pesan untuk mengirim secara manual.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nomor Belum Ada',
+                text: 'Nomor WhatsApp belum tersedia di data guru. Silakan gunakan tombol Salin Pesan untuk mengirim secara manual.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
 
@@ -5431,17 +5550,13 @@
     function copyWaliReminderText() {
         const text = document.getElementById('reminderMessageText').value;
         navigator.clipboard.writeText(text).then(() => {
-            if (window.Swal) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Pesan Disalin!',
-                    text: 'Teks pesan WhatsApp siap dikirimkan ke Wali Kelas.',
-                    timer: 1600,
-                    showConfirmButton: false
-                });
-            } else {
-                alert('Pesan berhasil disalin ke clipboard!');
-            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Pesan Disalin!',
+                text: 'Teks pesan WhatsApp siap dikirimkan ke Wali Kelas.',
+                timer: 1800,
+                showConfirmButton: false
+            });
         });
     }
 
@@ -5484,13 +5599,23 @@
                 textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat narasi dengan AI.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Generate AI',
+                    text: data.message || 'Gagal membuat narasi dengan AI.',
+                    confirmButtonColor: '#e11d48'
+                });
             }
         })
         .catch(err => {
             textarea.disabled = false;
             textarea.value = originalVal;
-            alert('Gagal menghubungi AI: ' + err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Koneksi AI Terputus',
+                text: 'Gagal menghubungi AI: ' + err.message,
+                confirmButtonColor: '#e11d48'
+            });
         });
     }
 
@@ -5530,13 +5655,23 @@
                 textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat catatan dengan AI.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Generate AI',
+                    text: data.message || 'Gagal membuat catatan dengan AI.',
+                    confirmButtonColor: '#e11d48'
+                });
             }
         })
         .catch(err => {
             textarea.disabled = false;
             textarea.value = originalVal;
-            alert('Gagal menghubungi AI: ' + err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Koneksi AI Terputus',
+                text: 'Gagal menghubungi AI: ' + err.message,
+                confirmButtonColor: '#e11d48'
+            });
         });
     }
 
@@ -5567,7 +5702,12 @@
     function applyAllHomeroomTemplates() {
         const buttons = document.querySelectorAll('button[onclick^="applyHomeroomTemplateSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di tabel Wali Kelas untuk diterapkan template.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di tabel Wali Kelas untuk diterapkan template.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
         buttons.forEach(btn => btn.click());
@@ -5576,7 +5716,12 @@
     async function generateAllHomeroomAi() {
         const buttons = document.querySelectorAll('button[onclick^="generateAiHomeroomSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di tabel Wali Kelas.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di tabel Wali Kelas.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
         const res = await Swal.fire({
@@ -5595,6 +5740,43 @@
             buttons[i].click();
             await new Promise(r => setTimeout(r, 800));
         }
+    }
+
+    function applyClassQuranTeacherToAll() {
+        const teacherInput = document.getElementById('classroom_quran_teacher_name');
+        const teacherName = teacherInput ? teacherInput.value.trim() : '';
+        if (!teacherName) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nama Masih Kosong',
+                text: 'Silakan ketik atau pilih nama Ustadz / Ustadzah Wafa pada kolom input terlebih dahulu.',
+                confirmButtonColor: '#064e3b'
+            });
+            return;
+        }
+
+        const inputs = document.querySelectorAll('input[id^="quran_teacher_"]');
+        if (inputs.length === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada baris siswa di tabel Al-Qur\'an untuk diterapkan.',
+                confirmButtonColor: '#064e3b'
+            });
+            return;
+        }
+
+        inputs.forEach(inp => {
+            inp.value = teacherName;
+        });
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil Diterapkan!',
+            text: `Nama "${teacherName}" telah disalin ke seluruh kolom komentar (${inputs.length} siswa). Klik tombol "SIMPAN NILAI AL-QUR'AN" untuk menyimpan permanen ke sistem.`,
+            timer: 2500,
+            showConfirmButton: false
+        });
     }
 
     function applyQuranTemplateSingle(studentId, studentName) {
@@ -5623,7 +5805,12 @@
     function applyAllQuranTemplates() {
         const buttons = document.querySelectorAll('button[onclick^="applyQuranTemplateSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di tabel Al-Qur\'an untuk diterapkan template.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di tabel Al-Qur\'an untuk diterapkan template.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
         buttons.forEach(btn => btn.click());
@@ -5632,7 +5819,12 @@
     async function generateAllQuranAi() {
         const buttons = document.querySelectorAll('button[onclick^="generateAiQuranSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di tabel Al-Qur\'an.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di tabel Al-Qur\'an.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
         const res = await Swal.fire({
@@ -5691,13 +5883,23 @@
                 textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat evaluasi dengan AI.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Generate Evaluasi Wafa',
+                    text: data.message || 'Gagal membuat evaluasi dengan AI.',
+                    confirmButtonColor: '#e11d48'
+                });
             }
         })
         .catch(err => {
             textarea.disabled = false;
             textarea.value = originalVal;
-            alert('Gagal menghubungi AI: ' + err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Koneksi AI Terputus',
+                text: 'Gagal menghubungi AI: ' + err.message,
+                confirmButtonColor: '#e11d48'
+            });
         });
     }
 
@@ -5744,7 +5946,12 @@
     function applyAllBpiTemplates() {
         const buttons = document.querySelectorAll('button[onclick^="applyBpiTemplateSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di tabel BPI untuk diterapkan template.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di tabel BPI untuk diterapkan template.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
         buttons.forEach(btn => btn.click());
@@ -5753,7 +5960,12 @@
     async function generateAllBpiAi() {
         const buttons = document.querySelectorAll('button[onclick^="generateAiBpiSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di tabel BPI.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di tabel BPI.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
         const res = await Swal.fire({
@@ -5811,13 +6023,23 @@
                 textarea.value = cleanMarkdownForInput(content);
             } else {
                 textarea.value = originalVal;
-                alert(data.message || 'Gagal membuat evaluasi BPI dengan AI.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Generate Evaluasi BPI',
+                    text: data.message || 'Gagal membuat evaluasi BPI dengan AI.',
+                    confirmButtonColor: '#e11d48'
+                });
             }
         })
         .catch(err => {
             textarea.disabled = false;
             textarea.value = originalVal;
-            alert('Gagal menghubungi AI: ' + err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Koneksi AI Terputus',
+                text: 'Gagal menghubungi AI: ' + err.message,
+                confirmButtonColor: '#e11d48'
+            });
         });
     }
 
@@ -5825,7 +6047,12 @@
     async function generateAllNarrativesAi() {
         const buttons = document.querySelectorAll('button[onclick^="generateAiNarrativeSingle"]');
         if (buttons.length === 0) {
-            alert('Tidak ada siswa di kelas ini untuk digenerate.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Tidak ada siswa di kelas ini untuk digenerate.',
+                confirmButtonColor: '#064e3b'
+            });
             return;
         }
 
@@ -6245,6 +6472,8 @@
         const dateText = document.getElementById('setting_date');
         const princText = document.getElementById('setting_principal');
         const nipText = document.getElementById('setting_nip');
+        const wafaNameText = document.getElementById('setting_quran_teacher_name');
+        const wafaTitleText = document.getElementById('setting_quran_teacher_title');
 
         if (cityText && document.getElementById('preview_city')) {
             document.getElementById('preview_city').innerText = cityText.value;
@@ -6257,6 +6486,12 @@
         }
         if (nipText && document.getElementById('preview_nip')) {
             document.getElementById('preview_nip').innerText = nipText.value;
+        }
+        if (wafaNameText && document.getElementById('preview_wafa_name')) {
+            document.getElementById('preview_wafa_name').innerText = wafaNameText.value;
+        }
+        if (wafaTitleText && document.getElementById('preview_wafa_title')) {
+            document.getElementById('preview_wafa_title').innerText = wafaTitleText.value;
         }
     }
 

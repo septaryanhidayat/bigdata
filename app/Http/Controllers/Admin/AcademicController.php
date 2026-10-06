@@ -235,6 +235,16 @@ class AcademicController extends Controller
                         $table->string('tilawah_predicate', 30)->nullable();
                     });
                 }
+                if (!Schema::hasColumn('quran_grades', 'quran_teacher_name')) {
+                    Schema::table('quran_grades', function (Blueprint $table) {
+                        $table->string('quran_teacher_name', 255)->nullable();
+                    });
+                }
+                if (!Schema::hasColumn('quran_grades', 'quran_teacher_title')) {
+                    Schema::table('quran_grades', function (Blueprint $table) {
+                        $table->string('quran_teacher_title', 255)->nullable();
+                    });
+                }
             }
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('ensure quran_grades table error: ' . $e->getMessage());
@@ -361,6 +371,22 @@ class AcademicController extends Controller
                         $table->string('signature_mode')->nullable()->default('both');
                     });
                 }
+                if (!Schema::hasColumn('report_settings', 'quran_teacher_name')) {
+                    Schema::table('report_settings', function (Blueprint $table) {
+                        $table->string('quran_teacher_name', 255)->nullable();
+                    });
+                }
+                if (!Schema::hasColumn('report_settings', 'quran_teacher_title')) {
+                    Schema::table('report_settings', function (Blueprint $table) {
+                        $table->string('quran_teacher_title', 255)->nullable();
+                    });
+                }
+            }
+
+            if (Schema::hasTable('classrooms') && !Schema::hasColumn('classrooms', 'quran_teacher_name')) {
+                Schema::table('classrooms', function (Blueprint $table) {
+                    $table->string('quran_teacher_name', 255)->nullable();
+                });
             }
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('ensure report_settings table error: ' . $e->getMessage());
@@ -2223,6 +2249,16 @@ class AcademicController extends Controller
             'quran' => 'required|array',
         ]);
 
+        if ($request->filled('classroom_quran_teacher_name')) {
+            try {
+                $cls = \App\Models\Classroom::find($request->classroom_id);
+                if ($cls) {
+                    $cls->quran_teacher_name = $request->classroom_quran_teacher_name;
+                    $cls->save();
+                }
+            } catch (\Throwable $e) {}
+        }
+
         $savedCount = 0;
         foreach ($request->quran as $studentId => $data) {
             $makhraj = (isset($data['makhraj']) && is_numeric($data['makhraj'])) ? (float)$data['makhraj'] : null;
@@ -2264,6 +2300,8 @@ class AcademicController extends Controller
                     'tahfidz_predicate' => $data['tahfidz_predicate'] ?? null,
                     'tasmi_exam_result' => $data['tasmi_exam_result'] ?? null,
                     'tahfidz_notes' => $data['tahfidz_notes'] ?? null,
+                    'quran_teacher_name' => $data['quran_teacher_name'] ?? $request->classroom_quran_teacher_name ?? null,
+                    'quran_teacher_title' => $data['quran_teacher_title'] ?? $request->classroom_quran_teacher_title ?? null,
                 ]
             );
             $savedCount++;
@@ -2504,6 +2542,8 @@ class AcademicController extends Controller
                 'tahfidz_predicate' => $request->tahfidz_predicate ?? null,
                 'tasmi_exam_result' => $request->tasmi_exam_result ?? null,
                 'tahfidz_notes' => $request->tahfidz_notes ?? null,
+                'quran_teacher_name' => $request->quran_teacher_name ?? null,
+                'quran_teacher_title' => $request->quran_teacher_title ?? null,
             ]
         );
 
@@ -2587,6 +2627,8 @@ class AcademicController extends Controller
         $setting->kop_header_text = $request->kop_header_text;
         $setting->principal_name = $request->principal_name;
         $setting->principal_nip = $request->principal_nip;
+        if ($request->has('quran_teacher_name')) $setting->quran_teacher_name = $request->quran_teacher_name;
+        if ($request->has('quran_teacher_title')) $setting->quran_teacher_title = $request->quran_teacher_title;
         $setting->report_city = $request->report_city ?? 'Ogan Ilir';
         $setting->report_date = $request->report_date ?? '18 Juni 2026';
         if ($request->has('accreditation')) $setting->accreditation = $request->accreditation;
@@ -2797,6 +2839,16 @@ class AcademicController extends Controller
         }
         $nssNds = $reportSetting?->nss_nds ?: ($isSmp ? '202110304002' : '102110304001');
 
+        $wafaTeacherName = $quranGrade?->quran_teacher_name 
+            ?: ($student->classroom?->quran_teacher_name 
+            ?: ($quranGrade?->examiner?->full_name 
+            ?: ($reportSetting?->quran_teacher_name 
+            ?: ($isSmp ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.'))));
+
+        $wafaTeacherTitle = $quranGrade?->quran_teacher_title 
+            ?: ($reportSetting?->quran_teacher_title 
+            ?: ($isSmp ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia'));
+
         return view('admin.academic.report_card', compact(
             'student',
             'grades',
@@ -2817,7 +2869,9 @@ class AcademicController extends Controller
             'isSmp',
             'isSd',
             'classroomGrade',
-            'isBpiAllowed'
+            'isBpiAllowed',
+            'wafaTeacherName',
+            'wafaTeacherTitle'
         ));
     }
 
@@ -3033,6 +3087,16 @@ class AcademicController extends Controller
         }
         $nssNds = $reportSetting?->nss_nds ?: ($isSmp ? '202110304002' : '102110304001');
 
+        $wafaTeacherName = $quranGrade?->quran_teacher_name 
+            ?: ($student->classroom?->quran_teacher_name 
+            ?: ($quranGrade?->examiner?->full_name 
+            ?: ($reportSetting?->quran_teacher_name 
+            ?: ($isSmp ? 'Nurul Hamidah Yanti, S.E' : 'Ustadzah Nurul Hamidah, S.Pd.'))));
+
+        $wafaTeacherTitle = $quranGrade?->quran_teacher_title 
+            ?: ($reportSetting?->quran_teacher_title 
+            ?: ($isSmp ? 'Guru Tahfidz SMPIT Robbani' : 'Sertifikasi Wafa Indonesia'));
+
         return compact(
             'student',
             'grades',
@@ -3050,7 +3114,9 @@ class AcademicController extends Controller
             'isSmp',
             'isSd',
             'classroomGrade',
-            'isBpiAllowed'
+            'isBpiAllowed',
+            'wafaTeacherName',
+            'wafaTeacherTitle'
         );
     }
 

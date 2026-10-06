@@ -22,6 +22,8 @@ class QuranGrade extends Model
         'tasmi_exam_result',
         'tahfidz_notes',
         'examiner_teacher_id',
+        'quran_teacher_name',
+        'quran_teacher_title',
         'quran_group',
         'tilawah_predicate',
     ];

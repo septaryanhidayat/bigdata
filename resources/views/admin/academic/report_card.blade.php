@@ -1223,8 +1223,8 @@
                         </p>
                     </td>
                     <td class="text-center px-4" style="vertical-align: bottom;">
-                        <p class="font-bold underline text-slate-950 leading-snug">Nurul Hamidah Yanti, S.E</p>
-                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">Guru Tahfidz SMPIT Robbani</p>
+                        <p class="font-bold underline text-slate-950 leading-snug">{{ $wafaTeacherName ?? 'Nurul Hamidah Yanti, S.E' }}</p>
+                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">{{ $wafaTeacherTitle ?? 'Guru Tahfidz SMPIT Robbani' }}</p>
                     </td>
                 </tr>
             </table>
@@ -1265,7 +1265,7 @@
             </table>
 
             <div class="border-t border-slate-200 pt-2 text-[11px] leading-relaxed italic text-slate-800">
-                <strong>Catatan Guru Al-Qur'an:</strong> {{ $quranGrade->tahsin_notes ?? 'Ananda melantunkan ayat suci Al-Qur\'an dengan irama Hijaz Wafa yang merdu, tartil, dan tertib makharijul huruf.' }}
+                <strong>Catatan Guru Al-Qur'an ({{ $wafaTeacherName ?? 'Ustadz / Ustadzah Wafa' }}):</strong> {{ $quranGrade->tahsin_notes ?? 'Ananda melantunkan ayat suci Al-Qur\'an dengan irama Hijaz Wafa yang merdu, tartil, dan tertib makharijul huruf.' }}
             </div>
         </div>
 
@@ -1326,8 +1326,8 @@
                 </tr>
                 <tr>
                     <td class="text-center px-4" style="vertical-align: bottom;">
-                        <p class="font-bold underline text-slate-950 uppercase leading-snug">Ustadz / Ustadzah Wafa</p>
-                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">Sertifikasi Wafa Indonesia</p>
+                        <p class="font-bold underline text-slate-950 leading-snug">{{ $wafaTeacherName ?? 'Ustadz / Ustadzah Wafa' }}</p>
+                        <p class="text-[10px] text-slate-600 font-normal leading-tight mt-0.5">{{ $wafaTeacherTitle ?? 'Sertifikasi Wafa Indonesia' }}</p>
                     </td>
                     <td class="text-center px-4" style="vertical-align: bottom;">
                         <p class="font-bold underline text-slate-950 leading-snug">

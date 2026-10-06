@@ -17,6 +17,8 @@ class ReportSetting extends Model
         'principal_signature_url',
         'principal_name',
         'principal_nip',
+        'quran_teacher_name',
+        'quran_teacher_title',
         'report_date',
         'report_city',
         'accreditation',
