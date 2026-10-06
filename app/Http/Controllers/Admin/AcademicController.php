@@ -2785,7 +2785,7 @@ class AcademicController extends Controller
             $reportSetting = new ReportSetting([
                 'school_id' => $student->school_id ?? 1,
                 'kop_image_url' => file_exists(public_path('uploads/reports/kop_smp_robbani.png')) ? 'uploads/reports/kop_smp_robbani.png' : (file_exists(public_path('uploads/reports/kop_sd_robbani.png')) ? 'uploads/reports/kop_sd_robbani.png' : null),
-                'school_logo_url' => $student->school?->logo_url ?: (file_exists(public_path('uploads/reports/logo_sd_robbani_cover.jpg')) ? '/uploads/reports/logo_sd_robbani_cover.jpg' : null),
+                'school_logo_url' => $student->school?->logo_url ?: (file_exists(public_path('images/logo-square-robbani.png')) ? 'images/logo-square-robbani.png' : (file_exists(public_path('images/logo-robbani-official.png')) ? 'images/logo-robbani-official.png' : null)),
                 'principal_name' => $student->school?->principal_name ?: ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr'),
                 'principal_nip' => $isSmp ? '142062021012' : '142102020009',
                 'report_city' => 'Ogan Ilir',
@@ -3055,7 +3055,7 @@ class AcademicController extends Controller
             $reportSetting = new ReportSetting([
                 'school_id' => $student->school_id ?? 1,
                 'kop_image_url' => file_exists(public_path('uploads/reports/kop_smp_robbani.png')) ? 'uploads/reports/kop_smp_robbani.png' : (file_exists(public_path('uploads/reports/kop_sd_robbani.png')) ? 'uploads/reports/kop_sd_robbani.png' : null),
-                'school_logo_url' => $student->school?->logo_url ?: (file_exists(public_path('uploads/reports/logo_sd_robbani_cover.jpg')) ? '/uploads/reports/logo_sd_robbani_cover.jpg' : null),
+                'school_logo_url' => $student->school?->logo_url ?: (file_exists(public_path('images/logo-square-robbani.png')) ? 'images/logo-square-robbani.png' : (file_exists(public_path('images/logo-robbani-official.png')) ? 'images/logo-robbani-official.png' : null)),
                 'principal_name' => $student->school?->principal_name ?: ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr'),
                 'principal_nip' => $isSmp ? '142062021012' : '142102020009',
                 'report_city' => 'Ogan Ilir',

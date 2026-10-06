@@ -246,6 +246,13 @@
             <div class="flex justify-center my-6">
                 @php
                     $coverLogo = $reportSetting?->school_logo_url ?? $student->school?->logo_url;
+                    if (empty($coverLogo) || str_contains($coverLogo, 'logo_sd_robbani_cover.jpg')) {
+                        if (file_exists(public_path('images/logo-square-robbani.png'))) {
+                            $coverLogo = 'images/logo-square-robbani.png';
+                        } elseif (file_exists(public_path('images/logo-robbani-official.png'))) {
+                            $coverLogo = 'images/logo-robbani-official.png';
+                        }
+                    }
                 @endphp
                 @if(!empty($coverLogo) && file_exists(public_path($coverLogo)))
                     <img src="{{ asset($coverLogo) }}" class="h-32 sm:h-36 w-auto object-contain" alt="Logo Sekolah" style="border: none !important; box-shadow: none !important;">
