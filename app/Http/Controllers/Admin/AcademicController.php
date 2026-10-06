@@ -1756,6 +1756,19 @@ class AcademicController extends Controller
         try {
             $reportSetting = ReportSetting::where('school_id', $student->school_id)->first();
         } catch (\Throwable $e) { $reportSetting = null; }
+
+        if (!$reportSetting) {
+            $reportSetting = new ReportSetting([
+                'school_id' => $student->school_id ?? 1,
+                'kop_image_url' => file_exists(public_path('uploads/reports/kop_sd_robbani.png')) ? 'uploads/reports/kop_sd_robbani.png' : null,
+                'principal_name' => $student->school?->principal_name ?: 'Nur Amalia, S.Pd., Gr',
+                'principal_nip' => '142102020009',
+                'report_city' => 'Ogan Ilir',
+                'report_date' => '18 Juni 2026',
+                'stamp_image_url' => file_exists(public_path('uploads/reports/stempel_resmi.png')) ? 'uploads/reports/stempel_resmi.png' : null,
+                'principal_signature_url' => file_exists(public_path('uploads/reports/ttd_kepsek.png')) ? 'uploads/reports/ttd_kepsek.png' : null,
+            ]);
+        }
         
         try {
             $quranCriteria = QuranCriterion::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
@@ -1765,7 +1778,29 @@ class AcademicController extends Controller
             $characterIndicators = CharacterIndicator::where(fn($q) => $q->where('school_id', $student->school_id)->orWhereNull('school_id'))->orderBy('order_number')->get();
         } catch (\Throwable $e) { $characterIndicators = collect(); }
 
-        $printType = $request->query('type', 'all_in_one'); // all_in_one, academic, quran, character, leger
+        // Pisahkan Mata Pelajaran Kurikulum Nasional vs Muatan Lokal / Kekhasan
+        $nationalGrades = $grades->filter(function($g) {
+            $cat = strtoupper($g->subject->category ?? 'NASIONAL');
+            $code = strtoupper($g->subject->code ?? '');
+            $name = strtoupper($g->subject->name ?? '');
+            if ($cat === 'MULOK' || $cat === 'QURAN' || str_contains($cat, 'LOKAL') || str_contains($name, 'TAHSIN') || str_contains($name, 'TAHFIDZ') || str_contains($name, 'ARAB')) {
+                return false;
+            }
+            return true;
+        })->values();
+
+        $mulokGrades = $grades->filter(function($g) {
+            $cat = strtoupper($g->subject->category ?? '');
+            $name = strtoupper($g->subject->name ?? '');
+            return $cat === 'MULOK' || $cat === 'QURAN' || $cat === 'KEKHASAN' || str_contains($cat, 'LOKAL') || str_contains($name, 'TAHSIN') || str_contains($name, 'TAHFIDZ') || str_contains($name, 'ARAB');
+        })->values();
+
+        // Fallback jika tidak terpisah: tampilkan di tabel nasional
+        if ($nationalGrades->isEmpty() && $grades->isNotEmpty()) {
+            $nationalGrades = $grades;
+        }
+
+        $printType = $request->query('type', 'all_in_one'); // all_in_one, cover, identity, academic, quran, character, leger
 
         $classStudents = collect();
         $classSubjects = collect();
@@ -1777,6 +1812,8 @@ class AcademicController extends Controller
         return view('admin.academic.report_card', compact(
             'student',
             'grades',
+            'nationalGrades',
+            'mulokGrades',
             'academicYear',
             'quranGrade',
             'characterGrade',

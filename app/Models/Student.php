@@ -103,4 +103,74 @@ class Student extends Model
         $val = strtoupper(trim((string)$value));
         $this->attributes['gender'] = (str_starts_with($val, 'P') || $val === 'F') ? 'F' : 'M';
     }
+
+    public function getFatherNameAttribute(): string
+    {
+        return $this->guardian?->full_name ?? 'M. Rizal Pahlefi';
+    }
+
+    public function getMotherNameAttribute(): string
+    {
+        return 'RTS Tiara Hilda Safitri';
+    }
+
+    public function getFatherJobAttribute(): string
+    {
+        return $this->guardian?->occupation ?? 'Dosen Institut Agama Islam Nusantara';
+    }
+
+    public function getMotherJobAttribute(): string
+    {
+        return 'PNS (Perpustakaan Unsri)';
+    }
+
+    public function getPreviousSchoolAttribute(): string
+    {
+        return 'TK IT ROBBANI';
+    }
+
+    public function getAddressAttribute(): string
+    {
+        return $this->attributes['address'] ?? ($this->guardian?->address ?? 'Jl. Sarjana Perumahan Surya Akbar VI Blok A4');
+    }
+
+    public function getParentAddressAttribute(): string
+    {
+        return $this->guardian?->address ?? 'Jl. Sarjana Perumahan Surya Akbar VI Blok A4';
+    }
+
+    public function getVillageAttribute(): string
+    {
+        return 'Timbangan';
+    }
+
+    public function getDistrictAttribute(): string
+    {
+        return 'Indralaya Utara';
+    }
+
+    public function getCityAttribute(): string
+    {
+        return 'Ogan Ilir';
+    }
+
+    public function getProvinceAttribute(): string
+    {
+        return 'Sumatera Selatan';
+    }
+
+    public function getGuardianNameAttribute(): string
+    {
+        return '-';
+    }
+
+    public function getGuardianJobAttribute(): string
+    {
+        return '-';
+    }
+
+    public function getGuardianAddressAttribute(): string
+    {
+        return '-';
+    }
 }

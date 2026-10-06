@@ -306,6 +306,29 @@ class RealSDReportCardSeeder extends Seeder
             );
         }
 
-        echo "SUCCESS: Seeded {$totalInserted} real SD students, 11 subjects, grades, attendance, quran, character, and P5 projects!\n";
+        // 9. Report Setting Resmi SDIT Robbani (Kop Surat Resmi, TTD, Titimangsa)
+        if (\Illuminate\Support\Facades\Schema::hasTable('report_settings')) {
+            \App\Models\ReportSetting::updateOrCreate(
+                ['school_id' => $school->id],
+                [
+                    'kop_image_url' => 'uploads/reports/kop_sd_robbani.png',
+                    'principal_name' => 'Nur Amalia, S.Pd., Gr',
+                    'principal_nip' => '142102020009',
+                    'report_city' => 'Ogan Ilir',
+                    'report_date' => '18 Juni 2026',
+                    'stamp_image_url' => 'uploads/reports/stempel_resmi.png',
+                    'principal_signature_url' => 'uploads/reports/ttd_kepsek.png',
+                ]
+            );
+        }
+
+        if (\Illuminate\Support\Facades\Schema::hasColumn('schools', 'kop_image_url')) {
+            $school->update([
+                'kop_image_url' => 'uploads/reports/kop_sd_robbani.png',
+                'principal_name' => 'Nur Amalia, S.Pd., Gr',
+            ]);
+        }
+
+        echo "SUCCESS: Seeded {$totalInserted} real SD students, 11 subjects, grades, attendance, quran, character, P5 projects, and official SDIT Robbani report settings!\n";
     }
 }
