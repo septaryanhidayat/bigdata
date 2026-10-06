@@ -18,6 +18,7 @@ use App\Models\CharacterIndicator;
 use App\Models\CharacterGrade;
 use App\Models\HomeroomNote;
 use App\Models\ReportSetting;
+use App\Models\LearningObjective;
 use App\Models\User;
 use App\Services\GeminiEraporService;
 use Illuminate\Http\Request;
@@ -429,6 +430,28 @@ class AcademicController extends Controller
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('ensure schools profile fields error: ' . $e->getMessage());
         }
+
+        // 12. learning_objectives (Tujuan Pembelajaran Kurikulum Merdeka)
+        try {
+            if (!Schema::hasTable('learning_objectives')) {
+                Schema::create('learning_objectives', function (Blueprint $table) {
+                    $table->id();
+                    $table->unsignedBigInteger('school_id')->nullable()->index();
+                    $table->unsignedBigInteger('subject_id')->nullable()->index();
+                    $table->unsignedBigInteger('academic_year_id')->nullable()->index();
+                    $table->string('grade_level', 20)->default('Semua');
+                    $table->string('code', 30);
+                    $table->string('short_desc');
+                    $table->text('description')->nullable();
+                    $table->string('semester', 20)->default('Genap');
+                    $table->unsignedSmallInteger('order_number')->default(1);
+                    $table->boolean('is_active')->default(true);
+                    $table->timestamps();
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ensure learning_objectives table error: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -709,6 +732,31 @@ class AcademicController extends Controller
             $p5Projects = collect();
         }
 
+        // 12. Tujuan Pembelajaran (TP) Kurikulum Merdeka
+        try {
+            if (LearningObjective::where('school_id', $schoolId)->count() === 0 && $subjects->isNotEmpty()) {
+                self::seedDefaultTPForSchool($schoolId, $activeAcademicYear?->id);
+            }
+
+            $tpQuery = LearningObjective::where('school_id', $schoolId)->with(['subject']);
+            if ($request->filled('subject_id')) {
+                $tpQuery->where('subject_id', $request->query('subject_id'));
+            }
+            if ($request->filled('grade_level') && $request->query('grade_level') !== 'Semua') {
+                $tpQuery->where('grade_level', $request->query('grade_level'));
+            }
+            $learningObjectives = $tpQuery->orderBy('subject_id')->orderBy('order_number')->get();
+
+            $activeLearningObjectives = LearningObjective::where('school_id', $schoolId)
+                ->where('subject_id', $selectedSubjectId)
+                ->where('is_active', true)
+                ->orderBy('order_number')
+                ->get();
+        } catch (\Throwable $e) {
+            $learningObjectives = collect();
+            $activeLearningObjectives = collect();
+        }
+
         // Current user role display label
         $currentUser = auth()->user();
         $userRoleLabel = 'Staf Akademik';
@@ -810,7 +858,9 @@ class AcademicController extends Controller
             'isSmp',
             'isSd',
             'classroomGrade',
-            'isBpiAllowed'
+            'isBpiAllowed',
+            'learningObjectives',
+            'activeLearningObjectives'
         ));
     }
 
@@ -1351,6 +1401,219 @@ class AcademicController extends Controller
             'school_id' => $schoolId,
             'menu' => 'subjects',
         ])->with('success', "Alhamdulillah! Berhasil mengimpor {$count} mata pelajaran.");
+    }
+
+    /**
+     * Simpan / Tambah / Update Tujuan Pembelajaran (TP) Kurikulum Merdeka
+     */
+    public function saveLearningObjective(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required|exists:schools,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'code' => 'required|string|max:30',
+            'short_desc' => 'required|string|max:255',
+        ]);
+
+        $tp = LearningObjective::updateOrCreate(
+            ['id' => $request->id],
+            [
+                'school_id' => $request->school_id,
+                'subject_id' => $request->subject_id,
+                'academic_year_id' => $request->academic_year_id,
+                'grade_level' => $request->grade_level ?? 'Semua',
+                'code' => strtoupper(trim($request->code)),
+                'short_desc' => trim($request->short_desc),
+                'description' => trim($request->description ?? $request->short_desc),
+                'semester' => $request->semester ?? 'Genap',
+                'order_number' => (int)($request->order_number ?: 1),
+                'is_active' => $request->has('is_active') ? (bool)$request->is_active : true,
+            ]
+        );
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $request->school_id,
+            'menu' => 'tp',
+            'subject_id' => $request->subject_id,
+        ])->with('success', "Tujuan Pembelajaran ({$tp->code}) Berhasil Disimpan!");
+    }
+
+    /**
+     * Hapus Tujuan Pembelajaran (TP)
+     */
+    public function deleteLearningObjective($id, Request $request)
+    {
+        $tp = LearningObjective::findOrFail($id);
+        $schoolId = $tp->school_id;
+        $subjectId = $tp->subject_id;
+        $code = $tp->code;
+        $tp->delete();
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $schoolId,
+            'menu' => 'tp',
+            'subject_id' => $subjectId,
+        ])->with('success', "Tujuan Pembelajaran {$code} berhasil dihapus.");
+    }
+
+    /**
+     * Seed Paket Template Standar TP Kurikulum Merdeka Kemendikbudristek
+     */
+    public function seedDefaultLearningObjectives(Request $request)
+    {
+        $schoolId = $request->input('school_id', auth()->user()?->getEffectiveSchoolId() ?? 1);
+        $activeAy = AcademicYear::where('is_active', true)->first();
+        $seededCount = self::seedDefaultTPForSchool((int)$schoolId, $activeAy?->id);
+
+        return redirect()->route('admin.academic.grades', [
+            'school_id' => $schoolId,
+            'menu' => 'tp',
+            'subject_id' => $request->subject_id,
+        ])->with('success', "Alhamdulillah! Berhasil men-generate {$seededCount} Tujuan Pembelajaran standar Kurikulum Merdeka!");
+    }
+
+    /**
+     * Helper Seeder Paket TP Standar Kurikulum Merdeka
+     */
+    public static function seedDefaultTPForSchool(int $schoolId, ?int $academicYearId = null): int
+    {
+        self::ensureExtendedTablesExist();
+
+        $subjects = Subject::where('school_id', $schoolId)->orWhereNull('school_id')->get();
+        if ($subjects->isEmpty()) {
+            $subjects = Subject::all();
+        }
+
+        $templates = [
+            'PAI' => [
+                ['code' => 'TP 1', 'short' => 'memahami pesan pokok Surah Al-Fatihah dan surah pendek', 'desc' => 'Peserta didik mampu memahami dan melafalkan pesan pokok Surah Al-Fatihah dan surah-surah pendek pilihan dengan tartil.'],
+                ['code' => 'TP 2', 'short' => 'mengenal Asmaul Husna dan rukun iman', 'desc' => 'Peserta didik mampu mengenal dan meneladani Asmaul Husna serta rukun iman dalam kehidupan sehari-hari.'],
+                ['code' => 'TP 3', 'short' => 'mempraktikkan thaharah dan sholat fardhu berjamaah', 'desc' => 'Peserta didik mampu mempraktikkan tata cara bersuci (thaharah), sholat fardhu berjamaah, dan adab islami.'],
+                ['code' => 'TP 4', 'short' => 'meneladani kisah keteladanan Nabi dan Rasul', 'desc' => 'Peserta didik mampu menceritakan dan meneladani akhlak mulia Nabi dan Rasul Allah SWT.']
+            ],
+            'PPKN' => [
+                ['code' => 'TP 1', 'short' => 'memahami arti simbol dan sila-sila Pancasila', 'desc' => 'Peserta didik mampu memahami arti dan makna simbol sila-sila Pancasila serta penerapannya di lingkungan sekolah dan rumah.'],
+                ['code' => 'TP 2', 'short' => 'mengidentifikasi aturan dan norma yang berlaku', 'desc' => 'Peserta didik mampu mengidentifikasi dan menaati aturan serta norma yang berlaku dalam musyawarah bersama.'],
+                ['code' => 'TP 3', 'short' => 'menghargai keberagaman suku dan budaya', 'desc' => 'Peserta didik mampu menghargai dan merawat kerukunan di tengah keberagaman suku, agama, dan budaya.'],
+                ['code' => 'TP 4', 'short' => 'mempraktikkan sikap gotong royong dan tolong-menolong', 'desc' => 'Peserta didik mampu menunjukkan perilaku gotong royong dan saling tolong-menolong sesama warga sekolah.']
+            ],
+            'BIND' => [
+                ['code' => 'TP 1', 'short' => 'menyimak dan memahami informasi dari teks lisan', 'desc' => 'Peserta didik mampu menyimak dengan saksama dan memahami ide pokok serta informasi penting dari teks lisan.'],
+                ['code' => 'TP 2', 'short' => 'membaca lancar dengan lafal dan intonasi tepat', 'desc' => 'Peserta didik mampu membaca teks narasi dan deskripsi dengan lancar, intonasi tepat, serta memahami kosakata baru.'],
+                ['code' => 'TP 3', 'short' => 'menyampaikan gagasan dan pendapat secara santun', 'desc' => 'Peserta didik mampu menyampaikan ide, perasaan, dan tanggapan secara lisan dengan santun dan percaya diri.'],
+                ['code' => 'TP 4', 'short' => 'menulis paragraf deskriptif dengan ejaan benar', 'desc' => 'Peserta didik mampu menulis kalimat dan paragraf sederhana sesuai kaidah ejaan bahasa Indonesia yang baik.']
+            ],
+            'MTK' => [
+                ['code' => 'TP 1', 'short' => 'memahami konsep bilangan cacah dan nilai tempat', 'desc' => 'Peserta didik mampu membaca, menulis, menentukan nilai tempat, dan membandingkan bilangan cacah.'],
+                ['code' => 'TP 2', 'short' => 'melakukan operasi hitung penjumlahan dan pengurangan', 'desc' => 'Peserta didik mampu menyelesaikan masalah sehari-hari yang berkaitan dengan operasi hitung penjumlahan dan pengurangan.'],
+                ['code' => 'TP 3', 'short' => 'mengidentifikasi bangun datar dan bangun ruang', 'desc' => 'Peserta didik mampu mengenal, mengelompokkan, dan mendeskripsikan ciri-ciri bangun datar dan bangun ruang.'],
+                ['code' => 'TP 4', 'short' => 'mengumpulkan dan menyajikan data sederhana', 'desc' => 'Peserta didik mampu mengumpulkan, menyajikan, dan menafsirkan data dalam bentuk tabel atau diagram batang.']
+            ],
+            'IPA' => [
+                ['code' => 'TP 1', 'short' => 'mengidentifikasi bagian tubuh makhluk hidup dan fungsinya', 'desc' => 'Peserta didik mampu menganalisis hubungan antara bentuk dan fungsi bagian tubuh tumbuhan serta hewan.'],
+                ['code' => 'TP 2', 'short' => 'menganalisis interaksi antar komponen dalam ekosistem', 'desc' => 'Peserta didik mampu memahami rantai makanan dan keseimbangan ekosistem di lingkungan sekitar.'],
+                ['code' => 'TP 3', 'short' => 'memahami wujud zat dan perubahan bentuk energi', 'desc' => 'Peserta didik mampu mengidentifikasi wujud benda serta pemanfaatan perubahan energi dalam kehidupan.'],
+                ['code' => 'TP 4', 'short' => 'melakukan pengamatan ilmiah sederhana', 'desc' => 'Peserta didik mampu merancang penyelidikan ilmiah sederhana, mencatat data, dan menarik kesimpulan.']
+            ],
+            'IPS' => [
+                ['code' => 'TP 1', 'short' => 'memahami kenampakan alam dan potensi lingkungan', 'desc' => 'Peserta didik mampu menjelaskan kenampakan alam dan buatan serta dampaknya terhadap mata pencaharian.'],
+                ['code' => 'TP 2', 'short' => 'menganalisis kegiatan ekonomi dan peran pelaku usaha', 'desc' => 'Peserta didik mampu mengidentifikasi aktivitas produksi, distribusi, dan konsumsi masyarakat.'],
+                ['code' => 'TP 3', 'short' => 'menghargai peninggalan sejarah dan kearifan lokal', 'desc' => 'Peserta didik mampu menceritakan peninggalan sejarah dan melestarikan kearifan lokal daerah.'],
+                ['code' => 'TP 4', 'short' => 'menjaga kelestarian lingkungan dan sumber daya alam', 'desc' => 'Peserta didik mampu mengusulkan tindakan nyata dalam melestarikan sumber daya alam sekitar.']
+            ],
+            'BING' => [
+                ['code' => 'TP 1', 'short' => 'merespons ungkapan sapaan dan instruksi lisan', 'desc' => 'Peserta didik mampu memahami dan merespons sapaan (*greeting*), salam perpisahan, dan instruksi kelas sederhana.'],
+                ['code' => 'TP 2', 'short' => 'memahami teks deskripsi pendek tentang benda dan keluarga', 'desc' => 'Peserta didik mampu membaca dan mengidentifikasi informasi penting dari teks deskripsi pendek bahasa Inggris.'],
+                ['code' => 'TP 3', 'short' => 'berinteraksi lisan sederhana tentang hobi dan lingkungan', 'desc' => 'Peserta didik mampu berkomunikasi lisan menggunakan kalimat deklaratif dan tanya sederhana.'],
+                ['code' => 'TP 4', 'short' => 'menulis kata dan frasa bahasa Inggris dengan ejaan tepat', 'desc' => 'Peserta didik mampu menyusun kata dan kalimat sederhana dengan ejaan dan tanda baca yang tepat.']
+            ],
+            'PJOK' => [
+                ['code' => 'TP 1', 'short' => 'mempraktikkan gerak dasar lokomotor dan non-lokomotor', 'desc' => 'Peserta didik mampu mempraktikkan kombinasi gerak dasar lokomotor, non-lokomotor, dan manipulatif dengan benar.'],
+                ['code' => 'TP 2', 'short' => 'memahami sportivitas dalam permainan olahraga', 'desc' => 'Peserta didik mampu menerapkan aturan keselamatan, sportivitas, dan kerja sama dalam permainan tim.'],
+                ['code' => 'TP 3', 'short' => 'menerapkan kebiasaan hidup bersih dan menjaga kebugaran', 'desc' => 'Peserta didik mampu menjelaskan pentingnya menjaga kebersihan tubuh, pola istirahat, dan gizi seimbang.']
+            ],
+            'SBK' => [
+                ['code' => 'TP 1', 'short' => 'mengenal unsur seni rupa, nada, dan gerak pertunjukan', 'desc' => 'Peserta didik mampu mengidentifikasi unsur garis, bentuk, warna, irama musik, dan pola gerak ekspresif.'],
+                ['code' => 'TP 2', 'short' => 'mengeksplorasi pembuatan karya seni kreatif', 'desc' => 'Peserta didik mampu menciptakan karya seni rupa atau gerak pertunjukan dengan memanfaatkan bahan sekitar.'],
+                ['code' => 'TP 3', 'short' => 'mengapresiasi keindahan karya seni tradisional dan islami', 'desc' => 'Peserta didik mampu mengapresiasi dan menjelaskan makna karya seni budaya lokal nusantara.']
+            ],
+            'INF' => [
+                ['code' => 'TP 1', 'short' => 'memahami perangkat keras dan lunak komputer', 'desc' => 'Peserta didik mampu mengidentifikasi komponen teknologi informasi dan komunikasi serta fungsinya.'],
+                ['code' => 'TP 2', 'short' => 'menerapkan berpikir komputasional dalam logika sederhana', 'desc' => 'Peserta didik mampu memecahkan masalah melalui pola logika, dekomposisi, dan algoritma sederhana.'],
+                ['code' => 'TP 3', 'short' => 'memahami etika digital dan keamanan data pribadi', 'desc' => 'Peserta didik mampu menerapkan tata krama bermedia digital dan menjaga kerahasiaan data pribadi.']
+            ],
+            'HADIST' => [
+                ['code' => 'TP 1', 'short' => 'menghafal hadist pilihan tentang niat dan akhlak mulia', 'desc' => 'Peserta didik mampu menghafal matan dan terjemahan hadist tentang niat, menuntut ilmu, dan berbakti kepada orang tua.'],
+                ['code' => 'TP 2', 'short' => 'mengamalkan kandungan hadist dalam pembiasaan harian', 'desc' => 'Peserta didik mampu meneladani dan membiasakan akhlak mulia sebagaimana dicontohkan Rasulullah SAW.']
+            ],
+            'ARAB' => [
+                ['code' => 'TP 1', 'short' => 'melafalkan mufrodat perkenalan dan benda di sekolah', 'desc' => 'Peserta didik mampu melafalkan mufrodat perkenalan (*ta\'aruf*), benda kelas, dan anggota keluarga dengan makhraj fasih.'],
+                ['code' => 'TP 2', 'short' => 'mempraktikkan percakapan sederhana bahasa Arab', 'desc' => 'Peserta didik mampu melakukan tanya jawab sederhana dalam bahasa Arab dengan intonasi yang baik.']
+            ],
+        ];
+
+        $totalSeeded = 0;
+        foreach ($subjects as $sb) {
+            $codeUpper = strtoupper($sb->code ?? '');
+            $nameUpper = strtoupper($sb->name ?? '');
+
+            $matchedTemplate = null;
+            if (str_contains($codeUpper, 'PAI') || str_contains($nameUpper, 'AGAMA') || str_contains($nameUpper, 'ISLAM')) {
+                $matchedTemplate = $templates['PAI'];
+            } elseif (str_contains($codeUpper, 'PKN') || str_contains($codeUpper, 'PPKN') || str_contains($nameUpper, 'PANCASILA')) {
+                $matchedTemplate = $templates['PPKN'];
+            } elseif (str_contains($codeUpper, 'BIN') || str_contains($nameUpper, 'INDONESIA')) {
+                $matchedTemplate = $templates['BIND'];
+            } elseif (str_contains($codeUpper, 'MTK') || str_contains($nameUpper, 'MATEMATIKA')) {
+                $matchedTemplate = $templates['MTK'];
+            } elseif (str_contains($codeUpper, 'IPA') || str_contains($nameUpper, 'ALAM')) {
+                $matchedTemplate = $templates['IPA'];
+            } elseif (str_contains($codeUpper, 'IPS') || str_contains($nameUpper, 'SOSIAL')) {
+                $matchedTemplate = $templates['IPS'];
+            } elseif (str_contains($codeUpper, 'BIG') || str_contains($codeUpper, 'BING') || str_contains($nameUpper, 'INGGRIS')) {
+                $matchedTemplate = $templates['BING'];
+            } elseif (str_contains($codeUpper, 'PJOK') || str_contains($nameUpper, 'JASMANI') || str_contains($nameUpper, 'OLAHRAGA')) {
+                $matchedTemplate = $templates['PJOK'];
+            } elseif (str_contains($codeUpper, 'SBK') || str_contains($codeUpper, 'SENI') || str_contains($nameUpper, 'SENI') || str_contains($nameUpper, 'TARI') || str_contains($nameUpper, 'TEATER')) {
+                $matchedTemplate = $templates['SBK'];
+            } elseif (str_contains($codeUpper, 'INF') || str_contains($codeUpper, 'KKA') || str_contains($nameUpper, 'INFORMATIKA') || str_contains($nameUpper, 'KODING')) {
+                $matchedTemplate = $templates['INF'];
+            } elseif (str_contains($codeUpper, 'HADIST') || str_contains($nameUpper, 'HADIST')) {
+                $matchedTemplate = $templates['HADIST'];
+            } elseif (str_contains($codeUpper, 'ARAB') || str_contains($nameUpper, 'ARAB')) {
+                $matchedTemplate = $templates['ARAB'];
+            } else {
+                $matchedTemplate = [
+                    ['code' => 'TP 1', 'short' => 'memahami konsep dasar dan materi pokok ' . $sb->name, 'desc' => 'Peserta didik mampu memahami prinsip, definisi, dan konsep utama materi ' . $sb->name . ' dengan baik.'],
+                    ['code' => 'TP 2', 'short' => 'menerapkan keterampilan praktis dan analisis dalam ' . $sb->name, 'desc' => 'Peserta didik mampu mengaplikasikan pemahaman materi untuk memecahkan persoalan kontekstual.'],
+                    ['code' => 'TP 3', 'short' => 'mengevaluasi dan menyajikan hasil belajar ' . $sb->name, 'desc' => 'Peserta didik mampu menyajikan hasil karya dan evaluasi pemahaman materi dengan mandiri dan bertanggung jawab.']
+                ];
+            }
+
+            if ($matchedTemplate) {
+                foreach ($matchedTemplate as $idx => $tpData) {
+                    LearningObjective::updateOrCreate(
+                        [
+                            'school_id' => $schoolId,
+                            'subject_id' => $sb->id,
+                            'code' => $tpData['code'],
+                        ],
+                        [
+                            'academic_year_id' => $academicYearId,
+                            'grade_level' => 'Semua',
+                            'short_desc' => $tpData['short'],
+                            'description' => $tpData['desc'],
+                            'semester' => 'Genap',
+                            'order_number' => $idx + 1,
+                            'is_active' => true,
+                        ]
+                    );
+                    $totalSeeded++;
+                }
+            }
+        }
+
+        return $totalSeeded;
     }
 
     /**

@@ -89,6 +89,16 @@
                     <span>Mata Pelajaran</span>
                 </a>
 
+                <!-- 4. Tujuan Pembelajaran (TP) Kurikulum Merdeka -->
+                <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp']) }}" 
+                   class="flex items-center justify-between px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'tp' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">
+                    <div class="flex items-center gap-3">
+                        <span class="text-base">🎯</span>
+                        <span>Tujuan Pembelajaran</span>
+                    </div>
+                    <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded {{ ($activeMenu ?? '') === 'tp' ? 'bg-white/20 text-white' : 'bg-emerald-950 text-emerald-400 border border-emerald-800' }}">TP</span>
+                </a>
+
                 <!-- 4. Ekstrakurikuler -->
                 <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'extracurriculars']) }}" 
                    class="flex items-center gap-3 px-3 py-2 rounded-xl transition-colors {{ ($activeMenu ?? '') === 'extracurriculars' ? 'bg-emerald-600 text-white font-black shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }}">

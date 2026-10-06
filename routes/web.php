@@ -545,10 +545,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/subjects/template', [AcademicController::class, 'downloadSubjectTemplate'])->name('subjects.template');
             Route::post('/subjects/import', [AcademicController::class, 'importSubjects'])->name('subjects.import');
 
+            // Tujuan Pembelajaran (TP) Kurikulum Merdeka
+            Route::post('/tp/save', [AcademicController::class, 'saveLearningObjective'])->name('tp.save');
+            Route::post('/tp/delete/{id}', [AcademicController::class, 'deleteLearningObjective'])->name('tp.delete');
+            Route::post('/tp/seed-defaults', [AcademicController::class, 'seedDefaultLearningObjectives'])->name('tp.seed');
+
             Route::post('/extracurriculars/save', [AcademicController::class, 'saveExtracurricular'])->name('extracurriculars.save');
             Route::post('/extracurriculars/delete/{id}', [AcademicController::class, 'deleteExtracurricular'])->name('extracurriculars.delete');
 
             Route::post('/p5/save', [AcademicController::class, 'saveProjectP5'])->name('p5.save');
+            Route::post('/p5/delete/{id}', [AcademicController::class, 'deleteProjectP5'])->name('p5.delete');
             Route::get('/report-card/{studentId}', [AcademicController::class, 'reportCard'])->name('report-card');
             Route::get('/leger/export', [AcademicController::class, 'exportLeger'])->name('leger.export');
 

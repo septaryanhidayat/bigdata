@@ -116,27 +116,32 @@
             </div>
         </div>
 
-        <!-- AI Assistant Banner -->
-        <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white border border-emerald-700/50 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <!-- AI Assistant Banner (High-Contrast Rich Emerald-Navy Gradient) -->
+        <div class="p-5 rounded-2xl shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-emerald-600/40"
+             style="background: linear-gradient(135deg, #022c22 0%, #0f172a 50%, #042f2e 100%) !important; color: #ffffff !important;">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-inner"
+                     style="background: rgba(16, 185, 129, 0.25); border: 1px solid rgba(52, 211, 153, 0.5);">
                     ✨
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-300 text-[10px] font-black uppercase tracking-wider border border-emerald-500/40">
+                        <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider"
+                              style="background: rgba(16, 185, 129, 0.3); border: 1px solid rgba(52, 211, 153, 0.6); color: #6ee7b7;">
                             Robbani AI Assistant (Smart Engine)
                         </span>
-                        <span class="text-[10px] text-emerald-400 font-bold">● Terhubung Aktif</span>
+                        <span class="text-[10px] font-bold" style="color: #34d399;">● Terhubung Aktif</span>
                     </div>
-                    <h3 class="text-sm font-black text-white mt-1">Robbani AI Evaluasi & Penulisan Rapor SIT Otomatis</h3>
-                    <p class="text-xs text-slate-300 font-medium mt-0.5">
+                    <h3 class="text-sm font-black mt-1" style="color: #ffffff !important;">Robbani AI Evaluasi & Penulisan Rapor SIT Otomatis</h3>
+                    <p class="text-xs font-medium mt-0.5" style="color: #e2e8f0 !important;">
                         Membuat narasi capaian pembelajaran, evaluasi tilawah Wafa, catatan motivasi wali kelas Islami, dan analisis kesiapan kelas secara otomatis.
                     </p>
                 </div>
             </div>
             <div class="flex items-center gap-2 shrink-0 w-full md:w-auto">
-                <button type="button" onclick="openAiClassAnalysisModal({{ $selectedClassroomId ?? ($classrooms->first()->id ?? 0) }})" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 font-black text-xs transition cursor-pointer shadow-sm active:scale-95">
+                <button type="button" onclick="openAiClassAnalysisModal({{ $selectedClassroomId ?? ($classrooms->first()->id ?? 0) }})" 
+                        class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-black text-xs transition cursor-pointer shadow-md active:scale-95 hover:opacity-90"
+                        style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important; color: #022c22 !important; border: 1px solid #34d399;">
                     <span>✨</span>
                     <span>Analisis AI Kesiapan Rapor</span>
                 </button>
@@ -1313,32 +1318,35 @@
                             </td>
                             <td class="px-4 py-3 text-center whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5">
-                                    <button onclick="editSiswaLengkap(@json([
-                                        'id' => $st->id,
-                                        'nis' => $st->nis,
-                                        'nisn' => $st->nisn ?? '',
-                                        'full_name' => $st->full_name,
-                                        'nickname' => $st->nickname ?? '',
-                                        'gender' => $st->gender,
-                                        'classroom_id' => $st->classroom_id,
-                                        'birth_place' => $st->pob ?? $st->birth_place ?? '',
-                                        'birth_date' => $st->dob ? \Carbon\Carbon::parse($st->dob)->format('Y-m-d') : '',
-                                        'religion' => $st->religion ?? 'Islam',
-                                        'previous_school' => $st->previous_school ?? '',
-                                        'address' => $st->address ?? '',
-                                        'village' => $st->village ?? '',
-                                        'district' => $st->district ?? '',
-                                        'city' => $st->city ?? '',
-                                        'province' => $st->province ?? 'Sumatera Selatan',
-                                        'postal_code' => $st->postal_code ?? '',
-                                        'father_name' => $st->father_name ?? '',
-                                        'father_job' => $st->father_job ?? '',
-                                        'mother_name' => $st->mother_name ?? '',
-                                        'mother_job' => $st->mother_job ?? '',
-                                        'guardian_name' => $st->guardian_name ?? '',
-                                        'guardian_job' => $st->guardian_job ?? '',
-                                        'guardian_address' => $st->guardian_address ?? '',
-                                    ]))" 
+                                    @php
+                                        $stDataArr = [
+                                            'id' => $st->id,
+                                            'nis' => $st->nis,
+                                            'nisn' => $st->nisn ?? '',
+                                            'full_name' => $st->full_name,
+                                            'nickname' => $st->nickname ?? '',
+                                            'gender' => $st->gender,
+                                            'classroom_id' => $st->classroom_id,
+                                            'birth_place' => $st->pob ?? $st->birth_place ?? '',
+                                            'birth_date' => $st->dob ? \Carbon\Carbon::parse($st->dob)->format('Y-m-d') : '',
+                                            'religion' => $st->religion ?? 'Islam',
+                                            'previous_school' => $st->previous_school ?? '',
+                                            'address' => $st->address ?? '',
+                                            'village' => $st->village ?? '',
+                                            'district' => $st->district ?? '',
+                                            'city' => $st->city ?? '',
+                                            'province' => $st->province ?? 'Sumatera Selatan',
+                                            'postal_code' => $st->postal_code ?? '',
+                                            'father_name' => $st->father_name ?? '',
+                                            'father_job' => $st->father_job ?? '',
+                                            'mother_name' => $st->mother_name ?? '',
+                                            'mother_job' => $st->mother_job ?? '',
+                                            'guardian_name' => $st->guardian_name ?? '',
+                                            'guardian_job' => $st->guardian_job ?? '',
+                                            'guardian_address' => $st->guardian_address ?? '',
+                                        ];
+                                    @endphp
+                                    <button onclick="editSiswaLengkap({{ json_encode($stDataArr, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) }})" 
                                             class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
                                         ✏️ Edit
                                     </button>
@@ -1917,6 +1925,307 @@
     @endif
 
     <!-- ========================================================================= -->
+    <!-- MENU: TUJUAN PEMBELAJARAN (TP) - KURIKULUM MERDEKA -->
+    <!-- ========================================================================= -->
+    @if(($activeMenu ?? '') === 'tp')
+    <div class="space-y-6">
+        <!-- Header Banner & Penjelasan Fungsi TP -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wide">
+                        Kurikulum Merdeka Kemendikbudristek
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold">
+                        Unit: {{ $activeSchool->name ?? 'SIT Robbani' }}
+                    </span>
+                </div>
+                <h2 class="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                    <span>🎯</span> <span>Tujuan Pembelajaran (TP) Mata Pelajaran</span>
+                </h2>
+                <p class="text-xs text-slate-600 max-w-3xl leading-relaxed">
+                    <strong>Fungsi TP di e-Rapor:</strong> Tujuan Pembelajaran (TP) diturunkan dari Capaian Pembelajaran (CP) sebagai acuan penilaian formatif & sumatif. Ketercapaian TP oleh siswa digunakan oleh sistem untuk <em>menyusun narasi deskripsi capaian kompetensi tertinggi & terendah</em> pada rapor secara otomatis dan seragam.
+                </p>
+            </div>
+            <div class="flex items-center gap-2.5 flex-wrap shrink-0">
+                <form method="POST" action="{{ route('admin.academic.tp.seed') }}">
+                    @csrf
+                    <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                    <input type="hidden" name="subject_id" value="{{ $selectedSubjectId }}">
+                    <button type="submit" onclick="return confirm('Generate otomatis paket Tujuan Pembelajaran standar Kurikulum Merdeka untuk semua mata pelajaran di unit ini?')"
+                            class="px-4 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-black text-xs flex items-center gap-2 transition cursor-pointer shadow-xs active:scale-95">
+                        <span>⚡</span>
+                        <span>Generate Paket TP Standar</span>
+                    </button>
+                </form>
+                <button type="button" onclick="bukaModalTambahTp()"
+                        class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs flex items-center gap-2 transition cursor-pointer shadow-sm active:scale-95">
+                    <span>➕</span>
+                    <span>Tambah TP Baru</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <form method="GET" action="{{ route('admin.academic.grades') }}" class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                <input type="hidden" name="menu" value="tp">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Filter Mata Pelajaran:</label>
+                    <select name="subject_id" onchange="this.form.submit()" class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 px-3 py-2 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                        <option value="">-- Semua Mata Pelajaran --</option>
+                        @foreach($subjects as $sb)
+                            <option value="{{ $sb->id }}" {{ request('subject_id') == $sb->id ? 'selected' : '' }}>
+                                {{ $sb->name }} ({{ $sb->code }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Tingkat Kelas / Fase:</label>
+                    <select name="grade_level" onchange="this.form.submit()" class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 px-3 py-2 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                        <option value="Semua">Semua Tingkat</option>
+                        @if($isSmp)
+                            <option value="Kelas 7" {{ request('grade_level') == 'Kelas 7' ? 'selected' : '' }}>Kelas 7 (Fase D)</option>
+                            <option value="Kelas 8" {{ request('grade_level') == 'Kelas 8' ? 'selected' : '' }}>Kelas 8 (Fase D)</option>
+                            <option value="Kelas 9" {{ request('grade_level') == 'Kelas 9' ? 'selected' : '' }}>Kelas 9 (Fase D)</option>
+                        @else
+                            <option value="Kelas 1" {{ request('grade_level') == 'Kelas 1' ? 'selected' : '' }}>Kelas 1 (Fase A)</option>
+                            <option value="Kelas 2" {{ request('grade_level') == 'Kelas 2' ? 'selected' : '' }}>Kelas 2 (Fase A)</option>
+                            <option value="Kelas 3" {{ request('grade_level') == 'Kelas 3' ? 'selected' : '' }}>Kelas 3 (Fase B)</option>
+                            <option value="Kelas 4" {{ request('grade_level') == 'Kelas 4' ? 'selected' : '' }}>Kelas 4 (Fase B)</option>
+                            <option value="Kelas 5" {{ request('grade_level') == 'Kelas 5' ? 'selected' : '' }}>Kelas 5 (Fase C)</option>
+                            <option value="Kelas 6" {{ request('grade_level') == 'Kelas 6' ? 'selected' : '' }}>Kelas 6 (Fase C)</option>
+                        @endif
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs transition">
+                        🔍 Filter
+                    </button>
+                    <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp']) }}" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                        Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tabel Daftar TP -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                    <h3 class="font-black text-sm text-slate-900">
+                        Daftar Tujuan Pembelajaran Aktif (Total: {{ ($learningObjectives ?? collect([]))->count() }} TP)
+                    </h3>
+                </div>
+                <span class="text-xs font-bold text-slate-500">Tahun Ajaran: {{ $activeAcademicYear->name ?? '2025/2026' }} • Semester Genap</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100/75 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                        <tr>
+                            <th class="px-4 py-3 text-center w-12">No</th>
+                            <th class="px-4 py-3 w-28">Kode TP</th>
+                            <th class="px-4 py-3 w-48">Mata Pelajaran</th>
+                            <th class="px-4 py-3 min-w-[280px]">Ringkasan Capaian (Digunakan di Rapor)</th>
+                            <th class="px-4 py-3 min-w-[320px]">Deskripsi Lengkap Tujuan Pembelajaran</th>
+                            <th class="px-4 py-3 text-center w-24">Tingkat</th>
+                            <th class="px-4 py-3 text-center w-24">Status</th>
+                            <th class="px-4 py-3 text-center w-28">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-800">
+                        @forelse(($learningObjectives ?? collect([])) as $tp)
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="px-4 py-3 text-center text-slate-400 font-bold">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-3 font-black text-emerald-800">
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 font-mono text-xs">
+                                    {{ $tp->code }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="font-bold text-slate-900 block">{{ $tp->subject->name ?? '-' }}</span>
+                                <span class="text-[10px] text-slate-500 font-semibold font-mono">{{ $tp->subject->code ?? '' }}</span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <p class="font-extrabold text-slate-900 leading-snug">{{ $tp->short_desc }}</p>
+                                <span class="text-[10px] text-emerald-700 font-bold">Auto-narasi rapor: "Menunjukkan penguasaan... dalam {{ $tp->short_desc }}"</span>
+                            </td>
+                            <td class="px-4 py-3 text-slate-600 leading-relaxed">
+                                {{ $tp->description ?: $tp->short_desc }}
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">
+                                    {{ $tp->grade_level ?: 'Semua' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                @if($tp->is_active)
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Aktif</span>
+                                @else
+                                    <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Non-aktif</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <div class="flex items-center justify-center gap-1.5">
+                                    <button type="button" onclick="editTp({{ json_encode($tp) }})"
+                                            class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold text-[11px] border border-amber-200 transition cursor-pointer">
+                                        ✏️ Edit
+                                    </button>
+                                    <form method="POST" action="{{ route('admin.academic.tp.delete', $tp->id) }}" onsubmit="return confirm('Hapus Tujuan Pembelajaran {{ $tp->code }}?');" class="inline">
+                                        @csrf
+                                        <button type="submit" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[11px] border border-rose-200 transition cursor-pointer">
+                                            🗑️
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="8" class="px-6 py-12 text-center text-slate-500 font-medium">
+                                <div class="max-w-md mx-auto space-y-3">
+                                    <div class="text-4xl">🎯</div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Belum Ada Tujuan Pembelajaran (TP)</h4>
+                                    <p class="text-xs text-slate-500">
+                                        Silakan klik tombol <strong>"Generate Paket TP Standar"</strong> di atas untuk membuat TP otomatis sesuai standar Kurikulum Merdeka Kemendikbudristek untuk semua mapel unit ini.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah / Edit Tujuan Pembelajaran (TP) -->
+    <div id="modalTambahTp" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">🎯</span>
+                    <h3 class="font-bold text-sm" id="modalTpTitle">Tambah Tujuan Pembelajaran (TP)</h3>
+                </div>
+                <button type="button" onclick="tutupModalTambahTp()" class="text-slate-400 hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+
+            <form method="POST" action="{{ route('admin.academic.tp.save') }}" class="p-6 space-y-4">
+                @csrf
+                <input type="hidden" name="school_id" value="{{ $schoolId }}">
+                <input type="hidden" name="academic_year_id" value="{{ $activeAcademicYear->id ?? 1 }}">
+                <input type="hidden" name="id" id="tp_id" value="">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Mata Pelajaran *</label>
+                    <select name="subject_id" id="tp_subject_id" required class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 p-2.5 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                        @foreach($subjects as $sb)
+                            <option value="{{ $sb->id }}">{{ $sb->name }} ({{ $sb->code }})</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Kode TP *</label>
+                        <input type="text" name="code" id="tp_code" required placeholder="Contoh: TP 1" class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 p-2.5 uppercase focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Tingkat Kelas</label>
+                        <select name="grade_level" id="tp_grade_level" class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                            <option value="Semua">Semua Tingkat</option>
+                            @if($isSmp)
+                                <option value="Kelas 7">Kelas 7</option>
+                                <option value="Kelas 8">Kelas 8</option>
+                                <option value="Kelas 9">Kelas 9</option>
+                            @else
+                                <option value="Kelas 1">Kelas 1</option>
+                                <option value="Kelas 2">Kelas 2</option>
+                                <option value="Kelas 3">Kelas 3</option>
+                                <option value="Kelas 4">Kelas 4</option>
+                                <option value="Kelas 5">Kelas 5</option>
+                                <option value="Kelas 6">Kelas 6</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Urut</label>
+                        <input type="number" name="order_number" id="tp_order_number" value="1" min="1" max="20" class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">
+                        Ringkasan Capaian TP (Digunakan dalam Kalimat Rapor) *
+                    </label>
+                    <input type="text" name="short_desc" id="tp_short_desc" required placeholder="Contoh: memahami konsep bilangan cacah dan nilai tempat" class="w-full text-xs font-bold text-slate-800 rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    <p class="text-[11px] text-slate-500 mt-1">
+                        💡 <em>Tips Kurikulum Merdeka:</em> Gunakan kata kerja operasional bentuk pasif/aktif seperti: "memahami...", "menganalisis...", "mempraktikkan...", "menyajikan...".
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Deskripsi Lengkap Capaian Pembelajaran</label>
+                    <textarea name="description" id="tp_description" rows="3" placeholder="Deskripsi lengkap tujuan pembelajaran dalam silabus/ATP..." class="w-full text-xs text-slate-800 rounded-xl border border-slate-300 p-2.5 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 leading-relaxed"></textarea>
+                </div>
+
+                <div class="flex items-center justify-between pt-2">
+                    <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                        <input type="checkbox" name="is_active" id="tp_is_active" value="1" checked class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                        <span>Aktifkan Tujuan Pembelajaran Ini</span>
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="tutupModalTambahTp()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition cursor-pointer shadow-sm active:scale-95">
+                            Simpan TP
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function bukaModalTambahTp() {
+            document.getElementById('modalTpTitle').innerText = 'Tambah Tujuan Pembelajaran (TP)';
+            document.getElementById('tp_id').value = '';
+            document.getElementById('tp_code').value = 'TP ';
+            document.getElementById('tp_short_desc').value = '';
+            document.getElementById('tp_description').value = '';
+            document.getElementById('tp_order_number').value = '1';
+            document.getElementById('tp_is_active').checked = true;
+            document.getElementById('modalTambahTp').classList.remove('hidden');
+        }
+
+        function tutupModalTambahTp() {
+            document.getElementById('modalTambahTp').classList.add('hidden');
+        }
+
+        function editTp(tp) {
+            document.getElementById('modalTpTitle').innerText = 'Edit Tujuan Pembelajaran (' + tp.code + ')';
+            document.getElementById('tp_id').value = tp.id;
+            document.getElementById('tp_subject_id').value = tp.subject_id;
+            document.getElementById('tp_code').value = tp.code;
+            document.getElementById('tp_short_desc').value = tp.short_desc || '';
+            document.getElementById('tp_description').value = tp.description || '';
+            document.getElementById('tp_grade_level').value = tp.grade_level || 'Semua';
+            document.getElementById('tp_order_number').value = tp.order_number || 1;
+            document.getElementById('tp_is_active').checked = Boolean(tp.is_active);
+            document.getElementById('modalTambahTp').classList.remove('hidden');
+        }
+    </script>
+    @endif
+
+    <!-- ========================================================================= -->
     <!-- MENU: DATA EKSTRAKURIKULER (KEPSEK & OPERATOR) -->
     <!-- ========================================================================= -->
     @if(($activeMenu ?? '') === 'extracurriculars')
@@ -2342,6 +2651,33 @@
                     </div>
                 </div>
 
+                <!-- Banner Informasi Tujuan Pembelajaran (TP) Aktif di Rapor -->
+                <div class="px-6 py-3.5 bg-emerald-50/80 border-b border-emerald-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-700 text-white font-black text-xs shadow-xs">
+                            <span>🎯</span> <span>Tujuan Pembelajaran (TP) Aktif:</span>
+                        </span>
+                        @if(($activeLearningObjectives ?? collect())->isNotEmpty())
+                            @foreach($activeLearningObjectives as $atp)
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-emerald-950 text-xs font-semibold shadow-2xs hover:border-emerald-400 transition" title="{{ $atp->description }}">
+                                    <strong class="font-black text-emerald-700">{{ $atp->code }}:</strong>
+                                    <span class="max-w-[200px] sm:max-w-[280px] truncate">{{ $atp->short_desc }}</span>
+                                </span>
+                            @endforeach
+                        @else
+                            <span class="text-xs text-slate-500 italic flex items-center gap-1">
+                                <span>ℹ️</span> Belum ada TP aktif khusus untuk mata pelajaran ini.
+                            </span>
+                        @endif
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp', 'subject_id' => $selectedSubjectId]) }}" 
+                           class="px-3 py-1.5 rounded-lg bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
+                            <span>⚙️</span> <span>Kelola TP Mapel Ini</span>
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Spreadsheet Grid -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
@@ -2353,7 +2689,7 @@
                                 <th class="px-4 py-3 text-center w-28">Sumatif (SAS)</th>
                                 <th class="px-4 py-3 text-center w-24">Nilai Akhir</th>
                                 <th class="px-4 py-3 text-center min-w-[120px]">Predikat</th>
-                                <th class="px-4 py-3 min-w-[320px]">Deskripsi Capaian Kompetensi (Rapor)</th>
+                                <th class="px-4 py-3 min-w-[340px]">Deskripsi Capaian Kompetensi (Rapor)</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-800">
@@ -2411,15 +2747,23 @@
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-between gap-1 mb-1.5">
                                         <span class="text-[10px] text-slate-500 font-bold">Narasi Capaian (CP/TP):</span>
-                                        <button type="button" onclick="generateAiNarrativeSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
-                                                class="px-2 py-0.5 rounded-md bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black text-[10px] border border-indigo-200 transition cursor-pointer flex items-center gap-1">
-                                            <span>✨ AI Narasi</span>
-                                        </button>
+                                        <div class="flex items-center gap-1.5">
+                                            <button type="button" onclick="bukaModalPilihTp('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-black text-[10px] border border-emerald-300 transition cursor-pointer flex items-center gap-1"
+                                                    title="Pilih Tujuan Pembelajaran yang dikuasai dan perlu bimbingan">
+                                                <span>🎯 Pilih TP</span>
+                                            </button>
+                                            <button type="button" onclick="generateAiNarrativeSingle('{{ $student->id }}', '{{ addslashes($student->full_name) }}')" 
+                                                    class="px-2 py-0.5 rounded-md bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black text-[10px] border border-indigo-200 transition cursor-pointer flex items-center gap-1"
+                                                    title="Generate narasi otomatis menggunakan Robbani AI">
+                                                <span>✨ AI Narasi</span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <textarea name="grades[{{ $student->id }}][notes]" 
                                               id="notes_{{ $student->id }}" 
                                               rows="2" 
-                                              placeholder="Contoh: Menunjukkan penguasaan yang sangat baik dalam menganalisis materi..."
+                                              placeholder="Contoh: Menunjukkan penguasaan yang sangat baik dalam memahami materi..."
                                               class="w-full text-xs text-slate-800 rounded-lg border border-slate-300 p-2 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 bg-white leading-relaxed">{{ $notes }}</textarea>
                                 </td>
                             </tr>
@@ -2438,7 +2782,7 @@
                 @if($classStudents->isNotEmpty())
                 <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <p class="text-xs text-slate-500 font-semibold">
-                        💡 Tips Guru: Masukkan angka nilai SAS (0-100), tekan tombol "Generate Narasi Otomatis" bila narasi belum diisi, lalu klik "Simpan Semua Nilai Kelas".
+                        💡 Tips Guru: Masukkan angka nilai SAS (0-100), tekan tombol "Generate Narasi Otomatis" atau "🎯 Pilih TP", lalu klik "Simpan Semua Nilai Kelas".
                     </p>
                     <button type="submit" 
                             class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs flex items-center gap-2 transition shadow-md cursor-pointer active:scale-95">
@@ -2448,6 +2792,108 @@
                 @endif
             </div>
         </form>
+
+        <!-- MODAL PILIH CAPAIAN TUJUAN PEMBELAJARAN (TP) SESUAI STANDAR KURIKULUM MERDEKA -->
+        <div id="modalPilihTp" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col">
+                <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xl">🎯</span>
+                        <div>
+                            <h3 class="font-black text-sm" id="modalPilihTpTitle">Pilih Capaian Tujuan Pembelajaran (TP)</h3>
+                            <p class="text-[11px] text-slate-300 font-semibold" id="modalPilihTpSubtitle">Mata Pelajaran: {{ $selectedSubject->name ?? 'Mata Pelajaran' }}</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="tutupModalPilihTp()" class="text-slate-400 hover:text-white text-xl cursor-pointer">&times;</button>
+                </div>
+
+                <div class="p-6 overflow-y-auto space-y-5 flex-1">
+                    @if(($activeLearningObjectives ?? collect())->isEmpty())
+                        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs">
+                            <p class="font-extrabold flex items-center gap-1.5 mb-1">
+                                <span>⚠️</span> Belum Ada Tujuan Pembelajaran (TP) Terdaftar untuk Mapel Ini
+                            </p>
+                            <p class="text-amber-800 mb-3">
+                                Anda dapat mengaktifkan atau generate paket TP standar terlebih dahulu di menu Tujuan Pembelajaran.
+                            </p>
+                            <a href="{{ route('admin.academic.grades', ['school_id' => $schoolId, 'menu' => 'tp', 'subject_id' => $selectedSubjectId]) }}" 
+                               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition">
+                                <span>🎯</span> Buka Pengaturan TP Sekarang
+                            </a>
+                        </div>
+                    @else
+                        <!-- TP Tertinggi / Dikuasai Baik -->
+                        <div>
+                            <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                                1. Tujuan Pembelajaran yang Dicapai Optimal (Sangat Baik):
+                            </label>
+                            <div class="space-y-2 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                                @foreach($activeLearningObjectives as $tp)
+                                    <label class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition cursor-pointer text-xs">
+                                        <input type="checkbox" name="tp_optimal" value="{{ $tp->short_desc }}" onchange="updatePreviewKalimatTp()" class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 tp-optimal-check" {{ $loop->first ? 'checked' : '' }}>
+                                        <div class="leading-relaxed">
+                                            <strong class="text-emerald-800 font-extrabold mr-1">[{{ $tp->code }}]</strong>
+                                            <span class="text-slate-800 font-bold">{{ $tp->short_desc }}</span>
+                                            @if($tp->description && $tp->description !== $tp->short_desc)
+                                                <p class="text-[11px] text-slate-500 mt-0.5">{{ Str::limit($tp->description, 100) }}</p>
+                                            @endif
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- TP Terendah / Perlu Pendampingan -->
+                        <div>
+                            <label class="block text-xs font-black text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                2. Tujuan Pembelajaran yang Perlu Peningkatan / Pendampingan:
+                            </label>
+                            <div class="space-y-2 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                                <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition cursor-pointer text-xs font-bold text-slate-700">
+                                    <input type="radio" name="tp_need_help" value="" checked onchange="updatePreviewKalimatTp()" class="text-emerald-600 focus:ring-emerald-500 border-slate-300">
+                                    <span>Tidak ada (Tuntas seluruh TP dengan optimal)</span>
+                                </label>
+                                @foreach($activeLearningObjectives as $tp)
+                                    <label class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition cursor-pointer text-xs">
+                                        <input type="radio" name="tp_need_help" value="{{ $tp->short_desc }}" onchange="updatePreviewKalimatTp()" class="mt-0.5 text-amber-600 focus:ring-amber-500 border-slate-300">
+                                        <div class="leading-relaxed">
+                                            <strong class="text-amber-800 font-extrabold mr-1">[{{ $tp->code }}]</strong>
+                                            <span class="text-slate-800 font-bold">{{ $tp->short_desc }}</span>
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Pratinjau Teks Rapor Otomatis -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                                    <span>📝</span> Pratinjau Kalimat Deskripsi Rapor:
+                                </label>
+                                <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                    Standar Panduan e-Rapor Kemendikbud
+                                </span>
+                            </div>
+                            <textarea id="previewKalimatTp" rows="3" class="w-full text-xs font-semibold text-slate-800 rounded-xl border border-slate-300 p-3 bg-slate-50 focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 leading-relaxed"></textarea>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
+                    <button type="button" onclick="tutupModalPilihTp()" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs transition cursor-pointer">
+                        Batal
+                    </button>
+                    @if(($activeLearningObjectives ?? collect())->isNotEmpty())
+                        <button type="button" onclick="terapkanTpKeRapor()" class="px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs transition cursor-pointer shadow-md active:scale-95 flex items-center gap-1.5">
+                            <span>✅</span> Terapkan ke Rapor Siswa
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
 
     </div>
     @endif
@@ -3996,11 +4442,83 @@
         }
     }
 
-    // Auto generate standardized Kurikulum Merdeka descriptions with Subject-Specific Syllabus
+    // Modal & Logika Pemilihan Capaian Tujuan Pembelajaran (TP) Per Siswa
+    let currentStudentIdForTp = null;
+    let currentStudentNameForTp = '';
+
+    function bukaModalPilihTp(studentId, studentName) {
+        currentStudentIdForTp = studentId;
+        currentStudentNameForTp = studentName;
+        
+        const titleEl = document.getElementById('modalPilihTpTitle');
+        if (titleEl) {
+            titleEl.innerText = 'Pilih Capaian TP: ' + studentName;
+        }
+
+        // Reset checkbox optimal: centang yang pertama secara default
+        const checks = document.querySelectorAll('.tp-optimal-check');
+        checks.forEach((c, idx) => {
+            c.checked = (idx === 0);
+        });
+
+        // Reset radio perlu bimbingan: set ke "Tidak ada"
+        const radios = document.querySelectorAll('input[name="tp_need_help"]');
+        radios.forEach(r => {
+            if (r.value === '') r.checked = true;
+        });
+
+        updatePreviewKalimatTp();
+        const modal = document.getElementById('modalPilihTp');
+        if (modal) modal.classList.remove('hidden');
+    }
+
+    function tutupModalPilihTp() {
+        const modal = document.getElementById('modalPilihTp');
+        if (modal) modal.classList.add('hidden');
+    }
+
+    function updatePreviewKalimatTp() {
+        const optimalChecks = document.querySelectorAll('.tp-optimal-check:checked');
+        const optimalList = Array.from(optimalChecks).map(c => c.value.trim()).filter(Boolean);
+
+        const needHelpRadio = document.querySelector('input[name="tp_need_help"]:checked');
+        const needHelp = needHelpRadio ? needHelpRadio.value.trim() : '';
+
+        let previewText = '';
+        if (optimalList.length > 0) {
+            previewText = 'Menunjukkan penguasaan yang sangat baik dalam ' + optimalList.join(' serta ') + '.';
+        } else {
+            previewText = 'Menunjukkan penguasaan materi yang baik secara umum.';
+        }
+
+        if (needHelp) {
+            previewText += ' Namun perlu bimbingan dan pendampingan pada: ' + needHelp + '.';
+        } else {
+            previewText += ' Mempertahankan capaian pembelajaran yang konsisten dan optimal.';
+        }
+
+        const previewEl = document.getElementById('previewKalimatTp');
+        if (previewEl) {
+            previewEl.value = previewText;
+        }
+    }
+
+    function terapkanTpKeRapor() {
+        if (!currentStudentIdForTp) return;
+        const previewEl = document.getElementById('previewKalimatTp');
+        const targetTa = document.getElementById('notes_' + currentStudentIdForTp);
+        if (targetTa && previewEl) {
+            targetTa.value = previewEl.value;
+        }
+        tutupModalPilihTp();
+    }
+
+    // Auto generate standardized Kurikulum Merdeka descriptions with Active TPs / Subject-Specific Syllabus
     function autoGenerateAllDescriptions() {
         const textareas = document.querySelectorAll('textarea[id^="notes_"]');
         const subjectName = '{{ $selectedSubject->name ?? "Mata Pelajaran" }}';
         const sLower = subjectName.toLowerCase();
+        const activeTpsData = @json($activeLearningObjectives ?? []);
         let count = 0;
 
         textareas.forEach(ta => {
@@ -4019,7 +4537,24 @@
 
             let narrative = '';
 
-            if (sLower.includes('agama') || sLower.includes('pai') || sLower.includes('islam')) {
+            // 1. Jika guru telah mendefinisikan Tujuan Pembelajaran (TP) aktif untuk mata pelajaran ini
+            if (activeTpsData && activeTpsData.length > 0) {
+                const tpFirst = activeTpsData[0]?.short_desc || '';
+                const tpSecond = activeTpsData[1]?.short_desc || '';
+                const tpLast = activeTpsData[activeTpsData.length - 1]?.short_desc || '';
+
+                if (score >= 88) {
+                    narrative = 'Menunjukkan penguasaan yang sangat baik dalam ' + tpFirst + (tpSecond ? ' serta ' + tpSecond : '') + '. Mempertahankan kemandirian belajar yang istimewa.';
+                } else if (score >= 78) {
+                    narrative = 'Menunjukkan penguasaan yang baik dalam ' + tpFirst + '.' + (activeTpsData.length > 1 ? ' Perlu bimbingan dan pendampingan berkelanjutan pada: ' + tpLast + '.' : '');
+                } else if (score >= 68) {
+                    narrative = 'Cukup menguasai kompetensi dasar dalam ' + tpFirst + ', namun perlu bimbingan dan latihan lebih giat pada: ' + (tpLast || tpFirst) + '.';
+                } else {
+                    narrative = 'Memerlukan pendampingan intensif dari guru dan orang tua untuk mencapai ketuntasan dalam ' + tpFirst + '.';
+                }
+            }
+            // 2. Fallback ke silabus spesifik nama mata pelajaran jika belum ada data TP kustom
+            else if (sLower.includes('agama') || sLower.includes('pai') || sLower.includes('islam')) {
                 if (score >= 88) {
                     narrative = 'Menunjukkan penguasaan yang sangat istimewa dalam memahami Asmaul Husna (Ar-Rahman, Ar-Rahim), surah Al-Ikhlas, dan membiasakan adab hidup bersih serta bersyukur.';
                 } else if (score >= 78) {
