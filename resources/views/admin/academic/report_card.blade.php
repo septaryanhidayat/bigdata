@@ -478,22 +478,14 @@
                         {{ $student->full_name }}
                     </h3>
                 </div>
-                <div class="grid grid-cols-2 gap-2.5 text-xs font-serif pt-1">
-                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
-                        <span class="text-[10px] uppercase font-bold text-slate-500 block">NISN</span>
-                        <span class="font-bold text-slate-900 tracking-wider text-sm">{{ $student->nisn ?? '-' }}</span>
+                <div class="grid grid-cols-2 gap-3 text-xs font-serif pt-1 text-center">
+                    <div class="bg-white p-3 rounded-xl border border-slate-300">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 block tracking-wider">NISN</span>
+                        <span class="font-bold text-slate-900 tracking-wider text-sm sm:text-base">{{ $student->nisn ?? '-' }}</span>
                     </div>
-                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
-                        <span class="text-[10px] uppercase font-bold text-slate-500 block">Nomor Induk Siswa (NIS)</span>
-                        <span class="font-bold text-slate-900 tracking-wider text-sm">{{ $student->nis }}</span>
-                    </div>
-                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
-                        <span class="text-[10px] uppercase font-bold text-slate-500 block">Rombongan Belajar</span>
-                        <span class="font-bold text-slate-900 text-sm">{{ $student->classroom->name ?? 'Kelas' }}</span>
-                    </div>
-                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
-                        <span class="text-[10px] uppercase font-bold text-slate-500 block">Tahun Pelajaran / Semester</span>
-                        <span class="font-bold text-slate-900 text-sm">{{ $academicYear->name ?? '2026/2027' }} ({{ $academicYear->semester ?? 'Ganjil' }})</span>
+                    <div class="bg-white p-3 rounded-xl border border-slate-300">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 block tracking-wider">Nomor Induk Siswa (NIS)</span>
+                        <span class="font-bold text-slate-900 tracking-wider text-sm sm:text-base">{{ $student->nis }}</span>
                     </div>
                 </div>
             </div>

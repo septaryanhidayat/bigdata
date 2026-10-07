@@ -184,22 +184,16 @@ th {
                         {{ $student->full_name }}
                     </div>
                 </div>
-                <table style="width: 100%; border: none; font-size: 10pt; margin-bottom: 0;">
+                <table style="width: 100%; border-collapse: separate; border-spacing: 8pt; margin-top: 4pt;">
                     <tr>
-                        <td style="width: 25%; font-weight: bold; padding: 2.5pt 0; border: none;">NISN</td>
-                        <td style="width: 4%; text-align: center; padding: 2.5pt 0; border: none;">:</td>
-                        <td style="width: 28%; padding: 2.5pt 0; border: none;">{{ $student->nisn ?? '-' }}</td>
-                        <td style="width: 18%; font-weight: bold; padding: 2.5pt 0; border: none;">Rombel</td>
-                        <td style="width: 4%; text-align: center; padding: 2.5pt 0; border: none;">:</td>
-                        <td style="width: 21%; padding: 2.5pt 0; border: none;">{{ $clsName }}</td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 2.5pt 0; border: none;">NIS</td>
-                        <td style="text-align: center; padding: 2.5pt 0; border: none;">:</td>
-                        <td style="padding: 2.5pt 0; border: none;">{{ $student->nis }}</td>
-                        <td style="font-weight: bold; padding: 2.5pt 0; border: none;">Tahun Ajaran</td>
-                        <td style="text-align: center; padding: 2.5pt 0; border: none;">:</td>
-                        <td style="padding: 2.5pt 0; border: none;">{{ $academicYear->name ?? '2026/2027' }} ({{ $academicYear->semester ?? 'Ganjil' }})</td>
+                        <td style="width: 50%; text-align: center; padding: 8pt 10pt; border: 1pt solid #cbd5e1; background-color: #ffffff;">
+                            <div style="font-size: 8.5pt; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">NISN</div>
+                            <div style="font-size: 11pt; font-weight: bold; color: #0f172a; margin-top: 3pt; letter-spacing: 0.5px;">{{ $student->nisn ?? '-' }}</div>
+                        </td>
+                        <td style="width: 50%; text-align: center; padding: 8pt 10pt; border: 1pt solid #cbd5e1; background-color: #ffffff;">
+                            <div style="font-size: 8.5pt; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">NOMOR INDUK SISWA (NIS)</div>
+                            <div style="font-size: 11pt; font-weight: bold; color: #0f172a; margin-top: 3pt; letter-spacing: 0.5px;">{{ $student->nis }}</div>
+                        </td>
                     </tr>
                 </table>
             </td>
