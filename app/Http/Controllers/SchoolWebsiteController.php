@@ -188,8 +188,7 @@ class SchoolWebsiteController extends Controller
         ];
 
         foreach ($unitCodes as $c) {
-            $json = SiteSetting::get("unit_profile_{$c}");
-            $parsed = $json ? json_decode($json, true) : [];
+            $parsed = SiteSetting::getJson("unit_profile_{$c}", []);
             $filtered = array_filter($parsed ?? [], fn($v) => !is_null($v) && $v !== '');
             if (!empty($filtered['principal_photo']) && (str_contains($filtered['principal_photo'], 'press-release-employee-10') || str_contains($filtered['principal_photo'], 'kepsek_smpit') || str_contains($filtered['principal_photo'], 'avatar'))) {
                 unset($filtered['principal_photo']);
@@ -291,16 +290,9 @@ class SchoolWebsiteController extends Controller
             ->first();
 
         // Get dynamic unit profile override from SiteSetting if available
-        $dynamicUnitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
-        $customUnit = null;
-        if ($dynamicUnitSetting) {
-            $customUnit = json_decode($dynamicUnitSetting, true);
-            if (!$customUnit && is_string($dynamicUnitSetting)) {
-                $customUnit = json_decode(stripcslashes($dynamicUnitSetting), true);
-            }
-        }
+        $customUnit = SiteSetting::getJson("unit_profile_{$cleanCode}", []);
 
-        if (!$customUnit) {
+        if (empty($customUnit)) {
             $cachePath = database_path('authentic_unit_data.json');
             if (!file_exists($cachePath)) {
                 $cachePath = storage_path('app/authentic_unit_data.json');
@@ -402,7 +394,14 @@ class SchoolWebsiteController extends Controller
         $defaultInfo = $unitMap[$uKey];
 
         // Merge custom setting if present
-        $info = array_merge($defaultInfo, array_filter($customUnit ?? []));
+        $info = $defaultInfo;
+        if (!empty($customUnit) && is_array($customUnit)) {
+            foreach ($customUnit as $k => $v) {
+                if ($v !== null) {
+                    $info[$k] = $v;
+                }
+            }
+        }
 
         if ($cleanCode === 'smait') {
             $info['teachers'] = [];
@@ -441,13 +440,13 @@ class SchoolWebsiteController extends Controller
             $unitAlumni = [];
         } else {
             foreach (['programs', 'facilities', 'ekskul'] as $key) {
-                $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : [];
-                $defaultItems = $defaultInfo[$key] ?? [];
-                if (empty($userItems)) {
-                    $info[$key] = $defaultItems;
-                    continue;
+                if (isset($customUnit[$key]) && is_array($customUnit[$key])) {
+                    $userItems = $customUnit[$key];
+                } else {
+                    $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : ($defaultInfo[$key] ?? []);
                 }
-                foreach ($userItems as $idx => &$uItem) {
+                $defaultItems = $defaultInfo[$key] ?? [];
+                foreach ($userItems as &$uItem) {
                     if (empty($uItem['image']) || str_contains($uItem['image'], 'mockup_desktop')) {
                         $matchedDefault = null;
                         foreach ($defaultItems as $dItem) {
@@ -455,9 +454,6 @@ class SchoolWebsiteController extends Controller
                                 $matchedDefault = $dItem;
                                 break;
                             }
-                        }
-                        if (!$matchedDefault && isset($defaultItems[$idx])) {
-                            $matchedDefault = $defaultItems[$idx];
                         }
                         if ($matchedDefault && !empty($matchedDefault['image'])) {
                             $uItem['image'] = $matchedDefault['image'];
@@ -482,20 +478,26 @@ class SchoolWebsiteController extends Controller
                 $info['campus_photo'] = $defaultInfo['campus_photo'] ?? $info['hero_bg_image'];
             }
 
-            if (empty($info['teachers'])) {
+            if (!isset($customUnit['teachers'])) {
                 $info['teachers'] = $defaultInfo['teachers'] ?? [];
             } else {
-                // Bersihkan referensi dummy /uploads/dewan dan cocokkan foto asli dari data default
+                $info['teachers'] = is_array($customUnit['teachers']) ? $customUnit['teachers'] : [];
+            }
+
+            if (!empty($info['teachers'])) {
+                // Bersihkan referensi dummy /uploads/dewan dan cocokkan foto asli dari data default HANYA jika foto kosong/dummy dan nama persis sama
                 foreach ($info['teachers'] as &$tcItem) {
                     $p = $tcItem['photo'] ?? '';
                     if (empty($p) || $p === '/images/avatar-gray-person.svg' || str_contains($p, 'uploads/dewan') || str_contains($p, 'guru_smpit')) {
                         $matchedPhoto = null;
-                        foreach ($defaultInfo['teachers'] ?? [] as $dTeach) {
-                            $cleanD = preg_replace('/[^a-zA-Z]/', '', strtolower($dTeach['name'] ?? ''));
-                            $cleanT = preg_replace('/[^a-zA-Z]/', '', strtolower($tcItem['name'] ?? ''));
-                            if (!empty($cleanD) && !empty($cleanT) && ($cleanD === $cleanT || str_contains($cleanD, $cleanT) || str_contains($cleanT, $cleanD))) {
-                                $matchedPhoto = $dTeach['photo'] ?? null;
-                                break;
+                        $cleanT = preg_replace('/[^a-zA-Z]/', '', strtolower($tcItem['name'] ?? ''));
+                        if (!empty($cleanT)) {
+                            foreach ($defaultInfo['teachers'] ?? [] as $dTeach) {
+                                $cleanD = preg_replace('/[^a-zA-Z]/', '', strtolower($dTeach['name'] ?? ''));
+                                if ($cleanD === $cleanT && !empty($dTeach['photo']) && !str_contains($dTeach['photo'], 'avatar')) {
+                                    $matchedPhoto = $dTeach['photo'];
+                                    break;
+                                }
                             }
                         }
                         if ($matchedPhoto) {

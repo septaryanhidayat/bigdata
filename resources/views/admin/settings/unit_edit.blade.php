@@ -233,6 +233,8 @@
             <div class="space-y-3">
                 <template x-for="(teacher, index) in teachers" :key="index">
                     <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-xs space-y-3">
+                        <input type="hidden" :name="'teachers[' + index + '][photo]'" :value="teacher.photo">
+                        <input type="hidden" :name="'teachers[' + index + '][bio]'" :value="teacher.bio || ''">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
                             <span class="text-xs font-black text-emerald-900 uppercase" x-text="'Guru / Tendik #' + (index + 1)"></span>
                             <button type="button" @click="removeTeacher(index)" class="text-xs text-rose-600 hover:text-rose-800 font-bold flex items-center gap-1 cursor-pointer">
@@ -311,7 +313,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <template x-for="(fac, index) in facilities" :key="index">
                     <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-                        <input type="hidden" :name="'facilities[' + index + '][image]'" x-model="fac.image">
+                        <input type="hidden" :name="'facilities[' + index + '][image]'" :value="fac.image">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-black text-slate-800" x-text="'Fasilitas #' + (index + 1)"></span>
                             <button type="button" @click="removeFacility(index)" class="text-xs text-rose-600 font-bold">🗑️ Hapus</button>
@@ -354,7 +356,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <template x-for="(eks, index) in ekskul" :key="index">
                     <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-                        <input type="hidden" :name="'ekskul[' + index + '][image]'" x-model="eks.image">
+                        <input type="hidden" :name="'ekskul[' + index + '][image]'" :value="eks.image">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-black text-slate-800" x-text="'Ekskul #' + (index + 1)"></span>
                             <button type="button" @click="removeEkskul(index)" class="text-xs text-rose-600 font-bold">🗑️ Hapus</button>

@@ -450,14 +450,13 @@ class CmsController extends Controller
         }
 
         $defaultInfo = $this->getUnitDefaultProfileData($cleanCode);
-        $unitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
-        $savedData = $unitSetting ? json_decode($unitSetting, true) : [];
+        $savedData = SiteSetting::getJson("unit_profile_{$cleanCode}", []);
 
         $unitData = array_merge($defaultInfo, array_filter($savedData ?: []));
-        if (empty($unitData['programs'])) $unitData['programs'] = $defaultInfo['programs'] ?? [];
-        if (empty($unitData['facilities'])) $unitData['facilities'] = $defaultInfo['facilities'] ?? [];
-        if (empty($unitData['ekskul'])) $unitData['ekskul'] = $defaultInfo['ekskul'] ?? [];
-        if (empty($unitData['teachers'])) $unitData['teachers'] = $defaultInfo['teachers'] ?? [];
+        if (isset($savedData['programs']) && is_array($savedData['programs'])) $unitData['programs'] = $savedData['programs'];
+        if (isset($savedData['facilities']) && is_array($savedData['facilities'])) $unitData['facilities'] = $savedData['facilities'];
+        if (isset($savedData['ekskul']) && is_array($savedData['ekskul'])) $unitData['ekskul'] = $savedData['ekskul'];
+        if (isset($savedData['teachers']) && is_array($savedData['teachers'])) $unitData['teachers'] = $savedData['teachers'];
 
         return view('admin.settings.unit_edit', compact('cleanCode', 'schoolObj', 'unitData'));
     }
@@ -685,8 +684,7 @@ class CmsController extends Controller
             return redirect()->route('admin.dashboard')->with('error', '⛔ Akses Ditolak: Anda hanya memiliki izin mengelola profil website unit sekolah Anda sendiri!');
         }
 
-        $existingSetting = SiteSetting::get("unit_profile_{$cleanCode}");
-        $exData = $existingSetting ? (json_decode($existingSetting, true) ?: []) : [];
+        $exData = SiteSetting::getJson("unit_profile_{$cleanCode}", []);
 
         $data = [
             'name' => $request->input('name'),
@@ -713,7 +711,7 @@ class CmsController extends Controller
         if (is_array($teachersInput)) {
             foreach ($teachersInput as $idx => $t) {
                 if (empty($t['name'])) continue;
-                $tPhoto = $t['photo'] ?? ($exData['teachers'][$idx]['photo'] ?? '/images/mockup_mobile_1.png');
+                $tPhoto = !empty($t['photo']) ? trim($t['photo']) : '/images/avatar-gray-person.svg';
                 if ($request->hasFile("teacher_photo_{$idx}")) {
                     $comp = \App\Services\ImageOptimizer::compress($request->file("teacher_photo_{$idx}"), 'uploads/cms', 'guru_' . $cleanCode . '_' . $idx . '_' . uniqid());
                     if ($comp) {
@@ -728,7 +726,7 @@ class CmsController extends Controller
                 ];
             }
         }
-        $data['teachers'] = !empty($processedTeachers) ? $processedTeachers : ($exData['teachers'] ?? []);
+        $data['teachers'] = $processedTeachers;
 
         // Process Programs List
         $programsInput = $request->input('programs', []);
@@ -743,7 +741,7 @@ class CmsController extends Controller
                 ];
             }
         }
-        $data['programs'] = !empty($processedPrograms) ? $processedPrograms : ($exData['programs'] ?? []);
+        $data['programs'] = $processedPrograms;
 
         // Process Facilities List
         $facilitiesInput = $request->input('facilities', []);
@@ -751,7 +749,7 @@ class CmsController extends Controller
         if (is_array($facilitiesInput)) {
             foreach ($facilitiesInput as $idx => $f) {
                 if (empty($f['title'])) continue;
-                $fImg = !empty($f['image']) ? trim($f['image']) : ($exData['facilities'][$idx]['image'] ?? '/images/mockup_desktop_1.png');
+                $fImg = !empty($f['image']) ? trim($f['image']) : '/images/mockup_desktop_1.png';
                 if ($request->hasFile("facility_photo_{$idx}")) {
                     $comp = \App\Services\ImageOptimizer::compress($request->file("facility_photo_{$idx}"), 'uploads/cms', 'fasilitas_' . $cleanCode . '_' . $idx . '_' . uniqid());
                     if ($comp) {
@@ -767,7 +765,7 @@ class CmsController extends Controller
                 ];
             }
         }
-        $data['facilities'] = !empty($processedFacilities) ? $processedFacilities : ($exData['facilities'] ?? []);
+        $data['facilities'] = $processedFacilities;
 
         // Process Ekskul List
         $ekskulInput = $request->input('ekskul', []);
@@ -775,7 +773,7 @@ class CmsController extends Controller
         if (is_array($ekskulInput)) {
             foreach ($ekskulInput as $idx => $e) {
                 if (empty($e['title'])) continue;
-                $eImg = !empty($e['image']) ? trim($e['image']) : ($exData['ekskul'][$idx]['image'] ?? '/images/mockup_desktop_2.png');
+                $eImg = !empty($e['image']) ? trim($e['image']) : '/images/mockup_desktop_2.png';
                 if ($request->hasFile("ekskul_photo_{$idx}")) {
                     $comp = \App\Services\ImageOptimizer::compress($request->file("ekskul_photo_{$idx}"), 'uploads/cms', 'ekskul_' . $cleanCode . '_' . $idx . '_' . uniqid());
                     if ($comp) {
@@ -792,7 +790,7 @@ class CmsController extends Controller
             }
         }
         $defaultInfo = $this->getUnitDefaultProfileData($cleanCode);
-        $data['ekskul'] = !empty($processedEkskul) ? $processedEkskul : ($exData['ekskul'] ?? ($defaultInfo['ekskul'] ?? []));
+        $data['ekskul'] = $processedEkskul;
         $data['gallery'] = $exData['gallery'] ?? ($defaultInfo['gallery'] ?? []);
         $data['videos'] = $exData['videos'] ?? ($defaultInfo['videos'] ?? []);
         $data['agenda'] = $exData['agenda'] ?? ($defaultInfo['agenda'] ?? []);
@@ -848,7 +846,7 @@ class CmsController extends Controller
             $data['flyer'] = $exData['flyer'];
         }
 
-        SiteSetting::set("unit_profile_{$cleanCode}", json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        SiteSetting::setJson("unit_profile_{$cleanCode}", $data);
 
         return redirect()->back()->with('success', "✓ Profil, Data Guru, Banner Hero, & Konten Web Unit " . strtoupper($cleanCode) . " berhasil diperbarui!");
     }

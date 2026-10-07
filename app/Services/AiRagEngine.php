@@ -350,10 +350,10 @@ class AiRagEngine
         $totalPpdb     = PpdbRegistration::count();
 
         // Dynamically fetch REAL data from SiteSetting
-        $tkitProfile  = json_decode(SiteSetting::get('unit_profile_tkit'), true) ?: [];
-        $sditProfile  = json_decode(SiteSetting::get('unit_profile_sdit'), true) ?: [];
-        $smpitProfile = json_decode(SiteSetting::get('unit_profile_smpit'), true) ?: [];
-        $smaitProfile = json_decode(SiteSetting::get('unit_profile_smait'), true) ?: [];
+        $tkitProfile  = SiteSetting::getJson('unit_profile_tkit', []);
+        $sditProfile  = SiteSetting::getJson('unit_profile_sdit', []);
+        $smpitProfile = SiteSetting::getJson('unit_profile_smpit', []);
+        $smaitProfile = SiteSetting::getJson('unit_profile_smait', []);
 
         $pimpinanYayasan = SiteSetting::get('principal_name') ?: SiteSetting::get('foundation_head', 'Sughesti Wulandari, S.Pd');
         $kepsekTk  = $tkitProfile['principal_name'] ?? 'Ani Oktar Yansi, S.Pd.I';
