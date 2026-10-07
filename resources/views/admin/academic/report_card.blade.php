@@ -20,20 +20,86 @@
         @endif
     </title>
     <script src="https://cdn.tailwindcss.com"></script>
+    @php
+        $paperSize = request('paper', 'a4');
+    @endphp
+    <style id="dynamic-paper-style">
+        @page {
+            size: {{ $paperSize === 'f4' ? ($printType === 'leger' ? '330mm 215mm' : '215mm 330mm') : ($printType === 'leger' ? 'A4 landscape' : 'A4 portrait') }} !important;
+            margin: {{ $printType === 'leger' ? '8mm 10mm 8mm 10mm' : '8mm 12mm 8mm 12mm' }} !important;
+        }
+    </style>
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
-            background-color: #f8fafc;
             color: #0f172a;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
 
-        @page {
-            size: {{ $printType === 'leger' ? 'A4 landscape' : 'A4 portrait' }};
-            margin: {{ $printType === 'leger' ? '8mm 10mm 8mm 10mm' : '8mm 12mm 8mm 12mm' }};
+        /* Screen Preview: True Sheet Preview on Desk */
+        @media screen {
+            body {
+                background-color: #cbd5e1 !important; /* Soft neutral desktop canvas */
+            }
+            .page-container {
+                background: #ffffff !important;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 4px !important;
+                margin: 24px auto !important;
+                box-sizing: border-box !important;
+            }
+            /* A4 Screen Dimensions (210mm x 297mm) */
+            body.paper-a4 .page-container {
+                width: 210mm !important;
+                min-height: 297mm !important;
+                padding: 12mm 15mm !important;
+            }
+            body.paper-a4 .page-container-cover {
+                height: 297mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+            }
+            body.paper-a4 .page-container-leger {
+                width: 297mm !important;
+                min-height: 210mm !important;
+                padding: 8mm 10mm !important;
+            }
+
+            /* F4 / Folio Screen Dimensions (215mm x 330mm) */
+            body.paper-f4 .page-container {
+                width: 215mm !important;
+                min-height: 330mm !important;
+                padding: 12mm 15mm !important;
+            }
+            body.paper-f4 .page-container-cover {
+                height: 330mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+            }
+            body.paper-f4 .page-container-leger {
+                width: 330mm !important;
+                min-height: 215mm !important;
+                padding: 8mm 10mm !important;
+            }
+
+            @media (max-width: 900px) {
+                body.paper-a4 .page-container,
+                body.paper-f4 .page-container,
+                body.paper-a4 .page-container-leger,
+                body.paper-f4 .page-container-leger {
+                    width: 100% !important;
+                    min-height: auto !important;
+                    padding: 16px !important;
+                    margin: 12px 0 !important;
+                }
+            }
         }
 
+        /* Print Mode: Exact Margins and No Shadow */
         @media print {
             .no-print { display: none !important; }
             html, body {
@@ -62,6 +128,8 @@
                 break-after: auto !important;
             }
             .page-container {
+                width: 100% !important;
+                max-width: 100% !important;
                 padding: 0 !important;
                 border: none !important;
                 box-shadow: none !important;
@@ -73,14 +141,22 @@
                 break-inside: avoid !important;
             }
             .page-container-cover {
-                min-height: 250mm !important;
-                max-height: 258mm !important;
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: space-between !important;
                 text-align: center !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
+            }
+            body.paper-a4 .page-container-cover {
+                height: 272mm !important;
+                min-height: 272mm !important;
+                max-height: 277mm !important;
+            }
+            body.paper-f4 .page-container-cover {
+                height: 305mm !important;
+                min-height: 305mm !important;
+                max-height: 310mm !important;
             }
             tr { page-break-inside: avoid !important; break-inside: avoid !important; }
             table { page-break-inside: auto !important; }
@@ -96,7 +172,7 @@
         }
     </style>
 </head>
-<body class="p-4 sm:p-8 {{ $printType === 'leger' ? 'w-full max-w-[98%] mx-auto' : 'max-w-4xl mx-auto' }}">
+<body class="p-2 sm:p-6 paper-{{ $paperSize }} {{ $printType === 'leger' ? 'w-full max-w-[99%] mx-auto' : 'w-full mx-auto' }}">
 
     <!-- Top Action Bar (No-Print) -->
     <div class="no-print mb-6 bg-slate-900 text-white p-4 rounded-2xl flex items-center justify-between shadow-xl flex-wrap gap-3">
@@ -131,26 +207,41 @@
         <div class="flex items-center gap-2 flex-wrap">
             <!-- Format Switcher Buttons -->
             <div class="flex items-center bg-slate-800 p-1 rounded-xl flex-wrap gap-1">
-                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'all_in_one']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'all_in_one' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white' }}" title="Cetak Seluruh Lembar Rapor Lengkap">
+                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'all_in_one', 'paper' => $paperSize]) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'all_in_one' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white' }}" title="Cetak Seluruh Lembar Rapor Lengkap">
                     ⭐ Lengkap (All-in-One)
                 </a>
-                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'cover']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'cover' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white' }}">
+                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'cover', 'paper' => $paperSize]) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'cover' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white' }}">
                     Cover & Profil
                 </a>
-                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'identity']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'identity' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white' }}">
+                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'identity', 'paper' => $paperSize]) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'identity' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white' }}">
                     Identitas Siswa
                 </a>
-                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'academic']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'academic' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white' }}">
+                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'academic', 'paper' => $paperSize]) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'academic' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white' }}">
                     Rapor Akademik
                 </a>
-                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'quran']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'quran' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-white' }}">
+                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'quran', 'paper' => $paperSize]) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'quran' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-white' }}">
                     {{ ($isSmp ?? false) ? 'TTQ Al-Qur\'an' : 'Qur\'an Wafa' }}
                 </a>
                 @if($isBpiAllowed ?? true)
-                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'character']) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'character' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white' }}">
+                <a href="{{ route('admin.academic.report-card', [$student->id, 'type' => 'character', 'paper' => $paperSize]) }}" class="px-2.5 py-1 rounded-lg text-xs font-bold {{ $printType === 'character' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white' }}">
                     {{ ($isSmp ?? false) ? 'BPI SMP' : 'BPI & Karakter' }}
                 </a>
                 @endif
+            </div>
+
+            <!-- Paper Size Selector (A4 vs F4) -->
+            <div class="flex items-center bg-slate-800 p-1 rounded-xl gap-1 border border-slate-700">
+                <span class="text-[10px] uppercase font-bold text-slate-400 px-2 select-none">Kertas:</span>
+                <button type="button" id="btn-paper-a4" onclick="setPaperSize('a4')" 
+                        class="px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer {{ $paperSize === 'a4' ? 'bg-amber-400 text-slate-950 font-black shadow-md' : 'text-slate-300 hover:text-white bg-slate-800' }}"
+                        title="Ukuran Standar A4 (210 x 297 mm)">
+                    📄 A4
+                </button>
+                <button type="button" id="btn-paper-f4" onclick="setPaperSize('f4')" 
+                        class="px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer {{ $paperSize === 'f4' ? 'bg-amber-400 text-slate-950 font-black shadow-md' : 'text-slate-300 hover:text-white bg-slate-800' }}"
+                        title="Ukuran Standar F4 / Folio (215 x 330 mm)">
+                    📜 F4 (Folio)
+                </button>
             </div>
 
             @if($printType === 'leger')
@@ -173,14 +264,75 @@
         </div>
     </div>
 
+    <!-- Script Paper Size Controller -->
+    <script>
+        function setPaperSize(size) {
+            document.body.classList.remove('paper-a4', 'paper-f4');
+            document.body.classList.add('paper-' + size);
+            localStorage.setItem('smartedu_report_paper', size);
+            
+            const style = document.getElementById('dynamic-paper-style');
+            const isLeger = {{ $printType === 'leger' ? 'true' : 'false' }};
+            const btnA4 = document.getElementById('btn-paper-a4');
+            const btnF4 = document.getElementById('btn-paper-f4');
+            
+            if (size === 'f4') {
+                if (style) {
+                    style.innerHTML = isLeger 
+                        ? '@page { size: 330mm 215mm !important; margin: 8mm 10mm 8mm 10mm !important; }'
+                        : '@page { size: 215mm 330mm !important; margin: 8mm 12mm 8mm 12mm !important; }';
+                }
+                if (btnA4 && btnF4) {
+                    btnA4.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-300 hover:text-white bg-slate-800 transition cursor-pointer';
+                    btnF4.className = 'px-2.5 py-1 rounded-lg text-xs font-black text-slate-950 bg-amber-400 shadow-md transition cursor-pointer';
+                }
+            } else {
+                if (style) {
+                    style.innerHTML = isLeger 
+                        ? '@page { size: A4 landscape !important; margin: 8mm 10mm 8mm 10mm !important; }'
+                        : '@page { size: A4 portrait !important; margin: 8mm 12mm 8mm 12mm !important; }';
+                }
+                if (btnA4 && btnF4) {
+                    btnA4.className = 'px-2.5 py-1 rounded-lg text-xs font-black text-slate-950 bg-amber-400 shadow-md transition cursor-pointer';
+                    btnF4.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-300 hover:text-white bg-slate-800 transition cursor-pointer';
+                }
+            }
+
+            // Update URL without reloading
+            const url = new URL(window.location.href);
+            url.searchParams.set('paper', size);
+            window.history.replaceState({}, '', url);
+
+            // Update format switcher links
+            document.querySelectorAll('a[href*="type="]').forEach(a => {
+                try {
+                    const u = new URL(a.href, window.location.origin);
+                    u.searchParams.set('paper', size);
+                    a.href = u.pathname + u.search;
+                } catch(e) {}
+            });
+        }
+
+        // Auto-check stored paper size if URL didn't specify
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const stored = localStorage.getItem('smartedu_report_paper');
+            if (!urlParams.has('paper') && stored && (stored === 'a4' || stored === 'f4')) {
+                setPaperSize(stored);
+            }
+        });
+    </script>
+
     <!-- ========================================================================= -->
     <!-- MODE CETAK KHUSUS: LEGER NILAI 1 KELAS -->
     <!-- ========================================================================= -->
     @if($printType === 'leger')
-    <div class="bg-white p-6 rounded-2xl border border-slate-300 shadow-md space-y-4 print:border-none print:p-0 print:shadow-none">
+    <div class="bg-white p-6 rounded-2xl border border-slate-300 shadow-md space-y-4 print:border-none print:p-0 print:shadow-none page-container page-container-leger">
         <div class="text-center space-y-1 pb-2 border-b-2 border-slate-900">
             <h3 class="text-xs font-bold uppercase tracking-widest text-slate-800">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</h3>
-            <h1 class="text-lg font-black uppercase text-slate-900 tracking-wider">SEKOLAH DASAR ISLAM TERPADU ROBBANI (SD IT ROBBANI)</h1>
+            <h1 class="text-lg font-black uppercase text-slate-950 tracking-wider">
+                {{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI (SMP IT ROBBANI)' : 'SEKOLAH DASAR ISLAM TERPADU ROBBANI (SD IT ROBBANI)') }}
+            </h1>
             <h2 class="text-sm font-black uppercase tracking-wider underline">LEGER REKAPITULASI NILAI HASIL BELAJAR PESERTA DIDIK</h2>
             <p class="text-xs font-bold text-slate-700">Rombel: {{ $student->classroom->name ?? 'Kelas 1' }} • Tahun Ajaran: {{ $academicYear->name ?? '2025/2026' }} • Semester: {{ $academicYear->semester ?? 'Genap' }}</p>
         </div>
@@ -209,8 +361,24 @@
                 <tbody>
                     @forelse($classStudents as $idx => $cst)
                     @php
-                        $stScores = $cst->grades->pluck('score')->filter()->toArray();
-                        $avg = !empty($stScores) ? round(array_sum($stScores) / count($stScores), 1) : 85;
+                        $totalSubjects = $classSubjects->count();
+                        $numericScores = [];
+                        foreach($classSubjects as $csb) {
+                            $grade = $cst->grades->firstWhere('subject_id', $csb->id);
+                            if ($grade && $grade->score !== null && $grade->score !== '') {
+                                $numericScores[] = (float)$grade->score;
+                            }
+                        }
+                        $isComplete = ($totalSubjects > 0 && count($numericScores) >= $totalSubjects);
+                        if ($isComplete) {
+                            $avg = round(array_sum($numericScores) / count($numericScores), 1);
+                            $pred = $avg >= 85 ? 'A (Istimewa)' : ($avg >= 75 ? 'B (Baik)' : ($avg >= 65 ? 'C (Cukup)' : 'D (Kurang)'));
+                            $predClass = $avg >= 85 ? 'text-emerald-800' : 'text-blue-800';
+                        } else {
+                            $avg = '-';
+                            $pred = !empty($numericScores) ? 'Belum Lengkap' : '-';
+                            $predClass = 'text-amber-700 italic font-semibold';
+                        }
                     @endphp
                     <tr class="hover:bg-slate-50">
                         <td class="border border-slate-900 p-1.5 text-center">{{ $idx + 1 }}</td>
@@ -226,8 +394,8 @@
                             <td class="border border-slate-900 p-1 text-center font-bold">{{ $avg }}</td>
                         @endforelse
                         <td class="border border-slate-900 p-1.5 text-center font-black text-slate-900">{{ $avg }}</td>
-                        <td class="border border-slate-900 p-1.5 text-center font-bold whitespace-nowrap min-w-[110px] {{ $avg >= 85 ? 'text-emerald-800' : 'text-blue-800' }}">
-                            {{ $avg >= 85 ? 'A (Istimewa)' : ($avg >= 75 ? 'B (Baik)' : 'C (Cukup)') }}
+                        <td class="border border-slate-900 p-1.5 text-center font-bold whitespace-nowrap min-w-[110px] {{ $predClass }}">
+                            {{ $pred }}
                         </td>
                     </tr>
                     @empty
@@ -247,105 +415,101 @@
     @if($printType === 'all_in_one' || $printType === 'cover')
     <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-200 shadow-sm print:border-none print:p-0 print:shadow-none print:m-0 page-container page-container-cover">
         
-        <div class="h-full flex flex-col justify-between py-2 sm:py-4">
-            
-            <!-- 1. Header Cover: Instansi Pembina -->
-            <div class="text-center space-y-0.5">
-                <p class="text-[11px] font-bold tracking-[0.2em] uppercase text-slate-700">
-                    KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI
-                </p>
-                <p class="text-[10px] font-black tracking-[0.25em] uppercase text-slate-900">
-                    REPUBLIK INDONESIA
-                </p>
-                <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-emerald-800">
-                    JARINGAN SEKOLAH ISLAM TERPADU (JSIT) INDONESIA
-                </p>
-            </div>
+        <!-- 1. Header Cover: Instansi Pembina -->
+        <div class="text-center space-y-1 pt-1">
+            <p class="text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-slate-700">
+                KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI
+            </p>
+            <p class="text-[11px] sm:text-xs font-black tracking-[0.25em] uppercase text-slate-900">
+                REPUBLIK INDONESIA
+            </p>
+            <p class="text-[10px] sm:text-[11px] font-bold tracking-[0.15em] uppercase text-emerald-800">
+                JARINGAN SEKOLAH ISLAM TERPADU (JSIT) INDONESIA
+            </p>
+        </div>
 
-            <!-- 2. Logo Resmi (BERSIH TANPA BORDER DI LUAR LOGO) -->
-            <div class="flex justify-center my-3 sm:my-4">
-                @php
-                    $coverLogo = $reportSetting?->school_logo_url ?? $student->school?->logo_url;
-                    if (empty($coverLogo) || str_contains($coverLogo, 'logo_sd_robbani_cover.jpg')) {
-                        if (file_exists(public_path('images/logo-square-robbani.png'))) {
-                            $coverLogo = 'images/logo-square-robbani.png';
-                        } elseif (file_exists(public_path('images/logo-robbani-official.png'))) {
-                            $coverLogo = 'images/logo-robbani-official.png';
-                        }
+        <!-- 2. Logo Resmi (BERSIH TANPA BORDER DI LUAR LOGO) -->
+        <div class="flex justify-center my-2 sm:my-3">
+            @php
+                $coverLogo = $reportSetting?->school_logo_url ?? $student->school?->logo_url;
+                if (empty($coverLogo) || str_contains($coverLogo, 'logo_sd_robbani_cover.jpg')) {
+                    if (file_exists(public_path('images/logo-square-robbani.png'))) {
+                        $coverLogo = 'images/logo-square-robbani.png';
+                    } elseif (file_exists(public_path('images/logo-robbani-official.png'))) {
+                        $coverLogo = 'images/logo-robbani-official.png';
                     }
-                @endphp
-                @if(!empty($coverLogo) && file_exists(public_path($coverLogo)))
-                    <img src="{{ asset($coverLogo) }}" class="h-28 sm:h-32 w-auto object-contain" alt="Logo Sekolah" style="border: none !important; box-shadow: none !important;">
-                @else
-                    <div class="flex flex-col items-center justify-center p-2 text-center">
-                        <span class="text-xs font-black uppercase text-slate-700 tracking-tight">{{ ($isSmp ?? false) ? 'SMP Islam Terpadu' : 'SD Islam Terpadu' }}</span>
-                        <span class="text-3xl font-black tracking-widest text-emerald-800">ROBBANI</span>
-                        <span class="text-[10px] italic text-rose-600 font-bold mt-1">Because Every Child is Unique</span>
-                    </div>
-                @endif
-            </div>
-
-            <!-- 3. Judul Rapor Megah Bersih Modern (Tanpa Border Kuno) -->
-            <div class="space-y-1.5 text-center">
-                <h2 class="text-sm sm:text-base font-bold tracking-[0.25em] uppercase text-slate-700">
-                    LAPORAN HASIL BELAJAR
-                </h2>
-                <h1 class="text-2xl sm:text-3xl font-black tracking-[0.15em] uppercase text-slate-900">
-                    RAPOR PESERTA DIDIK
-                </h1>
-                <div class="inline-block px-5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
-                    <p class="text-xs sm:text-sm font-black tracking-wider uppercase text-emerald-900">
-                        {{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA ISLAM TERPADU (SMP IT)' : 'SEKOLAH DASAR ISLAM TERPADU (SD IT)' }}
-                    </p>
+                }
+            @endphp
+            @if(!empty($coverLogo) && file_exists(public_path($coverLogo)))
+                <img src="{{ asset($coverLogo) }}" class="h-32 sm:h-36 w-auto object-contain" alt="Logo Sekolah" style="border: none !important; box-shadow: none !important;">
+            @else
+                <div class="flex flex-col items-center justify-center p-2 text-center">
+                    <span class="text-xs font-black uppercase text-slate-700 tracking-tight">{{ ($isSmp ?? false) ? 'SMP Islam Terpadu' : 'SD Islam Terpadu' }}</span>
+                    <span class="text-3xl font-black tracking-widest text-emerald-800">ROBBANI</span>
+                    <span class="text-[10px] italic text-rose-600 font-bold mt-1">Because Every Child is Unique</span>
                 </div>
-                <p class="text-[10px] font-bold tracking-widest text-slate-500 uppercase pt-0.5">
-                    Kurikulum Merdeka • Standar Mutu Kekhasan Sekolah Islam Terpadu
+            @endif
+        </div>
+
+        <!-- 3. Judul Rapor Megah Bersih Modern -->
+        <div class="space-y-2 text-center my-1">
+            <h2 class="text-sm sm:text-base font-bold tracking-[0.25em] uppercase text-slate-700">
+                LAPORAN HASIL BELAJAR
+            </h2>
+            <h1 class="text-2xl sm:text-3xl font-black tracking-[0.15em] uppercase text-slate-900">
+                RAPOR PESERTA DIDIK
+            </h1>
+            <div class="inline-block px-6 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
+                <p class="text-xs sm:text-sm font-black tracking-wider uppercase text-emerald-900">
+                    {{ ($isSmp ?? false) ? 'SEKOLAH MENENGAH PERTAMA ISLAM TERPADU (SMP IT)' : 'SEKOLAH DASAR ISLAM TERPADU (SD IT)' }}
                 </p>
             </div>
+            <p class="text-[10px] sm:text-[11px] font-bold tracking-widest text-slate-500 uppercase pt-0.5">
+                Kurikulum Merdeka • Standar Mutu Kekhasan Sekolah Islam Terpadu
+            </p>
+        </div>
 
-            <!-- 4. Plakat Identitas Siswa Bersih Modern -->
-            <div class="w-full max-w-lg mx-auto my-3 sm:my-4">
-                <div class="border border-slate-300 bg-slate-50/80 p-4 rounded-2xl shadow-xs space-y-2.5">
-                    <div class="text-center pb-2 border-b border-slate-200">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Nama Lengkap Peserta Didik</span>
-                        <h3 class="text-lg sm:text-xl font-black uppercase tracking-wide text-slate-950 mt-0.5">
-                            {{ $student->full_name }}
-                        </h3>
+        <!-- 4. Plakat Identitas Siswa Bersih Modern -->
+        <div class="w-full max-w-lg mx-auto my-2 sm:my-3">
+            <div class="border-2 border-slate-700 bg-slate-50/90 p-4 sm:p-5 rounded-2xl shadow-xs space-y-3">
+                <div class="text-center pb-2 border-b border-slate-300">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-600 block">Nama Lengkap Peserta Didik</span>
+                    <h3 class="text-lg sm:text-2xl font-black uppercase tracking-wide text-slate-950 mt-1">
+                        {{ $student->full_name }}
+                    </h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2.5 text-xs font-serif pt-1">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 block">NISN</span>
+                        <span class="font-bold text-slate-900 tracking-wider text-sm">{{ $student->nisn ?? '-' }}</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-xs font-serif pt-1">
-                        <div class="bg-white p-2 rounded-xl border border-slate-200">
-                            <span class="text-[9px] uppercase font-bold text-slate-500 block">NISN</span>
-                            <span class="font-bold text-slate-900 tracking-wider">{{ $student->nisn ?? '-' }}</span>
-                        </div>
-                        <div class="bg-white p-2 rounded-xl border border-slate-200">
-                            <span class="text-[9px] uppercase font-bold text-slate-500 block">Nomor Induk Siswa (NIS)</span>
-                            <span class="font-bold text-slate-900 tracking-wider">{{ $student->nis }}</span>
-                        </div>
-                        <div class="bg-white p-2 rounded-xl border border-slate-200">
-                            <span class="text-[9px] uppercase font-bold text-slate-500 block">Rombongan Belajar</span>
-                            <span class="font-bold text-slate-900">{{ $student->classroom->name ?? 'Kelas' }}</span>
-                        </div>
-                        <div class="bg-white p-2 rounded-xl border border-slate-200">
-                            <span class="text-[9px] uppercase font-bold text-slate-500 block">Tahun Pelajaran / Semester</span>
-                            <span class="font-bold text-slate-900">{{ $academicYear->name ?? '2026/2027' }} ({{ $academicYear->semester ?? 'Ganjil' }})</span>
-                        </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 block">Nomor Induk Siswa (NIS)</span>
+                        <span class="font-bold text-slate-900 tracking-wider text-sm">{{ $student->nis }}</span>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 block">Rombongan Belajar</span>
+                        <span class="font-bold text-slate-900 text-sm">{{ $student->classroom->name ?? 'Kelas' }}</span>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-300">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 block">Tahun Pelajaran / Semester</span>
+                        <span class="font-bold text-slate-900 text-sm">{{ $academicYear->name ?? '2026/2027' }} ({{ $academicYear->semester ?? 'Ganjil' }})</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- 5. Footer Lembaga Satuan Pendidikan -->
-            <div class="text-center space-y-0.5 pt-1 pb-1">
-                <h3 class="text-sm sm:text-base font-black tracking-widest uppercase text-slate-900">
-                    {{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}
-                </h3>
-                <h4 class="text-xs font-bold tracking-wider uppercase text-slate-700">
-                    YAYASAN GENERASI ROBBANI SUMATERA SELATAN
-                </h4>
-                <p class="text-[10px] font-semibold text-slate-500">
-                    KABUPATEN OGAN ILIR • PROVINSI SUMATERA SELATAN
-                </p>
-            </div>
-
+        <!-- 5. Footer Lembaga Satuan Pendidikan -->
+        <div class="text-center space-y-1 pt-2 pb-2">
+            <h3 class="text-base sm:text-lg font-black tracking-widest uppercase text-slate-950">
+                {{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}
+            </h3>
+            <h4 class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-800">
+                YAYASAN GENERASI ROBBANI SUMATERA SELATAN
+            </h4>
+            <p class="text-[11px] font-semibold text-slate-600">
+                KABUPATEN OGAN ILIR • PROVINSI SUMATERA SELATAN
+            </p>
         </div>
 
     </div>
@@ -356,97 +520,97 @@
     <!-- LEMBAR 2: PROFIL SATUAN PENDIDIKAN & LEMBAR PENGESAHAN DOKUMEN -->
     <!-- ========================================================================= -->
     @if($printType === 'all_in_one' || $printType === 'cover')
-    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-300 shadow-md print:border-none print:p-0 print:shadow-none print:m-0 page-container">
+    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-300 shadow-md print:border-none print:p-0 print:shadow-none print:m-0 page-container page-container-profile">
         
         <!-- Header Profil Sekolah Bergaris Ganda -->
-        <div class="text-center space-y-0.5 pb-2 border-b-2 border-slate-900 mb-2.5">
-            <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-700">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</h3>
-            <h1 class="text-base font-black uppercase tracking-wider text-slate-950">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</h1>
-            <h2 class="text-xs font-black uppercase tracking-wider text-emerald-900 underline">PROFIL SATUAN PENDIDIKAN</h2>
-            <p class="text-[10px] text-slate-600">NPSN: {{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '70014022') }} • NSS / NDS: {{ $reportSetting->nss_nds ?? $nssNds }} • Akreditasi: {{ $reportSetting->accreditation ?? $schoolAccreditation }}</p>
+        <div class="text-center space-y-0.5 pb-2.5 border-b-2 border-slate-900 mb-3 sm:mb-4">
+            <h3 class="text-xs sm:text-sm font-black uppercase tracking-widest text-slate-700">YAYASAN GENERASI ROBBANI SUMATERA SELATAN</h3>
+            <h1 class="text-base sm:text-lg font-black uppercase tracking-wider text-slate-950">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP ISLAM TERPADU ROBBANI' : 'SD ISLAM TERPADU ROBBANI') }}</h1>
+            <h2 class="text-xs sm:text-sm font-black uppercase tracking-wider text-emerald-900 underline">PROFIL SATUAN PENDIDIKAN</h2>
+            <p class="text-[10px] sm:text-[11px] text-slate-600">NPSN: {{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '70014022') }} • NSS / NDS: {{ $reportSetting->nss_nds ?? $nssNds }} • Akreditasi: {{ $reportSetting->accreditation ?? $schoolAccreditation }}</p>
         </div>
 
         <!-- Tabel Profil Sekolah 13 Baris Resmi Sesuai Standar e-Rapor -->
-        <div class="w-full my-2 text-xs font-serif">
+        <div class="w-full my-3 sm:my-4 text-xs sm:text-[13px] font-serif">
             <table class="w-full border-2 border-slate-900 border-collapse text-left">
                 <tbody>
                     <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="w-8 text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">1.</td>
-                        <td class="w-52 py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Nama Satuan Pendidikan</td>
+                        <td class="w-8 text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">1.</td>
+                        <td class="w-56 py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Nama Satuan Pendidikan</td>
                         <td class="w-4 text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP IT ROBBANI' : 'SDIT ROBBANI') }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-black text-slate-950 uppercase">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP IT ROBBANI' : 'SDIT ROBBANI') }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">2.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">NPSN</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">2.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">NPSN</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '70014022') }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-950">{{ $student->school->npsn ?? (($isSmp ?? false) ? '20198033' : '70014022') }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">3.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">NSS / NDS</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">3.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">NSS / NDS</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-950">{{ $reportSetting->nss_nds ?? $nssNds }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-950">{{ $reportSetting->nss_nds ?? $nssNds }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">4.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Status Akreditasi</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">4.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Status Akreditasi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 font-black text-emerald-900">{{ $reportSetting->accreditation ?? $schoolAccreditation }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-black text-emerald-900">{{ $reportSetting->accreditation ?? $schoolAccreditation }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">5.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Alamat Sekolah</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">5.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Alamat Sekolah</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan') }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Indralaya, Kabupaten Ogan Ilir, Sumatera Selatan') }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">6.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Kelurahan / Desa</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">6.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kelurahan / Desa</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->village ?? 'Timbangan' }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->village ?? 'Timbangan' }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">7.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Kecamatan</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">7.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kecamatan</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->district ?? 'Indralaya Utara' }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->district ?? 'Indralaya Utara' }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">8.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Kabupaten / Kota</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">8.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kabupaten / Kota</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->city ?? 'Ogan Ilir' }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->city ?? 'Ogan Ilir' }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">9.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Provinsi</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">9.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Provinsi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->province ?? 'Sumatera Selatan' }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->province ?? 'Sumatera Selatan' }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">10.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Kode Pos</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">10.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Kode Pos</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->postal_code ?? '30662' }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->postal_code ?? '30662' }}</td>
                     </tr>
                     <tr class="border-b border-slate-900 bg-slate-50">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">11.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Telepon / Kontak</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">11.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Telepon / Kontak</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-semibold">{{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '0811747472') }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-semibold">{{ $student->school->phone ?? (($isSmp ?? false) ? '+62 853-7719-3977' : '0811747472') }}</td>
                     </tr>
                     <tr class="border-b border-slate-900">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">12.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">Website Resmi</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">12.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">Website Resmi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-mono font-semibold">{{ $student->school->website ?? 'www.sitrobbani.sch.id' }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->website ?? 'www.sitrobbani.sch.id' }}</td>
                     </tr>
                     <tr class="bg-slate-50">
-                        <td class="text-center py-1 px-2.5 font-bold border-r border-slate-900 text-slate-900">13.</td>
-                        <td class="py-1 px-2.5 font-bold text-slate-800 border-r border-slate-900">E-mail Resmi</td>
+                        <td class="text-center py-2 sm:py-2.5 px-3 font-bold border-r border-slate-900 text-slate-900">13.</td>
+                        <td class="py-2 sm:py-2.5 px-3 font-bold text-slate-800 border-r border-slate-900">E-mail Resmi</td>
                         <td class="text-center font-bold border-r border-slate-900">:</td>
-                        <td class="py-1 px-2.5 text-slate-900 font-mono font-semibold">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sd@sitrobbani.sch.id') }}</td>
+                        <td class="py-2 sm:py-2.5 px-3 text-slate-900 font-mono font-semibold">{{ $student->school->email ?? (($isSmp ?? false) ? 'smpit@sitrobbani.sch.id' : 'sd@sitrobbani.sch.id') }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -460,17 +624,17 @@
             $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
             $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
         @endphp
-        <div class="pt-4 mt-2 flex justify-end text-xs font-serif signature-block">
-            <div class="w-64 text-center space-y-0.5">
+        <div class="pt-8 sm:pt-12 mt-6 sm:mt-8 flex justify-end text-xs font-serif signature-block">
+            <div class="w-64 text-center space-y-1">
                 <p class="text-slate-800">{{ $reportSetting->report_city ?? 'Ogan Ilir' }}, {{ $reportSetting->report_date ?? '18 Juni 2026' }}</p>
                 <p class="font-bold text-slate-900">Kepala Sekolah,</p>
                 
-                <div class="h-16 flex items-center justify-center relative my-0.5">
+                <div class="h-20 flex items-center justify-center relative my-1">
                     @if($showStamp)
-                        <img src="{{ asset($reportSetting->stamp_image_url) }}" class="absolute left-4 w-16 h-16 object-contain opacity-80" alt="Stempel">
+                        <img src="{{ asset($reportSetting->stamp_image_url) }}" class="absolute left-2 w-20 h-20 object-contain opacity-80" alt="Stempel">
                     @endif
                     @if($showSig)
-                        <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-14 w-auto object-contain relative z-10" alt="TTD Kepala Sekolah">
+                        <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-16 w-auto object-contain relative z-10" alt="TTD Kepala Sekolah">
                     @endif
                 </div>
 
@@ -493,121 +657,121 @@
     <!-- LEMBAR 3: IDENTITAS PESERTA DIDIK (DATA DIRI SISWA) -->
     <!-- ========================================================================= -->
     @if($printType === 'all_in_one' || $printType === 'identity')
-    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-300 shadow-md print:border-none print:p-0 print:shadow-none print:m-0 page-container">
+    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-300 shadow-md print:border-none print:p-0 print:shadow-none print:m-0 page-container page-container-identity">
         
-        <div class="text-center pt-1 pb-2">
-            <h2 class="text-sm font-black uppercase tracking-wider text-slate-900 underline">
+        <div class="text-center pt-1 pb-3 mb-2 border-b border-slate-300">
+            <h2 class="text-sm sm:text-base font-black uppercase tracking-wider text-slate-950 underline">
                 IDENTITAS PESERTA DIDIK
             </h2>
         </div>
 
-        <div class="text-xs leading-normal">
+        <div class="text-xs sm:text-[13px] leading-relaxed font-serif">
             <table class="w-full border-collapse">
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="w-56 text-slate-800">Nama Peserta Didik</td>
                     <td class="w-4 text-center">:</td>
                     <td class="font-black text-slate-950 uppercase">{{ $student->full_name }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800">NISN / NIS</td>
                     <td class="text-center">:</td>
                     <td class="font-bold text-slate-900">{{ $student->nisn ?? '-' }} / {{ $student->nis }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800">Tempat, Tanggal Lahir</td>
                     <td class="text-center">:</td>
                     <td class="font-medium text-slate-900">
                         {{ $student->pob ?? 'Ogan Ilir' }}, {{ $student->dob ? \Carbon\Carbon::parse($student->dob)->translatedFormat('d F Y') : '-' }}
                     </td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800">Jenis Kelamin</td>
                     <td class="text-center">:</td>
                     <td class="font-medium text-slate-900">{{ $student->gender === 'F' ? 'Perempuan' : 'Laki-laki' }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800">Agama</td>
                     <td class="text-center">:</td>
                     <td class="font-medium text-slate-900">Islam</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800">Pendidikan Sebelumnya</td>
                     <td class="text-center">:</td>
                     <td class="font-medium text-slate-900">{{ $student->previous_school ?? 'TK IT ROBBANI' }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800">Alamat Peserta Didik</td>
                     <td class="text-center">:</td>
                     <td class="font-medium text-slate-900">{{ $student->address ?? 'Jl. Sarjana Perumahan Surya Akbar VI Blok A4' }}</td>
                 </tr>
-                <tr class="h-5">
-                    <td class="text-slate-800 font-bold" colspan="3">Nama Orang Tua</td>
+                <tr class="h-7.5">
+                    <td class="text-slate-950 font-black pt-2" colspan="3">Nama Orang Tua</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">a. Ayah</td>
                     <td class="text-center">:</td>
                     <td class="font-bold text-slate-900">{{ $student->father_name }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">b. Ibu</td>
                     <td class="text-center">:</td>
                     <td class="font-bold text-slate-900">{{ $student->mother_name }}</td>
                 </tr>
-                <tr class="h-5">
-                    <td class="text-slate-800 font-bold" colspan="3">Pekerjaan Orang Tua</td>
+                <tr class="h-7.5">
+                    <td class="text-slate-950 font-black pt-2" colspan="3">Pekerjaan Orang Tua</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">a. Ayah</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->father_job }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">b. Ibu</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->mother_job }}</td>
                 </tr>
-                <tr class="h-5">
-                    <td class="text-slate-800 font-bold" colspan="3">Alamat Orang Tua</td>
+                <tr class="h-7.5">
+                    <td class="text-slate-950 font-black pt-2" colspan="3">Alamat Orang Tua</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">a. Alamat</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->parent_address }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">b. Kelurahan / Desa</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->village }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">c. Kecamatan</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->district }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">d. Kabupaten / Kota</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->city }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">e. Provinsi</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->province }}</td>
                 </tr>
-                <tr class="h-5">
-                    <td class="text-slate-800 font-bold" colspan="3">Wali Peserta Didik</td>
+                <tr class="h-7.5">
+                    <td class="text-slate-950 font-black pt-2" colspan="3">Wali Peserta Didik</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">a. Nama</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->guardian_name }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">b. Pekerjaan</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->guardian_job }}</td>
                 </tr>
-                <tr class="h-5">
+                <tr class="h-6 sm:h-6.5">
                     <td class="text-slate-800 pl-6">c. Alamat</td>
                     <td class="text-center">:</td>
                     <td class="text-slate-900">{{ $student->guardian_address }}</td>
@@ -616,9 +780,9 @@
         </div>
 
         <!-- Pas Foto 3x4 & Tanda Tangan Kepala Sekolah -->
-        <div class="pt-3 mt-2 flex items-end justify-between text-xs signature-block">
+        <div class="pt-8 sm:pt-10 mt-4 sm:mt-6 flex items-end justify-between text-xs signature-block">
             <!-- Box Pas Foto -->
-            <div class="w-24 h-32 border border-slate-900 flex flex-col items-center justify-center text-center p-1 text-slate-500 font-sans overflow-hidden relative bg-slate-50/50">
+            <div class="w-28 h-36 border-2 border-slate-900 flex flex-col items-center justify-center text-center p-1 text-slate-500 font-sans overflow-hidden relative bg-slate-50/50">
                 @if(!empty($student->photo_path) && file_exists(public_path($student->photo_path)))
                     <img src="{{ asset($student->photo_path) }}" alt="Pas Foto {{ $student->full_name }}" class="w-full h-full object-cover">
                 @else
@@ -629,7 +793,7 @@
             </div>
 
             <!-- Titimangsa & Tanda Tangan Kepala Sekolah -->
-            <div class="w-64 text-center space-y-0.5">
+            <div class="w-64 text-center space-y-1">
                 <p class="text-slate-800">
                     {{ (!empty($reportSetting?->report_city) && !str_contains($reportSetting->report_city, 'Bandung')) ? $reportSetting->report_city : 'Ogan Ilir' }}, 
                     {{ (!empty($reportSetting?->report_date) && !str_contains($reportSetting->report_date, 'Desember')) ? $reportSetting->report_date : '18 Juni 2026' }}
@@ -642,19 +806,19 @@
                     $showStamp = $hasStamp && in_array($sigMode, ['both', 'stamp_only']);
                     $showSig = $hasSig && in_array($sigMode, ['both', 'ttd_has_stamp', 'ttd_only']);
                 @endphp
-                <div class="h-14 flex items-center justify-center relative my-0.5">
+                <div class="h-20 flex items-center justify-center relative my-1">
                     @if($showStamp)
-                        <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-14 w-auto object-contain absolute opacity-80 left-2 z-0 pointer-events-none" alt="Stempel">
+                        <img src="{{ asset($reportSetting->stamp_image_url) }}" class="h-20 w-auto object-contain absolute opacity-80 left-2 z-0 pointer-events-none" alt="Stempel">
                     @endif
                     @if($showSig)
-                        <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-12 w-auto object-contain relative z-10" alt="TTD">
+                        <img src="{{ asset($reportSetting->principal_signature_url) }}" class="h-16 w-auto object-contain relative z-10" alt="TTD">
                     @endif
                 </div>
                 <p class="font-black text-slate-950 underline">
-                    {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? 'Nur Amalia, S.Pd., Gr') }}
+                    {{ $reportSetting->principal_name ?? ($student->school->principal_name ?? ($isSmp ? 'Tia Wulandari, S.Pd.,Gr.' : 'Nur Amalia, S.Pd., Gr')) }}
                 </p>
                 <p class="text-[11px] text-slate-700">
-                    NIP. {{ $reportSetting->principal_nip ?? '19850315 200904 1 003' }}
+                    NIP. {{ $reportSetting->principal_nip ?? ($isSmp ? '142062021012' : '19850315 200904 1 003') }}
                 </p>
             </div>
         </div>
@@ -754,12 +918,12 @@
                 <tr class="h-5">
                     <td class="text-slate-700">Sekolah</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900">SD IT Robbani</td>
+                    <td class="text-slate-900">{{ $student->school->name ?? (($isSmp ?? false) ? 'SMP IT Robbani' : 'SD IT Robbani') }}</td>
                 </tr>
                 <tr class="h-5">
                     <td class="text-slate-700">Alamat</td>
                     <td class="text-center">:</td>
-                    <td class="text-slate-900 font-normal">Jln. Sarjana Blok A</td>
+                    <td class="text-slate-900 font-normal">{{ $student->school->address ?? (($isSmp ?? false) ? 'Jl Sarjana Gg. Padang Guci Kel. Timbangan' : 'Jln. Sarjana Blok A') }}</td>
                 </tr>
             </table>
             <table class="w-full">

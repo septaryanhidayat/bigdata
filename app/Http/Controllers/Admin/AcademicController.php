@@ -2969,8 +2969,14 @@ class AcademicController extends Controller
                     }
                 }
                 
-                $avg = !empty($numericScores) ? round(array_sum($numericScores) / count($numericScores), 1) : '-';
-                $pred = is_numeric($avg) ? ($avg >= 85 ? 'A' : ($avg >= 75 ? 'B' : ($avg >= 65 ? 'C' : 'D'))) : '-';
+                $totalSubjects = $classSubjects->count();
+                $isComplete = ($totalSubjects > 0 && count($numericScores) >= $totalSubjects);
+                $avg = $isComplete ? round(array_sum($numericScores) / count($numericScores), 1) : '-';
+                if ($isComplete) {
+                    $pred = $avg >= 85 ? 'A (Istimewa)' : ($avg >= 75 ? 'B (Baik)' : ($avg >= 65 ? 'C (Cukup)' : 'D (Kurang)'));
+                } else {
+                    $pred = !empty($numericScores) ? 'Belum Lengkap' : '-';
+                }
                 
                 $row = [
                     $idx + 1,
