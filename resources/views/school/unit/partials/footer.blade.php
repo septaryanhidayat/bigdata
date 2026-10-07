@@ -199,27 +199,42 @@
                 </div>
 
                 {{-- MEDIA SOSIAL ICONS --}}
+                @php
+                    $soc = $info['socials'] ?? \App\Http\Controllers\SchoolWebsiteController::getDefaultSocials();
+                    $waClean = preg_replace('/[^0-9]/', '', $soc['whatsapp'] ?? $info['whatsapp'] ?? $info['phone'] ?? '0811747472');
+                    if (str_starts_with($waClean, '0')) {
+                        $waClean = '62' . substr($waClean, 1);
+                    }
+                @endphp
                 <div class="pt-2 flex items-center justify-center md:justify-start space-x-2.5">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
+                    @if(!empty($soc['facebook']))
+                    <a href="{{ $soc['facebook'] }}" target="_blank" rel="noopener noreferrer" 
                        class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="Facebook">
                         <i class="fa-brands fa-facebook-f text-xs"></i>
                     </a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
+                    @endif
+                    @if(!empty($soc['instagram']))
+                    <a href="{{ $soc['instagram'] }}" target="_blank" rel="noopener noreferrer" 
                        class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="Instagram">
                         <i class="fa-brands fa-instagram text-xs"></i>
                     </a>
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
+                    @endif
+                    @if(!empty($soc['youtube']))
+                    <a href="{{ $soc['youtube'] }}" target="_blank" rel="noopener noreferrer" 
                        class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="YouTube">
                         <i class="fa-brands fa-youtube text-xs"></i>
                     </a>
-                    <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '85269908696', '0') }}" target="_blank" rel="noopener noreferrer" 
+                    @endif
+                    @if(!empty($soc['whatsapp']))
+                    <a href="https://api.whatsapp.com/send?phone={{ $waClean }}" target="_blank" rel="noopener noreferrer" 
                        class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-amber-400 hover:scale-110 transition shadow" 
                        aria-label="WhatsApp">
                         <i class="fa-brands fa-whatsapp text-xs"></i>
                     </a>
+                    @endif
                 </div>
 
                 <div class="pt-2 flex items-center justify-center md:justify-start space-x-3 text-xs text-slate-400 font-medium">

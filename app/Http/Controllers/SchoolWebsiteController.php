@@ -188,7 +188,8 @@ class SchoolWebsiteController extends Controller
         ];
 
         foreach ($unitCodes as $c) {
-            $parsed = SiteSetting::getJson("unit_profile_{$c}", []);
+            $json = SiteSetting::get("unit_profile_{$c}");
+            $parsed = $json ? json_decode($json, true) : [];
             $filtered = array_filter($parsed ?? [], fn($v) => !is_null($v) && $v !== '');
             if (!empty($filtered['principal_photo']) && (str_contains($filtered['principal_photo'], 'press-release-employee-10') || str_contains($filtered['principal_photo'], 'kepsek_smpit') || str_contains($filtered['principal_photo'], 'avatar'))) {
                 unset($filtered['principal_photo']);
@@ -290,9 +291,16 @@ class SchoolWebsiteController extends Controller
             ->first();
 
         // Get dynamic unit profile override from SiteSetting if available
-        $customUnit = SiteSetting::getJson("unit_profile_{$cleanCode}", []);
+        $dynamicUnitSetting = SiteSetting::get("unit_profile_{$cleanCode}");
+        $customUnit = null;
+        if ($dynamicUnitSetting) {
+            $customUnit = json_decode($dynamicUnitSetting, true);
+            if (!$customUnit && is_string($dynamicUnitSetting)) {
+                $customUnit = json_decode(stripcslashes($dynamicUnitSetting), true);
+            }
+        }
 
-        if (empty($customUnit)) {
+        if (!$customUnit) {
             $cachePath = database_path('authentic_unit_data.json');
             if (!file_exists($cachePath)) {
                 $cachePath = storage_path('app/authentic_unit_data.json');
@@ -394,16 +402,12 @@ class SchoolWebsiteController extends Controller
         $defaultInfo = $unitMap[$uKey];
 
         // Merge custom setting if present
-        $info = $defaultInfo;
-        if (!empty($customUnit) && is_array($customUnit)) {
-            foreach ($customUnit as $k => $v) {
-                if ($v !== null) {
-                    $info[$k] = $v;
-                }
-            }
-        }
+        $info = array_merge($defaultInfo, array_filter($customUnit ?? []));
 
-        if ($cleanCode === 'smait') {
+        $unitStatus = $info['status'] ?? ($cleanCode === 'smait' ? 'BELUM_DIBUKA' : 'AKTIF');
+        $hasCustomContent = !empty($customUnit['teachers']) || !empty($customUnit['programs']) || !empty($customUnit['facilities']);
+
+        if ($cleanCode === 'smait' && $unitStatus === 'BELUM_DIBUKA' && !$hasCustomContent) {
             $info['teachers'] = [];
             $info['facilities'] = [];
             $info['ekskul'] = [];
@@ -418,11 +422,11 @@ class SchoolWebsiteController extends Controller
             $info['employees_count'] = 0;
             $info['classrooms_count'] = 0;
             $info['status'] = 'BELUM_DIBUKA';
-            $info['tagline'] = 'Sekolah Menengah Atas Islam Terpadu - Segera Dibuka';
-            $info['principal_name'] = 'Tahap Persiapan Operasional';
-            $info['principal_title'] = 'Kepala Sekolah';
-            $info['principal_greeting'] = 'Pendidikan jenjang SMA IT Robbani saat ini sedang dalam tahap persiapan sarana prasarana dan perizinan operasional resmi. Insya Allah segera hadir untuk melahirkan generasi pemimpin bangsa yang Qur\'ani dan berwawasan teknologi global.';
-            $info['description'] = 'SMA IT Robbani saat ini dalam tahap persiapan pembukaan dan perizinan operasional. Program pendidikan dirancang untuk mempersiapkan siswa menuju perguruan tinggi unggulan dan penguasaan ilmu syar\'i serta sains teknologi modern.';
+            $info['tagline'] = $info['tagline'] ?? 'Sekolah Menengah Atas Islam Terpadu - Segera Dibuka';
+            $info['principal_name'] = $info['principal_name'] ?? 'Tahap Persiapan Operasional';
+            $info['principal_title'] = $info['principal_title'] ?? 'Kepala Sekolah';
+            $info['principal_greeting'] = $info['principal_greeting'] ?? 'Pendidikan jenjang SMA IT Robbani saat ini sedang dalam tahap persiapan sarana prasarana dan perizinan operasional resmi. Insya Allah segera hadir untuk melahirkan generasi pemimpin bangsa yang Qur\'ani dan berwawasan teknologi global.';
+            $info['description'] = $info['description'] ?? 'SMA IT Robbani saat ini dalam tahap persiapan pembukaan dan perizinan operasional. Program pendidikan dirancang untuk mempersiapkan siswa menuju perguruan tinggi unggulan dan penguasaan ilmu syar\'i serta sains teknologi modern.';
 
             $students = collect([]);
             $teachers = collect([]);
@@ -440,13 +444,13 @@ class SchoolWebsiteController extends Controller
             $unitAlumni = [];
         } else {
             foreach (['programs', 'facilities', 'ekskul'] as $key) {
-                if (isset($customUnit[$key]) && is_array($customUnit[$key])) {
-                    $userItems = $customUnit[$key];
-                } else {
-                    $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : ($defaultInfo[$key] ?? []);
-                }
+                $userItems = !empty($info[$key]) && is_array($info[$key]) ? $info[$key] : [];
                 $defaultItems = $defaultInfo[$key] ?? [];
-                foreach ($userItems as &$uItem) {
+                if (empty($userItems)) {
+                    $info[$key] = $defaultItems;
+                    continue;
+                }
+                foreach ($userItems as $idx => &$uItem) {
                     if (empty($uItem['image']) || str_contains($uItem['image'], 'mockup_desktop')) {
                         $matchedDefault = null;
                         foreach ($defaultItems as $dItem) {
@@ -454,6 +458,9 @@ class SchoolWebsiteController extends Controller
                                 $matchedDefault = $dItem;
                                 break;
                             }
+                        }
+                        if (!$matchedDefault && isset($defaultItems[$idx])) {
+                            $matchedDefault = $defaultItems[$idx];
                         }
                         if ($matchedDefault && !empty($matchedDefault['image'])) {
                             $uItem['image'] = $matchedDefault['image'];
@@ -478,26 +485,20 @@ class SchoolWebsiteController extends Controller
                 $info['campus_photo'] = $defaultInfo['campus_photo'] ?? $info['hero_bg_image'];
             }
 
-            if (!isset($customUnit['teachers'])) {
+            if (empty($info['teachers'])) {
                 $info['teachers'] = $defaultInfo['teachers'] ?? [];
             } else {
-                $info['teachers'] = is_array($customUnit['teachers']) ? $customUnit['teachers'] : [];
-            }
-
-            if (!empty($info['teachers'])) {
-                // Bersihkan referensi dummy /uploads/dewan dan cocokkan foto asli dari data default HANYA jika foto kosong/dummy dan nama persis sama
+                // Bersihkan referensi dummy /uploads/dewan dan cocokkan foto asli dari data default
                 foreach ($info['teachers'] as &$tcItem) {
                     $p = $tcItem['photo'] ?? '';
                     if (empty($p) || $p === '/images/avatar-gray-person.svg' || str_contains($p, 'uploads/dewan') || str_contains($p, 'guru_smpit')) {
                         $matchedPhoto = null;
-                        $cleanT = preg_replace('/[^a-zA-Z]/', '', strtolower($tcItem['name'] ?? ''));
-                        if (!empty($cleanT)) {
-                            foreach ($defaultInfo['teachers'] ?? [] as $dTeach) {
-                                $cleanD = preg_replace('/[^a-zA-Z]/', '', strtolower($dTeach['name'] ?? ''));
-                                if ($cleanD === $cleanT && !empty($dTeach['photo']) && !str_contains($dTeach['photo'], 'avatar')) {
-                                    $matchedPhoto = $dTeach['photo'];
-                                    break;
-                                }
+                        foreach ($defaultInfo['teachers'] ?? [] as $dTeach) {
+                            $cleanD = preg_replace('/[^a-zA-Z]/', '', strtolower($dTeach['name'] ?? ''));
+                            $cleanT = preg_replace('/[^a-zA-Z]/', '', strtolower($tcItem['name'] ?? ''));
+                            if (!empty($cleanD) && !empty($cleanT) && ($cleanD === $cleanT || str_contains($cleanD, $cleanT) || str_contains($cleanT, $cleanD))) {
+                                $matchedPhoto = $dTeach['photo'] ?? null;
+                                break;
                             }
                         }
                         if ($matchedPhoto) {
@@ -680,12 +681,14 @@ class SchoolWebsiteController extends Controller
 
         $unitPrograms = !empty($info['programs']) ? $info['programs'] : ($defaultInfo['programs'] ?? $defaultInfo['ekskul'] ?? $unitEkskul);
         $unitAlumni = !empty($info['alumni']) ? $info['alumni'] : [];
+        $unitDownloads = !empty($info['downloads']) && is_array($info['downloads']) ? $info['downloads'] : ($defaultInfo['downloads'] ?? $this->getDefaultDownloads());
+        $unitEbooks = !empty($info['ebooks']) && is_array($info['ebooks']) ? $info['ebooks'] : ($defaultInfo['ebooks'] ?? $this->getDefaultEbooks($cleanCode));
         $spmbSettings = $this->getSpmbSettings();
 
         return compact(
             'school', 'info', 'students', 'teachers', 'classrooms', 'settings', 'headerMenus',
             'unitNews', 'unitArticles', 'unitFacilities', 'unitEkskul', 'unitGallery', 'unitVideos', 'unitAgendas', 'unitAnnouncements', 'unitPrestasi',
-            'unitPrograms', 'unitAlumni',
+            'unitPrograms', 'unitAlumni', 'unitDownloads', 'unitEbooks',
             'schoolCode', 'portalUrl', 'spmbSettings'
         );
     }
@@ -4005,6 +4008,395 @@ public function getDefaultUnitMap(array $themeTokens): array
                 'status' => 'BELUM_DIBUKA',
             ],
         ];
+
+        foreach ($unitMap as $uK => &$uData) {
+            if (empty($uData['downloads'])) {
+                $uData['downloads'] = $this->getDefaultDownloads();
+            }
+            if (empty($uData['ebooks'])) {
+                $uData['ebooks'] = $this->getDefaultEbooks($uK);
+            }
+            if (empty($uData['hymne_mars'])) {
+                $uData['hymne_mars'] = $this->getDefaultHymneMars($uData['name'] ?? '');
+            }
+            if (empty($uData['logo_info'])) {
+                $uData['logo_info'] = $this->getDefaultLogoInfo($uData['name'] ?? '');
+            }
+            if (empty($uData['org_structure'])) {
+                $uData['org_structure'] = $this->getDefaultOrgStructure($uData);
+            }
+            if (empty($uData['socials'])) {
+                $uData['socials'] = $this->getDefaultSocials();
+            }
+            if (!isset($uData['status'])) {
+                $uData['status'] = ($uK === 'smait') ? 'BELUM_DIBUKA' : 'AKTIF';
+            }
+            if (empty($uData['status_alert_message'])) {
+                $uData['status_alert_message'] = ($uK === 'smait') ? 'SMA IT Robbani saat ini dalam tahap persiapan operasional pembukaan. Data kegiatan dan pendaftaran belum dibuka.' : '';
+            }
+        }
+        unset($uData);
+
+        return $unitMap;
     }
 
+    public static function getDefaultDownloads(): array
+    {
+        return [
+            [
+                'title' => 'Brosur Resmi SPMB TA 2026/2027',
+                'desc' => 'Informasi lengkap persyaratan pendaftaran, jadwal seleksi, kuota kelas, dan rincian biaya pendidikan.',
+                'category' => 'spmb',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 1420,
+                'url' => '/downloads/brosur-spmb-sit-robbani.pdf',
+                'filename' => 'Brosur-SPMB-SIT-Robbani.pdf'
+            ],
+            [
+                'title' => 'Buku Saku Adab & Muwashofat Siswa',
+                'desc' => 'Panduan adab harian islami, tata tertib siswa, dan pembiasaan ibadah yaumiyah di sekolah dan rumah.',
+                'category' => 'tatatertib',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 980,
+                'url' => '/downloads/pedoman-adab-siswa.pdf',
+                'filename' => 'Buku-Saku-Adab-Siswa.pdf'
+            ],
+            [
+                'title' => 'Kalender Akademik Terpadu TA 2026/2027',
+                'desc' => 'Jadwal masuk sekolah, penilaian tengah semester, asesmen sumatif, munaqosah tahfidz, dan hari libur nasional.',
+                'category' => 'kurikulum',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 2130,
+                'url' => '/downloads/kalender-akademik-sit-robbani.pdf',
+                'filename' => 'Kalender-Akademik-SIT-Robbani.pdf'
+            ],
+            [
+                'title' => 'Panduan Target Capaian Mutqin Tahfidz Al-Qur\'an',
+                'desc' => 'Silabus target hafalan per jenjang kelas, metode talaqqi mandiri, dan kisi-kisi munaqosah bersertifikat.',
+                'category' => 'kurikulum',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 1670,
+                'url' => '/downloads/panduan-tahfidz-mutqin.pdf',
+                'filename' => 'Panduan-Tahfidz-Mutqin.pdf'
+            ],
+            [
+                'title' => 'Panduan Kurikulum JSIT Indonesia Terpadu',
+                'desc' => 'Standar kompetensi dan integrasi kurikulum nasional dengan nilai-nilai keislaman JSIT Indonesia.',
+                'category' => 'kurikulum',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 840,
+                'url' => '/downloads/panduan-kurikulum-jsit.pdf',
+                'filename' => 'Panduan-Kurikulum-JSIT.pdf'
+            ],
+            [
+                'title' => 'Formulir Permohonan Izin Kunjungan / Silaturahmi',
+                'desc' => 'Format surat resmi pengajuan studi tiru atau silaturahmi instansi mitra ke kampus SIT Robbani.',
+                'category' => 'formulir',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 450,
+                'url' => '/downloads/formulir-izin-kunjungan.pdf',
+                'filename' => 'Formulir-Izin-Kunjungan.pdf'
+            ],
+            [
+                'title' => 'Formulir Pengajuan Beasiswa Siswa Berprestasi & Yatim',
+                'desc' => 'Berkas persyaratan permohonan keringanan biaya pendidikan dan beasiswa yayasan bagi siswa berprestasi.',
+                'category' => 'formulir',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 780,
+                'url' => '/downloads/formulir-pengajuan-beasiswa.pdf',
+                'filename' => 'Formulir-Pengajuan-Beasiswa.pdf'
+            ],
+            [
+                'title' => 'Paket Logo Resmi & Identitas Visual HD',
+                'desc' => 'Paket lambang resmi SIT Robbani resolusi tinggi untuk publikasi, spanduk, dan media mitra.',
+                'category' => 'logo',
+                'format' => 'PDF',
+                'size' => '1.2 MB',
+                'downloads' => 610,
+                'url' => '/downloads/paket-logo-sit-robbani.pdf',
+                'filename' => 'Paket-Logo-Resmi-SIT-Robbani.pdf'
+            ]
+        ];
+    }
+
+    public static function getDefaultEbooks($code = 'sdit'): array
+    {
+        $catalogueByUnit = [
+            'tkit' => [
+                [
+                    'title' => 'Modul Bermain Kreatif & Sentra Karakter TKIT',
+                    'author' => 'Tim Pendidik PAUD IT Robbani',
+                    'level' => 'Kelompok Bermain & TK-A/B',
+                    'cover' => '/uploads/covers/cover-sentra-tkit.webp',
+                    'pages' => '72 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Panduan sentra bermain peran, eksplorasi seni, pengenalan hijaiyah, doa harian, dan pembiasaan adab islami usia dini.',
+                    'file' => '/downloads/ebooks/modul-sentra-dan-bermain-kreatif-tkit.pdf',
+                    'filename' => 'Modul-Bermain-Kreatif-TKIT.pdf',
+                    'tag' => 'Kreativitas & Karakter'
+                ],
+                [
+                    'title' => 'Panduan Tahfidz Mutqin Ceria Anak & Balita',
+                    'author' => 'Tim Tahfidz PAUD Robbani',
+                    'level' => 'Juz 30 & Doa Harian',
+                    'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                    'pages' => '84 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Metode talaqqi ceria, murottal visual, dan mutabaah hafalan surat-surat pendek bagi anak usia dini.',
+                    'file' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                    'filename' => 'Panduan-Tahfidz-Anak-Robbani.pdf',
+                    'tag' => 'Tahfidz Al-Qur\'an'
+                ],
+                [
+                    'title' => 'Buku Saku 10 Adab & Karakter Siswa',
+                    'author' => 'Bidang Karakter SIT Robbani',
+                    'level' => 'Pegangan Siswa & Orang Tua',
+                    'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                    'pages' => '62 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Ulasan 10 pilar karakter pribadi muslim cilik standar mutu JSIT Indonesia dan penerapannya di rumah.',
+                    'file' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                    'filename' => 'Buku-Saku-Adab-Siswa.pdf',
+                    'tag' => 'Adab & Akhlak'
+                ],
+                [
+                    'title' => 'Kamus Bergambar Kosakata Arab - Inggris',
+                    'author' => 'Language Center SIT Robbani',
+                    'level' => 'Bilingual Kids',
+                    'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
+                    'pages' => '96 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Kamus tematik bergambar kosakata benda di sekitar, anggota tubuh, dan percakapan islami dwibahasa.',
+                    'file' => '/downloads/ebooks/buku-saku-kosakata-bilingual-arab-inggris.pdf',
+                    'filename' => 'Kamus-Bergambar-Anak.pdf',
+                    'tag' => 'Bahasa Asing'
+                ]
+            ],
+            'sdit' => [
+                [
+                    'title' => 'Modul Literasi Sains Tematik SDIT Robbani',
+                    'author' => 'Dr. H. Ahmad Fauzi, M.Pd. & Tim',
+                    'level' => 'Kelas 1 - 6 SDIT',
+                    'cover' => '/uploads/covers/cover-tematik-sdit.webp',
+                    'pages' => '120 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Buku panduan Kurikulum Merdeka terintegrasi keislaman, eksperimen sains seru, dan lembar kerja tadabbur alam.',
+                    'file' => '/downloads/ebooks/modul-literasi-sains-tematik-sdit.pdf',
+                    'filename' => 'Modul-Literasi-Sains-SDIT.pdf',
+                    'tag' => 'Sains & Kurikulum'
+                ],
+                [
+                    'title' => 'Modul Panduan Tahfidz & Tajwid Al-Qur\'an',
+                    'author' => 'Tim Pengembang Tahfidz Robbani',
+                    'level' => 'Target 3 Juz Mutqin',
+                    'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                    'pages' => '84 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Panduan makharijul huruf, sifat huruf, kaidah tajwid praktis, dan mutabaah hafalan mandiri siswa.',
+                    'file' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                    'filename' => 'Panduan-Tahfidz-Tajwid-SDIT.pdf',
+                    'tag' => 'Tahfidz Al-Qur\'an'
+                ],
+                [
+                    'title' => 'Buku Saku 10 Muwashofat Siswa Robbani',
+                    'author' => 'Bidang Pembinaan Karakter & BPI',
+                    'level' => 'Standar Mutu JSIT',
+                    'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                    'pages' => '62 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Pedoman pengamalan 10 kompetensi karakter siswa Robbani: ibadah benar, aqidah lurus, dan akhlak kokoh.',
+                    'file' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                    'filename' => 'Buku-Saku-Adab-Siswa.pdf',
+                    'tag' => 'Karakter & BPI'
+                ],
+                [
+                    'title' => 'Kamus Saku Kosakata Bahasa Arab - Inggris',
+                    'author' => 'Language Center SIT Robbani',
+                    'level' => 'Bilingual School Level',
+                    'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
+                    'pages' => '96 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Panduan percakapan dwibahasa harian, mufrodat tematik, dan ungkapan santun di lingkungan sekolah.',
+                    'file' => '/downloads/ebooks/buku-saku-kosakata-bilingual-arab-inggris.pdf',
+                    'filename' => 'Kamus-Bilingual-Siswa.pdf',
+                    'tag' => 'Bahasa Asing'
+                ]
+            ],
+            'smpit' => [
+                [
+                    'title' => 'Modul Pembelajaran Digital Sains & Informatika SMPIT',
+                    'author' => 'Tim Guru IPA & IT SMPIT',
+                    'level' => 'Kelas VII - IX SMPIT',
+                    'cover' => '/uploads/covers/cover-tematik-sdit.webp',
+                    'pages' => '140 Halaman',
+                    'size' => '1.4 MB',
+                    'desc' => 'Modul praktikum informatika, logika koding dasar, dan sains terpadu terintegrasi adab islami.',
+                    'file' => '/downloads/ebooks/modul-literasi-sains-tematik-sdit.pdf',
+                    'filename' => 'Modul-Sains-Informatika-SMPIT.pdf',
+                    'tag' => 'Sains & Teknologi'
+                ],
+                [
+                    'title' => 'Panduan Tahsin & Tahfidz 5-10 Juz Al-Qur\'an Mutqin',
+                    'author' => 'Tim LP3Q SIT Robbani',
+                    'level' => 'SMP IT Robbani',
+                    'cover' => '/uploads/covers/cover-tahfidz-mutqin.webp',
+                    'pages' => '96 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Target capaian tasmi\', munaqosah, hukum tajwid mad far\'i, dan metode murojaah intensif mandiri.',
+                    'file' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                    'filename' => 'Panduan-Tahfidz-SMPIT.pdf',
+                    'tag' => 'Tahfidz Al-Qur\'an'
+                ],
+                [
+                    'title' => 'Pedoman Pembinaan BPI & Leadership Remaja Muslim',
+                    'author' => 'Bidang Kesiswaan SMPIT',
+                    'level' => 'Fullday School',
+                    'cover' => '/uploads/covers/cover-karakter-siswa.webp',
+                    'pages' => '76 Halaman',
+                    'size' => '1.1 MB',
+                    'desc' => 'Kurikulum pembinaan akhlak remaja, materi mentoring kelompok kecil, dan adab bermedia sosial.',
+                    'file' => '/downloads/ebooks/buku-saku-adab-karakter-siswa.pdf',
+                    'filename' => 'Pedoman-BPI-SMPIT.pdf',
+                    'tag' => 'Karakter & BPI'
+                ],
+                [
+                    'title' => 'English & Arabic Daily Conversation Pocketbook',
+                    'author' => 'Language Club SMPIT',
+                    'level' => 'Daily Conversation',
+                    'cover' => '/uploads/covers/cover-bilingual-arab-inggris.webp',
+                    'pages' => '110 Halaman',
+                    'size' => '1.3 MB',
+                    'desc' => 'Buku saku percakapan harian dua bahasa, ungkapan umum di kelas, masjid, dan asrama sekolah.',
+                    'file' => '/downloads/ebooks/buku-saku-kosakata-bilingual-arab-inggris.pdf',
+                    'filename' => 'Daily-Conversation-SMPIT.pdf',
+                    'tag' => 'Bahasa Asing'
+                ]
+            ],
+            'smait' => [
+                [
+                    'title' => 'Modul Sukses UTBK SNBT & Lolos PTN Favorit',
+                    'author' => 'Tim Sukses Akademik SMAIT',
+                    'level' => 'Kelas X - XII SMAIT',
+                    'cover' => '/uploads/covers/cover-tematik-sdit.webp',
+                    'pages' => '160 Halaman',
+                    'size' => '1.8 MB',
+                    'desc' => 'Kompilasi soal penalaran umum, literasi bahasa, dan penalaran matematika dilengkapi trik pembahasan cerdas.',
+                    'file' => '/downloads/ebooks/modul-literasi-sains-tematik-sdit.pdf',
+                    'filename' => 'Modul-Sukses-UTBK-SMAIT.pdf',
+                    'tag' => 'Persiapan PTN'
+                ],
+                [
+                    'title' => 'Pedoman Riset Karya Tulis Ilmiah Remaja (KIR)',
+                    'author' => 'Laboratorium Riset SMAIT',
+                    'level' => 'Sains & Humaniora',
+                    'cover' => '/uploads/covers/cover-sentra-tkit.webp',
+                    'pages' => '88 Halaman',
+                    'size' => '1.2 MB',
+                    'desc' => 'Metodologi penelitian sains, penulisan abstrak ilmiah berstandar lomba nasional, dan etika riset kejujuran.',
+                    'file' => '/downloads/ebooks/panduan-kurikulum-tahfidz-mutqin.pdf',
+                    'filename' => 'Panduan-KIR-SMAIT.pdf',
+                    'tag' => 'Riset & Sains'
+                ]
+            ]
+        ];
+
+        return $catalogueByUnit[strtolower($code)] ?? $catalogueByUnit['sdit'];
+    }
+
+    public static function getDefaultHymneMars($schoolName = ''): array
+    {
+        return [
+            'youtube_url' => 'https://www.youtube.com/watch?v=ijDo1wLvZ6w',
+            'audio_url' => '/uploads/mars-jsit.mp3',
+            'mars_title' => 'MARS JSIT INDONESIA',
+            'mars_lyrics' => "Bait I:\nDengan berbekal semangat kami melangkah\nMenjalin ukhuwah dengan tekad membaja\nMenuju mutu pendidikan Indonesia\nMelahirkan generasi cerdas mulia (2x)\n\nReff / Koor:\nKami Jaringan Sekolah Islam Terpadu\nSambut masa depan wajah Indonesia baru\nBersama tinggikan martabat dan citra guru\nIndonesia pasti maju! (pasti maju)\n\nBait II:\nDi sinilah tempat kami berkarya\nMenggapai harapan meraih cita-cita\nSebagai penggerak dan pemberdaya bangsa\nWujudkan masyarakat cerdas dan sejahtera (2x)\n\nReff / Koor:\nKami Jaringan Sekolah Islam Terpadu\nBangkit serentak menyongsong peradaban baru\nBulatkan tekad dan cita membangun bangsa\nIndonesia maju dan berjaya! (dan berjaya)",
+            'hymne_title' => 'Hymne Sekolah Robbani',
+            'hymne_lyrics' => "Bait I:\nDi bumi Indralaya nan damai permai\nTumbuh mekar generasi Robbani\nMenuntut ilmu ikhlas di hati\nCinta Allah dan Rasul abadi\n\nReff:\nRobbani... Lentera peradaban kami\nKokoh akidah mulia pekerti\nAl-Qur'an dan Sunnah pedoman sejati\nBerbakti untuk nusa dan pertiwi\n\nBait II:\nMenggenggam ilmu menatap dunia\nSantun beradab unggul berkarya\nSemoga Allah meridhoi selamanya\nRobbani jaya sepanjang masa",
+            'muwashofat_list' => [
+                ['no' => 1, 'name' => 'Salimul Aqidah', 'desc' => 'Aqidah yang Lurus'],
+                ['no' => 2, 'name' => 'Shahihul Ibadah', 'desc' => 'Ibadah yang Benar'],
+                ['no' => 3, 'name' => 'Matinul Khuluq', 'desc' => 'Akhlak yang Kokoh'],
+                ['no' => 4, 'name' => "Qadirun 'alal Kasbi", 'desc' => 'Mandiri & Berjiwa Usaha'],
+                ['no' => 5, 'name' => 'Mutsaqqaful Fikri', 'desc' => 'Berwawasan Luas & Cerdas'],
+                ['no' => 6, 'name' => 'Qawiyyul Jismi', 'desc' => 'Jasmani yang Sehat & Tangguh'],
+                ['no' => 7, 'name' => 'Mujahidun Linafsihi', 'desc' => 'Mampu Mengendalikan Diri'],
+                ['no' => 8, 'name' => "Munazzhamun fi Syu'unihi", 'desc' => 'Tertib dalam Segala Urusan'],
+                ['no' => 9, 'name' => "Haritsun 'ala Waqtihi", 'desc' => 'Disiplin Terhadap Waktu'],
+                ['no' => 10, 'name' => "Nafi'un Lighairihi", 'desc' => 'Bermanfaat Bagi Sesama'],
+            ]
+        ];
+    }
+
+    public static function getDefaultLogoInfo($schoolName = ''): array
+    {
+        return [
+            'title' => 'Lambang Keagungan Ilmu & Ketakwaan Robbani',
+            'subtitle' => 'Official Brand Identity',
+            'description' => 'Logo memadukan nilai keislaman luhur, tradisi keilmuan Al-Qur\'an, dan orientasi masa depan sains dan teknologi berstandar Sekolah Islam Terpadu (JSIT).',
+            'components' => [
+                [
+                    'icon' => 'fa-solid fa-mosque',
+                    'title' => 'Kubah Masjid & Mihrab Keimanan',
+                    'desc' => 'Melambangkan bahwa seluruh nafas kehidupan dan aktivitas pembelajaran bersumber dari Tauhidullah, ketaqwaan yang kokoh, dan kepatuhan mutlak pada syariat Allah SWT.'
+                ],
+                [
+                    'icon' => 'fa-solid fa-book-quran',
+                    'title' => 'Mushaf Al-Qur\'an yang Terbuka',
+                    'desc' => 'Simbol pedoman hidup utama yang senantiasa dibaca, dihafal, dipahami, dan diamalkan oleh setiap siswa. Menjadi rujukan tertinggi dalam seluruh cabang ilmu pengetahuan.'
+                ],
+                [
+                    'icon' => 'fa-solid fa-feather-pointed',
+                    'title' => 'Pena Emas & Sayap Pengetahuan Modern',
+                    'desc' => 'Menggambarkan kecendekiaan, daya nalar kritis, riset sains, dan kemampuan adaptasi tinggi terhadap kemajuan teknologi digital masa depan demi kemaslahatan umat.'
+                ],
+                [
+                    'icon' => 'fa-solid fa-star',
+                    'title' => 'Bintang Kemilau Cita-cita Luhur',
+                    'desc' => 'Menunjukkan tekad mencetak generasi Robbani yang menjadi lentera penerang di tengah masyarakat, menginspirasi melalui keteladanan akhlak mulia dan prestasi gemilang.'
+                ],
+                [
+                    'icon' => 'fa-solid fa-hands-holding-child',
+                    'title' => 'Pita Kesatuan & Lingkaran Ukhuwah',
+                    'desc' => 'Sinergi harmonis yang saling menguatkan antara Yayasan, Dewan Guru, Orang Tua Murid, dan masyarakat dalam membentuk ekosistem pendidikan yang penuh berkah.'
+                ]
+            ]
+        ];
+    }
+
+    public static function getDefaultOrgStructure(array $info = []): array
+    {
+        return [
+            'foundation_name' => 'Yayasan Generasi Robbani',
+            'foundation_leader' => 'Sughesti Wulandari, S.Pd',
+            'committee_name' => 'Komite Sekolah',
+            'committee_sub' => 'Perwakilan Orang Tua & Tokoh',
+            'waka_list' => [
+                ['title' => 'Waka Kurikulum', 'desc' => 'Pengembangan Modul & Mutu Akademik', 'icon' => 'fa-solid fa-book-open'],
+                ['title' => 'Waka Kesiswaan & Al-Qur\'an', 'desc' => 'Tahfidz, BPI & Kedisiplinan Adab', 'icon' => 'fa-solid fa-book-quran'],
+                ['title' => 'Waka Sarana Prasarana', 'desc' => 'Fasilitas, Kebersihan & Keamanan', 'icon' => 'fa-solid fa-layer-group'],
+                ['title' => 'Waka Humas & Kemitraan', 'desc' => 'SPMB, Kerjasama & Media Sosial', 'icon' => 'fa-solid fa-handshake']
+            ],
+            'technical_staff' => [
+                ['title' => 'Dewan Guru & Wali Kelas', 'desc' => 'Pendidik profesional, guru bidang studi, pembina tahfidz dan asatidz asrama.', 'icon' => 'fa-solid fa-chalkboard-user'],
+                ['title' => 'Tata Usaha & Tenaga Kependidikan', 'desc' => 'Administrasi, E-SPP, IT Support, Pustakawan, Laboran, dan Keamanan Kampus.', 'icon' => 'fa-solid fa-id-badge']
+            ]
+        ];
+    }
+
+    public static function getDefaultSocials(): array
+    {
+        return [
+            'instagram' => 'https://instagram.com/sitrobbani',
+            'youtube' => 'https://youtube.com/@sitrobbani',
+            'facebook' => 'https://facebook.com/sitrobbani',
+            'tiktok' => 'https://tiktok.com/@sitrobbani'
+        ];
+    }
 }

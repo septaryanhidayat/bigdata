@@ -11,6 +11,14 @@
         'gold' => '#f59e0b',
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
+    $hymneMars = $info['hymne_mars'] ?? \App\Http\Controllers\SchoolWebsiteController::getDefaultHymneMars($info['name'] ?? 'Sekolah Islam Terpadu');
+    $ytUrl = $hymneMars['youtube_url'] ?? 'https://www.youtube.com/watch?v=ijDo1wLvZ6w';
+    $ytId = 'ijDo1wLvZ6w';
+    if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $ytUrl, $match)) {
+        $ytId = $match[1];
+    }
+    $audioUrl = $hymneMars['audio_url'] ?? 'uploads/mars-jsit.mp3';
+    $audioSrc = (str_starts_with($audioUrl, 'http://') || str_starts_with($audioUrl, 'https://')) ? $audioUrl : asset($audioUrl);
 @endphp
 
 @section('content')
@@ -44,27 +52,30 @@
                     Lagu Resmi Sekolah Islam Terpadu
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1 tracking-tight">
-                    MARS JSIT INDONESIA
+                    {{ $hymneMars['mars_title'] ?? 'MARS JSIT INDONESIA' }}
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-600 mt-1">
-                    Pedoman semangat siswa &amp; pendidik Jaringan Sekolah Islam Terpadu (JSIT) se-Indonesia
+                    {{ $hymneMars['mars_subtitle'] ?? 'Pedoman semangat siswa & pendidik Jaringan Sekolah Islam Terpadu (JSIT) se-Indonesia' }}
                 </p>
             </div>
-            <a href="https://www.youtube.com/watch?v=ijDo1wLvZ6w" 
+            @if(!empty($ytUrl))
+            <a href="{{ $ytUrl }}" 
                target="_blank" 
                rel="noopener noreferrer" 
                class="inline-flex items-center space-x-2 bg-[#da251c] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition shrink-0 transform hover:scale-105">
                 <i class="fa-brands fa-youtube text-base"></i>
                 <span>Tonton di YouTube</span>
             </a>
+            @endif
         </div>
 
         {{-- VIDEO YOUTUBE EMBED --}}
+        @if(!empty($ytId))
         <div class="bg-slate-950 rounded-2xl p-3 sm:p-4 border border-slate-800 space-y-3 shadow-2xl">
             <div class="relative w-full aspect-video rounded-xl overflow-hidden shadow-inner">
                 <iframe 
                     class="w-full h-full"
-                    src="https://www.youtube.com/embed/ijDo1wLvZ6w?rel=0" 
+                    src="https://www.youtube.com/embed/{{ $ytId }}?rel=0" 
                     title="Mars Jaringan Sekolah Islam Terpadu (JSIT) Indonesia Resmi" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -74,26 +85,29 @@
             <div class="flex items-center justify-between px-2 text-xs text-slate-300">
                 <span class="flex items-center gap-1.5 font-medium">
                     <i class="fa-solid fa-circle-play text-red-500"></i>
-                    Mars Resmi JSIT Indonesia
+                    {{ $hymneMars['mars_title'] ?? 'Mars Resmi JSIT Indonesia' }}
                 </span>
                 <span class="text-slate-400 font-light">Audio &amp; Lirik Resmi</span>
             </div>
         </div>
+        @endif
 
         {{-- AUDIO PLAYER BAR --}}
+        @if(!empty($audioUrl))
         <div class="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-200 space-y-2.5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold text-gray-800 flex items-center gap-2">
                     <i class="fa-solid fa-headphones text-unit-primary text-sm"></i>
                     <span>Dengarkan Audio Mars JSIT</span>
                 </span>
-                <span class="text-[11px] text-gray-500 font-medium">Format MP3 Stereo</span>
+                <span class="text-[11px] text-gray-500 font-medium">Format Audio Player</span>
             </div>
             <audio controls class="w-full focus:outline-none rounded-lg">
-                <source src="{{ asset('uploads/mars-jsit.mp3') }}" type="audio/mpeg">
+                <source src="{{ $audioSrc }}" type="audio/mpeg">
                 Browser Anda tidak mendukung pemutar audio.
             </audio>
         </div>
+        @endif
 
         {{-- LIRIK MARS JSIT INDONESIA --}}
         <div class="bg-gradient-to-b from-indigo-50/40 via-white to-transparent p-6 sm:p-10 rounded-2xl border border-indigo-100 text-center space-y-6 text-sm sm:text-base text-gray-800 leading-relaxed font-serif">
@@ -101,48 +115,13 @@
                 LIRIK MARS RESMI JSIT INDONESIA
             </h3>
 
-            <div class="space-y-2">
-                <span class="font-sans text-[11px] font-bold text-gray-400 uppercase tracking-widest block">Bait I</span>
-                <p class="text-slate-800 font-medium">
-                    Dengan berbekal semangat kami melangkah<br>
-                    Menjalin ukhuwah dengan tekad membaja<br>
-                    Menuju mutu pendidikan Indonesia<br>
-                    Melahirkan generasi cerdas mulia (2x)
-                </p>
-            </div>
-
-            <div class="py-4 my-2 border-y border-indigo-100/80 bg-white/70 rounded-xl shadow-xs">
-                <span class="font-sans text-xs font-black text-amber-600 uppercase tracking-widest block mb-1">Reff / Koor</span>
-                <p class="font-bold text-gray-900 text-base sm:text-lg">
-                    Kami Jaringan Sekolah Islam Terpadu<br>
-                    Sambut masa depan wajah Indonesia baru<br>
-                    Bersama tinggikan martabat dan citra guru<br>
-                    Indonesia pasti maju! (pasti maju)
-                </p>
-            </div>
-
-            <div class="space-y-2">
-                <span class="font-sans text-[11px] font-bold text-gray-400 uppercase tracking-widest block">Bait II</span>
-                <p class="text-slate-800 font-medium">
-                    Di sinilah tempat kami berkarya<br>
-                    Menggapai harapan meraih cita-cita<br>
-                    Sebagai penggerak dan pemberdaya bangsa<br>
-                    Wujudkan masyarakat cerdas dan sejahtera (2x)
-                </p>
-            </div>
-
-            <div class="py-4 my-2 border-y border-indigo-100/80 bg-white/70 rounded-xl shadow-xs">
-                <span class="font-sans text-xs font-black text-amber-600 uppercase tracking-widest block mb-1">Reff / Koor</span>
-                <p class="font-bold text-gray-900 text-base sm:text-lg">
-                    Kami Jaringan Sekolah Islam Terpadu<br>
-                    Bangkit serentak menyongsong peradaban baru<br>
-                    Bulatkan tekad dan cita membangun bangsa<br>
-                    Indonesia maju dan berjaya! (dan berjaya)
-                </p>
+            <div class="prose max-w-none text-slate-800 font-medium leading-relaxed">
+                {!! nl2br(e($hymneMars['mars_lyrics'] ?? '')) !!}
             </div>
         </div>
 
         {{-- 10 KARAKTER SISWA JSIT (MUWASHOFAT) --}}
+        @if(!empty($hymneMars['muwashofat']))
         <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 sm:p-8 border border-emerald-200">
             <h4 class="text-base sm:text-lg font-bold text-emerald-950 flex items-center mb-2 gap-2">
                 <i class="fa-solid fa-medal text-emerald-600"></i>
@@ -152,48 +131,15 @@
                 Sebagai sekolah anggota resmi Jaringan Sekolah Islam Terpadu (JSIT) Indonesia, {{ $info['name'] }} menanamkan 10 standar kompetensi lulusan karakter siswa:
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-800 font-medium">
+                @foreach($hymneMars['muwashofat'] as $idx => $m)
                 <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">1</span>
-                    <span><strong>Salimul Aqidah</strong> (Aqidah yang Lurus)</span>
+                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">{{ $m['no'] ?? ($idx + 1) }}</span>
+                    <span><strong>{{ $m['title'] ?? '' }}</strong>@if(!empty($m['desc'])) ({{ $m['desc'] }})@endif</span>
                 </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">2</span>
-                    <span><strong>Shahihul Ibadah</strong> (Ibadah yang Benar)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">3</span>
-                    <span><strong>Matinul Khuluq</strong> (Akhlak yang Kokoh)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">4</span>
-                    <span><strong>Qadirun 'alal Kasbi</strong> (Mandiri &amp; Berjiwa Usaha)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">5</span>
-                    <span><strong>Mutsaqqaful Fikri</strong> (Berwawasan Luas &amp; Cerdas)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">6</span>
-                    <span><strong>Qawiyyul Jismi</strong> (Jasmani yang Sehat &amp; Tangguh)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">7</span>
-                    <span><strong>Mujahidun Linafsihi</strong> (Mampu Mengendalikan Diri)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">8</span>
-                    <span><strong>Munazzhamun fi Syu'unihi</strong> (Tertib dalam Segala Urusan)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">9</span>
-                    <span><strong>Haritsun 'ala Waqtihi</strong> (Disiplin Terhadap Waktu)</span>
-                </div>
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">10</span>
-                    <span><strong>Nafi'un Lighairihi</strong> (Bermanfaat Bagi Sesama)</span>
-                </div>
+                @endforeach
             </div>
         </div>
+        @endif
 
     </div>
 
@@ -205,50 +151,26 @@
             </div>
             <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider text-unit-primary block">Senandung Jiwa Qur'ani</span>
-                <h2 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Hymne Sekolah Robbani</h2>
+                <h2 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">{{ $hymneMars['hymne_title'] ?? 'Hymne Sekolah Robbani' }}</h2>
             </div>
         </div>
 
+        @if(!empty($hymneMars['hymne_subtitle']))
         <div class="bg-amber-50/70 rounded-2xl p-4 border border-amber-200/80 space-y-1">
             <span class="text-xs font-bold text-amber-900 block flex items-center gap-1.5">
                 <i class="fa-solid fa-heart text-amber-600"></i>
                 <span>Nilai Luhur &amp; Karakter Robbani</span>
             </span>
             <p class="text-xs text-amber-800 font-light leading-relaxed">
-                Lirik hymne mengiringi setiap siswa dan pendidik dalam menuntut ilmu dengan ikhlas lillahi ta'ala, meneladani akhlak Rasulullah, serta berbakti bagi umat dan bangsa.
+                {{ $hymneMars['hymne_subtitle'] }}
             </p>
         </div>
+        @endif
 
         <div class="prose-content text-xs sm:text-sm text-gray-700 leading-relaxed font-serif space-y-4 text-center py-4 bg-gradient-to-b from-amber-50/20 to-transparent p-5 rounded-2xl border border-amber-50">
-            <p class="font-bold text-gray-900 not-italic font-sans text-xs uppercase tracking-wider text-amber-600">
-                Bait I
-            </p>
-            <p class="font-medium text-slate-800">
-                Di bumi Indralaya nan damai permai<br>
-                Tumbuh mekar generasi Robbani<br>
-                Menuntut ilmu ikhlas di hati<br>
-                Cinta Allah dan Rasul abadi
-            </p>
-
-            <p class="font-bold text-gray-900 not-italic font-sans text-xs uppercase tracking-wider text-amber-600 pt-2">
-                Reff
-            </p>
-            <p class="font-bold text-gray-900 text-sm sm:text-base">
-                Robbani sekolah kebanggaanku<br>
-                Tempat terukir ilmu dan adabku<br>
-                Hafidz Al-Qur'an pedoman langkahku<br>
-                Menjadi lentera bagi bangsaku
-            </p>
-
-            <p class="font-bold text-gray-900 not-italic font-sans text-xs uppercase tracking-wider text-amber-600 pt-2">
-                Penutup
-            </p>
-            <p class="font-medium text-slate-800">
-                Kuserahkan jiwa dan raga ini<br>
-                Membela kebenaran ilahi<br>
-                Jayalah selalu Robbani tercinta<br>
-                Hingga akhir masa menyapa
-            </p>
+            <div class="prose max-w-none text-slate-800 font-medium leading-relaxed">
+                {!! nl2br(e($hymneMars['hymne_lyrics'] ?? '')) !!}
+            </div>
         </div>
 
         <div class="pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">

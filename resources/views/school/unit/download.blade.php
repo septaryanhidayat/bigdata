@@ -12,7 +12,7 @@
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     
-    $downloadsList = [
+    $downloadsList = !empty($info['downloads']) && is_array($info['downloads']) ? $info['downloads'] : (!empty($unitDownloads) ? $unitDownloads : [
         [
             'title' => 'Brosur Resmi SPMB TA 2026/2027',
             'desc' => 'Informasi lengkap persyaratan pendaftaran, jadwal seleksi, kuota kelas, dan rincian biaya pendidikan.',
@@ -93,7 +93,7 @@
             'url' => asset('downloads/paket-logo-sit-robbani.pdf'),
             'filename' => 'Paket-Logo-Resmi-SIT-Robbani.pdf'
         ]
-    ];
+    ]);
 @endphp
 
 @section('content')

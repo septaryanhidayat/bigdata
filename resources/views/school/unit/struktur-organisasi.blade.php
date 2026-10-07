@@ -11,6 +11,7 @@
         'gold' => '#f59e0b',
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
+    $orgStructure = $info['org_structure'] ?? \App\Http\Controllers\SchoolWebsiteController::getDefaultOrgStructure($info);
 @endphp
 
 @section('content')
@@ -52,15 +53,15 @@
             {{-- LEVEL 1: YAYASAN & KOMITE --}}
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
                 <div class="w-full sm:w-72 bg-gradient-to-br from-indigo-900 to-indigo-950 text-white p-4 sm:p-5 rounded-2xl text-center shadow-lg border border-indigo-700/50">
-                    <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">Badan Penyelenggara</span>
-                    <h3 class="text-sm sm:text-base font-extrabold mt-0.5">Yayasan Generasi Robbani</h3>
-                    <p class="text-[11px] text-indigo-200 mt-1">Ketua: Sughesti Wulandari, S.Pd</p>
+                    <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">{{ $orgStructure['foundation_role'] ?? 'Badan Penyelenggara' }}</span>
+                    <h3 class="text-sm sm:text-base font-extrabold mt-0.5">{{ $orgStructure['foundation_name'] ?? 'Yayasan Generasi Robbani' }}</h3>
+                    <p class="text-[11px] text-indigo-200 mt-1">Ketua: {{ $orgStructure['foundation_leader'] ?? 'Sughesti Wulandari, S.Pd' }}</p>
                 </div>
                 <div class="hidden sm:block w-8 h-0.5 bg-gray-300"></div>
                 <div class="w-full sm:w-72 bg-gray-50 border border-gray-200 text-gray-800 p-4 sm:p-5 rounded-2xl text-center shadow-sm">
                     <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">Mitra Sinergi</span>
-                    <h3 class="text-sm sm:text-base font-extrabold mt-0.5">Komite Sekolah</h3>
-                    <p class="text-[11px] text-gray-500 mt-1">Perwakilan Orang Tua &amp; Tokoh</p>
+                    <h3 class="text-sm sm:text-base font-extrabold mt-0.5">{{ $orgStructure['committee_name'] ?? 'Komite Sekolah' }}</h3>
+                    <p class="text-[11px] text-gray-500 mt-1">{{ $orgStructure['committee_sub'] ?? 'Perwakilan Orang Tua & Tokoh' }}</p>
                 </div>
             </div>
 
@@ -85,34 +86,15 @@
 
             {{-- LEVEL 3: WAKIL KEPALA & KOORDINATOR --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-slate-50/70 border border-indigo-100 p-4 rounded-2xl text-center">
-                    <div class="w-8 h-8 rounded-lg bg-unit-primary text-white flex items-center justify-center text-xs mx-auto mb-2">
-                        <i class="fa-solid fa-book-open"></i>
+                @foreach($orgStructure['waka_list'] ?? [] as $waka)
+                <div class="{{ $waka['box_class'] ?? 'bg-slate-50/70 border border-indigo-100' }} p-4 rounded-2xl text-center">
+                    <div class="w-8 h-8 rounded-lg {{ $waka['color_class'] ?? 'bg-unit-primary text-white' }} flex items-center justify-center text-xs mx-auto mb-2">
+                        <i class="{{ $waka['icon'] ?? 'fa-solid fa-briefcase' }}"></i>
                     </div>
-                    <h4 class="text-xs font-bold text-gray-900">Waka Kurikulum</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Pengembangan Modul &amp; Mutu Akademik</p>
+                    <h4 class="text-xs font-bold text-gray-900">{{ $waka['title'] ?? '' }}</h4>
+                    <p class="text-[10px] text-gray-500 mt-1">{{ $waka['desc'] ?? '' }}</p>
                 </div>
-                <div class="bg-amber-50/70 border border-amber-100 p-4 rounded-2xl text-center">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-xs mx-auto mb-2">
-                        <i class="fa-solid fa-book-quran"></i>
-                    </div>
-                    <h4 class="text-xs font-bold text-gray-900">Waka Kesiswaan &amp; Al-Qur'an</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Tahfidz, BPI &amp; Kedisiplinan Adab</p>
-                </div>
-                <div class="bg-emerald-50/70 border border-emerald-100 p-4 rounded-2xl text-center">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs mx-auto mb-2">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <h4 class="text-xs font-bold text-gray-900">Waka Sarana Prasarana</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Fasilitas, Kebersihan &amp; Keamanan</p>
-                </div>
-                <div class="bg-blue-50/70 border border-blue-100 p-4 rounded-2xl text-center">
-                    <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs mx-auto mb-2">
-                        <i class="fa-solid fa-handshake"></i>
-                    </div>
-                    <h4 class="text-xs font-bold text-gray-900">Waka Humas &amp; Kemitraan</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">SPMB, Kerjasama &amp; Media Sosial</p>
-                </div>
+                @endforeach
             </div>
 
             {{-- CONNECTOR LINE --}}
@@ -122,20 +104,15 @@
 
             {{-- LEVEL 4: PELAKSANA TEKNIS --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @foreach($orgStructure['technical_staff'] ?? [] as $staff)
                 <div class="bg-gray-50 border border-gray-200 p-4 rounded-2xl text-center">
                     <h4 class="text-xs font-extrabold text-gray-900 flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-chalkboard-user text-unit-primary"></i>
-                        <span>Dewan Guru &amp; Wali Kelas</span>
+                        <i class="{{ $staff['icon'] ?? 'fa-solid fa-users text-unit-primary' }}"></i>
+                        <span>{{ $staff['title'] ?? '' }}</span>
                     </h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Pendidik profesional, guru bidang studi, pembina tahfidz dan asatidz asrama.</p>
+                    <p class="text-[10px] text-gray-500 mt-1">{{ $staff['desc'] ?? '' }}</p>
                 </div>
-                <div class="bg-gray-50 border border-gray-200 p-4 rounded-2xl text-center">
-                    <h4 class="text-xs font-extrabold text-gray-900 flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-id-badge text-amber-500"></i>
-                        <span>Tata Usaha &amp; Tenaga Kependidikan</span>
-                    </h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Administrasi, E-SPP, IT Support, Pustakawan, Laboran, dan Keamanan Kampus.</p>
-                </div>
+                @endforeach
             </div>
 
         </div>

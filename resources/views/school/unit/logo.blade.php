@@ -12,6 +12,7 @@
     ];
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     $logoSrc = asset($info['logo'] ?? '/images/logo-robbani-official.png');
+    $logoInfo = $info['logo_info'] ?? \App\Http\Controllers\SchoolWebsiteController::getDefaultLogoInfo($info['name'] ?? 'Sekolah Islam Terpadu');
 @endphp
 
 @section('content')
@@ -51,13 +52,13 @@
                     <div class="space-y-3 text-center sm:text-left flex-1">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-wider uppercase bg-amber-50 text-amber-700 border border-amber-200">
                             <i class="fa-solid fa-certificate text-amber-500"></i>
-                            Official Brand Identity
+                            {{ $logoInfo['subtitle'] ?? 'Official Brand Identity' }}
                         </span>
                         <h2 class="text-xl sm:text-2xl font-black text-gray-900 leading-snug">
-                            Lambang Keagungan Ilmu &amp; Ketakwaan Robbani
+                            {{ $logoInfo['title'] ?? 'Lambang Keagungan Ilmu & Ketakwaan Robbani' }}
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                            Logo {{ $info['name'] }} memadukan nilai keislaman luhur, tradisi keilmuan Al-Qur'an, dan orientasi masa depan sains dan teknologi berstandar Sekolah Islam Terpadu (JSIT).
+                            {{ $logoInfo['description'] ?? ("Logo " . $info['name'] . " memadukan nilai keislaman luhur, tradisi keilmuan Al-Qur'an, dan orientasi masa depan sains dan teknologi berstandar Sekolah Islam Terpadu (JSIT).") }}
                         </p>
                         <div class="pt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
                             <a href="{{ $logoSrc }}" download="Logo-{{ strtoupper($codeLower) }}-SIT-Robbani.png"
@@ -84,7 +85,7 @@
 
                     <div class="p-4 rounded-2xl bg-gray-900 border border-gray-800 text-center text-white">
                         <div class="h-24 flex items-center justify-center mb-2">
-                            <img src="{{ $logoSrc }}" alt="Dark Mode" class="max-h-16 object-contain brightness-110">
+                            <img src="{{ $logoSrc }}" alt="Dark Contrast" class="max-h-16 object-contain brightness-110">
                         </div>
                         <h4 class="text-xs font-bold text-white">Varian Dark Contrast</h4>
                         <p class="text-[11px] text-gray-400 mt-0.5">Khusus latar belakang gelap &amp; media digital</p>
@@ -113,70 +114,19 @@
                 </div>
 
                 <div class="space-y-4">
-                    {{-- 1. KUBAH MASJID --}}
+                    @foreach($logoInfo['components'] ?? [] as $comp)
                     <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-indigo-200 transition">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0">
-                            <i class="fa-solid fa-mosque"></i>
+                        <div class="w-10 h-10 rounded-xl {{ $comp['color_class'] ?? 'bg-indigo-100 text-indigo-700' }} flex items-center justify-center font-bold text-sm shrink-0">
+                            <i class="{{ $comp['icon'] ?? 'fa-solid fa-shapes' }}"></i>
                         </div>
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900">Kubah Masjid &amp; Mihrab Keimanan</h4>
+                            <h4 class="text-sm font-bold text-gray-900">{{ $comp['title'] ?? '' }}</h4>
                             <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Melambangkan bahwa seluruh nafas kehidupan dan aktivitas pembelajaran bersumber dari Tauhidullah, ketaqwaan yang kokoh, dan kepatuhan mutlak pada syariat Allah SWT.
+                                {{ $comp['desc'] ?? '' }}
                             </p>
                         </div>
                     </div>
-
-                    {{-- 2. AL-QUR'AN TERBUKA --}}
-                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-indigo-200 transition">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">
-                            <i class="fa-solid fa-book-quran"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">Mushaf Al-Qur'an yang Terbuka</h4>
-                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Simbol pedoman hidup utama yang senantiasa dibaca, dihafal, dipahami, dan diamalkan oleh setiap siswa. Menjadi rujukan tertinggi dalam seluruh cabang ilmu pengetahuan.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 3. PENA & SAYAP KELAS DUNIA --}}
-                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-indigo-200 transition">
-                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm shrink-0">
-                            <i class="fa-solid fa-feather-pointed"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">Pena Emas &amp; Sayap Pengetahuan Modern</h4>
-                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Menggambarkan kecendekiaan, daya nalar kritis, riset sains, dan kemampuan adaptasi tinggi terhadap kemajuan teknologi digital masa depan demi kemaslahatan umat.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 4. BINTANG BERSUDUT --}}
-                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-indigo-200 transition">
-                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm shrink-0">
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">Bintang Kemilau Cita-cita Luhur</h4>
-                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Menunjukkan tekad mencetak generasi Robbani yang menjadi lentera penerang di tengah masyarakat, menginspirasi melalui keteladanan akhlak mulia dan prestasi gemilang.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 5. LINGKARAN & PITA UKHUWAH --}}
-                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-indigo-200 transition">
-                        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm shrink-0">
-                            <i class="fa-solid fa-hands-holding-child"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">Pita Kesatuan &amp; Lingkaran Ukhuwah</h4>
-                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                                Sinergi harmonis yang saling menguatkan antara Yayasan, Dewan Guru, Orang Tua Murid, dan masyarakat dalam membentuk ekosistem pendidikan yang penuh berkah.
-                            </p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 

@@ -17,10 +17,10 @@
     $codeLower = strtolower($schoolCode ?? $info['code'] ?? 'smpit');
     $unitUrl = url('/unit/' . $codeLower);
 
-    $isSmait = $codeLower === 'smait' || ($info['status'] ?? '') === 'BELUM_DIBUKA';
+    $isSmait = ($info['status'] ?? ($codeLower === 'smait' ? 'BELUM_DIBUKA' : 'AKTIF')) === 'BELUM_DIBUKA';
     $heroSlides = $isSmait ? [
         [
-            'title' => 'Selamat Datang di Portal Resmi SMA IT Robbani',
+            'title' => 'Selamat Datang di Portal Resmi ' . $info['name'],
             'subtitle' => 'Tahap Persiapan Operasional Menuju Pembukaan Jenjang Lanjutan Berkarakter Qur\'ani & Sains Teknologi.',
             'image' => asset('/images/logo-robbani-official.png')
         ],
@@ -61,7 +61,7 @@
             <span class="inline-flex items-center gap-1 bg-slate-950 text-amber-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
                 <i class="fa-solid fa-clock"></i> SEGERA DIBUKA
             </span>
-            <span>SMA IT Robbani saat ini dalam tahap persiapan operasional pembukaan. Data kegiatan dan pendaftaran belum dibuka.</span>
+            <span>{{ $info['status_message'] ?? ($info['name'] . ' saat ini dalam tahap persiapan operasional pembukaan. Data kegiatan dan pendaftaran belum dibuka.') }}</span>
         </div>
     </div>
 @endif

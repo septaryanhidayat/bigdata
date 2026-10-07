@@ -216,7 +216,9 @@
         ]
     ];
 
-    $ebooksList = $catalogueByUnit[$codeLower] ?? $catalogueByUnit['smpit'];
+    $ebooksList = !empty($info['ebooks']) && is_array($info['ebooks']) 
+        ? $info['ebooks'] 
+        : (!empty($unitEbooks) ? $unitEbooks : ($catalogueByUnit[$codeLower] ?? $catalogueByUnit['smpit']));
 @endphp
 
 @section('content')
