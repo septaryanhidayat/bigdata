@@ -131,7 +131,7 @@
             </button>
 
             <!-- SPMB Button (Glowing CTA - Sleek & Compact) -->
-            <a class="px-3 sm:px-4.5 py-1.5 sm:py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-xs rounded-full transition-all flex items-center gap-1 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap shrink-0" href="{{ route('school.spmb') }}" title="Pendaftaran SPMB Online">
+            <a class="px-4 sm:px-5 py-1.5 sm:py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-xs rounded-full transition-all flex items-center gap-1.5 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap shrink-0" href="{{ route('school.spmb') }}" title="Pendaftaran SPMB Online">
                 <span>SPMB</span>
                 <span class="material-symbols-outlined text-[14px] sm:text-[15px]">arrow_forward</span>
             </a>

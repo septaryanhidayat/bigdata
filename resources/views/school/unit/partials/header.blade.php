@@ -202,7 +202,7 @@
                 </a>
 
                 {{-- ACTION CTA: DARK MODE & SPMB --}}
-                <div class="pl-2 flex items-center space-x-2">
+                <div class="pl-2 flex items-center gap-2 sm:gap-2.5 shrink-0">
                     {{-- Dark / Light Mode Toggle Button --}}
                     <button @click="darkMode = !darkMode" 
                             type="button" 
@@ -214,15 +214,15 @@
                     </button>
 
                     <a href="{{ $spmbUrl }}" 
-                       class="inline-flex items-center space-x-1.5 px-4.5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200 shrink-0 whitespace-nowrap">
-                        <i class="fa-solid fa-graduation-cap text-xs"></i>
+                       class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider {{ $codeLower === 'tkit' ? 'bg-slate-950 hover:bg-slate-900 text-amber-300 border border-amber-400/40 shadow-slate-950/40' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-amber-500/25' }} shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition duration-200 shrink-0 whitespace-nowrap">
+                        <i class="fa-solid fa-graduation-cap text-xs shrink-0"></i>
                         <span>SPMB</span>
                     </a>
                 </div>
             </nav>
 
             {{-- MOBILE MENU TRIGGER BUTTON (RESPONSIF & BEBAS OVERFLOW) --}}
-            <div class="flex items-center space-x-1.5 sm:space-x-2 lg:hidden shrink-0">
+            <div class="flex items-center gap-2 lg:hidden shrink-0">
                 {{-- Dark / Light Mode Mobile Button --}}
                 <button type="button" 
                         @click="darkMode = !darkMode"
@@ -233,8 +233,9 @@
                 </button>
 
                 <a href="{{ $spmbUrl }}" 
-                   class="px-3 sm:px-3.5 py-1.5 rounded-full font-black text-[11px] uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md shrink-0 whitespace-nowrap">
-                    SPMB
+                   class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full font-black text-[11px] uppercase tracking-wider {{ $codeLower === 'tkit' ? 'bg-slate-950 text-amber-300 border border-amber-400/40' : 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950' }} shadow-md shrink-0 whitespace-nowrap">
+                    <i class="fa-solid fa-graduation-cap text-[10px]"></i>
+                    <span>SPMB</span>
                 </a>
                 <button type="button" 
                         @click="mobileMenuOpen = !mobileMenuOpen"

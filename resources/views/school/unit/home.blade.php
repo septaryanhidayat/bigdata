@@ -137,59 +137,59 @@
         <div class="grid grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-4 text-center">
             
             <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">SPMB</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-indigo-700 leading-tight line-clamp-1">SPMB</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/profil') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-slate-100 text-unit-primary flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-school"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Profil</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-blue-700 leading-tight line-clamp-1">Profil</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/dewan-guru') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-chalkboard-user"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Guru &amp; GTK</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-cyan-700 leading-tight line-clamp-1">Guru &amp; GTK</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Fasilitas</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-emerald-700 leading-tight line-clamp-1">Fasilitas</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/program-unggulan') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-star"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Unggulan</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-purple-700 leading-tight line-clamp-1">Unggulan</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/artikel') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-trophy"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Prestasi</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-teal-700 leading-tight line-clamp-1">Prestasi</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-calendar-days"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Agenda</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-sky-700 leading-tight line-clamp-1">Agenda</span>
             </a>
 
             <a href="{{ url('/unit/' . $codeLower . '/download') }}" class="group p-2 sm:p-3 rounded-2xl hover:bg-slate-100 transition duration-200 flex flex-col items-center">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-lg sm:text-xl mb-1.5 sm:mb-2 group-hover:scale-110 transition shadow-inner">
                     <i class="fa-solid fa-folder-open"></i>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-unit-primary leading-tight line-clamp-1">Unduhan</span>
+                <span class="text-[10px] sm:text-xs font-bold text-gray-800 group-hover:text-rose-700 leading-tight line-clamp-1">Unduhan</span>
             </a>
 
         </div>
@@ -215,8 +215,8 @@
 
             {{-- INFORMASI BENEFIT & EVENT SISI KANAN --}}
             <div class="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-sparkles"></i>
+                <div class="inline-flex items-center space-x-2 {{ $codeLower === 'tkit' ? 'bg-slate-950/80 text-amber-300 border border-amber-400/50' : 'bg-amber-400/20 text-amber-300 border border-amber-400/30' }} px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-wider shadow">
+                    <i class="fa-solid fa-sparkles text-amber-400"></i>
                     <span>{{ $isSmait ? 'Tahap Persiapan Operasional Pembukaan' : ($spmbSettings['banner_badge'] ?? 'Pendaftaran Tahun Ajaran 2026/2027') }}</span>
                 </div>
                 <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
@@ -226,45 +226,51 @@
                     {{ $isSmait ? 'SMA IT Robbani saat ini dalam tahap perampungan sarana prasarana modern dan perizinan operasional resmi. Insya Allah segera melayani pendidikan tingkat menengah atas berkarakter Qur\'ani dan unggul IPTEK.' : ($spmbSettings['banner_desc'] ?? ('Wujudkan impian pendidikan ananda bersama ' . $info['name'] . '. Pembelajaran terintegrasi tahfidz mutqin, penguatan sains-teknologi, dan pembentukan karakter kepemimpinan islami.')) }}
                 </p>
 
-                {{-- 3 KARTU BENEFIT --}}
+                {{-- 3 KARTU BENEFIT BERKONTRAS TINGGI --}}
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 text-left sm:text-center">
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
-                        <i class="fa-solid fa-building-columns text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
+                    <div class="{{ $codeLower === 'tkit' ? 'bg-slate-950/45 border-white/20' : 'bg-white/10 border-white/10' }} backdrop-blur-md rounded-2xl p-3.5 border flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0 shadow-sm">
+                        <div class="w-8 h-8 rounded-xl {{ $codeLower === 'tkit' ? 'bg-cyan-500/20 text-cyan-300' : 'text-amber-400' }} flex items-center justify-center text-base mb-0 sm:mb-1.5 shrink-0">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
                         <div>
                             <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Status Kampus' : ($spmbSettings['banner_benefit1_title'] ?? 'Kuota Terbatas') }}</h4>
-                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahap Persiapan' : ($spmbSettings['banner_benefit1_sub'] ?? '24 Siswa / Kelas') }}</p>
+                            <p class="text-[10px] {{ $codeLower === 'tkit' ? 'text-cyan-100' : 'text-slate-200' }}">{{ $isSmait ? 'Tahap Persiapan' : ($spmbSettings['banner_benefit1_sub'] ?? '24 Siswa / Kelas') }}</p>
                         </div>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
-                        <i class="fa-solid fa-book-quran text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
+                    <div class="{{ $codeLower === 'tkit' ? 'bg-slate-950/45 border-white/20' : 'bg-white/10 border-white/10' }} backdrop-blur-md rounded-2xl p-3.5 border flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0 shadow-sm">
+                        <div class="w-8 h-8 rounded-xl {{ $codeLower === 'tkit' ? 'bg-emerald-500/20 text-emerald-300' : 'text-amber-400' }} flex items-center justify-center text-base mb-0 sm:mb-1.5 shrink-0">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
                         <div>
                             <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Fokus Peminatan' : ($spmbSettings['banner_benefit2_title'] ?? 'Cashback SPMB') }}</h4>
-                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'Tahfidz & PTN' : ($spmbSettings['banner_benefit2_sub'] ?? 'Potongan Uang Masuk') }}</p>
+                            <p class="text-[10px] {{ $codeLower === 'tkit' ? 'text-emerald-100' : 'text-slate-200' }}">{{ $isSmait ? 'Tahfidz & PTN' : ($spmbSettings['banner_benefit2_sub'] ?? 'Potongan Uang Masuk') }}</p>
                         </div>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/10 flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0">
-                        <i class="fa-solid fa-certificate text-amber-400 text-lg mb-0 sm:mb-1 shrink-0"></i>
+                    <div class="{{ $codeLower === 'tkit' ? 'bg-slate-950/45 border-white/20' : 'bg-white/10 border-white/10' }} backdrop-blur-md rounded-2xl p-3.5 border flex sm:flex-col items-center sm:justify-center space-x-3 sm:space-x-0 shadow-sm">
+                        <div class="w-8 h-8 rounded-xl {{ $codeLower === 'tkit' ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400' }} flex items-center justify-center text-base mb-0 sm:mb-1.5 shrink-0">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
                         <div>
                             <h4 class="text-xs font-bold text-white">{{ $isSmait ? 'Kurikulum Terpadu' : ($spmbSettings['banner_benefit3_title'] ?? 'Class Meeting') }}</h4>
-                            <p class="text-[10px] text-slate-200">{{ $isSmait ? 'JSIT & Merdeka' : ($spmbSettings['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah') }}</p>
+                            <p class="text-[10px] {{ $codeLower === 'tkit' ? 'text-amber-100' : 'text-slate-200' }}">{{ $isSmait ? 'JSIT & Merdeka' : ($spmbSettings['banner_benefit3_sub'] ?? 'Lomba Antar Sekolah') }}</p>
                         </div>
                     </div>
                 </div>
 
-                {{-- TOMBOL AKSI --}}
+                {{-- TOMBOL AKSI BERKONTRAS TINGGI --}}
                 <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
                     @if(!$isSmait)
                     <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
-                       class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-graduation-cap"></i>
+                       class="w-full sm:w-auto px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider {{ $codeLower === 'tkit' ? 'bg-slate-950 hover:bg-slate-900 text-amber-300 border-2 border-amber-400/50 shadow-xl shadow-slate-950/40' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40' }} hover:scale-105 active:scale-95 transition duration-200 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-graduation-cap text-amber-400"></i>
                         <span>{{ $spmbSettings['banner_btn_primary_text'] ?? 'Daftar Sekarang' }}</span>
                     </a>
                     @endif
                     <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}&text={{ urlencode('Assalamu\'alaikum, saya ingin bertanya seputar informasi persiapan ' . $info['name']) }}" 
                        target="_blank" 
                        rel="noopener noreferrer"
-                       class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition flex items-center justify-center space-x-2">
-                        <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                       class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-xs uppercase tracking-wider {{ $codeLower === 'tkit' ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-950/30' : 'bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md' }} transition flex items-center justify-center space-x-2 hover:scale-105 active:scale-95">
+                        <i class="fa-brands fa-whatsapp {{ $codeLower === 'tkit' ? 'text-white' : 'text-emerald-400' }} text-sm"></i>
                         <span>{{ $isSmait ? 'Konsultasi Informasi Pembukaan' : ($spmbSettings['banner_btn_secondary_text'] ?? 'Hubungi Panitia SPMB') }}</span>
                     </a>
                 </div>
@@ -885,7 +891,7 @@
 <section class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     <div class="rounded-3xl bg-gradient-to-r {{ $uTheme['nav_gradient'] }} p-6 sm:p-12 text-white shadow-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left reveal-fade-up">
         <div class="space-y-2">
-            <span class="inline-block bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+            <span class="inline-block {{ $codeLower === 'tkit' ? 'bg-slate-950 text-amber-300 border border-amber-400/40' : 'bg-amber-400 text-slate-950' }} text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
                 {{ $isSmait ? 'Tahap Persiapan' : 'Kuota Terbatas!' }}
             </span>
             <h3 class="text-xl sm:text-3xl font-black text-white tracking-tight">
@@ -904,8 +910,8 @@
             </a>
         @else
             <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" 
-               class="w-full sm:w-auto px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30 hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-graduation-cap"></i>
+               class="w-full sm:w-auto px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider {{ $codeLower === 'tkit' ? 'bg-slate-950 hover:bg-slate-900 text-amber-300 border-2 border-amber-400/50 shadow-2xl shadow-slate-950/50' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-xl shadow-amber-500/30' }} hover:scale-105 active:scale-95 transition shrink-0 flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-graduation-cap {{ $codeLower === 'tkit' ? 'text-amber-400' : '' }}"></i>
                 <span>Daftar SPMB Online</span>
             </a>
         @endif
@@ -1164,7 +1170,7 @@
                 Menyediakan beragam modul literasi Qur'ani, sains terapan, pembinaan bahasa, dan adab karakter.
             </span>
             <a href="{{ url('/unit/' . $codeLower . '/e-book') }}" 
-               class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20 hover:brightness-105 transition shrink-0">
+               class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full font-black text-xs uppercase tracking-wider {{ $codeLower === 'tkit' ? 'bg-slate-950 hover:bg-slate-900 text-amber-300 border border-amber-400/40 shadow-xl' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20' }} hover:brightness-105 transition shrink-0">
                 <i class="fa-solid fa-book-open"></i>
                 <span>Buka Seluruh Etalase E-Book</span>
             </a>
@@ -1222,8 +1228,8 @@
      ======================================================== --}}
 <section class="py-6 sm:py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
-        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-unit-primary hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-slate-50 text-unit-primary flex items-center justify-center text-lg sm:text-xl shrink-0">
+        <a href="{{ route('school.spmb') }}?unit={{ $codeLower }}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 {{ $codeLower === 'tkit' ? 'border-indigo-600' : 'border-unit-primary' }} hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl {{ $codeLower === 'tkit' ? 'bg-indigo-50 text-indigo-700' : 'bg-slate-50 text-unit-primary' }} flex items-center justify-center text-lg sm:text-xl shrink-0">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <div>
@@ -1232,8 +1238,8 @@
             </div>
         </a>
 
-        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}" target="_blank" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-amber-500 hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
+        <a href="https://api.whatsapp.com/send?phone=62{{ ltrim($info['whatsapp'] ?? $info['phone'] ?? '0811747472', '0') }}" target="_blank" class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-t-4 border-emerald-500 hover:shadow-xl transition flex items-center space-x-3.5 sm:space-x-4">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
                 <i class="fa-brands fa-whatsapp"></i>
             </div>
             <div>

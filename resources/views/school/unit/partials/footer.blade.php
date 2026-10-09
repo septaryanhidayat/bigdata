@@ -10,13 +10,13 @@
     $spmbUrl = str_contains($currentHost, 'sitrobbani.sch.id') ? 'https://spmb.sitrobbani.sch.id?unit=' . $codeLower : (route('school.spmb') . '?unit=' . $codeLower);
 @endphp
 
-<footer class="{{ $codeLower === 'tkit' ? 'bg-gradient-to-b from-[#9a3412] via-[#7c2d12] to-[#431407] text-orange-100 border-t border-orange-700/60' : 'bg-[#0b1220] text-slate-300 border-t border-slate-800' }} pt-12 relative z-20">
+<footer class="bg-[#090f1d] text-slate-300 border-t {{ $codeLower === 'tkit' ? 'border-orange-500/50' : 'border-slate-800' }} pt-12 relative z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {{-- BULETIN & KABAR SEKOLAH (Newsletter Subscription Bar) --}}
-        <div class="bg-gradient-to-r {{ $codeLower === 'tkit' ? 'from-amber-500 via-orange-600 to-orange-700 text-white' : ($uTheme['nav_gradient'] ?? 'from-indigo-950 via-slate-900 to-blue-950') }} rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+        <div class="bg-gradient-to-r {{ $codeLower === 'tkit' ? 'from-orange-600 via-amber-600 to-orange-700 text-white' : ($uTheme['nav_gradient'] ?? 'from-indigo-950 via-slate-900 to-blue-950') }} rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
             <div class="space-y-1 text-center lg:text-left">
-                <span class="inline-block text-[11px] font-black uppercase tracking-wider text-amber-300">
+                <span class="inline-block text-[11px] font-black uppercase tracking-wider {{ $codeLower === 'tkit' ? 'text-amber-200' : 'text-amber-300' }}">
                     Buletin &amp; Kabar Sekolah
                 </span>
                 <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">
@@ -30,15 +30,15 @@
                        placeholder="Masukkan Email Anda" 
                        class="w-full sm:w-72 px-5 py-3 rounded-full bg-white text-slate-800 placeholder-slate-400 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 border-0 shadow-inner text-center sm:text-left">
                 <button type="submit" 
-                        class="w-full sm:w-auto px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 hover:brightness-105 active:scale-95 transition flex items-center justify-center space-x-2 shrink-0 cursor-pointer">
-                    <i class="fa-solid fa-paper-plane"></i>
+                        class="w-full sm:w-auto px-7 py-3 rounded-full {{ $codeLower === 'tkit' ? 'bg-slate-950 hover:bg-slate-900 text-amber-300 border border-amber-400/40 shadow-slate-950/50' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-amber-500/30' }} font-black text-xs uppercase tracking-wider shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition flex items-center justify-center space-x-2 shrink-0 cursor-pointer">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
                     <span>Langganan</span>
                 </button>
             </form>
         </div>
 
         {{-- MAIN INSTITUTIONAL FOOTER GRID --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b {{ $codeLower === 'tkit' ? 'border-orange-700/50' : 'border-slate-800/80' }} text-center md:text-left">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b border-slate-800/80 text-center md:text-left">
             
             {{-- KOLOM 1: LOGO & IDENTITAS SEKOLAH (Logo Saja, Rapi & Elegan) --}}
             <div class="lg:col-span-3 flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
@@ -52,24 +52,24 @@
                     <p class="text-sm font-bold text-white tracking-wide">
                         {{ $info['name'] }}
                     </p>
-                    <p class="text-xs {{ $codeLower === 'tkit' ? 'text-orange-200/90' : 'text-slate-400' }} leading-relaxed font-light max-w-sm md:max-w-none">
+                    <p class="text-xs text-slate-400 leading-relaxed font-light max-w-sm md:max-w-none">
                         {{ $info['tagline'] ?? 'Membina Generasi Qur\'ani, Cerdas & Berakhlak Mulia' }}
                     </p>
                     <div class="pt-1 flex flex-wrap gap-2 justify-center md:justify-start">
-                        <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
-                            NPSN: {{ $info['npsn'] ?? '69787455' }}
+                        <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
+                            NPSN: {{ $info['npsn'] ?? '69888765' }}
                         </span>
-                        <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 text-emerald-300 border border-white/10">
-                            {{ $info['akreditasi'] ?? 'Terakreditasi B' }}
+                        <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            {{ $info['akreditasi'] ?? 'Terakreditasi Unggul (A)' }}
                         </span>
                     </div>
-                    <!-- Tagline Resmi Sekolah -->
-                    <div class="mt-2 inline-flex flex-wrap items-center justify-center gap-1.5 px-3 py-1.5 rounded-full {{ $codeLower === 'tkit' ? 'bg-orange-950/80 border-orange-500/40' : 'bg-slate-900/90 border-amber-400/40' }} border text-[10px] font-black uppercase tracking-wider shadow-sm mx-auto md:mx-0">
-                        <span class="text-amber-400">⚡ MANDIRI</span>
-                        <span class="text-slate-500">•</span>
-                        <span class="text-emerald-400">📖 PINTER NGAJI</span>
-                        <span class="text-slate-500">•</span>
-                        <span class="text-cyan-400">💻 JAGO IT!</span>
+                    <!-- Tagline Resmi Sekolah (Rounded-XL Agar Tidak Terpotong Saat Wrap) -->
+                    <div class="mt-2.5 inline-flex flex-wrap items-center justify-center md:justify-start gap-1.5 sm:gap-2 px-3.5 py-2 rounded-xl bg-slate-900/95 border border-amber-400/40 text-[10px] font-extrabold uppercase tracking-wider shadow-sm mx-auto md:mx-0">
+                        <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-bolt text-[9px]"></i> MANDIRI</span>
+                        <span class="text-slate-600">•</span>
+                        <span class="text-emerald-400 flex items-center gap-1"><i class="fa-solid fa-book-quran text-[9px]"></i> PINTER NGAJI</span>
+                        <span class="text-slate-600">•</span>
+                        <span class="text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-laptop text-[9px]"></i> JAGO IT!</span>
                     </div>
                 </div>
             </div>
@@ -247,12 +247,12 @@
         </div>
 
         {{-- BOTTOM SUB-FOOTER BAR --}}
-        <div class="pb-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-slate-500">
+        <div class="pb-12 pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-slate-500">
             <div>
                 Copyright &copy; 2026 <strong class="text-slate-400 font-semibold">{{ $info['name'] }}</strong>. All Rights Reserved.
             </div>
             <div>
-                <span class="text-slate-400 font-semibold">Beranda Teknologi Digital</span>
+                <span class="text-slate-400 font-semibold">Beranda Teknologi Digital SIT Robbani</span>
             </div>
         </div>
 
