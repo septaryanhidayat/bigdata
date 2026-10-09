@@ -1,8 +1,26 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false }" :class="darkMode ? 'dark' : ''">
+<html lang="id" 
+      class="scroll-smooth" 
+      x-data="{ 
+          darkMode: localStorage.getItem('theme_mode') === 'dark', 
+          mobileMenuOpen: false 
+      }" 
+      x-init="$watch('darkMode', val => { 
+          localStorage.setItem('theme_mode', val ? 'dark' : 'light'); 
+          if (val) { document.documentElement.classList.add('dark'); } 
+          else { document.documentElement.classList.remove('dark'); } 
+      })" 
+      :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <script>
+        if (localStorage.getItem('theme_mode') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (localStorage.getItem('theme_mode') === 'light') {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     
     <!-- Primary SEO Meta Tags -->
     <title>{{ $news['title'] }} | {{ $settings['school_name'] ?? 'SIT Robbani Ogan Ilir' }}</title>
@@ -188,7 +206,7 @@
             margin: 1.5rem auto;
             display: block;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
+            object-fit: contain;
         }
 
         /* Fix for WordPress Icons / Cliparts / Smilies / Small Icons that shouldn't stretch */
@@ -303,10 +321,16 @@
                     </div>
                 </div>
 
-                <!-- Featured Hero Image Showcase (Proporsional & Rounded) -->
+                <!-- Featured Hero Image Showcase (Tampilan Penuh & Utuh Tanpa Terpotong) -->
                 <div class="bg-white dark:bg-[#07170a] rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200 dark:border-[#1a3d1e] shadow-md">
-                    <div class="relative max-h-[460px] overflow-hidden bg-slate-950 flex items-center justify-center">
-                        <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" class="w-full h-full max-h-[460px] object-cover object-center" onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='w-full p-8 object-contain bg-white';">
+                    <div class="relative w-full bg-slate-100 dark:bg-[#030904] flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden min-h-[220px]">
+                        <!-- Ambient Blur Effect in Background -->
+                        <div class="absolute inset-0 bg-cover bg-center blur-2xl opacity-20 dark:opacity-25 scale-110 pointer-events-none select-none" style="background-image: url('{{ $news['image'] }}');"></div>
+                        <img src="{{ $news['image'] }}" 
+                             alt="{{ $news['title'] }}" 
+                             class="relative z-10 w-auto h-auto max-w-full max-h-[650px] sm:max-h-[750px] object-contain rounded-xl sm:rounded-2xl shadow-sm mx-auto block transition-transform duration-300" 
+                             loading="eager"
+                             onerror="this.onerror=null; this.src='/images/logo-robbani-official.png'; this.className='relative z-10 w-full max-w-xs p-8 object-contain bg-white dark:bg-transparent';">
                     </div>
                     <div class="p-3 sm:p-3.5 bg-slate-50 dark:bg-[#0a1f0e] text-[10px] sm:text-[11px] text-slate-600 dark:text-slate-300 text-center font-bold border-t border-slate-200 dark:border-[#1a3d1e] flex items-center justify-center gap-1.5">
                         <span>📷</span> Dokumentasi resmi kegiatan {{ $news['category'] ?? 'SIT Robbani' }} Ogan Ilir, Sumatera Selatan.

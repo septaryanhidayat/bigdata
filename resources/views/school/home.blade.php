@@ -1,8 +1,30 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false, activeVideoUrl: null, activeVideoTitle: null, activeLightboxImage: null, activeLightboxTitle: null }" :class="darkMode ? 'dark' : ''">
+<html lang="id" 
+      class="scroll-smooth" 
+      x-data="{ 
+          darkMode: localStorage.getItem('theme_mode') === 'dark', 
+          mobileMenuOpen: false, 
+          activeVideoUrl: null, 
+          activeVideoTitle: null, 
+          activeLightboxImage: null, 
+          activeLightboxTitle: null 
+      }" 
+      x-init="$watch('darkMode', val => { 
+          localStorage.setItem('theme_mode', val ? 'dark' : 'light'); 
+          if (val) { document.documentElement.classList.add('dark'); } 
+          else { document.documentElement.classList.remove('dark'); } 
+      })" 
+      :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        if (localStorage.getItem('theme_mode') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (localStorage.getItem('theme_mode') === 'light') {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <meta name="theme-color" content="#004532">
     <title>{{ $settings['school_name'] }} | Website Resmi SIT Robbani Ogan Ilir</title>
     <meta name="description" content="{{ $settings['hero_desc'] }}">

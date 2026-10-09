@@ -259,6 +259,20 @@
          x-transition:leave-end="opacity-0 -translate-y-4"
          class="lg:hidden bg-slate-900/98 backdrop-blur-xl border-b border-indigo-900/80 px-4 pt-3 pb-6 space-y-2 text-sm text-white shadow-2xl max-h-[80vh] overflow-y-auto">
         
+        {{-- Toggle Dark/Light Mode di Mobile Drawer --}}
+        <div class="pb-1.5">
+            <button type="button" 
+                    @click="darkMode = !darkMode" 
+                    class="w-full py-2.5 px-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs border border-white/10 flex items-center justify-between shadow-xs cursor-pointer transition">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-moon text-amber-300" x-show="!darkMode"></i>
+                    <i class="fa-solid fa-sun text-amber-400" x-show="darkMode" x-cloak></i>
+                    <span x-text="darkMode ? '☀️ Mode Terang' : '🌙 Mode Gelap'"></span>
+                </div>
+                <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30" x-text="darkMode ? 'DARK' : 'LIGHT'"></span>
+            </button>
+        </div>
+
         {{-- Akses Cepat Web Utama & Login di Mobile Drawer --}}
         <div class="grid grid-cols-2 gap-2 pb-1 border-b border-slate-800">
             <a href="{{ $portalUrl }}" class="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition">

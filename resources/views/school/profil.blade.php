@@ -1,8 +1,26 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth" x-data="{ darkMode: false, mobileMenuOpen: false }" :class="darkMode ? 'dark' : ''">
+<html lang="id" 
+      class="scroll-smooth" 
+      x-data="{ 
+          darkMode: localStorage.getItem('theme_mode') === 'dark', 
+          mobileMenuOpen: false 
+      }" 
+      x-init="$watch('darkMode', val => { 
+          localStorage.setItem('theme_mode', val ? 'dark' : 'light'); 
+          if (val) { document.documentElement.classList.add('dark'); } 
+          else { document.documentElement.classList.remove('dark'); } 
+      })" 
+      :class="darkMode ? 'dark' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        if (localStorage.getItem('theme_mode') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (localStorage.getItem('theme_mode') === 'light') {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <title>Profil Resmi & Sambutan Pimpinan | {{ $foundationProfile['name'] ?? $settings['school_name'] }}</title>
     <meta name="description" content="Profil Resmi, Sambutan Pimpinan, Visi Misi, dan 5 Pilar Utama Pendidikan Yayasan Generasi Robbani Sumatera Selatan.">
 
