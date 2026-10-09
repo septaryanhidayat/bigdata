@@ -94,13 +94,13 @@
 
         {{-- AUDIO PLAYER BAR --}}
         @if(!empty($audioUrl))
-        <div class="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-200 space-y-2.5">
+        <div class="bg-gray-50 dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-gray-200 dark:border-slate-800 space-y-2.5">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-gray-800 flex items-center gap-2">
-                    <i class="fa-solid fa-headphones text-unit-primary text-sm"></i>
+                <span class="text-xs font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-headphones text-unit-primary dark:text-cyan-400 text-sm"></i>
                     <span>Dengarkan Audio Mars JSIT</span>
                 </span>
-                <span class="text-[11px] text-gray-500 font-medium">Format Audio Player</span>
+                <span class="text-[11px] text-gray-500 dark:text-slate-400 font-medium">Format Audio Player</span>
             </div>
             <audio controls class="w-full focus:outline-none rounded-lg">
                 <source src="{{ $audioSrc }}" type="audio/mpeg">
@@ -110,29 +110,29 @@
         @endif
 
         {{-- LIRIK MARS JSIT INDONESIA --}}
-        <div class="bg-gradient-to-b from-indigo-50/40 via-white to-transparent p-6 sm:p-10 rounded-2xl border border-indigo-100 text-center space-y-6 text-sm sm:text-base text-gray-800 leading-relaxed font-serif">
-            <h3 class="font-sans text-xs font-black text-unit-primary uppercase tracking-widest mb-4">
+        <div class="bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-slate-900 dark:via-slate-900 dark:to-slate-900 p-6 sm:p-10 rounded-2xl border border-indigo-100 dark:border-slate-800 text-center space-y-6 text-sm sm:text-base text-gray-800 dark:text-slate-200 leading-relaxed font-serif">
+            <h3 class="font-sans text-xs font-black text-unit-primary dark:text-amber-400 uppercase tracking-widest mb-4">
                 LIRIK MARS RESMI JSIT INDONESIA
             </h3>
 
-            <div class="prose max-w-none text-slate-800 font-medium leading-relaxed">
+            <div class="prose max-w-none text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
                 {!! nl2br(e($hymneMars['mars_lyrics'] ?? '')) !!}
             </div>
         </div>
 
         {{-- 10 KARAKTER SISWA JSIT (MUWASHOFAT) --}}
         @if(!empty($hymneMars['muwashofat']))
-        <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 sm:p-8 border border-emerald-200">
-            <h4 class="text-base sm:text-lg font-bold text-emerald-950 flex items-center mb-2 gap-2">
+        <div class="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-slate-900 dark:to-slate-900 rounded-2xl p-6 sm:p-8 border border-emerald-200 dark:border-slate-800">
+            <h4 class="text-base sm:text-lg font-bold text-emerald-950 dark:text-emerald-300 flex items-center mb-2 gap-2">
                 <i class="fa-solid fa-medal text-emerald-600"></i>
                 <span>10 Karakter Siswa JSIT (Muwashofat)</span>
             </h4>
-            <p class="text-xs text-gray-700 mb-5 leading-relaxed font-medium">
+            <p class="text-xs text-gray-700 dark:text-slate-300 mb-5 leading-relaxed font-medium">
                 Sebagai sekolah anggota resmi Jaringan Sekolah Islam Terpadu (JSIT) Indonesia, {{ $info['name'] }} menanamkan 10 standar kompetensi lulusan karakter siswa:
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-800 font-medium">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-800 dark:text-slate-200 font-medium">
                 @foreach($hymneMars['muwashofat'] as $idx => $m)
-                <div class="flex items-center space-x-3 bg-white p-3.5 rounded-xl border border-emerald-100 shadow-xs">
+                <div class="flex items-center space-x-3 bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-emerald-100 dark:border-slate-700 shadow-xs">
                     <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0">{{ $m['no'] ?? ($idx + 1) }}</span>
                     <span><strong>{{ $m['title'] ?? '' }}</strong>@if(!empty($m['desc'])) ({{ $m['desc'] }})@endif</span>
                 </div>
@@ -144,30 +144,30 @@
     </div>
 
     {{-- SECTION 2: HYMNE SIT ROBBANI --}}
-    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 space-y-6">
-        <div class="flex items-center space-x-3 pb-4 border-b border-gray-100">
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0 shadow-inner">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 dark:border-slate-800 space-y-6">
+        <div class="flex items-center space-x-3 pb-4 border-b border-gray-100 dark:border-slate-800">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-slate-800 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0 shadow-inner">
                 <i class="fa-solid fa-star-and-crescent"></i>
             </div>
             <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-unit-primary block">Senandung Jiwa Qur'ani</span>
-                <h2 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">{{ $hymneMars['hymne_title'] ?? 'Hymne Sekolah Robbani' }}</h2>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-unit-primary dark:text-cyan-400 block">Senandung Jiwa Qur'ani</span>
+                <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight">{{ $hymneMars['hymne_title'] ?? 'Hymne Sekolah Robbani' }}</h2>
             </div>
         </div>
 
         @if(!empty($hymneMars['hymne_subtitle']))
-        <div class="bg-amber-50/70 rounded-2xl p-4 border border-amber-200/80 space-y-1">
-            <span class="text-xs font-bold text-amber-900 block flex items-center gap-1.5">
+        <div class="bg-amber-50/70 dark:bg-slate-800/80 rounded-2xl p-4 border border-amber-200/80 dark:border-slate-700 space-y-1">
+            <span class="text-xs font-bold text-amber-900 dark:text-amber-300 block flex items-center gap-1.5">
                 <i class="fa-solid fa-heart text-amber-600"></i>
                 <span>Nilai Luhur &amp; Karakter Robbani</span>
             </span>
-            <p class="text-xs text-amber-800 font-light leading-relaxed">
+            <p class="text-xs text-amber-800 dark:text-amber-200/90 font-light leading-relaxed">
                 {{ $hymneMars['hymne_subtitle'] }}
             </p>
         </div>
         @endif
 
-        <div class="prose-content text-xs sm:text-sm text-gray-700 leading-relaxed font-serif space-y-4 text-center py-4 bg-gradient-to-b from-amber-50/20 to-transparent p-5 rounded-2xl border border-amber-50">
+        <div class="prose-content text-xs sm:text-sm text-gray-700 dark:text-slate-200 leading-relaxed font-serif space-y-4 text-center py-4 bg-gradient-to-b from-amber-50/20 to-transparent dark:from-slate-800/50 dark:to-transparent p-5 rounded-2xl border border-amber-50 dark:border-slate-800">
             <div class="prose max-w-none text-slate-800 font-medium leading-relaxed">
                 {!! nl2br(e($hymneMars['hymne_lyrics'] ?? '')) !!}
             </div>

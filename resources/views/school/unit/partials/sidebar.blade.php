@@ -52,13 +52,13 @@
     </div>
 
     {{-- CARD 2: AGENDA TERDEKAT / AKADEMIK --}}
-    <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 reveal-fade-up delay-1">
-        <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
-            <h3 class="font-extrabold text-sm sm:text-base text-gray-900 tracking-tight flex items-center gap-2">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-xl border border-gray-100 dark:border-slate-800 reveal-fade-up delay-1">
+        <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-slate-800 mb-5">
+            <h3 class="font-extrabold text-sm sm:text-base text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
                 <i class="fa-solid fa-calendar-check text-unit-primary"></i>
                 <span>Agenda Terdekat</span>
             </h3>
-            <a href="{{ url('/unit/' . $codeLower . '#agenda') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1">
+            <a href="{{ url('/unit/' . $codeLower . '#agenda') }}" class="text-xs font-bold text-blue-600 dark:text-cyan-400 hover:underline transition flex items-center gap-1">
                 <span>Lihat Semua</span>
                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
             </a>
@@ -66,16 +66,16 @@
 
         <div class="space-y-4">
             @forelse($sidebarAgendas as $agenda)
-                <div class="flex items-start space-x-3.5 p-3 rounded-2xl bg-gray-50/70 border border-gray-100 hover:border-indigo-200 transition">
-                    <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-700 border border-cyan-200/60 flex flex-col items-center justify-center flex-shrink-0 leading-none shadow-sm">
-                        <span class="text-xs font-black">{{ $agenda['date_day'] ?? '15' }}</span>
-                        <span class="text-[9px] font-extrabold uppercase mt-0.5 tracking-wider">{{ $agenda['date_month'] ?? 'JUL' }}</span>
+                <div class="flex items-start space-x-3.5 p-3 rounded-2xl bg-gray-50/70 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700/60 hover:border-indigo-200 transition">
+                    <div class="min-w-[62px] px-2 py-2 rounded-xl bg-cyan-50 dark:bg-slate-900 text-cyan-700 dark:text-cyan-300 border border-cyan-200/60 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 leading-tight shadow-sm text-center">
+                        <span class="text-xs font-black whitespace-nowrap">{{ $agenda['date_day'] ?? '15' }}</span>
+                        <span class="text-[9px] font-extrabold uppercase mt-0.5 tracking-tight text-amber-600 dark:text-amber-400 whitespace-nowrap">{{ $agenda['date_month'] ?? 'JUL' }}</span>
                     </div>
                     <div class="space-y-1 min-w-0 flex-1">
-                        <h4 class="text-xs font-bold text-gray-900 leading-snug line-clamp-2">
+                        <h4 class="text-xs font-bold text-gray-900 dark:text-white leading-snug line-clamp-2">
                             {{ $agenda['title'] }}
                         </h4>
-                        <p class="text-[10px] text-gray-500 flex items-center gap-1">
+                        <p class="text-[10px] text-gray-500 dark:text-slate-400 flex items-center gap-1">
                             <i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i>
                             <span class="truncate">{{ $agenda['location'] ?? 'Kampus Sekolah' }}</span>
                         </p>

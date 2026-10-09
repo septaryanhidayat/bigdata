@@ -75,12 +75,12 @@
 
                 {{-- VARIAN LOGO PREVIEW --}}
                 <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200/80 text-center">
+                    <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200/80 dark:border-slate-700 text-center">
                         <div class="h-24 flex items-center justify-center mb-2">
                             <img src="{{ $logoSrc }}" alt="Full Color" class="max-h-16 object-contain">
                         </div>
-                        <h4 class="text-xs font-bold text-gray-900">Varian Full Color</h4>
-                        <p class="text-[11px] text-gray-500 mt-0.5">Penggunaan utama kop surat &amp; publikasi resmi</p>
+                        <h4 class="text-xs font-bold text-gray-900 dark:text-white">Varian Full Color</h4>
+                        <p class="text-[11px] text-gray-500 dark:text-slate-400 mt-0.5">Penggunaan utama kop surat &amp; publikasi resmi</p>
                     </div>
 
                     <div class="p-4 rounded-2xl bg-gray-900 border border-gray-800 text-center text-white">
@@ -91,23 +91,23 @@
                         <p class="text-[11px] text-gray-400 mt-0.5">Khusus latar belakang gelap &amp; media digital</p>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70 text-center">
+                    <div class="p-4 rounded-2xl bg-amber-50/50 dark:bg-slate-800/80 border border-amber-200/70 dark:border-slate-700 text-center">
                         <div class="h-24 flex items-center justify-center mb-2">
                             <i class="fa-solid fa-shield-halved text-4xl text-amber-500"></i>
                         </div>
-                        <h4 class="text-xs font-bold text-gray-900">Crest / Lencana Badge</h4>
-                        <p class="text-[11px] text-gray-500 mt-0.5">Emblem seragam siswa &amp; bendera institusi</p>
+                        <h4 class="text-xs font-bold text-gray-900 dark:text-white">Crest / Lencana Badge</h4>
+                        <p class="text-[11px] text-gray-500 dark:text-slate-400 mt-0.5">Emblem seragam siswa &amp; bendera institusi</p>
                     </div>
                 </div>
             </div>
 
             {{-- FILOSOFI & MAKNA ELEMEN LAMBANG --}}
-            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 reveal-fade-up">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 dark:border-slate-800 reveal-fade-up">
                 <div class="mb-6">
-                    <span class="text-xs font-black uppercase tracking-wider text-unit-primary block mb-1">
+                    <span class="text-xs font-black uppercase tracking-wider text-unit-primary dark:text-cyan-400 block mb-1">
                         Filosofi Komponen
                     </span>
-                    <h3 class="text-lg sm:text-2xl font-extrabold text-gray-900 tracking-tight">
+                    <h3 class="text-lg sm:text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                         Makna Setiap Unsur Lambang
                     </h3>
                     <div class="w-16 h-1 bg-unit-primary rounded-full mt-2"></div>
@@ -115,13 +115,13 @@
 
                 <div class="space-y-4">
                     @foreach($logoInfo['components'] ?? [] as $comp)
-                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-indigo-200 transition">
+                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 hover:border-indigo-200 transition">
                         <div class="w-10 h-10 rounded-xl {{ $comp['color_class'] ?? 'bg-indigo-100 text-indigo-700' }} flex items-center justify-center font-bold text-sm shrink-0">
                             <i class="{{ $comp['icon'] ?? 'fa-solid fa-shapes' }}"></i>
                         </div>
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900">{{ $comp['title'] ?? '' }}</h4>
-                            <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white">{{ $comp['title'] ?? '' }}</h4>
+                            <p class="text-xs text-gray-600 dark:text-slate-300 mt-1 leading-relaxed">
                                 {{ $comp['desc'] ?? '' }}
                             </p>
                         </div>
@@ -131,12 +131,12 @@
             </div>
 
             {{-- PALET WARNA IDENTITAS RESMI --}}
-            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 reveal-fade-up">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 dark:border-slate-800 reveal-fade-up">
                 <div class="mb-6">
-                    <span class="text-xs font-black uppercase tracking-wider text-unit-primary block mb-1">
+                    <span class="text-xs font-black uppercase tracking-wider text-unit-primary dark:text-cyan-400 block mb-1">
                         Pedoman Identitas Visual
                     </span>
-                    <h3 class="text-lg sm:text-2xl font-extrabold text-gray-900 tracking-tight">
+                    <h3 class="text-lg sm:text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                         Palet Warna Resmi Unit
                     </h3>
                     <div class="w-16 h-1 bg-unit-primary rounded-full mt-2"></div>
@@ -144,32 +144,32 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {{-- COLOR 1: UNIT PRIMARY --}}
-                    <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="border border-gray-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm">
                         <div class="h-20" style="background-color: {{ $uTheme['primary'] }};"></div>
-                        <div class="p-4 bg-white space-y-1">
-                            <h4 class="text-xs font-extrabold text-gray-900 uppercase">Warna Utama Unit</h4>
-                            <p class="text-[11px] text-gray-500 font-mono">HEX: {{ $uTheme['primary'] }}</p>
-                            <span class="inline-block text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-medium">Karakter &amp; Identitas Pokok</span>
+                        <div class="p-4 bg-white dark:bg-slate-800 space-y-1">
+                            <h4 class="text-xs font-extrabold text-gray-900 dark:text-white uppercase">Warna Utama Unit</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-slate-400 font-mono">HEX: {{ $uTheme['primary'] }}</p>
+                            <span class="inline-block text-[10px] px-2 py-0.5 rounded bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 font-medium">Karakter &amp; Identitas Pokok</span>
                         </div>
                     </div>
 
                     {{-- COLOR 2: ACCENT GOLD --}}
-                    <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="border border-gray-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm">
                         <div class="h-20 bg-amber-500"></div>
-                        <div class="p-4 bg-white space-y-1">
-                            <h4 class="text-xs font-extrabold text-gray-900 uppercase">Robbani Gold</h4>
-                            <p class="text-[11px] text-gray-500 font-mono">HEX: #f59e0b</p>
-                            <span class="inline-block text-[10px] px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-medium">Keagungan &amp; Prestasi</span>
+                        <div class="p-4 bg-white dark:bg-slate-800 space-y-1">
+                            <h4 class="text-xs font-extrabold text-gray-900 dark:text-white uppercase">Robbani Gold</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-slate-400 font-mono">HEX: #f59e0b</p>
+                            <span class="inline-block text-[10px] px-2 py-0.5 rounded bg-amber-50 dark:bg-slate-700 text-amber-700 dark:text-amber-300 font-medium">Keagungan &amp; Prestasi</span>
                         </div>
                     </div>
 
                     {{-- COLOR 3: NAVY DEEP --}}
-                    <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="border border-gray-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm">
                         <div class="h-20 bg-indigo-950"></div>
-                        <div class="p-4 bg-white space-y-1">
-                            <h4 class="text-xs font-extrabold text-gray-900 uppercase">Deep Navy</h4>
-                            <p class="text-[11px] text-gray-500 font-mono">HEX: #1e1b4b</p>
-                            <span class="inline-block text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-medium">Integritas &amp; Keteguhan</span>
+                        <div class="p-4 bg-white dark:bg-slate-800 space-y-1">
+                            <h4 class="text-xs font-extrabold text-gray-900 dark:text-white uppercase">Deep Navy</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-slate-400 font-mono">HEX: #1e1b4b</p>
+                            <span class="inline-block text-[10px] px-2 py-0.5 rounded bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 font-medium">Integritas &amp; Keteguhan</span>
                         </div>
                     </div>
                 </div>

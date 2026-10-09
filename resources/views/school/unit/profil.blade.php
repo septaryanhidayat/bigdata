@@ -189,20 +189,20 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             {{-- Kartu Visi --}}
-            <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 space-y-4">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-slate-800 space-y-4">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-slate-50 text-unit-primary flex items-center justify-center text-lg shadow-inner">
+                    <div class="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 text-unit-primary dark:text-cyan-300 flex items-center justify-center text-lg shadow-inner">
                         <i class="fa-solid fa-compass"></i>
                     </div>
-                    <h3 class="text-lg font-extrabold text-gray-900">Visi Sekolah</h3>
+                    <h3 class="text-lg font-extrabold text-gray-900 dark:text-white">Visi Sekolah</h3>
                 </div>
-                <div class="bg-gradient-to-r from-indigo-50/70 to-white p-5 rounded-2xl border-l-4 border-unit-primary">
-                    <p class="text-sm font-semibold text-gray-900 leading-relaxed font-serif italic">
+                <div class="bg-gradient-to-r from-indigo-50/70 to-white dark:from-slate-800 dark:to-slate-800/90 p-5 rounded-2xl border-l-4 border-unit-primary dark:border-amber-400">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-amber-200 leading-relaxed font-serif italic">
                         “{{ $info['vision'] }}”
                     </p>
                 </div>
                 <div>
-                    <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="text-xs font-bold text-unit-primary hover:text-unit-primary transition flex items-center gap-1">
+                    <a href="{{ url('/unit/' . $codeLower . '/visi-misi') }}" class="text-xs font-bold text-unit-primary dark:text-cyan-400 hover:underline transition flex items-center gap-1">
                         <span>Baca Visi &amp; Misi Lengkap</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
@@ -210,12 +210,12 @@
             </div>
 
             {{-- Kartu Misi Utama --}}
-            <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 space-y-4">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-slate-800 space-y-4">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg shadow-inner">
+                    <div class="w-10 h-10 rounded-xl bg-orange-50 dark:bg-slate-800 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg shadow-inner">
                         <i class="fa-solid fa-list-check"></i>
                     </div>
-                    <h3 class="text-lg font-extrabold text-gray-900">Misi Utama</h3>
+                    <h3 class="text-lg font-extrabold text-gray-900 dark:text-white">Misi Utama</h3>
                 </div>
                 <ul class="text-xs text-gray-600 space-y-2.5">
                     @foreach(array_slice($info['missions'] ?? [], 0, 4) as $idx => $m)
@@ -468,21 +468,21 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                 {{-- Kolom Agenda --}}
-                <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 space-y-4">
-                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2 pb-3 border-b border-gray-100">
-                        <i class="fa-solid fa-calendar-days text-unit-primary"></i>
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 dark:border-slate-800 space-y-4">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 dark:text-white flex items-center gap-2 pb-3 border-b border-gray-100 dark:border-slate-800">
+                        <i class="fa-solid fa-calendar-days text-unit-primary dark:text-cyan-400"></i>
                         <span>Kalender &amp; Agenda Kegiatan</span>
                     </h3>
                     <div class="space-y-3">
                         @foreach(array_slice($unitAgendas ?? [], 0, 6) as $ag)
-                            <div class="flex items-start space-x-3.5 p-3 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-indigo-200 transition">
-                                <div class="w-11 h-11 rounded-xl bg-slate-50 text-unit-primary border border-indigo-200/60 flex flex-col items-center justify-center shrink-0">
-                                    <span class="text-xs font-black">{{ $ag['date_day'] ?? '15' }}</span>
-                                    <span class="text-[8px] font-black uppercase tracking-wider">{{ $ag['date_month'] ?? 'AGU' }}</span>
+                            <div class="flex items-start space-x-3.5 p-3 rounded-2xl bg-gray-50/80 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700/60 hover:border-indigo-200 transition">
+                                <div class="min-w-[62px] px-2 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 text-unit-primary dark:text-amber-300 border border-indigo-200/60 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 leading-tight text-center shadow-sm">
+                                    <span class="text-xs font-black whitespace-nowrap">{{ $ag['date_day'] ?? '15' }}</span>
+                                    <span class="text-[9px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 whitespace-nowrap">{{ $ag['date_month'] ?? 'AGU' }}</span>
                                 </div>
                                 <div class="space-y-0.5 min-w-0 flex-1">
-                                    <h4 class="text-xs font-bold text-gray-900 line-clamp-1">{{ $ag['title'] }}</h4>
-                                    <p class="text-[10px] text-gray-500 flex items-center gap-1 truncate">
+                                    <h4 class="text-xs font-bold text-gray-900 dark:text-white line-clamp-1">{{ $ag['title'] }}</h4>
+                                    <p class="text-[10px] text-gray-500 dark:text-slate-400 flex items-center gap-1 truncate">
                                         <i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i>
                                         <span>{{ $ag['location'] ?? 'Kampus Sekolah' }}</span>
                                     </p>
@@ -493,18 +493,18 @@
                 </div>
 
                 {{-- Kolom Pengumuman --}}
-                <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 space-y-4">
-                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2 pb-3 border-b border-gray-100">
-                        <i class="fa-solid fa-bullhorn text-unit-primary"></i>
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100 dark:border-slate-800 space-y-4">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 dark:text-white flex items-center gap-2 pb-3 border-b border-gray-100 dark:border-slate-800">
+                        <i class="fa-solid fa-bullhorn text-unit-primary dark:text-cyan-400"></i>
                         <span>Pengumuman Resmi Sekolah</span>
                     </h3>
                     <div class="space-y-3">
                         @foreach(array_slice($unitAnnouncements ?? [], 0, 5) as $an)
-                            <div class="p-3.5 rounded-2xl bg-slate-50/60 border border-indigo-100 space-y-1">
-                                <span class="text-[9px] font-bold text-unit-primary uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
-                                <h4 class="text-xs font-bold text-gray-900">{{ $an['title'] }}</h4>
+                            <div class="p-3.5 rounded-2xl bg-slate-50/60 dark:bg-slate-800/80 border border-indigo-100 dark:border-slate-700 space-y-1">
+                                <span class="text-[9px] font-bold text-unit-primary dark:text-cyan-300 uppercase">{{ $an['category'] ?? 'Pengumuman' }} &bull; {{ $an['date'] ?? 'Terbaru' }}</span>
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white">{{ $an['title'] }}</h4>
                                 @if(!empty($an['summary']))
-                                    <p class="text-[11px] text-gray-600 leading-relaxed">{{ $an['summary'] }}</p>
+                                    <p class="text-[11px] text-gray-600 dark:text-slate-300 leading-relaxed">{{ $an['summary'] }}</p>
                                 @endif
                             </div>
                         @endforeach

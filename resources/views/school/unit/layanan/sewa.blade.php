@@ -64,16 +64,16 @@
         
         {{-- FORM COLUMN (8/12) --}}
         <div class="lg:col-span-8">
-            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 reveal-fade-up">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 dark:border-slate-800 reveal-fade-up">
                 
-                <div class="border-b border-gray-100 pb-5 mb-6">
-                    <span class="text-xs font-black uppercase tracking-wider text-amber-600 block mb-1">
+                <div class="border-b border-gray-100 dark:border-slate-800 pb-5 mb-6">
+                    <span class="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 block mb-1">
                         Pemanfaatan Sarana Prasarana
                     </span>
-                    <h2 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+                    <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight">
                         Formulir Peminjaman &amp; Sewa Sarana
                     </h2>
-                    <p class="text-xs text-gray-500 mt-1">
+                    <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">
                         Pastikan tanggal dan waktu yang diajukan tidak berbenturan dengan agenda utama kegiatan siswa.
                     </p>
                 </div>
@@ -83,40 +83,40 @@
 
                     {{-- NAMA PENYEWA / LEMBAGA --}}
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                        <label class="block text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
                             Nama Pemohon / Lembaga Penyelenggara <span class="text-rose-500">*</span>
                         </label>
                         <input type="text" name="nama_penyewa" value="{{ old('nama_penyewa') }}" required
                                placeholder="Contoh: Panitia Kajian Akbar Ogan Ilir / Bpk. Rahmat Fauzi"
-                               class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
                     </div>
 
                     {{-- NO HP & TANGGAL PENGGUNAAN --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                            <label class="block text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
                                 No. WhatsApp / HP Penanggung Jawab <span class="text-rose-500">*</span>
                             </label>
                             <input type="tel" name="no_hp" value="{{ old('no_hp') }}" required
                                    placeholder="Contoh: 081234567890"
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                            <label class="block text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
                                 Rencana Tanggal Penggunaan <span class="text-rose-500">*</span>
                             </label>
                             <input type="date" name="tgl_sewa" value="{{ old('tgl_sewa') }}" required
-                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
                         </div>
                     </div>
 
                     {{-- FASILITAS YANG DISEWA --}}
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                        <label class="block text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
                             Fasilitas / Sarana yang Dimohon <span class="text-rose-500">*</span>
                         </label>
                         <select name="fasilitas_disewa" required
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
                             <option value="">-- Pilih Fasilitas / Sarana --</option>
                             <option value="Aula Serbaguna Utama" {{ old('fasilitas_disewa') == 'Aula Serbaguna Utama' ? 'selected' : '' }}>Aula Serbaguna Utama (Kapasitas 300+ Orang, Full AC &amp; Sound)</option>
                             <option value="Lapangan Olahraga Futsal & Basket" {{ old('fasilitas_disewa') == 'Lapangan Olahraga Futsal & Basket' ? 'selected' : '' }}>Lapangan Olahraga Terbuka (Futsal, Basket, Voli &amp; Panahan)</option>
@@ -129,27 +129,27 @@
 
                     {{-- KEPERLUAN ACARA --}}
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                        <label class="block text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
                             Deskripsi Rangkaian Acara / Keperluan <span class="text-rose-500">*</span>
                         </label>
                         <textarea name="keperluan" rows="4" required
                                   placeholder="Jelaskan jenis kegiatan, susunan jadwal dari jam berapa sampai jam berapa, serta estimasi jumlah hadirin..."
-                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition">{{ old('keperluan') }}</textarea>
+                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">{{ old('keperluan') }}</textarea>
                     </div>
 
                     {{-- UPLOAD SURAT / IDENTITAS --}}
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                        <label class="block text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
                             Unggah Surat Permohonan / Salinan KTP Penanggung Jawab
                         </label>
                         <input type="file" name="file_dokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-600 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-600 file:text-white hover:file:opacity-90">
-                        <span class="text-[11px] text-gray-400 mt-1 block">Format: PDF, DOC, DOCX, JPG, PNG (Maksimal 10 MB).</span>
+                               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800 text-xs text-gray-600 dark:text-slate-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-600 file:text-white hover:file:opacity-90">
+                        <span class="text-[11px] text-gray-400 dark:text-slate-400 mt-1 block">Format: PDF, DOC, DOCX, JPG, PNG (Maksimal 10 MB).</span>
                     </div>
 
                     {{-- SUBMIT BUTTON --}}
-                    <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="text-[11px] text-gray-500">
+                    <div class="pt-4 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-[11px] text-gray-500 dark:text-slate-400">
                             <i class="fa-solid fa-shield-halved text-amber-600 mr-1"></i> Penggunaan sarana wajib menjunjung adab Islami.
                         </div>
                         <button type="submit" 
@@ -168,45 +168,45 @@
         <div class="lg:col-span-4 space-y-6">
             
             {{-- TATA TERTIB PENGGUNAAN SARANA --}}
-            <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 reveal-fade-up">
-                <h3 class="text-xs font-black uppercase tracking-wider text-amber-600 mb-4 flex items-center gap-2">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-xl border border-gray-100 dark:border-slate-800 reveal-fade-up">
+                <h3 class="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-list-check"></i>
                     Ketentuan &amp; Tata Tertib Sarana
                 </h3>
-                <ul class="space-y-3 text-xs text-gray-600">
+                <ul class="space-y-3 text-xs text-gray-600 dark:text-slate-300">
                     <li class="flex items-start gap-2.5">
                         <i class="fa-solid fa-ban text-rose-500 mt-0.5 shrink-0"></i>
-                        <span><strong>Kawasan Bebas Asap Rokok:</strong> Dilarang keras merokok dan membawa rokok/vape di seluruh area kampus.</span>
+                        <span><strong class="text-gray-900 dark:text-white">Kawasan Bebas Asap Rokok:</strong> Dilarang keras merokok dan membawa rokok/vape di seluruh area kampus.</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-vest text-unit-primary mt-0.5 shrink-0"></i>
-                        <span><strong>Adab &amp; Busana Islami:</strong> Panitia dan hadirin wajib berpakaian sopan dan menutup aurat.</span>
+                        <i class="fa-solid fa-vest text-unit-primary dark:text-cyan-400 mt-0.5 shrink-0"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Adab &amp; Busana Islami:</strong> Panitia dan hadirin wajib berpakaian sopan dan menutup aurat.</span>
                     </li>
                     <li class="flex items-start gap-2.5">
                         <i class="fa-solid fa-trash-can text-emerald-600 mt-0.5 shrink-0"></i>
-                        <span><strong>Kebersihan &amp; Ketertiban:</strong> Pengguna wajib membuang sampah pada tempatnya dan menjaga fasilitas tetap utuh.</span>
+                        <span><strong class="text-gray-900 dark:text-white">Kebersihan &amp; Ketertiban:</strong> Pengguna wajib membuang sampah pada tempatnya dan menjaga fasilitas tetap utuh.</span>
                     </li>
                     <li class="flex items-start gap-2.5">
                         <i class="fa-solid fa-clock text-amber-600 mt-0.5 shrink-0"></i>
-                        <span><strong>Waktu Acara:</strong> Kegiatan malam maksimal selesai pukul 22.00 WIB untuk menjaga kenyamanan siswa asrama.</span>
+                        <span><strong class="text-gray-900 dark:text-white">Waktu Acara:</strong> Kegiatan malam maksimal selesai pukul 22.00 WIB untuk menjaga kenyamanan siswa asrama.</span>
                     </li>
                 </ul>
             </div>
 
             {{-- TAUTAN LAYANAN LAINNYA --}}
-            <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 reveal-fade-up">
-                <h4 class="text-xs font-black uppercase tracking-wider text-unit-primary mb-4">Layanan Terkait</h4>
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-xl border border-gray-100 dark:border-slate-800 reveal-fade-up">
+                <h4 class="text-xs font-black uppercase tracking-wider text-unit-primary dark:text-cyan-400 mb-4">Layanan Terkait</h4>
                 <div class="space-y-2 text-xs font-bold">
-                    <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-unit-primary transition">
+                    <a href="{{ url('/unit/' . $codeLower . '/layanan/kunjungan') }}" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-unit-primary dark:hover:text-cyan-400 transition">
                         <span><i class="fa-solid fa-school-flag mr-2 text-blue-600"></i> Izin Kunjungan Sekolah</span>
                         <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
                     </a>
-                    <a href="{{ url('/unit/' . $codeLower . '/layanan/kerjasama') }}" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-unit-primary transition">
+                    <a href="{{ url('/unit/' . $codeLower . '/layanan/kerjasama') }}" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-unit-primary dark:hover:text-cyan-400 transition">
                         <span><i class="fa-solid fa-handshake-angle mr-2 text-emerald-600"></i> Permohonan Kerja Sama</span>
                         <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
                     </a>
-                    <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-unit-primary transition">
-                        <span><i class="fa-solid fa-building-circle-check mr-2 text-unit-primary"></i> Daftar Fasilitas Kampus</span>
+                    <a href="{{ url('/unit/' . $codeLower . '/fasilitas') }}" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-unit-primary dark:hover:text-cyan-400 transition">
+                        <span><i class="fa-solid fa-building-circle-check mr-2 text-unit-primary dark:text-cyan-400"></i> Daftar Fasilitas Kampus</span>
                         <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
                     </a>
                 </div>

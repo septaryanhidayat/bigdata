@@ -185,15 +185,15 @@
 
     {{-- BOTTOM CALLOUT & SERVICE HUB CARDS --}}
     <div class="mt-14 sm:mt-18 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-xl flex flex-col justify-between space-y-4">
+        <div class="bg-gradient-to-br from-white to-gray-50 dark:from-slate-900 dark:to-slate-900 rounded-3xl p-6 sm:p-8 border border-gray-200 dark:border-slate-800 shadow-xl flex flex-col justify-between space-y-4">
             <div class="space-y-2">
-                <div class="w-12 h-12 rounded-2xl bg-slate-50 text-unit-primary flex items-center justify-center text-xl shadow-inner">
+                <div class="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 text-unit-primary dark:text-cyan-300 flex items-center justify-center text-xl shadow-inner">
                     <i class="fa-solid fa-building-columns"></i>
                 </div>
-                <h3 class="text-lg sm:text-xl font-black text-gray-900">
+                <h3 class="text-lg sm:text-xl font-black text-gray-900 dark:text-white">
                     Peminjaman &amp; Sewa Sarana Gedung
                 </h3>
-                <p class="text-xs text-gray-600 leading-relaxed">
+                <p class="text-xs text-gray-600 dark:text-slate-300 leading-relaxed">
                     Masyarakat, alumni, dan instansi mitra dapat mengajukan permohonan penggunaan sarana prasarana sekolah untuk kegiatan positif.
                 </p>
             </div>

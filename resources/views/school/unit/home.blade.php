@@ -724,32 +724,32 @@
             ];
         @endphp
 
-        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 flex flex-col justify-between h-full space-y-5 reveal-fade-up">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 dark:border-slate-800 flex flex-col justify-between h-full space-y-5 reveal-fade-up">
             <div class="space-y-4">
-                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
-                        <i class="fa-solid fa-bullhorn text-unit-primary"></i>
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-slate-800">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bullhorn text-unit-primary dark:text-cyan-400"></i>
                         <span>Pengumuman Resmi</span>
                     </h3>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-unit-primary bg-slate-100 px-2.5 py-1 rounded-full">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-unit-primary dark:text-cyan-300 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
                         Warta Kampus
                     </span>
                 </div>
                 <div class="space-y-3">
                     @foreach($displayAnnouncements as $idx => $an)
                         <div @click="activeAnnouncement = {{ Js::from($an) }}" 
-                             class="p-4 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-amber-400 transition cursor-pointer group space-y-1.5">
-                            <div class="flex items-center justify-between text-[10px] font-bold text-unit-primary uppercase">
+                             class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 hover:border-amber-400 transition cursor-pointer group space-y-1.5">
+                            <div class="flex items-center justify-between text-[10px] font-bold text-unit-primary dark:text-cyan-300 uppercase">
                                 <span>{{ $an['category'] ?? 'Pengumuman' }}</span>
                                 <span class="text-slate-400 font-normal">{{ $an['date'] ?? 'Terbaru' }}</span>
                             </div>
-                            <h4 class="text-xs font-bold text-gray-900 group-hover:text-unit-primary transition line-clamp-2">
+                            <h4 class="text-xs font-bold text-gray-900 dark:text-white group-hover:text-unit-primary dark:group-hover:text-cyan-400 transition line-clamp-2">
                                 {{ $an['title'] }}
                             </h4>
-                            <p class="text-[11px] text-gray-500 line-clamp-2 font-light text-justify">
+                            <p class="text-[11px] text-gray-500 dark:text-slate-300 line-clamp-2 font-light text-justify">
                                 {{ $an['summary'] ?? ($an['desc'] ?? 'Pemberitahuan resmi dari pihak sekolah.') }}
                             </p>
-                            <div class="pt-1 flex items-center text-[10px] font-bold text-unit-primary group-hover:underline">
+                            <div class="pt-1 flex items-center text-[10px] font-bold text-unit-primary dark:text-cyan-400 group-hover:underline">
                                 <span>Lihat Detail Pengumuman</span>
                                 <i class="fa-solid fa-chevron-right text-[8px] ml-1"></i>
                             </div>
@@ -757,9 +757,9 @@
                     @endforeach
                 </div>
             </div>
-            <div class="pt-4 border-t border-gray-100">
+            <div class="pt-4 border-t border-gray-100 dark:border-slate-800">
                 <a href="{{ url('/unit/' . $codeLower . '/pengumuman') }}" 
-                   class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-2xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-gray-800 transition">
+                   class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-2xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition">
                     <span>Lihat Semua Pengumuman</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
@@ -767,27 +767,27 @@
         </div>
 
         {{-- KOLOM AGENDA AKADEMIK (SEJAJAR DI BATAS BAWAH) --}}
-        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 flex flex-col justify-between h-full space-y-5 reveal-fade-up delay-1">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 shadow-xl border border-gray-100 dark:border-slate-800 flex flex-col justify-between h-full space-y-5 reveal-fade-up delay-1">
             <div class="space-y-4">
-                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-unit-primary"></i>
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-slate-800">
+                    <h3 class="text-sm sm:text-base font-extrabold text-gray-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-unit-primary dark:text-cyan-400"></i>
                         <span>Agenda Kegiatan</span>
                     </h3>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-slate-800 px-2.5 py-1 rounded-full">
                         Jadwal Akademik
                     </span>
                 </div>
                 <div class="space-y-3">
                     @foreach($agendas as $ag)
-                        <div class="flex items-start space-x-3.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-400 transition">
-                            <div class="w-12 h-12 rounded-xl bg-white text-unit-primary border border-slate-200 shadow-sm flex flex-col items-center justify-center shrink-0">
-                                <span class="text-xs font-black">{{ $ag['date_day'] ?? '15' }}</span>
-                                <span class="text-[9px] font-extrabold uppercase mt-0.5 tracking-wider text-amber-600">{{ $ag['date_month'] ?? 'JUL' }}</span>
+                        <div class="flex items-start space-x-3.5 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 hover:border-amber-400 transition">
+                            <div class="min-w-[64px] px-2 py-2 rounded-xl bg-white dark:bg-slate-900 text-unit-primary dark:text-amber-300 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center shrink-0 leading-tight text-center">
+                                <span class="text-xs font-black whitespace-nowrap">{{ $ag['date_day'] ?? '15' }}</span>
+                                <span class="text-[9px] font-extrabold uppercase mt-0.5 tracking-tight text-amber-600 dark:text-amber-400 whitespace-nowrap">{{ $ag['date_month'] ?? 'JUL' }}</span>
                             </div>
                             <div class="space-y-1 min-w-0 flex-1">
-                                <h4 class="text-xs font-bold text-gray-900 line-clamp-1">{{ $ag['title'] }}</h4>
-                                <p class="text-[10px] text-gray-500 flex items-center gap-1 truncate">
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white line-clamp-1">{{ $ag['title'] }}</h4>
+                                <p class="text-[10px] text-gray-500 dark:text-slate-400 flex items-center gap-1 truncate">
                                     <i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i>
                                     <span>{{ $ag['location'] ?? 'Kampus Sekolah' }}</span>
                                 </p>
@@ -796,9 +796,9 @@
                     @endforeach
                 </div>
             </div>
-            <div class="pt-4 border-t border-gray-100">
+            <div class="pt-4 border-t border-gray-100 dark:border-slate-800">
                 <a href="{{ url('/unit/' . $codeLower . '/agenda') }}" 
-                   class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-2xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-gray-800 transition">
+                   class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-2xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition">
                     <span>Lihat Semua Agenda</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
@@ -818,10 +818,10 @@
          class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
          style="display: none;"
          @keydown.escape.window="activeAnnouncement = null">
-        <div class="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 p-6 sm:p-8 space-y-4" @click.outside="activeAnnouncement = null">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div class="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-slate-800 p-6 sm:p-8 space-y-4" @click.outside="activeAnnouncement = null">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-slate-800">
                 <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-unit-primary text-white" x-text="activeAnnouncement?.category || 'Pengumuman Resmi'"></span>
-                <button @click="activeAnnouncement = null" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center text-sm transition cursor-pointer">
+                <button @click="activeAnnouncement = null" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-500 dark:text-slate-300 flex items-center justify-center text-sm transition cursor-pointer">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -830,14 +830,14 @@
                     <i class="fa-regular fa-calendar-check"></i>
                     <span x-text="activeAnnouncement?.date || 'Terbaru'"></span>
                 </span>
-                <h3 class="text-base sm:text-lg font-black text-gray-900 leading-snug" x-text="activeAnnouncement?.title"></h3>
-                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light text-justify pt-1" x-text="activeAnnouncement?.summary || activeAnnouncement?.desc"></p>
+                <h3 class="text-base sm:text-lg font-black text-gray-900 dark:text-white leading-snug" x-text="activeAnnouncement?.title"></h3>
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed font-light text-justify pt-1" x-text="activeAnnouncement?.summary || activeAnnouncement?.desc"></p>
             </div>
-            <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-                <a :href="'{{ url('/unit/' . $codeLower . '/pengumuman') }}'" class="text-xs font-bold text-unit-primary hover:underline">
+            <div class="pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+                <a :href="'{{ url('/unit/' . $codeLower . '/pengumuman') }}'" class="text-xs font-bold text-unit-primary dark:text-cyan-400 hover:underline">
                     Buka Halaman Pengumuman &rarr;
                 </a>
-                <button @click="activeAnnouncement = null" class="px-5 py-2 rounded-full text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 transition cursor-pointer">
+                <button @click="activeAnnouncement = null" class="px-5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition cursor-pointer">
                     Tutup
                 </button>
             </div>

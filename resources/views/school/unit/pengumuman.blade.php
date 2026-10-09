@@ -47,15 +47,15 @@
         <div class="lg:col-span-8 space-y-6">
             
             {{-- SEARCH & FILTER BAR --}}
-            <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="relative w-full sm:w-80">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
                     <input type="text" 
                            x-model="search" 
                            placeholder="Cari pengumuman..." 
-                           class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 bg-gray-50 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                           class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
-                <span class="text-xs text-gray-500 font-semibold self-end sm:self-auto">
+                <span class="text-xs text-gray-500 dark:text-slate-400 font-semibold self-end sm:self-auto">
                     {{ count($announcementList) }} Warta Resmi
                 </span>
             </div>
@@ -67,37 +67,37 @@
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0"
-                         class="bg-white rounded-3xl p-5 sm:p-7 shadow-md hover:shadow-xl hover:border-indigo-200 border border-gray-100 transition duration-300 space-y-3 group">
+                         class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-7 shadow-md hover:shadow-xl hover:border-indigo-200 dark:hover:border-slate-700 border border-gray-100 dark:border-slate-800 transition duration-300 space-y-3 group">
                         
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div class="flex items-center space-x-2">
-                                <span class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xs shadow-inner">
+                                <span class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-slate-800 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs shadow-inner">
                                     <i class="fa-solid fa-bullhorn"></i>
                                 </span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-indigo-50 text-unit-primary border border-indigo-100">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-indigo-50 dark:bg-slate-800 text-unit-primary dark:text-cyan-300 border border-indigo-100 dark:border-slate-700">
                                     {{ $an['category'] ?? 'Pengumuman Resmi' }}
                                 </span>
                             </div>
-                            <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1">
+                            <span class="text-[11px] text-gray-400 dark:text-slate-400 font-medium flex items-center gap-1">
                                 <i class="fa-regular fa-clock text-[10px]"></i>
                                 <span>{{ $an['date'] ?? '18 Sep 2026' }}</span>
                             </span>
                         </div>
 
-                        <h3 class="text-base sm:text-lg font-black text-gray-900 group-hover:text-unit-primary transition leading-snug">
+                        <h3 class="text-base sm:text-lg font-black text-gray-900 dark:text-white group-hover:text-unit-primary dark:group-hover:text-cyan-400 transition leading-snug">
                             {{ $an['title'] }}
                         </h3>
 
-                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light text-justify">
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed font-light text-justify">
                             {{ $an['summary'] ?? ($an['desc'] ?? 'Pemberitahuan resmi dari pihak sekolah untuk seluruh wali murid, guru, dan peserta didik.') }}
                         </p>
 
-                        <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-                            <span class="text-[10px] text-gray-400 font-medium">
+                        <div class="pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-[10px] text-gray-400 dark:text-slate-400 font-medium">
                                 Unit: {{ $info['name'] }}
                             </span>
                             <a href="{{ $an['link'] ?? url('/unit/' . $codeLower . '/download') }}" 
-                               class="inline-flex items-center space-x-1.5 text-xs font-bold text-unit-primary hover:underline">
+                               class="inline-flex items-center space-x-1.5 text-xs font-bold text-unit-primary dark:text-cyan-400 hover:underline">
                                 <span>Unduh Surat / Lihat Info</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </a>
@@ -105,8 +105,8 @@
 
                     </div>
                 @empty
-                    <div class="bg-white rounded-3xl p-10 text-center text-gray-400 border border-gray-100">
-                        <i class="fa-solid fa-envelope-open-text text-3xl mb-2 text-gray-300"></i>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl p-10 text-center text-gray-400 dark:text-slate-400 border border-gray-100 dark:border-slate-800">
+                        <i class="fa-solid fa-envelope-open-text text-3xl mb-2 text-gray-300 dark:text-slate-600"></i>
                         <p class="text-xs">Belum ada pengumuman terbaru.</p>
                     </div>
                 @endforelse

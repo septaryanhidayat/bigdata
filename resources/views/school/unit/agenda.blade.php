@@ -54,43 +54,43 @@
         <div class="lg:col-span-8 space-y-6">
             
             {{-- SEARCH & FILTER BAR --}}
-            <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 space-y-4">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-slate-800 space-y-4">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div class="relative w-full sm:w-72">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
                         <input type="text" 
                                x-model="search" 
                                placeholder="Cari agenda kegiatan..." 
-                               class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                               class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
-                    <span class="text-xs text-gray-500 font-semibold self-end sm:self-auto">
+                    <span class="text-xs text-gray-500 dark:text-slate-400 font-semibold self-end sm:self-auto">
                         Total: {{ count($agendaList) }} Agenda Terjadwal
                     </span>
                 </div>
 
                 {{-- CATEGORY FILTER PILLS --}}
-                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 border-t border-gray-100">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 border-t border-gray-100 dark:border-slate-800">
                     <button type="button" 
                             @click="filterCategory = 'all'"
-                            :class="filterCategory === 'all' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            :class="filterCategory === 'all' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700'"
                             class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition">
                         Semua Agenda
                     </button>
                     <button type="button" 
                             @click="filterCategory = 'akademik'"
-                            :class="filterCategory === 'akademik' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            :class="filterCategory === 'akademik' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700'"
                             class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition">
                         Akademik &amp; Ujian
                     </button>
                     <button type="button" 
                             @click="filterCategory = 'siswa'"
-                            :class="filterCategory === 'siswa' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            :class="filterCategory === 'siswa' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700'"
                             class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition">
                         Kegiatan Siswa
                     </button>
                     <button type="button" 
                             @click="filterCategory = 'tahfidz'"
-                            :class="filterCategory === 'tahfidz' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            :class="filterCategory === 'tahfidz' ? 'bg-unit-primary text-white shadow' : 'bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700'"
                             class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition">
                         Tahfidz &amp; Munaqosah
                     </button>
@@ -104,41 +104,41 @@
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0"
-                         class="bg-white rounded-3xl p-4 sm:p-6 shadow-md hover:shadow-xl hover:border-indigo-200 border border-gray-100 transition duration-300 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 group">
+                         class="bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-6 shadow-md hover:shadow-xl hover:border-indigo-200 dark:hover:border-slate-700 border border-gray-100 dark:border-slate-800 transition duration-300 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 group">
                         
-                        {{-- CALENDAR DATE BADGE --}}
-                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-indigo-50 text-unit-primary border border-indigo-100 flex flex-col items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition">
-                            <span class="text-xl sm:text-2xl font-black leading-none">{{ $ag['date_day'] ?? '15' }}</span>
-                            <span class="text-[10px] sm:text-xs font-extrabold uppercase mt-1 tracking-wider text-amber-600">{{ $ag['date_month'] ?? 'AGU' }}</span>
+                        {{-- CALENDAR DATE BADGE (RESPONSIF & BEBAS TERPOTONG) --}}
+                        <div class="min-w-[80px] sm:min-w-[96px] w-auto h-auto min-h-[72px] sm:min-h-[84px] px-3 py-2 rounded-2xl bg-indigo-50 dark:bg-slate-800 text-unit-primary dark:text-amber-300 border border-indigo-100 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition text-center">
+                            <span class="text-base sm:text-lg lg:text-xl font-black leading-tight whitespace-nowrap">{{ $ag['date_day'] ?? '15' }}</span>
+                            <span class="text-[10px] sm:text-[11px] font-extrabold uppercase mt-1 tracking-normal text-amber-600 dark:text-amber-400 whitespace-nowrap">{{ $ag['date_month'] ?? 'AGU' }}</span>
                         </div>
 
                         {{-- DETAILS --}}
                         <div class="space-y-1.5 flex-1 min-w-0">
                             <div class="flex flex-wrap items-center gap-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-gray-100 text-gray-700">
+                                <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700">
                                     {{ $ag['date'] ?? 'Jadwal Mendatang' }}
                                 </span>
                                 @if(!empty($ag['time']))
-                                    <span class="text-[11px] text-gray-500 font-medium flex items-center gap-1">
+                                    <span class="text-[11px] text-gray-500 dark:text-slate-400 font-medium flex items-center gap-1">
                                         <i class="fa-regular fa-clock text-amber-500"></i>
                                         <span>{{ $ag['time'] }}</span>
                                     </span>
                                 @endif
                             </div>
 
-                            <h3 class="text-sm sm:text-base font-extrabold text-gray-900 group-hover:text-unit-primary transition leading-snug">
+                            <h3 class="text-sm sm:text-base font-extrabold text-gray-900 dark:text-white group-hover:text-unit-primary dark:group-hover:text-cyan-400 transition leading-snug">
                                 {{ $ag['title'] }}
                             </h3>
 
                             @if(!empty($ag['location']))
-                                <p class="text-xs text-gray-500 flex items-center gap-1.5 font-medium">
+                                <p class="text-xs text-gray-500 dark:text-slate-400 flex items-center gap-1.5 font-medium">
                                     <i class="fa-solid fa-location-dot text-amber-500 text-xs"></i>
                                     <span>{{ $ag['location'] }}</span>
                                 </p>
                             @endif
 
                             @if(!empty($ag['desc']))
-                                <p class="text-xs text-gray-600 leading-relaxed font-light line-clamp-2 pt-0.5 text-justify">
+                                <p class="text-xs text-gray-600 dark:text-slate-300 leading-relaxed font-light line-clamp-2 pt-0.5 text-justify">
                                     {{ $ag['desc'] }}
                                 </p>
                             @endif
@@ -146,7 +146,7 @@
 
                         {{-- ACTION / STATUS BADGE --}}
                         <div class="self-end sm:self-center shrink-0 pt-2 sm:pt-0">
-                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-extrabold bg-indigo-50 text-unit-primary border border-indigo-100">
+                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-extrabold bg-indigo-50 dark:bg-slate-800 text-unit-primary dark:text-cyan-300 border border-indigo-100 dark:border-slate-700">
                                 <i class="fa-solid fa-calendar-check text-[9px]"></i>
                                 <span>Terjadwal</span>
                             </span>
@@ -154,7 +154,7 @@
 
                     </div>
                 @empty
-                    <div class="bg-white rounded-3xl p-10 text-center text-gray-400 border border-gray-100">
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl p-10 text-center text-gray-400 dark:text-slate-400 border border-gray-100 dark:border-slate-800">
                         <i class="fa-solid fa-calendar-xmark text-3xl mb-2 text-gray-300"></i>
                         <p class="text-xs">Belum ada agenda kegiatan terjadwal.</p>
                     </div>

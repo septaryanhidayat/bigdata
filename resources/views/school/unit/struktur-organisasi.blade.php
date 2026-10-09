@@ -57,17 +57,17 @@
                     <h3 class="text-sm sm:text-base font-extrabold mt-0.5">{{ $orgStructure['foundation_name'] ?? 'Yayasan Generasi Robbani' }}</h3>
                     <p class="text-[11px] text-indigo-200 mt-1">Ketua: {{ $orgStructure['foundation_leader'] ?? 'Sughesti Wulandari, S.Pd' }}</p>
                 </div>
-                <div class="hidden sm:block w-8 h-0.5 bg-gray-300"></div>
-                <div class="w-full sm:w-72 bg-gray-50 border border-gray-200 text-gray-800 p-4 sm:p-5 rounded-2xl text-center shadow-sm">
-                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">Mitra Sinergi</span>
-                    <h3 class="text-sm sm:text-base font-extrabold mt-0.5">{{ $orgStructure['committee_name'] ?? 'Komite Sekolah' }}</h3>
-                    <p class="text-[11px] text-gray-500 mt-1">{{ $orgStructure['committee_sub'] ?? 'Perwakilan Orang Tua & Tokoh' }}</p>
+                <div class="hidden sm:block w-8 h-0.5 bg-gray-300 dark:bg-slate-700"></div>
+                <div class="w-full sm:w-72 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-gray-800 dark:text-white p-4 sm:p-5 rounded-2xl text-center shadow-sm">
+                    <span class="text-[10px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider block">Mitra Sinergi</span>
+                    <h3 class="text-sm sm:text-base font-extrabold mt-0.5 text-gray-800 dark:text-white">{{ $orgStructure['committee_name'] ?? 'Komite Sekolah' }}</h3>
+                    <p class="text-[11px] text-gray-500 dark:text-slate-400 mt-1">{{ $orgStructure['committee_sub'] ?? 'Perwakilan Orang Tua & Tokoh' }}</p>
                 </div>
             </div>
 
             {{-- CONNECTOR LINE --}}
             <div class="flex justify-center">
-                <div class="w-0.5 h-8 bg-indigo-300"></div>
+                <div class="w-0.5 h-8 bg-indigo-300 dark:bg-slate-700"></div>
             </div>
 
             {{-- LEVEL 2: KEPALA SEKOLAH --}}
@@ -81,36 +81,36 @@
 
             {{-- CONNECTOR LINE --}}
             <div class="flex justify-center">
-                <div class="w-0.5 h-8 bg-indigo-300"></div>
+                <div class="w-0.5 h-8 bg-indigo-300 dark:bg-slate-700"></div>
             </div>
 
             {{-- LEVEL 3: WAKIL KEPALA & KOORDINATOR --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach($orgStructure['waka_list'] ?? [] as $waka)
-                <div class="{{ $waka['box_class'] ?? 'bg-slate-50/70 border border-indigo-100' }} p-4 rounded-2xl text-center">
+                <div class="{{ $waka['box_class'] ?? 'bg-slate-50/70 border border-indigo-100' }} dark:bg-slate-900 dark:border-slate-800 p-4 rounded-2xl text-center">
                     <div class="w-8 h-8 rounded-lg {{ $waka['color_class'] ?? 'bg-unit-primary text-white' }} flex items-center justify-center text-xs mx-auto mb-2">
                         <i class="{{ $waka['icon'] ?? 'fa-solid fa-briefcase' }}"></i>
                     </div>
-                    <h4 class="text-xs font-bold text-gray-900">{{ $waka['title'] ?? '' }}</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">{{ $waka['desc'] ?? '' }}</p>
+                    <h4 class="text-xs font-bold text-gray-900 dark:text-white">{{ $waka['title'] ?? '' }}</h4>
+                    <p class="text-[10px] text-gray-500 dark:text-slate-400 mt-1">{{ $waka['desc'] ?? '' }}</p>
                 </div>
                 @endforeach
             </div>
 
             {{-- CONNECTOR LINE --}}
             <div class="flex justify-center">
-                <div class="w-0.5 h-8 bg-gray-300"></div>
+                <div class="w-0.5 h-8 bg-gray-300 dark:bg-slate-700"></div>
             </div>
 
             {{-- LEVEL 4: PELAKSANA TEKNIS --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 @foreach($orgStructure['technical_staff'] ?? [] as $staff)
-                <div class="bg-gray-50 border border-gray-200 p-4 rounded-2xl text-center">
-                    <h4 class="text-xs font-extrabold text-gray-900 flex items-center justify-center gap-1.5">
-                        <i class="{{ $staff['icon'] ?? 'fa-solid fa-users text-unit-primary' }}"></i>
+                <div class="bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800 p-4 rounded-2xl text-center">
+                    <h4 class="text-xs font-extrabold text-gray-900 dark:text-white flex items-center justify-center gap-1.5">
+                        <i class="{{ $staff['icon'] ?? 'fa-solid fa-users text-unit-primary dark:text-cyan-400' }}"></i>
                         <span>{{ $staff['title'] ?? '' }}</span>
                     </h4>
-                    <p class="text-[10px] text-gray-500 mt-1">{{ $staff['desc'] ?? '' }}</p>
+                    <p class="text-[10px] text-gray-500 dark:text-slate-400 mt-1">{{ $staff['desc'] ?? '' }}</p>
                 </div>
                 @endforeach
             </div>
@@ -119,10 +119,10 @@
     </div>
 
     {{-- KARTU PIMPINAN UTAMA --}}
-    <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-xl">
+    <div class="bg-gradient-to-br from-white to-gray-50 dark:from-slate-900 dark:to-slate-900 rounded-3xl p-6 sm:p-10 border border-gray-100 dark:border-slate-800 shadow-xl">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
             <div class="md:col-span-4 flex justify-center">
-                <div class="w-44 h-56 sm:w-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-white ring-4 ring-indigo-100 bg-slate-50">
+                <div class="w-44 h-56 sm:w-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-slate-800 ring-4 ring-indigo-100 dark:ring-slate-700 bg-slate-50 dark:bg-slate-800">
                     <img src="{{ asset($info['principal_photo'] ?: '/images/avatar-gray-person.svg') }}" 
                          alt="{{ $info['principal_name'] }}" 
                          class="w-full h-full object-cover object-top"
@@ -130,16 +130,16 @@
                 </div>
             </div>
             <div class="md:col-span-8 space-y-3 text-center md:text-left">
-                <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-unit-primary">
+                <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-unit-primary dark:text-cyan-300">
                     Profil Pimpinan Unit
                 </span>
-                <h3 class="text-xl sm:text-2xl font-black text-gray-900">
+                <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">
                     {{ $info['principal_name'] }}
                 </h3>
-                <p class="text-xs sm:text-sm font-semibold text-unit-primary">
+                <p class="text-xs sm:text-sm font-semibold text-unit-primary dark:text-cyan-400">
                     {{ $info['principal_title'] ?? ('Kepala ' . $info['name']) }}
                 </p>
-                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed font-light">
                     Mengemban tanggung jawab utama dalam memimpin proses manajerial, supervisi kurikulum, pembinaan guru dan siswa, serta memastikan seluruh visi misi {{ $info['name'] }} terlaksana dengan standar keunggulan tinggi.
                 </p>
                 <div class="pt-2 flex flex-wrap gap-2 justify-center md:justify-start">
@@ -148,7 +148,7 @@
                         <span>Lihat Seluruh Dewan Guru</span>
                     </a>
                     <a href="{{ url('/unit/' . $codeLower . '/sambutan') }}" 
-                       class="px-5 py-2 rounded-full text-xs font-bold bg-gray-100 text-gray-800 hover:bg-gray-200 transition">
+                       class="px-5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-slate-200 hover:bg-gray-200 dark:hover:bg-slate-700 transition">
                         <span>Baca Sambutan Resmi</span>
                     </a>
                 </div>

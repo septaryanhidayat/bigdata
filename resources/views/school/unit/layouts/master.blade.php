@@ -176,20 +176,33 @@
             color: #f8fafc !important;
         }
 
-        /* 3. Soft Backgrounds, Pills, Chips & Minor Wrappers */
-        html.dark .bg-slate-100,
-        html.dark .bg-gray-100,
-        html.dark .bg-indigo-50,
-        html.dark .bg-indigo-50\/70,
-        html.dark .bg-indigo-50\/80,
-        html.dark .bg-orange-50,
-        html.dark .bg-orange-50\/80,
-        html.dark .bg-emerald-50,
-        html.dark .bg-blue-50,
-        html.dark .bg-amber-50,
-        html.dark .bg-cyan-50,
-        html.dark .bg-rose-50,
-        html.dark .bg-purple-50 {
+        /* Neutralize bright light gradients in dark mode */
+        html.dark [class*="from-white"],
+        html.dark [class*="to-white"],
+        html.dark [class*="via-white"],
+        html.dark [class*="to-gray-50"],
+        html.dark [class*="from-gray-50"],
+        html.dark [class*="from-indigo-50"],
+        html.dark [class*="via-amber-50"],
+        html.dark [class*="to-indigo-50"] {
+            background-image: none !important;
+            background-color: #0f172a !important;
+            border-color: #1e293b !important;
+        }
+
+        /* 3. Soft Backgrounds, Pills, Chips & Minor Wrappers (matches all opacity variants: /50, /60, /70, /80) */
+        html.dark [class*="bg-slate-50"],
+        html.dark [class*="bg-gray-50"],
+        html.dark [class*="bg-slate-100"],
+        html.dark [class*="bg-gray-100"],
+        html.dark [class*="bg-indigo-50"],
+        html.dark [class*="bg-orange-50"],
+        html.dark [class*="bg-emerald-50"],
+        html.dark [class*="bg-blue-50"],
+        html.dark [class*="bg-amber-50"],
+        html.dark [class*="bg-cyan-50"],
+        html.dark [class*="bg-rose-50"],
+        html.dark [class*="bg-purple-50"] {
             background-color: #162238 !important;
             border-color: #1e293b !important;
             color: #f1f5f9 !important;
