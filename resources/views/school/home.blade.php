@@ -280,7 +280,14 @@
             font-weight: 900 !important;
         }
 
-        /* 7. Realtime Prayer Widget in Dark Mode (ZERO ORANGE IN DARK MODE) */
+        /* 7. Realtime Prayer Widget (Solid Opaque High-Contrast) */
+        .prayer-widget-card {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #ffffff !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+        }
+
         html.dark .prayer-widget-card,
         html.dark [class*="bg-slate-900"] {
             background-color: #0d1e0f !important;
@@ -934,20 +941,16 @@
                             } catch(e) {}
                         }
                     }">
-                        <!-- Futuristic Islamic Glassmorphic Card Container -->
-                        <div class="prayer-widget-card bg-gradient-to-br from-slate-900/95 via-emerald-950/90 to-slate-950/95 text-white border border-emerald-500/30 dark:border-emerald-500/20 rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden space-y-3.5 backdrop-blur-xl">
+                        <!-- Solid Dark High-Contrast Card Container (Zero Transparency, Maximum Readability) -->
+                        <div class="prayer-widget-card bg-slate-900 text-white border-2 border-slate-700/80 rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden space-y-3.5" style="background-color: #0f172a !important;">
                             
-                            <!-- Ambient Glow Accents -->
-                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none"></div>
-                            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
                             <!-- Top Bar: Location Switcher & Qibla Compass Pill -->
-                            <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-3 relative z-10">
+                            <div class="flex items-center justify-between gap-2 border-b border-slate-700 pb-3 relative z-10">
                                 <div class="min-w-0 flex-1 space-y-0.5">
-                                    <div class="flex items-center gap-1.5 text-[10px] font-black text-emerald-400 dark:text-[#c6f634] uppercase tracking-wide">
-                                        <span class="material-symbols-outlined text-[15px] animate-pulse">location_on</span>
+                                    <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-black text-emerald-400 uppercase tracking-wide">
+                                        <span class="material-symbols-outlined text-[15px] text-emerald-400">location_on</span>
                                         <!-- Location Select Dropdown -->
-                                        <select x-model="selectedLoc" @change="updateClock()" aria-label="Pilih Wilayah Jadwal Sholat" class="bg-slate-800/90 dark:bg-[#153018] text-white dark:text-[#f7fee7] border border-emerald-500/40 dark:border-[#1f4523] rounded-xl px-2.5 py-1 text-[10px] sm:text-[11px] font-extrabold focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer max-w-[170px] sm:max-w-xs truncate shadow-inner">
+                                        <select x-model="selectedLoc" @change="updateClock()" aria-label="Pilih Wilayah Jadwal Sholat" class="bg-slate-800 text-white border border-slate-600 rounded-xl px-2.5 py-1 text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer max-w-[170px] sm:max-w-xs truncate shadow-inner" style="background-color: #1e293b; color: #ffffff;">
                                             <optgroup label="Kabupaten Ogan Ilir (16 Kecamatan)">
                                                 <option value="indralaya_utara">★ Kec. Indralaya Utara (Pusat Yayasan)</option>
                                                 <option value="indralaya">Kec. Indralaya</option>
@@ -985,128 +988,128 @@
                                     </div>
                                     <div class="text-xs sm:text-sm font-black text-white font-headline flex items-center gap-1.5 pt-0.5">
                                         <span>Jadwal Sholat Realtime</span>
-                                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
                                     </div>
                                 </div>
 
                                 <!-- Action Buttons: Chime Preview & Qibla Compass Pill -->
                                 <div class="flex items-center gap-1.5 shrink-0">
-                                    <button type="button" @click="playBellChime()" :title="audioPlaying ? 'Pengingat Aktif' : 'Tes Suara Pengingat'" class="p-1.5 rounded-full bg-white/10 hover:bg-emerald-500/30 text-emerald-300 hover:text-white transition border border-white/10 flex items-center justify-center cursor-pointer">
+                                    <button type="button" @click="playBellChime()" :title="audioPlaying ? 'Pengingat Aktif' : 'Tes Suara Pengingat'" class="p-1.5 rounded-full bg-slate-800 hover:bg-emerald-600 text-emerald-300 hover:text-white transition border border-slate-600 flex items-center justify-center cursor-pointer shadow-sm" style="background-color: #1e293b;">
                                         <span class="material-symbols-outlined text-[14px]" :class="audioPlaying ? 'animate-bounce text-amber-300' : ''">notifications_active</span>
                                     </button>
-                                    <div class="bg-emerald-900/80 dark:bg-[#c6f634] text-emerald-200 dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-emerald-500/40 dark:border-[#c6f634]">
-                                        <span class="material-symbols-outlined text-[13px] animate-spin" style="animation-duration: 12s;">explore</span>
+                                    <div class="bg-emerald-700 text-white px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-emerald-500 shrink-0" style="background-color: #047857; color: #ffffff;">
+                                        <span class="material-symbols-outlined text-[13px]">explore</span>
                                         <span class="font-black whitespace-nowrap" x-text="locations[selectedLoc].qibla"></span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Live Digital Clock & Calendar Date Strip -->
-                            <div class="bg-slate-950/60 dark:bg-[#153018]/60 p-2.5 sm:p-3 rounded-2xl border border-white/10 dark:border-[#1f4523] flex justify-between items-center text-xs relative z-10 shadow-inner">
+                            <!-- Live Digital Clock & Calendar Date Strip (Solid High-Contrast Background) -->
+                            <div class="rounded-2xl p-2.5 sm:p-3 border border-slate-700 flex justify-between items-center text-xs relative z-10 shadow-inner" style="background-color: #1e293b !important;">
                                 <div class="space-y-0.5">
-                                    <div class="flex items-center gap-1 text-[9px] font-black text-emerald-400 dark:text-[#c6f634] uppercase tracking-wider">
+                                    <div class="flex items-center gap-1 text-[9px] font-black text-emerald-400 uppercase tracking-wider">
                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                                         <span>Waktu Sekarang</span>
                                     </div>
-                                    <span class="font-black text-amber-300 dark:text-[#c6f634] text-base sm:text-lg tracking-wider font-mono block" x-text="liveTimeStr"></span>
+                                    <span class="font-black text-amber-300 text-base sm:text-lg tracking-wider font-mono block" style="color: #fcd34d !important;" x-text="liveTimeStr"></span>
                                 </div>
                                 <div class="text-right space-y-0.5">
-                                    <span class="text-[9px] sm:text-[10px] font-semibold text-slate-300 block" x-text="liveDateStr"></span>
-                                    <span class="text-[9px] font-bold bg-emerald-800/80 dark:bg-[#c6f634] text-emerald-100 dark:text-[#061107] px-2.5 py-0.5 rounded-full inline-block shadow-xs border border-emerald-600/40" x-text="hijriDateStr"></span>
+                                    <span class="text-[9px] sm:text-[10px] font-bold text-slate-200 block" x-text="liveDateStr"></span>
+                                    <span class="text-[9px] font-bold text-white px-2.5 py-0.5 rounded-full inline-block shadow-xs border border-emerald-500" style="background-color: #047857 !important;" x-text="hijriDateStr"></span>
                                 </div>
                             </div>
 
-                            <!-- Dynamic Next Prayer Spotlight & Countdown Banner -->
-                            <div class="bg-gradient-to-r from-emerald-900/60 via-slate-900/70 to-emerald-950/60 p-3 sm:p-3.5 rounded-2xl border border-emerald-500/30 relative overflow-hidden space-y-2 z-10 shadow-md">
+                            <!-- Dynamic Next Prayer Spotlight & Countdown Banner (Solid Dark Emerald Background) -->
+                            <div class="rounded-2xl p-3 sm:p-3.5 border-2 border-emerald-500/60 relative overflow-hidden space-y-2 z-10 shadow-lg" style="background-color: #064e3b !important;">
                                 <div class="flex flex-wrap items-center justify-between gap-1.5">
                                     <div class="space-y-0.5">
-                                        <span class="text-[9px] sm:text-[10px] font-extrabold text-emerald-300 uppercase tracking-wider flex items-center gap-1">
+                                        <span class="text-[9px] sm:text-[10px] font-black text-emerald-200 uppercase tracking-wider flex items-center gap-1">
                                             <span class="material-symbols-outlined text-[13px]">alarm</span>
                                             <span>Sholat Berikutnya:</span>
                                         </span>
-                                        <div class="text-base sm:text-xl font-black text-amber-300 dark:text-[#c6f634] font-headline tracking-tight flex items-baseline gap-2">
+                                        <div class="text-base sm:text-xl font-black text-amber-300 font-headline tracking-tight flex items-baseline gap-2" style="color: #fcd34d !important;">
                                             <span x-text="nextPrayerName"></span>
-                                            <span class="text-xs sm:text-sm font-bold text-white/90" x-text="nextPrayerTime"></span>
+                                            <span class="text-xs sm:text-sm font-extrabold text-white" x-text="nextPrayerTime"></span>
                                         </div>
                                     </div>
                                     <!-- Dynamic Live Countdown Badge -->
-                                    <div class="bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2.5 py-1 rounded-xl text-[10px] sm:text-xs font-black flex items-center gap-1.5 shadow-sm">
-                                        <span class="material-symbols-outlined text-[13px] animate-spin" style="animation-duration: 4s;">hourglass_top</span>
+                                    <div class="px-3 py-1 rounded-xl text-[10px] sm:text-xs font-black flex items-center gap-1.5 shadow-md" style="background-color: #022c22 !important; color: #fcd34d !important; border: 1.5px solid #f59e0b !important;">
+                                        <span class="material-symbols-outlined text-[13px]">hourglass_top</span>
                                         <span class="font-mono tracking-wider" x-text="'- ' + countdownStr"></span>
                                     </div>
                                 </div>
 
                                 <!-- Dynamic Prayer Window Progress Bar -->
                                 <div class="space-y-1 pt-0.5">
-                                    <div class="flex justify-between items-center text-[8px] text-slate-400 font-bold uppercase tracking-tight">
+                                    <div class="flex justify-between items-center text-[8px] sm:text-[9px] text-emerald-200 font-bold uppercase tracking-tight">
                                         <span x-text="'Dari ' + prevPrayerName"></span>
                                         <span x-text="progressPercent + '% terlewati'"></span>
                                         <span x-text="'Menuju ' + nextPrayerName"></span>
                                     </div>
-                                    <div class="w-full bg-slate-800/90 rounded-full h-1.5 overflow-hidden border border-white/5">
-                                        <div class="bg-gradient-to-r from-emerald-400 via-amber-400 to-[#c6f634] h-1.5 rounded-full transition-all duration-700 shadow-sm" :style="'width: ' + progressPercent + '%'"></div>
+                                    <div class="w-full rounded-full h-2 overflow-hidden" style="background-color: #022c22 !important; border: 1px solid #065f46 !important;">
+                                        <div class="h-2 rounded-full transition-all duration-700 shadow-sm" style="background: linear-gradient(90deg, #10b981 0%, #f59e0b 100%) !important;" :style="'width: ' + progressPercent + '%'"></div>
                                     </div>
                                 </div>
 
                                 <!-- Adzan Moment Callout (if active) -->
                                 <template x-if="isAdzanNow">
-                                    <div class="bg-emerald-500/20 border border-emerald-400 text-emerald-200 p-1.5 rounded-xl text-[10px] font-bold text-center flex items-center justify-center gap-1 animate-pulse">
+                                    <div class="border border-emerald-300 text-white p-1.5 rounded-xl text-[10px] font-bold text-center flex items-center justify-center gap-1 shadow-md" style="background-color: #047857 !important;">
                                         <span>🕌</span>
                                         <span x-text="'Waktu ' + prevPrayerName + ' telah masuk! Mari segera tunaikan sholat.'"></span>
                                     </div>
                                 </template>
                             </div>
 
-                            <!-- 5 Prayer Times Grid (Reactive Dynamic Highlighting & Touch-Friendly) -->
+                            <!-- 5 Prayer Times Grid (Solid Opaque Cards with Dynamic Highlighting) -->
                             <div class="grid grid-cols-5 gap-1.5 sm:gap-2 pt-0.5 relative z-10">
                                 
                                 <!-- 1. Subuh -->
-                                <div :class="nextPrayerKey === 'subuh' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
-                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'subuh' ? 'text-slate-950 font-bold' : 'text-slate-400'">wb_twilight</span>
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'subuh' ? 'text-slate-950' : 'text-slate-400'">Subuh</div>
-                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'subuh' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].subuh"></div>
+                                <div :class="nextPrayerKey === 'subuh' ? 'border-2 border-amber-400 shadow-xl scale-[1.03] -translate-y-1' : 'border border-slate-700'" class="p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default" :style="nextPrayerKey === 'subuh' ? 'background-color: #fbbf24 !important; color: #020617 !important;' : 'background-color: #1e293b !important; color: #ffffff !important;'">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :style="nextPrayerKey === 'subuh' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">wb_twilight</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :style="nextPrayerKey === 'subuh' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">Subuh</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :style="nextPrayerKey === 'subuh' ? 'color: #020617 !important;' : 'color: #ffffff !important;'" x-text="locations[selectedLoc].subuh"></div>
                                     <template x-if="nextPrayerKey === 'subuh'">
-                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                        <span class="text-[6.5px] font-black uppercase px-1 py-0.2 rounded mt-0.5 tracking-tight shadow-xs" style="background-color: #020617 !important; color: #fbbf24 !important;">NEXT</span>
                                     </template>
                                 </div>
 
                                 <!-- 2. Dzuhur -->
-                                <div :class="nextPrayerKey === 'dzuhur' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
-                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'dzuhur' ? 'text-slate-950 font-bold' : 'text-slate-400'">wb_sunny</span>
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'dzuhur' ? 'text-slate-950' : 'text-slate-400'">Dzuhur</div>
-                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'dzuhur' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].dzuhur"></div>
+                                <div :class="nextPrayerKey === 'dzuhur' ? 'border-2 border-amber-400 shadow-xl scale-[1.03] -translate-y-1' : 'border border-slate-700'" class="p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default" :style="nextPrayerKey === 'dzuhur' ? 'background-color: #fbbf24 !important; color: #020617 !important;' : 'background-color: #1e293b !important; color: #ffffff !important;'">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :style="nextPrayerKey === 'dzuhur' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">wb_sunny</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :style="nextPrayerKey === 'dzuhur' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">Dzuhur</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :style="nextPrayerKey === 'dzuhur' ? 'color: #020617 !important;' : 'color: #ffffff !important;'" x-text="locations[selectedLoc].dzuhur"></div>
                                     <template x-if="nextPrayerKey === 'dzuhur'">
-                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                        <span class="text-[6.5px] font-black uppercase px-1 py-0.2 rounded mt-0.5 tracking-tight shadow-xs" style="background-color: #020617 !important; color: #fbbf24 !important;">NEXT</span>
                                     </template>
                                 </div>
 
                                 <!-- 3. Ashar -->
-                                <div :class="nextPrayerKey === 'ashar' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
-                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'ashar' ? 'text-slate-950 font-bold' : 'text-slate-400'">partly_cloudy_day</span>
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'ashar' ? 'text-slate-950' : 'text-slate-400'">Ashar</div>
-                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'ashar' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].ashar"></div>
+                                <div :class="nextPrayerKey === 'ashar' ? 'border-2 border-amber-400 shadow-xl scale-[1.03] -translate-y-1' : 'border border-slate-700'" class="p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default" :style="nextPrayerKey === 'ashar' ? 'background-color: #fbbf24 !important; color: #020617 !important;' : 'background-color: #1e293b !important; color: #ffffff !important;'">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :style="nextPrayerKey === 'ashar' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">partly_cloudy_day</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :style="nextPrayerKey === 'ashar' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">Ashar</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :style="nextPrayerKey === 'ashar' ? 'color: #020617 !important;' : 'color: #ffffff !important;'" x-text="locations[selectedLoc].ashar"></div>
                                     <template x-if="nextPrayerKey === 'ashar'">
-                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                        <span class="text-[6.5px] font-black uppercase px-1 py-0.2 rounded mt-0.5 tracking-tight shadow-xs" style="background-color: #020617 !important; color: #fbbf24 !important;">NEXT</span>
                                     </template>
                                 </div>
 
                                 <!-- 4. Maghrib -->
-                                <div :class="nextPrayerKey === 'maghrib' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
-                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'maghrib' ? 'text-slate-950 font-bold' : 'text-slate-400'">bedtime</span>
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'maghrib' ? 'text-slate-950' : 'text-slate-400'">Maghrib</div>
-                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'maghrib' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].maghrib"></div>
+                                <div :class="nextPrayerKey === 'maghrib' ? 'border-2 border-amber-400 shadow-xl scale-[1.03] -translate-y-1' : 'border border-slate-700'" class="p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default" :style="nextPrayerKey === 'maghrib' ? 'background-color: #fbbf24 !important; color: #020617 !important;' : 'background-color: #1e293b !important; color: #ffffff !important;'">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :style="nextPrayerKey === 'maghrib' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">bedtime</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :style="nextPrayerKey === 'maghrib' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">Maghrib</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :style="nextPrayerKey === 'maghrib' ? 'color: #020617 !important;' : 'color: #ffffff !important;'" x-text="locations[selectedLoc].maghrib"></div>
                                     <template x-if="nextPrayerKey === 'maghrib'">
-                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                        <span class="text-[6.5px] font-black uppercase px-1 py-0.2 rounded mt-0.5 tracking-tight shadow-xs" style="background-color: #020617 !important; color: #fbbf24 !important;">NEXT</span>
                                     </template>
                                 </div>
 
                                 <!-- 5. Isya -->
-                                <div :class="nextPrayerKey === 'isya' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
-                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'isya' ? 'text-slate-950 font-bold' : 'text-slate-400'">nights_stay</span>
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'isya' ? 'text-slate-950' : 'text-slate-400'">Isya</div>
-                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'isya' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].isya"></div>
+                                <div :class="nextPrayerKey === 'isya' ? 'border-2 border-amber-400 shadow-xl scale-[1.03] -translate-y-1' : 'border border-slate-700'" class="p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default" :style="nextPrayerKey === 'isya' ? 'background-color: #fbbf24 !important; color: #020617 !important;' : 'background-color: #1e293b !important; color: #ffffff !important;'">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :style="nextPrayerKey === 'isya' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">nights_stay</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :style="nextPrayerKey === 'isya' ? 'color: #020617 !important;' : 'color: #94a3b8 !important;'">Isya</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :style="nextPrayerKey === 'isya' ? 'color: #020617 !important;' : 'color: #ffffff !important;'" x-text="locations[selectedLoc].isya"></div>
                                     <template x-if="nextPrayerKey === 'isya'">
-                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                        <span class="text-[6.5px] font-black uppercase px-1 py-0.2 rounded mt-0.5 tracking-tight shadow-xs" style="background-color: #020617 !important; color: #fbbf24 !important;">NEXT</span>
                                     </template>
                                 </div>
                             </div>
