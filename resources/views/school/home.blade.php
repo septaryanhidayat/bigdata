@@ -758,66 +758,196 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: PRAYER TIMES REALTIME WIDGET (WITH LIVE CLOCK & LOCATION SELECTOR) -->
+                    <!-- Right Column: PRAYER TIMES REALTIME WIDGET (DYNAMIC, INTERACTIVE & RESPONSIVE) -->
                     <div class="lg:col-span-5 reveal-fade-up" data-delay="100" x-data="{
                         selectedLoc: 'indralaya_utara',
                         liveTimeStr: '',
                         liveDateStr: '',
+                        hijriDateStr: '29 Safar 1448 H',
+                        nextPrayerKey: 'ashar',
+                        nextPrayerName: 'Ashar',
+                        nextPrayerTime: '15:28',
+                        prevPrayerName: 'Dzuhur',
+                        countdownStr: '',
+                        progressPercent: 0,
+                        isAdzanNow: false,
+                        audioPlaying: false,
                         locations: {
-                            'indralaya_utara': { name: 'Kec. Indralaya Utara (Pusat)', qibla: '295.2° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'indralaya': { name: 'Kec. Indralaya', qibla: '295.2° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'indralaya_selatan': { name: 'Kec. Indralaya Selatan', qibla: '295.2° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'pemulutan': { name: 'Kec. Pemulutan', qibla: '295.1° NW', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20', next: 'Subuh 04:46 WIB' },
-                            'pemulutan_barat': { name: 'Kec. Pemulutan Barat', qibla: '295.1° NW', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20', next: 'Subuh 04:46 WIB' },
-                            'pemulutan_selatan': { name: 'Kec. Pemulutan Selatan', qibla: '295.1° NW', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20', next: 'Subuh 04:46 WIB' },
-                            'tanjung_batu': { name: 'Kec. Tanjung Batu', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'tanjung_raja': { name: 'Kec. Tanjung Raja', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'payaraman': { name: 'Kec. Payaraman', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'rantau_alai': { name: 'Kec. Rantau Alai', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'rantau_panjang': { name: 'Kec. Rantau Panjang', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'sungai_pinang': { name: 'Kec. Sungai Pinang', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'kandis': { name: 'Kec. Kandis', qibla: '295.3° NW', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21', next: 'Subuh 04:47 WIB' },
-                            'lubuk_keliat': { name: 'Kec. Lubuk Keliat', qibla: '295.4° NW', subuh: '04:48', dzuhur: '12:09', ashar: '15:29', maghrib: '18:11', isya: '19:22', next: 'Subuh 04:48 WIB' },
-                            'muara_kuang': { name: 'Kec. Muara Kuang', qibla: '295.4° NW', subuh: '04:48', dzuhur: '12:09', ashar: '15:29', maghrib: '18:11', isya: '19:22', next: 'Subuh 04:48 WIB' },
-                            'rambang_kuang': { name: 'Kec. Rambang Kuang', qibla: '295.4° NW', subuh: '04:48', dzuhur: '12:09', ashar: '15:29', maghrib: '18:11', isya: '19:22', next: 'Subuh 04:48 WIB' },
-                            'palembang': { name: 'Sumsel (Palembang)', qibla: '295.1° NW', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20', next: 'Subuh 04:46 WIB' },
-                            'jakarta': { name: 'DKI Jakarta (Pusat)', qibla: '295.0° NW', subuh: '04:43', dzuhur: '12:01', ashar: '15:22', maghrib: '18:01', isya: '19:12', next: 'Subuh 04:43 WIB' },
-                            'bandung': { name: 'Jawa Barat (Bandung)', qibla: '295.0° NW', subuh: '04:40', dzuhur: '11:58', ashar: '15:19', maghrib: '17:58', isya: '19:09', next: 'Subuh 04:40 WIB' },
-                            'semarang': { name: 'Jawa Tengah (Semarang)', qibla: '294.7° NW', subuh: '04:26', dzuhur: '11:44', ashar: '15:05', maghrib: '17:44', isya: '18:55', next: 'Subuh 04:26 WIB' },
-                            'yogyakarta': { name: 'DI Yogyakarta', qibla: '294.6° NW', subuh: '04:26', dzuhur: '11:44', ashar: '15:05', maghrib: '17:44', isya: '18:55', next: 'Subuh 04:26 WIB' },
-                            'surabaya': { name: 'Jawa Timur (Surabaya)', qibla: '294.4° NW', subuh: '04:15', dzuhur: '11:33', ashar: '14:54', maghrib: '17:33', isya: '18:44', next: 'Subuh 04:15 WIB' },
-                            'medan': { name: 'Sumut (Medan)', qibla: '292.5° NW', subuh: '05:04', dzuhur: '12:28', ashar: '15:49', maghrib: '18:32', isya: '19:43', next: 'Subuh 05:04 WIB' },
-                            'padang': { name: 'Sumbar (Padang)', qibla: '294.1° NW', subuh: '04:58', dzuhur: '12:20', ashar: '15:41', maghrib: '18:23', isya: '19:34', next: 'Subuh 04:58 WIB' },
-                            'pekanbaru': { name: 'Riau (Pekanbaru)', qibla: '293.4° NW', subuh: '04:53', dzuhur: '12:15', ashar: '15:36', maghrib: '18:18', isya: '19:29', next: 'Subuh 04:53 WIB' },
-                            'lampung': { name: 'Lampung (Bandar Lampung)', qibla: '295.2° NW', subuh: '04:44', dzuhur: '12:04', ashar: '15:25', maghrib: '18:05', isya: '19:16', next: 'Subuh 04:44 WIB' },
-                            'denpasar': { name: 'Bali (Denpasar)', qibla: '293.8° NW', subuh: '05:06', dzuhur: '12:24', ashar: '15:45', maghrib: '18:24', isya: '19:35', next: 'Subuh 05:06 WITA' },
-                            'makassar': { name: 'Sulsel (Makassar)', qibla: '292.1° NW', subuh: '04:49', dzuhur: '12:10', ashar: '15:31', maghrib: '18:09', isya: '19:20', next: 'Subuh 04:49 WITA' },
-                            'jayapura': { name: 'Papua (Jayapura)', qibla: '288.6° NW', subuh: '04:16', dzuhur: '11:37', ashar: '14:57', maghrib: '17:39', isya: '18:49', next: 'Subuh 04:16 WIT' }
+                            'indralaya_utara': { name: 'Kec. Indralaya Utara (Pusat)', qibla: '295.2° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'indralaya': { name: 'Kec. Indralaya', qibla: '295.2° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'indralaya_selatan': { name: 'Kec. Indralaya Selatan', qibla: '295.2° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'pemulutan': { name: 'Kec. Pemulutan', qibla: '295.1° NW', tz: 'WIB', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20' },
+                            'pemulutan_barat': { name: 'Kec. Pemulutan Barat', qibla: '295.1° NW', tz: 'WIB', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20' },
+                            'pemulutan_selatan': { name: 'Kec. Pemulutan Selatan', qibla: '295.1° NW', tz: 'WIB', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20' },
+                            'tanjung_batu': { name: 'Kec. Tanjung Batu', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'tanjung_raja': { name: 'Kec. Tanjung Raja', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'payaraman': { name: 'Kec. Payaraman', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'rantau_alai': { name: 'Kec. Rantau Alai', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'rantau_panjang': { name: 'Kec. Rantau Panjang', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'sungai_pinang': { name: 'Kec. Sungai Pinang', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'kandis': { name: 'Kec. Kandis', qibla: '295.3° NW', tz: 'WIB', subuh: '04:47', dzuhur: '12:08', ashar: '15:28', maghrib: '18:10', isya: '19:21' },
+                            'lubuk_keliat': { name: 'Kec. Lubuk Keliat', qibla: '295.4° NW', tz: 'WIB', subuh: '04:48', dzuhur: '12:09', ashar: '15:29', maghrib: '18:11', isya: '19:22' },
+                            'muara_kuang': { name: 'Kec. Muara Kuang', qibla: '295.4° NW', tz: 'WIB', subuh: '04:48', dzuhur: '12:09', ashar: '15:29', maghrib: '18:11', isya: '19:22' },
+                            'rambang_kuang': { name: 'Kec. Rambang Kuang', qibla: '295.4° NW', tz: 'WIB', subuh: '04:48', dzuhur: '12:09', ashar: '15:29', maghrib: '18:11', isya: '19:22' },
+                            'palembang': { name: 'Sumsel (Palembang)', qibla: '295.1° NW', tz: 'WIB', subuh: '04:46', dzuhur: '12:07', ashar: '15:27', maghrib: '18:09', isya: '19:20' },
+                            'jakarta': { name: 'DKI Jakarta (Pusat)', qibla: '295.0° NW', tz: 'WIB', subuh: '04:43', dzuhur: '12:01', ashar: '15:22', maghrib: '18:01', isya: '19:12' },
+                            'bandung': { name: 'Jawa Barat (Bandung)', qibla: '295.0° NW', tz: 'WIB', subuh: '04:40', dzuhur: '11:58', ashar: '15:19', maghrib: '17:58', isya: '19:09' },
+                            'semarang': { name: 'Jawa Tengah (Semarang)', qibla: '294.7° NW', tz: 'WIB', subuh: '04:26', dzuhur: '11:44', ashar: '15:05', maghrib: '17:44', isya: '18:55' },
+                            'yogyakarta': { name: 'DI Yogyakarta', qibla: '294.6° NW', tz: 'WIB', subuh: '04:26', dzuhur: '11:44', ashar: '15:05', maghrib: '17:44', isya: '18:55' },
+                            'surabaya': { name: 'Jawa Timur (Surabaya)', qibla: '294.4° NW', tz: 'WIB', subuh: '04:15', dzuhur: '11:33', ashar: '14:54', maghrib: '17:33', isya: '18:44' },
+                            'medan': { name: 'Sumut (Medan)', qibla: '292.5° NW', tz: 'WIB', subuh: '05:04', dzuhur: '12:28', ashar: '15:49', maghrib: '18:32', isya: '19:43' },
+                            'padang': { name: 'Sumbar (Padang)', qibla: '294.1° NW', tz: 'WIB', subuh: '04:58', dzuhur: '12:20', ashar: '15:41', maghrib: '18:23', isya: '19:34' },
+                            'pekanbaru': { name: 'Riau (Pekanbaru)', qibla: '293.4° NW', tz: 'WIB', subuh: '04:53', dzuhur: '12:15', ashar: '15:36', maghrib: '18:18', isya: '19:29' },
+                            'lampung': { name: 'Lampung (Bandar Lampung)', qibla: '295.2° NW', tz: 'WIB', subuh: '04:44', dzuhur: '12:04', ashar: '15:25', maghrib: '18:05', isya: '19:16' },
+                            'denpasar': { name: 'Bali (Denpasar)', qibla: '293.8° NW', tz: 'WITA', subuh: '05:06', dzuhur: '12:24', ashar: '15:45', maghrib: '18:24', isya: '19:35' },
+                            'makassar': { name: 'Sulsel (Makassar)', qibla: '292.1° NW', tz: 'WITA', subuh: '04:49', dzuhur: '12:10', ashar: '15:31', maghrib: '18:09', isya: '19:20' },
+                            'jayapura': { name: 'Papua (Jayapura)', qibla: '288.6° NW', tz: 'WIT', subuh: '04:16', dzuhur: '11:37', ashar: '14:57', maghrib: '17:39', isya: '18:49' }
                         },
                         init() {
                             this.updateClock();
                             setInterval(() => { this.updateClock(); }, 1000);
                         },
+                        toSeconds(timeStr) {
+                            if (!timeStr) return 0;
+                            const p = timeStr.split(':');
+                            return parseInt(p[0], 10) * 3600 + parseInt(p[1], 10) * 60;
+                        },
                         updateClock() {
-                            let now = new Date();
-                            let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                            let months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                            const now = new Date();
+                            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
                             this.liveDateStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
-                            let h = String(now.getHours()).padStart(2, '0');
-                            let m = String(now.getMinutes()).padStart(2, '0');
-                            let s = String(now.getSeconds()).padStart(2, '0');
-                            this.liveTimeStr = h + ':' + m + ':' + s + ' WIB';
+
+                            const loc = this.locations[this.selectedLoc] || this.locations['indralaya_utara'];
+                            const tz = loc.tz || 'WIB';
+
+                            const h = String(now.getHours()).padStart(2, '0');
+                            const m = String(now.getMinutes()).padStart(2, '0');
+                            const s = String(now.getSeconds()).padStart(2, '0');
+                            this.liveTimeStr = h + ':' + m + ':' + s + ' ' + tz;
+
+                            const curSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+                            const sSubuh = this.toSeconds(loc.subuh);
+                            const sDzuhur = this.toSeconds(loc.dzuhur);
+                            const sAshar = this.toSeconds(loc.ashar);
+                            const sMaghrib = this.toSeconds(loc.maghrib);
+                            const sIsya = this.toSeconds(loc.isya);
+
+                            let nextK = 'subuh';
+                            let nextN = 'Subuh';
+                            let nextT = loc.subuh;
+                            let prevN = 'Isya';
+                            let prevSec = sIsya - 86400;
+                            let nextSec = sSubuh;
+                            let rem = 0;
+
+                            if (curSec < sSubuh) {
+                                nextK = 'subuh';
+                                nextN = 'Subuh';
+                                nextT = loc.subuh;
+                                prevN = 'Isya';
+                                prevSec = sIsya - 86400;
+                                nextSec = sSubuh;
+                                rem = sSubuh - curSec;
+                            } else if (curSec < sDzuhur) {
+                                nextK = 'dzuhur';
+                                nextN = 'Dzuhur';
+                                nextT = loc.dzuhur;
+                                prevN = 'Subuh';
+                                prevSec = sSubuh;
+                                nextSec = sDzuhur;
+                                rem = sDzuhur - curSec;
+                            } else if (curSec < sAshar) {
+                                nextK = 'ashar';
+                                nextN = 'Ashar';
+                                nextT = loc.ashar;
+                                prevN = 'Dzuhur';
+                                prevSec = sDzuhur;
+                                nextSec = sAshar;
+                                rem = sAshar - curSec;
+                            } else if (curSec < sMaghrib) {
+                                nextK = 'maghrib';
+                                nextN = 'Maghrib';
+                                nextT = loc.maghrib;
+                                prevN = 'Ashar';
+                                prevSec = sAshar;
+                                nextSec = sMaghrib;
+                                rem = sMaghrib - curSec;
+                            } else if (curSec < sIsya) {
+                                nextK = 'isya';
+                                nextN = 'Isya';
+                                nextT = loc.isya;
+                                prevN = 'Maghrib';
+                                prevSec = sMaghrib;
+                                nextSec = sIsya;
+                                rem = sIsya - curSec;
+                            } else {
+                                nextK = 'subuh';
+                                nextN = 'Subuh (Besok)';
+                                nextT = loc.subuh;
+                                prevN = 'Isya';
+                                prevSec = sIsya;
+                                nextSec = sSubuh + 86400;
+                                rem = (86400 - curSec) + sSubuh;
+                            }
+
+                            this.nextPrayerKey = nextK;
+                            this.nextPrayerName = nextN;
+                            this.nextPrayerTime = nextT + ' ' + tz;
+                            this.prevPrayerName = prevN;
+
+                            const rH = String(Math.floor(rem / 3600)).padStart(2, '0');
+                            const rM = String(Math.floor((rem % 3600) / 60)).padStart(2, '0');
+                            const rS = String(rem % 60).padStart(2, '0');
+                            this.countdownStr = rH + ':' + rM + ':' + rS;
+
+                            // Calculate dynamic progress bar from previous prayer to next prayer
+                            const span = nextSec - prevSec;
+                            const elap = curSec < prevSec ? (curSec + 86400 - prevSec) : (curSec - prevSec);
+                            if (span > 0) {
+                                this.progressPercent = Math.min(100, Math.max(0, Math.round((elap / span) * 100)));
+                            } else {
+                                this.progressPercent = 50;
+                            }
+
+                            // Active Adzan window (10 mins after previous prayer started)
+                            this.isAdzanNow = (elap <= 600 && elap >= 0);
+                        },
+                        playBellChime() {
+                            try {
+                                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                                if (!AudioContext) return;
+                                const ctx = new AudioContext();
+                                const osc = ctx.createOscillator();
+                                const gain = ctx.createGain();
+                                osc.connect(gain);
+                                gain.connect(ctx.destination);
+                                osc.type = 'sine';
+                                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                                osc.frequency.exponentialRampToValueAtTime(880.00, ctx.currentTime + 0.3); // A5
+                                gain.gain.setValueAtTime(0.25, ctx.currentTime);
+                                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+                                osc.start();
+                                osc.stop(ctx.currentTime + 1.2);
+                                this.audioPlaying = true;
+                                setTimeout(() => { this.audioPlaying = false; }, 1300);
+                            } catch(e) {}
                         }
                     }">
-                        <div class="prayer-widget-card bg-slate-900 dark:bg-[#0d1e0f] text-white border border-slate-800 dark:border-[#1a381c] rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden space-y-3 sm:space-y-4">
+                        <!-- Futuristic Islamic Glassmorphic Card Container -->
+                        <div class="prayer-widget-card bg-gradient-to-br from-slate-900/95 via-emerald-950/90 to-slate-950/95 text-white border border-emerald-500/30 dark:border-emerald-500/20 rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden space-y-3.5 backdrop-blur-xl">
                             
-                            <!-- Header with Location Dropdown & Qibla (Clean Wrap & No Overflow) -->
-                            <div class="flex items-center justify-between gap-2 border-b border-slate-800 dark:border-[#1a381c] pb-2.5 sm:pb-3">
+                            <!-- Ambient Glow Accents -->
+                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none"></div>
+                            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                            <!-- Top Bar: Location Switcher & Qibla Compass Pill -->
+                            <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-3 relative z-10">
                                 <div class="min-w-0 flex-1 space-y-0.5">
-                                    <div class="text-[10px] font-bold text-emerald-400 dark:text-[#c6f634] uppercase flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-[14px]">location_on</span>
+                                    <div class="flex items-center gap-1.5 text-[10px] font-black text-emerald-400 dark:text-[#c6f634] uppercase tracking-wide">
+                                        <span class="material-symbols-outlined text-[15px] animate-pulse">location_on</span>
                                         <!-- Location Select Dropdown -->
-                                        <select x-model="selectedLoc" aria-label="Pilih Lokasi Wilayah Jadwal Sholat" class="bg-slate-800 dark:bg-[#153018] text-white dark:text-[#f7fee7] border border-slate-700 dark:border-[#1f4523] rounded-lg px-2 py-0.5 text-[10px] font-bold focus:outline-none cursor-pointer max-w-[170px] sm:max-w-xs truncate">
+                                        <select x-model="selectedLoc" @change="updateClock()" aria-label="Pilih Wilayah Jadwal Sholat" class="bg-slate-800/90 dark:bg-[#153018] text-white dark:text-[#f7fee7] border border-emerald-500/40 dark:border-[#1f4523] rounded-xl px-2.5 py-1 text-[10px] sm:text-[11px] font-extrabold focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer max-w-[170px] sm:max-w-xs truncate shadow-inner">
                                             <optgroup label="Kabupaten Ogan Ilir (16 Kecamatan)">
                                                 <option value="indralaya_utara">★ Kec. Indralaya Utara (Pusat Yayasan)</option>
                                                 <option value="indralaya">Kec. Indralaya</option>
@@ -853,53 +983,131 @@
                                             </optgroup>
                                         </select>
                                     </div>
-                                    <div class="text-xs sm:text-sm font-black text-white font-headline">Jadwal Sholat Realtime</div>
+                                    <div class="text-xs sm:text-sm font-black text-white font-headline flex items-center gap-1.5 pt-0.5">
+                                        <span>Jadwal Sholat Realtime</span>
+                                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                    </div>
                                 </div>
-                                <div class="bg-emerald-800 dark:bg-[#c6f634] text-white dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-emerald-600 dark:border-[#c6f634] shrink-0">
-                                    <span class="material-symbols-outlined text-[12px]">explore</span>
-                                    <span class="dark:text-[#061107] font-black whitespace-nowrap" x-text="locations[selectedLoc].qibla"></span>
+
+                                <!-- Action Buttons: Chime Preview & Qibla Compass Pill -->
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                    <button type="button" @click="playBellChime()" :title="audioPlaying ? 'Pengingat Aktif' : 'Tes Suara Pengingat'" class="p-1.5 rounded-full bg-white/10 hover:bg-emerald-500/30 text-emerald-300 hover:text-white transition border border-white/10 flex items-center justify-center cursor-pointer">
+                                        <span class="material-symbols-outlined text-[14px]" :class="audioPlaying ? 'animate-bounce text-amber-300' : ''">notifications_active</span>
+                                    </button>
+                                    <div class="bg-emerald-900/80 dark:bg-[#c6f634] text-emerald-200 dark:text-[#061107] px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center gap-1 shadow-sm border border-emerald-500/40 dark:border-[#c6f634]">
+                                        <span class="material-symbols-outlined text-[13px] animate-spin" style="animation-duration: 12s;">explore</span>
+                                        <span class="font-black whitespace-nowrap" x-text="locations[selectedLoc].qibla"></span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Live Clock & Date Display -->
-                            <div class="bg-white/5 dark:bg-[#153018]/50 p-2.5 rounded-2xl border border-white/10 dark:border-[#1f4523] flex justify-between items-center text-xs">
-                                <div>
-                                    <span class="text-[9px] font-bold text-emerald-400 dark:text-[#c6f634] uppercase block">Waktu Sekarang</span>
-                                    <span class="font-black text-amber-300 dark:text-[#c6f634] text-sm sm:text-base tracking-wider font-mono" x-text="liveTimeStr"></span>
+                            <!-- Live Digital Clock & Calendar Date Strip -->
+                            <div class="bg-slate-950/60 dark:bg-[#153018]/60 p-2.5 sm:p-3 rounded-2xl border border-white/10 dark:border-[#1f4523] flex justify-between items-center text-xs relative z-10 shadow-inner">
+                                <div class="space-y-0.5">
+                                    <div class="flex items-center gap-1 text-[9px] font-black text-emerald-400 dark:text-[#c6f634] uppercase tracking-wider">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                        <span>Waktu Sekarang</span>
+                                    </div>
+                                    <span class="font-black text-amber-300 dark:text-[#c6f634] text-base sm:text-lg tracking-wider font-mono block" x-text="liveTimeStr"></span>
                                 </div>
-                                <div class="text-right">
-                                    <span class="text-[9px] font-semibold text-slate-300 block" x-text="liveDateStr"></span>
-                                    <span class="text-[9px] font-bold bg-emerald-700/60 dark:bg-[#c6f634] text-white dark:text-[#061107] px-2 py-0.5 rounded-full inline-block mt-0.5">29 Safar 1448 H</span>
+                                <div class="text-right space-y-0.5">
+                                    <span class="text-[9px] sm:text-[10px] font-semibold text-slate-300 block" x-text="liveDateStr"></span>
+                                    <span class="text-[9px] font-bold bg-emerald-800/80 dark:bg-[#c6f634] text-emerald-100 dark:text-[#061107] px-2.5 py-0.5 rounded-full inline-block shadow-xs border border-emerald-600/40" x-text="hijriDateStr"></span>
                                 </div>
                             </div>
 
-                            <!-- Sholat Berikutnya Display -->
-                            <div class="space-y-0.5">
-                                <div class="text-[9px] sm:text-[10px] font-bold text-emerald-300 dark:text-[#c6f634] uppercase">Sholat Berikutnya:</div>
-                                <div class="text-lg sm:text-2xl font-black text-amber-300 dark:text-[#c6f634] font-headline tracking-tight" x-text="locations[selectedLoc].next"></div>
+                            <!-- Dynamic Next Prayer Spotlight & Countdown Banner -->
+                            <div class="bg-gradient-to-r from-emerald-900/60 via-slate-900/70 to-emerald-950/60 p-3 sm:p-3.5 rounded-2xl border border-emerald-500/30 relative overflow-hidden space-y-2 z-10 shadow-md">
+                                <div class="flex flex-wrap items-center justify-between gap-1.5">
+                                    <div class="space-y-0.5">
+                                        <span class="text-[9px] sm:text-[10px] font-extrabold text-emerald-300 uppercase tracking-wider flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[13px]">alarm</span>
+                                            <span>Sholat Berikutnya:</span>
+                                        </span>
+                                        <div class="text-base sm:text-xl font-black text-amber-300 dark:text-[#c6f634] font-headline tracking-tight flex items-baseline gap-2">
+                                            <span x-text="nextPrayerName"></span>
+                                            <span class="text-xs sm:text-sm font-bold text-white/90" x-text="nextPrayerTime"></span>
+                                        </div>
+                                    </div>
+                                    <!-- Dynamic Live Countdown Badge -->
+                                    <div class="bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2.5 py-1 rounded-xl text-[10px] sm:text-xs font-black flex items-center gap-1.5 shadow-sm">
+                                        <span class="material-symbols-outlined text-[13px] animate-spin" style="animation-duration: 4s;">hourglass_top</span>
+                                        <span class="font-mono tracking-wider" x-text="'- ' + countdownStr"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Prayer Window Progress Bar -->
+                                <div class="space-y-1 pt-0.5">
+                                    <div class="flex justify-between items-center text-[8px] text-slate-400 font-bold uppercase tracking-tight">
+                                        <span x-text="'Dari ' + prevPrayerName"></span>
+                                        <span x-text="progressPercent + '% terlewati'"></span>
+                                        <span x-text="'Menuju ' + nextPrayerName"></span>
+                                    </div>
+                                    <div class="w-full bg-slate-800/90 rounded-full h-1.5 overflow-hidden border border-white/5">
+                                        <div class="bg-gradient-to-r from-emerald-400 via-amber-400 to-[#c6f634] h-1.5 rounded-full transition-all duration-700 shadow-sm" :style="'width: ' + progressPercent + '%'"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Adzan Moment Callout (if active) -->
+                                <template x-if="isAdzanNow">
+                                    <div class="bg-emerald-500/20 border border-emerald-400 text-emerald-200 p-1.5 rounded-xl text-[10px] font-bold text-center flex items-center justify-center gap-1 animate-pulse">
+                                        <span>🕌</span>
+                                        <span x-text="'Waktu ' + prevPrayerName + ' telah masuk! Mari segera tunaikan sholat.'"></span>
+                                    </div>
+                                </template>
                             </div>
 
-                            <!-- 5 Prayer Times Grid (Proportional, Zero Stacking Bug) -->
-                            <div class="grid grid-cols-5 gap-1.5 sm:gap-2 pt-1">
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Subuh</div>
-                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].subuh"></div>
+                            <!-- 5 Prayer Times Grid (Reactive Dynamic Highlighting & Touch-Friendly) -->
+                            <div class="grid grid-cols-5 gap-1.5 sm:gap-2 pt-0.5 relative z-10">
+                                
+                                <!-- 1. Subuh -->
+                                <div :class="nextPrayerKey === 'subuh' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'subuh' ? 'text-slate-950 font-bold' : 'text-slate-400'">wb_twilight</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'subuh' ? 'text-slate-950' : 'text-slate-400'">Subuh</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'subuh' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].subuh"></div>
+                                    <template x-if="nextPrayerKey === 'subuh'">
+                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                    </template>
                                 </div>
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Dzuhur</div>
-                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].dzuhur"></div>
+
+                                <!-- 2. Dzuhur -->
+                                <div :class="nextPrayerKey === 'dzuhur' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'dzuhur' ? 'text-slate-950 font-bold' : 'text-slate-400'">wb_sunny</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'dzuhur' ? 'text-slate-950' : 'text-slate-400'">Dzuhur</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'dzuhur' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].dzuhur"></div>
+                                    <template x-if="nextPrayerKey === 'dzuhur'">
+                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                    </template>
                                 </div>
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Ashar</div>
-                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].ashar"></div>
+
+                                <!-- 3. Ashar -->
+                                <div :class="nextPrayerKey === 'ashar' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'ashar' ? 'text-slate-950 font-bold' : 'text-slate-400'">partly_cloudy_day</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'ashar' ? 'text-slate-950' : 'text-slate-400'">Ashar</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'ashar' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].ashar"></div>
+                                    <template x-if="nextPrayerKey === 'ashar'">
+                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                    </template>
                                 </div>
-                                <div class="bg-amber-400 dark:bg-[#c6f634] text-slate-950 dark:text-[#061107] p-1.5 sm:p-2.5 rounded-xl text-center shadow-md border border-amber-300 dark:border-[#c6f634] flex flex-col justify-center items-center min-w-0">
-                                    <div class="text-[8px] sm:text-[9px] font-black text-slate-950 dark:text-[#061107] uppercase tracking-tight truncate w-full">Maghrib</div>
-                                    <div class="text-[10px] sm:text-xs font-black text-slate-950 dark:text-[#061107] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].maghrib"></div>
+
+                                <!-- 4. Maghrib -->
+                                <div :class="nextPrayerKey === 'maghrib' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'maghrib' ? 'text-slate-950 font-bold' : 'text-slate-400'">bedtime</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'maghrib' ? 'text-slate-950' : 'text-slate-400'">Maghrib</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'maghrib' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].maghrib"></div>
+                                    <template x-if="nextPrayerKey === 'maghrib'">
+                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                    </template>
                                 </div>
-                                <div class="bg-slate-800/80 dark:bg-[#153018] border border-slate-700/80 dark:border-[#1f4523] p-1.5 sm:p-2.5 rounded-xl text-center flex flex-col justify-center items-center min-w-0">
-                                    <div class="text-[8px] sm:text-[9px] font-extrabold text-slate-400 dark:text-slate-300 uppercase tracking-tight truncate w-full">Isya</div>
-                                    <div class="text-[10px] sm:text-xs font-black text-white dark:text-[#f7fee7] tracking-tight leading-tight whitespace-nowrap" x-text="locations[selectedLoc].isya"></div>
+
+                                <!-- 5. Isya -->
+                                <div :class="nextPrayerKey === 'isya' ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 ring-2 ring-amber-300/80 scale-[1.03] -translate-y-1' : 'bg-slate-800/80 dark:bg-[#153018] text-white border-slate-700/80 dark:border-[#1f4523] hover:border-slate-500'" class="border p-1.5 sm:p-2 rounded-xl text-center flex flex-col justify-center items-center min-w-0 transition-all duration-300 cursor-default">
+                                    <span class="material-symbols-outlined text-[13px] sm:text-[15px]" :class="nextPrayerKey === 'isya' ? 'text-slate-950 font-bold' : 'text-slate-400'">nights_stay</span>
+                                    <div class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tight truncate w-full mt-0.5" :class="nextPrayerKey === 'isya' ? 'text-slate-950' : 'text-slate-400'">Isya</div>
+                                    <div class="text-[10px] sm:text-xs font-black tracking-tight leading-tight whitespace-nowrap" :class="nextPrayerKey === 'isya' ? 'text-slate-950 font-black' : 'text-white'" x-text="locations[selectedLoc].isya"></div>
+                                    <template x-if="nextPrayerKey === 'isya'">
+                                        <span class="text-[6.5px] font-black uppercase bg-slate-950 text-amber-300 px-1 py-0.2 rounded mt-0.5 tracking-tight">NEXT</span>
+                                    </template>
                                 </div>
                             </div>
 

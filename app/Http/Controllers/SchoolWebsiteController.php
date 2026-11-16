@@ -522,29 +522,56 @@ class SchoolWebsiteController extends Controller
             $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
             $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
 
-            // Filter unit news strictly relevant to this unit
+            // Filter unit news & articles strictly relevant to this unit (Strict Unit Isolation)
+            $allUnits = ['tkit', 'sdit', 'smpit', 'smait'];
+            $otherUnits = array_values(array_diff($allUnits, [$cleanCode]));
+
+            $isMatchUnit = function($item) use ($cleanCode, $otherUnits) {
+                $u = strtolower($item['unit'] ?? '');
+                $cat = strtolower($item['category'] ?? '');
+
+                // STRICT EXCLUSION: If explicitly assigned to another unit or category specifically belongs to another unit
+                foreach ($otherUnits as $ou) {
+                    if ($u === $ou) {
+                        return false;
+                    }
+                    if (str_contains($cat, $ou) || str_contains($cat, 'khusus ' . $ou)) {
+                        return false;
+                    }
+                }
+
+                // STRICT INCLUSION: If explicitly assigned to this unit or category is for this unit
+                if ($u === $cleanCode || ($cleanCode === 'tkit' && $u === 'kbtkit')) {
+                    return true;
+                }
+                if (str_contains($cat, $cleanCode) || str_contains($cat, 'khusus ' . $cleanCode)) {
+                    return true;
+                }
+                if ($cleanCode === 'tkit' && (str_contains($cat, 'kbtkit') || str_contains($cat, 'paud'))) {
+                    return true;
+                }
+
+                // If unit is yayasan or empty, only include if title strictly contains this unit keyword and avoids others
+                $titleLower = strtolower($item['title'] ?? '');
+                if (str_contains($titleLower, $cleanCode)) {
+                    foreach ($otherUnits as $ou) {
+                        if (str_contains($titleLower, $ou)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                return false;
+            };
+
+            // Filter unit news strictly relevant to this unit (NEVER leak other units)
             $allNews = $this->getNewsData();
-            $unitNews = collect($allNews)->filter(function($item) use ($cleanCode) {
-                $u = strtolower($item['unit'] ?? '');
-                $cat = strtolower($item['category'] ?? '');
-                return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
-            })->values()->take(6);
+            $unitNews = collect($allNews)->filter($isMatchUnit)->values()->take(12);
 
-            if ($unitNews->isEmpty()) {
-                $unitNews = collect($allNews)->take(6);
-            }
-
-            // Filter unit articles strictly relevant to this unit
+            // Filter unit articles strictly relevant to this unit (NEVER leak other units)
             $allArticles = $this->getArticleData();
-            $unitArticles = collect($allArticles)->filter(function($item) use ($cleanCode) {
-                $u = strtolower($item['unit'] ?? '');
-                $cat = strtolower($item['category'] ?? '');
-                return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
-            })->values()->take(6);
-
-            if ($unitArticles->isEmpty()) {
-                $unitArticles = collect($allArticles)->take(6);
-            }
+            $unitArticles = collect($allArticles)->filter($isMatchUnit)->values()->take(12);
 
             $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
             $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);

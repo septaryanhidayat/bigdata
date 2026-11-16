@@ -2340,6 +2340,19 @@ class CmsController extends Controller
         $slug = \Illuminate\Support\Str::slug($title);
         $category = $request->input('category', 'Berita');
         $unit = $userUnit ?? $request->input('unit', 'yayasan');
+
+        // Auto-detect & enforce unit strictly if category is unit-specific
+        $catLower = strtolower($category);
+        if (str_contains($catLower, 'tkit') || str_contains($catLower, 'tk it') || str_contains($catLower, 'paud') || str_contains($catLower, 'kb/tkit') || str_contains($catLower, 'khusus tkit')) {
+            $unit = 'tkit';
+        } elseif (str_contains($catLower, 'sdit') || str_contains($catLower, 'sd it') || str_contains($catLower, 'khusus sdit')) {
+            $unit = 'sdit';
+        } elseif (str_contains($catLower, 'smpit') || str_contains($catLower, 'smp it') || str_contains($catLower, 'khusus smpit')) {
+            $unit = 'smpit';
+        } elseif (str_contains($catLower, 'smait') || str_contains($catLower, 'sma it') || str_contains($catLower, 'khusus smait')) {
+            $unit = 'smait';
+        }
+
         $date = $request->input('date', date('d F Y'));
         $author = $request->input('author', $user ? $user->name : 'Admin');
         $excerpt = $request->input('excerpt');
