@@ -590,6 +590,40 @@ class SchoolWebsiteController extends Controller
             $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
             $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);
             $unitGallery = !empty($info['gallery']) ? $info['gallery'] : $this->getGalleryData();
+
+            // Auto-sanitize and map all gallery images (resolve old domain / wp-content to authentic local files)
+            if (!empty($unitGallery) && is_array($unitGallery)) {
+                foreach ($unitGallery as &$gItem) {
+                    $img = $gItem['image'] ?? '';
+                    if (str_contains($img, 'smp.sitrobbani.sch.id') || str_contains($img, 'wp-content')) {
+                        if (str_contains($img, 'IMG20240709')) $img = '/uploads/media/galeri_smp_img20240709083223-1-scaled_18e51f78.jpg';
+                        elseif (str_contains($img, 'IMG20240819')) $img = '/uploads/media/galeri_smp_img20240819131517-1-scaled_6693d6a7.jpg';
+                        elseif (str_contains($img, 'IMG20240830')) $img = '/uploads/media/galeri_smp_img20240830115113-scaled_4b8bbb17.jpg';
+                        elseif (str_contains($img, 'IMG20240913')) $img = '/uploads/media/galeri_smp_img20240913142927-scaled_6d212e97.jpg';
+                        elseif (str_contains($img, 'IMG20241024')) $img = '/uploads/media/galeri_smp_img20241024073409-scaled_360d42b0.jpg';
+                        elseif (str_contains($img, 'IMG20241119')) $img = '/uploads/media/galeri_smp_img20241119102223-scaled_788f1986.jpg';
+                        elseif (str_contains($img, 'IMG20250226')) $img = '/uploads/media/galeri_smp_img20250226092613-scaled_86fe2c73.jpg';
+                        elseif (str_contains($img, 'IMG20250712')) $img = '/uploads/media/galeri_smp_img-20250712-wa0025-scaled_a6d2e632.jpg';
+                        elseif (str_contains($img, 'IMG20250714')) $img = '/uploads/media/galeri_smp_img20250714090512-scaled_70a95c33.jpg';
+                        elseif (str_contains($img, 'IMG20250814')) $img = '/uploads/media/galeri_smp_img20250814080012-scaled_eb376144.jpg';
+                        elseif (str_contains($img, 'IMG20250910')) $img = '/uploads/media/galeri_smp_img20250910081523-scaled_38c36439.jpg';
+                        elseif (str_contains($img, 'IMG20251030')) $img = '/uploads/media/galeri_smp_img20251030093609-scaled_d6c0aa6f.jpg';
+                        elseif (str_contains($img, 'IMG20251101') || str_contains($img, 'IMG_20251031')) $img = '/uploads/media/galeri_smp_img-20251101-wa0001_f6624ecd.jpg';
+                        elseif (str_contains($img, 'IMG20251119')) $img = '/uploads/media/galeri_smp_img-20251119-wa0023-scaled_c470b004.jpg';
+                        elseif (str_contains($img, 'IMG20251212')) $img = '/uploads/media/galeri_smp_img20251212085127-1-scaled_6c7e442e.jpg';
+                        elseif (str_contains($img, 'IMG20260128') || str_contains($img, 'Genius-IPS')) $img = '/uploads/media/galeri_smp_img-20260128-wa0008_89754da8.jpg';
+                        elseif (str_contains($img, 'IMG20260212') || str_contains($img, 'IMG20260213')) $img = '/uploads/media/galeri_smp_img20260212201615-scaled_715417cd.jpg';
+                        elseif (str_contains($img, 'IMG20260312') || str_contains($img, 'IMG20260313')) $img = '/uploads/media/galeri_smp_img-20260312-wa0029-scaled_052d1bbb.jpg';
+                        elseif (str_contains($img, 'IMG20260415')) $img = '/uploads/media/galeri_smp_img20260415095059-scaled_939caba2.jpg';
+                        elseif (str_contains($img, 'IMG20260713') || str_contains($img, 'IMG20260717')) $img = '/uploads/media/galeri_smp_img-20260713-wa0032-scaled_b6afa939.jpg';
+                        elseif (str_contains($img, 'whatsapp')) $img = '/uploads/media/galeri_smp_whatsapp-image-2024-12-16-at-102821-2-scaled_61034194.jpeg';
+                        else $img = '/uploads/media/galeri_smp_img20240709083223-1-scaled_18e51f78.jpg';
+                        $gItem['image'] = $img;
+                    }
+                }
+                unset($gItem);
+                $info['gallery'] = $unitGallery;
+            }
             $unitPrestasi = !empty($info['prestasi']) ? $info['prestasi'] : ($defaultInfo['prestasi'] ?? []);
 
             $unitVideos = $info['videos'] ?? [];
@@ -3984,8 +4018,29 @@ public function getDefaultUnitMap(array $themeTokens): array
     'image' => '/images/ekskul/digital_art.webp',
   ),
 ),
-                'gallery' => array (
-),
+                'gallery' => [
+                    ['title' => 'Masa Pengenalan Lingkungan Sekolah (MPLS) T.A 2024-2025', 'image' => '/uploads/media/galeri_smp_img20240709083223-1-scaled_18e51f78.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Perayaan PHBI 17 Agustus', 'image' => '/uploads/media/galeri_smp_img20240819131517-1-scaled_6693d6a7.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Maulid Nabi SAW', 'image' => '/uploads/media/galeri_smp_img20240913142927-scaled_6d212e97.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Qur\'an Camp 2024', 'image' => '/uploads/media/galeri_smp_img20241024073409-scaled_360d42b0.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Field Trip 2024', 'image' => '/uploads/media/galeri_smp_img20241119102223-scaled_788f1986.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Pemilihan Ketua OSIS 2024', 'image' => '/uploads/media/galeri_smp_img20240830115113-scaled_4b8bbb17.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Robbani Championship', 'image' => '/uploads/media/galeri_smp_whatsapp-image-2024-12-16-at-102821-2-scaled_61034194.jpeg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Manasik Haji 2025', 'image' => '/uploads/media/galeri_smp_img20250226092613-scaled_86fe2c73.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Pertemuan Orang Tua Murid dan Guru (POMG) TAHUN 2025', 'image' => '/uploads/media/galeri_smp_img-20250712-wa0025-scaled_a6d2e632.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Masa Pengenalan Lingkungan Satuan Pendidikan Ramah (MPLS RAMAH) Tahun 2025', 'image' => '/uploads/media/galeri_smp_img20250714090512-scaled_70a95c33.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'PHBN 17 Agustus 2025', 'image' => '/uploads/media/galeri_smp_img20250814080012-scaled_eb376144.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Maulid Nabi 2025', 'image' => '/uploads/media/galeri_smp_img20250910081523-scaled_38c36439.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Manasik Haji 2025 (Sesi II)', 'image' => '/uploads/media/galeri_smp_img20251030093609-scaled_d6c0aa6f.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Qur\'an Camp 2025', 'image' => '/uploads/media/galeri_smp_img-20251101-wa0001_f6624ecd.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Field Trip 2025', 'image' => '/uploads/media/galeri_smp_img-20251119-wa0023-scaled_c470b004.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Robbani Championship 2025', 'image' => '/uploads/media/galeri_smp_img20251212085127-1-scaled_6c7e442e.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Pemenang SITRU Genius Competition (SGC) 2026', 'image' => '/uploads/media/galeri_smp_img-20260128-wa0008_89754da8.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Perkemahan Kamis Jumat', 'image' => '/uploads/media/galeri_smp_img20260212201615-scaled_715417cd.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Pesantren Ramadhan', 'image' => '/uploads/media/galeri_smp_img-20260312-wa0029-scaled_052d1bbb.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Kegiatan Penanaman Hidroponik', 'image' => '/uploads/media/galeri_smp_img20260415095059-scaled_939caba2.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                    ['title' => 'Masa Pengenalan Lingkungan Sekolah T.A 2026-2027', 'image' => '/uploads/media/galeri_smp_img-20260713-wa0032-scaled_b6afa939.jpg', 'category' => 'Kegiatan', 'date' => '16 October 2026'],
+                ],
                 'alumni' => [
                     ['name' => 'Wali Murid SMPIT Robbani', 'title' => 'Orang Tua Murid', 'text' => 'Pendidikan adab dan hafalan Qur\'an di SIT Robbani luar biasa mendampingi perkembangan ananda di rumah.', 'avatar' => '/images/avatar-gray-person.svg'],
                     ['name' => 'Alumni Berprestasi', 'title' => 'Alumni SIT Robbani', 'text' => 'Fasilitas belajar modern dan bimbingan para asatidz sangat mendukung minat siswa di bidang sains dan tahfidz.', 'avatar' => '/images/avatar-gray-person.svg'],
