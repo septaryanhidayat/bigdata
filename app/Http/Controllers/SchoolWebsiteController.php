@@ -522,29 +522,70 @@ class SchoolWebsiteController extends Controller
             $teachers = Employee::where('school_id', $school->id ?? 1)->where('is_active', true)->take(8)->get();
             $classrooms = Classroom::where('school_id', $school->id ?? 1)->with('level')->get();
 
-            // Filter unit news strictly relevant to this unit
+            // Filter unit news strictly relevant to this unit (Strict Unit Isolation: ZERO LEAK to other units)
+            $allUnits = ['tkit', 'sdit', 'smpit', 'smait'];
+            $otherUnits = array_values(array_diff($allUnits, [$cleanCode]));
+
+            $isPostForUnit = function($item, $isArticle = false) use ($cleanCode, $otherUnits) {
+                $itemUnit = strtolower(trim($item['unit'] ?? ''));
+                $itemCat = strtolower(trim($item['category'] ?? ''));
+                $itemTitle = strtolower(trim($item['title'] ?? ''));
+
+                // 1. STRICT EXCLUSION: If explicitly belonging to another unit, REJECT!
+                foreach ($otherUnits as $ou) {
+                    if ($itemUnit === $ou) {
+                        return false;
+                    }
+                    if (str_contains($itemCat, $ou)) {
+                        return false;
+                    }
+                    if (str_contains($itemTitle, $ou) && !str_contains($itemTitle, $cleanCode)) {
+                        return false;
+                    }
+                }
+
+                // 2. STRICT INCLUSION: Matches current unit
+                if ($itemUnit === $cleanCode) {
+                    return true;
+                }
+                if ($cleanCode === 'tkit' && ($itemUnit === 'kbtkit' || $itemUnit === 'paud')) {
+                    return true;
+                }
+                if (str_contains($itemCat, $cleanCode) || str_contains($itemCat, 'khusus ' . $cleanCode)) {
+                    return true;
+                }
+                if ($cleanCode === 'tkit' && (str_contains($itemCat, 'kbtkit') || str_contains($itemCat, 'paud'))) {
+                    return true;
+                }
+                if (str_contains($itemTitle, $cleanCode)) {
+                    return true;
+                }
+
+                // 3. For Articles: General yayasan articles (not belonging to any other unit) can also enrich the collection
+                if ($isArticle && ($itemUnit === 'yayasan' || empty($itemUnit))) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            // Filter unit news strictly relevant to this unit (No leakage to other units)
             $allNews = $this->getNewsData();
-            $unitNews = collect($allNews)->filter(function($item) use ($cleanCode) {
-                $u = strtolower($item['unit'] ?? '');
-                $cat = strtolower($item['category'] ?? '');
-                return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
-            })->values()->take(6);
+            $unitNews = collect($allNews)->filter(fn($item) => $isPostForUnit($item, false))->values()->take(24);
 
-            if ($unitNews->isEmpty()) {
-                $unitNews = collect($allNews)->take(6);
-            }
-
-            // Filter unit articles strictly relevant to this unit
+            // Filter unit articles strictly relevant to this unit (No leakage to other units)
             $allArticles = $this->getArticleData();
-            $unitArticles = collect($allArticles)->filter(function($item) use ($cleanCode) {
-                $u = strtolower($item['unit'] ?? '');
-                $cat = strtolower($item['category'] ?? '');
-                return $u === $cleanCode || str_contains($cat, $cleanCode) || str_contains(strtolower($item['title'] ?? ''), $cleanCode);
-            })->values()->take(6);
-
-            if ($unitArticles->isEmpty()) {
-                $unitArticles = collect($allArticles)->take(6);
-            }
+            $unitArticles = collect($allArticles)->filter(fn($item) => $isPostForUnit($item, true))->values();
+            // Sort unit-specific articles to the top
+            $unitArticles = $unitArticles->sort(function($a, $b) use ($cleanCode) {
+                $aIsUnit = strtolower($a['unit'] ?? '') === $cleanCode;
+                $bIsUnit = strtolower($b['unit'] ?? '') === $cleanCode;
+                if ($aIsUnit && !$bIsUnit) return -1;
+                if (!$aIsUnit && $bIsUnit) return 1;
+                $tA = isset($a['timestamp']) ? (int)$a['timestamp'] : strtotime($a['date'] ?? 'now');
+                $tB = isset($b['timestamp']) ? (int)$b['timestamp'] : strtotime($b['date'] ?? 'now');
+                return $tB <=> $tA;
+            })->values()->take(24);
 
             $unitFacilities = !empty($info['facilities']) ? $info['facilities'] : ($defaultInfo['facilities'] ?? $this->getFacilityData());
             $unitEkskul = !empty($info['ekskul']) ? $info['ekskul'] : ($defaultInfo['ekskul'] ?? []);

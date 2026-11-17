@@ -2199,17 +2199,37 @@
                     <!-- Dynamic Unit News Cards Grid from Real WordPress Data -->
                     @php
                         $showcaseNews = [];
-                        $unitTrack = ['all' => 0, 'tkit' => 0, 'sdit' => 0, 'smpit' => 0, 'smait' => 0, 'yayasan' => 0];
-                        foreach ($newsList as $idx => $nItem) {
-                            $u = strtolower($nItem['unit'] ?? 'yayasan');
-                            if (!isset($unitTrack[$u])) $unitTrack[$u] = 0;
-                            if ($unitTrack['all'] < 12 || $unitTrack[$u] < 4) {
-                                $showcaseNews[] = $nItem;
-                                $unitTrack['all']++;
-                                $unitTrack[$u]++;
+                        $collectedSlugs = [];
+
+                        // 1. Pastikan setiap unit sekolah (TKIT, SDIT, SMPIT, SMAIT) mendapatkan jatah berita terbaru di tab
+                        foreach (['tkit', 'sdit', 'smpit', 'smait'] as $uTarget) {
+                            $uCount = 0;
+                            foreach ($newsList as $nItem) {
+                                $u = strtolower($nItem['unit'] ?? 'yayasan');
+                                $c = strtolower($nItem['category'] ?? '');
+                                $t = strtolower($nItem['title'] ?? '');
+                                if ($u === $uTarget || str_contains($c, $uTarget) || str_contains($t, $uTarget)) {
+                                    $sKey = $nItem['slug'] ?? $nItem['title'];
+                                    if (!isset($collectedSlugs[$sKey])) {
+                                        $collectedSlugs[$sKey] = true;
+                                        $showcaseNews[] = $nItem;
+                                        $uCount++;
+                                    }
+                                }
+                                if ($uCount >= 4) break;
                             }
-                            if (count($showcaseNews) >= 20) break;
                         }
+
+                        // 2. Lengkapi dengan berita terbaru secara keseluruhan
+                        foreach ($newsList as $nItem) {
+                            $sKey = $nItem['slug'] ?? $nItem['title'];
+                            if (!isset($collectedSlugs[$sKey])) {
+                                $collectedSlugs[$sKey] = true;
+                                $showcaseNews[] = $nItem;
+                            }
+                            if (count($showcaseNews) >= 24) break;
+                        }
+
                         if (empty($showcaseNews)) $showcaseNews = array_slice($newsList, 0, 12);
                     @endphp
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">

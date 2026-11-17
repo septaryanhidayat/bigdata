@@ -2340,6 +2340,20 @@ class CmsController extends Controller
         $slug = \Illuminate\Support\Str::slug($title);
         $category = $request->input('category', 'Berita');
         $unit = $userUnit ?? $request->input('unit', 'yayasan');
+
+        // Auto-sync target unit if a unit-specific category is chosen
+        if ($unit === 'yayasan' || empty($unit)) {
+            $catLower = strtolower($category);
+            if (str_contains($catLower, 'sdit')) {
+                $unit = 'sdit';
+            } elseif (str_contains($catLower, 'smpit')) {
+                $unit = 'smpit';
+            } elseif (str_contains($catLower, 'smait')) {
+                $unit = 'smait';
+            } elseif (str_contains($catLower, 'tkit') || str_contains($catLower, 'kbtkit') || str_contains($catLower, 'paud')) {
+                $unit = 'tkit';
+            }
+        }
         $date = $request->input('date', date('d F Y'));
         $author = $request->input('author', $user ? $user->name : 'Admin');
         $excerpt = $request->input('excerpt');
